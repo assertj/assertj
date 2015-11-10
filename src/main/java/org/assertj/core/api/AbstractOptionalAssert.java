@@ -108,22 +108,27 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * </p>
    * Assertions will pass :
    * <pre><code class='java'> // one requirement 
-   * assertThat(Optional.of(10)).satisfies(i -> {assertThat(i).isGreaterThan(9);});
+   * assertThat(Optional.of(10)).hasValueSatisfying(i -> { assertThat(i).isGreaterThan(9); });
+   * 
    * // multiple requirements
-   * assertThat(Optional.of(someString)).satisfies(s -> {
+   * assertThat(Optional.of(someString)).hasValueSatisfying(s -> {
    *   assertThat(s).isEqualTo("something");
    *   assertThat(s).startsWith("some");
    *   assertThat(s).endsWith("thing");
    * }); </code></pre>
    *
    * Assertions will fail :
-   * <pre><code class='java'> assertThat(Optional.of("something")).satisfies(s -> {assertThat(s).isEqualTo("something else");});
-   * assertThat(Optional.empty()).satisfies(o -> {});</code></pre>
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueSatisfying(s -> {
+   *     assertThat(s).isEqualTo("something else");
+   *   });
+   * 
+   * // fail because optional is empty, there is no value to perform assertion on  
+   * assertThat(Optional.empty()).hasValueSatisfying(o -> {});</code></pre>
    *
    * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S satisfies(Consumer<T> requirement) {
+  public S hasValueSatisfying(Consumer<T> requirement) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     requirement.accept(actual.get());
