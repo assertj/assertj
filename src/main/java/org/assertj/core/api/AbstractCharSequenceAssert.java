@@ -794,4 +794,47 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     strings.assertIsSubstringOf(info, actual, sequence);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains the given regular expression.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;Frodo&quot;).containsPattern(&quot;Fr.d&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).containsPattern(&quot;Frodod&quot;);</code></pre>
+   * 
+   * @param regex the regular expression to find in the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   */
+  public S containsPattern(CharSequence regex) {
+    strings.assertContainsPattern(info, actual, regex);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains the given regular expression pattern.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;Frodo&quot;).containsPattern(Pattern.compile(&quot;Fr.d&quot;));
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).containsPattern(Pattern.compile(&quot;Frodod&quot;));</code></pre>
+   *
+   * @param pattern the regular expression to find in the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   */
+  public S containsPattern(Pattern pattern) {
+    strings.assertContainsPattern(info, actual, pattern);
+    return myself;
+  }
 }

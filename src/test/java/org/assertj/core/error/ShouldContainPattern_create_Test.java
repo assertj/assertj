@@ -12,29 +12,29 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
-import static org.assertj.core.test.Maps.mapOf;
-
-import java.util.Map;
+import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.junit.Before;
 import org.junit.Test;
 
-public class ShouldNotContainValue_create_Test {
+
+public class ShouldContainPattern_create_Test {
+
+  private ErrorMessageFactory factory;
+
+  @Before
+  public void setUp() {
+    factory = shouldContainPattern("Frodo", ".*Orc.*");
+  }
 
   @Test
   public void should_create_error_message() {
-	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-	ErrorMessageFactory factory = shouldNotContainValue(map, "green");
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n" +
-	                              "Expecting:%n" +
-	                              "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-	                              "not to contain value:%n" +
-	                              "  <\"green\">"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n  \"Frodo\"%nto contain pattern:%n  \".*Orc.*\""));
   }
 
 }

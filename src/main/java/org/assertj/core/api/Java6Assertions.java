@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.api.filter.*;
 import org.assertj.core.condition.AllOf;
@@ -583,10 +584,20 @@ public class Java6Assertions {
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
    *
-   * @param shouldRaiseThrowable The {@link ThrowableAssert.ThrowingCallable} or lambda with the code that should raise the throwable.
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.
+   * To use a test description, use {@link #catchThrowable(ThrowingCallable) catchThrowable} as shown below.
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
+   * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error
+   * Throwable thrown = catchThrowable(() -> { // do nothing });
+   * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
@@ -630,7 +641,7 @@ public class Java6Assertions {
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  public static Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+  public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
   }
 

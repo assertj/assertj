@@ -27,6 +27,7 @@ import org.junit.Test;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author gabga
  */
 public class Maps_format_Test {
 
@@ -34,13 +35,11 @@ public class Maps_format_Test {
 
   @Test
   public void should_return_null_if_Map_is_null() {
-    assertThat(Maps.format(standardRepresentation, null)).isNull();
     assertThat(Maps.format(null)).isNull();
   }
 
   @Test
   public void should_return_empty_braces_if_Map_is_empty() {
-    assertThat(Maps.format(standardRepresentation, new HashMap<String, String>())).isEqualTo("{}");
     assertThat(Maps.format(new HashMap<String, String>())).isEqualTo("{}");
   }
 
@@ -49,16 +48,41 @@ public class Maps_format_Test {
     Map<String, Class<?>> map = new LinkedHashMap<>();
     map.put("One", String.class);
     map.put("Two", File.class);
-    assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
     assertThat(Maps.format(map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
   }
 
   @Test
+  public void should_format_Map_with_standard_representation_by_default() {
+    Map<String, Class<?>> map = new LinkedHashMap<>();
+    map.put("One", String.class);
+    map.put("Two", File.class);
+    assertThat(Maps.format(standardRepresentation, map)).isEqualTo(Maps.format(map));
+  }
+
+  @Test
   public void should_format_Map_containing_itself() {
-    Map<String, Object> map = Maps.newHashMap();
+    Map<String, Object> map = new HashMap<>();
     map.put("One", "First");
     map.put("Myself", map);
-    assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"One\"=\"First\", \"Myself\"=(this Map)}");
-    assertThat(Maps.format(map)).isEqualTo("{\"One\"=\"First\", \"Myself\"=(this Map)}");
+    assertThat(Maps.format(map)).isEqualTo("{\"Myself\"=(this Map), \"One\"=\"First\"}");
+  }
+
+  @Test
+  public void should_sort_Map_before_formatting() {
+    Map<Character, Integer> map = new HashMap<>();
+    map.put('C', 3);
+    map.put('B', 2);
+    map.put('A', 1);
+    assertThat(Maps.format(map)).isEqualTo("{'A'=1, 'B'=2, 'C'=3}");
+  }
+
+  @Test
+  public void should_retain_initial_ordering_if_keys_are_not_comparable() {
+    Map<Object, Integer> map = new LinkedHashMap<>();
+    map.put("foo", 3);
+    map.put(false, 2);
+    map.put('A', 1);
+
+    assertThat(Maps.format(map)).isEqualTo("{\"foo\"=3, false=2, 'A'=1}");
   }
 }

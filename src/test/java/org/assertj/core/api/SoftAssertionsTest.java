@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -503,18 +504,17 @@ public class SoftAssertionsTest {
   @Test
   public void should_collect_all_errors_when_using_filtering() throws Exception {
 
-    List<CartoonCharacter> characters = asList(homer, fred);
-
-    softly.assertThat(characters)
-          .overridingErrorMessage("error 1")
+    softly.assertThat(asList(homer, fred))
           .filteredOn("name", "Homer Simpson")
+          .hasSize(10)
           .isEmpty();
 
     try {
       softly.assertAll();
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
-      assertThat(e.getErrors()).containsExactly("error 1");
+      assertThat(e.getErrors()).containsOnly(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"),
+                                             format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
     }
   }
 
