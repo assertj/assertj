@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.description.EmptyTextDescription;
 
 /**
  * An object that has a description.
@@ -29,13 +28,18 @@ import org.assertj.core.description.EmptyTextDescription;
 public interface Descriptable<S extends Descriptable<S>> {
 
   /**
-   * Sets the description of this object supporting {@link String#format(String, Object...)} syntax.
+   * Sets the description of the assertion that is going to be called after. 
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * The description follows {@link String#format(String, Object...)} syntax.
    * <p>
    * Example :
    * <pre><code class='java'> try {
    *   // set a bad age to Mr Frodo which is really 33 years old.
    *   frodo.setAge(50);
-   *   // you can specify a test description with as() method or describedAs(), it supports String format args
+   *   // specify a test description (call as() before the assertion !), it supports String format syntax.
    *   assertThat(frodo.getAge()).as(&quot;check %s's age&quot;, frodo.getName()).isEqualTo(33);
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
@@ -50,8 +54,10 @@ public interface Descriptable<S extends Descriptable<S>> {
   S as(String description, Object... args);
 
   /**
-   * Sets the description of this object. To remove or clear the description, pass a
-   * <code>{@link EmptyTextDescription}</code> as argument.
+   * Sets the description of the assertion that is going to be called after. 
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * the chained call by throwing an AssertionError.
    * <p>
    * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing
    * users to pass their own implementation of a description. For example, a description that creates its value lazily,
@@ -66,6 +72,11 @@ public interface Descriptable<S extends Descriptable<S>> {
   S as(Description description);
 
   /**
+   * Sets the description of the assertion that is going to be called after. 
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * the chained call by throwing an AssertionError.
+   * <p>
    * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
    * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
    * 
@@ -76,9 +87,10 @@ public interface Descriptable<S extends Descriptable<S>> {
   S describedAs(String description, Object... args);
 
   /**
-   * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
-   * href="http://groovy-lang.org/" target="_blank">Groovy</a>. To remove or clear the description, pass a
-   * <code>{@link EmptyTextDescription}</code> as argument.
+   * Sets the description of the assertion that is going to be called after. 
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * the chained call by throwing an AssertionError.
    * <p>
    * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing
    * users to pass their own implementation of a description. For example, a description that creates its value lazily,
