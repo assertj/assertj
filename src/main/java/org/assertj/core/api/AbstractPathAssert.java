@@ -131,7 +131,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * Path xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek Başka bir yerde mi"), turkishCharset);
    * 
    * // The following assertion succeeds:
-   * String expectedContent = "Gerçek Başka bir yerde mi" + System.lineSeparator();
+   * String expectedContent = "Gerçek Başka bir yerde mi" + org.assertj.core.util.Compatibility.System.lineSeparator();
    * byte[] binaryContent = expectedContent.getBytes(turkishCharset.name());
    * assertThat(xFileTurkish).hasBinaryContent(binaryContent);
    * 
