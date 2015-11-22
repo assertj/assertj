@@ -15,7 +15,7 @@ package org.assertj.core.util;
 public class GroupFormatUtil {
 
   static final String ELEMENT_SEPARATOR = ",";
-  static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + System.lineSeparator();
+  static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + org.assertj.core.util.Compatibility.System.lineSeparator();
   static final String DEFAULT_END = "]";
   static final String DEFAULT_START = "[";
   // 4 spaces indentation : 2 space indentation after new line + '<' + '['

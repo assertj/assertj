@@ -54,7 +54,7 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
   protected static String diffsAsString(List<String> diffsList) {
     StringBuilder stringBuilder = new StringBuilder();
     for (String diff : diffsList)
-      stringBuilder.append(System.lineSeparator()).append(diff);
+      stringBuilder.append(org.assertj.core.util.Compatibility.System.lineSeparator()).append(diff);
     return stringBuilder.toString();
   }
 
