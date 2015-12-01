@@ -28,6 +28,20 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
 
   /**
    * Verifies that the actual group contains the given object at the given index.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).contains(vilya, atIndex(0));
+   * assertThat(elvesRings).contains(nenya, atIndex(1));
+   * assertThat(elvesRings).contains(narya, atIndex(2));
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).contains(vilya, atIndex(1));
+   * assertThat(elvesRings).contains(nenya, atIndex(2));
+   * assertThat(elvesRings).contains(narya, atIndex(0));;</code></pre>
+   *
    * @param value the object to look for.
    * @param index the index where the object should be stored in the actual group.
    * @return this assertion object.
@@ -41,8 +55,22 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
 
   /**
    * Verifies that the actual group does not contain the given object at the given index.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).contains(vilya, atIndex(1));
+   * assertThat(elvesRings).contains(nenya, atIndex(2));
+   * assertThat(elvesRings).contains(narya, atIndex(0));
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).contains(vilya, atIndex(0));
+   * assertThat(elvesRings).contains(nenya, atIndex(1));
+   * assertThat(elvesRings).contains(narya, atIndex(2));;</code></pre>
+   *
    * @param value the object to look for.
-   * @param index the index where the object should be stored in the actual group.
+   * @param index the index where the object should not be stored in the actual group.
    * @return this assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
