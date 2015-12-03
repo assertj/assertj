@@ -39,7 +39,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
     super(actual, selfType);
   }
 
-  protected S hasBeenThrown() {
+  public S hasBeenThrown() {
     if (actual == null) throw Failures.instance().failure("Expecting code to raise a throwable.");
     return myself;
   }
