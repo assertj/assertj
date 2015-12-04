@@ -71,9 +71,18 @@ public class Diff_diff_File_Test {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line0", "line1");
     List<String> diffs = diff.diff(actual, expected);
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<1>, expected:<line0\nline1> but was:<line_0\nline_1>");
+  }
+
+  @Test
+  public void should_return_multiple_diffs_if_files_contain_multiple_differences() throws IOException {
+    writer.write(actual, "line_0", "line1", "line_2");
+    writer.write(expected, "line0", "line1", "line2");
+    List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(2);
     assertThat(diffs.get(0)).isEqualTo("line:<1>, expected:<line0> but was:<line_0>");
-    assertThat(diffs.get(1)).isEqualTo("line:<2>, expected:<line1> but was:<line_1>");
+    assertThat(diffs.get(1)).isEqualTo("line:<3>, expected:<line2> but was:<line_2>");
   }
 
   @Test
@@ -82,7 +91,7 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line_0", "line_1");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<EOF>");
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<>");
   }
 
   @Test
@@ -91,6 +100,6 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line_0");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<EOF> but was:<line_1>");
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<> but was:<line_1>");
   }
 }

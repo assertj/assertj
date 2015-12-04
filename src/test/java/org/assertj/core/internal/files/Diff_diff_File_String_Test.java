@@ -81,7 +81,7 @@ public class Diff_diff_File_String_Test {
     List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     System.out.println(diffs);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<EOF>");
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<>");
   }
 
   @Test
@@ -90,6 +90,6 @@ public class Diff_diff_File_String_Test {
     String expected = "line_0";
     List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<EOF> but was:<line_1>");
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<> but was:<line_1>");
   }
 }

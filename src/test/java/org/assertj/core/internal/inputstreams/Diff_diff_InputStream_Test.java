@@ -64,9 +64,18 @@ public class Diff_diff_InputStream_Test {
     actual = stream("base", "line_0", "line_1");
     expected = stream("base", "line0", "line1");
     List<String> diffs = diff.diff(actual, expected);
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line0\nline1> but was:<line_0\nline_1>");
+  }
+
+  @Test
+  public void should_return_multiple_diffs_if_inputstreams_contain_multiple_differences() throws IOException {
+    actual = stream("base", "line_0", "line1", "line_2");
+    expected = stream("base", "line0", "line1", "line2");
+    List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(2);
     assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line0> but was:<line_0>");
-    assertThat(diffs.get(1)).isEqualTo("line:<3>, expected:<line1> but was:<line_1>");
+    assertThat(diffs.get(1)).isEqualTo("line:<4>, expected:<line2> but was:<line_2>");
   }
 
   @Test
@@ -75,7 +84,7 @@ public class Diff_diff_InputStream_Test {
     expected = stream("base", "line_0", "line_1");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<line_1> but was:<EOF>");
+    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<line_1> but was:<>");
   }
 
   @Test
@@ -84,6 +93,6 @@ public class Diff_diff_InputStream_Test {
     expected = stream("base", "line_0");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<EOF> but was:<line_1>");
+    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<> but was:<line_1>");
   }
 }
