@@ -13,40 +13,37 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.test.IntArrays.emptyArray;
-import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collection;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 import org.assertj.core.util.ArrayWrapperList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
+
 
 /**
  * Tests for <code>{@link ArrayWrapperList#size()}</code>.
  * 
  * @author Alex Ruiz
+ * @author Dan Corder
  */
-@RunWith(Parameterized.class)
+@RunWith(JUnitParamsRunner.class)
 public class ArrayWrapperList_size_Test {
 
-  @Parameters
-  public static Collection<Object[]> parameters() {
-    return newArrayList(new Object[][] { { new int[] { 0, 1, 2 } }, { new int[] { 0 } }, { emptyArray() } });
-  }
-
-  private final int[] array;
-
-  public ArrayWrapperList_size_Test(int[] array) {
-    this.array = array;
-  }
-
   @Test
-  public void should_return_size_of_array() {
+  @Parameters(method="arrayGenerator")
+  public void should_return_size_of_array(int[] array) {
     ArrayWrapperList list = new ArrayWrapperList(array);
     assertThat(list.size()).isEqualTo(array.length);
+  }
+  
+  @SuppressWarnings("unused")
+  private Object arrayGenerator() {
+    return new Object[] {
+        new int[] { 0, 1, 2 },
+        new int[] { 0 },
+        emptyArray()
+    };
   }
 }

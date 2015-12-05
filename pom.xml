@@ -64,6 +64,12 @@
       <version>0.6.4</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>pl.pragmatists</groupId>
+    	<artifactId>JUnitParams</artifactId>
+    	<version>1.0.4</version>
+    	<scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
