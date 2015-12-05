@@ -14,37 +14,29 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.*;
-
-import java.util.List;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.ComparisonFailure;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
+
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Dan Corder
  */
-@RunWith(Parameterized.class)
+@RunWith(JUnitParamsRunner.class)
 public class ShouldBeEqual_newAssertionError_Test {
-
-  private final String formattedDescription;
-
-  @Parameters
-  public static List<Object[]> parameters() {
-    return newArrayList(new Object[][] { { "[Jedi]" }, { "[Jedi]  " } });
-  }
-
-  public ShouldBeEqual_newAssertionError_Test(String formattedDescription) {
-    this.formattedDescription = formattedDescription;
-  }
 
   private Description description;
   private ShouldBeEqual factory;
@@ -59,10 +51,21 @@ public class ShouldBeEqual_newAssertionError_Test {
   }
 
   @Test
-  public void should_create_ComparisonFailure_if_JUnit4_is_present_and_trim_spaces_in_formatted_description() {
-    when(formatter.format(description)).thenReturn(formattedDescription);
+  @Parameters(method = "formattedDescriptionGenerator")
+  public void should_create_ComparisonFailure_if_JUnit4_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
+    // GIVEN
+    given(formatter.format(description)).willReturn(formattedDescription);
+    // WHEN
     AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
-    assertThat(error.getClass()).isEqualTo(ComparisonFailure.class);
-    assertThat(error.getMessage()).isEqualTo("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">");
+    // THEN
+    assertThat(error).isInstanceOf(ComparisonFailure.class)
+                     .hasMessage("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">");
+  }
+
+  @SuppressWarnings("unused")
+  private Object formattedDescriptionGenerator() {
+    // We need to use explicit Object[]s here to stop JUnitParams stripping whitespace
+    return array(array("[Jedi]"),
+                 array("[Jedi]  "));
   }
 }
