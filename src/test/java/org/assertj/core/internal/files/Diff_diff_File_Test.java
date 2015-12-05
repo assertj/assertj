@@ -91,7 +91,7 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line_0", "line_1");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<>");
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<EOF>");
   }
 
   @Test
@@ -100,6 +100,6 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line_0");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<> but was:<line_1>");
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<EOF> but was:<line_1>");
   }
 }

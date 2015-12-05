@@ -84,7 +84,7 @@ public class Diff_diff_InputStream_Test {
     expected = stream("base", "line_0", "line_1");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<line_1> but was:<>");
+    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<line_1> but was:<EOF>");
   }
 
   @Test
@@ -93,6 +93,15 @@ public class Diff_diff_InputStream_Test {
     expected = stream("base", "line_0");
     List<String> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<> but was:<line_1>");
+    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<EOF> but was:<line_1>");
+  }
+
+  @Test
+  public void should_return_single_diff_line_for_new_line_at_start() throws IOException {
+    actual = stream("", "line_0", "line_1", "line_2");
+    expected = stream("line_0", "line_1", "line_2");
+    List<String> diffs = diff.diff(actual, expected);
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<1>, expected:<EOF> but was:<>");
   }
 }

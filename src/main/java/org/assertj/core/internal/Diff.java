@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Closeables.closeQuietly;
@@ -106,19 +107,19 @@ public class Diff {
     List<String> expectedLines = linesFromBufferedReader(expected);
 
     Patch<String> patch = DiffUtils.diff(actualLines, expectedLines);
-    List<String> result = new ArrayList<>();
 
-    for (Delta<String> delta : patch.getDeltas()) {
-      result.add(output(delta));
-    }
-    return result;
+    return patch.getDeltas().stream().map(d -> output(d)).collect(Collectors.toList());
   }
 
   private String output(Delta<String> delta) {
     int line = delta.getRevised().getPosition() + 1;
-    String expected = StringUtils.join(delta.getRevised().getLines(), "\n");
-    String actual = StringUtils.join(delta.getOriginal().getLines(), "\n");
+    String expected = endOfFileOrJoinList(delta.getRevised().getLines());
+    String actual = endOfFileOrJoinList(delta.getOriginal().getLines());
     return String.format("line:<%d>, expected:<%s> but was:<%s>", line, expected, actual);
+  }
+
+  private String endOfFileOrJoinList(List<String> lines) {
+    return lines.isEmpty() ? "EOF" : StringUtils.join(lines, "\n");
   }
 
   private List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
