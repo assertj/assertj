@@ -22,14 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Implements the difference and patching engine
  * 
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  * @version 0.4.1
- * @param <T>
- *            The type of the compared elements in the 'lines'.
  */
 public class DiffUtils {
 
@@ -48,7 +47,7 @@ public class DiffUtils {
 	 *         revised sequences. Never {@code null}.
 	 */
 	public static <T> Patch<T> diff(List<T> original, List<T> revised) {
-		return DiffUtils.diff(original, revised, new MyersDiff<T>());
+		return DiffUtils.diff(original, revised, new MyersDiff<>());
 	}
 
 	/**
@@ -70,10 +69,9 @@ public class DiffUtils {
 	public static <T> Patch<T> diff(List<T> original, List<T> revised,
 			Equalizer<T> equalizer) {
 		if (equalizer != null) {
-			return DiffUtils.diff(original, revised,
-							new MyersDiff<T>(equalizer));
+			return DiffUtils.diff(original, revised, new MyersDiff<>(equalizer));
 		}
-		return DiffUtils.diff(original, revised, new MyersDiff<T>());
+		return DiffUtils.diff(original, revised, new MyersDiff<>());
 	}
 
 	/**
@@ -120,19 +118,6 @@ public class DiffUtils {
 	}
 
 	/**
-	 * Unpatch the revised text for a given patch
-	 *
-	 * @param revised
-	 *            the revised text
-	 * @param patch
-	 *            the given patch
-	 * @return the original text
-	 */
-	public static <T> List<T> unpatch(List<T> revised, Patch<T> patch) {
-		return patch.restore(revised);
-	}
-
-	/**
 	 * Parse the given text in unified format and creates the list of deltas for
 	 * it.
 	 *
@@ -142,8 +127,8 @@ public class DiffUtils {
 	 */
 	public static Patch<String> parseUnifiedDiff(List<String> diff) {
 		boolean inPrelude = true;
-		List<String[]> rawChunk = new ArrayList<String[]>();
-		Patch<String> patch = new Patch<String>();
+		List<String[]> rawChunk = new ArrayList<>();
+		Patch<String> patch = new Patch<>();
 
 		int old_ln = 0, new_ln = 0;
 		String tag;
@@ -160,8 +145,8 @@ public class DiffUtils {
 			if (m.find()) {
 				// Process the lines in the previous chunk
 				if (rawChunk.size() != 0) {
-					List<String> oldChunkLines = new ArrayList<String>();
-					List<String> newChunkLines = new ArrayList<String>();
+					List<String> oldChunkLines = new ArrayList<>();
+					List<String> newChunkLines = new ArrayList<>();
 
 					for (String[] raw_line : rawChunk) {
 						tag = raw_line[0];
@@ -173,8 +158,8 @@ public class DiffUtils {
 							newChunkLines.add(rest);
 						}
 					}
-					patch.addDelta(new ChangeDelta<String>(new Chunk<String>(
-							old_ln - 1, oldChunkLines), new Chunk<String>(
+					patch.addDelta(new ChangeDelta<>(new Chunk<>(
+							old_ln - 1, oldChunkLines), new Chunk<>(
 							new_ln - 1, newChunkLines)));
 					rawChunk.clear();
 				}
@@ -203,8 +188,8 @@ public class DiffUtils {
 
 		// Process the lines in the last chunk
 		if (rawChunk.size() != 0) {
-			List<String> oldChunkLines = new ArrayList<String>();
-			List<String> newChunkLines = new ArrayList<String>();
+			List<String> oldChunkLines = new ArrayList<>();
+			List<String> newChunkLines = new ArrayList<>();
 
 			for (String[] raw_line : rawChunk) {
 				tag = raw_line[0];
@@ -217,8 +202,8 @@ public class DiffUtils {
 				}
 			}
 
-			patch.addDelta(new ChangeDelta<String>(new Chunk<String>(
-					old_ln - 1, oldChunkLines), new Chunk<String>(new_ln - 1,
+			patch.addDelta(new ChangeDelta<>(new Chunk<>(
+					old_ln - 1, oldChunkLines), new Chunk<>(new_ln - 1,
 					newChunkLines)));
 			rawChunk.clear();
 		}
@@ -230,17 +215,12 @@ public class DiffUtils {
 	 * generateUnifiedDiff takes a Patch and some other arguments, returning the
 	 * Unified Diff format text representing the Patch.
 	 * 
-	 * @param original
-	 *            - Filename of the original (unrevised file)
-	 * @param revised
-	 *            - Filename of the revised file
-	 * @param originalLines
-	 *            - Lines of the original file
-	 * @param patch
-	 *            - Patch created by the diff() function
-	 * @param contextSize
-	 *            - number of lines of context output around each difference in
-	 *            the file.
+	 * @param original Filename of the original (unrevised file)
+	 * @param revised Filename of the revised file
+	 * @param originalLines Lines of the original file
+	 * @param patch Patch created by the diff() function
+	 * @param contextSize number of lines of context output around each difference
+	 *                    in the file.
 	 * @return List of strings representing the Unified Diff representation of
 	 *         the Patch argument.
 	 * @author Bill James (tankerbay@gmail.com)
@@ -249,30 +229,23 @@ public class DiffUtils {
 			String revised, List<String> originalLines, Patch<String> patch,
 			int contextSize) {
 		if (!patch.getDeltas().isEmpty()) {
-			List<String> ret = new ArrayList<String>();
+			List<String> ret = new ArrayList<>();
 			ret.add("--- " + original);
 			ret.add("+++ " + revised);
 
-			List<Delta<String>> patchDeltas = new ArrayList<Delta<String>>(
+			List<Delta<String>> patchDeltas = new ArrayList<>(
 					patch.getDeltas());
 
 			// code outside the if block also works for single-delta issues.
-			List<Delta<String>> deltas = new ArrayList<Delta<String>>(); // current
-																			// list
-																			// of
-			// Delta's to
-			// process
+			// current list of Delta's to process
+			List<Delta<String>> deltas = new ArrayList<>();
 			Delta<String> delta = patchDeltas.get(0);
 			deltas.add(delta); // add the first Delta to the current set
 			// if there's more than 1 Delta, we may need to output them together
 			if (patchDeltas.size() > 1) {
 				for (int i = 1; i < patchDeltas.size(); i++) {
-					int position = delta.getOriginal().getPosition(); // store
-																		// the
-																		// current
-																		// position
-																		// of
-					// the first Delta
+					// store the current position of the first Delta
+					int position = delta.getOriginal().getPosition();
 
 					// Check if the next Delta is too close to the current
 					// position.
@@ -301,25 +274,21 @@ public class DiffUtils {
 			ret.addAll(curBlock);
 			return ret;
 		}
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
 
 	/**
 	 * processDeltas takes a list of Deltas and outputs them together in a
 	 * single block of Unified-Diff-format text.
 	 * 
-	 * @param origLines
-	 *            - the lines of the original file
-	 * @param deltas
-	 *            - the Deltas to be output as a single block
-	 * @param contextSize
-	 *            - the number of lines of context to place around block
-	 * @return
+	 * @param origLines the lines of the original file
+	 * @param deltas the Deltas to be output as a single block
+	 * @param contextSize the number of lines of context to place around block
 	 * @author Bill James (tankerbay@gmail.com)
 	 */
 	private static List<String> processDeltas(List<String> origLines,
 			List<Delta<String>> deltas, int contextSize) {
-		List<String> buffer = new ArrayList<String>();
+		List<String> buffer = new ArrayList<>();
 		int origTotal = 0; // counter for total lines output from Original
 		int revTotal = 0; // counter for total lines output from Original
 		int line;
@@ -386,17 +355,8 @@ public class DiffUtils {
 
 		// Create and insert the block header, conforming to the Unified Diff
 		// standard
-		StringBuffer header = new StringBuffer();
-		header.append("@@ -");
-		header.append(origStart);
-		header.append(",");
-		header.append(origTotal);
-		header.append(" +");
-		header.append(revStart);
-		header.append(",");
-		header.append(revTotal);
-		header.append(" @@");
-		buffer.add(0, header.toString());
+		String header = "@@ -" + origStart + "," + origTotal + " +" + revStart + "," + revTotal + " @@";
+		buffer.add(0, header);
 
 		return buffer;
 	}
@@ -405,19 +365,14 @@ public class DiffUtils {
 	 * getDeltaText returns the lines to be added to the Unified Diff text from
 	 * the Delta parameter
 	 * 
-	 * @param delta
-	 *            - the Delta to output
+	 * @param delta the Delta to output
 	 * @return list of String lines of code.
 	 * @author Bill James (tankerbay@gmail.com)
 	 */
 	private static List<String> getDeltaText(Delta<String> delta) {
-		List<String> buffer = new ArrayList<String>();
-		for (String line : delta.getOriginal().getLines()) {
-			buffer.add("-" + line);
-		}
-		for (String line : delta.getRevised().getLines()) {
-			buffer.add("+" + line);
-		}
+		List<String> buffer = new ArrayList<>();
+		delta.getOriginal().getLines().stream().map(l -> buffer.add("-" + l)).collect(Collectors.toList());
+		delta.getRevised().getLines().stream().map(l -> buffer.add("+" + l)).collect(Collectors.toList());
 		return buffer;
 	}
 

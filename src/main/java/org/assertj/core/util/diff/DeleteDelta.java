@@ -52,18 +52,6 @@ public class DeleteDelta<T> extends Delta<T> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void restore(List<T> target) {
-        int position = this.getRevised().getPosition();
-        List<T> lines = this.getOriginal().getLines();
-        for (int i = 0; i < lines.size(); i++) {
-            target.add(position + i, lines.get(i));
-        }
-    }
-
     @Override
     public TYPE getType() {
         return Delta.TYPE.DELETE;

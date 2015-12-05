@@ -61,8 +61,8 @@ package org.assertj.core.util.diff.myers;
  *  Represents a snake in a diffpath.
  * <p>
  *
- * {@link DiffNode DiffNodes} and {@link difflib.myers.Snake Snakes} allow for compression
- * of diffpaths, as each snake is represented by a single {@link difflib.myers.Snake Snake}
+ * {@link DiffNode DiffNodes} and {@link Snake Snakes} allow for compression
+ * of diffpaths, as each snake is represented by a single {@link Snake Snake}
  * node and each contiguous series of insertions and deletions is represented
  * by a single {@link DiffNode DiffNodes}.
  *

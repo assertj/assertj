@@ -13,5 +13,5 @@ public interface Equalizer<T> {
 	 * @param revised The revised element. Must not be {@code null}.
 	 * @return Returns true if the elements are equal.
 	 */
-	public boolean equals(T original, T revised);
+	boolean equals(T original, T revised);
 }

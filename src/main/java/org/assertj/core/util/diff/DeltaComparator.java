@@ -1,13 +1,10 @@
 package org.assertj.core.util.diff;
 
-import org.assertj.core.util.diff.Delta;
-
 import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  * @author mksenzov
- * @param <T> The type of the compared elements in the 'lines'.
  */
 public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
     private static final long serialVersionUID = 1L;

@@ -16,7 +16,7 @@ import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 import org.assertj.core.util.diff.DiffUtils;
 import org.assertj.core.util.diff.Patch;
-import org.assertj.core.util.diff.StringUtills;
+import org.assertj.core.util.diff.StringUtils;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -116,8 +116,8 @@ public class Diff {
 
   private String output(Delta<String> delta) {
     int line = delta.getRevised().getPosition() + 1;
-    String expected = StringUtills.join(delta.getRevised().getLines(), "\n");
-    String actual = StringUtills.join(delta.getOriginal().getLines(), "\n");
+    String expected = StringUtils.join(delta.getRevised().getLines(), "\n");
+    String actual = StringUtils.join(delta.getOriginal().getLines(), "\n");
     return String.format("line:<%d>, expected:<%s> but was:<%s>", line, expected, actual);
   }
 

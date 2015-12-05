@@ -57,19 +57,18 @@
 
 package org.assertj.core.util.diff.myers;
 
+import org.assertj.core.util.diff.DiffAlgorithm;
+
 /**
  * Thrown whenever the differencing engine cannot produce the differences
  * between two revisions of ta text.
  *
  * @author <a href="mailto:juanco@suigeneris.org">Juanco Anez</a>
  * @see MyersDiff
- * @see difflib.DiffAlgorithm
+ * @see DiffAlgorithm
  */
 public class DifferentiationFailedException extends DiffException {
     private static final long serialVersionUID = 1L;
-    
-    public DifferentiationFailedException() {
-    }
     
     public DifferentiationFailedException(String msg) {
         super(msg);

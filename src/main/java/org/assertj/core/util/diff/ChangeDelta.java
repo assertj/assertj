@@ -57,23 +57,6 @@ public class ChangeDelta<T> extends Delta<T> {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void restore(List<T> target) {
-        int position = getRevised().getPosition();
-        int size = getRevised().size();
-        for (int i = 0; i < size; i++) {
-            target.remove(position);
-        }
-        int i = 0;
-        for (T line : getOriginal().getLines()) {
-            target.add(position + i, line);
-            i++;
-        }
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public void verify(List<T> target) throws PatchFailedException {
         getOriginal().verify(target);
         if (getOriginal().getPosition() > target.size()) {

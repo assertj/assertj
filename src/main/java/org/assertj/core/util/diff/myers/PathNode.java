@@ -123,7 +123,7 @@ public abstract class PathNode {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuffer buf = new StringBuffer("[");
+        StringBuilder buf = new StringBuilder("[");
         PathNode node = this;
         while (node != null) {
             buf.append("(");

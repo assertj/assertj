@@ -76,15 +76,7 @@ public abstract class Delta<T> {
      * @throws PatchFailedException
      */
     public abstract void applyTo(List<T> target) throws PatchFailedException;
-    
-    /**
-     * Cancel this delta for a given revised text. The action is opposite to
-     * patch.
-     * 
-     * @param target the given revised text
-     */
-    public abstract void restore(List<T> target);
-    
+
     /**
      * Returns the type of delta
      * @return the type enum
@@ -136,7 +128,7 @@ public abstract class Delta<T> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Delta<T> other = (Delta) obj;
+        Delta other = (Delta) obj;
         if (original == null) {
             if (other.original != null)
                 return false;

@@ -22,9 +22,9 @@ package org.assertj.core.util.diff;
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  */
 public class DiffRow {
-    private Tag tag;
-    private String oldLine;
-    private String newLine;
+    private final Tag tag;
+    private final String oldLine;
+    private final String newLine;
     
     public DiffRow(Tag tag, String oldLine, String newLine) {
         this.tag = tag;
@@ -44,38 +44,10 @@ public class DiffRow {
     }
     
     /**
-     * @param tag the tag to set
-     */
-    public void setTag(Tag tag) {
-        this.tag = tag;
-    }
-    
-    /**
      * @return the oldLine
      */
     public String getOldLine() {
         return oldLine;
-    }
-    
-    /**
-     * @param oldLine the oldLine to set
-     */
-    public void setOldLine(String oldLine) {
-        this.oldLine = oldLine;
-    }
-    
-    /**
-     * @return the newLine
-     */
-    public String getNewLine() {
-        return newLine;
-    }
-    
-    /**
-     * @param newLine the newLine to set
-     */
-    public void setNewLine(String newLine) {
-        this.newLine = newLine;
     }
     
     /*

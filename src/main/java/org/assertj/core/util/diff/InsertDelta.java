@@ -53,18 +53,6 @@ public class InsertDelta<T> extends Delta<T> {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void restore(List<T> target) {
-		int position = getRevised().getPosition();
-		int size = getRevised().size();
-		for (int i = 0; i < size; i++) {
-			target.remove(position);
-		}
-	}
-
 	@Override
 	public void verify(List<T> target) throws PatchFailedException {
 		if (getOriginal().getPosition() > target.size()) {

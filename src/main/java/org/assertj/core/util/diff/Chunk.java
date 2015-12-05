@@ -139,15 +139,13 @@ public class Chunk<T> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Chunk<T> other = (Chunk) obj;
+        Chunk other = (Chunk) obj;
         if (lines == null) {
             if (other.lines != null)
                 return false;
         } else if (!lines.equals(other.lines))
             return false;
-        if (position != other.position)
-            return false;
-        return true;
+        return position == other.position;
     }
     
     @Override
