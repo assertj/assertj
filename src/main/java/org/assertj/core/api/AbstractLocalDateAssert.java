@@ -16,6 +16,7 @@ import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
+import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 
 import java.time.LocalDate;
 
@@ -305,6 +306,28 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
   public S isNotIn(String... dateTimesAsString) {
 	checkIsNotNullAndNotEmpty(dateTimesAsString);
 	return isNotIn(convertToLocalDateArray(dateTimesAsString));
+  }
+
+  /**
+   * Verifies that the actual {@code LocalDate} is today, that is matching current year, month and day.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(LocalDate.now()).isToday();
+   *
+   * // assertion will fail
+   * assertThat(theFellowshipOfTheRing.getReleaseDate()).isToday();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not today.
+   */
+  public S isToday() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isEqual(LocalDate.now())) {
+      throw Failures.instance().failure(info, shouldBeToday(actual));
+    }
+    return myself;
   }
 
   private static Object[] convertToLocalDateArray(String... dateTimesAsString) {

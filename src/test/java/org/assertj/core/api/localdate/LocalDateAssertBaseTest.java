@@ -29,11 +29,11 @@ import org.junit.experimental.theories.DataPoint;
 public class LocalDateAssertBaseTest extends BaseTest {
 
   @DataPoint
-  public static LocalDate localDate1 = LocalDate.of(2000, 12, 14);
+  public static LocalDate localDate1 = LocalDate.now().minusDays(10);
   @DataPoint
-  public static LocalDate localDate2 = LocalDate.of(2000, 12, 13);
+  public static LocalDate localDate2 = LocalDate.now();
   @DataPoint
-  public static LocalDate localDate3 = LocalDate.of(2000, 12, 15);
+  public static LocalDate localDate3 = LocalDate.now().plusDays(10);
 
   protected static void testAssumptions(LocalDate reference, LocalDate dateBefore, LocalDate dateAfter) {
     assumeTrue(dateBefore.isBefore(reference));
