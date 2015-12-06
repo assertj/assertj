@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.assertj.core.internal.*;
@@ -40,11 +41,24 @@ public class ShouldBeToday extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
+  public static ErrorMessageFactory shouldBeToday(LocalDate actual) {
+    return new ShouldBeToday(actual);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeToday}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
   public static ErrorMessageFactory shouldBeToday(Date actual) {
     return new ShouldBeToday(actual, StandardComparisonStrategy.instance());
   }
 
   private ShouldBeToday(Date actual, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting:%n <%s>%nto be today%s but was not.", actual, comparisonStrategy);
+  }
+
+  private ShouldBeToday(LocalDate actual) {
+    super("%nExpecting:%n <%s>%nto be today but was not.", actual);
   }
 }
