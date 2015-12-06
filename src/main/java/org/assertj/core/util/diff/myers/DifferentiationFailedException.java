@@ -67,7 +67,7 @@ import org.assertj.core.util.diff.DiffAlgorithm;
  * @see MyersDiff
  * @see DiffAlgorithm
  */
-public class DifferentiationFailedException extends DiffException {
+public class DifferentiationFailedException extends Exception {
     private static final long serialVersionUID = 1L;
     
     public DifferentiationFailedException(String msg) {

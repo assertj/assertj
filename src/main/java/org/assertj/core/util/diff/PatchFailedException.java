@@ -20,7 +20,7 @@ package org.assertj.core.util.diff;
  *
  * @author <a href="mailto:juanco@suigeneris.org">Juanco Anez</a>
  */
-public class PatchFailedException extends DiffException {
+public class PatchFailedException extends Exception {
     
     private static final long serialVersionUID = 1L;
     
