@@ -14,7 +14,11 @@ package org.assertj.core.api.doublearray;
 
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
+import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.withPrecision;
+import static org.assertj.core.test.DoubleArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 
@@ -34,4 +38,22 @@ public class DoubleArrayAssert_doesNotHaveDuplicates_Test extends DoubleArrayAss
   protected void verify_internal_effects() {
     verify(arrays).assertDoesNotHaveDuplicates(getInfo(assertions), getActual(assertions));
   }
+
+  @Test
+  public void should_pass_with_precision_specified_as_last_argument() {
+    // GIVEN
+    double[] actual = arrayOf(1.0, 1.2);
+    // THEN
+    assertThat(actual).doesNotHaveDuplicates(withPrecision(0.1));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_in_comparator() {
+    // GIVEN
+    double[] actual = arrayOf(1.0, 1.05);
+    // THEN
+    assertThat(actual).usingComparatorWithPrecision(0.01)
+                      .doesNotHaveDuplicates();
+  }
+
 }

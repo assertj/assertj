@@ -888,6 +888,16 @@ public class Assertions {
   }
 
   /**
+   * Alias for {@link #offset(Double)} to use with real number assertions.
+   * <p/>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, withPrecision(0.1));</code></pre>
+   */
+  public static Offset<Double> withPrecision(Double value) {
+    return Offset.offset(value);
+  }
+  
+  /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
