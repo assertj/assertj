@@ -1,0 +1,10 @@
+--- /bonobo/bonobo.iml
++++ /bonobo/bonobo.iml
+@@ -41,6 +40,7 @@
+         <SOURCES />
+       </library>
+     </orderEntry>
++    <orderEntry type="library" name="Python 2.6.6 (/usr/bin/python2.6) interpreter library" level="application" />
+   </component>
+ </module>
+

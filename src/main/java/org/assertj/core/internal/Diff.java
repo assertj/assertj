@@ -12,24 +12,22 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
-import static java.util.Collections.unmodifiableList;
-import static org.assertj.core.util.Closeables.closeQuietly;
-import static org.assertj.core.util.Objects.areEqual;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
+import org.assertj.core.util.diff.DiffUtils;
+import org.assertj.core.util.diff.Patch;
+import org.assertj.core.util.diff.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.assertj.core.util.VisibleForTesting;
+import static java.util.Collections.unmodifiableList;
+import static org.assertj.core.util.Closeables.closeQuietly;
 
 
 /**
@@ -105,23 +103,33 @@ public class Diff {
   }
 
   private List<String> diff(BufferedReader actual, BufferedReader expected) throws IOException {
-    List<String> diffs = new ArrayList<>();
-    int lineNumber = 1;
-    while (true) {
-      String actualLine = actual.readLine();
-      String expectedLine = expected.readLine();
-      if (actualLine == null || expectedLine == null) {
-        if (expectedLine != null) diffs.add(output(lineNumber, EOF, expectedLine));
-        if (actualLine != null) diffs.add(output(lineNumber, actualLine, EOF));
-        return diffs;
-      } else if (!areEqual(actualLine, expectedLine)) {
-        diffs.add(output(lineNumber, actualLine, expectedLine));
-      }
-      lineNumber += 1;
-    }
+    List<String> actualLines = linesFromBufferedReader(actual);
+    List<String> expectedLines = linesFromBufferedReader(expected);
+
+    Patch<String> patch = DiffUtils.diff(actualLines, expectedLines);
+
+    return patch.getDeltas().stream().map(d -> output(d)).collect(Collectors.toList());
   }
 
-  private String output(int lineNumber, String actual, String expected) {
-    return format("line:<%d>, expected:<%s> but was:<%s>", lineNumber, expected, actual);
+  private String output(Delta<String> delta) {
+    int line = delta.getRevised().getPosition() + 1;
+    String expected = endOfFileOrJoinList(delta.getRevised().getLines());
+    String actual = endOfFileOrJoinList(delta.getOriginal().getLines());
+    return String.format("line:<%d>, expected:<%s> but was:<%s>", line, expected, actual);
+  }
+
+  private String endOfFileOrJoinList(List<String> lines) {
+    return lines.isEmpty() ? "EOF" : StringUtils.join(lines, "\n");
+  }
+
+  private List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
+    String line;
+    List<String> lines = new ArrayList<>();
+
+    while ((line = reader.readLine()) != null)
+    {
+      lines.add(line);
+    }
+    return lines;
   }
 }
