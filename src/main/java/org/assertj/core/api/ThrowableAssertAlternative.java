@@ -60,6 +60,34 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
   }
 
   /**
+   * Verifies that the message of the actual {@code Throwable} is equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .withMessage("wrong amount 123");
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .withMessage("wrong amount 123 euros");</code></pre>
+   *
+   * @param message a format string representing the expected message
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
+   * @see AbstractThrowableAssert#hasMessage(String)
+   */
+  public ThrowableAssertAlternative<T> withMessage(String message, Object... parameters) {
+    delegate.hasMessage(message, parameters);
+    return this;
+  }
+
+  /**
    * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with same type and message
    * (it does not use {@link Throwable#equals(Object) equals} method for comparison).
    * <p>

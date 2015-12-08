@@ -50,6 +50,28 @@ public class Assertions_assertThat_with_Throwable_Test {
   }
 
   @Test
+   public void can_capture_exception_and_then_assert_it_meets_string_format() {
+    assertThatThrownBy(() -> {
+      throw new Throwable("something was wrong");
+    }).isInstanceOf(Throwable.class)
+            .hasMessage("something was %s", "wrong");
+  }
+
+  @Test
+  public void should_fail_if_it_doesnt_meet_string_format() {
+    try {
+      assertThatThrownBy(() -> {
+        throw new Throwable("something was wrong");
+      }).isInstanceOf(Throwable.class)
+              .hasMessage("something was %s", "right");
+    } catch (AssertionError e) {
+      assertThat(e).isInstanceOf(AssertionError.class);
+      return;
+    }
+    shouldHaveThrown(AssertionError.class);
+  }
+
+  @Test
   public void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
     // given
     // some preconditions
