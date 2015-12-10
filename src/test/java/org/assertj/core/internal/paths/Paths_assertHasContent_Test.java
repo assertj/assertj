@@ -36,6 +36,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
+import org.assertj.core.util.diff.Delta;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -68,7 +69,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   
   @Test
   public void should_pass_if_path_has_expected_text_content() throws IOException {
-	when(diff.diff(path, expected, charset)).thenReturn(new ArrayList<String>());
+	when(diff.diff(path, expected, charset)).thenReturn(new ArrayList<Delta<String>>());
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	paths.assertHasContent(someInfo(), path, expected, charset);
@@ -129,7 +130,8 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 
   @Test
   public void should_fail_if_path_does_not_have_expected_text_content() throws IOException {
-	List<String> diffs = newArrayList("line:1, expected:<line1> but was:<EOF>");
+    @SuppressWarnings("unchecked")
+    List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
 	when(diff.diff(path, expected, charset)).thenReturn(diffs);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);

@@ -45,6 +45,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
 
 /**
  * Core assertion class for {@link Path} assertions
@@ -273,7 +274,7 @@ public class Paths {
 	if (expected == null) throw new NullPointerException("The text to compare to should not be null");
 	assertIsReadable(info, actual);
 	try {
-	  List<String> diffs = diff.diff(actual, expected, charset);
+	  List<Delta<String>> diffs = diff.diff(actual, expected, charset);
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
 	} catch (IOException e) {
@@ -302,7 +303,7 @@ public class Paths {
 	// @format:on
 	assertIsReadable(info, actual);
 	try {
-	  List<String> diffs = diff.diff(actual, expected);
+	  List<Delta<String>> diffs = diff.diff(actual, expected);
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
 	} catch (IOException e) {

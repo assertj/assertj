@@ -10,28 +10,21 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.util.diff;
+package org.assertj.core.util.diff.myers;
 
-import java.io.File;
+import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Test constants
- * @author simon.mittermueller@gmail.com
- *
- */
-public final class TestConstants {
+import org.junit.Test;
 
-	private TestConstants() {
-		// prevent construction.
-	}
-	
-	/** File separator. */
-	public static final String FS = File.separator;
-	
-	/** The base resource path. */
-	public static String BASE_FOLDER_RESOURCES = "src" + FS + "test" + FS + "resources";
-	
-	/** The base folder containing the test files. Ends with {@link #FS}. */
-	public static final String MOCK_FOLDER = BASE_FOLDER_RESOURCES + FS + "diffs" + FS;
-	
+public class SnakeTest {
+  @Test
+  public void should_be_a_snake() throws Exception {
+    // GIVEN
+    Snake snake = new Snake(0, 0, null);
+    // WHEN
+    boolean isSnake = snake.isSnake();
+    // THEN
+    assertThat(isSnake).isTrue();
+  }
+
 }

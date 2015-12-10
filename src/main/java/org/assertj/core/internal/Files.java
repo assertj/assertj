@@ -12,15 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
-import org.assertj.core.util.VisibleForTesting;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -37,6 +28,16 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.util.Objects.areEqual;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.exception.RuntimeIOException;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
 
 
 /**
@@ -87,7 +88,7 @@ public class Files {
     verifyIsFile(expected);
     assertIsFile(info, actual);
     try {
-      List<String> diffs = diff.diff(actual, expected);
+      List<Delta<String>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
@@ -136,7 +137,7 @@ public class Files {
     if (expected == null) throw new NullPointerException("The text to compare to should not be null");
     assertIsFile(info, actual);
     try {
-      List<String> diffs = diff.diff(actual, expected, charset);
+      List<Delta<String>> diffs = diff.diff(actual, expected, charset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
