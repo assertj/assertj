@@ -13,18 +13,22 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.error.DescriptionFormatter;
 import org.assertj.core.internal.TestDescription;
 import org.junit.*;
+import org.junit.runner.RunWith;
 
 /**
  * Tests for <code>{@link DescriptionFormatter#format(Description)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Dan Corder
  */
+@RunWith(JUnitParamsRunner.class)
 public class DescriptionFormatter_format_Test {
 
   private static DescriptionFormatter formatter;
@@ -37,5 +41,20 @@ public class DescriptionFormatter_format_Test {
   @Test
   public void should_format_description_if_value_is_not_empty_or_null() {
     assertThat(formatter.format(new TestDescription("Leia"))).isEqualTo("[Leia] ");
+  }
+  
+  @Test
+  @Parameters(method="testDescriptionGenerator")
+  public void should_return_empty_String(TestDescription input) {
+    assertThat(formatter.format(input)).isEqualTo("");
+  }
+  
+  @SuppressWarnings("unused")
+  private Object testDescriptionGenerator() {
+    return new Object[] {
+        null,
+        new TestDescription(null),
+        new TestDescription("")
+    };
   }
 }
