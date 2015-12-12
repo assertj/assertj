@@ -17,8 +17,8 @@ package org.assertj.core.api;
  * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>.
  * <p>
  * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
- *           .isThrownBy(() -> { throw new IOException("boom!"); });
- *           .withMessage("boom!"); </code></pre>
+ *           .isThrownBy(() -> { throw new IOException("foo is invalid input"); });
+ *           .withMessage("%s is invalid input", "foo"); </code></pre>
  * <p>
  * This class is linked with the {@link ThrowableTypeAssert} and allow to check that an exception
  * type is thrown by a lambda.
