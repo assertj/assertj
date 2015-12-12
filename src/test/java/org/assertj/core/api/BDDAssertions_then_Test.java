@@ -554,6 +554,16 @@ public class BDDAssertions_then_Test {
       .hasMessage("something was wrong");
   }
 
+  public void should_build_ThrowableAssert_with_throwable_thrown_with_format_string() {
+    thenThrownBy(new ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        throw new Throwable("something was wrong");
+      }
+    }).isInstanceOf(Throwable.class)
+            .hasMessage("something was %s", "wrong");
+  }
+
   @Test
   public void then_of_URI_should_delegate_to_assertThat() throws URISyntaxException {
     // GIVEN

@@ -16,6 +16,8 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
 
+import java.util.IllegalFormatException;
+
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
  * 
@@ -55,6 +57,38 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   public S hasMessage(String message) {
     throwables.assertHasMessage(info, actual, message);
     return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual (@code Throwable) is equal to the given one, after being formatted using
+   * the default String.format method
+   * <p>
+   * Example:
+   * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("foo is not a valid input");
+   * Throwable throwable = new Throwable(invalidArgException);
+   *
+   * // This assertion succeeds:
+   * assertThat(throwable).hasMessage("%s is not a valid input", "foo");
+   *
+   * // These assertions fail:
+   * assertThat(throwable).hasMessage("%s is not a valid input", "bar");
+   * assertThat(throwable).hasMessage("%s is not a valid input", 12);
+   * assertThat(null).hasMessage("%s is not a valid input", "foo");
+   * </p>
+   *
+   * @param message a format string representing the expected message
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
+   * @throws AssertionError if the message is not a valid String to be foramtted
+   */
+  public S hasMessage(String message, Object... parameters) {
+    try {
+      return hasMessage(String.format(message, parameters));
+    } catch (IllegalFormatException e) {
+      throw new AssertionError("Message format string is invalid and cannot be parsed");
+    }
   }
 
   /**

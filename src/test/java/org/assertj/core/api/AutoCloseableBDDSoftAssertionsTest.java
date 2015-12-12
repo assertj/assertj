@@ -126,6 +126,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.then(illegalArgumentException).hasMessage("NullPointerException message");
+	  softly.then(illegalArgumentException).hasMessage("%s message", "IllegalArgumentException");
 
     softly.then(Optional.of("not empty")).isEqualTo("empty");
     softly.then(OptionalInt.of(0)).isEqualTo(1);
