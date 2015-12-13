@@ -774,6 +774,38 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     strings.assertEqualsIgnoringWhitespace(info, actual, expected);
     return myself;
   }
+  
+  /**
+   * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring whitespace differences
+   * (mostly).<br/>
+   * To be exact, the following whitespace rules are applied:
+   * <ul>
+   * <li>all leading and trailing whitespace of both actual and expected strings are ignored</li>
+   * <li>any remaining whitespace, appearing within either string, is collapsed to a single space before comparison</li>
+   * </ul>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot; my\tfoo&quot;).isNotEqualToIgnoringWhitespace(&quot; my bar&quot;);
+   * assertThat(&quot; my\tfoo bar &quot;).isNotEqualToIgnoringWhitespace(&quot; my foobar&quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot;my      foo bar&quot;).isNotEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot;  my foo bar  &quot;).isNotEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my     foo bar &quot;).isNotEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my\tfoo bar &quot;).isNotEqualToIgnoringWhitespace(&quot; my foo bar&quot;);
+   * assertThat(&quot;my foo bar&quot;).isNotEqualToIgnoringWhitespace(&quot;   my foo bar   &quot;);
+   * </code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is equal ignoring whitespace differences to the given
+   *           one.
+   */
+  public S isNotEqualToIgnoringWhitespace(CharSequence expected) {
+    strings.assertNotEqualsIgnoringWhitespace(info, actual, expected);
+    return myself;
+  }
 
   /**
    * Verifies that the actual {@code CharSequence} is a substring of the given one (opposite assertion of {@link #contains(CharSequence...) contains(CharSequence cs)}.

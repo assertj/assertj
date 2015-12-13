@@ -17,6 +17,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.assertj.core.util.diff.Delta;
+
 
 /**
  * Creates an error message indicating that an assertion that verifies that a file/path has a given text content failed.
@@ -32,7 +34,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
    * @param diffs the differences between {@code actual} and the expected text that was provided in the assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveContent(File actual, Charset charset, List<String> diffs) {
+  public static ErrorMessageFactory shouldHaveContent(File actual, Charset charset, List<Delta<String>> diffs) {
     return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
   }
   
@@ -43,7 +45,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
    * @param diffs the differences between {@code actual} and the expected text that was provided in the assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveContent(Path actual, Charset charset, List<String> diffs) {
+  public static ErrorMessageFactory shouldHaveContent(Path actual, Charset charset, List<Delta<String>> diffs) {
     return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
   }
 

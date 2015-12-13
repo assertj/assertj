@@ -13,7 +13,6 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
-
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
 
 
 /**
@@ -64,7 +64,7 @@ public class InputStreams {
     if (expected == null) throw new NullPointerException("The InputStream to compare to should not be null");
     assertNotNull(info, actual);
     try {
-      List<String> diffs = diff.diff(actual, expected);
+      List<Delta<String>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {

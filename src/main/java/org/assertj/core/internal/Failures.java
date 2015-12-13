@@ -36,7 +36,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Failures {
 
-  private static final String LINE_SEPARATOR = System.lineSeparator();
+  private static final String LINE_SEPARATOR = org.assertj.core.util.Compatibility.System.lineSeparator();
 
   private static final Failures INSTANCE = new Failures();
 
@@ -186,17 +186,17 @@ org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
   }
 
   private String threadDumpDescription() {
-	String threadDumpDescription = "";
+	StringBuilder threadDumpDescription = new StringBuilder();
 	ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 	ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
 	for (ThreadInfo threadInfo : threadInfos) {
-	  threadDumpDescription += format("\"%s\"%n\tjava.lang.Thread.State: %s",
-		                              threadInfo.getThreadName(), threadInfo.getThreadState());
+	  threadDumpDescription.append(format("\"%s\"%n\tjava.lang.Thread.State: %s",
+		                              threadInfo.getThreadName(), threadInfo.getThreadState()));
 	  for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
-		threadDumpDescription += LINE_SEPARATOR + "\t\tat " + stackTraceElement;
+		threadDumpDescription.append(LINE_SEPARATOR + "\t\tat " + stackTraceElement);
 	  }
-	  threadDumpDescription += LINE_SEPARATOR + LINE_SEPARATOR;
+	  threadDumpDescription.append(LINE_SEPARATOR + LINE_SEPARATOR);
 	}
-	return threadDumpDescription;
+	return threadDumpDescription.toString();
   }
 }

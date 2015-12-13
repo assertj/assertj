@@ -31,6 +31,7 @@ import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
+import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
@@ -355,6 +356,19 @@ public class Strings {
   public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
     if (!areEqualIgnoringWhitespace(actual, expected))
       throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are not equal, ignoring any changes in whitespace.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are equal.
+   */
+  public void assertNotEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (areEqualIgnoringWhitespace(actual, expected))
+      throw failures.failure(info, shouldNotBeEqualIgnoringWhitespace(actual, expected));
   }
 
   private boolean areEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {

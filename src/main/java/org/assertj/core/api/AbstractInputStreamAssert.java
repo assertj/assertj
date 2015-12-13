@@ -58,7 +58,15 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
 
   /**
    * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameContentAs(new ByteArrayInputStream(new byte[] {0xa}));
    *
+   * // assertions will fail
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameContentAs(new ByteArrayInputStream(new byte[] {}));
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameContentAs(new ByteArrayInputStream(new byte[] {0xa, 0xc, 0xd}));</code></pre>
+   * 
    * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.

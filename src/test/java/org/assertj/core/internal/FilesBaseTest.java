@@ -13,17 +13,14 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.ExpectedException.none;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
-import org.assertj.core.internal.BinaryDiff;
-import org.assertj.core.internal.Diff;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Files;
 import org.assertj.core.test.ExpectedException;
+import org.assertj.core.util.diff.Delta;
 import org.junit.Before;
 import org.junit.Rule;
 
@@ -42,8 +39,10 @@ public class FilesBaseTest {
   protected Failures failures;
   protected Files files;
   protected Diff diff;
+  protected Delta<String> delta;
   protected BinaryDiff binaryDiff;
 
+  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     actual = mock(File.class);
@@ -51,6 +50,8 @@ public class FilesBaseTest {
     files = new Files();
     files.failures = failures;
     diff = mock(Diff.class);
+    delta = mock(Delta.class);
+    when(delta.toString()).thenReturn("Extra lines at line 2 : [line1a, line1b]");
     files.diff = diff;
     binaryDiff = mock(BinaryDiff.class);
     files.binaryDiff = binaryDiff;

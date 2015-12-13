@@ -14,8 +14,6 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
-import org.assertj.core.data.MapEntry;
-
 /**
  * Assertions for {@link Map}s.
  * <p>
@@ -40,19 +38,19 @@ public class MapAssert<K, V> extends AbstractMapAssert<MapAssert<K, V>, Map<K, V
 
   @SafeVarargs
   @Override
-  public final MapAssert<K, V> contains(MapEntry<? extends K, ? extends V>... entries) {
+  public final MapAssert<K, V> contains(Map.Entry<? extends K, ? extends V>... entries) {
     return super.contains(entries);
   }
 
   @SafeVarargs
   @Override
-  public final MapAssert<K, V> containsOnly(MapEntry<? extends K, ? extends V>... entries) {
+  public final MapAssert<K, V> containsOnly(Map.Entry<? extends K, ? extends V>... entries) {
     return super.containsOnly(entries);
   }
   
   @SafeVarargs
   @Override
-  public final MapAssert<K, V> containsExactly(MapEntry<? extends K, ? extends V>... entries) {
+  public final MapAssert<K, V> containsExactly(Map.Entry<? extends K, ? extends V>... entries) {
     return super.containsExactly(entries);
   }
   
@@ -82,7 +80,7 @@ public class MapAssert<K, V> extends AbstractMapAssert<MapAssert<K, V>, Map<K, V
   
   @SafeVarargs
   @Override
-  public final MapAssert<K, V> doesNotContain(MapEntry<? extends K, ? extends V>... entries) {
+  public final MapAssert<K, V> doesNotContain(Map.Entry<? extends K, ? extends V>... entries) {
     return super.doesNotContain(entries);
   }
 }

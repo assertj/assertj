@@ -149,7 +149,7 @@ public final class IterableUtil extends GroupFormatUtil {
     return singleLineDescription == null || singleLineDescription.length() < maxLengthForSingleLineDescription;
   }
 
-  private static String format(Representation representation, Iterable<?> iterable, String start, String end,
+  public static String format(Representation representation, Iterable<?> iterable, String start, String end,
                                String elementSeparator, String indentation) {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();

@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.assertj.core.util.diff.Delta;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two files/inputStreams/paths have same content failed.
  * 
@@ -34,7 +36,7 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
    * @param diffs the differences between {@code actual} and {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSameContent(File actual, File expected, List<String> diffs) {
+  public static ErrorMessageFactory shouldHaveSameContent(File actual, File expected, List<Delta<String>> diffs) {
     return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
 
@@ -45,7 +47,7 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
    * @param diffs the differences between {@code actual} and {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSameContent(InputStream actual, InputStream expected, List<String> diffs) {
+  public static ErrorMessageFactory shouldHaveSameContent(InputStream actual, InputStream expected, List<Delta<String>> diffs) {
     return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
   
@@ -56,7 +58,7 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
    * @param diffs the differences between {@code actual} and {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSameContent(Path actual, Path expected, List<String> diffs) {
+  public static ErrorMessageFactory shouldHaveSameContent(Path actual, Path expected, List<Delta<String>> diffs) {
     return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
 

@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +31,8 @@ import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.error.ShouldHaveSameContent;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.Lists;
+import org.assertj.core.util.diff.Delta;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -87,7 +88,7 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
 
   @Test
   public void should_pass_if_files_have_equal_content() throws IOException {
-    when(diff.diff(actual, expected)).thenReturn(new ArrayList<String>());
+    when(diff.diff(actual, expected)).thenReturn(new ArrayList<Delta<String>>());
     files.assertSameContentAs(someInfo(), actual, expected);
   }
 
@@ -105,7 +106,7 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_files_do_not_have_equal_content() throws IOException {
-    List<String> diffs = newArrayList("line:1, expected:<line1> but was:<EOF>");
+    List<Delta<String>> diffs = Lists.newArrayList(delta);
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {

@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Closeables.closeQuietly;
-import static org.assertj.core.util.Objects.areEqual;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
+import org.assertj.core.util.diff.DiffUtils;
+import org.assertj.core.util.diff.Patch;
 
 
 /**
@@ -44,10 +45,9 @@ import org.assertj.core.util.VisibleForTesting;
  */
 @VisibleForTesting
 public class Diff {
-  private static final String EOF = "EOF";
 
   @VisibleForTesting
-  public List<String> diff(InputStream actual, InputStream expected) throws IOException {
+  public List<Delta<String>> diff(InputStream actual, InputStream expected) throws IOException {
     BufferedReader reader1 = null;
     BufferedReader reader2 = null;
     try {
@@ -61,12 +61,12 @@ public class Diff {
   }
 
   @VisibleForTesting
-  public List<String> diff(File actual, File expected) throws IOException {
+  public List<Delta<String>> diff(File actual, File expected) throws IOException {
     return diff(actual.toPath(), expected.toPath());
   }
-  
+
   @VisibleForTesting
-  public List<String> diff(Path actual, Path expected) throws IOException {
+  public List<Delta<String>> diff(Path actual, Path expected) throws IOException {
     BufferedReader reader1 = null;
     BufferedReader reader2 = null;
     try {
@@ -80,15 +80,15 @@ public class Diff {
   }
 
   @VisibleForTesting
-  public List<String> diff(File actual, String expected, Charset charset) throws IOException {
+  public List<Delta<String>> diff(File actual, String expected, Charset charset) throws IOException {
     return diff(actual.toPath(), expected, charset);
   }
-  
+
   @VisibleForTesting
-  public List<String> diff(Path actual, String expected, Charset charset) throws IOException {
+  public List<Delta<String>> diff(Path actual, String expected, Charset charset) throws IOException {
     BufferedReader reader1 = null;
     try {
-      reader1 = Files.newBufferedReader(actual, charset); 
+      reader1 = Files.newBufferedReader(actual, charset);
       BufferedReader reader2 = readerFor(expected);
       return unmodifiableList(diff(reader1, reader2));
     } finally {
@@ -104,24 +104,20 @@ public class Diff {
     return new BufferedReader(new StringReader(string));
   }
 
-  private List<String> diff(BufferedReader actual, BufferedReader expected) throws IOException {
-    List<String> diffs = new ArrayList<>();
-    int lineNumber = 1;
-    while (true) {
-      String actualLine = actual.readLine();
-      String expectedLine = expected.readLine();
-      if (actualLine == null || expectedLine == null) {
-        if (expectedLine != null) diffs.add(output(lineNumber, EOF, expectedLine));
-        if (actualLine != null) diffs.add(output(lineNumber, actualLine, EOF));
-        return diffs;
-      } else if (!areEqual(actualLine, expectedLine)) {
-        diffs.add(output(lineNumber, actualLine, expectedLine));
-      }
-      lineNumber += 1;
-    }
+  private List<Delta<String>> diff(BufferedReader actual, BufferedReader expected) throws IOException {
+    List<String> actualLines = linesFromBufferedReader(actual);
+    List<String> expectedLines = linesFromBufferedReader(expected);
+
+    Patch<String> patch = DiffUtils.diff(expectedLines, actualLines);
+    return patch.getDeltas();
   }
 
-  private String output(int lineNumber, String actual, String expected) {
-    return format("line:<%d>, expected:<%s> but was:<%s>", lineNumber, expected, actual);
+  private List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
+    String line;
+    List<String> lines = new ArrayList<>();
+    while ((line = reader.readLine()) != null) {
+      lines.add(line);
+    }
+    return lines;
   }
 }

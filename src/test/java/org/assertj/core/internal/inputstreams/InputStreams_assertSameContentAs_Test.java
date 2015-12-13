@@ -14,14 +14,12 @@ package org.assertj.core.internal.inputstreams;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-
-
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +32,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsBaseTest;
 import org.assertj.core.internal.InputStreamsException;
+import org.assertj.core.util.diff.Delta;
 import org.junit.Test;
 
 
@@ -58,7 +57,7 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
 
   @Test
   public void should_pass_if_inputstreams_have_equal_content() throws IOException {
-    when(diff.diff(actual, expected)).thenReturn(new ArrayList<String>());
+    when(diff.diff(actual, expected)).thenReturn(new ArrayList<Delta<String>>());
     inputStreams.assertSameContentAs(someInfo(), actual, expected);
   }
 
@@ -76,7 +75,8 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
 
   @Test
   public void should_fail_if_inputstreams_do_not_have_equal_content() throws IOException {
-    List<String> diffs = newArrayList("line:1, expected:<line1> but was:<EOF>");
+    @SuppressWarnings("unchecked")
+    List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {

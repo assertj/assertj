@@ -22,6 +22,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +34,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
+import org.assertj.core.util.diff.Delta;
 import org.junit.Test;
 
 /**
@@ -42,7 +44,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
   @Test
   public void should_pass_if_path_has_same_content_as_other() throws IOException {
-	when(diff.diff(actual, other)).thenReturn(new ArrayList<String>());
+	when(diff.diff(actual, other)).thenReturn(new ArrayList<Delta<String>>());
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
@@ -120,7 +122,8 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_and_given_path_does_not_have_the_same_content() throws IOException {
-	List<String> diffs = newArrayList("line:1, other:<line1> but was:<EOF>");
+    @SuppressWarnings("unchecked")
+    List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
 	when(diff.diff(actual, other)).thenReturn(diffs);
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
@@ -135,3 +138,5 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }
+
+

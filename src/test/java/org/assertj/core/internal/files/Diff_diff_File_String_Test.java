@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
 
@@ -22,6 +23,7 @@ import java.util.List;
 
 import org.assertj.core.internal.Diff;
 import org.assertj.core.util.TextFileWriter;
+import org.assertj.core.util.diff.Delta;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -61,7 +63,7 @@ public class Diff_diff_File_String_Test {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
     String expected = String.format("line0%nline1");
-    List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
+    List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).isEmpty();
   }
 
@@ -69,27 +71,35 @@ public class Diff_diff_File_String_Test {
   public void should_return_diffs_if_file_and_string_do_not_have_equal_content() throws IOException {
     writer.write(actual, UTF8, "Touché");
     String expected = "Touché";
-    List<String> diffs = diff.diff(actual, expected, ISO_8859_1);
+    List<Delta<String>> diffs = diff.diff(actual, expected, ISO_8859_1);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<1>, expected:<Touché> but was:<TouchÃ©>");
+    assertThat(diffs.get(0)).hasToString(format("%n"
+                                                + "Changed content at line 1:%n"
+                                                + "expecting:%n"
+                                                + "  [\"Touché\"]%n"
+                                                + "but was:%n"
+                                                + "  [\"TouchÃ©\"]%n"));
   }
 
   @Test
   public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
     String expected = String.format("line_0%nline_1");
-    List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
-    System.out.println(diffs);
+    List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<EOF>");
+    assertThat(diffs.get(0)).hasToString(format("%n"
+                                                + "Missing content at line 2:%n"
+                                                + "  [\"line_1\"]%n"));
   }
 
   @Test
   public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0", "line_1");
     String expected = "line_0";
-    List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
+    List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<EOF> but was:<line_1>");
+    assertThat(diffs.get(0)).hasToString(format("%n"
+                                                + "Extra content at line 2:%n"
+                                                + "  [\"line_1\"]%n"));
   }
 }

@@ -25,19 +25,18 @@ import org.junit.runners.Parameterized;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.internal.Strings#assertEqualsIgnoringWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>
+ * <code>{@link org.assertj.core.internal.Strings#assertNotEqualsIgnoringWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>
  * .
  *
- * @author Joel Costigliola
- * @author Alexander Bischof
+ * @author Dan Corder
  */
 @RunWith(Parameterized.class)
-public class Strings_assertEqualsIgnoringWhitespace_Successful_Test extends StringsBaseTest {
+public class Strings_assertNotEqualsIgnoringWhitespace_Successful_Test extends StringsBaseTest {
 
   private final String actual;
   private final String expected;
 
-  public Strings_assertEqualsIgnoringWhitespace_Successful_Test(String actual, String expected) {
+  public Strings_assertNotEqualsIgnoringWhitespace_Successful_Test(String actual, String expected) {
     this.actual = actual;
     this.expected = expected;
   }
@@ -45,22 +44,15 @@ public class Strings_assertEqualsIgnoringWhitespace_Successful_Test extends Stri
   @Parameterized.Parameters
   public static List<Object[]> parameters() {
     return newArrayList(new Object[][] {
-        { "my   foo bar", "my foo bar" },
-        { "  my foo bar  ", "my foo bar" },
-        { " my\tfoo bar ", " my foo bar" },
-        { " my foo    bar ", "my foo bar" },
-        { " my foo    bar ", "  my foo bar   " },
-        { "       ", " " },
-        { " my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r')) },
-        { " my\tfoo bar ", " my\tfoo bar " },   // same
-        { null, null },   // null
-        { " \t \t", " " },
-        { " abc", "abc " }
+        { "foo", "bar" },
+        { "my foo", "myfoo" },
+        { "foo", new String(arrayOf('b', 'a', 'r')) },
+        { null, "bar" }
     });
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_equal_ignoring_whitespace() {
-    strings.assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
+  public void should_pass_if_both_Strings_are_not_equal_ignoring_whitespace() {
+    strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 }

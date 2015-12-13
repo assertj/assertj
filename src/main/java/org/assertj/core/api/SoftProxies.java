@@ -42,14 +42,20 @@ class SoftProxies {
     FILTER;
 
     private static final int ERROR_COLLECTOR_INDEX = 0;
-    private static final int PROXIFY_EXTRACTING_INDEX = 1;
+    private static final int PROXIFY_EXTRACTING_OR_FILTEREDON_INDEX = 1;
 
+    @Override
     public int accept(Method method) {
-      return isExtractingMethod(method) ? PROXIFY_EXTRACTING_INDEX : ERROR_COLLECTOR_INDEX;
+      return isExtractingMethod(method) || isFilteredOnMethod(method) ? PROXIFY_EXTRACTING_OR_FILTEREDON_INDEX
+          : ERROR_COLLECTOR_INDEX;
     }
 
     private boolean isExtractingMethod(Method method) {
       return method.getName().toLowerCase().contains("extracting");
+    }
+
+    private boolean isFilteredOnMethod(Method method) {
+      return method.getName().contains("filteredOn");
     }
   }
 }

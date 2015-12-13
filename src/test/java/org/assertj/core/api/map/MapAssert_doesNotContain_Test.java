@@ -12,14 +12,15 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
-
-import static org.mockito.Mockito.verify;
+import org.junit.Test;
 
 
 /**
@@ -39,5 +40,10 @@ public class MapAssert_doesNotContain_Test extends MapAssertBaseTest {
   protected void verify_internal_effects() {
     MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
     verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries);
+  }
+  
+  @Test
+  public void invoke_api_like_user() {
+     assertThat(map("key1", "value1")).doesNotContain(entry("key2", "value2"), entry("key3", "value3"));
   }
 }
