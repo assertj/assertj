@@ -612,7 +612,7 @@ public class Assertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
     return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
@@ -656,7 +656,7 @@ public class Assertions {
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
+  public static Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
   }
 
