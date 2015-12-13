@@ -27,9 +27,9 @@ package org.assertj.core.util.diff.myers;
  * by a single {@link DiffNode DiffNodes}.
  *
  * @author <a href="mailto:juanco@suigeneris.org">Juanco Anez</a>
- *
  */
 public final class DiffNode extends PathNode {
+
   /**
    * Constructs a DiffNode.
    * <p>

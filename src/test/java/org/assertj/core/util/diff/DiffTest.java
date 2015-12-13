@@ -12,59 +12,68 @@
  */
 package org.assertj.core.util.diff;
 
-import junit.framework.TestCase;
+import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public class DiffTest extends TestCase {
+import org.junit.Test;
 
+public class DiffTest {
+
+    @Test
     public void testDiff_Insert() {
-        final Patch<String> patch = DiffUtils.diff(Arrays.asList("hhh"), Arrays.asList("hhh", "jjj", "kkk"));
-        assertNotNull(patch);
-        assertEquals(1, patch.getDeltas().size());
-        final Delta<String> delta = patch.getDeltas().get(0);
-        assertEquals(InsertDelta.class, delta.getClass());
-        assertEquals(new Chunk<String>(1, Collections.<String> emptyList()), delta.getOriginal());
-        assertEquals(new Chunk<String>(1, Arrays.asList("jjj", "kkk")), delta.getRevised());
+        Patch<String> patch = DiffUtils.diff(newArrayList("hhh"), newArrayList("hhh", "jjj", "kkk"));
+
+        List<Delta<String>> deltas = patch.getDeltas();
+        assertThat(deltas.size()).isEqualTo(1);
+        Delta<String> delta = deltas.get(0);
+        assertThat(delta).isInstanceOf(InsertDelta.class);
+        assertThat(delta.getOriginal()).isEqualTo(new Chunk<>(1, emptyList()));
+        assertThat(delta.getRevised()).isEqualTo(new Chunk<>(1, newArrayList("jjj", "kkk")));
     }
 
+    @Test
     public void testDiff_Delete() {
-        final Patch<String> patch = DiffUtils.diff(Arrays.asList("ddd", "fff", "ggg"), Arrays.asList("ggg"));
-        assertNotNull(patch);
-        assertEquals(1, patch.getDeltas().size());
-        final Delta<String> delta = patch.getDeltas().get(0);
-        assertEquals(DeleteDelta.class, delta.getClass());
-        assertEquals(new Chunk<String>(0, Arrays.asList("ddd", "fff")), delta.getOriginal());
-        assertEquals(new Chunk<String>(0, Collections.<String> emptyList()), delta.getRevised());
+        Patch<String> patch = DiffUtils.diff(newArrayList("ddd", "fff", "ggg"), newArrayList("ggg"));
+
+        List<Delta<String>> deltas = patch.getDeltas();
+        assertThat(deltas.size()).isEqualTo(1);
+        Delta<String> delta = deltas.get(0);
+        assertThat(delta).isInstanceOf(DeleteDelta.class);
+        assertThat(delta.getOriginal()).isEqualTo(new Chunk<>(0, newArrayList("ddd", "fff")));
+        assertThat(delta.getRevised()).isEqualTo(new Chunk<>(0, emptyList()));
     }
 
+    @Test
     public void testDiff_Change() {
-        final List<String> changeTest_from = Arrays.asList("aaa", "bbb", "ccc");
-        final List<String> changeTest_to = Arrays.asList("aaa", "zzz", "ccc");
+        List<String> changeTest_from = newArrayList("aaa", "bbb", "ccc");
+        List<String> changeTest_to = newArrayList("aaa", "zzz", "ccc");
 
-        final Patch<String> patch = DiffUtils.diff(changeTest_from, changeTest_to);
-        assertNotNull(patch);
-        assertEquals(1, patch.getDeltas().size());
-        final Delta<String> delta = patch.getDeltas().get(0);
-        assertEquals(ChangeDelta.class, delta.getClass());
-        assertEquals(new Chunk<String>(1, Arrays.asList("bbb")), delta.getOriginal());
-        assertEquals(new Chunk<String>(1, Arrays.asList("zzz")), delta.getRevised());
+        Patch<String> patch = DiffUtils.diff(changeTest_from, changeTest_to);
+
+        List<Delta<String>> deltas = patch.getDeltas();
+        assertThat(deltas.size()).isEqualTo(1);
+        Delta<String> delta = deltas.get(0);
+        assertThat(delta).isInstanceOf(ChangeDelta.class);
+        assertThat(delta.getOriginal()).isEqualTo(new Chunk<>(1, newArrayList("bbb")));
+        assertThat(delta.getRevised()).isEqualTo(new Chunk<>(1, newArrayList("zzz")));
     }
 
+    @Test
     public void testDiff_EmptyList() {
-        final Patch<String> patch = DiffUtils.diff(new ArrayList<String>(), new ArrayList<String>());
-        assertNotNull(patch);
-        assertEquals(0, patch.getDeltas().size());
+        Patch<String> patch = DiffUtils.diff(emptyList(), emptyList());
+
+        assertThat(patch.getDeltas().size()).isEqualTo(0);
     }
 
+    @Test
     public void testDiff_EmptyListWithNonEmpty() {
-        final Patch<String> patch = DiffUtils.diff(new ArrayList<String>(), Arrays.asList("aaa"));
-        assertNotNull(patch);
-        assertEquals(1, patch.getDeltas().size());
-        final Delta<String> delta = patch.getDeltas().get(0);
-        assertEquals(InsertDelta.class, delta.getClass());
+        Patch<String> patch = DiffUtils.diff(emptyList(), newArrayList("aaa"));
+        
+        List<Delta<String>> deltas = patch.getDeltas();
+        assertThat(deltas.size()).isEqualTo(1);
+        assertThat(deltas.get(0)).isInstanceOf(InsertDelta.class);
     }
 }

@@ -12,36 +12,39 @@
  */
 package org.assertj.core.util.diff;
 
-import junit.framework.TestCase;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class PatchTest extends TestCase {
+import org.junit.Test;
 
+public class PatchTest {
+
+  @Test
   public void testPatch_Insert() {
-    final List<String> insertTest_from = Arrays.asList("hhh");
-    final List<String> insertTest_to = Arrays.asList("hhh", "jjj", "kkk", "lll");
+    List<String> insertTest_from = newArrayList("hhh");
+    List<String> insertTest_to = newArrayList("hhh", "jjj", "kkk", "lll");
 
-    final Patch<String> patch = DiffUtils.diff(insertTest_from, insertTest_to);
+    Patch<String> patch = DiffUtils.diff(insertTest_from, insertTest_to);
     assertThat(DiffUtils.patch(insertTest_from, patch)).isEqualTo(insertTest_to);
   }
 
+  @Test
   public void testPatch_Delete() {
-    final List<String> deleteTest_from = Arrays.asList("ddd", "fff", "ggg", "hhh");
-    final List<String> deleteTest_to = Arrays.asList("ggg");
+    List<String> deleteTest_from = newArrayList("ddd", "fff", "ggg", "hhh");
+    List<String> deleteTest_to = newArrayList("ggg");
 
-    final Patch<String> patch = DiffUtils.diff(deleteTest_from, deleteTest_to);
+    Patch<String> patch = DiffUtils.diff(deleteTest_from, deleteTest_to);
     assertThat(DiffUtils.patch(deleteTest_from, patch)).isEqualTo(deleteTest_to);
   }
 
+  @Test
   public void testPatch_Change() {
-    final List<String> changeTest_from = Arrays.asList("aaa", "bbb", "ccc", "ddd");
-    final List<String> changeTest_to = Arrays.asList("aaa", "bxb", "cxc", "ddd");
+    List<String> changeTest_from = newArrayList("aaa", "bbb", "ccc", "ddd");
+    List<String> changeTest_to = newArrayList("aaa", "bxb", "cxc", "ddd");
 
-    final Patch<String> patch = DiffUtils.diff(changeTest_from, changeTest_to);
+    Patch<String> patch = DiffUtils.diff(changeTest_from, changeTest_to);
     assertThat(DiffUtils.patch(changeTest_from, patch)).isEqualTo(changeTest_to);
   }
 }

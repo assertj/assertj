@@ -12,20 +12,19 @@
  */
 package org.assertj.core.util.diff;
 
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.Test;
 
 public class DeleteDeltaTest {
 
   @Test
-  public void testGetType() throws Exception {
+  public void testGetType() {
     // given
-    Chunk<String> chunk = new Chunk<>(1, new ArrayList<String>());
+    Chunk<String> chunk = new Chunk<>(1, emptyList());
     Delta<String> delta = new DeleteDelta<>(chunk, chunk);
 
     // when
@@ -36,10 +35,10 @@ public class DeleteDeltaTest {
   }
 
   @Test
-  public void testToString() throws Exception {
+  public void testToString() {
     // given
-    Chunk<String> chunk1 = new Chunk<>(0, Arrays.asList("line1", "line2"));
-    Chunk<String> chunk2 = new Chunk<>(1, new ArrayList<String>());
+    Chunk<String> chunk1 = new Chunk<>(0, asList("line1", "line2"));
+    Chunk<String> chunk2 = new Chunk<>(1, emptyList());
     Delta<String> delta = new DeleteDelta<>(chunk1, chunk2);
 
     // when
