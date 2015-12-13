@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.strings;
 
+import static com.tngtech.java.junit.dataprovider.DataProviders.$;
+import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -25,15 +26,16 @@ import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Strings#assertNotEqualsIgnoringWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
  *
  * @author Dan Corder
  */
-@RunWith(JUnitParamsRunner.class)
+@RunWith(DataProviderRunner.class)
 public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseTest {
 
   @Test
@@ -43,22 +45,23 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
   }
 
   @Test
-  @Parameters(method = "notEqualIgnoringWhitespaceGenerator")
+  @UseDataProvider("notEqualIgnoringWhitespaceGenerator")
   public void should_pass_if_both_Strings_are_not_equal_ignoring_whitespace(String actual, String expected) {
     strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
-  @SuppressWarnings("unused")
-  private Object notEqualIgnoringWhitespaceGenerator() {
-    // We need to use explicit Object[]s here to stop JUnitParams stripping whitespace
-    return array(array("foo", "bar"),
-                 array("my foo", "myfoo"),
-                 array("foo", new String(arrayOf('b', 'a', 'r'))),
-                 array(null, "bar"));
+  @DataProvider
+  public static Object[][] notEqualIgnoringWhitespaceGenerator() {
+    // @format:off
+    return $$($("foo", "bar"),
+              $("my foo", "myfoo"),
+              $("foo", new String(arrayOf('b', 'a', 'r'))),
+              $(null, "bar"));
+    // @format:on
   }
 
   @Test
-  @Parameters(method = "equalIgnoringWhitespaceGenerator")
+  @UseDataProvider("equalIgnoringWhitespaceGenerator")
   public void should_fail_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
     try {
       strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
@@ -69,20 +72,21 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @SuppressWarnings("unused")
-  private Object equalIgnoringWhitespaceGenerator() {
-    // We need to use explicit Object[]s here to stop JUnitParams stripping whitespace
-    return array(array("my   foo bar", "my foo bar"),
-                 array("  my foo bar  ", "my foo bar"),
-                 array(" my\tfoo bar ", " my foo bar"),
-                 array(" my foo    bar ", "my foo bar"),
-                 array(" my foo    bar ", "  my foo bar   "),
-                 array("       ", " "),
-                 array(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
-                 array(" my\tfoo bar ", " my\tfoo bar "),   // same
-                 array(null, null),   // null
-                 array(" \t \t", " "),
-                 array(" abc", "abc "));
+  @DataProvider
+  public static Object[][] equalIgnoringWhitespaceGenerator() {
+    // @format:off
+    return $$($("my   foo bar", "my foo bar"),
+              $("  my foo bar  ", "my foo bar"),
+              $(" my\tfoo bar ", " my foo bar"),
+              $(" my foo    bar ", "my foo bar"),
+              $(" my foo    bar ", "  my foo bar   "),
+              $("       ", " "),
+              $(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
+              $(" my\tfoo bar ", " my\tfoo bar "),   // same
+              $(null, null),   // null
+              $(" \t \t", " "),
+              $(" abc", "abc "));
+    // @format:on
   }
 
   private void verifyFailureThrownWhenStringsAreEqualIgnoringWhitespace(AssertionInfo info, String actual,
