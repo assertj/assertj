@@ -26,6 +26,7 @@ public class ExpectThrowableAssert_isThrownBy_Test {
     Throwable exceptionWithCause = new NoSuchElementException("this too").initCause(new IllegalArgumentException("The cause"));
     assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> { throw exceptionWithCause;})
                                                      .withMessage("this too")
+                                                     .withMessage("this %s", "too")
                                                      .withMessageStartingWith("this")
                                                      .withMessageEndingWith("too")
                                                      .withMessageMatching(".*is.*")

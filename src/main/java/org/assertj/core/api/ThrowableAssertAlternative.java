@@ -17,8 +17,8 @@ package org.assertj.core.api;
  * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>.
  * <p>
  * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
- *           .isThrownBy(() -> { throw new IOException("boom!"); });
- *           .withMessage("boom!"); </code></pre>
+ *           .isThrownBy(() -> { throw new IOException("boom! tcha!"); });
+ *           .withMessage("boom! %s", "tcha!"); </code></pre>
  * <p>
  * This class is linked with the {@link ThrowableTypeAssert} and allow to check that an exception
  * type is thrown by a lambda.
@@ -56,6 +56,34 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    */
   public ThrowableAssertAlternative<T> withMessage(String message) {
     delegate.hasMessage(message);
+    return this;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} is equal to the given one built using {@link String#format(String, Object...)} syntax.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .withMessage("wrong amount %s, "123");
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .withMessage("wrong amount 123 euros");</code></pre>
+   *
+   * @param message a format string representing the expected message
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
+   * @see AbstractThrowableAssert#hasMessage(String)
+   */
+  public ThrowableAssertAlternative<T> withMessage(String message, Object... parameters) {
+    delegate.hasMessage(message, parameters);
     return this;
   }
 
@@ -361,7 +389,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
    *           given type.
    * @see AbstractThrowableAssert#hasRootCauseExactlyInstanceOf(Class)
-   */  
+   */
   public ThrowableAssertAlternative<T> withRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
     delegate.hasRootCauseExactlyInstanceOf(type);
     return this;
