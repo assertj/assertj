@@ -13,13 +13,13 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.nio.charset.Charset;
 import java.util.List;
 
 import org.assertj.core.description.TextDescription;
@@ -40,12 +40,13 @@ public class ShouldHaveContent_create_Test {
     when(delta.toString()).thenReturn(DIFF);
     List<Delta<String>> diffs = Lists.newArrayList(delta);
 
-    ErrorMessageFactory factory = shouldHaveContent(file, Charset.defaultCharset(), diffs);
+    ErrorMessageFactory factory = shouldHaveContent(file, defaultCharset(), diffs);
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     assertThat(message).isEqualTo(format("[Test] %n"
                                          + "File:%n"
                                          + "  <xyz>%n"
-                                         + "read with charset <UTF-8> does not have the expected content:%n"
-                                         + DIFF));
+                                         + "read with charset <%s> does not have the expected content:%n"
+                                         + DIFF,
+                                         defaultCharset().name()));
   }
 }

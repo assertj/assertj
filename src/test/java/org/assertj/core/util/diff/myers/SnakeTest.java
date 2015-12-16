@@ -17,8 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 
 public class SnakeTest {
+
   @Test
-  public void should_be_a_snake() throws Exception {
+  public void should_be_a_snake() {
     // GIVEN
     Snake snake = new Snake(0, 0, null);
     // WHEN
@@ -26,5 +27,4 @@ public class SnakeTest {
     // THEN
     assertThat(isSnake).isTrue();
   }
-
 }

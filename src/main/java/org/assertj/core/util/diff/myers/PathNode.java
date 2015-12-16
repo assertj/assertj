@@ -21,9 +21,9 @@ package org.assertj.core.util.diff.myers;
  *
  * @see DiffNode
  * @see Snake
- *
  */
 public abstract class PathNode {
+
   /** Position in the original sequence. */
   public final int i;
   /** Position in the revised sequence. */
