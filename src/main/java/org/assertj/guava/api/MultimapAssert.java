@@ -280,8 +280,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
 
-    Set<?> entriesNotExpectedInActual = difference(newHashSet(actual.entries()), newHashSet(other.entries()));
-    Set<?> entriesNotFoundInActual = difference(newHashSet(other.entries()), newHashSet(actual.entries()));
+    Set<?> entriesNotExpectedInActual = difference(newLinkedHashSet(actual.entries()), newLinkedHashSet(other.entries()));
+    Set<?> entriesNotFoundInActual = difference(newLinkedHashSet(other.entries()), newLinkedHashSet(actual.entries()));
     if (entriesNotFoundInActual.isEmpty() && entriesNotExpectedInActual.isEmpty()) return myself;
     throw failures.failure(info, shouldContainOnly(actual, other, entriesNotFoundInActual, entriesNotExpectedInActual));
   }
@@ -315,7 +315,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
 
-    Set<?> entriesNotFoundInActual = difference(newHashSet(other.entries()), newHashSet(actual.entries()));
+    Set<?> entriesNotFoundInActual = difference(newLinkedHashSet(other.entries()), newLinkedHashSet(actual.entries()));
     if (entriesNotFoundInActual.isEmpty()) return myself;
     throw failures.failure(info, shouldContain(actual, other, entriesNotFoundInActual));
   }

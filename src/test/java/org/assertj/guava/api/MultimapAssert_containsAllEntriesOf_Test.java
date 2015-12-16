@@ -13,7 +13,6 @@
 package org.assertj.guava.api;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -24,38 +23,39 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.LinkedHashMultimap;
 
 public class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
 
-  private HashMultimap<String, String> other;
+  private LinkedHashMultimap<String, String> other;
 
   @Before
   public void setup() {
-    other = HashMultimap.create();
+    other = LinkedHashMultimap.create();
   }
 
   @Test
   public void should_pass_if_actual_contains_exactly_all_entries_of_given_multimap() {
-    other.putAll("Lakers", newHashSet("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     assertThat(actual).containsAllEntriesOf(other);
     assertThat(other).containsAllEntriesOf(actual);
   }
 
   @Test
   public void should_pass_if_actual_contains_all_entries_of_given_multimap_and_additional_ones() {
-    other.putAll("Lakers", newHashSet("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
     assertThat(actual).containsAllEntriesOf(other);
   }
 
   @Test
   public void should_pass_with_different_multimaps_type_but_compatible_generic_types() {
     HashMultimap<Object, Object> other = HashMultimap.create();
-    other.putAll("Lakers", newHashSet("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     assertThat(other).containsAllEntriesOf(actual);
   }
 
@@ -91,7 +91,7 @@ public class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBase
       assertThat(e).hasMessage(format("%nExpecting:%n"                                   +
           " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n" +
           "to contain:%n" +
-          " <{Lakers=[Kobe Bryant, Kareem Abdul Jabbar, Magic Johnson], Bulls=[Michael Jordan, Derrick Rose, Scottie Pippen], Warriors=[Stephen Curry, Klay Thompson], Spurs=[Tim Duncan, Tony Parker, Manu Ginobili]}>%n" +
+          " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili], Warriors=[Stephen Curry, Klay Thompson]}>%n" +
           "but could not find:%n" +
           " <[Warriors=Stephen Curry, Warriors=Klay Thompson]>%n"));
       // @format:on
