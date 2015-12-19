@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.guava.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
