@@ -24,9 +24,9 @@ import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
-import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
+import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -51,8 +51,10 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -230,7 +232,7 @@ public class Strings {
     assertNotNull(info, actual);
     checkIsNotNull(values);
     checkIsNotEmpty(values);
-    checkCharSequenceIsNotNull(values[0]);
+    checkCharSequenceArrayDoesNotHaveNullElements(values);
     Set<CharSequence> notFound = new LinkedHashSet<>();
     for (CharSequence value : values) {
       if (!stringContains(actual, value)) {
@@ -592,35 +594,64 @@ public class Strings {
     Objects.instance().assertNotNull(info, actual);
   }
 
-  public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] values) {
+  public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
     assertNotNull(info, actual);
-    checkIsNotNull(values);
-    checkIsNotEmpty(values);
-    checkCharSequenceIsNotNull(values[0]);
+    checkIsNotNull(sequence);
+    checkIsNotEmpty(sequence);
+    checkCharSequenceArrayDoesNotHaveNullElements(sequence);
+
     Set<CharSequence> notFound = new LinkedHashSet<>();
-    for (CharSequence value : values) {
-      if (!stringContains(actual, value))
-        notFound.add(value);
+    for (CharSequence value : sequence) {
+      if (!stringContains(actual, value)) notFound.add(value);
     }
-    if (notFound.isEmpty()) {
-      if (values.length == 1) {
-        // nothing to check, assertion succeeded.
-        return;
+
+    if (!notFound.isEmpty()) {
+      // don't bother looking for a sequence, some of the sequence elements were not found !
+      if (notFound.size() == 1 && sequence.length == 1) {
+        throw failures.failure(info, shouldContain(actual, sequence[0], comparisonStrategy));
       }
-      // we have found all the given values but were they in the correct order ?
-      String strActual = actual.toString();
-      for (int i = 1; i < values.length; i++) {
-        if (strActual.indexOf(values[i - 1].toString()) > strActual.indexOf(values[i].toString())) {
-          throw failures.failure(info, shouldContainSequence(actual, values, i - 1, comparisonStrategy));
-        }
-      }
-      // assertion succeeded
-      return;
+      throw failures.failure(info, shouldContain(actual, sequence, notFound, comparisonStrategy));
     }
-    if (notFound.size() == 1 && values.length == 1) {
-      throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
+
+    // we have found all the given values but were they in the expected sequence ?
+    if (sequence.length == 1) return; // no order chekec needed for a one element sequence
+
+    // convert all to one char CharSequence list to ease comparison
+    List<CharSequence> splitActual = split(actual);
+    List<CharSequence> splitSequence = flatSplit(sequence);
+    for (int i = 0; i < splitActual.size(); i++) {
+      // look for given sequence in actual starting from current index (i)
+      if (containsSequenceAtGivenIndex(splitActual, splitSequence, i)) return;
     }
-    throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+    throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+  }
+
+  private List<CharSequence> flatSplit(CharSequence[] sequence) {
+    List<CharSequence> flatSplitCharSequence = new ArrayList<>();
+    for (int i = 0; i < sequence.length; i++) {
+      flatSplitCharSequence.addAll(split(sequence[i]));
+    }
+    return flatSplitCharSequence;
+  }
+
+  private List<CharSequence> split(CharSequence charSequence) {
+    checkNotNull(charSequence, "Expecting CharSequence not to be null");
+    int length = charSequence.length();
+    List<CharSequence> splitCharSequence = new ArrayList<>(length);
+    for (int i = 0; i < length; i++) {
+      splitCharSequence.add(String.valueOf(charSequence.charAt(i)));
+    }
+    return splitCharSequence;
+  }
+
+  private boolean containsSequenceAtGivenIndex(List<CharSequence> actualAsList, List<CharSequence> sequence,
+                                               int startingIndex) {
+    // check that, starting from given index, actualAsList has enough remaining elements to contain sequence
+    if (actualAsList.size() - startingIndex < sequence.size()) return false;
+    for (int i = 0; i < sequence.size(); i++) {
+      if (!comparisonStrategy.areEqual(actualAsList.get(startingIndex + i), sequence.get(i))) return false;
+    }
+    return true;
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {
@@ -677,6 +708,16 @@ public class Strings {
     assertNotNull(info, actual);
     Matcher matcher = pattern.matcher(actual);
     if (!matcher.find()) throw failures.failure(info, shouldContainPattern(actual, pattern.pattern()));
+  }
+
+  private void checkCharSequenceArrayDoesNotHaveNullElements(CharSequence[] values) {
+    if (values.length == 1) {
+      checkCharSequenceIsNotNull(values[0]);
+    } else {
+      for (int i = 0; i < values.length; i++) {
+        checkNotNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
+      }
+    }
   }
 
 }

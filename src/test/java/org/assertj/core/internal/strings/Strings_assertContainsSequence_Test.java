@@ -13,7 +13,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
-import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -21,21 +21,12 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
-import org.assertj.core.internal.StringsBaseTest;
-
-/**
- * Tests for <code>{@link Strings#assertContains(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 public class Strings_assertContainsSequence_Test extends StringsBaseTest {
 
   @Test
@@ -62,8 +53,9 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     try {
       strings.assertContainsSequence(info, actual, sequenceValues);
+      strings.assertContainsSequence(info, actual, sequenceValues);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, 1));
+      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -84,21 +76,27 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    strings.assertContains(someInfo(), null, "Yoda");
+    strings.assertContainsSequence(someInfo(), (CharSequence)null, array("Yo", "da"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_given_strings() {
-    strings.assertContains(someInfo(), "Yoda", "Yo", "da");
+    strings.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
   }
 
+  @Test
+  public void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value_bug_544() {
+    strings.assertContainsSequence(someInfo(), "a-b-c-", array("a", "-", "b", "-", "c"));
+  }
+  
+  
   // tests with custom comparison strategy
 
   @Test
   public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
-    stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", array("Yo", "DA"));
-    stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", array("YO", "dA"));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "DA"));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("YO", "dA"));
   }
 
   @Test
@@ -123,7 +121,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
     try {
       stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequenceValues);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, 1, comparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
