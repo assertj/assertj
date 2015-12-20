@@ -33,7 +33,7 @@
   </issueManagement>
   <properties>
     <additionalparam>-Xdoclint:none</additionalparam>
-    <powermock.version>1.6.2</powermock.version>
+    <powermock.version>1.6.4</powermock.version>
   </properties>
   <dependencies>
     <dependency>
@@ -48,13 +48,13 @@
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
-      <version>3.1</version>
+      <version>3.2.0</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
-      <version>5.0.3</version>
+      <version>5.0.4</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -72,7 +72,7 @@
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <version>3.3.1</version>
+      <version>3.4</version>
       <scope>test</scope>
     </dependency>
     <!--
@@ -89,7 +89,7 @@
     <dependency>
       <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
-      <version>0.6.4</version>
+      <version>0.7.7</version>
       <scope>test</scope>
     </dependency>
     <dependency>
