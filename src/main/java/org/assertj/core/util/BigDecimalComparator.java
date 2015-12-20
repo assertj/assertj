@@ -32,6 +32,9 @@ public class BigDecimalComparator implements Comparator<BigDecimal> {
 
   @Override
   public int compare(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
+    if (bigDecimal1 == bigDecimal2) return 0; // handles both param being null
+    if (bigDecimal1 == null) return -1;
+    if (bigDecimal2 == null) return 1;
     return bigDecimal1.compareTo(bigDecimal2);
   }
 }
