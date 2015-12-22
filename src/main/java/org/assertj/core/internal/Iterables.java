@@ -392,9 +392,7 @@ public class Iterables {
     checkIterableIsNotNull(info, values);
     List<Object> extra = newArrayList();
     for (Object actualElement : actual) {
-      if (!iterableContains(values, actualElement)) {
-        extra.add(actualElement);
-      }
+      if (!iterableContains(values, actualElement)) extra.add(actualElement);
     }
     if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
