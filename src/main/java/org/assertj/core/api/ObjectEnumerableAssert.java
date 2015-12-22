@@ -772,4 +772,26 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
   S isSubsetOf(Iterable<? extends T> values);
+  
+  /**
+   * Verifies that all the elements of actual are present in the given values.
+   *
+   * Example:
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertions will pass:
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya);
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya, dwarfRing);
+   * 
+   * // assertions will fail:
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya);
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, dwarfRing);</code></pre>
+   * 
+   * @param values the values that should be used for checking the elements of actual.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
+   */
+  S isSubsetOf(@SuppressWarnings("unchecked") T... values);
 }

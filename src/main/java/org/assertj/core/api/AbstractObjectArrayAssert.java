@@ -249,6 +249,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
+  public S isSubsetOf(@SuppressWarnings("unchecked") T... values) {
+    arrays.assertIsSubsetOf(info, actual, Arrays.asList(values));
+    return myself;
+  }
+  
+  /** {@inheritDoc} */
+  @Override
   public S containsNull() {
     arrays.assertContainsNull(info, actual);
     return myself;
