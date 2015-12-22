@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.util.Arrays.array;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -26,8 +26,8 @@ import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -35,7 +35,7 @@ import junitparams.Parameters;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-@RunWith(JUnitParamsRunner.class)
+@RunWith(DataProviderRunner.class)
 public class ShouldBeEqual_newAssertionError_Test {
 
   private Description description;
@@ -51,7 +51,12 @@ public class ShouldBeEqual_newAssertionError_Test {
   }
 
   @Test
-  @Parameters(method = "formattedDescriptionGenerator")
+  @DataProvider(value = {
+      // @format:off
+      "[Jedi]",
+      "[Jedi]  "
+      // @format:on
+  }, trimValues = false)
   public void should_create_ComparisonFailure_if_JUnit4_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
     // GIVEN
     given(formatter.format(description)).willReturn(formattedDescription);
@@ -60,12 +65,5 @@ public class ShouldBeEqual_newAssertionError_Test {
     // THEN
     assertThat(error).isInstanceOf(ComparisonFailure.class)
                      .hasMessage("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">");
-  }
-
-  @SuppressWarnings("unused")
-  private Object formattedDescriptionGenerator() {
-    // We need to use explicit Object[]s here to stop JUnitParams stripping whitespace
-    return array(array("[Jedi]"),
-                 array("[Jedi]  "));
   }
 }

@@ -13,14 +13,12 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.IntArrays.arrayOf;
-import static org.assertj.core.util.Arrays.array;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 /**
  * Tests for <code>{@link ArrayWrapperList#size()}</code>.
@@ -28,20 +26,19 @@ import junitparams.Parameters;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-@RunWith(JUnitParamsRunner.class)
+@RunWith(DataProviderRunner.class)
 public class ArrayWrapperList_size_Test {
 
-  @Test
-  @Parameters(method = "arrayGenerator")
-  public void should_return_size_of_array(int[] array) {
-    ArrayWrapperList list = new ArrayWrapperList(array);
-    assertThat(list).hasSameSizeAs(array);
-  }
-
-  @SuppressWarnings("unused")
-  private Object arrayGenerator() {
-    return array(arrayOf(0, 1, 2),
-                 arrayOf(0),
-                 arrayOf());
-  }
+    @Test
+    @DataProvider({
+            // @format:off
+            "0, 1, 2",
+            "0",
+            ""
+            // @format:on
+    })
+    public void should_return_size_of_array(int... array) {
+        ArrayWrapperList list = new ArrayWrapperList(array);
+        assertThat(list.size()).isEqualTo(array.length);
+    }
 }
