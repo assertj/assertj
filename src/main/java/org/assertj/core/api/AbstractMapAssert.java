@@ -129,6 +129,29 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
     maps.assertContains(info, actual, entries);
     return myself;
   }
+  
+  /**
+   * Verifies that the actual map contains all entries of the given map, in any order.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
+   * Map<Ring, TolkienCharacter> frodoAndGaladriel = ... // init with frodo and galadriel
+   * 
+   * assertThat(ringBearers).containsAllEntries(frodoAndGaladriel);</code></pre>
+   *
+   * @param the map with the given entries.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException if any of the entries in the given map is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given entries.
+   */
+  public S containsAllEntries(Map<? extends K, ? extends V> other) {
+    @SuppressWarnings("unchecked")
+    Map.Entry<? extends K, ? extends V> [] entries = other.entrySet().toArray(new Map.Entry[other.size()]);
+    maps.assertContains(info, actual, entries);
+    return myself;
+  }
 
   /**
    * Verifies that the actual map contains the given entry.
