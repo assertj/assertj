@@ -21,6 +21,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -167,6 +168,15 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   @Override
   public S isSubsetOf(Iterable<? extends T> values) {
     iterables.assertIsSubsetOf(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public S isSubsetOf(@SuppressWarnings("unchecked") T... values) {
+    iterables.assertIsSubsetOf(info, actual, Arrays.asList(values));
     return myself;
   }
 
