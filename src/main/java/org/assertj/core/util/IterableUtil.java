@@ -63,7 +63,6 @@ public final class IterableUtil extends GroupFormatUtil {
    * @param i the given {@code Iterable}.
    * @return all the non-{@code null} elements in the given {@code Iterable}. An empty list is returned if the given
    *         {@code Iterable} is {@code null}.
-   * @since 1.1.3
    */
   public static <T> List<T> nonNullElementsIn(Iterable<? extends T> i) {
     if (isNullOrEmpty(i)) return emptyList();

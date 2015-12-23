@@ -17,7 +17,5 @@ package org.assertj.core.util;
  * Google Collections :)
  * 
  * @author Alex Ruiz
- * 
- * @since 1.1.1
  */
 public @interface VisibleForTesting {}

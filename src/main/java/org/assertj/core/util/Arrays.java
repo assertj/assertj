@@ -74,7 +74,6 @@ public class Arrays extends GroupFormatUtil {
    * @param array the given array.
    * @return all the non-{@code null} elements in the given array. An empty list is returned if the given array is
    *         {@code null}.
-   * @since 1.1.3
    */
   public static <T> List<T> nonNullElementsIn(T[] array) {
     if (array == null) return emptyList();
@@ -93,7 +92,6 @@ public class Arrays extends GroupFormatUtil {
    * @param array the given array. <b>It must not be null</b>.
    * @return {@code true} if the given array has only {@code null} elements or is empty, {@code false} otherwise.
    * @throws NullPointerException if the given array is {@code null}.
-   * @since 1.1.3
    */
   public static <T> boolean hasOnlyNullElements(T[] array) {
     checkNotNull(array);
