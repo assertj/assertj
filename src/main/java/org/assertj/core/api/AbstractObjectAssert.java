@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.extractor.Extractors.byName;
+
+import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -281,5 +284,38 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   public S hasFieldOrPropertyWithValue(String name, Object value) {
     objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
     return myself;
+  }
+
+  /**
+   * Extract the values of given fields/properties from object under test into a array, this new array becoming
+   * the object under test.
+   * <p/>
+   * The array data corresponds to the extracted values of the given fields/properties. For example if you ask to
+   * extract "id", "name" and "email", then the array will contain id, name and email extracted from the object.
+   * <p/>
+   * Nested fields/properties are supported, for example specifying "adress.street.number" is equivalent to call actual.getAdress().getStreet().getNumber().  
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // Build Frodo, a TolkienCharacter with a name (String) and a Race (a class)
+   * // they can be field or properties, both works when extracting their values.
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   * 
+   * // let's verify 'name' and 'age' of Frodo are not null:
+   * assertThat(frodo).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
+   *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
+   * 
+   * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
+   * for, if the field is not accessible (i.e. does not exist) an IntrospectionError is thrown.
+   * <p/>
+   * Note that the order of extracted property/field values is consistent with the iteration order of the array under
+   * test.
+   *
+   * @param propertiesOrFields the properties/fields to extract from the initial array under test
+   * @return a new assertion object whose object under test is the array containing the extracted properties/fields values
+   * @throws IntrospectionError if one of the given name does not match a field or property
+   */
+  public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
+    Tuple values = byName(propertiesOrFields).extract(actual);
+    return new ObjectArrayAssert<Object>(values.toArray());
   }
 }
