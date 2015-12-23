@@ -477,9 +477,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
    * when it's not allowed leads to an {@link IntrospectionError}.
    * <p/>
-   * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
-   * won't work if half of the objects have the field and the other the property.
-   * <p/>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
@@ -520,8 +517,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * @param propertyOrField the property/field to extract from the elements of the Iterable under test
    * @return a new assertion object whose object under test is the list of extracted property/field values.
-   * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
-   *           in one of the initial Iterable's element.
+   * @throws IntrospectionError if no field or property exists with the given name in one of the initial
+   *         Iterable's element.
    */
   public ListAssert<Object> extracting(String propertyOrField) {
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
@@ -533,7 +530,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * Iterable becoming the Iterable under test.
    * <p/>
    * It allows you to test the method results of the Iterable's elements instead of testing the elements themselves, it
-   * is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p/>
    * Let's take an example to make things clearer :
@@ -578,7 +575,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * class, this new List becoming the object under test.
    * <p/>
    * It allows you to test the method results of the Iterable's elements instead of testing the elements themselves, it
-   * is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p/>
    * Let's take an example to make things clearer :
@@ -658,9 +655,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
    * when it's not allowed leads to an {@link IntrospectionError}.
    * <p/>
-   * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
-   * won't work if half of the objects have the field and the other the property.
-   * <p/>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
@@ -702,8 +696,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @param propertyOrField the property/field to extract from the Iterable under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the list of extracted property/field values.
-   * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
-   *           in one of the initial Iterable's element.
+   * @throws IntrospectionError if no field or property exists with the given name in one of the initial
+   *         Iterable's element.
    */
   public <P> ListAssert<P> extracting(String propertyOrField, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
@@ -756,9 +750,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
    * when it's not allowed leads to an {@link IntrospectionError}.
    * <p/>
-   * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
-   * won't work if half of the objects have the field and the other the property.
-   * <p/>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
@@ -797,8 +788,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @param propertiesOrFields the properties/fields to extract from the elements of the Iterable under test
    * @return a new assertion object whose object under test is the list of Tuple with extracted properties/fields values
    *         as data.
-   * @throws IntrospectionError if one of the given name does not match a field or property (or field exists but is not
-   *           public) in one of the initial Iterable's element.
+   * @throws IntrospectionError if one of the given name does not match a field or property in one of the initial
+   *         Iterable's element.
    */
   public ListAssert<Tuple> extracting(String... propertiesOrFields) {
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));

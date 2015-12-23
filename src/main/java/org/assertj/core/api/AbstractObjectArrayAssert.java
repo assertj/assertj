@@ -507,17 +507,14 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
    * 
-   * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public) then
-   * a property with the given name is looked for.
-   * <p>
-   * It works only if all objects have the field or all objects have the property with the given name, i.e. it won't
-   * work if half of the objects have the field and the other the property.
+   * A property with the given name is looked for first, if it does not exist then a field with the given name
+   * is looked for.
    * <p>
    * Note that the order of extracted field/property values is consistent with the array order.
    * 
    * @param fieldOrProperty the field/property to extract from the array under test
    * @return a new assertion object whose object under test is the array of extracted field/property values.
-   * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
+   * @throws IntrospectionError if no field or property exists with the given name
    */
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
@@ -557,18 +554,15 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
    * 
-   * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public) then
-   * a property with the given name is looked for.
-   * <p>
-   * It works only if all objects have the field or all objects have the property with the given name, i.e. it won't
-   * work if half of the objects have the field and the other the property.
+   * A property with the given name is looked for first, if it does not exist then a field with the given name
+   * is looked for.
    * <p>
    * Note that the order of extracted field/property values is consistent with the order of the array under test.
    * 
    * @param fieldOrProperty the field/property to extract from the array under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the array of extracted field/property values.
-   * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
+   * @throws IntrospectionError if no field or property exists with the given name
    */
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
@@ -616,11 +610,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));</code></pre>
    * 
-   * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
-   * for, if no field accessible (ie. does not exist or is not public) an IntrospectionError is thrown.
-   * <p/>
-   * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
-   * won't work if half of the objects have the field and the other the property.
+   * A property with the given name is looked for first, if it does not exist the a field with the given name is
+   * looked for.
    * <p/>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
    * test.
@@ -628,8 +619,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @param propertiesOrFields the properties/fields to extract from the initial array under test
    * @return a new assertion object whose object under test is the list of Tuple with extracted properties/fields values
    *         as data.
-   * @throws IntrospectionError if one of the given name does not match a field or property (or field exists but is not
-   *           public) in one of the initial Iterable's element.
+   * @throws IntrospectionError if one of the given name does not match a field or property in one of the initial
+   *         Iterable's element.
    */
   public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
@@ -784,10 +775,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the result of given method invocation from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
-   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can be
+   * It allows you to test a method results of the array's elements instead of testing the elements themselves, it can be
    * sometimes much less work!
    * <p>
-   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * It is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
