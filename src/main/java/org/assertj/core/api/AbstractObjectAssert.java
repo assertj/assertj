@@ -282,4 +282,9 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
     objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
     return myself;
   }
+
+    public S isEqualToComparingFieldByFieldRecursively(Object other) {
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other);
+      return myself;
+    }
 }
