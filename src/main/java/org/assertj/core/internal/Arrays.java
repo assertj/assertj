@@ -60,6 +60,7 @@ import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -571,7 +572,7 @@ public class Arrays {
   static <T> void assertIsSortedAccordingToComparator(AssertionInfo info, Failures failures, Object array,
 	                                                  Comparator<T> comparator) {
 	assertNotNull(info, array);
-	if (comparator == null) throw new NullPointerException("The given comparator should not be null");
+	checkNotNull(comparator, "The given comparator should not be null");
 	try {
 	  List<T> arrayAsList = asList(array);
 	  // empty arrays are considered sorted even if comparator can't be applied to <T>.

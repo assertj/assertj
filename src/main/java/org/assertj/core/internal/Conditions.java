@@ -16,6 +16,7 @@ import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.error.ShouldHave.shouldHave;
 import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
 import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -111,6 +112,6 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    */
   public void assertIsNotNull(Condition<?> condition) {
-    if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+    checkNotNull(condition, "The condition to evaluate should not be null");
   }
 }

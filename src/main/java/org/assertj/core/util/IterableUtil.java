@@ -14,6 +14,7 @@ package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public final class IterableUtil extends GroupFormatUtil {
    * @throws NullPointerException if given {@link Iterable} is null.
    */
   public static int sizeOf(Iterable<?> iterable) {
-    if (iterable == null) throw new NullPointerException("Iterable must not be null");
+    checkNotNull(iterable, "Iterable must not be null");
     if (iterable instanceof Collection) return ((Collection<?>) iterable).size();
     int size = 0;
     Iterator<?> iterator = iterable.iterator();

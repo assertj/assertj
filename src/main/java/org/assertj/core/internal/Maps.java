@@ -32,6 +32,7 @@ import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -332,7 +333,7 @@ public class Maps {
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual,
                                           @SuppressWarnings("unchecked") V... values) {
     assertNotNull(info, actual);
-    if (values == null) throw new NullPointerException("The array of values to look for should not be null");
+    checkNotNull(values, "The array of values to look for should not be null");
     if (actual.isEmpty() && values.length == 0) return;
     //
     Set<V> valuesNotFound = new LinkedHashSet<>();
@@ -497,15 +498,15 @@ public class Maps {
   }
 
   private static <K> void failIfNull(K[] keys) {
-    if (keys == null) throw new NullPointerException("The array of keys to look for should not be null");
+    checkNotNull(keys, "The array of keys to look for should not be null");
   }
 
   private static <K, V> void failIfNull(Map.Entry<? extends K, ? extends V>[] entries) {
-    if (entries == null) throw new NullPointerException("The array of entries to look for should not be null");
+    checkNotNull(entries, "The array of entries to look for should not be null");
   }
 
   private <K, V> boolean containsEntry(Map<K, V> actual, Map.Entry<? extends K, ? extends V> entry) {
-    if (entry == null) throw new NullPointerException("Entries to look for should not be null");
+    checkNotNull(entry, "Entries to look for should not be null");
     return actual.containsKey(entry.getKey()) ? areEqual(actual.get(entry.getKey()), entry.getValue()) : false;
   }
 

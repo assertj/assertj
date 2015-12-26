@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Preconditions.checkNotNull;
+
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.VisibleForTesting;
@@ -192,9 +194,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws NullPointerException if the given charset is {@code null}.
    */
   public S usingCharset(Charset charset) {
-    if (charset == null)
-      throw new NullPointerException("The charset should not be null");
-    this.charset = charset;
+    this.charset = checkNotNull(charset, "The charset should not be null");
     return myself;
   }
 

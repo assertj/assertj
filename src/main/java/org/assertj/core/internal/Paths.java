@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -250,7 +251,7 @@ public class Paths {
 
   public void assertHasFileName(final AssertionInfo info, Path actual, String fileName) {
 	assertNotNull(info, actual);
-	if (fileName == null) throw new NullPointerException("expected fileName should not be null");
+	checkNotNull(fileName, "expected fileName should not be null");
 	if (!actual.getFileName().endsWith(fileName)) throw failures.failure(info, shouldHaveName(actual, fileName));
   }
 
@@ -259,19 +260,19 @@ public class Paths {
   }
 
   private static void checkExpectedParentPathIsNotNull(final Path expected) {
-	if (expected == null) throw new NullPointerException("expected parent path should not be null");
+    checkNotNull(expected, "expected parent path should not be null");
   }
 
   private static void assertExpectedStartPathIsNotNull(final Path start) {
-	if (start == null) throw new NullPointerException("the expected start path should not be null");
+    checkNotNull(start, "the expected start path should not be null");
   }
 
   private static void assertExpectedEndPathIsNotNull(final Path end) {
-	if (end == null) throw new NullPointerException("the expected end path should not be null");
+    checkNotNull(end, "the expected end path should not be null");
   }
 
   public void assertHasContent(final AssertionInfo info, Path actual, String expected, Charset charset) {
-	if (expected == null) throw new NullPointerException("The text to compare to should not be null");
+    checkNotNull(expected, "The text to compare to should not be null");
 	assertIsReadable(info, actual);
 	try {
 	  List<Delta<String>> diffs = diff.diff(actual, expected, charset);
@@ -283,7 +284,7 @@ public class Paths {
   }
 
   public void assertHasBinaryContent(AssertionInfo info, Path actual, byte[] expected) {
-	if (expected == null) throw new NullPointerException("The binary content to compare to should not be null");
+    checkNotNull(expected, "The binary content to compare to should not be null");
 	assertIsReadable(info, actual);
 	try {
 	  BinaryDiffResult diffResult = binaryDiff.diff(actual, expected);
@@ -296,8 +297,7 @@ public class Paths {
 
   public void assertHasSameContentAs(AssertionInfo info, Path actual, Path expected) {
 	// @format:off
-	if (expected == null) 
-	  throw new NullPointerException("The given Path to compare actual content to should not be null");
+    checkNotNull(expected, "The given Path to compare actual content to should not be null");
 	if (!nioFilesWrapper.isReadable(expected))
 	  throw new IllegalArgumentException(format("The given Path <%s> to compare actual content to should be readable", expected));
 	// @format:on

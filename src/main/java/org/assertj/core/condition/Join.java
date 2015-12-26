@@ -14,6 +14,8 @@ package org.assertj.core.condition;
 
 import static java.util.Collections.unmodifiableCollection;
 
+import static org.assertj.core.util.Preconditions.checkNotNull;
+
 import java.util.*;
 
 import org.assertj.core.api.Condition;
@@ -64,8 +66,7 @@ public abstract class Join<T> extends Condition<T> {
   }
 
   private static <T> Condition<T> notNull(Condition<T> condition) {
-    if (condition == null) throw new NullPointerException("The given conditions should not have null entries");
-    return condition;
+    return checkNotNull(condition, "The given conditions should not have null entries");
   }
 
   /**

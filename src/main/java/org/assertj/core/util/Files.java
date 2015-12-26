@@ -19,6 +19,7 @@ import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Strings.append;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -260,9 +261,7 @@ public class Files {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, Charset charset) {
-    if (charset == null) {
-      throw new NullPointerException("The charset should not be null");
-    }
+    checkNotNull(charset, "The charset should not be null");
     try {
       return loadContents(file, charset);
     } catch (IOException e) {
@@ -306,9 +305,7 @@ public class Files {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, Charset charset) {
-    if (charset == null) {
-      throw new NullPointerException("The charset should not be null");
-    }
+    checkNotNull(charset, "The charset should not be null");
     try {
       return loadLines(file, charset);
     } catch (IOException e) {

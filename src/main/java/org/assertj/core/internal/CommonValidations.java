@@ -21,6 +21,7 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNul
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
@@ -41,22 +42,22 @@ final class CommonValidations {
   private CommonValidations() {}
   
   static void checkIndexValueIsValid(Index index, int maximum) {
-    if (index == null) throw new NullPointerException("Index should not be null");
+    checkNotNull(index, "Index should not be null");
     if (index.value <= maximum) return;
     String errorMessage = "Index should be between <%d> and <%d> (inclusive,) but was:%n <%d>";
     throw new IndexOutOfBoundsException(format(errorMessage, 0, maximum, index.value));
   }
 
   static void checkOffsetIsNotNull(Offset<?> offset) {
-    if (offset == null) throw new NullPointerException("The given offset should not be null");
+    checkNotNull(offset, "The given offset should not be null");
   }
 
-    static void checkPercentageIsNotNull(Percentage percentage) {
-        if (percentage == null) throw new NullPointerException("The given percentage should not be null");
-    }
+  static void checkPercentageIsNotNull(Percentage percentage) {
+    checkNotNull(percentage, "The given percentage should not be null");
+  }
 
   static void checkNumberIsNotNull(Number number) {
-    if (number == null) throw new NullPointerException("The given number should not be null");
+    checkNotNull(number, "The given number should not be null");
   }
 
   static void checkIsNotEmpty(Object[] values) {
@@ -105,7 +106,7 @@ final class CommonValidations {
   }
 
   static void checkOtherIsNotNull(Object other, String otherType) {
-    if (other == null) throw new NullPointerException("The "+ otherType +" to compare actual size with should not be null");
+    checkNotNull(other, "The "+ otherType +" to compare actual size with should not be null");
   }
 
   static void checkSameSizes(AssertionInfo info, Object actual, int sizeOfActual, int sizeOfOther) {
@@ -122,7 +123,7 @@ final class CommonValidations {
   }
 
   public static void checkTypeIsNotNull(Class<?> expectedType) {
-    if (expectedType == null) throw new NullPointerException("The given type should not be null");
+    checkNotNull(expectedType, "The given type should not be null");
   }
 
   public static void checkIterableIsNotNull(AssertionInfo info, Iterable<?> set) {
