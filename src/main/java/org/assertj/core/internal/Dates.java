@@ -47,6 +47,7 @@ import static org.assertj.core.util.DateUtil.secondOf;
 import static org.assertj.core.util.DateUtil.timeDifference;
 import static org.assertj.core.util.DateUtil.truncateTime;
 import static org.assertj.core.util.DateUtil.yearOf;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Calendar;
 import java.util.Comparator;
@@ -741,7 +742,7 @@ public class Dates {
    * @throws NullPointerException with an explicit message if the given date is null
    */
   private static void dateParameterIsNotNull(Date date) {
-    if (date == null) throw new NullPointerException("The date to compare actual with should not be null");
+    checkNotNull(date, "The date to compare actual with should not be null");
   }
 
   /**
@@ -751,7 +752,7 @@ public class Dates {
    * @throws NullPointerException with an explicit message if the given start date is null
    */
   private static void startDateParameterIsNotNull(Date start) {
-    if (start == null) throw new NullPointerException("The start date of period to compare actual with should not be null");
+    checkNotNull(start, "The start date of period to compare actual with should not be null");
   }
 
   /**
@@ -761,7 +762,7 @@ public class Dates {
    * @throws NullPointerException with an explicit message if the given end date is null
    */
   private static void endDateParameterIsNotNull(Date end) {
-    if (end == null) throw new NullPointerException("The end date of period to compare actual with should not be null");
+    checkNotNull(end, "The end date of period to compare actual with should not be null");
   }
 
   private void assertNotNull(AssertionInfo info, Date actual) {

@@ -38,6 +38,7 @@ import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.reflect.Field;
@@ -136,10 +137,8 @@ public class Objects {
     checkIsNotNullAndIsNotEmpty(types);
     assertNotNull(info, actual);
     for (Class<?> type : types) {
-      if (type == null) {
-        String format = "The given array of types:<%s> should not have null elements";
-        throw new NullPointerException(format(format, info.representation().toStringOf(types)));
-      }
+      String format = "The given array of types:<%s> should not have null elements";
+      checkNotNull(type, format(format, info.representation().toStringOf(types)));
       if (type.isInstance(actual)) {
         return true;
       }
@@ -199,9 +198,7 @@ public class Objects {
 
   private boolean haveSameClass(Object actual, Object other, AssertionInfo info) {
     assertNotNull(info, actual);
-    if (other == null) {
-      throw new NullPointerException("The given object should not be null");
-    }
+    checkNotNull(other, "The given object should not be null");
     Class<?> actualClass = actual.getClass();
     Class<?> otherClass = other.getClass();
     return actualClass.equals(otherClass);
@@ -274,7 +271,7 @@ public class Objects {
 
   private boolean isOfOneOfGivenTypes(Object actual, Class<?>[] types, AssertionInfo info) {
     assertNotNull(info, actual);
-    if (types == null) throw new NullPointerException("The given types should not be null");
+    checkNotNull(types, "The given types should not be null");
     return isItemInArray(actual.getClass(), types);
   }
 
@@ -294,9 +291,7 @@ public class Objects {
   }
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
-    if (types == null) {
-      throw new NullPointerException("The given array of types should not be null");
-    }
+    checkNotNull(types, "The given array of types should not be null");
     if (types.length == 0) {
       throw new IllegalArgumentException("The given array of types should not be empty");
     }
@@ -440,9 +435,7 @@ public class Objects {
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) {
-      throw new NullPointerException("The given array should not be null");
-    }
+    checkNotNull(values, "The given array should not be null");
     if (values.length == 0) {
       throw new IllegalArgumentException("The given array should not be empty");
     }
@@ -493,9 +486,7 @@ public class Objects {
   }
 
   private void checkIsNotNullAndNotEmpty(Iterable<?> values) {
-    if (values == null) {
-      throw new NullPointerException("The given iterable should not be null");
-    }
+    checkNotNull(values, "The given iterable should not be null");
     if (!values.iterator().hasNext()) {
       throw new IllegalArgumentException("The given iterable should not be empty");
     }
@@ -657,7 +648,7 @@ public class Objects {
    * @return the declared fields of given class and its superclasses.
    */
   private static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
-    if (clazz == null) throw new NullPointerException("expecting Class parameter not to be null");
+    checkNotNull(clazz, "expecting Class parameter not to be null");
     Set<Field> declaredFields = newLinkedHashSet(clazz.getDeclaredFields());
     // get fields declared in superclass
     Class<?> superclazz = clazz.getSuperclass();

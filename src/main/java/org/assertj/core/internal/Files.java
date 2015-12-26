@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,7 +110,7 @@ public class Files {
    * @throws AssertionError if the file does not have the binary content.
    */
   public void assertHasBinaryContent(AssertionInfo info, File actual, byte[] expected) {
-    if (expected == null) throw new NullPointerException("The binary content to compare to should not be null");
+    checkNotNull(expected, "The binary content to compare to should not be null");
     assertIsFile(info, actual);
     try {
       BinaryDiffResult result = binaryDiff.diff(actual, expected);
@@ -134,7 +135,7 @@ public class Files {
    * @throws AssertionError if the file does not have the text content.
    */
   public void assertHasContent(AssertionInfo info, File actual, String expected, Charset charset) {
-    if (expected == null) throw new NullPointerException("The text to compare to should not be null");
+    checkNotNull(expected, "The text to compare to should not be null");
     assertIsFile(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, expected, charset);
@@ -147,7 +148,7 @@ public class Files {
   }
 
   private void verifyIsFile(File expected) {
-    if (expected == null) throw new NullPointerException("The file to compare to should not be null");
+    checkNotNull(expected, "The file to compare to should not be null");
     if (expected.isFile()) return;
     throw new IllegalArgumentException(String.format("Expected file:<'%s'> should be an existing file", expected));
   }
@@ -272,7 +273,7 @@ public class Files {
    * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
    */
   public void assertHasParent(AssertionInfo info, File actual, File expected) {
-    if (expected == null) throw new NullPointerException("The expected parent file should not be null.");
+    checkNotNull(expected, "The expected parent file should not be null.");
     assertNotNull(info, actual);
     try {
       if (actual.getParentFile() != null
@@ -296,7 +297,7 @@ public class Files {
    * @throws AssertionError if the actual {@code File} does not have the expected extension.
    */
   public void assertHasExtension(AssertionInfo info, File actual, String expected) {
-    if (expected == null) throw new NullPointerException("The expected extension should not be null.");
+    checkNotNull(expected, "The expected extension should not be null.");
     assertIsFile(info, actual);
     String actualExtension = getFileExtension(actual);
     if (expected.equals(actualExtension)) return;
@@ -321,7 +322,7 @@ public class Files {
    */
   public void assertHasName(AssertionInfo info, File actual, String expected) {
     assertNotNull(info, actual);
-    if (expected == null) throw new NullPointerException("The expected name should not be null.");
+    checkNotNull(expected, "The expected name should not be null.");
     if (expected.equals(actual.getName())) return;
     throw failures.failure(info, shouldHaveName(actual, expected));
   }

@@ -23,6 +23,7 @@ import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -243,8 +244,7 @@ public class Classes {
    * @throws NullPointerException with an explicit message if the given class is null
    */
   private static void classParameterIsNotNull(Class<?> clazz) {
-    if (clazz == null)
-      throw new NullPointerException("The class to compare actual with should not be null");
+    checkNotNull(clazz, "The class to compare actual with should not be null");
   }
 
 }

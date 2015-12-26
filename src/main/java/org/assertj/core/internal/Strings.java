@@ -311,7 +311,7 @@ public class Strings {
   }
 
   private void checkCharSequenceIsNotNull(CharSequence sequence) {
-    if (sequence == null) throw new NullPointerException("The char sequence to look for should not be null");
+    checkNotNull(sequence, "The char sequence to look for should not be null");
   }
 
   /**
@@ -469,7 +469,7 @@ public class Strings {
   }
 
   private static void failIfPrefixIsNull(CharSequence prefix) {
-    if (prefix == null) throw new NullPointerException("The given prefix should not be null");
+    checkNotNull(prefix, "The given prefix should not be null");
   }
 
   /**
@@ -508,7 +508,7 @@ public class Strings {
   }
 
   private static void failIfSuffixIsNull(CharSequence suffix) {
-    if (suffix == null) throw new NullPointerException("The given suffix should not be null");
+    checkNotNull(suffix, "The given suffix should not be null");
   }
 
   /**
