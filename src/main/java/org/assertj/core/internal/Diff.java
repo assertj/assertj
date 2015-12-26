@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.nio.file.Files.newBufferedReader;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Closeables.closeQuietly;
 
@@ -22,7 +23,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +48,7 @@ public class Diff {
 
   @VisibleForTesting
   public List<Delta<String>> diff(InputStream actual, InputStream expected) throws IOException {
-    BufferedReader reader1 = null;
-    BufferedReader reader2 = null;
-    try {
-      reader1 = readerFor(actual);
-      reader2 = readerFor(expected);
-      return unmodifiableList(diff(reader1, reader2));
-    } finally {
-      closeQuietly(reader1);
-      closeQuietly(reader2);
-    }
+    return diff(readerFor(actual), readerFor(expected));
   }
 
   @VisibleForTesting
@@ -67,16 +58,8 @@ public class Diff {
 
   @VisibleForTesting
   public List<Delta<String>> diff(Path actual, Path expected) throws IOException {
-    BufferedReader reader1 = null;
-    BufferedReader reader2 = null;
-    try {
-      reader1 = Files.newBufferedReader(actual, Charset.defaultCharset());
-      reader2 = Files.newBufferedReader(expected, Charset.defaultCharset());
-      return unmodifiableList(diff(reader1, reader2));
-    } finally {
-      closeQuietly(reader1);
-      closeQuietly(reader2);
-    }
+    Charset defaultCharset = Charset.defaultCharset();
+    return diff(newBufferedReader(actual, defaultCharset), newBufferedReader(expected, defaultCharset));
   }
 
   @VisibleForTesting
@@ -86,14 +69,7 @@ public class Diff {
 
   @VisibleForTesting
   public List<Delta<String>> diff(Path actual, String expected, Charset charset) throws IOException {
-    BufferedReader reader1 = null;
-    try {
-      reader1 = Files.newBufferedReader(actual, charset);
-      BufferedReader reader2 = readerFor(expected);
-      return unmodifiableList(diff(reader1, reader2));
-    } finally {
-      closeQuietly(reader1);
-    }
+    return diff(newBufferedReader(actual, charset), readerFor(expected));
   }
 
   private BufferedReader readerFor(InputStream stream) {
@@ -105,11 +81,15 @@ public class Diff {
   }
 
   private List<Delta<String>> diff(BufferedReader actual, BufferedReader expected) throws IOException {
-    List<String> actualLines = linesFromBufferedReader(actual);
-    List<String> expectedLines = linesFromBufferedReader(expected);
-
-    Patch<String> patch = DiffUtils.diff(expectedLines, actualLines);
-    return patch.getDeltas();
+    try {
+      List<String> actualLines = linesFromBufferedReader(actual);
+      List<String> expectedLines = linesFromBufferedReader(expected);
+      
+      Patch<String> patch = DiffUtils.diff(expectedLines, actualLines);
+      return unmodifiableList(patch.getDeltas());
+    } finally {
+      closeQuietly(actual, expected);
+    }
   }
 
   private List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
