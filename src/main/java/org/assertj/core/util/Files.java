@@ -271,27 +271,13 @@ public class Files {
   }
 
   private static String loadContents(File file, Charset charset) throws IOException {
-    BufferedReader reader = null;
-    boolean threw = true;
-    try {
-      reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
       StringWriter writer = new StringWriter();
       int c;
       while ((c = reader.read()) != -1) {
         writer.write(c);
       }
-      threw = false;
       return writer.toString();
-    } finally {
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          if (!threw) {
-            throw e; // if there was an initial exception, don't hide it
-          }
-        }
-      }
     }
   }
 
@@ -334,11 +320,7 @@ public class Files {
   }
 
   private static List<String> loadLines(File file, Charset charset) throws IOException {
-    BufferedReader reader = null;
-    boolean threw = true;
-    try {
-      reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
-
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
       List<String> strings = Lists.newArrayList();
 
       String line = reader.readLine();
@@ -347,20 +329,8 @@ public class Files {
         line = reader.readLine();
       }
 
-      threw = false;
       return strings;
-    } finally {
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          if (!threw) {
-            throw e; // if there was an initial exception, don't hide it
-          }
-        }
-      }
     }
-
   }
 
   private Files() {

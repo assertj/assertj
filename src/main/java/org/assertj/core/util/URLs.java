@@ -102,32 +102,18 @@ public class URLs {
   }
 
   private static String loadContents(InputStream stream, Charset charset) throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset));
-    boolean threw = true;
-    try {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset))) {
       StringWriter writer = new StringWriter();
       int c;
       while ((c = reader.read()) != -1) {
         writer.write(c);
       }
-      threw = false;
       return writer.toString();
-    } finally {
-      try {
-        reader.close();
-      } catch (IOException e) {
-        if (!threw) {
-          throw e; // if there was an initial exception, don't hide it
-        }
-      }
     }
   }
 
   private static List<String> loadLines(InputStream stream, Charset charset) throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset));
-
-    boolean threw = true;
-    try {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset))) {
       List<String> strings = Lists.newArrayList();
 
       String line = reader.readLine();
@@ -135,18 +121,7 @@ public class URLs {
         strings.add(line);
         line = reader.readLine();
       }
-
-      threw = false;
       return strings;
-
-    } finally {
-      try {
-        reader.close();
-      } catch (IOException e) {
-        if (!threw) {
-          throw e; // if there was an initial exception, don't hide it
-        }
-      }
     }
   }
 
