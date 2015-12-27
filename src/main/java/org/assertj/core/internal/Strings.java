@@ -24,9 +24,9 @@ import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
-import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -51,10 +51,8 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -613,45 +611,28 @@ public class Strings {
       throw failures.failure(info, shouldContain(actual, sequence, notFound, comparisonStrategy));
     }
 
-    // we have found all the given values but were they in the expected sequence ?
-    if (sequence.length == 1) return; // no order chekec needed for a one element sequence
+    // we have found all the given values but were they in the expected order ?
+    if (sequence.length == 1) return; // no order check needed for a one element sequence
 
     // convert all to one char CharSequence list to ease comparison
-    List<CharSequence> splitActual = split(actual);
-    List<CharSequence> splitSequence = flatSplit(sequence);
-    for (int i = 0; i < splitActual.size(); i++) {
-      // look for given sequence in actual starting from current index (i)
-      if (containsSequenceAtGivenIndex(splitActual, splitSequence, i)) return;
+    String strActual = actual.toString();
+    for (int i = 1; i < sequence.length; i++) {
+      int indexOfCurrentSequenceValue = indexOf(strActual, sequence[i - 1].toString());
+      int indexOfNextSequenceValue = indexOf(strActual, sequence[i].toString());
+      if (indexOfCurrentSequenceValue > indexOfNextSequenceValue) {
+        throw failures.failure(info, shouldContainSequence(actual, sequence, i-1, comparisonStrategy));
+      }
+      // get rid of the start of String to properly handle duplicate sequence values
+      // ex: "a-b-c" and sequence "a", "-", "b", "-", "c" would fail as the second "-" would be found before "b"
+      strActual = strActual.substring(indexOfCurrentSequenceValue + 1);
     }
-    throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
-  private List<CharSequence> flatSplit(CharSequence[] sequence) {
-    List<CharSequence> flatSplitCharSequence = new ArrayList<>();
-    for (int i = 0; i < sequence.length; i++) {
-      flatSplitCharSequence.addAll(split(sequence[i]));
+  private int indexOf(String string, String toFind) {
+    for (int i = 0; i < string.length(); i++) {
+      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind)) return i;
     }
-    return flatSplitCharSequence;
-  }
-
-  private List<CharSequence> split(CharSequence charSequence) {
-    checkNotNull(charSequence, "Expecting CharSequence not to be null");
-    int length = charSequence.length();
-    List<CharSequence> splitCharSequence = new ArrayList<>(length);
-    for (int i = 0; i < length; i++) {
-      splitCharSequence.add(String.valueOf(charSequence.charAt(i)));
-    }
-    return splitCharSequence;
-  }
-
-  private boolean containsSequenceAtGivenIndex(List<CharSequence> actualAsList, List<CharSequence> sequence,
-                                               int startingIndex) {
-    // check that, starting from given index, actualAsList has enough remaining elements to contain sequence
-    if (actualAsList.size() - startingIndex < sequence.size()) return false;
-    for (int i = 0; i < sequence.size(); i++) {
-      if (!comparisonStrategy.areEqual(actualAsList.get(startingIndex + i), sequence.get(i))) return false;
-    }
-    return true;
+    return -1;
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {

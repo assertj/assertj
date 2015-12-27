@@ -13,7 +13,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
-import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -35,6 +35,13 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   }
 
   @Test
+  public void should_pass_if_actual_contains_sequence_with_values_between() {
+    String[] sequenceValues = { "{", "title", "A Game of Thrones", "}" };
+    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+  }
+  
+  @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
     AssertionInfo info = someInfo();
     try {
@@ -53,9 +60,8 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     try {
       strings.assertContainsSequence(info, actual, sequenceValues);
-      strings.assertContainsSequence(info, actual, sequenceValues);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues));
+      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, 1));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -89,7 +95,6 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
     strings.assertContainsSequence(someInfo(), "a-b-c-", array("a", "-", "b", "-", "c"));
   }
   
-  
   // tests with custom comparison strategy
 
   @Test
@@ -121,7 +126,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
     try {
       stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequenceValues);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, comparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, 1, comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

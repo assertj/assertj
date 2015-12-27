@@ -128,7 +128,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S containsExactly(@SuppressWarnings("unchecked") T... values);
 
   /**
-   * Verifies that the actual group contains the given sequence, without any other values between them.
+   * Verifies that the actual group contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * <p> 
+   * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
@@ -136,9 +138,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertion will pass
    * assertThat(elvesRings).containsSequence(vilya, nenya);
+   * assertThat(elvesRings).containsSequence(nenya, narya);
    * 
-   * // assertions will fail
-   * assertThat(elvesRings).containsSequence(vilya, narya);
+   * // assertions will fail, the elements order is correct but there is a value between them (nenya) 
+   * assertThat(elvesRings).containsSequence(vilya, narya);  
    * assertThat(elvesRings).containsSequence(nenya, vilya);</code></pre>
    * 
    * @param sequence the sequence of objects to look for.
@@ -150,7 +153,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S containsSequence(@SuppressWarnings("unchecked") T... sequence);
 
   /**
-   * Verifies that the actual group contains the given subsequence (possibly with other values between them).
+   * Verifies that the actual group contains the given subsequence in the correct order (possibly with other values between them).
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
