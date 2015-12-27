@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
@@ -420,11 +421,7 @@ public class Objects {
    */
   public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
-    assertNotNull(info, actual);
-    if (isItemInArray(actual, values)) {
-      return;
-    }
-    throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
+    assertIsIn(info, actual, asList(values));
   }
 
   /**
@@ -439,11 +436,7 @@ public class Objects {
    */
   public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
-    assertNotNull(info, actual);
-    if (!isItemInArray(actual, values)) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
+    assertIsNotIn(info, actual, asList(values));
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
@@ -481,11 +474,7 @@ public class Objects {
    */
   public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkIsNotNullAndNotEmpty(values);
-    assertNotNull(info, actual);
-    if (isActualIn(actual, values)) {
-      return;
-    }
-    throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
+    if (!isActualIn(actual, values)) throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
   /**
@@ -500,11 +489,7 @@ public class Objects {
    */
   public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkIsNotNullAndNotEmpty(values);
-    assertNotNull(info, actual);
-    if (!isActualIn(actual, values)) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
+    if (isActualIn(actual, values)) throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Iterable<?> values) {

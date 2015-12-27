@@ -14,14 +14,12 @@ package org.assertj.core.internal.objects;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ErrorMessages.iterableIsEmpty;
+import static org.assertj.core.test.ErrorMessages.iterableIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.mockito.Mockito.verify;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -65,8 +63,7 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
+  public void should_pass_if_actual_is_null_and_array_does_not_contain_null() {
     objects.assertIsNotIn(someInfo(), null, values);
   }
 

@@ -17,11 +17,8 @@ import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.test.ErrorMessages.iterableIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.mockito.Mockito.verify;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -67,9 +64,8 @@ public class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertIsIn(someInfo(), null, values);
+  public void should_pass_if_actual_is_null_and_array_contains_null() {
+    objects.assertIsIn(someInfo(), null, newArrayList("Yoda", null));
   }
 
   @Test

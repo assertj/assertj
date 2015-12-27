@@ -12,15 +12,14 @@
  */
 package org.assertj.core.internal.objects;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ErrorMessages.arrayIsEmpty;
+import static org.assertj.core.test.ErrorMessages.arrayIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -28,7 +27,6 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Object[])}</code>.
@@ -65,8 +63,7 @@ public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
+  public void should_pass_if_actual_is_null_and_array_does_not_contain_null() {
     objects.assertIsNotIn(someInfo(), null, values);
   }
 
@@ -76,7 +73,7 @@ public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
     try {
       objects.assertIsNotIn(info, "Yoda", values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeIn("Yoda", values));
+      verify(failures).failure(info, shouldNotBeIn("Yoda", asList(values)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -93,7 +90,7 @@ public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
     try {
       objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeIn("YODA", values, customComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeIn("YODA", asList(values), customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
