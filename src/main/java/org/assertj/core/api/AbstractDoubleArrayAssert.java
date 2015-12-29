@@ -846,8 +846,15 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return containsExactly(values);
   }
 
-  public S usingComparatorWithPrecision(Double value) {
-    return usingElementComparator(doubleComparator.doubleComparatorWithPrecision(value));
+  /**
+   * Create a {@link Double} comparator which compares double at the given precision and pass it to {@link #usingElementComparator(Comparator)}. 
+   * All the following assertions will use this comparator to compare double[] elements.
+   *  
+   * @param precision precisin used to compare {@link Double}.
+   * @return {@code this} assertion object.
+   */
+  public S usingComparatorWithPrecision(Double precision) {
+    return usingElementComparator(doubleComparator.doubleComparatorWithPrecision(precision));
   }
 
 }

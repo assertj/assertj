@@ -36,4 +36,19 @@ public class ComparatorFactory {
     return closeToComparator;
   }
 
+  public Comparator<Float> floatComparatorWithPrecision(final float precision) {
+    Comparator<Float> closeToComparator = new Comparator<Float>() {
+      @Override
+      public int compare(Float o1, Float o2) {
+        if(abs(o1.floatValue() - o2.floatValue()) < precision) return 0;
+          return o1.floatValue() - o2.floatValue() > 0 ? 1 : -1;
+      }
+
+      @Override
+      public String toString() {
+        return "float comparator at precision " + precision;
+      }
+    };
+    return closeToComparator;
+  }
 }

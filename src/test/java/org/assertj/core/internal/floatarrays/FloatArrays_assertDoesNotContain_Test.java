@@ -20,14 +20,12 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link FloatArrays#assertDoesNotContain(AssertionInfo, float[], float[])}</code>.
@@ -113,7 +111,8 @@ public class FloatArrays_assertDoesNotContain_Test extends FloatArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6f, -8f), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6f, -8f),
+                                                      absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -27,7 +27,6 @@ import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.Test;
 
-
 /**
  * Tests for <code>{@link FloatArrays#assertContainsOnly(AssertionInfo, float[], float[])}</code>.
  * 
@@ -62,7 +61,7 @@ public class FloatArrays_assertContainsOnly_Test extends FloatArraysBaseTest {
     actual = emptyArray();
     arrays.assertContainsOnly(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expect(AssertionError.class);
@@ -140,9 +139,8 @@ public class FloatArrays_assertContainsOnly_Test extends FloatArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newArrayList(20f), newArrayList(10f),
-                                                 absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList(20f), newArrayList(10f),
+                                                       absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

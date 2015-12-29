@@ -52,10 +52,8 @@ public class FloatArrays_assertContainsOnlyOnce_Test extends FloatArraysBaseTest
     try {
       arrays.assertContainsOnlyOnce(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20),
-              newLinkedHashSet((float) 6, (float) -8)));
+      verify(failures).failure(info, shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20),
+                                                            newLinkedHashSet((float) 6, (float) -8)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -98,7 +96,8 @@ public class FloatArrays_assertContainsOnlyOnce_Test extends FloatArraysBaseTest
       arrays.assertContainsOnlyOnce(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20), newLinkedHashSet()));
+                               shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20),
+                                                      newLinkedHashSet()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -123,9 +122,10 @@ public class FloatArrays_assertContainsOnlyOnce_Test extends FloatArraysBaseTest
       arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20),
-              newLinkedHashSet((float) 6, (float) -8), absValueComparisonStrategy));
+                               info,
+                               shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20),
+                                                      newLinkedHashSet((float) 6, (float) -8),
+                                                      absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -162,9 +162,10 @@ public class FloatArrays_assertContainsOnlyOnce_Test extends FloatArraysBaseTest
       arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20), newLinkedHashSet(),
-              absValueComparisonStrategy));
+                               info,
+                               shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((float) 20),
+                                                      newLinkedHashSet(),
+                                                      absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

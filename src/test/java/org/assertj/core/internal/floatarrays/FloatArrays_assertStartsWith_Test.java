@@ -19,14 +19,12 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link FloatArrays#assertStartsWith(AssertionInfo, float[], float[])}</code>.
@@ -52,7 +50,7 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
     actual = emptyArray();
     arrays.assertStartsWith(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expect(AssertionError.class);

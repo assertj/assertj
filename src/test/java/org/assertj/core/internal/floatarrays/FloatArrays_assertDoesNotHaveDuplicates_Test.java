@@ -19,14 +19,12 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link FloatArrays#assertDoesNotHaveDuplicates(AssertionInfo, float[])}</code>.
@@ -93,7 +91,8 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, -8f), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, -8f), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
