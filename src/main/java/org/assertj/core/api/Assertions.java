@@ -908,6 +908,16 @@ public class Assertions {
   }
 
   /**
+   * Alias for {@link #offset(Float)} to use with real number assertions.
+   * <p/>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(8.2f).isEqualTo(8.0f, withPrecision(0.2f));</code></pre>
+   */
+  public static Offset<Float> withPrecision(Float value) {
+    return Offset.offset(value);
+  }
+
+  /**
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
