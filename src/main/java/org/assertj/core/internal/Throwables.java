@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
@@ -26,6 +25,7 @@ import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootC
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Throwables.getRootCause;
 
 import org.assertj.core.api.AssertionInfo;
@@ -143,7 +143,7 @@ public class Throwables {
    * @throws NullPointerException if the regex is null
    */
   public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
-    requireNonNull(regex, "regex must not be null");
+    checkNotNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().matches(regex)) return;
     throw failures.failure(info, shouldHaveMessageMatchingRegex(actual, regex));

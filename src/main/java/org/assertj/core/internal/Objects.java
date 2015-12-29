@@ -688,7 +688,7 @@ public class Objects {
   public <A> void assertHasFieldOrPropertyWithValue(AssertionInfo info, A actual, String name, Object expectedValue) {
     assertHasFieldOrProperty(info, actual, name);
     Object value = extractPropertyOrField(actual, name);
-    if (!java.util.Objects.equals(value, expectedValue))
+    if (!org.assertj.core.util.Objects.areEqual(value, expectedValue))
       throw failures.failure(info, shouldHavePropertyOrFieldWithValue(actual, name, expectedValue, value));
   }
 
