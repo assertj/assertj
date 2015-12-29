@@ -31,10 +31,11 @@ we are checking. If you're checking the value of a String, you use String-specif
 a Map? Use the Map-specific assertions, which make it easy to check on the contents of the map.
 
 AssertJ is composed of several modules:
-* A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...) - see [AssertJ Core documentation](http://joel-costigliola.github.io/assertj/assertj-core.html) and  [javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
-* A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (Multimap,Optional, ...) - see [AssertJ Guava documentation](http://joel-costigliola.github.io/assertj/assertj-guava.html) and  [javadoc](http://joel-costigliola.github.io/assertj/guava/api/index.html).
-* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime) - see [AssertJ Joda Time documentation](http://joel-costigliola.github.io/assertj/assertj-joda-time.html) and  [javadoc](http://joel-costigliola.github.io/assertj/jodatime/api/index.html).
+* A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...) - see [AssertJ Core documentation](http://joel-costigliola.github.io/assertj/assertj-core.html) and [javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
+* A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (Multimap, Optional ...) - see [AssertJ Guava documentation](http://joel-costigliola.github.io/assertj/assertj-guava.html) and [javadoc](http://joel-costigliola.github.io/assertj/guava/api/index.html).
+* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime) - see [AssertJ Joda Time documentation](http://joel-costigliola.github.io/assertj/assertj-joda-time.html) and [javadoc](http://joel-costigliola.github.io/assertj/jodatime/api/index.html).
 * A **[Neo4J module](https://github.com/joel-costigliola/assertj-neo4j#readme)** to provide assertions for Neo4J types (Path, Node, Relastionship ...) - see [AssertJ Neo4J documentation](http://joel-costigliola.github.io/assertj/assertj-neo4j.html) and [javadoc](http://joel-costigliola.github.io/assertj/neo4j/api/index.html).
+* A **[DB module](https://github.com/joel-costigliola/assertj-db#readme)** to provide assertions for database types (Table, Row, Column ...) - see [AssertJ DB documentation](http://joel-costigliola.github.io/assertj/assertj-db.html) and [javadoc](http://joel-costigliola.github.io/assertj/db/current/api/index.html).
 
 Assertion missing? Please [create an issue](https://github.com/joel-costigliola/assertj-core/issues)! 
 
