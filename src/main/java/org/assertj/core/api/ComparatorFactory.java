@@ -17,16 +17,21 @@ import static java.lang.Math.abs;
 import java.util.Comparator;
 
 public class ComparatorFactory {
-  
-  public static ComparatorFactory INSTANCE =  new ComparatorFactory();
+
+  public static ComparatorFactory INSTANCE = new ComparatorFactory();
 
   public Comparator<Double> doubleComparatorWithPrecision(final double precision) {
     Comparator<Double> closeToComparator = new Comparator<Double>() {
-        @Override
-        public int compare(Double o1, Double o2) {
-            if(abs(o1.doubleValue() - o2.doubleValue()) < precision) return 0;
-            return o1.doubleValue() - o2.doubleValue() > 0 ? 1 : -1;
-        }
+      @Override
+      public int compare(Double o1, Double o2) {
+        if (abs(o1.doubleValue() - o2.doubleValue()) < precision) return 0;
+        return o1.doubleValue() - o2.doubleValue() > 0 ? 1 : -1;
+      }
+
+      @Override
+      public String toString() {
+        return "double comparator at precision " + precision;
+      }
     };
     return closeToComparator;
   }
