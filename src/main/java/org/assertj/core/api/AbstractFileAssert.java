@@ -130,7 +130,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    *
-   * @deprecated use hasSameContentAs
+   * @deprecated use {@link #hasSameContentAs()} instead
    */
   @Deprecated
   public S hasContentEqualTo(File expected) {
