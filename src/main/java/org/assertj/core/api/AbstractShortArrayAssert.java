@@ -98,12 +98,12 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * <p>
    * Examples :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce(1, 2);
+   * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce((short) 1,(short) 2);
    * 
    * // assertions will fail
-   * assertThat(new short[] { 1, 2, 1 }).containsOnlyOnce(1);
-   * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce(4);
-   * assertThat(new short[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);</code></pre>
+   * assertThat(new short[] { 1, 2, 1 }).containsOnlyOnce((short) 1);
+   * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce((short) 4);
+   * assertThat(new short[] { 1, 2, 3, 3 }).containsOnlyOnce((short) 0, (short) 1, (short) 2, (short) 3, (short) 4, (short) 5);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -123,11 +123,11 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new short[] { 1, 2, 3 }).containsSequence(1, 2);
+   * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 1, (short) 2);
    * 
    * // assertion will fail
-   * assertThat(new short[] { 1, 2, 3 }).containsSequence(1, 3);
-   * assertThat(new short[] { 1, 2, 3 }).containsSequence(2, 1);</code></pre>
+   * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 1, (short) 3);
+   * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 2, (short) 1);</code></pre>
    * 
    * </p>
    * 
@@ -147,11 +147,11 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence(1, 2);
-   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence(1, 3);
+   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence((short) 1, (short) 2);
+   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence((short) 1, (short) 3);
    * 
    * // assertion will fail
-   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence(2, 1);</code></pre>
+   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence((short) 2, (short) 1);</code></pre>
    * 
    * </p>
    * 
@@ -168,6 +168,15 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
 
   /**
    * Verifies that the actual array contains the given value at the given index.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 1, atIndex(O));
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 3, atIndex(2));
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 1, atIndex(1));
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 4, atIndex(2));</code></pre>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -185,6 +194,13 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
 
   /**
    * Verifies that the actual array does not contain the given values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 4);
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 2);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -200,6 +216,15 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
 
   /**
    * Verifies that the actual array does not contain the given value at the given index.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 1, atIndex(1));
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 2, atIndex(0));
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 1, atIndex(0));
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 2, atIndex(1));</code></pre>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -215,6 +240,13 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
 
   /**
    * Verifies that the actual array does not contain duplicates.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).doesNotHaveDuplicates();
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 1, 2, 3 }).doesNotHaveDuplicates();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -229,6 +261,13 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(short...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).startsWith((short) 1, (short) 2);
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).startsWith((short) 2, (short) 3);</code></pre>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -246,6 +285,13 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(short...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).endsWith((short) 2, (short) 3);
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).endsWith((short) 3, (short) 4);</code></pre>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -294,10 +340,10 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * <pre><code class='java'> short[] shorts = { 1, 2, 3 };
    * 
    * // assertion will pass
-   * assertThat(shorts).containsExactly(1, 2, 3);
+   * assertThat(shorts).containsExactly((short) 1, (short) 2, (short) 3);
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(shorts).containsExactly(2, 1, 3);</code></pre>
+   * assertThat(shorts).containsExactly((short) 2, (short) 1, (short) 3);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
