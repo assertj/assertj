@@ -182,7 +182,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} has a length that's the same as the number of elements in the given
    * array.
-   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;12&quot;).hasSameSizeAs(new char[] { 'a', 'b' });
+   * 
+   * // assertion will fail
+   * assertThat(&quot;12&quot;).hasSameSizeAs(new char[] { 'a', 'b', 'c' });</code></pre>
+   * 
    * @param other the given array to be used for size comparison.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements
@@ -198,6 +205,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} has a length that's the same as the number of elements in the given
    * Iterable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;abc&quot;).hasSameSizeAs(Arrays.asList(1, 2, 3));
+   * 
+   * // assertion will fail
+   * assertThat(&quot;ab&quot;).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
    *
    * @param other the given {@code Iterable} to be used for size comparison.
    * @return {@code this} assertion object.
