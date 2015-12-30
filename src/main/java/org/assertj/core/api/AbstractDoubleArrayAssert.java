@@ -58,7 +58,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * <pre><code class='java'> // assertion will pass
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSize(3);
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSize(2);</code></pre>
    * 
    * </p>
@@ -76,7 +76,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * <pre><code class='java'> // assertion will pass
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSameSizeAs(Arrays.asList(1, 2, 3));
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSameSizeAs(Arrays.asList(1, 2);</code></pre>
    */
   @Override
@@ -294,7 +294,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *                   .containsSequence(1.1, 2.0, 3.0);</code></pre>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
@@ -323,7 +323,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *
    * @param sequence the sequence of values to look for.
    * @param precision the precision under which the value may vary
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
@@ -336,7 +336,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   /**
    * Verifies that the actual array contains the given subsequence (possibly with other values between them).
    * <p>
-   * If you want to set a precision for the comparison either use {@link #containsSubsequence(double[], double)} 
+   * If you want to set a precision for the comparison either use {@link #containsSubsequence(double[], Offset)} 
    * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
    * <p>
    * Examples :
@@ -356,7 +356,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *                   .containsSubsequence(1.1, 2.0);</code></pre>
    * 
    * @param subsequence the subsequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
@@ -383,8 +383,8 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).containsSubsequence(new double[] {4.0, 7.0}, withPrecision(0.1));</code></pre>
    *
    * @param subsequence the subsequence of values to look for.
-   * @param precision the precision under which the value may vary
-   * @return myself assertion object.
+   * @param precision the precision under which the value may vary.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
@@ -409,7 +409,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *                   .usingComparatorWithPrecision(0.5)
    *                   .contains(3.1, atIndex(2));
    * 
-   * // assertion will fail
+   * // assertions will fail
    * assertThat(values).contains(1.0, atIndex(1));
    * assertThat(values).contains(4.0, atIndex(2));
    * assertThat(values).usingComparatorWithPrecision(0.01)
@@ -419,7 +419,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
@@ -442,7 +442,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).contains(1.0, atIndex(O), withPrecision(0.01))
    *                   .contains(3.3, atIndex(2), withPrecision(0.5));
    *
-   * // assertion will fail
+   * // assertions will fail
    * assertThat(values).contains(1.0, atIndex(1), withPrecision(0.2));
    * assertThat(values).contains(4.5, atIndex(2), withPrecision(0.1));</code></pre>
    *
@@ -450,8 +450,8 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
-   * @param precision the precision under which the value may vary
-   * @return myself assertion object.
+   * @param precision the precision under which the value may vary.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
@@ -466,7 +466,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   /**
    * Verifies that the actual array does not contain the given values.
    * <p>
-   * If you want to set a precision for the comparison either use {@link #doesNotContain(double[], double)} 
+   * If you want to set a precision for the comparison either use {@link #doesNotContain(double[], Offset)} 
    * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
    * <p>
    * Example:
@@ -477,11 +477,10 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *                   .usingComparatorWithPrecision(0.0001)
    *                   .doesNotContain(1.01, 2.01);
    *                   
-   * // assertion will fail
+   * // assertions will fail
    * assertThat(values).doesNotContain(1.0, 4.0, 8.0);
    * assertThat(values).usingComparatorWithPrecision(0.1)
    *                   .doesNotContain(1.001, 2.001);</code></pre>
-
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -509,7 +508,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).doesNotContain(new double[] {1.05, 4.0, 8.0}, withPrecision(0.1));</code></pre>
    *
    * @param values the given values.
-   * @param precision the precision under which the values may vary
+   * @param precision the precision under which the values may vary.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
@@ -537,7 +536,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *                   .usingComparatorWithPrecision(0.001)
    *                   .doesNotContain(1.1, atIndex(0));
    * 
-   * // assertion will fail
+   * // assertions will fail
    * assertThat(values).doesNotContain(1.0, atIndex(0));
    * assertThat(values).usingComparatorWithPrecision(0.1)
    *                   .doesNotContain(1.001, atIndex(0));</code></pre>
@@ -546,7 +545,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
@@ -572,8 +571,8 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
-   * @param precision the precision under which the values may vary
-   * @return myself assertion object.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
@@ -623,7 +622,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * 
    * </p>
    * 
-   * @param precision 
+   * @param precision the precision under which the values may vary.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
@@ -655,7 +654,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * </p>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
@@ -679,12 +678,13 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * // assertion will pass
    * assertThat(values).startsWith(new double[] {1.01, 2.01}, withPrecision(0.1));
    * 
-   * // assertion will fail
+   * // assertions will fail
    * assertThat(values).startsWith(new double[] {2.0, 1.0}, withPrecision(0.1))
    * assertThat(values).startsWith(new double[] {1.1, 2.1}, withPrecision(0.5))</code></pre>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
@@ -716,7 +716,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).endsWith(1.0, 3.0);</code></pre>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
@@ -745,7 +745,8 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).endsWith(new double[] {2.1, 3.1}, withPrecision(0.5))</code></pre>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
@@ -756,7 +757,6 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return endsWith(values);
   }
 
-  
   /** {@inheritDoc} */
   @Override
   public S isSorted() {
@@ -818,7 +818,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
-   * The values may vary with a specified precision
+   * The values may vary with a specified precision.
    * <p>
    * Example :
    * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
@@ -833,7 +833,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).containsExactly(new double[] {1.98, 1.0, 3.01}, withPrecision(0.05));</code></pre>
    *
    * @param values the given values.
-   * @param precision the precision under which the values may vary
+   * @param precision the precision under which the values may vary.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.

@@ -12,11 +12,14 @@
  */
 package org.assertj.core.api.floatarray;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.withPrecision;
 import static org.assertj.core.test.FloatArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link FloatArrayAssert#containsSubsequence(float...)}</code>.
@@ -33,5 +36,22 @@ public class FloatArrayAssert_containsSubsequence_Test extends FloatArrayAssertB
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertContainsSubsequence(getInfo(assertions), getActual(assertions), arrayOf(6f, 8f));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_as_last_argument() {
+    // GIVEN
+    float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
+    // THEN
+    assertThat(actual).containsSubsequence(arrayOf(0.91f, 3.09f), withPrecision(0.1f));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_in_comparator() {
+    // GIVEN
+    float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
+    // THEN
+    assertThat(actual).usingComparatorWithPrecision(0.1f)
+                      .containsSubsequence(0.91f, 3.09f);
   }
 }

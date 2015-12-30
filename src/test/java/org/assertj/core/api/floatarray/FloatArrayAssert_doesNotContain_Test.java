@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api.floatarray;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.withPrecision;
 import static org.assertj.core.test.FloatArrays.arrayOf;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
+import org.junit.Test;
 
 import static org.mockito.Mockito.verify;
 
@@ -35,5 +38,22 @@ public class FloatArrayAssert_doesNotContain_Test extends FloatArrayAssertBaseTe
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertDoesNotContain(getInfo(assertions), getActual(assertions), arrayOf(6f, 8f));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_as_last_argument() {
+    // GIVEN
+    float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
+    // THEN
+    assertThat(actual).doesNotContain(arrayOf(1.1f, 2.1f), withPrecision(0.0001f));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_in_comparator() {
+    // GIVEN
+    float[] actual = arrayOf(1.0f, 2.0f);
+    // THEN
+    assertThat(actual).usingComparatorWithPrecision(0.01f)
+                      .doesNotContain(1.1f, 2.1f);
   }
 }
