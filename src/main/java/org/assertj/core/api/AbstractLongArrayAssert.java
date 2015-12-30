@@ -64,7 +64,17 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /**
    * Verifies that the actual array contains the given values, in any order.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, 2L);
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(3L, 1L);
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, 3L, 2L);
+   *
+   * // assertions will fail
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, 4L);
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(4L, 7L);</code></pre>
+   * </p>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -79,7 +89,16 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /**
    * Verifies that the actual array contains only the given values and nothing else, in any order.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(1L, 2L, 3L);
+   * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(2L, 3L, 1L);
+   *
+   * // assertions will fail
+   * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(1L, 2L, 3L, 4L);
+   * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(4L, 7L);</code></pre>
+   * </p>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -168,7 +187,16 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /**
    * Verifies that the actual array contains the given value at the given index.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, atIndex(O));
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(3L, atIndex(2));
+   *
+   * // assertions will fail
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, atIndex(1));
+   * assertThat(new long[] { 1L, 2L, 3L }).contains(4L, atIndex(2));</code></pre>
+   * </p>
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -185,7 +213,14 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /**
    * Verifies that the actual array does not contain the given values.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(4L);
+   *
+   * // assertion will fail
+   * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(2L);</code></pre>
+   * </p>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -200,7 +235,16 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /**
    * Verifies that the actual array does not contain the given value at the given index.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(1L, atIndex(1));
+   * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(2L, atIndex(0));
+   *
+   * // assertions will fail
+   * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(1L, atIndex(0));
+   * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(2L, atIndex(1));</code></pre>
+   * </p>
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -215,7 +259,14 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /**
    * Verifies that the actual array does not contain duplicates.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).doesNotHaveDuplicates();
+   *
+   * // assertion will fail
+   * assertThat(new long[] { 1L, 1L, 2L, 3L }).doesNotHaveDuplicates();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
@@ -229,7 +280,14 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(long...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).startsWith(1L, 2L);
+   *
+   * // assertion will fail
+   * assertThat(new long[] { 1L, 2L, 3L }).startsWith(2L, 3L);</code></pre>
+   * </p>
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -246,7 +304,14 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(long...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new long[] { 1L, 2L, 3L }).endsWith(2L, 3L);
+   *
+   * // assertion will fail
+   * assertThat(new long[] { 1L, 2L, 3L }).endsWith(3L, 4L);</code></pre>
+   * </p>
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
