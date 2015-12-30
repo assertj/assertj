@@ -101,7 +101,16 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 
   /**
    * Verifies that the actual value is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1.0f).isEqualTo(1.0f);
+   * assertThat(1f).isEqualTo(1.0f);
    * 
+   * // assertions will fail:
+   * assertThat(0.0f).isEqualTo(1.0f);
+   * assertThat(-1.0f).isEqualTo(1.0f);</code></pre>
+   * </p>
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -274,7 +283,16 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 
   /**
    * Verifies that the actual value is not equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(0.0f).isNotEqualTo(1.0f);
+   * assertThat(-1.0f).isNotEqualTo(1.0f);
    * 
+   * // assertions will fail:
+   * assertThat(1.0f).isNotEqualTo(1.0f);
+   * assertThat(1f).isNotEqualTo(1.0f);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -287,7 +305,16 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 
   /**
    * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1.0f).isLessThan(2.0f);
+   * assertThat(1.0f).isLessThan(1.01f);
    * 
+   * // assertions will fail:
+   * assertThat(2.0f).isLessThan(1.0f);
+   * assertThat(1.0f).isLessThan(1.0f);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -300,7 +327,15 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(-1.0f).isLessThanOrEqualTo(1.0f);
+   * assertThat(1.0f).isLessThanOrEqualTo(1.0f);
    * 
+   * // assertion will fail:
+   * assertThat(2.0f).isLessThanOrEqualTo(1.0f);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -313,7 +348,16 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 
   /**
    * Verifies that the actual value is greater than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(2.0f).isGreaterThan(1.0f);
+   * assertThat(2.0f).isGreaterThan(1.99f);
    * 
+   * // assertions will fail:
+   * assertThat(1.0f).isGreaterThan(1.0f);
+   * assertThat(1.0f).isGreaterThan(2.0f);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -326,7 +370,16 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(2.0f).isGreaterThanOrEqualTo(1.0f);
+   * assertThat(1.0f).isGreaterThanOrEqualTo(1.0f);
    * 
+   * // assertions will fail:
+   * assertThat(1.0f).isGreaterThanOrEqualTo(2.0f);
+   * assertThat(1.0f).isGreaterThanOrEqualTo(0.99f);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
