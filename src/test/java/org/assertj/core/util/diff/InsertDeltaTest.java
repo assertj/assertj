@@ -49,8 +49,7 @@ public class InsertDeltaTest {
     String desc = delta.toString();
 
     // then
-    assertThat(desc).isEqualTo(format("%n"
-                                      + "Extra content at line 1:%n"
+    assertThat(desc).isEqualTo(format("Extra content at line 1:%n"
                                       + "  [\"line1\",%n"
                                       + "   \"line2\"]%n"));
   }

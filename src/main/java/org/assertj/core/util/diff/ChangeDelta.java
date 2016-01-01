@@ -65,7 +65,7 @@ public class ChangeDelta<T> extends Delta<T> {
 
   @Override
   public String toString() {
-    return String.format("%nChanged content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n",
+    return String.format("Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n",
                          lineNumber(), formatLines(getOriginal().getLines()), formatLines(getRevised().getLines()));
   }
 

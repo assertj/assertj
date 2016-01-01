@@ -48,8 +48,7 @@ public class ChangeDeltaTest {
     String desc = delta.toString();
 
     // then
-    assertThat(desc).isEqualTo(format("%n"
-                                      + "Changed content at line 1:%n"
+    assertThat(desc).isEqualTo(format("Changed content at line 1:%n"
                                       + "expecting:%n"
                                       + "  [\"LINE1\",%n"
                                       + "   \"LINE2\"]%n"

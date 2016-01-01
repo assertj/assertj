@@ -48,8 +48,7 @@ public class DeleteDeltaTest {
     String desc = delta.toString();
 
     // then
-    assertThat(desc).isEqualTo(format("%n"
-                                      + "Missing content at line 1:%n"
+    assertThat(desc).isEqualTo(format("Missing content at line 1:%n"
                                       + "  [\"line1\",%n"
                                       + "   \"line2\"]%n"));
   }

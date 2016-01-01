@@ -73,8 +73,7 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line0", "line1");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Changed content at line 1:%n"
+    assertThat(diffs.get(0)).hasToString(format("Changed content at line 1:%n"
                                                 + "expecting:%n"
                                                 + "  [\"line0\",%n"
                                                 + "   \"line1\"]%n"
@@ -89,14 +88,12 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line0", "line1", "line2");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(2);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Changed content at line 1:%n"
+    assertThat(diffs.get(0)).hasToString(format("Changed content at line 1:%n"
                                                 + "expecting:%n"
                                                 + "  [\"line0\"]%n"
                                                 + "but was:%n"
                                                 + "  [\"line_0\"]%n"));
-    assertThat(diffs.get(1)).hasToString(format("%n"
-                                                + "Changed content at line 3:%n"
+    assertThat(diffs.get(1)).hasToString(format("Changed content at line 3:%n"
                                                 + "expecting:%n"
                                                 + "  [\"line2\"]%n"
                                                 + "but was:%n"
@@ -111,18 +108,15 @@ public class Diff_diff_File_Test {
     // @format:on
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(3);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Missing content at line 2:%n"
+    assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
                                                 + "  [\"line1a\",%n"
                                                 + "   \"line1b\"]%n"));
-    assertThat(diffs.get(1)).hasToString(format("%n"
-                                                + "Changed content at line 6:%n"
+    assertThat(diffs.get(1)).hasToString(format("Changed content at line 6:%n"
                                                 + "expecting:%n"
                                                 + "  [\"line7\"]%n"
                                                 + "but was:%n"
                                                 + "  [\"line4\"]%n"));
-    assertThat(diffs.get(2)).hasToString(format("%n"
-                                                + "Extra content at line 8:%n"
+    assertThat(diffs.get(2)).hasToString(format("Extra content at line 8:%n"
                                                 + "  [\"line 9\",%n"
                                                 + "   \"line 10\",%n"
                                                 + "   \"line 11\"]%n"));
@@ -134,8 +128,7 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line_0", "line_1");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Missing content at line 2:%n"
+    assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));
   }
 
@@ -145,8 +138,7 @@ public class Diff_diff_File_Test {
     writer.write(expected, "line_0");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Extra content at line 2:%n"
+    assertThat(diffs.get(0)).hasToString(format("Extra content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));
   }
 }
