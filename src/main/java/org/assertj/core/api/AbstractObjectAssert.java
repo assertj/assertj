@@ -287,20 +287,22 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * Extract the values of given fields/properties from object under test into a array, this new array becoming
-   * the object under test.
+   * Extract the values of given fields/properties from the object under test into an array, this new array becoming
+   * the object under test. 
    * <p/>
-   * The array data corresponds to the extracted values of the given fields/properties. For example if you ask to
-   * extract "id", "name" and "email", then the array will contain id, name and email extracted from the object.
+   * If you extract "id", "name" and "email" fields/properties then the array will contain the id, name and email values 
+   * of the object under test, you can then perform array assertions on the extracted values.
    * <p/>
-   * Nested fields/properties are supported, for example specifying "adress.street.number" is equivalent to call actual.getAdress().getStreet().getNumber().  
+   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to get the value 
+   * corresponding to actual.getAdress().getStreet().getNumber()  
+   * <p/>
+   * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p/>
    * Example:
-   * <pre><code class='java'> // Build Frodo, a TolkienCharacter with a name (String) and a Race (a class)
-   * // they can be field or properties, both works when extracting their values.
+   * <pre><code class='java'> // Create frodo, setting its name, age and Race fields (Race having a name field)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    * 
-   * // let's verify 'name' and 'age' of Frodo are not null:
+   * // let's verify Frodo's name, age and race name:
    * assertThat(frodo).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
    * 

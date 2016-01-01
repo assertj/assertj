@@ -82,13 +82,13 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * 
-   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearer = new HashMap<>();
-   * elvesRingBearer.put(nenya, galadriel);
-   * elvesRingBearer.put(narya, gandalf);
-   * elvesRingBearer.put(vilya, elrond);
+   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
    * 
    * // assertions will pass
-   * assertThat(elvesRingBearer).hasSameSizeAs(oneTwoThree);</code></pre>
+   * assertThat(elvesRingBearers).hasSameSizeAs(oneTwoThree);</code></pre>
    * 
    * @param array the array to compare size with actual group.
    * @return {@code this} assertion object.
@@ -105,12 +105,12 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * Verifies that the actual map has the same size as the given {@link Map}.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearer = new HashMap<>();
-   * elvesRingBearer.put(nenya, galadriel);
-   * elvesRingBearer.put(narya, gandalf);
-   * elvesRingBearer.put(vilya, elrond);
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
    * 
-   * assertThat(elvesRingBearer).hasSameSizeAs(newArrayList(vilya, nenya, narya));</code></pre>
+   * assertThat(elvesRingBearers).hasSameSizeAs(newArrayList(vilya, nenya, narya));</code></pre>
    * 
    * @param other the {@code Iterable} to compare size with actual group.
    * @return {@code this} assertion object.
@@ -185,16 +185,16 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
    *
-   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearer = new HashMap<>();
-   * elvesRingBearer.put(nenya, galadriel);
-   * elvesRingBearer.put(narya, gandalf);
-   * elvesRingBearer.put(vilya, elrond);
+   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
    * 
    * // assertion will succeed
-   * assertThat(ringBearers).containsAllEntriesOf(elvesRingBearer);
+   * assertThat(ringBearers).containsAllEntriesOf(elvesRingBearers);
    * 
    * // assertion will fails
-   * assertThat(elvesRingBearer).containsAllEntriesOf(ringBearers);</code></pre>
+   * assertThat(elvesRingBearers).containsAllEntriesOf(ringBearers);</code></pre>
    *
    * @param the map with the given entries.
    * @return {@code this} assertion object.
@@ -333,12 +333,12 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * Verifies that the actual map does not contain the given key.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearer = new HashMap<>();
-   * elvesRingBearer.put(nenya, galadriel);
-   * elvesRingBearer.put(narya, gandalf);
-   * elvesRingBearer.put(vilya, elrond);
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
    * 
-   * assertThat(elvesRingBearer).doesNotContainKey(oneRing);</code></pre>
+   * assertThat(elvesRingBearers).doesNotContainKey(oneRing);</code></pre>
    * 
    * @param key the given key
    * @throws AssertionError if the actual map is {@code null}.
@@ -353,12 +353,12 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * Verifies that the actual map does not contain any of the given keys.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearer = new HashMap<>();
-   * elvesRingBearer.put(nenya, galadriel);
-   * elvesRingBearer.put(narya, gandalf);
-   * elvesRingBearer.put(vilya, elrond);
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
    * 
-   * assertThat(elvesRingBearer).doesNotContainKeys(oneRing, someManRing);</code></pre>
+   * assertThat(elvesRingBearers).doesNotContainKeys(oneRing, someManRing);</code></pre>
    * 
    * @param key the given key
    * @throws AssertionError if the actual map is {@code null}.
