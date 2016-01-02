@@ -686,7 +686,17 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is before or equals to the given one.
-   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+   * 
+   * // assertions will pass
+   * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
+   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
+   * 
+   * // assertion will fail
+   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;1990-12-01&quot;));</code></pre>
+   * </p>
    * @param other the given Date.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -808,7 +818,17 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is after or equals to the given one.
-   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+   * 
+   * // assertions will pass
+   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;1990-12-01&quot;));
+   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
+   * 
+   * // assertion will fail
+   * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));</code></pre>
+   * </p>
    * @param other the given Date.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -935,7 +955,18 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * in the period set inclusiveStart parameter to <code>true</code>.<br>
    * To include end in the period set inclusiveEnd
    * parameter to <code>true</code>.<br>
-   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> SimpleDateFormat format = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+   * // assertions will pass
+   * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;), true, true);
+   * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;), true, true);
+   * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2100-01-01&quot;), false, false);
+   * 
+   * // assertions will fail
+   * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;), false, true);
+   * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;), true, false);</code></pre>
+   * </p>
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
    * @param inclusiveStart whether to include start date in period.
@@ -1001,11 +1032,20 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is not in the given period defined by start and end dates.<br>
-   * To include
-   * start in the period set inclusiveStart parameter to <code>true</code>.<br>
-   * To include end in the period set
-   * inclusiveEnd parameter to <code>true</code>.<br>
-   *
+   * To include start in the period set inclusiveStart parameter to <code>true</code>.<br>
+   * To include end in the period set inclusiveEnd parameter to <code>true</code>.<br>
+   * <p>
+   * Example:
+   * <pre><code class='java'> SimpleDateFormat format = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+   * // assertions will pass
+   * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("2000-01-01"), format.parse("2100-12-01"), false, true);
+   * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2000-01-01"), true, false);
+   * 
+   * // assertions will fail
+   * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("2000-01-01"), format.parse("2100-12-01"), true, true);
+   * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2000-01-01"), true, true);
+   * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2100-01-01"), false, false);</code></pre>
+   * </p>
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
    * @param inclusiveStart whether to include start date in period.
@@ -1070,7 +1110,18 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is not in [start, end[ period
-   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> SimpleDateFormat format = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+   * // assertions will pass
+   * assertThat(format.parse(&quot;1900-01-01&quot;)).isNotBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;));
+   * assertThat(format.parse(&quot;2200-01-01&quot;)).isNotBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;));
+   * assertThat(format.parse(&quot;2000-01-01&quot;)).isNotBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;));
+   * 
+   * // assertions will fail
+   * assertThat(format.parse(&quot;2001-12-24&quot;)).isNotBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-01-01&quot;));
+   * assertThat(format.parse(&quot;1900-01-01&quot;)).isNotBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;));</code></pre>
+   * </p>
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
    * @return this assertion object.
