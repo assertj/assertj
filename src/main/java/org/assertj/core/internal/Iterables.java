@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -22,6 +23,7 @@ import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
 import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHaveAtLeast;
 import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHaveAtMost;
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
+import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -61,6 +63,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -83,6 +86,8 @@ public class Iterables {
   Failures failures = Failures.instance();
   @VisibleForTesting
   Conditions conditions = Conditions.instance();
+  @VisibleForTesting
+  Predicates predicates = Predicates.instance();
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
@@ -589,11 +594,11 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  public <E> void assertAre(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
+  public <T> void assertAre(AssertionInfo info, Iterable<? extends T> actual, Condition<? super T> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
+      List<T> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
         throw failures.failure(info, elementsShouldBe(actual, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
@@ -637,7 +642,7 @@ public class Iterables {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
+      List<E> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
         throw failures.failure(info, elementsShouldHave(actual, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
@@ -751,7 +756,8 @@ public class Iterables {
     }
   }
 
-  private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition, int times) {
+  private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition,
+                                                 int times) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
     return satisfiesCondition.size() == times;
   }
@@ -856,6 +862,16 @@ public class Iterables {
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
+  public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {
+    assertNotNull(info, actual);
+    predicates.assertIsNotNull(predicate);
+    stream(actual.spliterator(), false).filter(predicate.negate())
+                                       .findFirst()
+                                       .ifPresent(e -> {
+                                         throw failures.failure(info, elementsShouldMatch(actual, e, predicate));
+                                       });
+  }
+
   private void assertNotNull(AssertionInfo info, Iterable<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }
@@ -864,7 +880,7 @@ public class Iterables {
     return failures.failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
   }
 
-  private <E> List<E> notSatisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
+  private <E> List<E> notSatisfyingCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
     List<E> notSatisfiesCondition = new LinkedList<>();
     for (E o : actual) {
       if (!condition.matches(o)) notSatisfiesCondition.add(o);

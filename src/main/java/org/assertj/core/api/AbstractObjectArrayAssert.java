@@ -40,6 +40,7 @@ import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
+import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
@@ -69,6 +70,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
+  @VisibleForTesting
+  Iterables iterables = Iterables.instance();
 
   protected AbstractObjectArrayAssert(T[] actual, Class<?> selfType) {
     super(actual, selfType);
@@ -121,7 +124,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   @Override
   public S hasSameSizeAs(Object other) {
-    // TODO same implementation as in AbstractArrayAssert, but can't inherit from it due to generics problem ...
+    // same implementation as in AbstractArrayAssert, but can't inherit from it due to generics problem ...
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -1144,6 +1147,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public S filteredOn(Predicate<? super T> predicate) {
     if (predicate == null) throw new IllegalArgumentException("The filter predicate should not be null");
     return (S) new ObjectArrayAssert<>(stream(actual).filter(predicate).toArray());
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S allMatch(Predicate<? super T> condition) {
+    iterables.assertAllMatch(info, newArrayList(actual), condition);
+    return myself;
   }
 
 }

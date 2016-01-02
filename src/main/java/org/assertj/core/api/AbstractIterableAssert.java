@@ -1454,4 +1454,14 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return (S) new ListAssert<>(stream(actual.spliterator(), false).filter(predicate).collect(toList()));
   }
 
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public S allMatch(Predicate<? super T> predicate) {
+    iterables.assertAllMatch(info, actual, predicate);
+    return myself;
+  }
+
 }

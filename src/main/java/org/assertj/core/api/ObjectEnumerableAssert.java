@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.HashSet;
+import java.util.function.Predicate;
 
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
@@ -324,8 +325,8 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more element don't satisfy the given condition.
    */
   S are(Condition<? super T> condition);
 
@@ -352,7 +353,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
   S areNot(Condition<? super T> condition);
@@ -380,7 +381,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
   S have(Condition<? super T> condition);
@@ -408,7 +409,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
   S doNotHave(Condition<? super T> condition);
@@ -436,7 +437,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element can not be cast to E.
+   * @throws AssertionError if an element can not be cast to T.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   S areAtLeast(int n, Condition<? super T> condition);
@@ -480,7 +481,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   S areAtMost(int n, Condition<? super T> condition);
@@ -509,7 +510,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   S areExactly(int n, Condition<? super T> condition);
@@ -797,4 +798,29 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
    */
   S isSubsetOf(@SuppressWarnings("unchecked") T... values);
+
+  /**
+   * Verifies that all elements satisfy the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abc).are(s -&gt; s.length() == 1);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).are(s -&gt; s.length() == 1);</code></pre>
+   * 
+   * Note that you can achieve the same result with {@link #are(Condition)} or {@link #have(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   */
+  S allMatch(Predicate<? super T> predicate);
+
 }

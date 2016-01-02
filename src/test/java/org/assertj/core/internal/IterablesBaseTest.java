@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Lists.newArrayList;
 
 
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.spy;
 
 import java.util.List;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Iterables;
@@ -51,6 +53,8 @@ public class IterablesBaseTest {
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Iterables iterablesWithCaseInsensitiveComparisonStrategy;
 
+  protected AssertionInfo info;
+
   @Before
   public void setUp() {
     actual = newArrayList("Luke", "Yoda", "Leia");
@@ -60,6 +64,7 @@ public class IterablesBaseTest {
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
     iterablesWithCaseInsensitiveComparisonStrategy = new Iterables(comparisonStrategy);
     iterablesWithCaseInsensitiveComparisonStrategy.failures = failures;
+    info = someInfo();
   }
 
 }
