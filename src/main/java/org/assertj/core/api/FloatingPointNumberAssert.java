@@ -80,6 +80,17 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
 
   /**
    * Verifies that the actual value is equal to {@code NaN}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(Double.NaN).isNaN();
+   * assertThat(0.0 / 0.0).isNaN();
+   * assertThat(0.0F * Float.POSITIVE_INFINITY).isNaN();
+   * 
+   * // assertions will fail
+   * assertThat(1.0).isNaN();
+   * assertThat(-1.0F).isNaN();</code></pre>
+   * </p>
    * @return this assertion object.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
@@ -87,6 +98,17 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
 
   /**
    * Verifies that the actual value is not equal to {@code NaN}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1.0).isNotNaN();
+   * assertThat(-1.0F).isNotNaN();
+   * 
+   * // assertions will fail
+   * assertThat(Double.NaN).isNotNaN();
+   * assertThat(0.0 / 0.0).isNotNaN();
+   * assertThat(0.0F * Float.POSITIVE_INFINITY).isNotNaN();</code></pre>
+   * </p>
    * @return this assertion object.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
