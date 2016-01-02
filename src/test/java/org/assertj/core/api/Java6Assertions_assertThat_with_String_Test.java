@@ -10,28 +10,25 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.util.diff;
+package org.assertj.core.api;
 
-import java.io.File;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
-/**
- * Test constants
- * @author simon.mittermueller@gmail.com
- *
- */
-public final class TestConstants {
+import org.junit.Test;
 
-	private TestConstants() {
-		// prevent construction.
-	}
-	
-	/** File separator. */
-	public static final String FS = File.separator;
-	
-	/** The base resource path. */
-	public static String BASE_FOLDER_RESOURCES = "src" + FS + "test" + FS + "resources";
-	
-	/** The base folder containing the test files. Ends with {@link #FS}. */
-	public static final String MOCK_FOLDER = BASE_FOLDER_RESOURCES + FS + "diffs" + FS;
-	
+// at least one test for Java6Assertions
+public class Java6Assertions_assertThat_with_String_Test {
+
+  @Test
+  public void should_create_Assert() {
+    AbstractCharSequenceAssert<?, ?> assertions = assertThat("Yoda");
+    assertThat(assertions).isNotNull();
+  }
+
+  @Test
+  public void should_pass_actual() {
+    String actual = "Yoda";
+    AbstractCharSequenceAssert<?, ?> assertions = assertThat(actual);
+    assertThat(assertions.actual).isSameAs(actual);
+  }
 }

@@ -18,14 +18,12 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link FloatArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
@@ -102,8 +100,8 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {
-      verify(failures)
-          .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
+      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(1, actual,
+                                                                              comparatorForCustomComparisonStrategy()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

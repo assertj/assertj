@@ -182,7 +182,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} has a length that's the same as the number of elements in the given
    * array.
-   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;12&quot;).hasSameSizeAs(new char[] { 'a', 'b' });
+   * 
+   * // assertion will fail
+   * assertThat(&quot;12&quot;).hasSameSizeAs(new char[] { 'a', 'b', 'c' });</code></pre>
+   * 
    * @param other the given array to be used for size comparison.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements
@@ -198,6 +205,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} has a length that's the same as the number of elements in the given
    * Iterable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;abc&quot;).hasSameSizeAs(Arrays.asList(1, 2, 3));
+   * 
+   * // assertion will fail
+   * assertThat(&quot;ab&quot;).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
    *
    * @param other the given {@code Iterable} to be used for size comparison.
    * @return {@code this} assertion object.
@@ -336,13 +350,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} contains all the given strings <b>in the given order</b>.
    * <p>
+   * Note that <b>unlike</b> {@link IterableAssert#containsSequence(Object...)}, the assertion will succeed when there are values between the expected sequence values.
+   * <p>
    * Example:
    * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    * 
-   * // this assertion succeeds ...
-   * assertThat(book).containsSequence(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
+   * // this assertions succeed
+   * assertThat(book).containsSequence(&quot;'title'&quot;, &quot;:&quot;, &quot;'A Game of Thrones'&quot;);
    * 
-   * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
+   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;) 
+   * assertThat(book).containsSequence(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;);
+   * 
+   * // this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);</code></pre>
    *
    * @param values the Strings to look for, in order.
@@ -362,14 +381,19 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} contains all the strings of the given Iterable <b>in the Iterable
    * iteration order</b>.
    * <p>
+   * Note that <b>unlike</b> {@link IterableAssert#containsSequence(Object...)}, the assertion will succeed when there are values between the expected sequence values.
+   * <p>
    * Example:
    * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    *
-   * // this assertion succeeds ...
-   * assertThat(book).containsSequence(Arrays.asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
+   * // this assertion succeeds
+   * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
+   * 
+   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;) 
+   * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;));
    *
-   * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
-   * assertThat(book).containsSequence(Arrays.asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));</code></pre>
+   * // but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
+   * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));</code></pre>
    *
    * @param values the Strings to look for, in order.
    * @return {@code this} assertion object.
@@ -774,7 +798,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     strings.assertEqualsIgnoringWhitespace(info, actual, expected);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring whitespace differences
    * (mostly).<br/>

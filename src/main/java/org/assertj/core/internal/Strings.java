@@ -230,7 +230,7 @@ public class Strings {
     assertNotNull(info, actual);
     checkIsNotNull(values);
     checkIsNotEmpty(values);
-    checkCharSequenceIsNotNull(values[0]);
+    checkCharSequenceArrayDoesNotHaveNullElements(values);
     Set<CharSequence> notFound = new LinkedHashSet<>();
     for (CharSequence value : values) {
       if (!stringContains(actual, value)) {
@@ -311,7 +311,7 @@ public class Strings {
   }
 
   private void checkCharSequenceIsNotNull(CharSequence sequence) {
-    if (sequence == null) throw new NullPointerException("The char sequence to look for should not be null");
+    checkNotNull(sequence, "The char sequence to look for should not be null");
   }
 
   /**
@@ -469,7 +469,7 @@ public class Strings {
   }
 
   private static void failIfPrefixIsNull(CharSequence prefix) {
-    if (prefix == null) throw new NullPointerException("The given prefix should not be null");
+    checkNotNull(prefix, "The given prefix should not be null");
   }
 
   /**
@@ -508,7 +508,7 @@ public class Strings {
   }
 
   private static void failIfSuffixIsNull(CharSequence suffix) {
-    if (suffix == null) throw new NullPointerException("The given suffix should not be null");
+    checkNotNull(suffix, "The given suffix should not be null");
   }
 
   /**
@@ -592,35 +592,47 @@ public class Strings {
     Objects.instance().assertNotNull(info, actual);
   }
 
-  public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] values) {
+  public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
     assertNotNull(info, actual);
-    checkIsNotNull(values);
-    checkIsNotEmpty(values);
-    checkCharSequenceIsNotNull(values[0]);
+    checkIsNotNull(sequence);
+    checkIsNotEmpty(sequence);
+    checkCharSequenceArrayDoesNotHaveNullElements(sequence);
+
     Set<CharSequence> notFound = new LinkedHashSet<>();
-    for (CharSequence value : values) {
-      if (!stringContains(actual, value))
-        notFound.add(value);
+    for (CharSequence value : sequence) {
+      if (!stringContains(actual, value)) notFound.add(value);
     }
-    if (notFound.isEmpty()) {
-      if (values.length == 1) {
-        // nothing to check, assertion succeeded.
-        return;
+
+    if (!notFound.isEmpty()) {
+      // don't bother looking for a sequence, some of the sequence elements were not found !
+      if (notFound.size() == 1 && sequence.length == 1) {
+        throw failures.failure(info, shouldContain(actual, sequence[0], comparisonStrategy));
       }
-      // we have found all the given values but were they in the correct order ?
-      String strActual = actual.toString();
-      for (int i = 1; i < values.length; i++) {
-        if (strActual.indexOf(values[i - 1].toString()) > strActual.indexOf(values[i].toString())) {
-          throw failures.failure(info, shouldContainSequence(actual, values, i - 1, comparisonStrategy));
-        }
+      throw failures.failure(info, shouldContain(actual, sequence, notFound, comparisonStrategy));
+    }
+
+    // we have found all the given values but were they in the expected order ?
+    if (sequence.length == 1) return; // no order check needed for a one element sequence
+
+    // convert all to one char CharSequence list to ease comparison
+    String strActual = actual.toString();
+    for (int i = 1; i < sequence.length; i++) {
+      int indexOfCurrentSequenceValue = indexOf(strActual, sequence[i - 1].toString());
+      int indexOfNextSequenceValue = indexOf(strActual, sequence[i].toString());
+      if (indexOfCurrentSequenceValue > indexOfNextSequenceValue) {
+        throw failures.failure(info, shouldContainSequence(actual, sequence, i-1, comparisonStrategy));
       }
-      // assertion succeeded
-      return;
+      // get rid of the start of String to properly handle duplicate sequence values
+      // ex: "a-b-c" and sequence "a", "-", "b", "-", "c" would fail as the second "-" would be found before "b"
+      strActual = strActual.substring(indexOfCurrentSequenceValue + 1);
     }
-    if (notFound.size() == 1 && values.length == 1) {
-      throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
+  }
+
+  private int indexOf(String string, String toFind) {
+    for (int i = 0; i < string.length(); i++) {
+      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind)) return i;
     }
-    throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+    return -1;
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {
@@ -677,6 +689,16 @@ public class Strings {
     assertNotNull(info, actual);
     Matcher matcher = pattern.matcher(actual);
     if (!matcher.find()) throw failures.failure(info, shouldContainPattern(actual, pattern.pattern()));
+  }
+
+  private void checkCharSequenceArrayDoesNotHaveNullElements(CharSequence[] values) {
+    if (values.length == 1) {
+      checkCharSequenceIsNotNull(values[0]);
+    } else {
+      for (int i = 0; i < values.length; i++) {
+        checkNotNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
+      }
+    }
   }
 
 }

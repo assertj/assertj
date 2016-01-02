@@ -128,7 +128,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S containsExactly(@SuppressWarnings("unchecked") T... values);
 
   /**
-   * Verifies that the actual group contains the given sequence, without any other values between them.
+   * Verifies that the actual group contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * <p> 
+   * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
@@ -136,9 +138,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertion will pass
    * assertThat(elvesRings).containsSequence(vilya, nenya);
+   * assertThat(elvesRings).containsSequence(nenya, narya);
    * 
-   * // assertions will fail
-   * assertThat(elvesRings).containsSequence(vilya, narya);
+   * // assertions will fail, the elements order is correct but there is a value between them (nenya) 
+   * assertThat(elvesRings).containsSequence(vilya, narya);  
    * assertThat(elvesRings).containsSequence(nenya, vilya);</code></pre>
    * 
    * @param sequence the sequence of objects to look for.
@@ -150,7 +153,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S containsSequence(@SuppressWarnings("unchecked") T... sequence);
 
   /**
-   * Verifies that the actual group contains the given subsequence (possibly with other values between them).
+   * Verifies that the actual group contains the given subsequence in the correct order (possibly with other values between them).
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
@@ -753,7 +756,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that all the elements of actual are present in the given {@code Iterable}.
-   *
+   * <p/>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
@@ -772,4 +775,26 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
   S isSubsetOf(Iterable<? extends T> values);
+  
+  /**
+   * Verifies that all the elements of actual are present in the given values.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertions will pass:
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya);
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya, dwarfRing);
+   * 
+   * // assertions will fail:
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya);
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, dwarfRing);</code></pre>
+   * 
+   * @param values the values that should be used for checking the elements of actual.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
+   */
+  S isSubsetOf(@SuppressWarnings("unchecked") T... values);
 }

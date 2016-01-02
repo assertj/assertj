@@ -461,6 +461,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   /**
    * {@inheritDoc}
    * 
+   * @deprecated use {@link #isEqualTo()} instead    
+   *  
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override

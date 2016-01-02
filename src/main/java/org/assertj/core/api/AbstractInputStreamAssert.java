@@ -18,7 +18,6 @@ import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsException;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Base class for all implementations of assertions for {@link InputStream}s.
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
@@ -29,32 +28,33 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
  */
-public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAssert<S, A>, A extends InputStream> extends AbstractAssert<S, A> {
+public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAssert<S, A>, A extends InputStream>
+    extends AbstractAssert<S, A> {
 
-	@VisibleForTesting
-	InputStreams inputStreams = InputStreams.instance();
+  @VisibleForTesting
+  InputStreams inputStreams = InputStreams.instance();
 
-	protected AbstractInputStreamAssert(A actual, Class<?> selfType) {
-		super(actual, selfType);
-	}
+  protected AbstractInputStreamAssert(A actual, Class<?> selfType) {
+    super(actual, selfType);
+  }
 
-	/**
-	 * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
-	 *
-	 * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
-	 * @return {@code this} assertion object.
-	 * @throws NullPointerException if the given {@code InputStream} is {@code null}.
-	 * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-	 * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
-	 * @throws InputStreamsException if an I/O error occurs.
+  /**
+   * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
    *
-   * @deprecated use hasSameContentAs
-	 */
+   * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code InputStream} is {@code null}.
+   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
+   * @throws InputStreamsException if an I/O error occurs.
+   *
+   * @deprecated use {@link #hasSameContentAs()} instead
+   */
   @Deprecated
-	public S hasContentEqualTo(InputStream expected) {
-		inputStreams.assertSameContentAs(info, actual, expected);
-		return myself;
-	}
+  public S hasContentEqualTo(InputStream expected) {
+    inputStreams.assertSameContentAs(info, actual, expected);
+    return myself;
+  }
 
   /**
    * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
@@ -75,7 +75,7 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
    * @throws InputStreamsException if an I/O error occurs.
    */
   public S hasSameContentAs(InputStream expected) {
-      inputStreams.assertSameContentAs(info, actual, expected);
-      return myself;
+    inputStreams.assertSameContentAs(info, actual, expected);
+    return myself;
   }
 }

@@ -340,15 +340,12 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given sequence of objects.
    */
   public void assertContainsSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence))
-      return;
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
     // check for elements in values that are missing in actual.
     List<?> actualAsList = newArrayList(actual);
     for (int i = 0; i < actualAsList.size(); i++) {
       // look for given sequence in actual starting from current index (i)
-      if (containsSequenceAtGivenIndex(actualAsList, sequence, i)) {
-        return;
-      }
+      if (containsSequenceAtGivenIndex(actualAsList, sequence, i)) return;
     }
     throw actualDoesNotContainSequence(info, actual, sequence);
   }
@@ -395,9 +392,7 @@ public class Iterables {
     checkIterableIsNotNull(info, values);
     List<Object> extra = newArrayList();
     for (Object actualElement : actual) {
-      if (!iterableContains(values, actualElement)) {
-        extra.add(actualElement);
-      }
+      if (!iterableContains(values, actualElement)) extra.add(actualElement);
     }
     if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }

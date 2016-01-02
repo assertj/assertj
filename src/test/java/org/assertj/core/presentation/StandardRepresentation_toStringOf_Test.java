@@ -143,6 +143,32 @@ public class StandardRepresentation_toStringOf_Test {
   }
 
   @Test
+  public void toString_with_anonymous_comparator_overriding_toString() {
+    Comparator<String> anonymousComparator = new Comparator<String>() {
+      @Override
+      public int compare(String s1, String s2) {
+        return s1.length() - s2.length();
+      }
+      
+      @Override
+      public String toString() {
+        return "foo";
+      }
+    };
+    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("'foo'");
+  }
+  
+  @Test
+  public void toString_with_comparator_not_overriding_toString() {
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new StringTestComparator())).isEqualTo("'StringTestComparator'");
+  }
+  
+  @Test
+  public void toString_with_comparator_overriding_toString() {
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("'other String comparator'");
+  }
+  
+  @Test
   public void should_format_longs_and_integers() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(20L).equals(toStringOf(20))).isFalse();
     assertThat(toStringOf(20)).isEqualTo("20");

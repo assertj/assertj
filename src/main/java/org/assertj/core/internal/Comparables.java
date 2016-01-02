@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqu
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Comparator;
 
@@ -258,8 +259,8 @@ public class Comparables {
   public <T extends Comparable<? super T>> void assertIsBetween(AssertionInfo info, T actual, T start, T end,
       boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
-    startParameterIsNotNull(start);
-    endParameterIsNotNull(end);
+    checkNotNull(start, "The start range to compare actual with should not be null");
+    checkNotNull(end, "The end range to compare actual with should not be null");
     boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual)
         : isLessThan(start, actual);
     boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end)
@@ -267,29 +268,5 @@ public class Comparables {
     if (checkLowerBoundaryRange && checkUpperBoundaryRange)
       return;
     throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
-  }
-
-  /**
-   * used to check that the start of range to compare actual number to is not null, in that case throws a
-   * {@link NullPointerException} with an explicit message
-   * 
-   * @param start the start number to check
-   * @throws NullPointerException with an explicit message if the given start value is null
-   */
-  private static void startParameterIsNotNull(Object start) {
-    if (start == null)
-      throw new NullPointerException("The start range to compare actual with should not be null");
-  }
-
-  /**
-   * used to check that the end of range to compare actual number to is not null, in that case throws a
-   * {@link NullPointerException} with an explicit message
-   * 
-   * @param end the end number to check
-   * @throws NullPointerException with an explicit message if the given end value is null
-   */
-  private static void endParameterIsNotNull(Object end) {
-    if (end == null)
-      throw new NullPointerException("The end range to compare actual with should not be null");
   }
 }

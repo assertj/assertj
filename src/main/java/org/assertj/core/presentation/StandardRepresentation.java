@@ -67,6 +67,7 @@ public class StandardRepresentation implements Representation {
   }
 
   private static String toStringOf(Comparator<?> comparator) {
+    if (!comparator.toString().contains("@")) return quote(comparator.toString());
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
     if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
     // if toString has not been redefined, let's use comparator simple class name.

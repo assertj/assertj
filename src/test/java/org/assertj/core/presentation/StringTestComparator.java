@@ -10,25 +10,28 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.test;
+package org.assertj.core.presentation;
 
-import static java.util.Collections.unmodifiableList;
+import java.util.Comparator;
 
-import java.util.*;
+final class StringTestComparator implements Comparator<String> {
 
-/**
- * Data provider for parameterized tests.
- * 
- * @author Alex Ruiz
- */
-public class ParameterSource {
-
-  public static List<Object[]> parametersFrom(List<?> values) {
-    List<Object[]> parameters = new ArrayList<>();
-    for (Object value : values)
-      parameters.add(new Object[] { value });
-    return unmodifiableList(parameters);
+  @Override
+  public int compare(String s1, String s2) {
+    return s1.length() - s2.length();
   }
-
-  private ParameterSource() {}
 }
+
+final class OtherStringTestComparator implements Comparator<String> {
+  
+  @Override
+  public int compare(String s1, String s2) {
+    return s1.length() - s2.length();
+  }
+  
+  @Override
+  public String toString() {
+    return "other String comparator";
+  }
+}
+

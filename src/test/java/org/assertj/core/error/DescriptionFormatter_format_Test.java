@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Arrays.array;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
@@ -21,8 +20,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * Tests for <code>{@link DescriptionFormatter#format(Description)}</code>.
@@ -30,7 +30,7 @@ import junitparams.Parameters;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-@RunWith(JUnitParamsRunner.class)
+@RunWith(DataProviderRunner.class)
 public class DescriptionFormatter_format_Test {
 
   private static DescriptionFormatter formatter;
@@ -46,15 +46,20 @@ public class DescriptionFormatter_format_Test {
   }
 
   @Test
-  @Parameters(method = "testDescriptionGenerator")
+  @UseDataProvider("testDescriptionGenerator")
   public void should_return_empty_String(TestDescription testDescription) {
     assertThat(formatter.format(testDescription)).isEmpty();
   }
 
-  @SuppressWarnings("unused")
-  private Object testDescriptionGenerator() {
-    return array(null,
-                 new TestDescription(null),
-                 new TestDescription(""));
+  // Workaround with custom format because TestDescription#toString returns the value
+  // and junit-dataprovider 1.10.2 fails if toString of a parameter returns null
+  // see: https://github.com/TNG/junit-dataprovider/issues/66
+  @DataProvider(format = "%m[%i]")
+  public static Object[][] testDescriptionGenerator() {
+    // @format:off
+    return new Object[][] { { null },
+                            { new TestDescription(null) },
+                            { new TestDescription("") }};
+     // @format:on
   }
 }

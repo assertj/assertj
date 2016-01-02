@@ -108,6 +108,15 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is present in the given array of values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
+   * 
+   * // assertions will pass:
+   * assertThat(nenya).isIn(elvesRings);
+   * 
+   * // assertions will fail:
+   * assertThat(oneRing).isIn(elvesRings);</code></pre>
    * 
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
@@ -119,6 +128,15 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not present in the given array of values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
+   * 
+   * // assertions will pass:
+   * assertThat(oneRing).isNotIn(elvesRings);
+   * 
+   * // assertions will fail:
+   * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    * 
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
@@ -130,6 +148,15 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is present in the given values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertions will pass:
+   * assertThat(nenya).isIn(elvesRings);
+   * 
+   * // assertions will fail:
+   * assertThat(oneRing).isIn(elvesRings);</code></pre>
    * 
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
@@ -141,6 +168,15 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not present in the given values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertions will pass:
+   * assertThat(oneRing).isNotIn(elvesRings);
+   * 
+   * // assertions will fail:
+   * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    * 
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.

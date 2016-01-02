@@ -12,13 +12,14 @@
  */
 package org.assertj.core.api.doublearray;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.withPrecision;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
-
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link DoubleArrayAssert#doesNotContain(double...)}</code>.
@@ -36,4 +37,22 @@ public class DoubleArrayAssert_doesNotContain_Test extends DoubleArrayAssertBase
   protected void verify_internal_effects() {
     verify(arrays).assertDoesNotContain(getInfo(assertions), getActual(assertions), arrayOf(6d, 8d));
   }
+
+  @Test
+  public void should_pass_with_precision_specified_as_last_argument() {
+    // GIVEN
+    double[] actual = arrayOf(1.0, 2.0, 3.0);
+    // THEN
+    assertThat(actual).doesNotContain(arrayOf(1.1, 2.1), withPrecision(0.0001));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_in_comparator() {
+    // GIVEN
+    double[] actual = arrayOf(1.0, 2.0);
+    // THEN
+    assertThat(actual).usingComparatorWithPrecision(0.01)
+                      .doesNotContain(1.1, 2.1);
+  }
+
 }

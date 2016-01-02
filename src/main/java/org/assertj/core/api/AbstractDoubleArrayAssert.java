@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
+import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.util.VisibleForTesting;
@@ -24,6 +25,8 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
+  
+  private final ComparatorFactory doubleComparator = ComparatorFactory.INSTANCE;
 
   public AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {
     super(actual, selfType);
@@ -55,7 +58,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * <pre><code class='java'> // assertion will pass
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSize(3);
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSize(2);</code></pre>
    * 
    * </p>
@@ -73,7 +76,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * <pre><code class='java'> // assertion will pass
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSameSizeAs(Arrays.asList(1, 2, 3));
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSameSizeAs(Arrays.asList(1, 2);</code></pre>
    */
   @Override
@@ -85,15 +88,22 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   /**
    * Verifies that the actual array contains the given values, in any order.
    * <p>
+   * If you want to set a precision for the comparison either use {@link #contains(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Examples :
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, 3.0, 2.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(3.0, 1.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, 2.0);
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).contains(1.0, 3.0, 2.0)
+   *                   .contains(3.0, 1.0)
+   *                   .usingComparatorWithPrecision(0.5)
+   *                   .contains(1.1, 2.1);
    * 
    * // assertions will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, 4.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(4.0, 7.0);</code></pre>
+   * assertThat(values).contains(1.0, 4.0);
+   * assertThat(values).usingComparatorWithPrecision(0.01)
+   *                   .contains(1.1, 2.1);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -107,17 +117,54 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return myself;
   }
 
+ /**
+   * Verifies that the actual array contains the given values, in any order, 
+   * the comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).contains(new double[] {1.01, 3.01, 2.0}, withPrecision(0.02));
+   *
+   * // assertions will fail
+   * assertThat(values).contains(new double[] {1.0, 4.0}, withPrecision(0.5));
+   * assertThat(values).contains(new double[] {4.0, 7.0}, withPrecision(2));</code></pre>
+   *
+   * @param values the given values.
+   * @param precision the precision under which the value may vary
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values.
+   */
+  public S contains(double[] values, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return contains(values);
+  }
+
   /**
    * Verifies that the actual array contains only the given values and nothing else, in any order.
    * <p>
+   * If you want to set a precision for the comparison either use {@link #containsOnly(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Examples :
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(1.0, 2.0, 3.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(2.0, 3.0, 1.0);
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
    * 
+   * // assertion will pass
+   * assertThat(values).containsOnly(1.0, 2.0, 3.0)
+   *                   .containsOnly(2.0, 3.0, 1.0)
+   *                   .usingComparatorWithPrecision(0.5)
+   *                   .containsOnly(1.1, 3.1, 2.1);
+
    * // assertions will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(1.0, 4.0, 2.0, 3.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(4.0, 7.0);</code></pre>
+   * assertThat(values).containsOnly(1.0, 4.0, 2.0, 3.0);
+   * assertThat(values).containsOnly(4.0, 7.0);
+   * assertThat(values).containsOnly(1.1, 2.1, 3.1);
+   * assertThat(values).usingComparatorWithPrecision(0.01)
+   *                   .containsOnly(1.1, 2.1, 3.1);</code></pre>
    * 
    * </p>
    * 
@@ -135,16 +182,54 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
+   * Verifies that the actual array contains only the given values and nothing else, in any order.
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).containsOnly(new double[] {1.0, 2.0, 3.0}, withPrecision(0.00001))
+   *                   .containsOnly(new double[] {2.0, 3.0, 0.7}, withPrecision(0.5));
+   *
+   * // assertions will fail
+   * assertThat(values).containsOnly(new double[] {1.0, 4.0, 2.0, 3.0}, withPrecision(0.5));
+   * assertThat(values).containsOnly(new double[] {4.0, 7.0}, withPrecision(0.2));</code></pre>
+   *
+   * </p>
+   *
+   * @param values the given values.
+   * @param precision the precision under which the value may vary
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   *           or none of the given values, or the actual array contains more values than the given ones.
+   */
+  public S containsOnly(double[] values, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return containsOnly(values);
+  }
+
+  /**
    * Verifies that the actual array contains the given values only once.
+   * <p>
+   * If you want to set a precision for the comparison either use {@link #containsOnlyOnce(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
    * <p>
    * Examples :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(1.0, 2.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(1.0, 2.0)
+   *                                           .usingComparatorWithPrecision(0.5)
+   *                                           .containsOnlyOnce(1.1, 3.1, 2.1);
    * 
    * // assertions will fail
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsOnlyOnce(1.0);
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsOnlyOnce(1.0, 2.0);
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(4.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0, 3.0 }).containsOnlyOnce(0.0, 1.0, 2.0, 3.0, 4.0, 5.0);</code></pre>
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).usingComparatorWithPrecision(0.05)
+   *                                           .containsOnlyOnce(1.1, 2.1);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -159,23 +244,57 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return myself;
   }
 
-  /**
-   * Verifies that the actual array contains the given sequence, without any other values between them.
+   /**
+   * Verifies that the actual array contains the given values only once.
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
    * <p>
    * Examples :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(1.0, 2.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(1.0, 2.0, 3.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(2.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(new double[] {1.1, 2.0}, withPrecision(0.2));
+   *
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsOnlyOnce(new double[] {1.05}, withPrecision(0.1));
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(new double[] {4.0}, withPrecision(0.1));
+   * assertThat(new double[] { 1.0, 2.0, 3.0, 3.0 }).containsOnlyOnce(new double[] {0.1, 0.9, 2.0, 3.11, 4.0, 5.0}, withPrecision(0.2));</code></pre>
+   *
+   * @param values the given values.
+   * @param precision the precision under which the value may vary
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+   *           or none of the given values, or the actual group contains more than once these values.
+   */
+  public S containsOnlyOnce(double[] values, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return containsOnlyOnce(values);
+  }
+
+  /**
+   * Verifies that the actual array contains the given sequence, without any other values between them.
+   * <p>
+   * If you want to set a precision for the comparison either use {@link #containsSequence(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
+   * Examples :
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).containsSequence(1.0, 2.0)
+   *                   .containsSequence(1.0, 2.0, 3.0)
+   *                   .containsSequence(2.0, 3.0)
+   *                   .usingComparatorWithPrecision(0.5)
+   *                   .containsSequence(1.1, 2.1);
    * 
    * // assertions will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(1.0, 3.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(4.0, 7.0);</code></pre>
-   * 
-   * </p>
+   * assertThat(values).containsSequence(1.0, 3.0);
+   * assertThat(values).containsSequence(4.0, 7.0);
+   * assertThat(values).usingComparatorWithPrecision(0.01)
+   *                   .containsSequence(1.1, 2.0, 3.0);</code></pre>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
@@ -185,23 +304,59 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return myself;
   }
 
+
+  /**
+   * Verifies that the actual array contains the given sequence, without any other values between them.
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).containsSequence(new double[] {1.07, 2.0}, withPrecision(0.1))
+   *                   .containsSequence(new double[] {1.1, 2.1, 3.0}, withPrecision(0.2))
+   *                   .containsSequence(new double[] {2.2, 3.0}, withPrecision(0.3));
+   *
+   * // assertions will fail
+   * assertThat(values).containsSequence(new double[] {1.0, 3.0}, withPrecision(0.2));
+   * assertThat(values).containsSequence(new double[] {4.0, 7.0}, withPrecision(0.1));</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @param precision the precision under which the value may vary
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given sequence.
+   */
+  public S containsSequence(double[] sequence, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return containsSequence(sequence);
+  }
+
   /**
    * Verifies that the actual array contains the given subsequence (possibly with other values between them).
    * <p>
+   * If you want to set a precision for the comparison either use {@link #containsSubsequence(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Examples :
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(1.0, 2.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(1.0, 2.0, 3.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(2.0, 3.0);
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).containsSubsequence(1.0, 2.0);
+   *                   .containsSubsequence(1.0, 2.0, 3.0)
+   *                   .containsSubsequence(1.0, 3.0)
+   *                   .usingComparatorWithPrecision(0.5)
+   *                   .containsSubsequence(1.1, 2.1);
    * 
    * // assertions will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(1.0, 3.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(4.0, 7.0);</code></pre>
-   * 
-   * </p>
+   * assertThat(values).containsSubsequence(3.0, 1.0);
+   * assertThat(values).containsSubsequence(4.0, 7.0);
+   * assertThat(values).usingComparatorWithPrecision(0.01)
+   *                   .containsSubsequence(1.1, 2.0);</code></pre>
    * 
    * @param subsequence the subsequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
@@ -210,23 +365,61 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
+
+  /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).containsSubsequence(new double[] {1.0, 2.0}, withPrecision(0.1))
+   *                   .containsSubsequence(new double[] {1.0, 2.07, 3.0}, withPrecision(0.1))
+   *                   .containsSubsequence(new double[] {2.1, 2.9}, withPrecision(0.2));
+   *
+   * // assertions will fail
+   * assertThat(values).containsSubsequence(new double[] {1.0, 3.0}, withPrecision(0.1));
+   * assertThat(values).containsSubsequence(new double[] {4.0, 7.0}, withPrecision(0.1));</code></pre>
+   *
+   * @param subsequence the subsequence of values to look for.
+   * @param precision the precision under which the value may vary.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public S containsSubsequence(double[] subsequence, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return containsSubsequence(subsequence);
+  }
+
   /**
    * Verifies that the actual array contains the given value at the given index.
    * <p>
+   * If you want to set a precision for the comparison either use {@link #contains(double, Index, Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, atIndex(O));
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(3.0, atIndex(2));
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
    * 
-   * // assertion will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, atIndex(1));
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(4.0, atIndex(2));</code></pre>
+   * // assertion will pass
+   * assertThat(values).contains(1.0, atIndex(O))
+   *                   .contains(3.0, atIndex(2))
+   *                   .usingComparatorWithPrecision(0.5)
+   *                   .contains(3.1, atIndex(2));
+   * 
+   * // assertions will fail
+   * assertThat(values).contains(1.0, atIndex(1));
+   * assertThat(values).contains(4.0, atIndex(2));
+   * assertThat(values).usingComparatorWithPrecision(0.01)
+   *                   .contains(3.1, atIndex(2));</code></pre>
    * 
    * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
@@ -239,17 +432,55 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
-   * Verifies that the actual array does not contain the given values.
+   * Verifies that the actual array contains the given value at the given index.
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(4.0, 8.0);
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
    * 
-   * // assertion will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(1.0, 2.0, 3.0);
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(3.0, 1.0);</code></pre>
-   * 
+   * // assertion will pass
+   * assertThat(values).contains(1.0, atIndex(O), withPrecision(0.01))
+   *                   .contains(3.3, atIndex(2), withPrecision(0.5));
+   *
+   * // assertions will fail
+   * assertThat(values).contains(1.0, atIndex(1), withPrecision(0.2));
+   * assertThat(values).contains(4.5, atIndex(2), withPrecision(0.1));</code></pre>
+   *
    * </p>
+   *
+   * @param value the value to look for.
+   * @param index the index where the value should be stored in the actual array.
+   * @param precision the precision under which the value may vary.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual array is {@code null} or empty.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
+   *           the actual array.
+   * @throws AssertionError if the actual array does not contain the given value at the given index.
+   */
+  public S contains(double value, Index index, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return contains(value, index);
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given values.
+   * <p>
+   * If you want to set a precision for the comparison either use {@link #doesNotContain(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
+   * Example:
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).doesNotContain(4.0, 8.0)
+   *                   .usingComparatorWithPrecision(0.0001)
+   *                   .doesNotContain(1.01, 2.01);
+   *                   
+   * // assertions will fail
+   * assertThat(values).doesNotContain(1.0, 4.0, 8.0);
+   * assertThat(values).usingComparatorWithPrecision(0.1)
+   *                   .doesNotContain(1.001, 2.001);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -259,6 +490,33 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public S doesNotContain(double... values) {
+      arrays.assertDoesNotContain(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given values.
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).doesNotContain(new double[] {4.0, 8.0}, withPrecision(0.5));
+   *
+   * // assertion will fail
+   * assertThat(values).doesNotContain(new double[] {1.05, 4.0, 8.0}, withPrecision(0.1));</code></pre>
+   *
+   * @param values the given values.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains any of the given values.
+   */
+  public S doesNotContain(double[] values, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -266,20 +524,28 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   /**
    * Verifies that the actual array does not contain the given value at the given index.
    * <p>
+   * If you want to set a precision for the comparison either use {@link #doesNotContain(double, Index, Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(1.0, atIndex(1));
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(2.0, atIndex(0));
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
    * 
-   * // assertion will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(1.0, atIndex(0));
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(2.0, atIndex(1));</code></pre>
+   * // assertion will pass
+   * assertThat(values).doesNotContain(1.0, atIndex(1))
+   *                   .doesNotContain(2.0, atIndex(0))
+   *                   .usingComparatorWithPrecision(0.001)
+   *                   .doesNotContain(1.1, atIndex(0));
+   * 
+   * // assertions will fail
+   * assertThat(values).doesNotContain(1.0, atIndex(0));
+   * assertThat(values).usingComparatorWithPrecision(0.1)
+   *                   .doesNotContain(1.001, atIndex(0));</code></pre>
    * 
    * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
@@ -290,16 +556,48 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
+   * Verifies that the actual array does not contain the given value at the given index.
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).doesNotContain(1.01, atIndex(1), withPrecision(0.0001))
+   *                   .doesNotContain(2.05, atIndex(0), withPrecision(0.1));
+   *
+   * // assertion will fail
+   * assertThat(values).doesNotContain(1.01, atIndex(0), withPrecision(0.1));</code></pre>
+   *
+   * @param value the value to look for.
+   * @param index the index where the value should be stored in the actual array.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError if the actual array contains the given value at the given index.
+   */
+  public S doesNotContain(double value, Index index, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return doesNotContain(value, index);
+  }
+
+  /**
    * Verifies that the actual array does not contain duplicates.
+   * <p>
+   * If you want to set a precision for the comparison either use {@link #doesNotHaveDuplicates(Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotHaveDuplicates();
+   * assertThat(new double[] { 1.0, 1.1 }).usingComparatorWithPrecision(0.01)
+   *                                      .doesNotHaveDuplicates();
    * 
    * // assertion will fail
-   * assertThat(new double[] { 1.0, 1.0, 2.0, 3.0 }).doesNotHaveDuplicates();</code></pre>
-   * 
-   * </p>
+   * assertThat(new double[] { 1.0, 1.0, 2.0, 3.0 }).doesNotHaveDuplicates();
+   * assertThat(new double[] { 1.0, 1.1 }).usingComparatorWithPrecision(0.5)
+   *                                      .doesNotHaveDuplicates();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -311,21 +609,52 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
+   * Verifies that the actual array does not contain duplicates.
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotHaveDuplicates(withPrecision(0.1));
+   * assertThat(new double[] { 1.1, 1.2, 1.3 }).doesNotHaveDuplicates(withPrecision(0.05));
+   * 
+   * // assertion will fail
+   * assertThat(new double[] { 1.0, 1.01, 2.0 }).doesNotHaveDuplicates(withPrecision(0.1));</code></pre>
+   * 
+   * </p>
+   * 
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains duplicates.
+   */
+  public S doesNotHaveDuplicates(Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return doesNotHaveDuplicates();
+  }
+  
+  /**
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
    * <p>
+   * If you want to set a precision for the comparison either use {@link #startsWith(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).startsWith(1.0, 2.0);
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).startsWith(1.0, 2.0)
+   *                   .usingComparatorWithPrecision(0.5)
+   *                   .startsWith(1.1, 2.1);
    * 
    * // assertion will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).startsWith(2.0, 3.0);</code></pre>
+   * assertThat(values).startsWith(2.0, 3.0);</code></pre>
    * 
    * </p>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
@@ -337,21 +666,57 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
+   * Verifies that the actual array starts with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the first element in the
+   * sequence is also first element of the actual array.
+   * <p>
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).startsWith(new double[] {1.01, 2.01}, withPrecision(0.1));
+   * 
+   * // assertions will fail
+   * assertThat(values).startsWith(new double[] {2.0, 1.0}, withPrecision(0.1))
+   * assertThat(values).startsWith(new double[] {1.1, 2.1}, withPrecision(0.5))</code></pre>
+   * 
+   * @param sequence the sequence of values to look for.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not end with the given sequence.
+   */
+  public S startsWith(double[] values, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return startsWith(values);
+  }
+
+  
+  /**
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
    * <p>
+   * If you want to set a precision for the comparison either use {@link #endsWith(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).endsWith(2.0, 3.0);
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).endsWith(2.0, 3.0)
+   *                   .usingComparatorWithPrecision(0.5)
+   *                   .endsWith(2.1, 3.1);
    * 
    * // assertion will fail
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).endsWith(1.0, 3.0);</code></pre>
-   * 
-   * </p>
+   * assertThat(values).endsWith(1.0, 3.0);</code></pre>
    * 
    * @param sequence the sequence of values to look for.
-   * @return myself assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
@@ -360,6 +725,36 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   public S endsWith(double... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual array ends with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual array.
+   * <p>
+   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).endsWith(new double[] {2.01, 3.01}, withPrecision(0.1));
+   * 
+   * // assertion will fail
+   * assertThat(values).endsWith(new double[] {3.0, 2.0}, withPrecision(0.1))
+   * assertThat(values).endsWith(new double[] {2.1, 3.1}, withPrecision(0.5))</code></pre>
+   * 
+   * @param sequence the sequence of values to look for.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not end with the given sequence.
+   */
+  public S endsWith(double[] values, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return endsWith(values);
   }
 
   /** {@inheritDoc} */
@@ -391,14 +786,22 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
+   * <p>
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
    * <p>
+   * If you want to set a precision for the comparison either use {@link #containsExactly(double[], Offset)} 
+   * or {@link #usingComparatorWithPrecision(Double)} before calling the assertion. 
+   * <p>
    * Example :
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsExactly(1.0, 2.0, 3.0);
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).containsExactly(1.0, 2.0, 3.0)
+   *                   .usingComparatorWithPrecision(0.2)
+   *                   .containsExactly(1.1, 2.1, 2.9);
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsExactly(2.0, 1.0, 3.0);</code></pre>
+   * assertThat(values).containsExactly(2.0, 1.0, 3.0);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -411,6 +814,47 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   public S containsExactly(double... values) {
 	arrays.assertContainsExactly(info, actual, values);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * The values may vary with a specified precision.
+   * <p>
+   * Example :
+   * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(values).containsExactly(new double[] {1.0, 1.98, 3.01}, withPrecision(0.05));
+   *
+   * // assertion fails because |1.0 -1.1| > 0.05 (precision).
+   * assertThat(values).containsExactly(new double[] {1.1, 2.0, 3.01}, withPrecision(0.05));
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(values).containsExactly(new double[] {1.98, 1.0, 3.01}, withPrecision(0.05));</code></pre>
+   *
+   * @param values the given values.
+   * @param precision the precision under which the values may vary.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values within the specified precision 
+   *           with same order, i.e. the actual group contains some or none of the given values, or the actual group contains 
+   *           more values than the given ones or values are the same but the order is not.
+   */
+  public S containsExactly(double[] values, Offset<Double> precision) {
+    usingComparatorWithPrecision(precision.value);
+    return containsExactly(values);
+  }
+
+  /**
+   * Create a {@link Double} comparator which compares double at the given precision and pass it to {@link #usingElementComparator(Comparator)}. 
+   * All the following assertions will use this comparator to compare double[] elements.
+   *  
+   * @param precision precisin used to compare {@link Double}.
+   * @return {@code this} assertion object.
+   */
+  public S usingComparatorWithPrecision(Double precision) {
+    return usingElementComparator(doubleComparator.doubleComparatorWithPrecision(precision));
   }
 
 }

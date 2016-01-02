@@ -56,12 +56,23 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
   @Test
   public void should_pass_when_selected_fields_and_nested_public_fields_are_equal() {
     Player rose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
-    rose.nickname = new Name("Crazy", "Duncks");
+    rose.nickname = new Name("Crazy", "Dunks");
     Player jalen = new Player(new Name("Derrick", "Coleman"), "Chicago Bulls");
     jalen.nickname = new Name("Crazy", "Defense");
     objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, "team", "nickname.first");
   }
 
+  @Test
+  public void should_pass_when_mixed_nested_field_properties_compared_values_are_equal() {
+    Player rose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
+    rose.nickname = new Name("Crazy", "Dunks");
+    Player jalen = new Player(new Name("Jalen", "Rose"), "Chicago Bulls");
+    jalen.nickname = new Name("Crazy", "Defense");
+    // nickname is a field and Name#first is a property
+    // name is a property and Name#first is a property
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, "name.last", "nickname.first");
+  }
+  
   @Test
   public void should_pass_even_if_non_accepted_fields_differ() {
     Jedi actual = new Jedi("Yoda", "Green");

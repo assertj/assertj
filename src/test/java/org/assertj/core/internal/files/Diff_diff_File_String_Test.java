@@ -73,8 +73,7 @@ public class Diff_diff_File_String_Test {
     String expected = "Touché";
     List<Delta<String>> diffs = diff.diff(actual, expected, ISO_8859_1);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Changed content at line 1:%n"
+    assertThat(diffs.get(0)).hasToString(format("Changed content at line 1:%n"
                                                 + "expecting:%n"
                                                 + "  [\"Touché\"]%n"
                                                 + "but was:%n"
@@ -87,8 +86,7 @@ public class Diff_diff_File_String_Test {
     String expected = String.format("line_0%nline_1");
     List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Missing content at line 2:%n"
+    assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));
   }
 
@@ -98,8 +96,7 @@ public class Diff_diff_File_String_Test {
     String expected = "line_0";
     List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Extra content at line 2:%n"
+    assertThat(diffs.get(0)).hasToString(format("Extra content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));
   }
 }

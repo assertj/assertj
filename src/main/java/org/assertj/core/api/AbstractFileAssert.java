@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Preconditions.checkNotNull;
+
 import java.io.File;
 import java.nio.charset.Charset;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -129,7 +131,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    *
-   * @deprecated use hasSameContentAs
+   * @deprecated use {@link #hasSameContentAs()} instead
    */
   @Deprecated
   public S hasContentEqualTo(File expected) {
@@ -191,9 +193,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws NullPointerException if the given charset is {@code null}.
    */
   public S usingCharset(Charset charset) {
-    if (charset == null)
-      throw new NullPointerException("The charset should not be null");
-    this.charset = charset;
+    this.charset = checkNotNull(charset, "The charset should not be null");
     return myself;
   }
 

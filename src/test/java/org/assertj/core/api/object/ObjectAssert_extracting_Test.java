@@ -10,21 +10,25 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.util.diff.myers;
+package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.test.Employee;
+import org.assertj.core.test.Name;
 import org.junit.Test;
 
-public class SnakeTest {
+/**
+ * Tests for <code>{@link ObjectAssert#extracting(String[])}</code>.
+ */
+public class ObjectAssert_extracting_Test {
 
   @Test
-  public void should_be_a_snake() {
-    // GIVEN
-    Snake snake = new Snake(0, 0, null);
-    // WHEN
-    boolean isSnake = snake.isSnake();
-    // THEN
-    assertThat(isSnake).isTrue();
+  public void should_allow_assertions_on_array_of_property_values_extracted_from_given_object() {
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+      
+    assertThat(luke).extracting("id", "name").doesNotContainNull();
+    assertThat(luke).extracting("name.first", "name.last").containsExactly("Luke", "Skywalker");
   }
 }

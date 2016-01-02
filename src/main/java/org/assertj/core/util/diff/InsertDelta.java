@@ -67,7 +67,7 @@ public class InsertDelta<T> extends Delta<T> {
 
   @Override
   public String toString() {
-    return String.format("%nExtra content at line %s:%n  %s%n", lineNumber(), formatLines(getRevised().getLines()));
+    return String.format("Extra content at line %s:%n  %s%n", lineNumber(), formatLines(getRevised().getLines()));
   }
 
 }

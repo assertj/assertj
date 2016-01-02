@@ -21,21 +21,12 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
-import org.assertj.core.internal.StringsBaseTest;
-
-/**
- * Tests for <code>{@link Strings#assertContains(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 public class Strings_assertContainsSequence_Test extends StringsBaseTest {
 
   @Test
@@ -43,6 +34,13 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
     strings.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
   }
 
+  @Test
+  public void should_pass_if_actual_contains_sequence_with_values_between() {
+    String[] sequenceValues = { "{", "title", "A Game of Thrones", "}" };
+    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+  }
+  
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
     AssertionInfo info = someInfo();
@@ -84,21 +82,26 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    strings.assertContains(someInfo(), null, "Yoda");
+    strings.assertContainsSequence(someInfo(), (CharSequence)null, array("Yo", "da"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_given_strings() {
-    strings.assertContains(someInfo(), "Yoda", "Yo", "da");
+    strings.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
   }
 
+  @Test
+  public void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value_bug_544() {
+    strings.assertContainsSequence(someInfo(), "a-b-c-", array("a", "-", "b", "-", "c"));
+  }
+  
   // tests with custom comparison strategy
 
   @Test
   public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
-    stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", array("Yo", "DA"));
-    stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", array("YO", "dA"));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "DA"));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("YO", "dA"));
   }
 
   @Test

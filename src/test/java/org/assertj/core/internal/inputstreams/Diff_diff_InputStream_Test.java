@@ -69,8 +69,7 @@ public class Diff_diff_InputStream_Test {
     List<Delta<String>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Changed content at line 2:%n"
+    assertThat(diffs.get(0)).hasToString(format("Changed content at line 2:%n"
                                                 + "expecting:%n"
                                                 + "  [\"line0\",%n"
                                                 + "   \"line1\"]%n"
@@ -85,14 +84,12 @@ public class Diff_diff_InputStream_Test {
     expected = stream("base", "line0", "line1", "line2");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(2);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Changed content at line 2:%n"
+    assertThat(diffs.get(0)).hasToString(format("Changed content at line 2:%n"
                                                 + "expecting:%n"
                                                 + "  [\"line0\"]%n"
                                                 + "but was:%n"
                                                 + "  [\"line_0\"]%n"));
-    assertThat(diffs.get(1)).hasToString(format("%n"
-                                                + "Changed content at line 4:%n"
+    assertThat(diffs.get(1)).hasToString(format("Changed content at line 4:%n"
                                                 + "expecting:%n"
                                                 + "  [\"line2\"]%n"
                                                 + "but was:%n"
@@ -105,8 +102,7 @@ public class Diff_diff_InputStream_Test {
     expected = stream("base", "line_0", "line_1");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Missing content at line 3:%n"
+    assertThat(diffs.get(0)).hasToString(format("Missing content at line 3:%n"
                                                 + "  [\"line_1\"]%n"));
   }
 
@@ -116,8 +112,7 @@ public class Diff_diff_InputStream_Test {
     expected = stream("base", "line_0");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Extra content at line 3:%n"
+    assertThat(diffs.get(0)).hasToString(format("Extra content at line 3:%n"
                                                 + "  [\"line_1\"]%n"));
   }
 
@@ -127,8 +122,7 @@ public class Diff_diff_InputStream_Test {
     expected = stream("line_0", "line_1", "line_2");
     List<Delta<String>> diffs = diff.diff(actual, expected);
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("%n"
-                                                + "Extra content at line 1:%n"
+    assertThat(diffs.get(0)).hasToString(format("Extra content at line 1:%n"
                                                 + "  [\"\"]%n"));
   }
 }

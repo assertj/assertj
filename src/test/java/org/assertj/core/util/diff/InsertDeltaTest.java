@@ -13,19 +13,22 @@
 package org.assertj.core.util.diff;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
 public class InsertDeltaTest {
 
+  private static List<String> EMPTY_LIST = Collections.emptyList();
+
   @Test
-  public void testGetType() throws Exception {
+  public void testGetType() {
     // given
-    Chunk<String> chunk = new Chunk<>(1, new ArrayList<String>());
+    Chunk<String> chunk = new Chunk<>(1, EMPTY_LIST);
     Delta<String> delta = new InsertDelta<>(chunk, chunk);
 
     // when
@@ -36,18 +39,17 @@ public class InsertDeltaTest {
   }
 
   @Test
-  public void testToString() throws Exception {
+  public void testToString() {
     // given
-    Chunk<String> chunk1 = new Chunk<>(0, new ArrayList<String>());
-    Chunk<String> chunk2 = new Chunk<>(1, Arrays.asList("line1", "line2"));
+    Chunk<String> chunk1 = new Chunk<>(0, EMPTY_LIST);
+    Chunk<String> chunk2 = new Chunk<>(1, asList("line1", "line2"));
     Delta<String> delta = new InsertDelta<>(chunk1, chunk2);
 
     // when
     String desc = delta.toString();
 
     // then
-    assertThat(desc).isEqualTo(format("%n"
-                                      + "Extra content at line 1:%n"
+    assertThat(desc).isEqualTo(format("Extra content at line 1:%n"
                                       + "  [\"line1\",%n"
                                       + "   \"line2\"]%n"));
   }

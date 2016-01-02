@@ -131,6 +131,12 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     iterables.assertContainsSequence(someInfo(), actual, array("Yoda", "Obi-Wan"));
   }
 
+  @Test
+  public void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value_bug_544() {
+    actual = newArrayList("a", "-", "b", "-", "c");
+    iterables.assertContainsSequence(someInfo(), actual, array("a", "-", "b", "-", "c"));
+  }
+  
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------

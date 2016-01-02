@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.util.Preconditions.checkNotNull;
+
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -53,9 +55,7 @@ public class URLs {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, Charset charset) {
-    if (charset == null) {
-      throw new NullPointerException("The charset should not be null");
-    }
+    checkNotNull(charset, "The charset should not be null");
     try {
       return loadContents(url.openStream(), charset);
     } catch (IOException e) {
@@ -74,9 +74,7 @@ public class URLs {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, Charset charset) {
-    if (charset == null) {
-      throw new NullPointerException("The charset should not be null");
-    }
+    checkNotNull(charset, "The charset should not be null");
     try {
       return loadLines(url.openStream(), charset);
     } catch (IOException e) {

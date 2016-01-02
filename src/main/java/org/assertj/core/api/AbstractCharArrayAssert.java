@@ -149,7 +149,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertions will fail
    * assertThat(new char[] { 'a', 'b', 'a' }).containsOnlyOnce('a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnlyOnce('d');
-   * assertThat(new char[] { 'a', 'b', 'c', 'c' }).containsOnlyOnce(0, 'a', 'b', 'c', 'd', 'e');</code></pre>
+   * assertThat(new char[] { 'a', 'b', 'c', 'c' }).containsOnlyOnce('0', 'a', 'b', 'c', 'd', 'e');</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

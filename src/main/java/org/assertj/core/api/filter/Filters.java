@@ -14,6 +14,7 @@ package org.assertj.core.api.filter;
 
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,8 +97,7 @@ public class Filters<E> {
    * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(Iterable<E> iterable) {
-    if (iterable == null) throw new NullPointerException("The iterable to filter should not be null");
-    return new Filters<>(iterable);
+    return new Filters<>(checkNotNull(iterable, "The iterable to filter should not be null"));
   }
 
   /**
@@ -130,8 +130,7 @@ public class Filters<E> {
    * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(E[] array) {
-    if (array == null) throw new NullPointerException("The array to filter should not be null");
-    return new Filters<>(array);
+    return new Filters<>(checkNotNull(array, "The array to filter should not be null"));
   }
 
   private Filters(Iterable<E> iterable) {

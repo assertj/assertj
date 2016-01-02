@@ -14,7 +14,11 @@ package org.assertj.core.api.floatarray;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
+import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.withPrecision;
+import static org.assertj.core.test.FloatArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 
@@ -33,5 +37,22 @@ public class FloatArrayAssert_doesNotHaveDuplicates_Test extends FloatArrayAsser
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertDoesNotHaveDuplicates(getInfo(assertions), getActual(assertions));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_as_last_argument() {
+    // GIVEN
+    float[] actual = arrayOf(1.0f, 1.2f);
+    // THEN
+    assertThat(actual).doesNotHaveDuplicates(withPrecision(0.1f));
+  }
+
+  @Test
+  public void should_pass_with_precision_specified_in_comparator() {
+    // GIVEN
+    float[] actual = arrayOf(1.0f, 1.05f);
+    // THEN
+    assertThat(actual).usingComparatorWithPrecision(0.01f)
+                      .doesNotHaveDuplicates();
   }
 }

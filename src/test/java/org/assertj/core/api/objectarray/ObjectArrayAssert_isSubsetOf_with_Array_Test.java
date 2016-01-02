@@ -12,25 +12,22 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.util.Lists.newArrayList;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
-
-import java.util.List;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#isSubsetOf(Iterable)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- * @author Maciej Jaskowski
+ * Tests for <code>{@link ObjectArrayAssert#isSubsetOf(Object[])}</code>.
  */
-public class ObjectArrayAssert_isSubsetOf_Test extends ObjectArrayAssertBaseTest {
+public class ObjectArrayAssert_isSubsetOf_with_Array_Test extends ObjectArrayAssertBaseTest {
 
-  private final List<String> values = newArrayList("Yoda", "Luke");
+  private final Object [] values = array("Yoda", "Luke");
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
@@ -39,6 +36,11 @@ public class ObjectArrayAssert_isSubsetOf_Test extends ObjectArrayAssertBaseTest
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertIsSubsetOf(getInfo(assertions), getActual(assertions), values);
+    verify(arrays).assertIsSubsetOf(getInfo(assertions), getActual(assertions), asList(values));
+  }
+  
+  @Test
+  public void invoke_api_like_user() {
+    assertThat(array("Luke", "Yoda")).isSubsetOf("Yoda", "Luke", "Chewbacca");
   }
 }

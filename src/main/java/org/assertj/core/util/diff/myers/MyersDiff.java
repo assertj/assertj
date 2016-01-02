@@ -37,6 +37,7 @@ import org.assertj.core.util.diff.Patch;
  * @param <T> The type of the compared elements in the 'lines'.
  */
 public class MyersDiff<T> implements DiffAlgorithm<T> {
+
   /** The equalizer. */
   private final Equalizer<T> equalizer;
 

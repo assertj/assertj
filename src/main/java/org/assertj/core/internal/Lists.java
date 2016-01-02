@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -175,7 +176,7 @@ public class Lists {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual, Comparator<?> comparator) {
     assertNotNull(info, actual);
-    if (comparator == null) throw new NullPointerException("The given comparator should not be null");
+    checkNotNull(comparator, "The given comparator should not be null");
     try {
       // Empty collections are considered sorted even if comparator can't be applied to their element type
       // We can't verify that point because of erasure type at runtime.

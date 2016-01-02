@@ -24,7 +24,6 @@ import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.Test;
 
-
 /**
  * Tests for <code>{@link FloatArrays#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, float[], Object[])}</code>.
  * 
@@ -46,8 +45,8 @@ public class FloatArrays_assertHasSameSizeAs_with_Array_Test extends FloatArrays
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length)
-          .create(null, info.representation()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null,
+                                                                                                info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

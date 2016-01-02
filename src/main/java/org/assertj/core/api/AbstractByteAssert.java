@@ -179,11 +179,11 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat((byte) 1).isLessThan(2);
+   * assertThat((byte) 1).isLessThan((byte) 2);
    * 
    * // assertion will fail
-   * assertThat((byte) 1).isLessThan(0);
-   * assertThat((byte) 1).isLessThan(1);</code></pre>
+   * assertThat((byte) 1).isLessThan((byte) 0);
+   * assertThat((byte) 1).isLessThan((byte) 1);</code></pre>
    * 
    * </p>
    * 
@@ -202,11 +202,11 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat((byte) 1).isLessThanOrEqualTo(2);
-   * assertThat((byte) 1).isLessThanOrEqualTo(1);
+   * assertThat((byte) 1).isLessThanOrEqualTo((byte) 2);
+   * assertThat((byte) 1).isLessThanOrEqualTo((byte) 1);
    * 
    * // assertion will fail
-   * assertThat((byte) 1).isLessThanOrEqualTo(0);</code></pre>
+   * assertThat((byte) 1).isLessThanOrEqualTo((byte) 0);</code></pre>
    * 
    * </p>
    * 
@@ -225,11 +225,11 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat((byte) 2).isGreaterThan(1);
+   * assertThat((byte) 2).isGreaterThan((byte) 1);
    * 
    * // assertion will fail
-   * assertThat((byte) 2).isGreaterThan(3);
-   * assertThat((byte) 2).isGreaterThan(2);</code></pre>
+   * assertThat((byte) 2).isGreaterThan((byte) 3);
+   * assertThat((byte) 2).isGreaterThan((byte) 2);</code></pre>
    * 
    * </p>
    * 
@@ -248,11 +248,11 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat((byte) 2).isGreaterThanOrEqualTo(1);
-   * assertThat((byte) 2).isGreaterThanOrEqualTo(2);
+   * assertThat((byte) 2).isGreaterThanOrEqualTo((byte) 1);
+   * assertThat((byte) 2).isGreaterThanOrEqualTo((byte) 2);
    *
    * // assertion will fail
-   * assertThat((byte) 2).isGreaterThanOrEqualTo(3);</code></pre>
+   * assertThat((byte) 2).isGreaterThanOrEqualTo((byte) 3);</code></pre>
    * 
    * </p>
    * 
@@ -314,13 +314,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((byte)5).isCloseTo((byte)7, within((byte)3));
+   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 3));
    *
    * // if difference is exactly equals to the offset, it's ok
-   * assertThat((byte)5).isCloseTo((byte)7, within((byte)2));
+   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 2));
    *
    * // assertion will fail
-   * assertThat((byte)5).isCloseTo((byte)7, within((byte)1));</code></pre>
+   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 1));</code></pre>
    *
    * @param expected the given byte to compare the actual value to.
    * @param offset the given positive offset.
@@ -339,13 +339,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((byte)5).isCloseTo(new Byte("7"), within((byte)3));
+   * assertThat((byte) 5).isCloseTo(new Byte("7"), within((byte) 3));
    *
    * // if difference is exactly equals to the offset, it's ok
-   * assertThat((byte)5).isCloseTo(new Byte("7"), within((byte)2));
+   * assertThat((byte) 5).isCloseTo(new Byte("7"), within((byte) 2));
    *
    * // assertion will fail
-   * assertThat((byte)5).isCloseTo(new Byte("7"), within((byte)1));</code></pre>
+   * assertThat((byte) 5).isCloseTo(new Byte("7"), within((byte) 1));</code></pre>
    *
    * @param expected the given Byte to compare the actual value to.
    * @param offset the given positive offset.
@@ -366,13 +366,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example with byte:
    * <pre><code class='java'> // assertions will pass:
-     * assertThat((byte)11).isCloseTo(Byte.valueOf(10), withinPercentage((byte)20));
+     * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 20));
      *
      * // if difference is exactly equals to the computed offset (1), it's ok
-     * assertThat((byte)11).isCloseTo(Byte.valueOf(10), withinPercentage((byte)10));
+     * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 10));
      *
      * // assertion will fail
-     * assertThat((byte)11).isCloseTo(Byte.valueOf(10), withinPercentage((byte)5));</code></pre>
+     * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -393,13 +393,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example with byte:
    * <pre><code class='java'> // assertions will pass:
-     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)20));
+     * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 20));
      *
      * // if difference is exactly equals to the computed offset (1), it's ok
-     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)10));
+     * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 10));
      *
      * // assertion will fail
-     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)5));</code></pre>
+     * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
