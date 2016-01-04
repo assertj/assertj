@@ -120,7 +120,22 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual array has the same size as given array.
+   * <p/>
+   * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
+   * <p/>
+   * Example:
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   * int[] fourFiveSix = {4, 5, 6}; 
+   * 
+   * // assertions will pass
+   * assertThat(oneTwoThree).hasSameSizeAs(fourFiveSix);</code></pre>
+   * 
+   * @param array the array to compare size with actual group.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the array parameter is {@code null} or is not a true array.
+   * @throws AssertionError if actual group and given array don't have the same size.
    */
   @Override
   public S hasSameSizeAs(Object other) {
@@ -129,227 +144,830 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group has the same size as given {@link Iterable}.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
+   * 
+   * // assertions will pass
+   * assertThat(oneTwoThree).hasSameSizeAs(elvesRings);</code></pre>
+   * 
+   * @param other the {@code Iterable} to compare size with actual group.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other {@code Iterable} is {@code null}.
+   * @throws AssertionError if actual group and given {@code Iterable} don't have the same size.
+   */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group contains the given values, in any order.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"};
+   * 
+   * // assertions will pass
+   * assertThat(abc).contains("b", "a");
+   * assertThat(abc).contains("b", "a", "b");
+   * 
+   * // assertions will fail
+   * assertThat(abc).contains("d");</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values.
+   */
   @Override
   public S contains(@SuppressWarnings("unchecked") T... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in any order</b>.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"};
+   *
+   * // assertion will pass
+   * assertThat(abc).containsOnly("c", "b", "a");
+   * 
+   * // assertion will fail "c" is missing
+   * assertThat(abc).containsOnly("a", "b");</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+   *           or none of the given values, or the actual group contains more values than the given ones.
+   */
   @Override
   public S containsOnly(@SuppressWarnings("unchecked") T... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
+   * iterable and nothing else, <b>in any order</b>.
+   * <p/>
+   * Example :
+   * <pre><code class='java'> Ring[] rings = {nenya, vilya};
+   * 
+   * // assertion will pass
+   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya));
+   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
+   * 
+   * // assertion will fail as actual does not contain narya.
+   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya, narya));
+   * // assertion will fail as actual contain nenya.
+   * assertThat(rings).containsOnlyElementsOf(newArrayList(vilya));</code></pre>
+   * 
+   * @param iterable the given {@code Iterable} we will get elements from.
+   */
   @Override
   public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
     return containsOnly(toArray(iterable));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
+   * given iterable and nothing else, <b>in any order</b>.
+   * </p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   * 
+   * // assertions will pass:
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya));
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, nenya));
+   * 
+   * // assertions will fail:
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));</code></pre>
+   * 
+   * @param iterable the Iterable whose elements we expect to be present
+   * @return this assertion object
+   * @throws AssertionError if the actual group is {@code null}
+   * @throws NullPointerException if the given {@code Iterable} is {@code null}
+   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
+   *           {@code Iterable}
+   */
   @Override
   public S hasSameElementsAs(Iterable<? extends T> iterable) {
     return containsOnlyElementsOf(iterable);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group contains the given values only once.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // array if a factory method to create arrays.
+   * 
+   * // assertions will pass
+   * assertThat(array(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;winter&quot;);
+   * assertThat(array(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;coming&quot;, &quot;winter&quot;);
+   * 
+   * // assertions will fail
+   * assertThat(array(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;Lannister&quot;);
+   * assertThat(array(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;);
+   * assertThat(array(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;, &quot;Lannister&quot;, &quot;Aria&quot;);</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+   *           or none of the given values, or the actual group contains more than once these values.
+   */
   @Override
   public S containsOnlyOnce(@SuppressWarnings("unchecked") T... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array contains only the given values and nothing else, <b>in order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   * 
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactly(vilya, nenya, narya);
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(elvesRings).containsExactly(nenya, vilya, narya);</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
   @Override
   public S containsExactly(@SuppressWarnings("unchecked") T... values) {
     arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
+   * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
+   * <p/>
+   * Example :
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   * 
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(vilya, nenya, narya));
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
+   *
+   * @param iterable the given {@code Iterable} we will get elements from.
+   */
   @Override
   public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
     return containsExactly(toArray(iterable));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * <p> 
+   * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   * 
+   * // assertion will pass
+   * assertThat(elvesRings).containsSequence(vilya, nenya);
+   * assertThat(elvesRings).containsSequence(nenya, narya);
+   * 
+   * // assertions will fail, the elements order is correct but there is a value between them (nenya) 
+   * assertThat(elvesRings).containsSequence(vilya, narya);  
+   * assertThat(elvesRings).containsSequence(nenya, vilya);</code></pre>
+   * 
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given sequence.
+   */
   @Override
   public S containsSequence(@SuppressWarnings("unchecked") T... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array contains the given subsequence in the correct order (possibly with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   * 
+   * // assertions will pass
+   * assertThat(elvesRings).containsSubsequence(vilya, nenya);
+   * assertThat(elvesRings).containsSubsequence(vilya, narya);
+   * 
+   * // assertion will fail
+   * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
+   * 
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given subsequence.
+   */
   @Override
   public S containsSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array contains the given object at the given index.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).contains(vilya, atIndex(0));
+   * assertThat(elvesRings).contains(nenya, atIndex(1));
+   * assertThat(elvesRings).contains(narya, atIndex(2));
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).contains(vilya, atIndex(1));
+   * assertThat(elvesRings).contains(nenya, atIndex(2));
+   * assertThat(elvesRings).contains(narya, atIndex(0));;</code></pre>
+   *
+   * @param value the object to look for.
+   * @param index the index where the object should be stored in the actual group.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null} or empty.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the actual
+   *           group.
+   * @throws AssertionError if the actual group does not contain the given object at the given index.
+   */
   @Override
   public S contains(T value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array does not contain the given object at the given index.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).contains(vilya, atIndex(1));
+   * assertThat(elvesRings).contains(nenya, atIndex(2));
+   * assertThat(elvesRings).contains(narya, atIndex(0));
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).contains(vilya, atIndex(0));
+   * assertThat(elvesRings).contains(nenya, atIndex(1));
+   * assertThat(elvesRings).contains(narya, atIndex(2));;</code></pre>
+   *
+   * @param value the object to look for.
+   * @param index the index where the object should not be stored in the actual group.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError if the actual group contains the given object at the given index.
+   */
   @Override
   public S doesNotContain(T value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array does not contain the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   *
+   * // assertion will pass
+   * assertThat(abc).doesNotContain("d", "e");</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group contains any of the given values.
+   */
   @Override
   public S doesNotContain(@SuppressWarnings("unchecked") T... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that actual does not contain any elements of the given {@link Iterable} (i.e. none).
+   * <p/>
+   * Example:
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   * 
+   * // These assertions succeed:
+   * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("d", "e"));
+   * 
+   * // These fail:
+   * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("d", "e", "a"));</code></pre>
+   *
+   * @param iterable the {@link Iterable} whose elements must not be in the actual group.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty iterable.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
+   */
   @Override
   public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
     arrays.assertDoesNotContainAnyElementsOf(info, actual, iterable);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group does not contain duplicates.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   * String[] lotsOfAs = {"a", "a", "a"}; 
+   *
+   * // assertion will pass
+   * assertThat(abc).doesNotHaveDuplicates();
+   * 
+   * // assertion will fail
+   * assertThat(lotsOfAs).doesNotHaveDuplicates();</code></pre>
+   * 
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group contains duplicates.
+   */
   @Override
   public S doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array starts with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the first element in the
+   * sequence is also first element of the actual group.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   *
+   * // assertion will pass
+   * assertThat(abc).startsWith("a", "b");
+   * 
+   * // assertion will fail
+   * assertThat(abc).startsWith("c");</code></pre>
+   * 
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not start with the given sequence of objects.
+   */
   @Override
   public S startsWith(@SuppressWarnings("unchecked") T... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual array ends with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual group.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   *
+   * // assertion will pass
+   * assertThat(abc).endsWith("b", "c");
+   * 
+   * // assertion will fail
+   * assertThat(abc).endsWith("a");</code></pre>
+   * 
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   */
   @Override
   public S endsWith(@SuppressWarnings("unchecked") T... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that all the elements of actual are present in the given {@code Iterable}.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya}; 
+   * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
+   * 
+   * // assertions will pass:
+   * assertThat(elvesRings).isSubsetOf(ringsOfPower);
+   * 
+   * // assertions will fail:
+   * assertThat(elvesRings).isSubsetOf(newArrayList(nenya, narya));</code></pre>
+   * 
+   * @param values the {@code Iterable} that should contain all actual elements.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws NullPointerException if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
+   */
   @Override
   public S isSubsetOf(Iterable<? extends T> values) {
     arrays.assertIsSubsetOf(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that all the elements of actual are present in the given values.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya}; 
+   * 
+   * // assertions will pass:
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya);
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya, dwarfRing);
+   * 
+   * // assertions will fail:
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya);
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, dwarfRing);</code></pre>
+   * 
+   * @param values the values that should be used for checking the elements of actual.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
+   */
   @Override
   public S isSubsetOf(@SuppressWarnings("unchecked") T... values) {
     arrays.assertIsSubsetOf(info, actual, Arrays.asList(values));
     return myself;
   }
   
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group contains at least a null element.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   * String[] abNull = {"a", "b", null}; 
+   *
+   * // assertion will pass
+   * assertThat(abNull).containsNull();
+   * 
+   * // assertion will fail
+   * assertThat(abc).containsNull();</code></pre>
+   * 
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain a null element.
+   */
   @Override
   public S containsNull() {
     arrays.assertContainsNull(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group does not contain null elements.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   * String[] abNull = {"a", "b", null}; 
+   *
+   * // assertion will pass
+   * assertThat(abc).doesNotContainNull();
+   *
+   * // assertion will fail
+   * assertThat(abNull).doesNotContainNull();</code></pre>
+   * 
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group contains a null element.
+   */
   @Override
   public S doesNotContainNull() {
     arrays.assertDoesNotContainNull(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that each element value satisfies the given condition
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   * 
+   * Condition&lt;String&gt; singleCharacterString 
+   *      = new Condition&lt;&gt;(s -> s.length() == 1, "single character String");
+   *
+   * // assertion will pass
+   * assertThat(abc).are(singleCharacterString);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).are(singleCharacterString);</code></pre>
+   *
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more element don't satisfy the given condition.
+   */
   @Override
   public S are(Condition<? super T> condition) {
     arrays.assertAre(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that each element value does not satisfy the given condition
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   *
+   * Condition&lt;String&gt; moreThanOneCharacter = 
+   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *
+   * // assertion will pass
+   * assertThat(abc).areNot(moreThanOneCharacter);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).areNot(moreThanOneCharacter);</code></pre>
+   * 
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */
   @Override
   public S areNot(Condition<? super T> condition) {
     arrays.assertAreNot(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that all elements satisfy the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   *
+   * Condition&lt;String&gt; onlyOneCharacter = 
+   *     = new Condition&lt;&gt;(s -> s.length() == 1, "only one character");
+   *
+   * // assertion will pass
+   * assertThat(abc).have(onlyOneCharacter);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).have(onlyOneCharacter);</code></pre>
+   * 
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */
   @Override
   public S have(Condition<? super T> condition) {
     arrays.assertHave(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that all elements don't satisfy the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   *
+   * Condition&lt;String&gt; moreThanOneCharacter = 
+   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *
+   * // assertion will pass
+   * assertThat(abc).doNotHave(moreThanOneCharacter);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).doNotHave(moreThanOneCharacter);</code></pre>
+   * 
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */
   @Override
   public S doNotHave(Condition<? super T> condition) {
     arrays.assertDoNotHave(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.areAtLeast(2, oddNumber);
+   * 
+   * // assertion will fail
+   * oneTwoThree.areAtLeast(3, oddNumber);</code></pre>
+   * 
+   * @param n the minimum number of times the condition should be verified.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element can not be cast to T.
+   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
+   */
   @Override
   public S areAtLeast(int times, Condition<? super T> condition) {
     arrays.assertAreAtLeast(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
+   * <p/>
+   * This method is an alias for {@code areAtLeast(1, condition)}.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // jedi is a Condition&lt;String&gt;
+   * assertThat(new String[]{"Luke", "Solo", "Leia"}).areAtLeastOne(jedi);</code></pre>
+   *
+   * @see #haveAtLeast(int, Condition)
+   */
   @Override
   public S areAtLeastOne(Condition<? super T> condition) {
     areAtLeast(1, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertions will pass
+   * oneTwoThree.areAtMost(2, oddNumber);
+   * oneTwoThree.areAtMost(3, oddNumber);
+   * 
+   * // assertions will fail
+   * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
+   * 
+   * @param n the number of times the condition should be at most verified.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
+   */
   @Override
   public S areAtMost(int times, Condition<? super T> condition) {
     arrays.assertAreAtMost(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.areExactly(2, oddNumber);
+   * 
+   * // assertions will fail
+   * oneTwoThree.areExactly(1, oddNumber);
+   * oneTwoThree.areExactly(3, oddNumber);</code></pre>
+   * 
+   * @param n the exact number of times the condition should be verified.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
+   */
   @Override
   public S areExactly(int times, Condition<? super T> condition) {
     arrays.assertAreExactly(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
+   * <p/>
+   * This method is an alias for {@code haveAtLeast(1, condition)}.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> BasketBallPlayer[] bullsPlayers = {butler, rose};
+   * 
+   * // potentialMvp is a Condition&lt;BasketBallPlayer&gt;
+   * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);</code></pre>
+   *
+   * @see #haveAtLeast(int, Condition)
+   */
   @Override
   public S haveAtLeastOne(Condition<? super T> condition) {
     return haveAtLeast(1, condition);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.haveAtLeast(2, oddNumber);
+   * 
+   * // assertion will fail
+   * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
+   *
+   * This method is an alias for {@link #areAtLeast(int, Condition)}.
+   */
   @Override
   public S haveAtLeast(int times, Condition<? super T> condition) {
     arrays.assertHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertions will pass
+   * oneTwoThree.haveAtMost(2, oddNumber);
+   * oneTwoThree.haveAtMost(3, oddNumber);
+   * 
+   * // assertion will fail
+   * oneTwoThree.haveAtMost(1, oddNumber);</code></pre>
+   *
+   * This method is an alias {@link #areAtMost(int, Condition)}.
+   */
   @Override
   public S haveAtMost(int times, Condition<? super T> condition) {
     arrays.assertHaveAtMost(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.haveExactly(2, oddNumber);
+   * 
+   * // assertions will fail
+   * oneTwoThree.haveExactly(1, oddNumber);
+   * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
+   *
+   * This method is an alias {@link #areExactly(int, Condition)}.
+   */
   @Override
   public S haveExactly(int times, Condition<? super T> condition) {
     arrays.assertHaveExactly(info, actual, times, condition);
@@ -384,13 +1002,59 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   * String[] bc = {"b", "c"}; 
+   *
+   * // assertion will pass
+   * assertThat(abc).containsAll(bc);</code></pre>
+   * 
+   * @param iterable the given {@code Iterable} we will get elements from.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
+   */
   @Override
   public S containsAll(Iterable<? extends T> iterable) {
     arrays.assertContainsAll(info, actual, iterable);
     return myself;
   }
 
+  /**
+   * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group
+   * elements for
+   * incoming assertion checks.
+   * <p>
+   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
+   * comparison strategy.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // compares invoices by payee
+   * assertThat(invoiceArray).usingComparator(invoicePayeeComparator).isEqualTo(expectedinvoiceArray).
+   * 
+   * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
+   * assertThat(invoiceArray).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice)
+   * 
+   * // as assertThat(invoiceArray) creates a new assertion, it falls back to standard comparison strategy 
+   * // based on Invoice's equal method to compare invoiceArray elements to lowestInvoice.                                                      
+   * assertThat(invoiceArray).contains(lowestInvoice).
+   * 
+   * // standard comparison : the fellowshipOfTheRing includes Gandalf but not Sauron (believe me) ...
+   * assertThat(fellowshipOfTheRing).contains(gandalf)
+   *                                .doesNotContain(sauron);
+   * 
+   * // ... but if we compare only races, Sauron is in fellowshipOfTheRing because he's a Maia like Gandalf.
+   * assertThat(fellowshipOfTheRing).usingElementComparator(raceComparator)
+   *                                .contains(sauron);</code></pre>
+   * 
+   * @param customComparator the comparator to use for incoming assertion checks.
+   * @throws NullPointerException if the given comparator is {@code null}.
+   * @return {@code this} assertion object.
+   */
   @Override
   public S usingElementComparator(Comparator<? super T> elementComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
@@ -400,6 +1064,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return myself;
   }
 
+  /** {@inheritDoc} */
   @Override
   public S usingDefaultElementComparator() {
     this.arrays = ObjectArrays.instance();
@@ -649,29 +1314,21 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * doesn't utilize introspection.
    * <p/>
    * Let's take a look an example
-   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * <pre><code class='java'> // Build an array of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
-   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
-   * 
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
-   * 
-   * // this extracts the race
-   * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    &commat;Override
-   *    public Race extract(TolkienCharacter input) {
-   *        return input.getRace();
-   *    }
-   * }
+   * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
+   *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
+   *   new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT),
+   *   new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA),
+   *   new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF),
+   *   new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT),
+   *   new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF),
+   *   new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN,
+   *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
+   * };
    * 
    * // fellowship has hobbitses, right, my presioussss?
-   * assertThat(fellowshipOfTheRing).extracting(race).contains(HOBBIT);</code></pre>
+   * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getRace).contains(HOBBIT);</code></pre>
    * 
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
@@ -703,16 +1360,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
    * fred.getChildren().add(pebbles);
    * 
-   * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
-   *    &commat;Override
-   *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
-   *        return input.getChildren();
-   *    }
-   * }
-   * 
    * CartoonCharacter[] parents = new CartoonCharacter[] { homer, fred };
    * // check children
-   * assertThat(parents).flatExtracting(childrenOf)
+   * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    * 
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
@@ -1149,7 +1799,27 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return (S) new ObjectArrayAssert<>(stream(actual).filter(predicate).toArray());
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that all elements match the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = new String[] {"a", "b", "c"};
+   * String[] abcc  = new String[] {"a", "b", "cc"};
+   *
+   * // assertion will pass
+   * assertThat(abc).allMatch(s -&gt; s.length() == 1);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).allMatch(s -&gt; s.length() == 1);</code></pre>
+   * 
+   * Note that you can achieve the same result with {@link #are(Condition) are(Condition)} or {@link #have(Condition) have(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   */
   @Override
   public S allMatch(Predicate<? super T> condition) {
     iterables.assertAllMatch(info, newArrayList(actual), condition);

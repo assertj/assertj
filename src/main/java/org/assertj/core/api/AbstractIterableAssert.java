@@ -831,16 +831,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    * 
-   * // this extracts the race
-   * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    &commat;Override
-   *    public Race extract(TolkienCharacter input) {
-   *        return input.getRace();
-   *    }
-   * }
-   * 
    * // fellowship has hobbitses, right, my presioussss?
-   * assertThat(fellowshipOfTheRing).extracting(race).contains(HOBBIT);</code></pre>
+   * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getRace).contains(HOBBIT);</code></pre>
    * 
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
@@ -871,16 +863,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
    * fred.getChildren().add(pebbles);
    * 
-   * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonChildren, List&lt;CartoonChildren&gt;&gt;() {
-   *    &commat;Override
-   *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
-   *        return input.getChildren();
-   *    }
-   * }
-   * 
    * List&lt;CartoonCharacter&gt; parents = newArrayList(homer, fred);
    * // check children
-   * assertThat(parent).flatExtracting(childrenOf)
+   * assertThat(parent).flatExtracting(CartoonCharacter::getChildren)
    *                   .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    * 
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
