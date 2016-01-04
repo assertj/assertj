@@ -33,6 +33,7 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -88,10 +89,15 @@ public class Files {
   public void assertSameContentAs(AssertionInfo info, File actual, File expected) {
     verifyIsFile(expected);
     assertIsFile(info, actual);
+    BinaryDiffResult binaryDiffResult = null;
     try {
+      binaryDiffResult = binaryDiff.diff(actual, java.nio.file.Files.readAllBytes(expected.toPath()));
+      if (binaryDiffResult.hasNoDiff()) return;
       List<Delta<String>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
+    } catch (MalformedInputException e) {
+      throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
     } catch (IOException e) {
       String msg = String.format("Unable to compare contents of files:<%s> and:<%s>", actual, expected);
       throw new RuntimeIOException(msg, e);
