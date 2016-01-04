@@ -342,7 +342,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * // assertion will pass
    * assertThat(shorts).containsExactly((short) 1, (short) 2, (short) 3);
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(shorts).containsExactly((short) 2, (short) 1, (short) 3);</code></pre>
    * 
    * @param values the given values.

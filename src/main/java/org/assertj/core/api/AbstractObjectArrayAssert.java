@@ -131,7 +131,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * int[] fourFiveSix = {4, 5, 6}; 
    * 
-   * // assertions will pass
+   * // assertion will pass
    * assertThat(oneTwoThree).hasSameSizeAs(fourFiveSix);</code></pre>
    * 
    * @param array the array to compare size with actual group.
@@ -154,7 +154,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
    * 
-   * // assertions will pass
+   * // assertion will pass
    * assertThat(oneTwoThree).hasSameSizeAs(elvesRings);</code></pre>
    * 
    * @param other the {@code Iterable} to compare size with actual group.
@@ -179,7 +179,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(abc).contains("b", "a");
    * assertThat(abc).contains("b", "a", "b");
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(abc).contains("d");</code></pre>
    * 
    * @param values the given values.
@@ -204,7 +204,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertion will pass
    * assertThat(abc).containsOnly("c", "b", "a");
    * 
-   * // assertion will fail "c" is missing
+   * // assertion will fail because "c" is missing
    * assertThat(abc).containsOnly("a", "b");</code></pre>
    * 
    * @param values the given values.
@@ -228,13 +228,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Example :
    * <pre><code class='java'> Ring[] rings = {nenya, vilya};
    * 
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya));
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
    * 
-   * // assertion will fail as actual does not contain narya.
+   * // assertion will fail as actual does not contain narya
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya, narya));
-   * // assertion will fail as actual contain nenya.
+   * // assertion will fail as actual contain nenya
    * assertThat(rings).containsOnlyElementsOf(newArrayList(vilya));</code></pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
@@ -309,7 +309,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertion will pass
    * assertThat(elvesRings).containsExactly(vilya, nenya, narya);
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(elvesRings).containsExactly(nenya, vilya, narya);</code></pre>
    * 
    * @param values the given values.
@@ -336,7 +336,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertion will pass
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(vilya, nenya, narya));
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.
@@ -413,7 +413,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertions will fail
    * assertThat(elvesRings).contains(vilya, atIndex(1));
    * assertThat(elvesRings).contains(nenya, atIndex(2));
-   * assertThat(elvesRings).contains(narya, atIndex(0));;</code></pre>
+   * assertThat(elvesRings).contains(narya, atIndex(0));</code></pre>
    *
    * @param value the object to look for.
    * @param index the index where the object should be stored in the actual group.
@@ -444,7 +444,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertions will fail
    * assertThat(elvesRings).contains(vilya, atIndex(0));
    * assertThat(elvesRings).contains(nenya, atIndex(1));
-   * assertThat(elvesRings).contains(narya, atIndex(2));;</code></pre>
+   * assertThat(elvesRings).contains(narya, atIndex(2));</code></pre>
    *
    * @param value the object to look for.
    * @param index the index where the object should not be stored in the actual group.
@@ -590,10 +590,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya}; 
    * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(elvesRings).isSubsetOf(ringsOfPower);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(elvesRings).isSubsetOf(newArrayList(nenya, narya));</code></pre>
    * 
    * @param values the {@code Iterable} that should contain all actual elements.
@@ -699,7 +699,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element don't satisfy the given condition.
+   * @throws AssertionError if one or more elements don't satisfy the given condition.
    */
   @Override
   public S are(Condition<? super T> condition) {
@@ -727,7 +727,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   @Override
   public S areNot(Condition<? super T> condition) {
@@ -755,7 +755,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   @Override
   public S have(Condition<? super T> condition) {
@@ -783,7 +783,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   @Override
   public S doNotHave(Condition<? super T> condition) {
@@ -847,7 +847,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * oneTwoThree.areAtMost(2, oddNumber);
    * oneTwoThree.areAtMost(3, oddNumber);
    * 
-   * // assertions will fail
+   * // assertion will fail
    * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
    * 
    * @param n the number of times the condition should be at most verified.

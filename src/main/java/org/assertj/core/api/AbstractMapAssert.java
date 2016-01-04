@@ -507,7 +507,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    *                                         entry(nenya, galadriel), 
    *                                         entry(narya, gandalf));
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(ringBearers).containsExactly(entry(nenya, galadriel), 
    *                                         entry(narya, gandalf), 
    *                                         entry(oneRing, frodo));</code></pre>

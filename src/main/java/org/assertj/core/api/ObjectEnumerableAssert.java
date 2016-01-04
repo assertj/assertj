@@ -42,7 +42,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).contains("b", "a");
    * assertThat(abc).contains("b", "a", "b");
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(abc).contains("d");</code></pre>
    * 
    * @param values the given values.
@@ -63,7 +63,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertion will pass
    * assertThat(abc).containsOnly("c", "b", "a");
    * 
-   * // assertion will fail "c" is missing
+   * // assertion will fail because "c" is missing
    * assertThat(abc).containsOnly("a", "b");</code></pre>
    * 
    * @param values the given values.
@@ -113,7 +113,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertion will pass
    * assertThat(elvesRings).containsExactly(vilya, nenya, narya);
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(elvesRings).containsExactly(nenya, vilya, narya);</code></pre>
    * 
    * @param values the given values.
@@ -135,7 +135,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(elvesRings).containsSequence(vilya, nenya);
    * assertThat(elvesRings).containsSequence(nenya, narya);
    * 
@@ -318,7 +318,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element don't satisfy the given condition.
+   * @throws AssertionError if one or more elements don't satisfy the given condition.
    */
   S are(Condition<? super T> condition);
 
@@ -342,7 +342,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   S areNot(Condition<? super T> condition);
 
@@ -366,7 +366,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   S have(Condition<? super T> condition);
 
@@ -390,7 +390,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   S doNotHave(Condition<? super T> condition);
 
@@ -442,7 +442,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * oneTwoThree.areAtMost(2, oddNumber);
    * oneTwoThree.areAtMost(3, oddNumber);
    * 
-   * // assertions will fail
+   * // assertion will fail
    * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
    * 
    * @param n the number of times the condition should be at most verified.
@@ -619,7 +619,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertion will pass
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(vilya, nenya, narya));
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.
@@ -638,9 +638,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
    * 
-   * // assertion will fail as actual does not contain narya.
+   * // assertion will fail as actual does not contain narya
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
-   * // assertion will fail as actual contain nenya.
+   * // assertion will fail as actual contains nenya
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));</code></pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
@@ -701,10 +701,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(elvesRings).isSubsetOf(ringsOfPower);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(elvesRings).isSubsetOf(newArrayList(nenya, narya));</code></pre>
    * 
    * @param values the {@code Iterable} that should contain all actual elements.

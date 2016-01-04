@@ -1016,7 +1016,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * // assertion will pass
    * assertThat(elvesRings).containsExactly(newLinkedList(vilya, nenya, narya));
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(elvesRings).containsExactly(newLinkedList(nenya, vilya, narya));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.

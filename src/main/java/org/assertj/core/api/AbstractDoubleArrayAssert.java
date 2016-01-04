@@ -795,12 +795,12 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * Example :
    * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
    * 
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(values).containsExactly(1.0, 2.0, 3.0)
    *                   .usingComparatorWithPrecision(0.2)
    *                   .containsExactly(1.1, 2.1, 2.9);
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(values).containsExactly(2.0, 1.0, 3.0);</code></pre>
    * 
    * @param values the given values.
@@ -829,7 +829,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * // assertion fails because |1.0 -1.1| > 0.05 (precision).
    * assertThat(values).containsExactly(new double[] {1.1, 2.0, 3.01}, withPrecision(0.05));
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(values).containsExactly(new double[] {1.98, 1.0, 3.01}, withPrecision(0.05));</code></pre>
    *
    * @param values the given values.
