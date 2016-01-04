@@ -13,6 +13,8 @@
 package org.assertj.core.api;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
@@ -27,6 +29,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.filter.FilterOperator;
@@ -1343,6 +1346,72 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return new ObjectArrayAssert<>(extracted);
   }
 
+  /**
+   * Use the given {@link Function}s to extract the values from the Iterable's elements under test into a new Iterable
+   * composed of {@link Tuple} (a simple data structure containing th extracted values), this new Iterable becoming the
+   * Iterable under test.
+   * <p/>
+   * It allows you to test values from the Iterable's elements instead of testing the elements themselves, it can be
+   * sometimes much less work!
+   * <p/>
+   * The Tuple data corresponds to the extracted values from the Iterable's elements, for instance if you pass functions
+   * extracting "id", "name" and "email" values then each Tuple data will be composed of an id, a name and an email
+   * extracted from the element of the initial array (the Tuple's data order is the same as the given functions
+   * order).
+   * <p/>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre><code class='java'> // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
+   * // they can be public field or properties, both works when extracting their values.
+   * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
+   *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
+   *   new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT),
+   *   new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA),
+   *   new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF),
+   *   new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT),
+   *   new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF),
+   *   new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN,
+   *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
+   * };
+   * 
+   * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing :
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+   *                                            character -> character.getAge(),
+   *                                            TolkienCharacter::getRace)
+   *                                .containsOnly(tuple("Frodo", 33, HOBBIT),
+   *                                              tuple("Sam", 38, HOBBIT),
+   *                                              tuple("Gandalf", 2020, MAIA),
+   *                                              tuple("Legolas", 1000, ELF),
+   *                                              tuple("Pippin", 28, HOBBIT),
+   *                                              tuple("Gimli", 139, DWARF),
+   *                                              tuple("Aragorn", 87, MAN),
+   *                                              tuple("Boromir", 37, MAN));</code></pre>
+   * You can use lambda expression or a method reference to extract the expected values.
+   * <p/>
+   * Use {@link Tuple#tuple(Object...)} to initialize the expected values.
+   * <p/>
+   * Note that the order of the extracted tuples list is consistent with the iteration order of the array under test,
+   * for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted tuples order.
+   * 
+   * @param extractors the extractor functions to extract a value from an element of the array under test.
+   * @return a new assertion object whose object under test is the list of Tuple containing the extracted values.
+   */
+  @SafeVarargs
+  public final ObjectArrayAssert<Tuple> extracting(Function<T, ?>... extractors) {
+    // combine all extractors into one function
+    Function<T, Tuple> tupleExtractor = objectToExtractValueFrom -> {
+      Tuple tuple = new Tuple();
+      for (Function<T, ?> extractor : extractors) {
+        // extract value one by one
+        tuple.addData(extractor.apply(objectToExtractValueFrom));
+      }
+      return tuple;
+    };
+    Tuple[] tuples = stream(actual).map(tupleExtractor).toArray(size -> new Tuple[size]);
+    return new ObjectArrayAssert<Tuple>(tuples);
+  }
+  
   /**
    * Extract the Iterable values from arrays elements under test by applying an Iterable extracting function on them
    * and concatenating the result lists into an array which becomes the new object under test.
