@@ -13,7 +13,6 @@
 package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.test.TestData.someInfo;
@@ -130,13 +129,15 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_files_are_not_binary_identical() throws IOException {
-    Throwable throwable = catchThrowable(() -> unMockedFiles.assertSameContentAs(someInfo(), createFileWithNonUTF8Character(), expected));
-
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-      .hasMessageEndingWith("does not have expected binary content at offset <0>, expecting:\n" +
+    try {
+      unMockedFiles.assertSameContentAs(someInfo(), createFileWithNonUTF8Character(), expected);
+      failBecauseExpectedAssertionErrorWasNotThrown();
+    } catch (AssertionError e) {
+      assertThat(e.getMessage()).endsWith("does not have expected binary content at offset <0>, expecting:\n" +
         " <\"EOF\">\n" +
         "but was:\n" +
         " <\"0x0\">");
+    }
   }
 
   private File createFileWithNonUTF8Character() throws IOException {
