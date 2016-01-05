@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -91,7 +92,7 @@ public class Files {
     assertIsFile(info, actual);
     BinaryDiffResult binaryDiffResult = null;
     try {
-      binaryDiffResult = binaryDiff.diff(actual, java.nio.file.Files.readAllBytes(expected.toPath()));
+      binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
       if (binaryDiffResult.hasNoDiff()) return;
       List<Delta<String>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
