@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -24,11 +25,30 @@ import org.junit.Test;
  */
 public class ObjectAssert_extracting_Test {
 
+  private Employee luke;
+
+  @Before
+  public void setup() {
+    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+  }
+
   @Test
-  public void should_allow_assertions_on_array_of_property_values_extracted_from_given_object() {
-    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
-      
-    assertThat(luke).extracting("id", "name").doesNotContainNull();
-    assertThat(luke).extracting("name.first", "name.last").containsExactly("Luke", "Skywalker");
+  public void should_allow_assertions_on_array_of_properties_extracted_from_given_object_by_name() {
+    assertThat(luke).extracting("id", "name")
+                    .hasSize(2)
+                    .doesNotContainNull();
+    assertThat(luke).extracting("name.first", "name.last")
+                    .hasSize(2)
+                    .containsExactly("Luke", "Skywalker");
+  }
+
+  @Test
+  public void should_allow_assertions_on_array_of_properties_extracted_from_given_object_with_lambdas() {
+    assertThat(luke).extracting(Employee::getName, Employee::getAge)
+                    .hasSize(2)
+                    .doesNotContainNull();
+    assertThat(luke).extracting(employee -> employee.getName().first, employee -> employee.getName().getLast())
+                    .hasSize(2)
+                    .containsExactly("Luke", "Skywalker");
   }
 }

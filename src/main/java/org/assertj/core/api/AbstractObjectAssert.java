@@ -14,6 +14,9 @@ package org.assertj.core.api;
 
 import static org.assertj.core.extractor.Extractors.byName;
 
+import java.util.function.Function;
+import java.util.stream.Stream;
+
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -299,7 +302,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p/>
    * Example:
-   * <pre><code class='java'> // Create frodo, setting its name, age and Race fields (Race having a name field)
+   * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    * 
    * // let's verify Frodo's name, age and race name:
@@ -319,5 +322,35 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).extract(actual);
     return new ObjectArrayAssert<Object>(values.toArray());
+  }
+
+  /**
+   * Use the given {@link Function}s to extract the values from the object under test into an array, this new array becoming
+   * the object under test. 
+   * <p/>
+   * If the given {@link Function}s extract the id, name and email values then the array will contain the id, name and email values 
+   * of the object under test, you can then perform array assertions on the extracted values.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   * 
+   * // let's verify Frodo's name, age and race name:
+   * assertThat(frodo).extracting(TolkienCharacter::getName, 
+   *                              character -> character.age, // public field
+   *                              character -> character.getRace().getName())
+   *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
+   * <p/>
+   * Note that the order of extracted values is consistent with the iteration order of the array under test.
+   *
+   * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
+   * @return a new assertion object whose object under test is the array containing the extracted values
+   */
+  @SafeVarargs
+  public final AbstractObjectArrayAssert<?, Object> extracting(Function<? super A, Object>... extractors) {
+    Object[] values = Stream.of(extractors)
+                            .map(extractor -> extractor.apply(actual))
+                            .toArray();
+    return new ObjectArrayAssert<Object>(values);
   }
 }

@@ -13,8 +13,6 @@
 package org.assertj.core.api;
 
 import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
