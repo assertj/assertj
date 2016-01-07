@@ -13,6 +13,8 @@
 package org.assertj.core.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -31,5 +33,9 @@ public class ListAssert<T> extends AbstractListAssert<ListAssert<T>, List<? exte
 
   protected ListAssert(List<? extends T> actual) {
     super(actual, ListAssert.class);
+  }
+  
+  protected ListAssert(Stream<? extends T> actual) {
+    super(actual == null ? null : actual.collect(Collectors.toList()), ListAssert.class);
   }
 }

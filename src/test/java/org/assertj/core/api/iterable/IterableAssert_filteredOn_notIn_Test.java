@@ -67,6 +67,12 @@ public class IterableAssert_filteredOn_notIn_Test extends IterableAssert_filtere
   }
 
   @Test
+  public void should_filter_stream_under_test_on_property_values() {
+    assertThat(employees.stream()).filteredOn("age", notIn(800))
+                                  .containsOnly(luke, noname);
+  }
+
+  @Test
   public void should_filter_iterable_under_test_on_nested_property_values() {
     assertThat(employees).filteredOn("name.first", notIn("Luke")).containsOnly(yoda, obiwan, noname);
   }

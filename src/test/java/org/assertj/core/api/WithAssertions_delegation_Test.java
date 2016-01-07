@@ -28,6 +28,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.condition.AnyOf;
@@ -202,6 +203,14 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     assertThat(new ArrayList<String>()).isEmpty();
   }
 
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThat_stream_Test() {
+    assertThat(Stream.of("")).hasSize(1);
+  }
+  
   /**
    * Test that the delegate method is called.
    */

@@ -38,6 +38,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -1590,15 +1591,29 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * Creates a new instance of <code>{@link ListAssert}</code> from a {@link Stream}.
    *
-   * @param actual the actual value.
+   * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
   public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(List<? extends T> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * <p/>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be 
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only 
+   * interacts with the {@link List} built from the {@link Stream}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(Stream<? extends T> actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+  
   /**
    * Creates a new instance of {@link PathAssert}
    *

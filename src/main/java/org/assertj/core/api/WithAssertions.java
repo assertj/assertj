@@ -32,6 +32,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
@@ -389,8 +390,16 @@ public interface WithAssertions {
   @SuppressWarnings("unchecked")
   default public <T> AbstractListAssert<?, ? extends List<T>, T> assertThat(final List<T> actual) {
     return (AbstractListAssert<?, ? extends List<T>, T>) Assertions.assertThat(actual);
-  }
+  } 
 
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
+   */
+  @SuppressWarnings("unchecked")
+  default public <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(final Stream<? extends T> actual) {
+    return (AbstractListAssert<?, ? extends List<? extends T>, T>) Assertions.assertThat(actual);
+  }
+  
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(double[])}
    */
