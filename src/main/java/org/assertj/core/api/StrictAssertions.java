@@ -489,8 +489,8 @@ public class StrictAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime date) {
-    return new ZonedDateTimeAssert(date);
+  public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime actual) {
+    return new ZonedDateTimeAssert(actual);
   }
 
   /**
@@ -499,8 +499,8 @@ public class StrictAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime localDateTime) {
-    return new LocalDateTimeAssert(localDateTime);
+  public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime actual) {
+    return new LocalDateTimeAssert(actual);
   }
 
   /**
@@ -519,8 +519,8 @@ public class StrictAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime offsetTime) {
-    return new OffsetTimeAssert(offsetTime);
+  public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime actual) {
+    return new OffsetTimeAssert(actual);
   }
 
   /**
@@ -536,11 +536,11 @@ public class StrictAssertions {
   /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
    *
-   * @param localDate the actual value.
+   * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {
-    return new LocalDateAssert(localDate);
+  public static AbstractLocalDateAssert<?> assertThat(LocalDate actual) {
+    return new LocalDateAssert(actual);
   }
 
   /**
@@ -761,7 +761,7 @@ public class StrictAssertions {
    * <li>
    * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
@@ -777,7 +777,7 @@ public class StrictAssertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(K key, V value)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
    * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p/>
