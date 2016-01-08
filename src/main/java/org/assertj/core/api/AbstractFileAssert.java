@@ -122,6 +122,25 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the content of the actual {@code File} is equal to the content of the given one.
+   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * 
+   * Examples:
+   * <pre><code class="java"> // use the default charset
+   * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
+   * // use UTF-8 charsest
+   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
+   * 
+   * // The following assertion succeeds (default charset is used):
+   * assertThat(xFile).hasSameContentAs(xFileClone);
+   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
+   * 
+   * // The following assertion fails:
+   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
    * 
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.
@@ -136,13 +155,32 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    */
   @Deprecated
   public S hasContentEqualTo(File expected) {
-    files.assertSameContentAs(info, actual, expected);
+    files.assertSameContentAs(info, actual, charset, expected);
     return myself;
   }
 
   /**
    * Verifies that the content of the actual {@code File} is equal to the content of the given one.
-   *
+   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * 
+   * Examples:
+   * <pre><code class="java"> // use the default charset
+   * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
+   * // use UTF-8 charsest
+   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
+   * 
+   * // The following assertion succeeds (default charset is used):
+   * assertThat(xFile).hasSameContentAs(xFileClone);
+   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
+   * 
+   * // The following assertion fails:
+   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
+   * 
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code File} is {@code null}.
@@ -153,7 +191,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public S hasSameContentAs(File expected) {
-      files.assertSameContentAs(info, actual, expected);
+      files.assertSameContentAs(info, actual, charset, expected);
       return myself;
   }
 

@@ -92,16 +92,22 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
 
   /**
    * Verifies that the content of the actual {@code Path} is the same as the given one (both paths must be a readable
-   * files). The default charset is used to read each files.
+   * files).
+   * The charset to use when reading the actual path can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
    * 
    * Examples:
    * <pre><code class="java"> // use the default charset
    * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
+   * Path xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes("UTF-8"));
    * Path xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes());
    * Path xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes());
    * 
    * // The following assertion succeeds (default charset is used):
    * assertThat(xFile).hasSameContentAs(xFileClone);
+   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
    * 
    * // The following assertion fails:
    * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
@@ -115,7 +121,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws PathsException if an I/O error occurs.
    */
   public S hasSameContentAs(Path expected) {
-	paths.assertHasSameContentAs(info, actual, expected);
+	paths.assertHasSameContentAs(info, actual, charset, expected);
 	return myself;
   }
 
@@ -195,7 +201,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
   /**
    * Verifies that the text content of the actual {@code Path} (which must be a readable file) is <b>exactly</b> equal
    * to the given one.<br/>
-   * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
+   * The charset to use when reading the actual path should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
    * 

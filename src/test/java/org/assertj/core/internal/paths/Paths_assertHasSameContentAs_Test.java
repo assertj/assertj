@@ -13,6 +13,7 @@
 package org.assertj.core.internal.paths;
 
 import static java.lang.String.format;
+import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -44,24 +45,24 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
   @Test
   public void should_pass_if_path_has_same_content_as_other() throws IOException {
-	when(diff.diff(actual, other)).thenReturn(new ArrayList<Delta<String>>());
+	when(diff.diff(actual, defaultCharset(), other)).thenReturn(new ArrayList<Delta<String>>());
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-	paths.assertHasSameContentAs(someInfo(), actual, other);
+	paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), other);
   }
 
   @Test
   public void should_throw_error_if_other_is_null() {
 	thrown.expectNullPointerException("The given Path to compare actual content to should not be null");
-	paths.assertHasSameContentAs(someInfo(), actual, null);
+	paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
 	thrown.expectAssertionError(actualIsNull());
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-	paths.assertHasSameContentAs(someInfo(), null, other);
+	paths.assertHasSameContentAs(someInfo(), null, defaultCharset(), other);
   }
 
   @Test
@@ -70,7 +71,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	when(nioFilesWrapper.exists(actual)).thenReturn(false);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
 	try {
-	  paths.assertHasSameContentAs(info, actual, other);
+	  paths.assertHasSameContentAs(info, actual, defaultCharset(), other);
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldExist(actual));
 	  return;
@@ -85,7 +86,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(false);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
 	try {
-	  paths.assertHasSameContentAs(info, actual, other);
+	  paths.assertHasSameContentAs(info, actual, defaultCharset(), other);
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldBeReadable(actual));
 	  return;
@@ -98,7 +99,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	AssertionInfo info = someInfo();
 	when(nioFilesWrapper.isReadable(other)).thenReturn(false);
 	try {
-	  paths.assertHasSameContentAs(info, actual, other);
+	  paths.assertHasSameContentAs(info, actual, defaultCharset(), other);
 	  failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
 	} catch (IllegalArgumentException e) {
 	  assertThat(e).hasMessage(format("The given Path <%s> to compare actual content to should be readable", other));
@@ -108,12 +109,12 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
 	IOException cause = new IOException();
-	when(diff.diff(actual, other)).thenThrow(cause);
+	when(diff.diff(actual, defaultCharset(), other)).thenThrow(cause);
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
 	try {
-	  paths.assertHasSameContentAs(someInfo(), actual, other);
+	  paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), other);
 	  failBecauseExceptionWasNotThrown(RuntimeIOException.class);
 	} catch (RuntimeIOException e) {
 	  assertThat(e.getCause()).isSameAs(cause);
@@ -124,13 +125,13 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   public void should_fail_if_actual_and_given_path_does_not_have_the_same_content() throws IOException {
     @SuppressWarnings("unchecked")
     List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
-	when(diff.diff(actual, other)).thenReturn(diffs);
+	when(diff.diff(actual, defaultCharset(), other)).thenReturn(diffs);
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
 	AssertionInfo info = someInfo();
 	try {
-	  paths.assertHasSameContentAs(info, actual, other);
+	  paths.assertHasSameContentAs(info, actual, defaultCharset(), other);
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldHaveSameContent(actual, other, diffs));
 	  return;

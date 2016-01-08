@@ -13,6 +13,7 @@
 package org.assertj.core.internal.files;
 
 import static java.lang.String.format;
+import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.util.Arrays.array;
@@ -63,7 +64,7 @@ public class Diff_diff_File_Test {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
     writer.write(expected, content);
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected);
     assertThat(diffs).isEmpty();
   }
 
@@ -71,7 +72,7 @@ public class Diff_diff_File_Test {
   public void should_return_diffs_if_files_do_not_have_equal_content() throws IOException {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line0", "line1");
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected);
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Changed content at line 1:%n"
                                                 + "expecting:%n"
@@ -86,7 +87,7 @@ public class Diff_diff_File_Test {
   public void should_return_multiple_diffs_if_files_contain_multiple_differences() throws IOException {
     writer.write(actual, "line_0", "line1", "line_2");
     writer.write(expected, "line0", "line1", "line2");
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected);
     assertThat(diffs).hasSize(2);
     assertThat(diffs.get(0)).hasToString(format("Changed content at line 1:%n"
                                                 + "expecting:%n"
@@ -106,7 +107,7 @@ public class Diff_diff_File_Test {
     writer.write(actual,   "line1",                     "line2", "line3", "line4", "line5", "line 9", "line 10", "line 11");
     writer.write(expected, "line1", "line1a", "line1b", "line2", "line3", "line7", "line5");
     // @format:on
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected);
     assertThat(diffs).hasSize(3);
     assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
                                                 + "  [\"line1a\",%n"
@@ -126,7 +127,7 @@ public class Diff_diff_File_Test {
   public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
     writer.write(expected, "line_0", "line_1");
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected);
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));
@@ -136,7 +137,7 @@ public class Diff_diff_File_Test {
   public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line_0");
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected);
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Extra content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));
