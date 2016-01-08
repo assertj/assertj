@@ -295,7 +295,7 @@ public class Paths {
 	}
   }
 
-  public void assertHasSameContentAs(AssertionInfo info, Path actual, Path expected) {
+  public void assertHasSameContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected) {
 	// @format:off
     checkNotNull(expected, "The given Path to compare actual content to should not be null");
 	if (!nioFilesWrapper.isReadable(expected))
@@ -303,7 +303,7 @@ public class Paths {
 	// @format:on
 	assertIsReadable(info, actual);
 	try {
-	  List<Delta<String>> diffs = diff.diff(actual, expected);
+	  List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected);
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
 	} catch (IOException e) {
