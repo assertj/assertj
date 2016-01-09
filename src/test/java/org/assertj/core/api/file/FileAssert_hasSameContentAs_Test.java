@@ -49,25 +49,31 @@ public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(files).assertSameContentAs(getInfo(assertions), getActual(assertions), defaultCharset(), expected);
+    verify(files).assertSameContentAs(getInfo(assertions), getActual(assertions), defaultCharset(), expected, defaultCharset());
   }
 
   @Test
   public void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
     Charset turkishCharset = Charset.forName("windows-1254");
+    File actual = createDeleteOnExitTempFileWithContent("Gerçek", turkishCharset);
+    File expected = createDeleteOnExitTempFileWithContent("Gerçek", defaultCharset());
 
-    Path actual = createDeleteOnExitTempFile();
-    Files.write(actual, asList("Gerçek"), turkishCharset);
-
-    Path expected = createDeleteOnExitTempFile();
-    Files.write(expected, "Gerçek".getBytes());
-
-    assertThat(actual.toFile()).usingCharset(turkishCharset).hasSameContentAs(expected.toFile());
+    assertThat(actual).usingCharset(turkishCharset).hasSameContentAs(expected);
   }
 
-  private Path createDeleteOnExitTempFile() throws IOException {
-    Path expected = Files.createTempFile("test", "test");
-    expected.toFile().deleteOnExit();
-    return expected;
+  @Test
+  public void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
+    Charset turkishCharset = Charset.forName("windows-1254");
+    File actual = createDeleteOnExitTempFileWithContent("Gerçek", defaultCharset());
+    File expected = createDeleteOnExitTempFileWithContent("Gerçek", turkishCharset);
+
+    assertThat(actual).hasSameContentAs(expected, turkishCharset);
+  }
+
+  private File createDeleteOnExitTempFileWithContent(String content, Charset charset) throws IOException {
+    Path tempFile = Files.createTempFile("test", "test");
+    tempFile.toFile().deleteOnExit();
+    Files.write(tempFile, asList(content), charset);
+    return tempFile.toFile();
   }
 }

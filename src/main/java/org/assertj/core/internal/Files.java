@@ -86,11 +86,11 @@ public class Files {
    * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the given files do not have same content.
    */
-  public void assertSameContentAs(AssertionInfo info, File actual, Charset actualCharset, File expected) {
+  public void assertSameContentAs(AssertionInfo info, File actual, Charset actualCharset, File expected, Charset expectedCharset) {
     verifyIsFile(expected);
     assertIsFile(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected);
+      List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {

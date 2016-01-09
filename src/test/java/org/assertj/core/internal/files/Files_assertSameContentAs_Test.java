@@ -56,20 +56,20 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   @Test
   public void should_throw_error_if_expected_is_null() {
     thrown.expectNullPointerException("The file to compare to should not be null");
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), null);
+    files.assertSameContentAs(someInfo(), actual, defaultCharset(), null, defaultCharset());
   }
 
   @Test
   public void should_throw_error_if_expected_is_not_file() {
     thrown.expectIllegalArgumentException("Expected file:<'xyz'> should be an existing file");
     File notAFile = new File("xyz");
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), notAFile);
+    files.assertSameContentAs(someInfo(), actual, defaultCharset(), notAFile, defaultCharset());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    files.assertSameContentAs(someInfo(), null, defaultCharset(), expected);
+    files.assertSameContentAs(someInfo(), null, defaultCharset(), expected, defaultCharset());
   }
 
   @Test
@@ -77,7 +77,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     try {
-      files.assertSameContentAs(info, notAFile, defaultCharset(), expected);
+      files.assertSameContentAs(info, notAFile, defaultCharset(), expected, defaultCharset());
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeFile(notAFile));
       return;
@@ -87,16 +87,16 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_pass_if_files_have_equal_content() throws IOException {
-    when(diff.diff(actual, defaultCharset(), expected)).thenReturn(new ArrayList<Delta<String>>());
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected);
+    when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenReturn(new ArrayList<Delta<String>>());
+    files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected, defaultCharset());
   }
 
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
     IOException cause = new IOException();
-    when(diff.diff(actual, defaultCharset(), expected)).thenThrow(cause);
+    when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenThrow(cause);
     try {
-      files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected);
+      files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected, defaultCharset());
       fail("Expected a RuntimeIOException to be thrown");
     } catch (RuntimeIOException e) {
       assertThat(e.getCause()).isSameAs(cause);
@@ -106,10 +106,10 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   @Test
   public void should_fail_if_files_do_not_have_equal_content() throws IOException {
     List<Delta<String>> diffs = Lists.newArrayList(delta);
-    when(diff.diff(actual, defaultCharset(), expected)).thenReturn(diffs);
+    when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {
-      files.assertSameContentAs(info, actual, defaultCharset(), expected);
+      files.assertSameContentAs(info, actual, defaultCharset(), expected, defaultCharset());
     } catch (AssertionError e) {
       verify(failures).failure(info, ShouldHaveSameContent.shouldHaveSameContent(actual, expected, diffs));
       return;
