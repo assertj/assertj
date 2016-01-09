@@ -403,7 +403,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <pre><code class='java'> // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly('a', 'b', 'c');
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly('b', 'a', 'c');</code></pre>
    * 
    * @param values the given values.

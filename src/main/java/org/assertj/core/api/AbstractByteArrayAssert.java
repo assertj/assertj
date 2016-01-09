@@ -404,7 +404,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <pre><code class='java'> // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsExactly((byte) 1, (byte) 2, (byte) 3);
    *
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(new byte[] { 1, 2, 3 }).containsExactly((byte) 2, (byte) 1, (byte) 3);</code></pre>
    *
    * @param values the given values.

@@ -586,8 +586,8 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   public <E> void assertAre(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
@@ -608,8 +608,8 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if an element cannot be cast to E.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   public <E> void assertAreNot(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
@@ -630,8 +630,8 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if an element cannot be cast to E.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   public <E> void assertHave(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
@@ -652,8 +652,8 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if an element cannot be cast to E.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   public <E> void assertDoNotHave(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
@@ -676,7 +676,7 @@ public class Iterables {
    * @param times the minimum number of times the condition should be verified.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
@@ -706,7 +706,7 @@ public class Iterables {
    * @param n the number of times the condition should be at most verified.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   public <E> void assertAreAtMost(AssertionInfo info, Iterable<? extends E> actual, int n,
@@ -736,7 +736,7 @@ public class Iterables {
    * @param times the exact number of times the condition should be verified.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if an element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
