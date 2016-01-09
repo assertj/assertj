@@ -47,7 +47,16 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 
   /**
    * Verifies that the actual value is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1L).isEqualTo(1L);
+   * assertThat(-1L).isEqualTo(-1L);
    * 
+   * // assertions will fail:
+   * assertThat(1L).isEqualTo(2L);
+   * assertThat(1L).isEqualTo(-1L);</code></pre>
+   * </p>
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -60,7 +69,15 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 
   /**
    * Verifies that the actual value is not equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1L).isNotEqualTo(2L);
+   * assertThat(1L).isNotEqualTo(-1L);
    * 
+   * // assertion will fail:
+   * assertThat(1L).isNotEqualTo(1L);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -115,7 +132,16 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 
   /**
    * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1L).isLessThan(2L);
+   * assertThat(-2L).isLessThan(-1L);
    * 
+   * // assertions will fail:
+   * assertThat(1L).isLessThan(0L);
+   * assertThat(1L).isLessThan(1L);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -128,7 +154,17 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1L).isLessThanOrEqualTo(2L);
+   * assertThat(-1L).isLessThanOrEqualTo(-2L);
+   * assertThat(1L).isLessThanOrEqualTo(1L);
    * 
+   * // assertions will fail:
+   * assertThat(1L).isLessThanOrEqualTo(2L);
+   * assertThat(-1L).isLessThanOrEqualTo(-2L);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -141,7 +177,16 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 
   /**
    * Verifies that the actual value is greater than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1L).isGreaterThan(0L);
+   * assertThat(-1L).isGreaterThan(-2L);
    * 
+   * // assertions will fail:
+   * assertThat(1L).isGreaterThan(2L);
+   * assertThat(1L).isGreaterThan(1L);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -154,7 +199,16 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(2L).isGreaterThanOrEqualTo(1L);
+   * assertThat(1L).isGreaterThanOrEqualTo(1L);
    * 
+   * // assertions will fail:
+   * assertThat(1L).isGreaterThanOrEqualTo(2L);
+   * assertThat(-1L).isGreaterThanOrEqualTo(1L);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -185,13 +239,13 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(5l).isCloseTo(7l, within(3l));
+   * assertThat(5L).isCloseTo(7L, within(3L));
    *
    * // if difference is exactly equals to the offset, it's ok
-   * assertThat(5l).isCloseTo(7l, within(2l));
+   * assertThat(5L).isCloseTo(7L, within(2L));
    *
    * // assertion will fail
-   * assertThat(5l).isCloseTo(7l, within(1l));</code></pre>
+   * assertThat(5L).isCloseTo(7L, within(1L));</code></pre>
    *
    * @param expected the given long to compare the actual value to.
    * @param offset the given positive offset.
@@ -210,13 +264,13 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(3l));
+   * assertThat(5L).isCloseTo(Long.valueOf(7L), within(3L));
    *
    * // if difference is exactly equals to the offset, it's ok
-   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(2l));
+   * assertThat(5L).isCloseTo(Long.valueOf(7L), within(2L));
    *
    * // assertion will fail
-   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(1l));</code></pre>
+   * assertThat(5L).isCloseTo(Long.valueOf(7L), within(1L));</code></pre>
    *
    * @param expected the given long to compare the actual value to.
    * @param offset the given positive offset.

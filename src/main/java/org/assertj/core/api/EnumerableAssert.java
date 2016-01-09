@@ -31,21 +31,49 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * List&lt;String&gt; strings = new ArrayList&lt;&gt;();
+   * assertThat(strings).isNullOrEmpty();
+   * assertThat(new int[] { }).isNullOrEmpty();
    * 
+   * // assertions will fail
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot;}).isNullOrEmpty();
+   * assertThat(Arrays.asList(1, 2, 3).isNullOrEmpty();</code></pre>
+   * </p>
    * @throws AssertionError if the actual group of values is not {@code null} or not empty.
    */
   void isNullOrEmpty();
 
   /**
    * Verifies that the actual group of values is empty.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new ArrayList()).isEmpty();
+   * assertThat(new int[] { }).isEmpty();
    * 
+   * // assertions will fail
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).isEmpty();
+   * assertThat(Arrays.asList(1, 2, 3).isEmpty();</code></pre>
+   * </p>
    * @throws AssertionError if the actual group of values is not empty.
    */
   void isEmpty();
 
   /**
    * Verifies that the actual group of values is not empty.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).isNotEmpty();
+   * assertThat(Arrays.asList(1, 2, 3).isNotEmpty();
    * 
+   * // assertions will fail
+   * assertThat(new ArrayList()).isNotEmpty();
+   * assertThat(new int[] { }).isNotEmpty();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group of values is empty.
    */
@@ -53,7 +81,16 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the number of values in the actual group is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSize(2);
+   * assertThat(Arrays.asList(1, 2, 3).hasSize(3);
    * 
+   * // assertions will fail
+   * assertThat(new ArrayList()).hasSize(1);
+   * assertThat(new int[] { 1, 2, 3 }).hasSize(2);</code></pre>
+   * </p>
    * @param expected the expected number of values in the actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
@@ -108,14 +145,14 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * <p>
    * Examples :
    * <pre><code class='java'> // compares invoices by payee
-   * assertThat(invoiceList).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceList).
+   * assertThat(invoiceList).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceList);
    * 
    * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
-   * assertThat(invoiceList).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice)
+   * assertThat(invoiceList).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice);
    * 
    * // as assertThat(invoiceList) creates a new assertion, it falls back to standard comparison strategy 
    * // based on Invoice's equal method to compare invoiceList elements to lowestInvoice.                                                      
-   * assertThat(invoiceList).contains(lowestInvoice).
+   * assertThat(invoiceList).contains(lowestInvoice);
    * 
    * // standard comparison : the fellowshipOfTheRing includes Gandalf but not Sauron (believe me) ...
    * assertThat(fellowshipOfTheRing).contains(gandalf)

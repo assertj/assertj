@@ -47,7 +47,16 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
 
   /**
    * Verifies that the actual value is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1).isEqualTo(1);
+   * assertThat(-1).isEqualTo(-1);
    * 
+   * // assertions will fail:
+   * assertThat(1).isEqualTo(2);
+   * assertThat(1).isEqualTo(-1);</code></pre>
+   * </p>
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -60,7 +69,15 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
 
   /**
    * Verifies that the actual value is not equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1).isNotEqualTo(2);
+   * assertThat(1).isNotEqualTo(-1);
    * 
+   * // assertion will fail:
+   * assertThat(1).isNotEqualTo(1);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -115,7 +132,16 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
 
   /**
    * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1).isLessThan(2);
+   * assertThat(-2).isLessThan(-1);
    * 
+   * // assertions will fail:
+   * assertThat(1).isLessThan(0);
+   * assertThat(1).isLessThan(1);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -128,7 +154,17 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1).isLessThanOrEqualTo(2);
+   * assertThat(-1).isLessThanOrEqualTo(-2);
+   * assertThat(1).isLessThanOrEqualTo(1);
    * 
+   * // assertions will fail:
+   * assertThat(1).isLessThanOrEqualTo(2);
+   * assertThat(-1).isLessThanOrEqualTo(-2);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -141,7 +177,16 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
 
   /**
    * Verifies that the actual value is greater than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1).isGreaterThan(0);
+   * assertThat(-1).isGreaterThan(-2);
    * 
+   * // assertions will fail:
+   * assertThat(1).isGreaterThan(2);
+   * assertThat(1).isGreaterThan(1);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -154,7 +199,16 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(2).isGreaterThanOrEqualTo(1);
+   * assertThat(1).isGreaterThanOrEqualTo(1);
    * 
+   * // assertions will fail:
+   * assertThat(1).isGreaterThanOrEqualTo(2);
+   * assertThat(-1).isGreaterThanOrEqualTo(1);</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

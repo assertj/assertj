@@ -64,7 +64,17 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
 
   /**
    * Verifies that the actual array contains the given values, in any order.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 1, (short) 2);
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 3, (short) 1);
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 1, (short) 3, (short) 2);
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 1, (short) 4);
+   * assertThat(new short[] { 1, 2, 3 }).contains((short) 4, (short) 7);</code></pre>
+   * </p>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -79,7 +89,16 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
 
   /**
    * Verifies that the actual array contains only the given values and nothing else, in any order.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 1, (short) 2, (short) 3);
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 2, (short) 3, (short) 1);
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 1, (short) 2, (short) 3, (short) 4);
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 4, (short) 7);</code></pre>
+   * </p>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.

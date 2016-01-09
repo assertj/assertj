@@ -44,7 +44,15 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is equal to the given one.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat('a').isEqualTo('a');
+   *
+   * // assertions will fail
+   * assertThat('a').isEqualTo('b');
+   * assertThat('a').isEqualTo('A');</code></pre>
+   * </p>
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -57,7 +65,15 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is not equal to the given one.
-   * 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('a').isNotEqualTo('b');
+   * assertThat('a').isNotEqualTo('A');
+   *
+   * // assertion will fail
+   * assertThat('a').isNotEqualTo('a');</code></pre>
+   * </p>
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
