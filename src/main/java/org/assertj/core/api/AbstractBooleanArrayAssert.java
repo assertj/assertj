@@ -404,7 +404,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <pre><code class='java'> // assertion will pass
    * assertThat(new boolean[] { true, false, true }).containsExactly(true, false, true);
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(new boolean[] { true, false, true }).containsExactly(false, true, true);</code></pre>
    * 
    * @param values the given values.

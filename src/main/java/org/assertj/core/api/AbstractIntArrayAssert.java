@@ -361,7 +361,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * // assertion will pass
    * assertThat(ints).containsExactly(1, 2, 3);
    * 
-   * // assertion will fail as actual and expected orders differ.
+   * // assertion will fail as actual and expected order differ
    * assertThat(ints).containsExactly(2, 1, 3);</code></pre>
    * 
    * @param values the given values.

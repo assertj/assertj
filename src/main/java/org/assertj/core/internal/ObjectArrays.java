@@ -368,7 +368,7 @@ public class ObjectArrays {
    * @param actual the given array.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   public <E> void assertAre(AssertionInfo info, E[] actual, Condition<? super E> condition) {
 	arrays.assertAre(info, failures, conditions, actual, condition);
@@ -381,7 +381,7 @@ public class ObjectArrays {
    * @param actual the given array.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   public <E> void assertAreNot(AssertionInfo info, E[] actual, Condition<? super E> condition) {
 	arrays.assertAreNot(info, failures, conditions, actual, condition);
@@ -394,7 +394,7 @@ public class ObjectArrays {
    * @param actual the given array.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   public <E> void assertHave(AssertionInfo info, E[] actual, Condition<? super E> condition) {
 	arrays.assertHave(info, failures, conditions, actual, condition);
@@ -407,7 +407,7 @@ public class ObjectArrays {
    * @param actual the given array.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if one or more element satisfy the given condition.
+   * @throws AssertionError if one or more elements satisfy the given condition.
    */
   public <E> void assertDoNotHave(AssertionInfo info, E[] actual, Condition<? super E> condition) {
 	arrays.assertHaveNot(info, failures, conditions, actual, condition);

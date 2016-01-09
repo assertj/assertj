@@ -40,7 +40,7 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
    * // assertions will fail
    * assertThat(elvesRings).contains(vilya, atIndex(1));
    * assertThat(elvesRings).contains(nenya, atIndex(2));
-   * assertThat(elvesRings).contains(narya, atIndex(0));;</code></pre>
+   * assertThat(elvesRings).contains(narya, atIndex(0));</code></pre>
    *
    * @param value the object to look for.
    * @param index the index where the object should be stored in the actual group.
@@ -67,7 +67,7 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
    * // assertions will fail
    * assertThat(elvesRings).contains(vilya, atIndex(0));
    * assertThat(elvesRings).contains(nenya, atIndex(1));
-   * assertThat(elvesRings).contains(narya, atIndex(2));;</code></pre>
+   * assertThat(elvesRings).contains(narya, atIndex(2));</code></pre>
    *
    * @param value the object to look for.
    * @param index the index where the object should not be stored in the actual group.
