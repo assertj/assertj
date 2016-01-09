@@ -121,9 +121,41 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws PathsException if an I/O error occurs.
    */
   public S hasSameContentAs(Path expected) {
-	paths.assertHasSameContentAs(info, actual, charset, expected);
+	paths.assertHasSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
 	return myself;
   }
+
+  /**
+   * Verifies that the content of the actual {@code Path} is the same as the given one (both paths must be a readable
+   * files).
+   * The charset to use when reading the actual path can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * 
+   * Examples:
+   * <pre><code class="java"> Path fileUTF8Charset = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8);
+   * Charset turkishCharset = Charset.forName("windows-1254");
+   * Path fileTurkischCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset);
+   * 
+   * // The following assertion succeeds:
+   * assertThat(fileUTF8Charset).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, turkishCharset);
+   * 
+   * // The following assertion fails:
+   * assertThat(fileUTF8Charset).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
+   * 
+   * @param expected the given {@code Path} to compare the actual {@code Path} to.
+   * @param expectedCharset the {@Charset} used to read the content of the expected Path.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws AssertionError if the actual or given {@code Path} is not an existing readable file.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
+   * @throws PathsException if an I/O error occurs.
+   */
+  public S hasSameContentAs(Path expected, Charset expectedCharset) {
+      paths.assertHasSameContentAs(info, actual, charset, expected, expectedCharset);
+      return myself;
+    }
 
   /**
    * Verifies that the binary content of the actual {@code Path} is <b>exactly</b> equal to the given one.
