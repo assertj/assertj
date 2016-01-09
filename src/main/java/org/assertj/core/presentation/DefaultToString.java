@@ -15,7 +15,6 @@ package org.assertj.core.presentation;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.singleLineFormat;
 
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 
@@ -46,7 +45,6 @@ public final class DefaultToString {
    * @return the {@code toString} representation of the given object.
    */
   public static String toStringOf(Representation representation, Object o) {
-    if (o instanceof Path) return o.toString();
     if (isArray(o)) return Arrays.format(representation, o);
     if (o instanceof Collection<?>) return IterableUtil.smartFormat(representation, (Collection<?>) o);
     if (o instanceof Map<?, ?>) return Maps.format(representation, (Map<?, ?>) o);
