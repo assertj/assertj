@@ -35,8 +35,8 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
-                                                      Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFound,
+                                                                   Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
     if (isNullOrEmpty(notExpected)) {
       return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, NOT_FOUND, comparisonStrategy);
     }
@@ -68,7 +68,7 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
     super("%n" +
           "Expecting:%n" +
           "  <%s>%n" +
-          "to exactly in any order:%n" +
+          "to contain exactly in any order:%n" +
           "  <%s>%n" + (errorType == NOT_FOUND ? 
           "but could not find the following elements:%n" : "but the following elements were unexpected:%n") +
           "  <%s>%n%s",

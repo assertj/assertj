@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -68,7 +69,6 @@ import java.util.stream.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
-import org.assertj.core.error.*;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -874,10 +874,6 @@ public class Iterables {
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
-    int actualSize = sizeOf(actual);
-    if (values.length != actualSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, values.length, comparisonStrategy));
-    assertHasSameSizeAs(info, actual, values); // include check that actual is not null
     List<Object> notExpected = StreamSupport.stream(actual.spliterator(), false).collect(Collectors.toList());
     List<Object> notFound = Stream.of(values).collect(Collectors.toList());
 
@@ -892,7 +888,7 @@ public class Iterables {
       return;
     }
 
-    throw failures.failure(info, ShouldContainExactlyInAnyOrder.shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
+    throw failures.failure(info, shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {
