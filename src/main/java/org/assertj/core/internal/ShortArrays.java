@@ -200,6 +200,10 @@ public class ShortArrays {
   public void assertContainsExactly(AssertionInfo info, short[] actual, short[] values) {
 	arrays.assertContainsExactly(info, failures, actual, values);
   }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, short[] actual, short[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+  }
   
   /**
    * Asserts that the given array contains only once the given values.

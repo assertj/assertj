@@ -190,6 +190,10 @@ public class FloatArrays {
   public void assertContainsExactly(AssertionInfo info, float[] actual, float[] values) {
 	arrays.assertContainsExactly(info, failures, actual, values);
   }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, float[] actual, float[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+  }
   
   /**
    * Asserts that the given array contains only once the given values.

@@ -191,6 +191,10 @@ public class BooleanArrays {
   public void assertContainsExactly(AssertionInfo info, boolean[] actual, boolean[] values) {
 	arrays.assertContainsExactly(info, failures, actual, values);
   }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, boolean[] actual, boolean[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+  }
   
   /**
    * Asserts that the given array contains only once the given values.
