@@ -874,7 +874,7 @@ public class Iterables {
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
-    List<Object> notExpected = StreamSupport.stream(actual.spliterator(), false).collect(Collectors.toList());
+    List<Object> notExpected = StreamSupport.stream(actual.spliterator(), false).collect(Collectors.<Object>toList());
     List<Object> notFound = Stream.of(values).collect(Collectors.toList());
 
     for (Object value : values) {
