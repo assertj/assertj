@@ -97,6 +97,13 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
+  public void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+    Snake snake = new Snake(15);
+    List<Animal> list1 = newArrayList(new Bird("White"), snake, snake);
+    assertThat(list1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15),new Bird("White"), new Snake(15));
+  }
+
+  @Test
   public void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_list() {
     Person goodObiwan = new Person("Obi-Wan", "Kenobi", "good man");
     Person badObiwan = new Person("Obi-Wan", "Kenobi", "bad man");
@@ -182,6 +189,13 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
     public String getColor() {
       return color;
     }
+
+    @Override
+    public String toString() {
+      return "Bird{" +
+          "color='" + color + '\'' +
+          '}';
+    }
   }
 
   private static class Snake extends Animal {
@@ -195,6 +209,13 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
     @SuppressWarnings("unused")
     public int getLength() {
       return length;
+    }
+
+    @Override
+    public String toString() {
+      return "Snake{" +
+          "length=" + length +
+          '}';
     }
   }
 

@@ -64,9 +64,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.*;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -244,6 +246,13 @@ public class Iterables {
    */
   private void iterableRemoves(Iterable<?> actual, Object value) {
     comparisonStrategy.iterableRemoves(actual, value);
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#iterablesRemoveFirst(Iterable, Object)}
+   */
+  private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
   /**
@@ -860,6 +869,30 @@ public class Iterables {
       return;
     }
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
+    checkIsNotNull(values);
+    assertNotNull(info, actual);
+    int actualSize = sizeOf(actual);
+    if (values.length != actualSize)
+      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, values.length, comparisonStrategy));
+    assertHasSameSizeAs(info, actual, values); // include check that actual is not null
+    List<Object> notExpected = StreamSupport.stream(actual.spliterator(), false).collect(Collectors.toList());
+    List<Object> notFound = Stream.of(values).collect(Collectors.toList());
+
+    for (Object value : values) {
+      if(iterableContains(notExpected, value)) {
+        iterablesRemoveFirst(notExpected, value);
+        iterablesRemoveFirst(notFound, value);
+      }
+    }
+
+    if(notExpected.isEmpty() && notFound.isEmpty()) {
+      return;
+    }
+
+    throw failures.failure(info, ShouldContainExactlyInAnyOrder.shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {

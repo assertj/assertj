@@ -217,6 +217,10 @@ public class ObjectArrays {
 	arrays.assertContainsExactly(info, failures, actual, values);
   }
 
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Object[] actual, Object[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+  }
+
   /**
    * Asserts that the given array contains only once the given values.
    * 

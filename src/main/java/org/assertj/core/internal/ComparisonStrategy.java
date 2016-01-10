@@ -94,6 +94,8 @@ public interface ComparisonStrategy {
    */
   void iterableRemoves(Iterable<?> iterable, Object value);
 
+  void iterablesRemoveFirst(Iterable<?> iterable, Object value);
+
   /**
    * Returns any duplicate elements from the given {@link Iterable} according to the implemented comparison strategy.
    * 

@@ -231,6 +231,10 @@ public class Arrays {
 	                       shouldContainExactly(actual, values, notFound, actualWithoutDuplicates, comparisonStrategy));
   }
 
+	void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
+
+	}
+
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
 	if (commonChecks(info, actual, values))
 	  return;
