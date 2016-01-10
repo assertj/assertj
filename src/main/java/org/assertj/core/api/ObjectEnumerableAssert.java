@@ -138,7 +138,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertion will pass
    * assertThat(elvesRings).containsExactly(vilya, vilya, nenya, narya);
    *
-   * // assertion will fail as one vilya is contained twice in elvesRings.
+   * // assertion will fail as vilya is contained twice in elvesRings.
    * assertThat(elvesRings).containsExactly(nenya, vilya, narya);</code></pre>
    *
    * @param values the given values.
