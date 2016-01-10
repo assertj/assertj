@@ -37,25 +37,15 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
-    if (isNullOrEmpty(notExpected))
+    if (isNullOrEmpty(notExpected)) {
       return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, NOT_FOUND, comparisonStrategy);
-    if (isNullOrEmpty(notFound))
-      return new ShouldContainExactlyInAnyOrder(actual, expected, notExpected, NOT_EXPECTED, comparisonStrategy);
-    return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, notExpected, comparisonStrategy);
-  }
+    }
 
-  /**
-   * Creates a new </code>{@link ShouldContainExactlyInAnyOrder}</code>.
-   *
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be contained in {@code actual}.
-   * @param notFound values in {@code expected} not found in {@code actual}.
-   * @param notExpected values in {@code actual} that were not in {@code expected}.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
-                                                      Iterable<?> notExpected) {
-    return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+    if (isNullOrEmpty(notFound)) {
+      return new ShouldContainExactlyInAnyOrder(actual, expected, notExpected, NOT_EXPECTED, comparisonStrategy);
+    }
+
+    return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
   private ShouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFound, Iterable<?> notExpected,
