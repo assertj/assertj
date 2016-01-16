@@ -38,11 +38,11 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFound,
                                                                    Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
     if (isNullOrEmpty(notExpected)) {
-      return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, NOT_FOUND, comparisonStrategy);
+      return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, NOT_FOUND_ONLY, comparisonStrategy);
     }
 
     if (isNullOrEmpty(notFound)) {
-      return new ShouldContainExactlyInAnyOrder(actual, expected, notExpected, NOT_EXPECTED, comparisonStrategy);
+      return new ShouldContainExactlyInAnyOrder(actual, expected, notExpected, NOT_EXPECTED_ONLY, comparisonStrategy);
     }
 
     return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, notExpected, comparisonStrategy);
@@ -69,7 +69,7 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
           "Expecting:%n" +
           "  <%s>%n" +
           "to contain exactly in any order:%n" +
-          "  <%s>%n" + (errorType == NOT_FOUND ? 
+          "  <%s>%n" + (errorType == NOT_FOUND_ONLY ?
           "but could not find the following elements:%n" : "but the following elements were unexpected:%n") +
           "  <%s>%n%s",
           actual, expected, notFoundOrNotExpected, comparisonStrategy);
@@ -77,6 +77,6 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
   }
 
   public enum ErrorType {
-    NOT_FOUND, NOT_EXPECTED
+    NOT_FOUND_ONLY, NOT_EXPECTED_ONLY
   }
 }
