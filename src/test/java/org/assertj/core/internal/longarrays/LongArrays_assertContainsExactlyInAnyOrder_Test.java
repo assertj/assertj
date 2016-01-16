@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly() {
+  public void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6L, 8L, 10L));
   }
 
@@ -41,7 +41,7 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
+  public void should_pass_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
     arrays.assertContainsExactlyInAnyOrder(info, actual, arrayOf(6L, 10L, 8L));
   }
@@ -134,7 +134,7 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  public void should_pass_if_actual_contains_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6L, -8L, 10L));
   }
 

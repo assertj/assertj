@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly() {
+  public void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
@@ -135,7 +135,7 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  public void should_pass_if_actual_contains_given_values_exactly__in_any_orderaccording_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
@@ -164,7 +164,7 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_does_not_contain_given_values_exactly__in_any_orderaccording_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     byte[] expected = {6, -8, 20};
     try {

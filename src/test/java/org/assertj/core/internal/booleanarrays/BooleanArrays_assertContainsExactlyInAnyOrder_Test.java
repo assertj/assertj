@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly() {
+  public void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(true, false));
   }
 

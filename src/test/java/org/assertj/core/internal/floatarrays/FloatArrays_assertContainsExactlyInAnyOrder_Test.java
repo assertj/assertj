@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 public class FloatArrays_assertContainsExactlyInAnyOrder_Test extends FloatArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly() {
+  public void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6f, 8f, 10f));
   }
 
@@ -135,7 +135,7 @@ public class FloatArrays_assertContainsExactlyInAnyOrder_Test extends FloatArray
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  public void should_pass_if_actual_contains_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6f, -8f, 10f));
   }
 
