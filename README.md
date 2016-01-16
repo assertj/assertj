@@ -4,6 +4,8 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 
+[![Coverage Status](https://coveralls.io/repos/joel-costigliola/assertj-core/badge.svg?branch=2.x&service=github)](https://coveralls.io/github/joel-costigliola/assertj-core?branch=2.x)
+
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (either with JUnit or TestNG).
 
 * [AssertJ's goals](#goals)
