@@ -136,10 +136,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya, vilya);
    *
    * // assertion will pass
-   * assertThat(elvesRings).containsExactly(vilya, vilya, nenya, narya);
+   * assertThat(elvesRings).containsExactlyInAnyOrder(vilya, vilya, nenya, narya);
    *
    * // assertion will fail as vilya is contained twice in elvesRings.
-   * assertThat(elvesRings).containsExactly(nenya, vilya, narya);</code></pre>
+   * assertThat(elvesRings).containsExactlyInAnyOrder(nenya, vilya, narya);</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
