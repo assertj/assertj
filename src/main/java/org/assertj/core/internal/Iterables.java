@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -64,6 +65,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -244,6 +246,13 @@ public class Iterables {
    */
   private void iterableRemoves(Iterable<?> actual, Object value) {
     comparisonStrategy.iterableRemoves(actual, value);
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#iterablesRemoveFirst(Iterable, Object)}
+   */
+  private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
   /**
@@ -860,6 +869,26 @@ public class Iterables {
       return;
     }
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
+    checkIsNotNull(values);
+    assertNotNull(info, actual);
+    List<Object> notExpected = StreamSupport.stream(actual.spliterator(), false).collect(Collectors.<Object>toList());
+    List<Object> notFound = Stream.of(values).collect(Collectors.toList());
+
+    for (Object value : values) {
+      if(iterableContains(notExpected, value)) {
+        iterablesRemoveFirst(notExpected, value);
+        iterablesRemoveFirst(notFound, value);
+      }
+    }
+
+    if(notExpected.isEmpty() && notFound.isEmpty()) {
+      return;
+    }
+
+    throw failures.failure(info, shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {

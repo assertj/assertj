@@ -177,6 +177,10 @@ public class ByteArrays {
   public void assertContainsExactly(AssertionInfo info, byte[] actual, byte[] values) {
 	arrays.assertContainsExactly(info, failures, actual, values);
   }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, byte[] actual, byte[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+  }
   
   
   /**

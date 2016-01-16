@@ -22,10 +22,6 @@ import static org.mockito.Mockito.spy;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;

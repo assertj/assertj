@@ -95,6 +95,15 @@ public interface ComparisonStrategy {
   void iterableRemoves(Iterable<?> iterable, Object value);
 
   /**
+   * Removes the first value in {@code iterable} that matches the {@code value} according to the implemented comparison
+   * strategy. If given {@link Iterable} is null, does nothing.
+   *
+   * @param iterable the {@link Iterable} we want remove value from
+   * @param value object to remove from given {@link Iterable}
+   */
+  void iterablesRemoveFirst(Iterable<?> iterable, Object value);
+
+  /**
    * Returns any duplicate elements from the given {@link Iterable} according to the implemented comparison strategy.
    * 
    * @param iterable the given {@link Iterable} we want to extract duplicate elements.
