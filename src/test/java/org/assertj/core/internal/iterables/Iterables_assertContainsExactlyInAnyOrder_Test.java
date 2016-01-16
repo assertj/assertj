@@ -41,9 +41,9 @@ public class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBas
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
-    iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Luke", "Yoda", "Leia"));
+    iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Leia", "Yoda", "Luke"));
     actual.add(null);
-    iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Luke", "Yoda", "Leia", null));
+    iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Leia", null, "Yoda", "Luke"));
   }
 
   @Test
