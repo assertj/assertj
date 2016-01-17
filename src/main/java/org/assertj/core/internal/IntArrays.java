@@ -201,6 +201,10 @@ public class IntArrays {
   public void assertContainsExactly(AssertionInfo info, int[] actual, int[] values) {
 	arrays.assertContainsExactly(info, failures, actual, values);
   }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, int[] actual, int[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+  }
   
   /**
    * Asserts that the given array contains only once the given values.

@@ -216,6 +216,10 @@ public class DoubleArrays {
   public void assertContainsExactly(AssertionInfo info, double[] actual, double[] values) {
 	arrays.assertContainsExactly(info, failures, actual, values);
   }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, double[] actual, double[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+  }
   
   /**
    * Verifies that the given array contains the given sequence of values, without any other values between them.

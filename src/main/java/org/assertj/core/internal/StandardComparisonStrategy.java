@@ -132,6 +132,22 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
       }
     }
   }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void iterablesRemoveFirst(Iterable<?> iterable, Object value) {
+    if (iterable == null) {
+      return;
+    }
+    Iterator<?> iterator = iterable.iterator();
+    while (iterator.hasNext()) {
+      if (areEqual(iterator.next(), value)) {
+        iterator.remove();
+        return;
+      }
+    }
+  }
 
   /**
    * Returns any duplicate elements from the given collection according to {@link Objects#areEqual(Object, Object)} comparison

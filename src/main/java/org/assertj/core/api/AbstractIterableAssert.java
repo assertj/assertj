@@ -63,6 +63,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Mateusz Haligowski
+ * @author Lovro Pandzic
  */
 public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A, T>, A extends Iterable<? extends T>, T>
     extends AbstractAssert<S, A> implements ObjectEnumerableAssert<S, T> {
@@ -159,6 +160,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   @Override
   public S containsExactly(@SuppressWarnings("unchecked") T... values) {
     iterables.assertContainsExactly(info, actual, values);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S containsExactlyInAnyOrder(@SuppressWarnings("unchecked") T... values) {
+    iterables.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
 

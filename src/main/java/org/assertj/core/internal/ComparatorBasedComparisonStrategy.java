@@ -87,6 +87,19 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 	}
   }
 
+  @Override
+  @SuppressWarnings("unchecked")
+  public void iterablesRemoveFirst(Iterable<?> iterable, Object value) {
+    if (iterable == null) return;
+    Iterator<?> iterator = iterable.iterator();
+    while (iterator.hasNext()) {
+      if (comparator.compare(iterator.next(), value) == 0) {
+        iterator.remove();
+        return;
+      }
+    }
+  }
+
   /**
    * Returns true if actual and other are equal according to {@link #comparator}, false otherwise.<br>
    * Handles the cases where one of the parameter is null so that internal {@link #comparator} does not have too.

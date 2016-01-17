@@ -94,6 +94,13 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
+  public void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+    Snake snake = new Snake(15);
+    Animal[] array1 = array(new Bird("White"), snake, snake);
+    assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15),new Bird("White"), new Snake(15));
+  }
+
+  @Test
   public void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_array() {
     Person goodObiwan = new Person("Obi-Wan", "Kenobi", "good man");
     Person badObiwan = new Person("Obi-Wan", "Kenobi", "bad man");

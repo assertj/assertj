@@ -31,6 +31,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -239,6 +240,13 @@ public class Iterables {
    */
   private void iterableRemoves(Iterable<?> actual, Object value) {
     comparisonStrategy.iterableRemoves(actual, value);
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#iterablesRemoveFirst(Iterable, Object)}
+   */
+  private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
   /**
@@ -586,14 +594,14 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements do not satisfy the given condition.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
    */
   public <E> void assertAre(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
+      List<E> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
         throw failures.failure(info, elementsShouldBe(actual, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
@@ -637,7 +645,7 @@ public class Iterables {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
+      List<E> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
         throw failures.failure(info, elementsShouldHave(actual, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
@@ -856,6 +864,26 @@ public class Iterables {
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
+    checkIsNotNull(values);
+    assertNotNull(info, actual);
+    List<Object> notExpected = newArrayList(actual);
+    List<Object> notFound = newArrayList(values);
+
+    for (Object value : values) {
+      if(iterableContains(notExpected, value)) {
+        iterablesRemoveFirst(notExpected, value);
+        iterablesRemoveFirst(notFound, value);
+      }
+    }
+
+    if(notExpected.isEmpty() && notFound.isEmpty()) {
+      return;
+    }
+
+    throw failures.failure(info, shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
   private void assertNotNull(AssertionInfo info, Iterable<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }
@@ -864,7 +892,7 @@ public class Iterables {
     return failures.failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
   }
 
-  private <E> List<E> notSatisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
+  private <E> List<E> notSatisfyingCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
     List<E> notSatisfiesCondition = new LinkedList<>();
     for (E o : actual) {
       if (!condition.matches(o)) notSatisfiesCondition.add(o);
