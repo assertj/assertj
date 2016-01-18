@@ -433,7 +433,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * </p>
    * @param type the type to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual is exactly a instance of given type.
+   * @throws AssertionError if the actual is exactly an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */

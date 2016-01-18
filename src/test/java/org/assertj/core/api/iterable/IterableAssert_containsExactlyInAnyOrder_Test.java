@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#containsExactly(Object...)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#containsExactlyInAnyOrder(Object...)}</code>.
  * 
  * @author Lovro Pandzic
  */

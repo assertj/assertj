@@ -451,7 +451,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element can not be cast to E.
+   * @throws AssertionError if an element can not be cast to T.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   S areAtLeast(int n, Condition<? super T> condition);

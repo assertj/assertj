@@ -219,12 +219,12 @@ public class Objects {
   }
 
   /**
-   * Verifies that the actual value is exactly a instance of given type.
+   * Verifies that the actual value is exactly an instance of given type.
    *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
-   * @throws AssertionError if the actual is not exactly a instance of given type.
+   * @throws AssertionError if the actual is not exactly an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -240,12 +240,12 @@ public class Objects {
   }
 
   /**
-   * Verifies that the actual value is not exactly a instance of given type.
+   * Verifies that the actual value is not exactly an instance of given type.
    *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
-   * @throws AssertionError if the actual is exactly a instance of given type.
+   * @throws AssertionError if the actual is exactly an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */

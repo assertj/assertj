@@ -50,7 +50,7 @@ public interface AssertProvider<A> {
   /**
    * Returns the associated {@link Assert} for this object.
    * 
-   * @return the assert object for use in cunjunction with {@link Assertions#assertThat(AssertProvider)}
+   * @return the assert object for use in conjunction with {@link Assertions#assertThat(AssertProvider)}
    */
   A assertThat();
 

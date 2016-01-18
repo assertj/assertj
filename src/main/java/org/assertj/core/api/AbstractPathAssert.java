@@ -308,7 +308,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
   }
 
   /**
-   * Assert that the tested {@link Path} is a executable file, it checks that the file exists (according to
+   * Assert that the tested {@link Path} is an executable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is executable(according to {@link Files#isExecutable(Path)}
    * ).
    *

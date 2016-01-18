@@ -102,7 +102,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Verifies that the actual map has the same size as the given {@link Map}.
+   * Verifies that the actual map has the same size as the given {@link Iterable}.
    * <p>
    * Example :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
