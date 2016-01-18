@@ -22,6 +22,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
@@ -51,8 +52,7 @@ public class URLs_contentOf_Test {
 
   @Test
   public void should_load_resource_from_url_using_charset() {
-    // NB: UTF-8 must be supported by every Java implementation
-    assertThat(URLs.contentOf(sampleResourceURL, Charset.forName("UTF-8"))).isEqualTo(expectedContent);
+    assertThat(URLs.contentOf(sampleResourceURL, StandardCharsets.UTF_8)).isEqualTo(expectedContent);
   }
 
   @Test
