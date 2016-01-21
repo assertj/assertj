@@ -52,14 +52,13 @@ public class Diff {
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(File actual, File expected) throws IOException {
-    return diff(actual.toPath(), expected.toPath());
+  public List<Delta<String>> diff(File actual, Charset actualCharset, File expected, Charset expectedCharset) throws IOException {
+    return diff(actual.toPath(), actualCharset, expected.toPath(), expectedCharset);
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(Path actual, Path expected) throws IOException {
-    Charset defaultCharset = Charset.defaultCharset();
-    return diff(newBufferedReader(actual, defaultCharset), newBufferedReader(expected, defaultCharset));
+  public List<Delta<String>> diff(Path actual, Charset actualCharset, Path expected, Charset expectedCharset) throws IOException {
+    return diff(newBufferedReader(actual, actualCharset), newBufferedReader(expected, expectedCharset));
   }
 
   @VisibleForTesting

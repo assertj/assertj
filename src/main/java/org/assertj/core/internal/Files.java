@@ -77,6 +77,7 @@ public class Files {
    * href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
    * @param info contains information about the assertion.
    * @param actual the "actual" file.
+   * @param charset of the "actual" file.
    * @param expected the "expected" file.
    * @throws NullPointerException if {@code expected} is {@code null}.
    * @throws IllegalArgumentException if {@code expected} is not an existing file.
@@ -85,11 +86,11 @@ public class Files {
    * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the given files do not have same content.
    */
-  public void assertSameContentAs(AssertionInfo info, File actual, File expected) {
+  public void assertSameContentAs(AssertionInfo info, File actual, Charset actualCharset, File expected, Charset expectedCharset) {
     verifyIsFile(expected);
     assertIsFile(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, expected);
+      List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
