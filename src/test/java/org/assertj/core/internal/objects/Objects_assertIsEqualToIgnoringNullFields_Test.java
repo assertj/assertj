@@ -24,6 +24,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.internal.objects.Objects_assertIsEqualToIgnoringNullFields_Test.OuterClass.InnerClass;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
@@ -59,12 +60,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
     Person actual = new Person("Homer Simpson");
     CartoonCharacter other = new CartoonCharacter("Homer Simpson");
-    try {
-      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
-    } catch (AssertionError e) {
-      // jacoco instruments code adding properties that will make the test fails => ignore such failure
-      assertThat(e).as("check that failure only comes from jacoco").hasMessageContaining("$jacocoData");
-    }
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
@@ -135,4 +131,35 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     }
   }
 
+  @Test
+  public void should_pass_when_class_has_synthetic_field() {
+    InnerClass actual = new OuterClass().createInnerClass();
+    InnerClass other = new OuterClass().createInnerClass();
+
+    // ensure that the compiler has generated at one synthetic field for the comparison
+    assertThat(InnerClass.class.getDeclaredFields()).extracting("synthetic").contains(Boolean.TRUE);
+
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+  }
+
+  // example taken from http://stackoverflow.com/questions/8540768/when-is-the-jvm-bytecode-access-modifier-flag-0x1000-hex-synthetic-set
+  class OuterClass {
+    @SuppressWarnings("unused")
+    private String outerField;
+
+    class InnerClass {
+      // synthetic field this$1 generated in inner class to provider reference to outer
+      private InnerClass() {
+      }
+
+      @SuppressWarnings("unused")
+      String getOuterField() {
+        return outerField;
+      }
+    }
+
+    InnerClass createInnerClass() {
+      return new InnerClass();
+    }
+  }
 }
