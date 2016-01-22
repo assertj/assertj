@@ -21,7 +21,7 @@ import org.assertj.core.api.UrlAssertBaseTest;
  * Test for <code>{@link org.assertj.core.api.UrlAssert#hasPath(String)}</code>.
  */
 public class UrlAssert_hasPath_Test extends UrlAssertBaseTest {
-  private String expected = "/pages/";;
+  private String expected = "/pages/";
 
   @Override
   protected UrlAssert invoke_api_method() {
