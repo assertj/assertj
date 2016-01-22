@@ -74,7 +74,7 @@ public class IterableAssert_filteredOn_notIn_Test extends IterableAssert_filtere
   @Test
   public void should_filter_iterable_under_test_on_nested_mixed_property_and_field_values() {
     assertThat(employees).filteredOn("name.last", notIn("Skywalker")).containsOnly(yoda, obiwan, noname);
-    assertThat(employees).filteredOn("name.last", notIn("Skywalker", null)).isEmpty();;
+    assertThat(employees).filteredOn("name.last", notIn("Skywalker", null)).isEmpty();
     assertThat(employees).filteredOn("name.last", notIn("Vader")).containsOnly(yoda, obiwan, noname, luke);
   }
 
