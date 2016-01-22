@@ -72,7 +72,7 @@ public class Diff {
   }
 
   private BufferedReader readerFor(InputStream stream) {
-    return new BufferedReader(new InputStreamReader(stream));
+    return new BufferedReader(new InputStreamReader(stream, Charset.defaultCharset()));
   }
 
   private BufferedReader readerFor(String string) {

@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 public class ComparatorFactory {
 
-  public static ComparatorFactory INSTANCE = new ComparatorFactory();
+  public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
   public Comparator<Double> doubleComparatorWithPrecision(final double precision) {
     Comparator<Double> closeToComparator = new Comparator<Double>() {
