@@ -49,7 +49,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
     private final String string;
 
     private UnquotedString(String string) {
-      this.string = checkNotNull(string, "string is mandatory");;
+      this.string = checkNotNull(string, "string is mandatory");
     }
 
     @Override

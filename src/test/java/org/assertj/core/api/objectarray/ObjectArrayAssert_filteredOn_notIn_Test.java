@@ -69,7 +69,7 @@ public class ObjectArrayAssert_filteredOn_notIn_Test extends ObjectArrayAssert_f
   @Test
   public void should_filter_object_array_under_test_on_nested_mixed_property_and_field_values() {
     assertThat(employees).filteredOn("name.last", notIn("Skywalker")).containsOnly(yoda, obiwan, noname);
-    assertThat(employees).filteredOn("name.last", notIn("Skywalker", null)).isEmpty();;
+    assertThat(employees).filteredOn("name.last", notIn("Skywalker", null)).isEmpty();
     assertThat(employees).filteredOn("name.last", notIn("Vader")).containsOnly(yoda, obiwan, noname, luke);
   }
 

@@ -185,7 +185,7 @@ public class Arrays extends GroupFormatUtil {
     if (!isArray(o)) return null;
     if (!isArrayTypePrimitive(o)) throw Arrays.notAnArrayOfPrimitives(o);
     int size = getLength(o);
-    if (size == 0) return DEFAULT_START + DEFAULT_END;;
+    if (size == 0) return DEFAULT_START + DEFAULT_END;
     StringBuilder buffer = new StringBuilder();
     buffer.append(DEFAULT_START);
     buffer.append(representation.toStringOf(Array.get(o, 0)));
