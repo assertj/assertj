@@ -15,8 +15,13 @@ package org.assertj.core.api.object;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
+import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /**
@@ -35,7 +40,21 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
-    verify(objects).assertIsEqualToIgnoringNullFields(getInfo(assertions), getActual(assertions), other);
+    verify(objects).assertIsEqualToIgnoringNullFields(getInfo(assertions), getActual(assertions), other, Collections.EMPTY_MAP);
+  }
+  
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields() {
+    Comparator<String> alwaysEqual = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return 0;
+      }
+    };
+    Jedi actual = new Jedi("Yoda", null);
+    Jedi other = new Jedi("Luke", null);
+    
+    assertThat(actual).usingComparatorForFields(alwaysEqual, "name").isEqualToIgnoringNullFields(other);
   }
 }

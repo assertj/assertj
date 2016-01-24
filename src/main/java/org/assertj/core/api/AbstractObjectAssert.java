@@ -14,6 +14,10 @@ package org.assertj.core.api;
 
 import static org.assertj.core.extractor.Extractors.byName;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -33,6 +37,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Libor Ondrusek
  */
 public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
+
+  private Map<String, Comparator<?>> propertyOrFieldToComparator = new HashMap<>();
 
   protected AbstractObjectAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
@@ -75,7 +81,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
   public S isEqualToIgnoringNullFields(Object other) {
-    objects.assertIsEqualToIgnoringNullFields(info, actual, other);
+    objects.assertIsEqualToIgnoringNullFields(info, actual, other, propertyOrFieldToComparator);
     return myself;
   }
 
@@ -117,7 +123,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if a property/field does not exist in actual.
    */
   public S isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
-    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, propertiesOrFieldsUsedInComparison);
+    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, propertyOrFieldToComparator, propertiesOrFieldsUsedInComparison);
     return myself;
   }
 
@@ -155,7 +161,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   public S isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, propertiesOrFieldsToIgnore);
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, propertyOrFieldToComparator, propertiesOrFieldsToIgnore);
     return myself;
   }
 
@@ -193,7 +199,43 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   public S isEqualToComparingFieldByField(Object other) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, propertyOrFieldToComparator);
+    return myself;
+  }
+
+  /**
+   * Allows to define a comparator which is used to compare the values of properties or fields with the given names.
+   * 
+   * Example:
+   * <p>
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   private String name;
+   *   private int age;
+   *   // constructor omitted
+   * }
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33);
+   * TolkienCharacter olderFrodo = new TolkienCharacter(&quot;Frodo&quot;, 66);
+   * 
+   * Comparator&lt;Integer&gt; alwaysEqual = new Comparator&lt;Integer&gt;() {
+   *   public int compare(Integer o1, Integer o2) {
+   *     return 0;
+   *   }
+   * };
+   * 
+   * // assertions will pass
+   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToComparingFieldByField(olderFrodo);
+   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToIgnoringNullFields(olderFrodo);
+   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToIgnoringGivenFields(olderFrodo, &quot;name&quot;);
+   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToComparingOnlyGivenFields(olderFrodo, &quot;age&quot;);</code></pre>
+   * </p>
+   * @param comparator the {@link java.util.Comparator} to use
+   * @param comparator the names of the properties and/or fields the comparator should be used for
+   * @return {@code this} assertions object
+   */
+  public <T> S usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
+    for (String propertyOrField : propertiesOrFields) {
+      propertyOrFieldToComparator.put(propertyOrField, comparator);
+    }
     return myself;
   }
 
