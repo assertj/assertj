@@ -12,11 +12,16 @@
  */
 package org.assertj.core.api.object;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
+import org.junit.Test;
 
 
 /**
@@ -35,7 +40,22 @@ public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectA
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
-    verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other, "name");
+    verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other,
+            Collections.EMPTY_MAP, "name");
+  }
+  
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields() {
+    Comparator<String> alwaysEqual = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return 0;
+      }
+    };
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Luke", "Blue");
+    
+    assertThat(actual).usingComparatorForFields(alwaysEqual, "name").isEqualToComparingOnlyGivenFields(other, "name");
   }
 }
