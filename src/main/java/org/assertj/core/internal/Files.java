@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
+import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -33,13 +35,13 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
-
 
 /**
  * Reusable assertions for <code>{@link File}</code>s.
@@ -51,6 +53,7 @@ import org.assertj.core.util.diff.Delta;
  */
 public class Files {
 
+  private static final String UNABLE_TO_COMPARE_FILE_CONTENTS = "Unable to compare contents of files:<%s> and:<%s>";
   private static final Files INSTANCE = new Files();
 
   /**
@@ -86,16 +89,29 @@ public class Files {
    * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the given files do not have same content.
    */
-  public void assertSameContentAs(AssertionInfo info, File actual, Charset actualCharset, File expected, Charset expectedCharset) {
+  public void assertSameContentAs(AssertionInfo info, File actual, Charset actualCharset, File expected,
+                                  Charset expectedCharset) {
     verifyIsFile(expected);
     assertIsFile(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
+    } catch (MalformedInputException e) {
+      try {
+        // MalformedInputException is thrown by readLine() called in diff
+        // compute a binary diff, if there is a binary diff, it it shows the offset of the malformed input
+        BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
+        if (binaryDiffResult.hasNoDiff()) {
+          // fall back to the RuntimeIOException : not throwing an error is wrong as there was one in the first place.
+          throw e;
+        }
+        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
+      } catch (IOException ioe) {
+        throw new RuntimeIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
+      }
     } catch (IOException e) {
-      String msg = String.format("Unable to compare contents of files:<%s> and:<%s>", actual, expected);
-      throw new RuntimeIOException(msg, e);
+      throw new RuntimeIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), e);
     }
   }
 
@@ -235,13 +251,13 @@ public class Files {
     throw failures.failure(info, shouldNotExist(actual));
   }
 
-    /**
-   * Asserts that the given file can be modified by the application.
-   * @param info contains information about the assertion.
-   * @param actual the given file.
-   * @throws AssertionError if the given file is {@code null}.
-   * @throws AssertionError if the given file can not be modified.
-   */
+  /**
+  * Asserts that the given file can be modified by the application.
+  * @param info contains information about the assertion.
+  * @param actual the given file.
+  * @throws AssertionError if the given file is {@code null}.
+  * @throws AssertionError if the given file can not be modified.
+  */
   public void assertCanWrite(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canWrite()) return;
