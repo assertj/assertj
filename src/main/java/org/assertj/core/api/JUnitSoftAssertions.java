@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.VisibleForTesting;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
-
-import java.util.List;
 
 /**
  * Same as {@link SoftAssertions}, but with the following differences: <br/>
@@ -45,13 +42,9 @@ public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implemen
 	  @Override
 	  public void evaluate() throws Throwable {
 		base.evaluate();
-		MultipleFailureException.assertEmpty(proxies.errorsCollected());
+		MultipleFailureException.assertEmpty(errorsCollected());
 	  }
 	};
-  }
-
-	@VisibleForTesting List<Throwable> getErrors() {
-	return proxies.errorsCollected();
   }
 
 }

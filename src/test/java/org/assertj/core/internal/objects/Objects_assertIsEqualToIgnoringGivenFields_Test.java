@@ -239,7 +239,6 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
 
   // example taken from http://stackoverflow.com/questions/8540768/when-is-the-jvm-bytecode-access-modifier-flag-0x1000-hex-synthetic-set
   class OuterClass {
-    @SuppressWarnings("unused")
     private String outerField;
 
     class InnerClass {
@@ -247,7 +246,6 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
       private InnerClass() {
       }
 
-      @SuppressWarnings("unused")
       String getOuterField() {
         return outerField;
       }
