@@ -23,4 +23,8 @@ public class AbstractSoftAssertions {
   protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
     return proxies.create(assertClass, actualClass, actual);
   }
+  
+  protected List<Throwable> errorsCollected(){
+    return proxies.errorsCollected();
+  }
 }
