@@ -13,7 +13,6 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
-import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -34,6 +33,7 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.util.List;
@@ -101,7 +101,7 @@ public class Files {
       try {
         // MalformedInputException is thrown by readLine() called in diff
         // compute a binary diff, if there is a binary diff, it it shows the offset of the malformed input
-        BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
+        BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected));
         if (binaryDiffResult.hasNoDiff()) {
           // fall back to the RuntimeIOException : not throwing an error is wrong as there was one in the first place.
           throw e;
@@ -112,6 +112,23 @@ public class Files {
       }
     } catch (IOException e) {
       throw new RuntimeIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), e);
+    }
+  }
+
+  private byte[] readAllBytes(File file) throws IOException {
+    RandomAccessFile randomAccessFile = null;
+    try {
+      randomAccessFile = new RandomAccessFile(file, "r");
+      byte[] bytes = new byte[(int) randomAccessFile.length()];
+      randomAccessFile.readFully(bytes);
+      return bytes;
+    } finally {
+      if (randomAccessFile != null) {
+        try {
+          randomAccessFile.close();
+        } catch (IOException ignored) {
+        }
+      }
     }
   }
 
