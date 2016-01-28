@@ -27,6 +27,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.internal.objects.Objects_assertIsEqualToIgnoringGivenFields_Test.OuterClass.InnerClass;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
@@ -71,13 +72,7 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
   public void should_pass_when_not_ignored_fields_are_equal_even_if_one_ignored_field_is_not_defined() {
     Person actual = new Person("Yoda");
     Jedi other = new Jedi("Yoda", "Green");
-    try {
-      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "lightSaberColor");
-    } catch (AssertionError e) {
-      // jacoco instruments code adding properties that will make the test fails => ignore such failure
-      assertThat(e).as("check that failure only comes from jacoco").hasMessageContaining("$jacocoData");
-    }
-
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "lightSaberColor");
   }
 
   @Test
@@ -91,12 +86,7 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
   public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
     CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
     Person other = new Person("Homer Simpson");
-    try {
-      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "children");
-    } catch (AssertionError e) {
-      // jacoco instruments code adding properties that will make the test fails => ignore such failure
-      assertThat(e).as("check that failure only comes from jacoco").hasMessageContaining("$jacocoData");
-    }
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "children");
   }
 
   @Test
@@ -213,6 +203,17 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     assertThat(personDAO).isEqualToIgnoringGivenFields(person, "id");
   }
 
+  @Test
+  public void should_pass_when_class_has_synthetic_field() {
+    InnerClass actual = new OuterClass().createInnerClass();
+    InnerClass other = new OuterClass().createInnerClass();
+
+    // ensure that the compiler has generated at one synthetic field for the comparison
+    assertThat(InnerClass.class.getDeclaredFields()).extracting("synthetic").contains(Boolean.TRUE);
+
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other);
+  }
+
   private static class Dude {
     @SuppressWarnings("unused")
     String firstname, lastname;
@@ -233,6 +234,27 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
       this.firstname = firstname;
       this.lastname = lastname;
       this.id = id;
+    }
+  }
+
+  // example taken from http://stackoverflow.com/questions/8540768/when-is-the-jvm-bytecode-access-modifier-flag-0x1000-hex-synthetic-set
+  class OuterClass {
+    @SuppressWarnings("unused")
+    private String outerField;
+
+    class InnerClass {
+      // synthetic field this$1 generated in inner class to provider reference to outer
+      private InnerClass() {
+      }
+
+      @SuppressWarnings("unused")
+      String getOuterField() {
+        return outerField;
+      }
+    }
+
+    InnerClass createInnerClass() {
+      return new InnerClass();
     }
   }
 }
