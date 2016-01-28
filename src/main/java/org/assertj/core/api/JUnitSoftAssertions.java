@@ -45,7 +45,7 @@ public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implemen
 	  @Override
 	  public void evaluate() throws Throwable {
 		base.evaluate();
-		MultipleFailureException.assertEmpty(proxies.errorsCollected());
+		MultipleFailureException.assertEmpty(errorsCollected());
 	  }
 	};
   }

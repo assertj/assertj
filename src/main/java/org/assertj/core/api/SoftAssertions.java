@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.groups.Properties.extractProperty;
-
 import java.util.List;
+
+import static org.assertj.core.groups.Properties.extractProperty;
 
 /**
  * <p>
@@ -33,21 +33,21 @@ import java.util.List;
  *   assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
  *   assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  * }</code></pre>
- * 
+ *
  * <p>
  * After running the test, JUnit provides us with the following exception message:
  * <pre><code class='java'> org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;</code></pre>
- * 
+ *
  * <p>
  * Oh no! A guest has been murdered! But where, how, and by whom?
  * </p>
- * 
+ *
  * <p>
  * Unfortunately frameworks like JUnit halt the test upon the first failed assertion. Therefore, to collect more
  * evidence, we'll have to rerun the test (perhaps after attaching a debugger or modifying the test to skip past the
  * first assertion). Given that hosting dinner parties takes a long time, this seems rather inefficient.
  * </p>
- * 
+ *
  * <p>
  * Instead let's change the test so that at its completion we get the result of all assertions at once. We can do that
  * by using a SoftAssertions instance instead of the static methods on {@link Assertions} as follows:
@@ -65,7 +65,7 @@ import java.util.List;
  *   softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  *   softly.assertAll();
  * }</code></pre>
- * 
+ *
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
  * <pre><code class='java'> org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
@@ -73,33 +73,33 @@ import java.util.List;
  * 2) [Library] expected:&lt;'[clean]'&gt; but was:&lt;'[messy]'&gt;
  * 3) [Candlestick] expected:&lt;'[pristine]'&gt; but was:&lt;'[bent]'&gt;
  * 4) [Professor] expected:&lt;'[well kempt]'&gt; but was:&lt;'[bloodied and disheveled]'&gt;</code></pre>
- * 
+ *
  * <p>
  * Aha! It appears that perhaps the Professor used the candlestick to perform the nefarious deed in the library. We
  * should let the police take it from here.
  * </p>
- * 
+ *
  * <p>
  * SoftAssertions works by providing you with proxies of the AssertJ assertion objects (those created by
  * {@link Assertions}#assertThat...) whose assertion failures are caught and stored. Only when you call
  * {@link SoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of those
  * previously caught assertion failures.
  * </p>
- * 
+ *
  * <p>
  * Note that because SoftAssertions is stateful you should use a new instance of SoftAssertions per test method. Also,
  * if you forget to call assertAll() at the end of your test, the test <strong>will pass</strong> even if any assertion
  * objects threw exceptions (because they're proxied, remember?). So don't forget. You might use
  * {@link JUnitSoftAssertions} or {@link AutoCloseableSoftAssertions} to get assertAll() to be called automatically.
  * </p>
- * 
+ *
  * <p>
  * It is recommended to use {@link AbstractAssert#as(String, Object...)} so that the multiple failed assertions can be
  * easily distinguished from one another.
  * </p>
- * 
+ *
  * @author Brian Laframboise
- * 
+ *
  * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the
  *      inspiration
  */
@@ -111,7 +111,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
    * @throws SoftAssertionError if any proxied assertion objects threw
    */
   public void assertAll() {
-	List<Throwable> errors = proxies.errorsCollected();
+	List<Throwable> errors = errorsCollected();
 	if (!errors.isEmpty()) {
 	  throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
 	}
