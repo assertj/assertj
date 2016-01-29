@@ -16,6 +16,7 @@ import org.assertj.core.data.MapEntry;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.Table;
@@ -30,6 +31,7 @@ import com.google.common.io.ByteSource;
  * @author Jan Gorman
  * @author Joel Costigliola
  * @author Marcin Kwaczyński
+ * @author Max Daniline
  */
 public class Assertions {
 
@@ -38,7 +40,7 @@ public class Assertions {
   }
 
   public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
-    return new MultimapAssert<K, V>(actual);
+    return new MultimapAssert<>(actual);
   }
 
   public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
@@ -46,15 +48,19 @@ public class Assertions {
   }
 
   public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
-    return new RangeAssert<T>(actual);
+    return new RangeAssert<>(actual);
   }
 
   public static <K extends Comparable<K>, V> RangeMapAssert<K, V> assertThat(final RangeMap<K, V> actual) {
-    return new RangeMapAssert<K, V>(actual);
+    return new RangeMapAssert<>(actual);
   }
 
   public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {
-    return new TableAssert<R, C, V>(actual);
+    return new TableAssert<>(actual);
+  }
+
+  public static <T> MultisetAssert<T> assertThat(final Multiset<T> actual) {
+    return new MultisetAssert<T>(actual);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -83,5 +89,4 @@ public class Assertions {
   protected Assertions() {
     // empty
   }
-
 }
