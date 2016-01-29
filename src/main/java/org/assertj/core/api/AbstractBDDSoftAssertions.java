@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.Iterator;
@@ -140,6 +141,18 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   public SoftAssertionClassAssert then(Class<?> actual) {
 	return proxy(SoftAssertionClassAssert.class, Class.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  public <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
+    return proxy(AbstractComparableAssert.class, Comparable.class, actual);
   }
 
   /**
@@ -471,5 +484,15 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   public UriAssert then(URI actual) {
     return proxy(UriAssert.class, URI.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link UrlAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public AbstractUrlAssert<?> then(URL actual) {
+    return proxy(AbstractUrlAssert.class, URL.class, actual);
   }
 }
