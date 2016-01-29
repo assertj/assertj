@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,6 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -134,8 +136,8 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
       @Override
       public void call() throws Throwable {
         unMockedFiles.assertSameContentAs(someInfo(),
-                                          createFileWithNonUTF8Character(), defaultCharset(),
-                                          createFileWithNonUTF8Character(), defaultCharset());
+                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
+                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8);
       }
     });
 
@@ -149,16 +151,16 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
       @Override
       public void call() throws Throwable {
         unMockedFiles.assertSameContentAs(someInfo(),
-                                          createFileWithNonUTF8Character(), defaultCharset(),
-                                          expected, defaultCharset());
+                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
+                                          expected, StandardCharsets.UTF_8);
       }
     });
 
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessageEndingWith("does not have expected binary content at offset <0>, expecting:\n" +
-                                               " <\"EOF\">\n" +
-                                               "but was:\n" +
-                                               " <\"0x0\">");
+                         .hasMessageEndingWith(format("does not have expected binary content at offset <0>, expecting:%n" +
+                                                      " <\"EOF\">%n" +
+                                                      "but was:%n" +
+                                                      " <\"0x0\">"));
   }
 
   private File createFileWithNonUTF8Character() throws IOException {
