@@ -67,4 +67,9 @@ public class MapEntry_equals_hashCode_Test {
   public void should_not_be_equal_to_MapEntry_with_different_value() {
     assertThat(entry.equals(entry("key0", "value0"))).isFalse();
   }
+
+  @Test
+  public void should_have_hashCode() {
+    assertThat(entry.hashCode()).isEqualTo("key".hashCode() ^ "value".hashCode());
+  }
 }
