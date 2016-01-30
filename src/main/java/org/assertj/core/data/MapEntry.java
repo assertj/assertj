@@ -55,10 +55,7 @@ public class MapEntry<K, V> {
 
   @Override
   public int hashCode() {
-    int result = 1;
-    result = HASH_CODE_PRIME * result + hashCodeFor(key);
-    result = HASH_CODE_PRIME * result + hashCodeFor(value);
-    return result;
+    return (key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
   }
 
   @Override
