@@ -12,19 +12,19 @@
  */
 package org.assertj.core.data;
 
-import static org.assertj.core.util.Objects.*;
 import static org.assertj.core.presentation.DefaultToString.toStringOf;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Understands an entry in a <code>{@link Map}</code>.
  *
  * @author Yvonne Wang
  */
-public class MapEntry<K, V> implements Map.Entry<K, V>{
-  
+public class MapEntry<K, V> implements Map.Entry<K, V> {
+
   public final K key;
   public final V value;
 
@@ -35,7 +35,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V>{
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
    */
-  public static <K,V> MapEntry<K, V> entry(K key, V value) {
+  public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return new MapEntry<>(key, value);
   }
 
@@ -45,20 +45,16 @@ public class MapEntry<K, V> implements Map.Entry<K, V>{
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true; 
-    if (!(obj instanceof MapEntry)) return false;
-    @SuppressWarnings("rawtypes")
-    MapEntry other = (MapEntry) obj;
-    return areEqual(key, other.key) && areEqual(value, other.value);
+  public boolean equals(Object object) {
+    if (!(object instanceof Map.Entry)) return false;
+    Map.Entry<?, ?> that = (Map.Entry<?, ?>) object;
+    return Objects.equals(this.getKey(), that.getKey())
+           && Objects.equals(this.getValue(), that.getValue());
   }
 
   @Override
   public int hashCode() {
-    int result = 1;
-    result = HASH_CODE_PRIME * result + hashCodeFor(key);
-    result = HASH_CODE_PRIME * result + hashCodeFor(value);
-    return result;
+    return Objects.hashCode(getKey()) ^ Objects.hashCode(getValue());
   }
 
   @Override
@@ -75,7 +71,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V>{
   public V getValue() {
     return value;
   }
-  
+
   /**
    * Always throws <tt>UnsupportedOperationException</tt>,
    * as this class represents an <i>immutable</i> map entry.
@@ -86,6 +82,6 @@ public class MapEntry<K, V> implements Map.Entry<K, V>{
    */
   @Override
   public V setValue(V value) {
-      throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException();
   }
 }
