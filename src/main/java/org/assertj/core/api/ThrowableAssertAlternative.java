@@ -207,6 +207,33 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
   }
 
   /**
+   * Verifies that the stack trace of the actual {@code Throwable} contains with the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .withStackTraceContaining("amount");
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .withStackTraceContaining("456");</code></pre>
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
+   * @see AbstractThrowableAssert#hasStackTraceContaining(String)
+   */
+  public ThrowableAssertAlternative<T> withStackTraceContaining(String description) {
+    delegate.hasStackTraceContaining(description);
+    return this;
+  }
+  
+  /**
    * Verifies that the message of the actual {@code Throwable} matches with the given regular expression.
    * <p>
    * Examples:

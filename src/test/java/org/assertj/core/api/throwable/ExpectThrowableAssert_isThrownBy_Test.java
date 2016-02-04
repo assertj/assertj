@@ -30,6 +30,7 @@ public class ExpectThrowableAssert_isThrownBy_Test {
                                                      .withMessageStartingWith("this")
                                                      .withMessageEndingWith("too")
                                                      .withMessageMatching(".*is.*")
+                                                     .withStackTraceContaining("this")
                                                      .withCauseExactlyInstanceOf(IllegalArgumentException.class)
                                                      .withCauseInstanceOf(IllegalArgumentException.class);
     // @format:on
