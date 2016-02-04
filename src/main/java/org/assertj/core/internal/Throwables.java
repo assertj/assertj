@@ -28,9 +28,6 @@ import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Throwables.getRootCause;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
