@@ -15,6 +15,10 @@ package org.assertj.core.internal.longs;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongsBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -24,11 +28,11 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
+@RunWith(DataProviderRunner.class)
 public class Longs_assertIsCloseToPercentage_Test extends LongsBaseTest {
 
     private static final Long ZERO = 0L;
     private static final Long ONE = 1L;
-    private static final Long TWO = 2L;
     private static final Long TEN = 10L;
 
     @Test
@@ -57,16 +61,32 @@ public class Longs_assertIsCloseToPercentage_Test extends LongsBaseTest {
         longs.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101L));
     }
 
+    // @format:off
     @Test
-    public void should_pass_if_difference_is_less_than_given_percentage() {
-        longs.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(1L));
-        longs.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100L));
+    @DataProvider({
+      "1, 1, 1",
+      "1, 2, 100",
+      "-1, -1, 1",
+      "-1, -2, 100"
+    })
+    // @format:on
+    public void should_pass_if_difference_is_less_than_given_percentage(Long actual, Long other, Long percentage) {
+      longs.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
     }
 
+    // @format:off
     @Test
-    public void should_pass_if_difference_is_equal_to_given_percentage() {
-        longs.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-        longs.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50L));
+    @DataProvider({
+      "1, 1, 0",
+      "2, 1, 100",
+      "1, 2, 50",
+      "-1, -1, 0",
+      "-2, -1, 100",
+      "-1, -2, 50"
+    })
+    // @format:on
+    public void should_pass_if_difference_is_equal_to_given_percentage(Long actual, Long other, Long percentage) {
+      longs.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
     }
 
     @Test

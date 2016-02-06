@@ -184,7 +184,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   }
 
   private Offset<Double> computeOffset(NUMBER referenceValue, Percentage percentage) {
-    return offset(percentage.value * referenceValue.doubleValue() / 100d);
+    return offset(abs(percentage.value * referenceValue.doubleValue() / 100d));
   }
 
 }

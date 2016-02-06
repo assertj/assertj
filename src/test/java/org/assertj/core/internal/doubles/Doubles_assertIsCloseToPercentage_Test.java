@@ -23,12 +23,16 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   private static final Double ZERO = 0d;
   private static final Double ONE = 1d;
-  private static final Double TWO = 2d;
   private static final Double TEN = 10d;
 
   @Test
@@ -57,16 +61,32 @@ public class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
     doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101.0));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_less_than_given_percentage() {
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(0.1));
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100.0));
+  @DataProvider({
+    "1, 1, 1",
+    "1, 2, 100",
+    "-1, -1, 1",
+    "-1, -2, 100"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_less_than_given_percentage(Double actual, Double other, Double percentage) {
+    doubles.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_equal_to_given_percentage() {
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50.0));
+  @DataProvider({
+    "1, 1, 0",
+    "2, 1, 100",
+    "1, 2, 50",
+    "-1, -1, 0",
+    "-2, -1, 100",
+    "-1, -2, 50"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_equal_to_given_percentage(Double actual, Double other, Double percentage) {
+    doubles.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test

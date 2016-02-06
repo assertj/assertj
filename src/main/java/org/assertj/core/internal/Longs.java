@@ -73,7 +73,7 @@ public class Longs extends Numbers<Long> {
     checkPercentageIsNotNull(percentage);
     checkNumberIsNotNull(other);
 
-    Offset<Double> calculatedOffset = offset(percentage.value * other / 100d);
+    Offset<Double> calculatedOffset = offset(abs(percentage.value * other / 100d));
 
     Long absDiff = abs(other - actual);
     if (absDiff > calculatedOffset.value)

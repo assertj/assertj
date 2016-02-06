@@ -73,7 +73,7 @@ public class Shorts extends Numbers<Short> {
     assertNotNull(info, actual);
     checkPercentageIsNotNull(percentage);
     checkNumberIsNotNull(other);
-    Offset<Double> calculatedOffset = offset(percentage.value * other / 100d);
+    Offset<Double> calculatedOffset = offset(abs(percentage.value * other / 100d));
     short absDiff = (short) abs(other - actual);
     if (absDiff > calculatedOffset.value)
       throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff));

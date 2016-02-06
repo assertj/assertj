@@ -23,12 +23,16 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Floats_assertIsCloseToPercentage_Test extends FloatsBaseTest {
 
   private static final Float ZERO = 0f;
   private static final Float ONE = 1f;
-  private static final Float TWO = 2f;
   private static final Float TEN = 10f;
 
   @Test
@@ -57,16 +61,32 @@ public class Floats_assertIsCloseToPercentage_Test extends FloatsBaseTest {
     floats.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101.0f));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_less_than_given_percentage() {
-    floats.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(0.1f));
-    floats.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100.0f));
+  @DataProvider({
+    "1, 1, 1",
+    "1, 2, 100",
+    "-1, -1, 1",
+    "-1, -2, 100"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_less_than_given_percentage(Float actual, Float other, Float percentage) {
+    floats.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_equal_to_given_percentage() {
-    floats.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-    floats.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50.0f));
+  @DataProvider({
+    "1, 1, 0",
+    "2, 1, 100",
+    "1, 2, 50",
+    "-1, -1, 0",
+    "-2, -1, 100",
+    "-1, -2, 50"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_equal_to_given_percentage(Float actual, Float other, Float percentage) {
+    floats.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test

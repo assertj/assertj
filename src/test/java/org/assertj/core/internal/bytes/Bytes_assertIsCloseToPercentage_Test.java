@@ -23,12 +23,16 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
 
   private static final Byte ZERO = 0;
   private static final Byte ONE = 1;
-  private static final Byte TWO = 2;
   private static final Byte TEN = 10;
 
   @Test
@@ -57,16 +61,32 @@ public class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
     bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_less_than_given_percentage() {
-    bytes.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(1));
-    bytes.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100));
+  @DataProvider({
+    "1, 1, 1",
+    "1, 2, 100",
+    "-1, -1, 1",
+    "-1, -2, 100"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_less_than_given_percentage(Byte actual, Byte other, Byte percentage) {
+    bytes.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_equal_to_given_percentage() {
-    bytes.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(0));
-    bytes.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50));
+  @DataProvider({
+    "1, 1, 0",
+    "2, 1, 100",
+    "1, 2, 50",
+    "-1, -1, 0",
+    "-2, -1, 100",
+    "-1, -2, 50"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_equal_to_given_percentage(Byte actual, Byte other, Byte percentage) {
+    bytes.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test

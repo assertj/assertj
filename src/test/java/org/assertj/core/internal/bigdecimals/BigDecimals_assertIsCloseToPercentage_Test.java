@@ -28,10 +28,13 @@ import java.math.BigDecimal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class BigDecimals_assertIsCloseToPercentage_Test extends BigDecimalsBaseTest {
-
-  private static final BigDecimal TWO = new BigDecimal(2);
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -59,16 +62,32 @@ public class BigDecimals_assertIsCloseToPercentage_Test extends BigDecimalsBaseT
     bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_less_than_given_percentage() {
-    bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(1));
-    bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100));
+  @DataProvider({
+    "1, 1, 1",
+    "1, 2, 100",
+    "-1, -1, 1",
+    "-1, -2, 100"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_less_than_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
+    bigDecimals.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_equal_to_given_percentage() {
-    bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(0));
-    bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50));
+  @DataProvider({
+    "1, 1, 0",
+    "2, 1, 100",
+    "1, 2, 50",
+    "-1, -1, 0",
+    "-2, -1, 100",
+    "-1, -2, 50"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_equal_to_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
+    bigDecimals.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test
