@@ -31,7 +31,7 @@ import org.junit.Test;
 public class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_fail_if_actual_has_stacktrace_not_containing_with_expected_description() {
+  public void should_fail_if_actual_has_stacktrace_not_containing_the_expected_description() {
     final AssertionInfo info = someInfo();
     try {
       throwables.assertHasStackTraceContaining(info, actual, "expected descirption part");
@@ -50,7 +50,7 @@ public class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBas
   }
 
   @Test
-  public void should_pass_if_actual_has_stacktrace_containing_with_expected_description() {
+  public void should_pass_if_actual_has_stacktrace_containing_the_expected_description() {
     throwables.assertHasStackTraceContaining(someInfo(), actual, "able");
   }
 
