@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import java.util.Collections;
+import static java.util.Collections.EMPTY_MAP;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
@@ -36,7 +36,7 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actualElement, Object otherElement) {
     try {
-      return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, Collections.EMPTY_MAP, fields);
+      return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, EMPTY_MAP, EMPTY_MAP, fields);
     } catch (IntrospectionError e) {
       return false;
     }

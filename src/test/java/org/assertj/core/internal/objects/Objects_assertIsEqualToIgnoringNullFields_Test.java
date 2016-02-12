@@ -50,21 +50,21 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   public void should_pass_when_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, emptyMap());
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators());
   }
 
   @Test
   public void should_pass_when_some_other_field_is_null_but_not_actual() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, emptyMap());
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators());
   }
 
   @Test
   public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
     Person actual = new Person("Homer Simpson");
     CartoonCharacter other = new CartoonCharacter("Homer Simpson");
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, emptyMap());
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators());
   }
 
   @Test
@@ -74,7 +74,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
     TestClassWithRandomId other = new TestClassWithRandomId(null, 1);
     // s field is ignored because null in other, and id also because it is private without public getter
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, emptyMap());
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators());
     // reset
     Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
@@ -83,7 +83,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other, emptyMap());
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other, noFieldComparators(), noTypeComparators());
   }
 
   @Test
@@ -92,7 +92,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
     try {
-      objects.assertIsEqualToIgnoringNullFields(info, actual, other, emptyMap());
+      objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), noTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("lightSaberColor"),
@@ -110,7 +110,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Soda", "Green");
     try {
-      objects.assertIsEqualToIgnoringNullFields(info, actual, other, emptyMap());
+      objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), noTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("name"),
@@ -127,7 +127,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, emptyMap());
+      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators());
       failBecauseExceptionWasNotThrown(IntrospectionError.class);
     } catch (IntrospectionError err) {
       assertThat(err).hasMessageContaining("Can't find any field or property with name 'lightSaberColor'");
@@ -143,7 +143,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     // ensure that the compiler has generated at one synthetic field for the comparison
     assertThat(InnerClass.class.getDeclaredFields()).extracting("synthetic").contains(Boolean.TRUE);
 
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, emptyMap());
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators());
   }
 
   // example taken from http://stackoverflow.com/questions/8540768/when-is-the-jvm-bytecode-access-modifier-flag-0x1000-hex-synthetic-set
@@ -166,7 +166,12 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @SuppressWarnings("unchecked")
-  private static Map<String, Comparator<?>> emptyMap() {
+  private static Map<String, Comparator<?>> noFieldComparators() {
+      return Collections.EMPTY_MAP;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Map<Class<?>, Comparator<?>> noTypeComparators() {
       return Collections.EMPTY_MAP;
   }
 }
