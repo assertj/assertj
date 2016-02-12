@@ -12,10 +12,9 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
-
-import java.util.Collections;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
@@ -46,7 +45,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actualElement, Object otherElement) {
     try {
-      return Objects.instance().areEqualToComparingOnlyGivenFields(actualElement, otherElement, Collections.EMPTY_MAP, fields);
+      return Objects.instance().areEqualToComparingOnlyGivenFields(actualElement, otherElement, EMPTY_MAP, EMPTY_MAP, fields);
     } catch (IntrospectionError e) {
       return false;
     }

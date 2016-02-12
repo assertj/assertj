@@ -38,7 +38,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
 
-  private Map<String, Comparator<?>> propertyOrFieldToComparator = new HashMap<>();
+  private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
+  private Map<Class<?>, Comparator<?>> comparatorByType = new HashMap<>();
 
   protected AbstractObjectAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
@@ -81,7 +82,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
   public S isEqualToIgnoringNullFields(Object other) {
-    objects.assertIsEqualToIgnoringNullFields(info, actual, other, propertyOrFieldToComparator);
+    objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorByPropertyOrField, comparatorByType);
     return myself;
   }
 
@@ -123,7 +124,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if a property/field does not exist in actual.
    */
   public S isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
-    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, propertyOrFieldToComparator, propertiesOrFieldsUsedInComparison);
+    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType,
+                                                    propertiesOrFieldsUsedInComparison);
     return myself;
   }
 
@@ -161,7 +163,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   public S isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, propertyOrFieldToComparator, propertiesOrFieldsToIgnore);
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType,
+                                               propertiesOrFieldsToIgnore);
     return myself;
   }
 
@@ -199,34 +202,50 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   public S isEqualToComparingFieldByField(Object other) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, propertyOrFieldToComparator);
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType);
     return myself;
   }
 
   /**
    * Allows to define a comparator which is used to compare the values of properties or fields with the given names.
-   * 
+   * A typical usage is for comparing double/float fields with a given precision.
+   * <p> 
+   * Comparators added by this method have precedence on comparators added by {@link #usingComparatorForType}.
+   * <p>
    * Example:
    * <p>
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
-   *   private int age;
+   *   private double size;
    *   // constructor omitted
    * }
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33);
-   * TolkienCharacter olderFrodo = new TolkienCharacter(&quot;Frodo&quot;, 66);
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
    * 
-   * Comparator&lt;Integer&gt; alwaysEqual = new Comparator&lt;Integer&gt;() {
-   *   public int compare(Integer o1, Integer o2) {
-   *     return 0;
+   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
+   *   double precision = 0.5;
+   *   public int compare(Double d1, Double d2) {
+   *     return Math.abs(d1 -d2) <= precision ? 0 : 1;
    *   }
    * };
    * 
    * // assertions will pass
-   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToComparingFieldByField(olderFrodo);
-   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToIgnoringNullFields(olderFrodo);
-   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToIgnoringGivenFields(olderFrodo, &quot;name&quot;);
-   * assertThat(frodo).usingComparatorForFields(alwaysEqual, &quot;age&quot;).isEqualToComparingOnlyGivenFields(olderFrodo, &quot;age&quot;);</code></pre>
+   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;size&quot;)
+   *                  .isEqualToComparingFieldByField(tallerFrodo);
+   *                  
+   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;size&quot;)
+   *                  .isEqualToIgnoringNullFields(tallerFrodo);
+   *                  
+   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;size&quot;)
+   *                  .isEqualToIgnoringGivenFields(tallerFrodo);
+   *                  
+   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;size&quot;)
+   *                  .isEqualToComparingOnlyGivenFields(tallerFrodo);
+   *                  
+   * // assertion will fail
+   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;size&quot;)
+   *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    * </p>
    * @param comparator the {@link java.util.Comparator} to use
    * @param comparator the names of the properties and/or fields the comparator should be used for
@@ -234,8 +253,57 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    */
   public <T> S usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
     for (String propertyOrField : propertiesOrFields) {
-      propertyOrFieldToComparator.put(propertyOrField, comparator);
+      comparatorByPropertyOrField.put(propertyOrField, comparator);
     }
+    return myself;
+  }
+
+  /**
+   * Allows to define a comparator which is used to compare the values of properties or fields with the given type.
+   * A typical usage is for comparing fields of numeric type at a given precision.
+   * <p>
+   * Comparators added by {@link #usingComparatorForFields} have precedence on comparators added by this method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   private String name;
+   *   private double size;
+   *   // constructor omitted
+   * }
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   * 
+   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
+   *   double precision = 0.5;
+   *   public int compare(Double d1, Double d2) {
+   *     return Math.abs(d1 -d2) <= precision ? 0 : 1;
+   *   }
+   * };
+   * 
+   * // assertions will pass
+   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
+   *                  .isEqualToComparingFieldByField(tallerFrodo);
+   *                  
+   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
+   *                  .isEqualToIgnoringNullFields(tallerFrodo);
+   *                  
+   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
+   *                  .isEqualToIgnoringGivenFields(tallerFrodo);
+   *                  
+   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
+   *                  .isEqualToComparingOnlyGivenFields(tallerFrodo);
+   *                  
+   * // assertion will fail
+   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
+   *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
+   * </p>
+   * @param comparator the {@link java.util.Comparator} to use
+   * @param comparator the {@link java.lang.Class} of the type the comparator should be used for
+   * @return {@code this} assertions object
+   */
+  public <T> S usingComparatorForType(Comparator<T> comparator, Class<T> type) {
+    comparatorByType.put(type, comparator);
     return myself;
   }
 

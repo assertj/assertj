@@ -46,14 +46,16 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
   public void should_pass_when_selected_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "name", "lightSaberColor");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(),
+        "name", "lightSaberColor");
   }
 
   @Test
   public void should_pass_when_selected_fields_and_nested_fields_accessed_with_getters_are_equal() {
     Player rose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
     Player jalen = new Player(new Name("Derrick", "Coleman"), "Chicago Bulls");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, emptyMap(), "team", "name.first");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, noFieldComparators(), noTypeComparators(),
+       "team", "name.first");
   }
 
   @Test
@@ -62,7 +64,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
     rose.nickname = new Name("Crazy", "Dunks");
     Player jalen = new Player(new Name("Derrick", "Coleman"), "Chicago Bulls");
     jalen.nickname = new Name("Crazy", "Defense");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, emptyMap(), "team", "nickname.first");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, noFieldComparators(), noTypeComparators(),
+        "team", "nickname.first");
   }
 
   @Test
@@ -73,35 +76,39 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
     jalen.nickname = new Name("Crazy", "Defense");
     // nickname is a field and Name#first is a property
     // name is a property and Name#first is a property
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, emptyMap(), "name.last", "nickname.first");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, noFieldComparators(), noTypeComparators(),
+        "name.last", "nickname.first");
   }
   
   @Test
   public void should_pass_even_if_non_accepted_fields_differ() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "name");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(),
+        "name");
   }
 
   @Test
   public void should_pass_when_field_value_is_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "name", "lightSaberColor");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(),
+        "name", "lightSaberColor");
   }
 
   @Test
   public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
     CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
     Person other = new Person("Homer Simpson");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "name");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(), "name");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), null, other, emptyMap(), "name", "lightSaberColor");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), null, other, noFieldComparators(), noTypeComparators(),
+        "name", "lightSaberColor");
   }
 
   @Test
@@ -110,7 +117,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, emptyMap(), "name", "lightSaberColor");
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(), noTypeComparators(),
+          "name", "lightSaberColor");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Blue");
       List<Object> rejected = newArrayList((Object) "Green");
@@ -130,7 +138,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
     try {
-      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, emptyMap(), "name", "lightSaberColor");
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(), noTypeComparators(),
+          "name", "lightSaberColor");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Luke");
       List<Object> rejected = newArrayList((Object) "Yoda");
@@ -149,7 +158,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "lightSaberColor");
+      objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(),
+          "lightSaberColor");
       failBecauseExceptionWasNotThrown(IntrospectionError.class);
     } catch (IntrospectionError err) {
       assertThat(err).hasMessageContaining("Can't find any field or property with name 'lightSaberColor'");
@@ -166,7 +176,7 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
                                                    "- Unable to obtain the value of the field <'age'> from <Yoda the Jedi>"));
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "age");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(), "age");
   }
 
   @Test
@@ -177,7 +187,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
                   "Can't find any field or property with name 'strangeNotReadablePrivateField'.");
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "strangeNotReadablePrivateField");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(),
+        "strangeNotReadablePrivateField");
     Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
 
@@ -185,11 +196,17 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
   public void should_pass_when_selected_field_is_private_and_private_field_use_is_allowed() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, emptyMap(), "strangeNotReadablePrivateField");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), noTypeComparators(),
+        "strangeNotReadablePrivateField");
   }
 
   @SuppressWarnings("unchecked")
-  private static Map<String, Comparator<?>> emptyMap() {
+  private static Map<String, Comparator<?>> noFieldComparators() {
+      return Collections.EMPTY_MAP;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Map<Class<?>, Comparator<?>> noTypeComparators() {
       return Collections.EMPTY_MAP;
   }
 }

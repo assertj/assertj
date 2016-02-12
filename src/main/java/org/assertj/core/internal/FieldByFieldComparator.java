@@ -12,7 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import java.util.Collections;
+import static java.util.Collections.EMPTY_MAP;
+
 import java.util.Comparator;
 
 import org.assertj.core.api.Assertions;
@@ -37,7 +38,7 @@ public class FieldByFieldComparator implements Comparator<Object> {
   @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actual, Object other) {
     try {
-      return Objects.instance().areEqualToIgnoringGivenFields(actual, other, Collections.EMPTY_MAP);
+      return Objects.instance().areEqualToIgnoringGivenFields(actual, other, EMPTY_MAP, EMPTY_MAP);
     } catch (IntrospectionError e) {
       return false;
     }
