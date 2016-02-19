@@ -59,7 +59,7 @@ public class PropertyOrFieldSupport {
     return getSimpleValue(propertyOrFieldName, input);
   }
 
-  private Object getSimpleValue(String propertyOrFieldName, Object input) {
+  public Object getSimpleValue(String propertyOrFieldName, Object input) {
     // first try to get given property values from objects, then try fields
     try {
       return propertySupport.propertyValueOf(propertyOrFieldName, Object.class, input);

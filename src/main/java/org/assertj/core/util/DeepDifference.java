@@ -17,26 +17,30 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+
 /**
- * Tests two objects for equivalence with a 'deep' comparison.
+ * Tests two objects for differences by doing a 'deep' comparison.
  *
  * Based on the deep equals implementation of https://github.com/jdereg/java-util
  *
  * @author John DeRegnaucourt (john@cedarsoftware.com)
  * @author Pascal Schumacher
  */
-public class DeepEquals {
+public class DeepDifference {
 
     private static final Map<Class<?>, Collection<Field>> reflectedFields = new ConcurrentHashMap<Class<?>, Collection<Field>>();
     private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
@@ -46,14 +50,17 @@ public class DeepEquals {
 
     private final static class DualKey {
 
+        private final List<String> path;
         private final Object key1;
         private final Object key2;
 
-        private DualKey(Object k1, Object k2) {
-            key1 = k1;
-            key2 = k2;
+        private DualKey(List<String> path, Object key1, Object key2) {
+            this.path = path;
+            this.key1 = key1;
+            this.key2 = key2;
         }
 
+        @Override
         public boolean equals(Object other) {
             if (!(other instanceof DualKey)) {
                 return false;
@@ -63,15 +70,55 @@ public class DeepEquals {
             return key1 == that.key1 && key2 == that.key2;
         }
 
+        @Override
         public int hashCode() {
             int h1 = key1 != null ? key1.hashCode() : 0;
             int h2 = key2 != null ? key2.hashCode() : 0;
             return h1 + h2;
         }
+
+        @Override
+        public String toString() {
+            return "DualKey [key1=" + key1 + ", key2=" + key2 + "]";
+        }
+
+        public List<String> getPath() {
+            return path;
+        }
+    }
+    
+    public static class Difference {
+
+        List<String> path;
+        Object actual;
+        Object other;
+        
+        public Difference(List<String> path, Object actual, Object other) {
+            this.path = path;
+            this.actual = actual;
+            this.other = other;
+        }
+        
+        public List<String> getPath() {
+            return path;
+        }
+        
+        public Object getActual() {
+            return actual;
+        }
+        
+        public Object getOther() {
+            return other;
+        }
+        
+        @Override
+        public String toString() {
+            return "Difference [path=" + path + ", actual=" + actual + ", other=" + other + "]";
+        }
     }
 
     /**
-     * Compare two objects with a 'deep' comparison. This will traverse the
+     * Compare two objects for differences by doing  a 'deep' comparison. This will traverse the
      * Object graph and perform either a field-by-field comparison on each
      * object (if not .equals() method has been overridden from Object), or it
      * will call the customized .equals() method if it exists.
@@ -85,16 +132,18 @@ public class DeepEquals {
      * 
      * @param a Object one to compare
      * @param b Object two to compare
-     * @return true if a is equivalent to b, false otherwise. Equivalent means
-     *         that all field values of both subgraphs are the same, either at
-     *         the field level or via the respectively encountered overridden
+     * @return the list of differences found or an empty list if objects are equivalent.
+     *          Equivalent means that all field values of both subgraphs are the same,
+     *          either at the field level or via the respectively encountered overridden
      *         .equals() methods during traversal.
      */
-    public static boolean deepEquals(Object a, Object b) {
+    public static List<Difference> determineDifferences(Object a, Object b) {
         Set<DualKey> visited = new HashSet<>();
         Deque<DualKey> stack = new LinkedList<>();
-        stack.addFirst(new DualKey(a, b));
+        stack.addFirst(new DualKey(new ArrayList<String>(), a, b));
 
+        List<Difference> differences = new ArrayList<>();
+        
         while (!stack.isEmpty()) {
             DualKey dualKey = stack.removeFirst();
             visited.add(dualKey);
@@ -107,44 +156,48 @@ public class DeepEquals {
             }
 
             if (key1 == null || key2 == null) {
-                return false;
+                differences.add(new Difference(dualKey.getPath(), key1, key2));
+                continue;
             }
 
             if (key1 instanceof Collection) {
                 if (!(key2 instanceof Collection)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
             } else if (key2 instanceof Collection) {
-                return false;
+                differences.add(new Difference(dualKey.getPath(), key1, key2));
+                continue;
             }
 
             if (key1 instanceof SortedSet) {
                 if (!(key2 instanceof SortedSet)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
             } else if (key2 instanceof SortedSet) {
-                return false;
+                differences.add(new Difference(dualKey.getPath(), key1, key2));
+                continue;
             }
 
             if (key1 instanceof SortedMap) {
                 if (!(key2 instanceof SortedMap)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
             } else if (key2 instanceof SortedMap) {
-                return false;
+                differences.add(new Difference(dualKey.getPath(), key1, key2));
+                continue;
             }
 
             if (key1 instanceof Map) {
                 if (!(key2 instanceof Map)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
             } else if (key2 instanceof Map) {
-                return false;
-            }
-
-            if (!isContainerType(key1) && !isContainerType(key2)
-                    && !key1.getClass().equals(key2.getClass())) {
-                return false;
+                differences.add(new Difference(dualKey.getPath(), key1, key2));
+                continue;
             }
 
             if (key1 instanceof Double) {
@@ -159,10 +212,11 @@ public class DeepEquals {
 
             // Handle all [] types. In order to be equal, the arrays must be the
             // same length, be of the same type, be in the same order, and all
-            // elements withinthe array must be deeply equivalent.
+            // elements within the array must be deeply equivalent.
             if (key1.getClass().isArray()) {
                 if (!compareArrays(key1, key2, stack, visited)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
                 continue;
             }
@@ -171,7 +225,8 @@ public class DeepEquals {
             // because their elements must be in the same order to be equivalent Sets.
             if (key1 instanceof SortedSet) {
                 if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, stack, visited)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
                 continue;
             }
@@ -180,7 +235,8 @@ public class DeepEquals {
             // be assumed, a temporary Map must be created, however the comparison still runs in O(N) time.
             if (key1 instanceof Set) {
                 if (!compareUnorderedCollection((Collection<?>) key1, (Collection<?>) key2, stack, visited)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
                 continue;
             }
@@ -189,7 +245,8 @@ public class DeepEquals {
             // order matters, therefore this comparison is faster than using unordered comparison.
             if (key1 instanceof Collection) {
                 if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, stack, visited)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
                 continue;
             }
@@ -198,7 +255,8 @@ public class DeepEquals {
             // Maps can be compared in O(N) time due to their ordering.
             if (key1 instanceof SortedMap) {
                 if (!compareSortedMap((SortedMap<?, ?>) key1, (SortedMap<?, ?>) key2, stack, visited)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
                 continue;
             }
@@ -208,14 +266,16 @@ public class DeepEquals {
             // comparison still runs in O(N) time.
             if (key1 instanceof Map) {
                 if (!compareUnorderedMap((Map<?, ?>) key1, (Map<?, ?>) key2, stack, visited)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
                 continue;
             }
 
             if (hasCustomEquals(key1.getClass())) {
                 if (!key1.equals(key2)) {
-                    return false;
+                    differences.add(new Difference(dualKey.getPath(), key1, key2));
+                    continue;
                 }
                 continue;
             }
@@ -223,21 +283,17 @@ public class DeepEquals {
             Collection<Field> fields = getDeepDeclaredFields(key1.getClass());
 
             for (Field field : fields) {
-                try {
-                    DualKey dk = new DualKey(field.get(key1), field.get(key2));
-                    if (!visited.contains(dk)) {
-                        stack.addFirst(dk);
-                    }
-                } catch (Exception ignored) {
+                List<String> path = new ArrayList<String>(dualKey.getPath());
+                String fieldName = field.getName();
+                path.add(fieldName);
+                DualKey dk = new DualKey(path, PropertyOrFieldSupport.COMPARISON.getSimpleValue(fieldName, key1), PropertyOrFieldSupport.COMPARISON.getSimpleValue(fieldName, key2));
+                if (!visited.contains(dk)) {
+                    stack.addFirst(dk);
                 }
             }
         }
 
-        return true;
-    }
-
-    private static boolean isContainerType(Object o) {
-        return o instanceof Collection || o instanceof Map;
+        return differences;
     }
 
     /**
@@ -259,7 +315,7 @@ public class DeepEquals {
         }
 
         for (int i = 0; i < len; i++) {
-            DualKey dk = new DualKey(Array.get(array1, i), Array.get(array2, i));
+            DualKey dk = new DualKey(Collections.emptyList(), Array.get(array1, i), Array.get(array2, i));
             if (!visited.contains(dk)) { 
                 // push contents for further comparison
                 stack.addFirst(dk);
@@ -290,7 +346,7 @@ public class DeepEquals {
         Iterator<V> i2 = col2.iterator();
 
         while (i1.hasNext()) {
-            DualKey dk = new DualKey(i1.next(), i2.next());
+            DualKey dk = new DualKey(Collections.emptyList(), i1.next(), i2.next());
             if (!visited.contains(dk)) { // push contents for further comparison
                 stack.addFirst(dk);
             }
@@ -333,7 +389,7 @@ public class DeepEquals {
                 return false;
             }
 
-            DualKey dk = new DualKey(o, other);
+            DualKey dk = new DualKey(Collections.emptyList(), o, other);
             if (!visited.contains(dk)) { 
                 // Place items on 'stack' for future equality comparison.
                 stack.addFirst(dk);
@@ -369,13 +425,13 @@ public class DeepEquals {
             Map.Entry<K2, V2> entry2 = i2.next();
 
             // Must split the Key and Value so that Map.Entry's equals() method is not used.
-            DualKey dk = new DualKey(entry1.getKey(), entry2.getKey());
+            DualKey dk = new DualKey(Collections.emptyList(), entry1.getKey(), entry2.getKey());
             if (!visited.contains(dk)) {
                 // Push Keys for further comparison
                 stack.addFirst(dk);
             }
 
-            dk = new DualKey(entry1.getValue(), entry2.getValue());
+            dk = new DualKey(Collections.emptyList(), entry1.getValue(), entry2.getValue());
             if (!visited.contains(dk)) {
                 // Push values for further comparison
                 stack.addFirst(dk);
@@ -416,12 +472,12 @@ public class DeepEquals {
                 return false;
             }
 
-            DualKey dk = new DualKey(entry.getKey(), other.getKey());
+            DualKey dk = new DualKey(Collections.emptyList(), entry.getKey(), other.getKey());
             if (!visited.contains(dk)) { // Push keys for further comparison
                 stack.addFirst(dk);
             }
 
-            dk = new DualKey(entry.getValue(), other.getValue());
+            dk = new DualKey(Collections.emptyList(), entry.getValue(), other.getValue());
             if (!visited.contains(dk)) { // Push values for further comparison
                 stack.addFirst(dk);
             }

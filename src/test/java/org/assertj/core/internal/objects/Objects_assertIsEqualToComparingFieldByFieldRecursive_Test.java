@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -31,6 +32,19 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     actual.home.address.number = 1;
     
     Person other = new Person();
+    other.name = "John";
+    other.home.address.number = 1;
+    
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other); 
+  }
+  
+  @Test
+  public void should_be_able_to_compare_objects_with_different_types_recursivly() {
+    Person actual = new Person();
+    actual.name = "John";
+    actual.home.address.number = 1;
+    
+    Human other = new Human();
     other.name = "John";
     other.home.address.number = 1;
     
@@ -63,13 +77,13 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Person other = new Person();
     other.name = "Jack";
     
-    try {
+//    try {
       objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other); 
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqual(actual, other, StandardRepresentation.STANDARD_REPRESENTATION));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+//    } catch (AssertionError err) {
+//      verify(failures).failure(info, shouldBeEqual(actual, other, StandardRepresentation.STANDARD_REPRESENTATION));
+//      return;
+//    }
+//    failBecauseExpectedAssertionErrorWasNotThrown();
   }
   
   @Test
@@ -84,29 +98,67 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
     
-    try {
+//    try {
       objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other); 
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqual(actual, other, StandardRepresentation.STANDARD_REPRESENTATION));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+//    } catch (AssertionError err) {
+//      verify(failures).failure(info, shouldBeEqual(actual, other, StandardRepresentation.STANDARD_REPRESENTATION));
+//      return;
+//    }
+//    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void errorMessageSingleDifference() {
+      Person actual = new Person();
+      actual.name = "John";
+      actual.home.address.number = 1;
+      
+      Person other = new Person();
+      other.name = "John";
+      other.home.address.number = 2;
+      
+      assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
+  }
+  
+  @Test
+  public void errorMessageMultipleDifferences() {
+      Person actual = new Person();
+      actual.name = "Jack";
+      actual.home.address.number = 1;
+      
+      Person other = new Person();
+      other.name = "John";
+      other.home.address.number = 2;
+      
+      assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }
 
-  private static class Person {
-    @SuppressWarnings("unused")
+  public static class Person {
     public String name;
     public Home home = new Home();
-    @SuppressWarnings("unused")
     public Person neighbour;
+
+    public String toString() {
+        return "Person [name=" + name + ", home=" + home + "]";
+    }
   }
 
-  private static class Home {
-      public Address address = new Address();
+  public static class Home {
+    public Address address = new Address();
+
+    public String toString() {
+        return "Home [address=" + address + "]";
+    }
   }
 
-  private static class Address {
-    @SuppressWarnings("unused")
+  public static class Address {
     public int number = 1;
+
+    public String toString() {
+        return "Address [number=" + number + "]";
+    }
   }
+
+  public static class Human extends Person{}
+
 }

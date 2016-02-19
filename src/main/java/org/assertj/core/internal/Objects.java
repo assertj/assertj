@@ -47,8 +47,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.DeepEquals;
+import org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursive;
+import org.assertj.core.util.DeepDifference;
+import org.assertj.core.util.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -664,11 +665,12 @@ public class Objects {
    */
   public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, A actual, A other) {
     assertNotNull(info, actual);
-    assertHasSameClassAs(info, actual, other);
-    if (!DeepEquals.deepEquals(actual, other))
-        throw failures.failure(info, shouldBeEqual(actual, other, StandardRepresentation.STANDARD_REPRESENTATION));
+    List<Difference> differences = DeepDifference.determineDifferences(actual, other);
+    if (!differences.isEmpty()) {
+        throw failures.failure(info, ShouldBeEqualByComparingFieldByFieldRecursive.shouldBeEqualComparingOnlyGivenFields(actual, other, differences));
+    }
   }
-  
+
   /**
    * Get property value first and in case of error try field value.
    * <p>
