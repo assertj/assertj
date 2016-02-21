@@ -13,16 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.data.Offset.offset;
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
-import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -59,23 +50,13 @@ public class Shorts extends Numbers<Short> {
   }
 
   @Override
-  public void assertIsCloseTo(AssertionInfo info, Short actual, Short expected, Offset<Short> offset) {
-    assertNotNull(info, actual);
-    checkOffsetIsNotNull(offset);
-    checkNumberIsNotNull(expected);
-    Short absDiff = (short) abs(expected - actual);
-    if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
+  protected Short absDiff(Short actual, Short other) {
+    return (short) abs(other - actual);
   }
 
   @Override
-  public void assertIsCloseToPercentage(AssertionInfo info, Short actual, Short other,
-                                        Percentage percentage) {
-    assertNotNull(info, actual);
-    checkPercentageIsNotNull(percentage);
-    checkNumberIsNotNull(other);
-    Offset<Double> calculatedOffset = offset(abs(percentage.value * other / 100d));
-    short absDiff = (short) abs(other - actual);
-    if (absDiff > calculatedOffset.value)
-      throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff));
+  protected boolean isGreaterThan(Short value, Short other) {
+    return value > other;
   }
+
 }

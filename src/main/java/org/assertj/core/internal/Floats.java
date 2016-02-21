@@ -13,13 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Offset;
-import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -62,38 +56,7 @@ public class Floats extends RealNumbers<Float> {
   }
 
   @Override
-  protected boolean isEqualTo(Float actual, Float expected, Offset<?> offset) {
-    return abs(expected - actual) <= offset.value.floatValue();
-  }
-
-  @Override
-  public void assertIsCloseTo(final AssertionInfo info, final Float actual, final Float expected,
-                              final Offset<Float> offset) {
-    assertEqual(info, actual, expected, offset);
-  }
-
-  /**
-   * Verifies that two floats are equal within a positive offset.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
-   * comparison
-   * strategy.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param expected the expected value.
-   * @param offset the given positive offset.
-   * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one.
-   */
-  // can't be defined in RealNumbers because Offset parameter must inherits from Number
-  // while RealNumber parameter must inherits from Comparable (sadly Number is not Comparable)
-  public void assertEqual(AssertionInfo info, Float actual, Float expected, Offset<Float> offset) {
-    assertNotNull(info, actual);
-    checkOffsetIsNotNull(offset);
-    checkNumberIsNotNull(expected);
-    // doesn't use areEqual method relying on comparisonStrategy attribute
-    if (Objects.areEqual(actual, expected)) return;
-    if (isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual)));
+  protected Float absDiff(Float actual, Float other) {
+    return abs(other.floatValue() - actual.floatValue());
   }
 }

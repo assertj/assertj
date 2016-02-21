@@ -12,13 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.Math.abs;
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Offset;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -55,12 +48,14 @@ public class Bytes extends Numbers<Byte> {
   }
 
   @Override
-  public void assertIsCloseTo(AssertionInfo info, Byte actual, Byte expected, Offset<Byte> offset) {
-    assertNotNull(info, actual);
-    checkOffsetIsNotNull(offset);
-    checkNumberIsNotNull(expected);
-    byte absDiff = (byte) abs(expected - actual);
-    if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
+  protected Byte absDiff(Byte actual, Byte other) {
+    return (byte)Math.abs(actual - other); // TODO check corner case when diff > max byte
   }
 
+  @Override
+  protected boolean isGreaterThan(Byte value, Byte other) {
+    return value > other;
+  }
+
+  
 }
