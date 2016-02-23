@@ -205,7 +205,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(5f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
@@ -232,7 +232,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(5f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.

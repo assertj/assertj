@@ -294,7 +294,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
@@ -321,7 +321,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.

@@ -303,7 +303,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
@@ -330,7 +330,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * assertThat(11).isCloseTo(10, withinPercentage(5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.

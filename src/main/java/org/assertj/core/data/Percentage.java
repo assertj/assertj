@@ -19,7 +19,7 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
- * A percentage value between zero and hundred.
+ * A positive percentage value.
  *
  * @param the type of the percentage value.
  * @author Alexander Bishcof
@@ -33,7 +33,7 @@ public class Percentage {
    * @param value the value of the percentage.
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
-   * @throws IllegalArgumentException if the given value is negative or greater hundred.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withPercentage(double value) {
     checkNotNull(value);

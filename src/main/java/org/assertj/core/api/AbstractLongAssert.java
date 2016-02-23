@@ -299,7 +299,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(5L));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
@@ -326,7 +326,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * assertThat(11L).isCloseTo(10L, withinPercentage(5L));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.

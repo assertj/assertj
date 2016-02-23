@@ -176,7 +176,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(5d));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
@@ -203,7 +203,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * assertThat(11.0).isCloseTo(10.0, withinPercentage(5d));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.

@@ -172,7 +172,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the expected value.
-   * @param percentage the given percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    */
   public void assertIsCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
                                         final Percentage percentage) {

@@ -27,7 +27,7 @@ public class ShouldBeEqualWithinPercentage extends BasicErrorMessageFactory {
    *
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
-   * @param percentage the given percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @param difference the effective difference between actual and expected.
    * @return the created {@code ErrorMessageFactory}.
    */
