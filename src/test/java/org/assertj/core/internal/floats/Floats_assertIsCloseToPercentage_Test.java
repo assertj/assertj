@@ -56,18 +56,14 @@ public class Floats_assertIsCloseToPercentage_Test extends FloatsBaseTest {
     floats.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0f));
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void should_fail_if_percentage_is_greater_than_one_hundred() {
-    floats.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101.0f));
-  }
-
   // @format:off
   @Test
   @DataProvider({
     "1, 1, 1",
     "1, 2, 100",
     "-1, -1, 1",
-    "-1, -2, 100"
+    "-1, -2, 100",
+    "-1, 1, 200"
   })
   // @format:on
   public void should_pass_if_difference_is_less_than_given_percentage(Float actual, Float other, Float percentage) {

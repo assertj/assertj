@@ -56,18 +56,14 @@ public class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
     doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0));
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void should_fail_if_percentage_is_greater_than_one_hundred() {
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101.0));
-  }
-
   // @format:off
   @Test
   @DataProvider({
     "1, 1, 1",
     "1, 2, 100",
     "-1, -1, 1",
-    "-1, -2, 100"
+    "-1, -2, 100",
+    "-1, 1, 200"
   })
   // @format:on
   public void should_pass_if_difference_is_less_than_given_percentage(Double actual, Double other, Double percentage) {

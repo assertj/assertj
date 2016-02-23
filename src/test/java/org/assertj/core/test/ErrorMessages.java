@@ -76,7 +76,7 @@ public final class ErrorMessages {
   }
 
   public static String percentageValueIsInRange(Number number) {
-    return String.format("The percentage value <%s> should be between 0 and 100.", number.doubleValue());
+    return String.format("The percentage value <%s> should be > 0.", number.doubleValue());
   }
 
   public static String regexPatternIsNull() {
