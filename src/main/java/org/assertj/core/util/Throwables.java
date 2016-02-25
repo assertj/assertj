@@ -14,6 +14,8 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.*;
 
 /**
@@ -112,6 +114,34 @@ public final class Throwables {
     while ((cause = throwable.getCause()) != null)
       throwable = cause;
     return throwable;
+  }
+
+  /**
+   * Get the stack trace from a {@link Throwable} as a {@link String}.
+   * 
+   * <p>
+   * The result of this method vary by JDK version as this method uses
+   * {@link Throwable#printStackTrace(java.io.PrintWriter)}. On JDK1.3 and earlier, the cause exception will not be
+   * shown unless the specified throwable alters printStackTrace.
+   * </p>
+   * 
+   * @param throwable the {@code Throwable} to get stack trace from.
+   * @return the stack trace as a {@link String}.
+   * 
+   * @author Daniel Zlotin
+   */
+  public static String getStackTrace(Throwable throwable) {
+    StringWriter sw = null;
+    PrintWriter pw = null;
+    try {
+      sw = new StringWriter();
+      pw = new PrintWriter(sw, true);
+      throwable.printStackTrace(pw);
+      return sw.getBuffer().toString();
+    } finally
+    {
+      Closeables.closeQuietly(sw, pw);
+    }
   }
 
   private Throwables() {

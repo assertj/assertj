@@ -131,6 +131,22 @@ public class Throwables {
 	if (actual.getMessage() != null && actual.getMessage().contains(description)) return;
 	throw failures.failure(info, shouldContain(actual.getMessage(), description));
   }
+  
+  /**
+   * Asserts that the stack trace of the actual {@code Throwable} contains with the given description.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
+   */
+  public void assertHasStackTraceContaining(AssertionInfo info, Throwable actual, String description) {
+    assertNotNull(info, actual);
+    String stackTrace = org.assertj.core.util.Throwables.getStackTrace(actual);
+    if (stackTrace != null && stackTrace.contains(description)) return;
+    throw failures.failure(info, shouldContain(stackTrace, description));
+  }
 
   /**
    * Asserts that the message of the actual {@code Throwable} matches with the given regular expression.
@@ -243,4 +259,5 @@ public class Throwables {
   private static void assertNotNull(AssertionInfo info, Throwable actual) {
 	Objects.instance().assertNotNull(info, actual);
   }
+  
 }
