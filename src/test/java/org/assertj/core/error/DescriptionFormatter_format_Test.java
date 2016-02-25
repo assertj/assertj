@@ -51,10 +51,7 @@ public class DescriptionFormatter_format_Test {
     assertThat(formatter.format(testDescription)).isEmpty();
   }
 
-  // Workaround with custom format because TestDescription#toString returns the value
-  // and junit-dataprovider 1.10.2 fails if toString of a parameter returns null
-  // see: https://github.com/TNG/junit-dataprovider/issues/66
-  @DataProvider(format = "%m[%i]")
+  @DataProvider()
   public static Object[][] testDescriptionGenerator() {
     // @format:off
     return new Object[][] { { null },
