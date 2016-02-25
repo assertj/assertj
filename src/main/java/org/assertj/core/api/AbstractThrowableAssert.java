@@ -149,6 +149,18 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
     throwables.assertHasMessageContaining(info, actual, description);
     return myself;
   }
+  /**
+   * Verifies that the stack trace of the actual {@code Throwable} contains with the given description.
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
+   */
+  public S hasStackTraceContaining(String description) {
+    throwables.assertHasStackTraceContaining(info, actual, description);
+    return myself;
+  }
 
   /**
    * Verifies that the message of the actual {@code Throwable} matches with the given regular expression.
