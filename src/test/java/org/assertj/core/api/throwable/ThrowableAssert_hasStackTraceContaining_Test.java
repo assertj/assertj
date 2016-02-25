@@ -12,12 +12,10 @@
  */
 package org.assertj.core.api.throwable;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
-import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 
 
 /**

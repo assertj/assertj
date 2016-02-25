@@ -53,7 +53,7 @@ public final class Throwables {
     return newArrayList(Thread.currentThread().getStackTrace());
   }
 
-/**
+  /**
    * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
    * end user. Therefore, instead of seeing this:
    * <pre><code class='java'> org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
@@ -111,8 +111,7 @@ public final class Throwables {
   public static Throwable getRootCause(Throwable throwable) {
     if (throwable.getCause() == null) return null;
     Throwable cause;
-    while ((cause = throwable.getCause()) != null)
-      throwable = cause;
+    while ((cause = throwable.getCause()) != null) throwable = cause;
     return throwable;
   }
 
@@ -138,12 +137,10 @@ public final class Throwables {
       pw = new PrintWriter(sw, true);
       throwable.printStackTrace(pw);
       return sw.getBuffer().toString();
-    } finally
-    {
+    } finally {
       Closeables.closeQuietly(sw, pw);
     }
   }
 
-  private Throwables() {
-  }
+  private Throwables() {}
 }
