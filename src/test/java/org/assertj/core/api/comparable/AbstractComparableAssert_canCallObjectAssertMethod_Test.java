@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.comparable;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractComparableAssert;
@@ -30,7 +31,9 @@ public class AbstractComparableAssert_canCallObjectAssertMethod_Test extends Abs
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
-    verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), 6);
+    verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), 6,
+        EMPTY_MAP, EMPTY_MAP);
   }
 }

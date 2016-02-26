@@ -12,11 +12,16 @@
  */
 package org.assertj.core.api.object;
 
+import static java.util.Collections.EMPTY_MAP;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+
+import java.util.Comparator;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
+import org.junit.Test;
 
 
 /**
@@ -35,7 +40,46 @@ public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectA
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
-    verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other, "name");
+    verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other,
+            EMPTY_MAP, EMPTY_MAP, "name");
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields() {
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Luke", "Blue");
+    
+    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name").isEqualToComparingOnlyGivenFields(other, "name");
+  }
+
+  @Test
+  public void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
+    Comparator<String> comperator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name")
+      .usingComparatorForType(comperator, String.class).isEqualToComparingOnlyGivenFields(other, "name");
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_type() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(actual).usingComparatorForType(new AlwaysEqual(), String.class).isEqualToComparingOnlyGivenFields(other, "name");
+  }
+
+  private final class AlwaysEqual implements Comparator<String> {
+    @Override
+    public int compare(String o1, String o2) {
+      return 0;
+    }
   }
 }
