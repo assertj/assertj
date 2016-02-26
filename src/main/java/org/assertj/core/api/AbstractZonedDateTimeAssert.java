@@ -699,7 +699,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
     return actual.getYear() == other.getYear();
   }
 
-  AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
+  protected AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
