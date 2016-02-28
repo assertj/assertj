@@ -116,9 +116,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that the actual array has the same size as given array.
+   * Verifies that the actual array has the same size as the given array.
    * <p/>
-   * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
+   * Parameter is declared as Object to accept both {@code Object[]} and primitive arrays (e.g. {@code int[]}).
    * <p/>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -141,7 +141,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that the actual group has the same size as given {@link Iterable}.
+   * Verifies that the actual group has the same size as the given {@link Iterable}.
    * <p/>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -172,7 +172,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(abc).contains("b", "a");
    * assertThat(abc).contains("b", "a", "b");
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(abc).contains("d");</code></pre>
    * 
    * @param values the given values.
@@ -215,8 +215,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
-   * iterable and nothing else, <b>in any order</b>.
+   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
+   * {@code Iterable} and nothing else, <b>in any order</b>.
    * <p/>
    * Example :
    * <pre><code class='java'> Ring[] rings = {nenya, vilya};
@@ -238,8 +238,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
-   * given iterable and nothing else, <b>in any order</b>.
+   * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
+   * given {@code Iterable} and nothing else, <b>in any order</b>.
    * </p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
@@ -252,7 +252,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
    * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));</code></pre>
    * 
-   * @param iterable the Iterable whose elements we expect to be present
+   * @param iterable the {@code Iterable} whose elements we expect to be present
    * @return this assertion object
    * @throws AssertionError if the actual group is {@code null}
    * @throws NullPointerException if the given {@code Iterable} is {@code null}
@@ -328,7 +328,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
-   * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
+   * actual contains all elements of the given {@code Iterable} and nothing else <b>in the same order</b>.
    * <p/>
    * Example :
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
@@ -465,7 +465,12 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
    *
    * // assertion will pass
-   * assertThat(abc).doesNotContain("d", "e");</code></pre>
+   * assertThat(abc).doesNotContain("d", "e");
+   * 
+   * // assertions will fail
+   * assertThat(abc).doesNotContain("a");
+   * assertThat(abc).doesNotContain("a", "b", "c");
+   * assertThat(abc).doesNotContain("a", "x");</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -481,15 +486,16 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that actual does not contain any elements of the given {@link Iterable} (i.e. none).
+   * Verifies that the actual array does not contain any elements of the given {@link Iterable} (i.e. none).
    * <p/>
    * Example:
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
    * 
-   * // These assertions succeed:
+   * // assertion will pass
    * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("d", "e"));
    * 
-   * // These fail:
+   * // assertions will fail
+   * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("a", "b"));
    * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("d", "e", "a"));</code></pre>
    *
    * @param iterable the {@link Iterable} whose elements must not be in the actual group.
@@ -506,7 +512,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that the actual group does not contain duplicates.
+   * Verifies that the actual array does not contain duplicates.
    * <p>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
@@ -532,7 +538,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Verifies that the actual array starts with the given sequence of objects, without any other objects between them.
    * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the first element in the
-   * sequence is also first element of the actual group.
+   * sequence is also the first element of the actual array.
    * <p>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
@@ -559,7 +565,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Verifies that the actual array ends with the given sequence of objects, without any other objects between them.
    * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the
-   * sequence is also last element of the actual group.
+   * sequence is also last element of the actual array.
    * <p>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
@@ -584,16 +590,16 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that all the elements of actual are present in the given {@code Iterable}.
+   * Verifies that all elements of actual are present in the given {@code Iterable}.
    * <p/>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya}; 
    * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(elvesRings).isSubsetOf(ringsOfPower);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(elvesRings).isSubsetOf(newArrayList(nenya, narya));</code></pre>
    * 
    * @param values the {@code Iterable} that should contain all actual elements.
@@ -609,7 +615,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that all the elements of actual are present in the given values.
+   * Verifies that all elements of actual are present in the given values.
    * <p/>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya}; 
@@ -634,7 +640,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
   
   /**
-   * Verifies that the actual group contains at least a null element.
+   * Verifies that the actual array contains at least a null element.
    * <p>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
@@ -657,7 +663,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that the actual group does not contain null elements.
+   * Verifies that the actual array does not contain null elements.
    * <p>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
@@ -715,7 +721,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
+   * Verifies that there is <b>at least <i>one</i></b> element in the actual array satisfying the given condition.
    * <p/>
    * This method is an alias for {@code areAtLeast(1, condition)}.
    * <p/>
@@ -1116,13 +1122,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Extract the values from arrays's elements after test by applying an extracting function on them. The returned
+   * Extract the values from the array's elements by applying an extracting function on them. The returned
    * array becomes a new object under test.
    * <p/>
-   * It allows to test values from the elements in more safe way than by using {@link #extracting(String)}, as it
+   * It allows to test values from the elements in safer way than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p/>
-   * Let's take a look an example
+   * Let's take a look an example:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -1161,7 +1167,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Extract the Iterable values from arrays elements under test by applying an Iterable extracting function on them
+   * Extract the Iterable values from the array's elements by applying an Iterable extracting function on them
    * and concatenating the result lists into an array which becomes the new object under test.
    * <p/>
    * It allows testing the results of extracting values that are represented by Iterables.
