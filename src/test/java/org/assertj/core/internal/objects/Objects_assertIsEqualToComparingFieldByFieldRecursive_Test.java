@@ -16,15 +16,17 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
-import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursive.shouldBeEqualByComparingFieldByFieldRecursive;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.Test;
@@ -41,7 +43,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 1;
 
-    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other);
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                            noTypeComparators());
   }
 
   @Test
@@ -54,23 +57,63 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 1;
 
-    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other);
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                            noTypeComparators());
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_cyclces_recursively() {
-    Person actual = new Person();
+  public void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
+    Giant goliath = new Giant();
+    goliath.name = "Goliath";
+    goliath.height = 3.0;
+
+    Giant goliathTwin = new Giant();
+    goliathTwin.name = "Goliath";
+    goliathTwin.height = 3.1;
+
+    assertThat(goliath).usingComparatorForType(new AtPrecisionComparator<Double>(0.2), Double.class)
+                       .isEqualToComparingFieldByFieldRecursively(goliathTwin);
+  }
+
+  @Test
+  public void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_field() {
+    Giant goliath = new Giant();
+    goliath.name = "Goliath";
+    goliath.height = 3.0;
+
+    Giant goliathTwin = new Giant();
+    goliathTwin.name = "Goliath";
+    goliathTwin.height = 3.1;
+
+    assertThat(goliath).usingComparatorForFields(new AtPrecisionComparator<Double>(0.2), "height")
+                       .isEqualToComparingFieldByFieldRecursively(goliathTwin);
+  }
+
+  @Test
+  public void should_be_able_to_compare_objects_with_cycles_recursively() {
+    FriendlyPerson actual = new FriendlyPerson();
     actual.name = "John";
     actual.home.address.number = 1;
 
-    Person other = new Person();
+    FriendlyPerson other = new FriendlyPerson();
     other.name = "John";
     other.home.address.number = 1;
-    other.neighbour = actual;
 
+    // neighbour
+    other.neighbour = actual;
     actual.neighbour = other;
 
-    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other);
+    // friends
+    FriendlyPerson sherlock = new FriendlyPerson();
+    sherlock.name = "Sherlock";
+    sherlock.home.address.number = 221;
+    actual.friends.add(sherlock);
+    actual.friends.add(other);
+    other.friends.add(sherlock);
+    other.friends.add(actual);
+
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                            noTypeComparators());
   }
 
   @Test
@@ -84,7 +127,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "Jack";
 
     try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other);
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
+                                                              noTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
                                                                                    asList(new Difference(asList("name"),
@@ -96,7 +140,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_fail_when_fields_of_childobjects_differ() {
+  public void should_fail_when_fields_of_child_objects_differ() {
     AssertionInfo info = someInfo();
 
     Person actual = new Person();
@@ -108,7 +152,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.home.address.number = 2;
 
     try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other);
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
+                                                              noTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info,
                                shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
@@ -134,15 +179,15 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
       assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("Expecting:  <%s>%nto be equal to:  <%s>%n", actual, other) +
+      assertThat(e).hasMessage(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
                                format("when recursively comparing field by field, but found the following difference(s):%n%n")
                                +
                                format("Path to difference:  <home.address.number>%n") +
-                               format("expected:  <2>%n") +
-                               format("but was:  <1>%n%n") +
+                               format("- expected: <2>%n") +
+                               format("- actual  : <1>%n%n") +
                                format("Path to difference:  <name>%n") +
-                               format("expected:  <John>%n") +
-                               format("but was:  <Jack>"));
+                               format("- expected: <John>%n") +
+                               format("- actual  : <Jack>"));
     }
   }
 
@@ -162,12 +207,12 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
       assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("Expecting:  <%s>%nto be equal to:  <%s>%n", actual, other) +
+      assertThat(e).hasMessage(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
                                format("when recursively comparing field by field, but found the following difference(s):%n%n")
                                +
                                format("Path to difference:  <friends.home.address.number>%n") +
-                               format("expected:  <10>%n") +
-                               format("but was:  <99>"));
+                               format("- expected: <10>%n") +
+                               format("- actual  : <99>"));
     }
   }
 
@@ -184,7 +229,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.home.address.number = 2;
 
     try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other);
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
+                                                              noTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info,
                                shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
@@ -225,6 +271,10 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   public static class Human extends Person {
   }
 
+  public static class Giant extends Person {
+    public double height = 3.0;
+  }
+
   public static class EqualPerson extends Person {
 
     public boolean equals(Object o) {
@@ -233,6 +283,6 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   public static class FriendlyPerson extends Person {
-    public List<FriendlyPerson> friends;
+    public List<FriendlyPerson> friends = new ArrayList<>();
   }
 }

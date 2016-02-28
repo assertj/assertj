@@ -450,6 +450,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <pre><code class='java'> public class Person {
    *   public String name;
    *   public Home home = new Home();
+   *   public Person bestFriend;
    * }
    *
    * public class Home {
@@ -467,6 +468,9 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Person jackClone = new Person();
    * jackClone.name = "Jack";
    * jackClone.home.address.number = 1;
+   * // cycle are handled in comparison  
+   * jack.home.bestFriend = jackClone;
+   * jackClone.home.bestFriend = jack;
    * 
    * // will fail as equals compares object references
    * assertThat(jack).isEqualsTo(jackClone);
@@ -480,7 +484,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one property/field to compare can not be found.
    */
   public S isEqualToComparingFieldByFieldRecursively(Object other) {
-    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other);
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorByPropertyOrField, comparatorByType);
     return myself;
   }
 }

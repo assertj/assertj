@@ -16,7 +16,9 @@ import static org.assertj.core.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.test.ExpectedException;
@@ -59,4 +61,14 @@ public class ObjectsBaseTest {
     return new CaseInsensitiveStringComparator();
   }
 
+  @SuppressWarnings("unchecked")
+  protected static Map<String, Comparator<?>> noFieldComparators() {
+      return Collections.EMPTY_MAP;
+  }
+
+  @SuppressWarnings("unchecked")
+  protected static Map<Class<?>, Comparator<?>> noTypeComparators() {
+      return Collections.EMPTY_MAP;
+  }
+  
 }

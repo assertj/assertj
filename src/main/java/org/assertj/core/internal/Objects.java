@@ -15,7 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursive.shouldBeEqualByComparingFieldByFieldRecursive;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
@@ -651,7 +651,7 @@ public class Objects {
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  private boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
+  static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
                                                 Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                 Map<Class<?>, Comparator<?>> comparatorByType) {
     if (actualFieldValue != null && otherFieldValue != null
@@ -676,9 +676,11 @@ public class Objects {
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if the actual and the given object are not "deeply" equal.
    */
-  public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, A actual, A other) {
+  public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, A actual, A other,
+                                                                  Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                                  Map<Class<?>, Comparator<?>> comparatorByType) {
     assertNotNull(info, actual);
-    List<Difference> differences = determineDifferences(actual, other);
+    List<Difference> differences = determineDifferences(actual, other, comparatorByPropertyOrField, comparatorByType);
     if (!differences.isEmpty()) {
       throw failures.failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other, differences));
     }

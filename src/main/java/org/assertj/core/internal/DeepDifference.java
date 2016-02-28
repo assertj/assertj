@@ -13,13 +13,16 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.EXTRACTION;
+import static org.assertj.core.internal.Objects.propertyOrFieldValuesAreEqual;
+import static org.assertj.core.util.Strings.join;
+import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,8 +47,6 @@ public class DeepDifference {
 
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
   private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
-  private static final double doubleEplison = 1e-15;
-  private static final double floatEplison = 1e-6;
 
   private final static class DualKey {
 
@@ -62,7 +63,7 @@ public class DeepDifference {
     private DualKey(Object key1, Object key2) {
       this(new ArrayList<String>(), key1, key2);
     }
-    
+
     @Override
     public boolean equals(Object other) {
       if (!(other instanceof DualKey)) {
@@ -87,6 +88,10 @@ public class DeepDifference {
 
     public List<String> getPath() {
       return path;
+    }
+
+    public String getConcatenatedPath() {
+      return join(path).with(".");
     }
   }
 
@@ -140,7 +145,9 @@ public class DeepDifference {
    *         either at the field level or via the respectively encountered overridden
    *         .equals() methods during traversal.
    */
-  public static List<Difference> determineDifferences(Object a, Object b) {
+  public static List<Difference> determineDifferences(Object a, Object b,
+                                                      Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                      Map<Class<?>, Comparator<?>> comparatorByType) {
     final Set<DualKey> visited = new HashSet<>();
     final Deque<DualKey> toCompare = initStack(a, b, visited);
     final List<Difference> differences = new ArrayList<>();
@@ -200,16 +207,6 @@ public class DeepDifference {
       } else if (key2 instanceof Map) {
         differences.add(new Difference(currentPath, key1, key2));
         continue;
-      }
-
-      if (key1 instanceof Double) {
-        if (compareFloatingPointNumbers(key1, key2, doubleEplison))
-          continue;
-      }
-
-      if (key1 instanceof Float) {
-        if (compareFloatingPointNumbers(key1, key2, floatEplison))
-          continue;
       }
 
       // Handle all [] types. In order to be equal, the arrays must be the
@@ -275,6 +272,12 @@ public class DeepDifference {
         continue;
       }
 
+      if (hasCustomComparator(dualKey, comparatorByPropertyOrField, comparatorByType)) {
+        if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(),
+                                          comparatorByPropertyOrField, comparatorByType))
+          continue;
+      }
+
       if (hasCustomEquals(key1.getClass())) {
         if (!key1.equals(key2)) {
           differences.add(new Difference(currentPath, key1, key2));
@@ -288,8 +291,8 @@ public class DeepDifference {
         String fieldName = field.getName();
         path.add(fieldName);
         DualKey dk = new DualKey(path,
-                                 EXTRACTION.getSimpleValue(fieldName, key1),
-                                 EXTRACTION.getSimpleValue(fieldName, key2));
+                                 COMPARISON.getSimpleValue(fieldName, key1),
+                                 COMPARISON.getSimpleValue(fieldName, key2));
         if (!visited.contains(dk)) {
           toCompare.addFirst(dk);
         }
@@ -297,6 +300,17 @@ public class DeepDifference {
     }
 
     return differences;
+  }
+
+  private static boolean hasCustomComparator(DualKey dualKey, Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                             Map<Class<?>, Comparator<?>> comparatorByType) {
+    if (dualKey.key1.getClass() == dualKey.key2.getClass()) {
+      String fieldName = dualKey.getConcatenatedPath();
+      Comparator<?> fieldComparator = comparatorByPropertyOrField.containsKey(fieldName)
+          ? comparatorByPropertyOrField.get(fieldName) : comparatorByType.get(dualKey.key1.getClass());
+      return fieldComparator != null;
+    }
+    return false;
   }
 
   private static Deque<DualKey> initStack(Object a, Object b, Set<DualKey> visited) {
@@ -308,8 +322,8 @@ public class DeepDifference {
         for (Field field : fieldsOfRootObject) {
           String fieldName = field.getName();
           DualKey dk = new DualKey(Arrays.asList(fieldName),
-                                   EXTRACTION.getSimpleValue(fieldName, a),
-                                   EXTRACTION.getSimpleValue(fieldName, b));
+                                   COMPARISON.getSimpleValue(fieldName, a),
+                                   COMPARISON.getSimpleValue(fieldName, b));
           if (!visited.contains(dk)) {
             stack.addFirst(dk);
           }
@@ -372,16 +386,12 @@ public class DeepDifference {
   private static <K, V> boolean compareOrderedCollection(Collection<K> col1, Collection<V> col2,
                                                          List<String> path, Deque<DualKey> toCompare,
                                                          Set<DualKey> visited) {
-    if (col1.size() != col2.size()) {
-      return false;
-    }
+    if (col1.size() != col2.size()) return false;
 
     Iterator<V> i2 = col2.iterator();
     for (K k : col1) {
       DualKey dk = new DualKey(path, k, i2.next());
-      if (!visited.contains(dk)) {
-        toCompare.addFirst(dk);
-      }
+      if (!visited.contains(dk)) toCompare.addFirst(dk);
     }
     return true;
   }
@@ -518,40 +528,6 @@ public class DeepDifference {
   }
 
   /**
-   * Compare if two floating point numbers are within a given range
-   */
-  private static boolean compareFloatingPointNumbers(Object a, Object b, double epsilon) {
-    double a1 = a instanceof Double ? (Double) a : (Float) a;
-    double b1 = b instanceof Double ? (Double) b : (Float) b;
-    return nearlyEqual(a1, b1, epsilon);
-  }
-
-  /**
-   * Correctly handles floating point comparison. (source: http://floating-point-gui.de/errors/comparison/)
-   *
-   * @param a first number
-   * @param b second number
-   * @param epsilon double tolerance value
-   * @return true if a and b are close enough
-   */
-  private static boolean nearlyEqual(double a, double b, double epsilon) {
-    final double absA = Math.abs(a);
-    final double absB = Math.abs(b);
-    final double diff = Math.abs(a - b);
-
-    if (a == b) {
-      // shortcut, handles infinities
-      return true;
-    } else if (a == 0 || b == 0 || diff < Double.MIN_NORMAL) {
-      // a or b is zero or both are extremely close to it
-      // relative error is less meaningful here
-      return diff < (epsilon * Double.MIN_NORMAL);
-    } else { // use relative error
-      return diff / (absA + absB) < epsilon;
-    }
-  }
-
-  /**
    * Determine if the passed in class has a non-Object.equals() method. This
    * method caches its results in static ConcurrentHashMap to benefit
    * execution performance.
@@ -644,7 +620,7 @@ public class DeepDifference {
 
       Collection<Field> fields = getDeclaredFieldsIncludingInherited(obj.getClass());
       for (Field field : fields) {
-        stack.addFirst(EXTRACTION.getSimpleValue(field.getName(), obj));
+        stack.addFirst(COMPARISON.getSimpleValue(field.getName(), obj));
       }
     }
     return hash;

@@ -20,22 +20,28 @@ import java.util.List;
 
 import org.assertj.core.internal.DeepDifference.Difference;
 
-public class ShouldBeEqualByComparingFieldByFieldRecursive extends BasicErrorMessageFactory {
+public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursive(Object actual, Object other,
                                                                                   List<Difference> differences) {
     List<String> descriptionOfDifferences = new ArrayList<>(differences.size());
     for (Difference difference : differences) {
-      descriptionOfDifferences.add(format("%nPath to difference:  <%s>%nexpected:  <%s>%nbut was:  <%s>",
+      descriptionOfDifferences.add(format("%nPath to difference:  <%s>%n" +
+                                          "- expected: <%s>%n" +
+                                          "- actual  : <%s>",
                                           join(difference.getPath()).with("."), difference.getOther(),
                                           difference.getActual()));
     }
-    return new ShouldBeEqualByComparingFieldByFieldRecursive("Expecting:  <%s>%nto be equal to:  <%s>%nwhen recursively comparing field by field, but found the following difference(s):%n"
-                                                             + join(descriptionOfDifferences).with(format("%n")),
-                                                             actual, other);
+    return new ShouldBeEqualByComparingFieldByFieldRecursively("Expecting:%n" +
+                                                               "  <%s>%n" +
+                                                               "to be equal to:%n"+
+                                                               "  <%s>%n" +
+                                                               "when recursively comparing field by field, but found the following difference(s):%n"
+                                                               + join(descriptionOfDifferences).with(format("%n")),
+                                                               actual, other);
   }
 
-  private ShouldBeEqualByComparingFieldByFieldRecursive(String message, Object actual, Object other) {
+  private ShouldBeEqualByComparingFieldByFieldRecursively(String message, Object actual, Object other) {
     super(message, actual, other);
   }
 }

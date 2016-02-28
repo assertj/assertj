@@ -21,10 +21,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -165,13 +161,4 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     }
   }
 
-  @SuppressWarnings("unchecked")
-  private static Map<String, Comparator<?>> noFieldComparators() {
-      return Collections.EMPTY_MAP;
-  }
-
-  @SuppressWarnings("unchecked")
-  private static Map<Class<?>, Comparator<?>> noTypeComparators() {
-      return Collections.EMPTY_MAP;
-  }
 }
