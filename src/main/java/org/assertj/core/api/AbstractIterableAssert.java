@@ -937,20 +937,19 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Use the given {@link Function}s to extract the values from the Iterable's elements under test into a new Iterable
-   * composed of {@link Tuple} (a simple data structure containing th extracted values), this new Iterable becoming the
-   * Iterable under test.
+   * Use the given {@link Function}s to extract the values from the {@link Iterable}'s elements into a new {@link Iterable}
+   * composed of {@link Tuple}s (a simple data structure containing the extracted values), this new {@link Iterable} becoming the
+   * object under test.
    * <p/>
-   * It allows you to test values from the Iterable's elements instead of testing the elements themselves, it can be
-   * sometimes much less work!
+   * It allows you to test values from the {@link Iterable}'s elements instead of testing the elements themselves, which sometimes can be
+   * much less work!
    * <p/>
    * The Tuple data corresponds to the extracted values from the Iterable's elements, for instance if you pass functions
    * extracting "id", "name" and "email" values then each Tuple data will be composed of an id, a name and an email
    * extracted from the element of the initial Iterable (the Tuple's data order is the same as the given functions
    * order).
    * <p/>
-   * Let's take an example to make things clearer :
-   * 
+   * Let's take a look at an example to make things clearer :
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -965,18 +964,17 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    * 
    * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing :
-   * 
    * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
    *                                            character -> character.getAge(),
    *                                            TolkienCharacter::getRace)
-   *                                .containsOnly(tuple("Frodo", 33, HOBBIT),
-   *                                              tuple("Sam", 38, HOBBIT),
-   *                                              tuple("Gandalf", 2020, MAIA),
-   *                                              tuple("Legolas", 1000, ELF),
-   *                                              tuple("Pippin", 28, HOBBIT),
-   *                                              tuple("Gimli", 139, DWARF),
-   *                                              tuple("Aragorn", 87, MAN),
-   *                                              tuple("Boromir", 37, MAN));</code></pre>
+   *                                .containsOnly(tuple(&quot;Frodo&quot;, 33, HOBBIT),
+   *                                              tuple(&quot;Sam&quot;, 38, HOBBIT),
+   *                                              tuple(&quot;Gandalf&quot;, 2020, MAIA),
+   *                                              tuple(&quot;Legolas&quot;, 1000, ELF),
+   *                                              tuple(&quot;Pippin&quot;, 28, HOBBIT),
+   *                                              tuple(&quot;Gimli&quot;, 139, DWARF),
+   *                                              tuple(&quot;Aragorn&quot;, 87, MAN),
+   *                                              tuple(&quot;Boromir&quot;, 37, MAN));</code></pre>
    * You can use lambda expression or a method reference to extract the expected values.
    * <p/>
    * Use {@link Tuple#tuple(Object...)} to initialize the expected values.
@@ -985,7 +983,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted tuples order.
    * 
    * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
-   * @return a new assertion object whose object under test is the list of Tuple containing the extracted values.
+   * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
    */
   @SafeVarargs
   public final ListAssert<Tuple> extracting(Function<T, ?>... extractors) {
