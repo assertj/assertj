@@ -562,8 +562,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * greatHouses.add(new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;));
    * 
-   * // let's verify the words of great houses in Westeros:
-   * 
+   * // let's verify the words of the great houses of Westeros:
    * assertThat(greatHouses).extractingResultOf(&quot;sayTheWords&quot;)
    *                        .contains(&quot;Winter is Coming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                        .doesNotContain(&quot;Lannisters always pay their debts&quot;);</code></pre>
@@ -606,8 +605,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * greatHouses.add(new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;));
    * 
-   * // let's verify the words of great houses in Westeros:
-   * 
+   * // let's verify the words of the great houses of Westeros:
    * assertThat(greatHouses).extractingResultOf(&quot;sayTheWords&quot;, String.class)
    *                        .contains(&quot;Winter is Coming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                        .doesNotContain(&quot;Lannisters always pay their debts&quot;);</code></pre>
@@ -657,13 +655,11 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    * 
    * // let's verify the names of TolkienCharacter in fellowshipOfTheRing :
-   * 
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, String.class)
    *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;)
    *           .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
    * 
    * // you can extract nested property/field like the name of Race :
-   * 
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;, String.class)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
@@ -749,15 +745,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    * 
    * // let's verify 'name' and 'age' of some TolkienCharacter in fellowshipOfTheRing :
-   * 
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;)
    *                                .contains(tuple(&quot;Boromir&quot;, 37),
    *                                          tuple(&quot;Sam&quot;, 38),
    *                                          tuple(&quot;Legolas&quot;, 1000));
    * 
    * 
-   * // extract 'name', 'age' and Race name values.
-   * 
+   * // extract 'name', 'age' and Race name values :
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
    *                                .contains(tuple(&quot;Boromir&quot;, 37, &quot;Man&quot;),
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),

@@ -40,7 +40,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * 
    * // assertions will fail
    * assertThat(new String[] { &quot;a&quot;, &quot;b&quot;}).isNullOrEmpty();
-   * assertThat(Arrays.asList(1, 2, 3).isNullOrEmpty();</code></pre>
+   * assertThat(Arrays.asList(1, 2, 3)).isNullOrEmpty();</code></pre>
    * </p>
    * @throws AssertionError if the actual group of values is not {@code null} or not empty.
    */
@@ -56,7 +56,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * 
    * // assertions will fail
    * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).isEmpty();
-   * assertThat(Arrays.asList(1, 2, 3).isEmpty();</code></pre>
+   * assertThat(Arrays.asList(1, 2, 3)).isEmpty();</code></pre>
    * </p>
    * @throws AssertionError if the actual group of values is not empty.
    */
@@ -68,7 +68,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).isNotEmpty();
-   * assertThat(Arrays.asList(1, 2, 3).isNotEmpty();
+   * assertThat(Arrays.asList(1, 2, 3)).isNotEmpty();
    * 
    * // assertions will fail
    * assertThat(new ArrayList()).isNotEmpty();
@@ -85,7 +85,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSize(2);
-   * assertThat(Arrays.asList(1, 2, 3).hasSize(3);
+   * assertThat(Arrays.asList(1, 2, 3)).hasSize(3);
    * 
    * // assertions will fail
    * assertThat(new ArrayList()).hasSize(1);
@@ -104,8 +104,12 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
    * 
-   * // assertions will pass
-   * assertThat(elvesRings).hasSameSizeAs(abc);</code></pre>
+   * // assertion will pass
+   * assertThat(elvesRings).hasSameSizeAs(abc);
+   * 
+   * // assertions will fail
+   * assertThat(elvesRings).hasSameSizeAs(Arrays.asList(1, 2));
+   * assertThat(elvesRings).hasSameSizeAs(Arrays.asList(1, 2, 3, 4));</code></pre>
    * 
    * @param other the {@code Iterable} to compare size with actual group.
    * @return {@code this} assertion object.
@@ -124,8 +128,12 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
    * 
-   * // assertions will pass
-   * assertThat(elvesRings).hasSameSizeAs(oneTwoThree);</code></pre>
+   * // assertion will pass
+   * assertThat(elvesRings).hasSameSizeAs(oneTwoThree);
+   * 
+   * // assertions will fail
+   * assertThat(elvesRings).hasSameSizeAs(new int[] { 1, 2});
+   * assertThat(elvesRings).hasSameSizeAs(new int[] { 1, 2, 3, 4});</code></pre>
    * 
    * @param array the array to compare size with actual group.
    * @return {@code this} assertion object.
@@ -137,8 +145,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group
-   * elements for
-   * incoming assertion checks.
+   * elements for incoming assertion checks.
    * <p>
    * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
    * comparison strategy.

@@ -148,10 +148,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(nenya).isIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(oneRing).isIn(elvesRings);</code></pre>
    * 
    * @param values the given array to search the actual value in.
@@ -168,10 +168,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(oneRing).isNotIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    * 
    * @param values the given array to search the actual value in.
@@ -188,10 +188,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(nenya).isIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(oneRing).isIn(elvesRings);</code></pre>
    * 
    * @param values the given iterable to search the actual value in.
@@ -208,10 +208,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(oneRing).isNotIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    * 
    * @param values the given iterable to search the actual value in.
@@ -485,9 +485,15 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertions from this call.
    * <p>
    * Example :
-   * <pre><code class='java'> Object listAsObject = newArrayList(1, 2, 3);
+   * <pre><code class='java'> Object sortedListAsObject = Arrays.asList(1, 2, 3);
    *
-   * assertThat(listAsObject).asList().isSorted();</code></pre>
+   * // assertion will pass
+   * assertThat(sortedListAsObject).asList().isSorted();
+   * 
+   * Object unsortedListAsObject = Arrays.asList(3, 1, 2);
+   * 
+   * // assertion will fail
+   * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
    *
    * @return a list assertion object
    */
@@ -501,7 +507,11 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example :
    * <pre><code class='java'> Object stringAsObject = "hello world";
    *
-   * assertThat(stringAsObject).asString().contains("hello");</code></pre>
+   * // assertion will pass
+   * assertThat(stringAsObject).asString().contains("hello");
+   * 
+   * // assertion will fail
+   * assertThat(stringAsObject).asString().contains("holla");</code></pre>
    *
    * @return a string assertion object
    */
