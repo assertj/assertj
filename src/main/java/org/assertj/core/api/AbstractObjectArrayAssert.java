@@ -1280,8 +1280,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;), new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
    *     new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;) };
    * 
-   * // let's verify the words of great houses in Westeros:
-   * 
+   * // let's verify the words of the great houses of Westeros:
    * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;)
    *                                  .contains(&quot;Winter is Coming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                                  .doesNotContain(&quot;Lannisters always pay their debts&quot;);</code></pre>
@@ -1323,8 +1322,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;), new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
    *     new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;) };
    * 
-   * // let's verify the words of great houses in Westeros:
-   * 
+   * // let's verify the words of the great houses of Westeros:
    * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;, String.class)
    *                                  .contains(&quot;Winter is Coming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                                  .doesNotContain(&quot;Lannisters always pay their debts&quot;);</code></pre>

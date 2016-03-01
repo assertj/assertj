@@ -75,7 +75,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).hasSameSizeAs(Arrays.asList(1, 2, 3));
    * 
    * // assertion will fail
-   * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).hasSameSizeAs(Arrays.asList(1, 2);</code></pre>
+   * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).hasSameSizeAs(Arrays.asList(1, 2));</code></pre>
    */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {
