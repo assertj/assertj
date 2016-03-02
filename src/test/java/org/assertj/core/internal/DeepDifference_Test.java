@@ -22,7 +22,7 @@ import static java.lang.Math.sin;
 import static java.lang.Math.tan;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.ObjectsBaseTest.noFieldComparators;
-import static org.assertj.core.internal.ObjectsBaseTest.noTypeComparators;
+import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -256,11 +256,11 @@ public class DeepDifference_Test {
   }
 
   private void assertHaveNoDifferences(Object x, Object y) {
-    assertThat(DeepDifference.determineDifferences(x, y, noFieldComparators(), noTypeComparators())).isEmpty();
+    assertThat(DeepDifference.determineDifferences(x, y, noFieldComparators(), defaultTypeComparators())).isEmpty();
   }
 
   private void assertHaveDifferences(Object x, Object y) {
-    assertThat(DeepDifference.determineDifferences(x, y, noFieldComparators(), noTypeComparators())).isNotEmpty();
+    assertThat(DeepDifference.determineDifferences(x, y, noFieldComparators(), defaultTypeComparators())).isNotEmpty();
   }
 
   private static class EmptyClass {

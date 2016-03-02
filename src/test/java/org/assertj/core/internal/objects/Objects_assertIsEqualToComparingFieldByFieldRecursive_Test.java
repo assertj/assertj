@@ -44,7 +44,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.home.address.number = 1;
 
     objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
-                                                            noTypeComparators());
+                                                            defaultTypeComparators());
   }
 
   @Test
@@ -58,7 +58,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.home.address.number = 1;
 
     objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
-                                                            noTypeComparators());
+                                                            defaultTypeComparators());
   }
 
   @Test
@@ -90,6 +90,23 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
+  public void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_nested_field() {
+    Giant goliath = new Giant();
+    goliath.name = "Goliath";
+    goliath.height = 3.0;
+    goliath.home.address.number = 1;
+
+    Giant goliathTwin = new Giant();
+    goliathTwin.name = "Goliath";
+    goliathTwin.height = 3.1;
+    goliathTwin.home.address.number = 5;
+
+    assertThat(goliath).usingComparatorForFields(new AtPrecisionComparator<Double>(0.2), "height")
+                       .usingComparatorForFields(new AtPrecisionComparator<Integer>(10), "home.address.number")
+                       .isEqualToComparingFieldByFieldRecursively(goliathTwin);
+  }
+
+  @Test
   public void should_be_able_to_compare_objects_with_cycles_recursively() {
     FriendlyPerson actual = new FriendlyPerson();
     actual.name = "John";
@@ -113,7 +130,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.friends.add(actual);
 
     objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
-                                                            noTypeComparators());
+                                                            defaultTypeComparators());
   }
 
   @Test
@@ -128,7 +145,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
     try {
       objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
-                                                              noTypeComparators());
+                                                              defaultTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
                                                                                    asList(new Difference(asList("name"),
@@ -153,7 +170,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
     try {
       objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
-                                                              noTypeComparators());
+                                                              defaultTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info,
                                shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
@@ -230,7 +247,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
     try {
       objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
-                                                              noTypeComparators());
+                                                              defaultTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info,
                                shouldBeEqualByComparingFieldByFieldRecursive(actual, other,

@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
@@ -42,7 +43,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
   @Override
   @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
-    verify(objects).assertIsEqualToIgnoringNullFields(getInfo(assertions), getActual(assertions), other, EMPTY_MAP, EMPTY_MAP);
+    verify(objects).assertIsEqualToIgnoringNullFields(getInfo(assertions), getActual(assertions), other, EMPTY_MAP, defaultTypeComparators());
   }
   
   @Test

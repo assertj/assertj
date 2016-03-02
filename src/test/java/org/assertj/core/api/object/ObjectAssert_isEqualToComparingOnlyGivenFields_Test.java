@@ -14,6 +14,7 @@ package org.assertj.core.api.object;
 
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
@@ -43,7 +44,7 @@ public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectA
   @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
     verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other,
-            EMPTY_MAP, EMPTY_MAP, "name");
+            EMPTY_MAP, defaultTypeComparators(), "name");
   }
 
   @Test

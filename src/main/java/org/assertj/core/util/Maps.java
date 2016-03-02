@@ -12,6 +12,7 @@
  */
 package org.assertj.core.util;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -68,6 +69,12 @@ public class Maps {
     }
   }
 
+  public static <K, V> Map<K, V> newHashMap(K key, V value) {
+      Map<K, V> map = new HashMap<>();
+      map.put(key, value);
+      return map;
+  }
+  
   private static Object format(Map<?, ?> map, Object o, Representation p) {
     return o == map ? "(this Map)" : p.toStringOf(o);
   }

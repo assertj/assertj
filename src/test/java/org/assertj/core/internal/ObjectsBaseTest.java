@@ -13,19 +13,20 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.ExpectedException.none;
-
 import static org.mockito.Mockito.spy;
 
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.util.DoubleComparator;
+import org.assertj.core.util.FloatComparator;
 import org.junit.Before;
 import org.junit.Rule;
-
 
 /**
  * Base class for testing <code>{@link Objects}</code>, set up an instance with {@link StandardComparisonStrategy} and another
@@ -54,21 +55,19 @@ public class ObjectsBaseTest {
     customComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     objectsWithCustomComparisonStrategy = new Objects(customComparisonStrategy);
     objectsWithCustomComparisonStrategy.failures = failures;
-    Assertions.setAllowComparingPrivateFields(true); //reverts to default value
+    Assertions.setAllowComparingPrivateFields(true); // reverts to default value
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return new CaseInsensitiveStringComparator();
   }
 
-  @SuppressWarnings("unchecked")
   protected static Map<String, Comparator<?>> noFieldComparators() {
-      return Collections.EMPTY_MAP;
+    return new HashMap<>();
   }
 
-  @SuppressWarnings("unchecked")
-  protected static Map<Class<?>, Comparator<?>> noTypeComparators() {
-      return Collections.EMPTY_MAP;
+  public static Map<Class<?>, Comparator<?>> defaultTypeComparators() {
+    return AbstractObjectAssert.defaultTypeComparators();
   }
-  
+
 }
