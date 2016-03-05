@@ -23,8 +23,6 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.assertj.core.util.DoubleComparator;
-import org.assertj.core.util.FloatComparator;
 import org.junit.Before;
 import org.junit.Rule;
 
