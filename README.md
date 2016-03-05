@@ -19,7 +19,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 * [Migrating from FEST Assertions](#migrating-from-fest)
 * [Contributing](#contributing)
 
-Documentation of all AssertJ projects is maintained on **[assertj.org](http://assertj.org)**, AssertJ Core documentation is [**here**](http://joel-costigliola.github.io/assertj/assertj-core.html).
+The AssertJ web site contains all projects documentation and can be **[here](http://joel-costigliola.github.io/assertj/index.html)**, it notably inlcudes [**AssertJ Core documentation**](http://joel-costigliola.github.io/assertj/assertj-core.html).
 
 You can ask questions and make suggestions on [**AssertJ google group**](https://groups.google.com/forum/?fromgroups=#!forum/assertj).
 
