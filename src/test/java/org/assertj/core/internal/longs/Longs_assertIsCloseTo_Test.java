@@ -22,7 +22,12 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongsBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
 
   private static final Long ZERO = 0l;
@@ -52,11 +57,21 @@ public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
     longs.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_equal_to_given_offset() {
-    longs.assertIsCloseTo(someInfo(), ONE, ONE, within(ZERO));
-    longs.assertIsCloseTo(someInfo(), ONE, ZERO, within(ONE));
-    longs.assertIsCloseTo(someInfo(), ONE, TWO, within(ONE));
+  @DataProvider({
+    "1, 1, 0",
+    "1, 0, 1",
+    "-1, 0, 1",
+    "-1, -1, 0",
+    "-1, 1, 2",
+    "0, 9223372036854775807, 9223372036854775807",
+    "9223372036854775807, 9223372036854775807, 0",
+    "-9223372036854775808, -9223372036854775808, 0"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_equal_to_given_offset(Long actual, Long expected, Long offset) {
+    longs.assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
   
   @Test

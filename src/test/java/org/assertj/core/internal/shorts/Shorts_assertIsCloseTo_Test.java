@@ -22,7 +22,12 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;
@@ -52,11 +57,21 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     shorts.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_equal_to_given_offset() {
-    shorts.assertIsCloseTo(someInfo(), ONE, ONE, within(ZERO));
-    shorts.assertIsCloseTo(someInfo(), ONE, ZERO, within(ONE));
-    shorts.assertIsCloseTo(someInfo(), ONE, TWO, within(ONE));
+  @DataProvider({
+    "1, 1, 0",
+    "1, 0, 1",
+    "-1, 0, 1",
+    "-1, -1, 0",
+    "-1, 1, 2",
+    "0, 32767, 32767",
+    "32767, 32767, 0",
+    "-32768, -32768, 0"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_equal_to_given_offset(Short actual, Short expected, Short offset) {
+    shorts.assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
   
   @Test

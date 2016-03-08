@@ -26,6 +26,11 @@ import static org.mockito.Mockito.verify;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 
@@ -35,6 +40,7 @@ import org.assertj.core.internal.BigDecimalsBaseTest;
  *
  * @author Joel Costigliola
  */
+@RunWith(DataProviderRunner.class)
 public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
@@ -58,9 +64,20 @@ public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
     bigDecimals.assertIsCloseTo(someInfo(), new BigDecimal("5.0"), new BigDecimal("5.1"), offset(ONE));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_big_decimals_difference_is_equal_to_given_offset() {
-    bigDecimals.assertIsCloseTo(someInfo(), new BigDecimal("5.0"), new BigDecimal("6.0"), offset(ONE));
+  @DataProvider({
+    "1.0, 1.0, 0.0",
+    "1.0, 0.0, 1.0",
+    "-1.0, 0.0, 1.0",
+    "-1.0, -1.0, 0.0",
+    "-1.0, 1.0, 2.0",
+    "0.0, 0.000000000000000000000001, 0.000000000000000000000001",
+    "-0.000000000000000000000001, -0.000000000000000000000001, 0.0"
+  })
+  // @format:on
+  public void should_pass_if_big_decimals_difference_is_equal_to_given_offset(BigDecimal actual, BigDecimal expected, BigDecimal offset) {
+    bigDecimals.assertIsCloseTo(someInfo(), actual, expected, offset(offset));
   }
 
   @Test
