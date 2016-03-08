@@ -112,7 +112,6 @@ public class Throwables {
    */
   public void assertHasMessageStartingWith(AssertionInfo info, Throwable actual, String description) {
 	assertNotNull(info, actual);
-	// TODO unit test with null exception message
 	if (actual.getMessage() != null && actual.getMessage().startsWith(description)) return;
 	throw failures.failure(info, shouldStartWith(actual.getMessage(), description));
   }

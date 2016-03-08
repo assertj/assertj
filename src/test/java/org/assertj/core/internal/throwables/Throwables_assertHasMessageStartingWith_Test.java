@@ -54,4 +54,16 @@ public class Throwables_assertHasMessageStartingWith_Test extends ThrowablesBase
       verify(failures).failure(info, shouldStartWith(actual.getMessage(), "expected start"));
     }
   }
+
+  @Test
+  public void should_fail_if_actual_has_null_message() {
+    AssertionInfo info = someInfo();
+    Throwable actual = new Throwable((String) null);
+    try {
+      throwables.assertHasMessageStartingWith(info, actual, "expected start");
+      fail("AssertionError expected");
+    } catch (AssertionError err) {
+      verify(failures).failure(info, shouldStartWith(actual.getMessage(), "expected start"));
+    }
+  }
 }
