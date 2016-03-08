@@ -18,6 +18,7 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.Comparator;
 import java.util.Map;
 
+import org.assertj.core.description.Description;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -257,7 +258,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
     maps.assertContains(info, actual, entries);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual map contains all entries of the given map, in any order.
    * <p>
@@ -288,7 +289,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    */
   public S containsAllEntriesOf(Map<? extends K, ? extends V> other) {
     @SuppressWarnings("unchecked")
-    Map.Entry<? extends K, ? extends V> [] entries = other.entrySet().toArray(new Map.Entry[other.size()]);
+    Map.Entry<? extends K, ? extends V>[] entries = other.entrySet().toArray(new Map.Entry[other.size()]);
     maps.assertContains(info, actual, entries);
     return myself;
   }
@@ -426,7 +427,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map does not contain the given key.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  
+
   public S containsKeys(@SuppressWarnings("unchecked") K... keys) {
     maps.assertContainsKeys(info, actual, keys);
     return myself;
@@ -504,7 +505,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    *           of the given keys, or the actual map contains more entries than the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  
+
   public S containsOnlyKeys(@SuppressWarnings("unchecked") K... keys) {
     maps.assertContainsOnlyKeys(info, actual, keys);
     return myself;
@@ -556,7 +557,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given values.
    */
-  
+
   public S containsValues(@SuppressWarnings("unchecked") V... values) {
     maps.assertContainsValues(info, actual, values);
     return myself;
@@ -671,5 +672,173 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   @Deprecated
   public S usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
+  }
+
+  // override methods to avoid compilation error when chaining an AbstractAssert method with a AbstractMapAssert one
+  // this is pretty sad, a better fix for that would be welcome
+
+  @Override
+  public S as(String description, Object... args) {
+    return super.as(description, args);
+  }
+
+  @Override
+  public S as(Description description) {
+    return super.as(description);
+  }
+
+  @Override
+  public S describedAs(Description description) {
+    return super.describedAs(description);
+  }
+
+  @Override
+  public S describedAs(String description, Object... args) {
+    return super.describedAs(description, args);
+  }
+
+  @Override
+  public S doesNotHave(Condition<? super A> condition) {
+    return super.doesNotHave(condition);
+  }
+
+  @Override
+  public S doesNotHaveSameClassAs(Object other) {
+    return super.doesNotHaveSameClassAs(other);
+  }
+
+  @Override
+  public S has(Condition<? super A> condition) {
+    return super.has(condition);
+  }
+
+  @Override
+  public S hasSameClassAs(Object other) {
+    return super.hasSameClassAs(other);
+  }
+
+  @Override
+  public S hasToString(String expectedToString) {
+    return super.hasToString(expectedToString);
+  }
+
+  @Override
+  public S is(Condition<? super A> condition) {
+    return super.is(condition);
+  }
+
+  @Override
+  public S isEqualTo(Object expected) {
+    return super.isEqualTo(expected);
+  }
+
+  @Override
+  public S isExactlyInstanceOf(Class<?> type) {
+    return super.isExactlyInstanceOf(type);
+  }
+
+  @Override
+  public S isIn(Iterable<?> values) {
+    return super.isIn(values);
+  }
+
+  @Override
+  public S isIn(Object... values) {
+    return super.isIn(values);
+  }
+
+  @Override
+  public S isInstanceOf(Class<?> type) {
+    return super.isInstanceOf(type);
+  }
+
+  @Override
+  public S isInstanceOfAny(Class<?>... types) {
+    return super.isInstanceOfAny(types);
+  }
+
+  @Override
+  public S isNot(Condition<? super A> condition) {
+    return super.isNot(condition);
+  }
+
+  @Override
+  public S isNotEqualTo(Object other) {
+    return super.isNotEqualTo(other);
+  }
+
+  @Override
+  public S isNotExactlyInstanceOf(Class<?> type) {
+    return super.isNotExactlyInstanceOf(type);
+  }
+
+  @Override
+  public S isNotIn(Iterable<?> values) {
+    return super.isNotIn(values);
+  }
+
+  @Override
+  public S isNotIn(Object... values) {
+    return super.isNotIn(values);
+  }
+
+  @Override
+  public S isNotInstanceOf(Class<?> type) {
+    return super.isNotInstanceOf(type);
+  }
+
+  @Override
+  public S isNotInstanceOfAny(Class<?>... types) {
+    return super.isNotInstanceOfAny(types);
+  }
+
+  @Override
+  public S isNotOfAnyClassIn(Class<?>... types) {
+    return super.isNotOfAnyClassIn(types);
+  }
+
+  @Override
+  public S isNotNull() {
+    return super.isNotNull();
+  }
+
+  @Override
+  public S isNotSameAs(Object other) {
+    return super.isNotSameAs(other);
+  }
+
+  @Override
+  public S isOfAnyClassIn(Class<?>... types) {
+    return super.isOfAnyClassIn(types);
+  }
+
+  @Override
+  public S isSameAs(Object expected) {
+    return super.isSameAs(expected);
+  }
+  
+  @Override
+  public S overridingErrorMessage(String newErrorMessage, Object... args) {
+    return super.overridingErrorMessage(newErrorMessage, args);
+  }
+
+  @Override
+  public S usingDefaultComparator() {
+    return super.usingDefaultComparator();
+  }
+
+  @Override
+  public S usingComparator(Comparator<? super A> customComparator) {
+    return super.usingComparator(customComparator);
+  }
+
+  @Override
+  public S withFailMessage(String newErrorMessage, Object... args) {
+    return super.withFailMessage(newErrorMessage, args);
+  }
+  
+  @Override
+  public S withThreadDumpOnError() {
+    return super.withThreadDumpOnError();
   }
 }

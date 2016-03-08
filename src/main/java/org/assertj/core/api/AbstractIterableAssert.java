@@ -31,6 +31,7 @@ import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.condition.Not;
+import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -1347,4 +1348,171 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return (S) new ListAssert<>(newArrayList(filteredIterable));
   }
 
+  // override methods to avoid compilation error when chaining an AbstractAssert method with a AbstractIterableAssert
+  // one on raw types.
+
+  @Override
+  public S as(String description, Object... args) {
+    return super.as(description, args);
+  }
+
+  @Override
+  public S as(Description description) {
+    return super.as(description);
+  }
+
+  @Override
+  public S describedAs(Description description) {
+    return super.describedAs(description);
+  }
+
+  @Override
+  public S describedAs(String description, Object... args) {
+    return super.describedAs(description, args);
+  }
+
+  @Override
+  public S doesNotHave(Condition<? super A> condition) {
+    return super.doesNotHave(condition);
+  }
+
+  @Override
+  public S doesNotHaveSameClassAs(Object other) {
+    return super.doesNotHaveSameClassAs(other);
+  }
+
+  @Override
+  public S has(Condition<? super A> condition) {
+    return super.has(condition);
+  }
+
+  @Override
+  public S hasSameClassAs(Object other) {
+    return super.hasSameClassAs(other);
+  }
+
+  @Override
+  public S hasToString(String expectedToString) {
+    return super.hasToString(expectedToString);
+  }
+
+  @Override
+  public S is(Condition<? super A> condition) {
+    return super.is(condition);
+  }
+
+  @Override
+  public S isEqualTo(Object expected) {
+    return super.isEqualTo(expected);
+  }
+
+  @Override
+  public S isExactlyInstanceOf(Class<?> type) {
+    return super.isExactlyInstanceOf(type);
+  }
+
+  @Override
+  public S isIn(Iterable<?> values) {
+    return super.isIn(values);
+  }
+
+  @Override
+  public S isIn(Object... values) {
+    return super.isIn(values);
+  }
+
+  @Override
+  public S isInstanceOf(Class<?> type) {
+    return super.isInstanceOf(type);
+  }
+
+  @Override
+  public S isInstanceOfAny(Class<?>... types) {
+    return super.isInstanceOfAny(types);
+  }
+
+  @Override
+  public S isNot(Condition<? super A> condition) {
+    return super.isNot(condition);
+  }
+
+  @Override
+  public S isNotEqualTo(Object other) {
+    return super.isNotEqualTo(other);
+  }
+
+  @Override
+  public S isNotExactlyInstanceOf(Class<?> type) {
+    return super.isNotExactlyInstanceOf(type);
+  }
+
+  @Override
+  public S isNotIn(Iterable<?> values) {
+    return super.isNotIn(values);
+  }
+
+  @Override
+  public S isNotIn(Object... values) {
+    return super.isNotIn(values);
+  }
+
+  @Override
+  public S isNotInstanceOf(Class<?> type) {
+    return super.isNotInstanceOf(type);
+  }
+
+  @Override
+  public S isNotInstanceOfAny(Class<?>... types) {
+    return super.isNotInstanceOfAny(types);
+  }
+
+  @Override
+  public S isNotOfAnyClassIn(Class<?>... types) {
+    return super.isNotOfAnyClassIn(types);
+  }
+
+  @Override
+  public S isNotNull() {
+    return super.isNotNull();
+  }
+
+  @Override
+  public S isNotSameAs(Object other) {
+    return super.isNotSameAs(other);
+  }
+
+  @Override
+  public S isOfAnyClassIn(Class<?>... types) {
+    return super.isOfAnyClassIn(types);
+  }
+
+  @Override
+  public S isSameAs(Object expected) {
+    return super.isSameAs(expected);
+  }
+
+  @Override
+  public S overridingErrorMessage(String newErrorMessage, Object... args) {
+    return super.overridingErrorMessage(newErrorMessage, args);
+  }
+
+  @Override
+  public S usingDefaultComparator() {
+    return super.usingDefaultComparator();
+  }
+
+  @Override
+  public S usingComparator(Comparator<? super A> customComparator) {
+    return super.usingComparator(customComparator);
+  }
+
+  @Override
+  public S withFailMessage(String newErrorMessage, Object... args) {
+    return super.withFailMessage(newErrorMessage, args);
+  }
+
+  @Override
+  public S withThreadDumpOnError() {
+    return super.withThreadDumpOnError();
+  }
 }
