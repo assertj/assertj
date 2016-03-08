@@ -83,12 +83,15 @@ public final class Introspection {
   }
 
   private static Method findMethod(String name, Object target) {
-    // TODO walk class hierarchy to check if any superclass declares the method we are looking for.
-    try {
-      return target.getClass().getDeclaredMethod(name);
-    } catch (Throwable t) {
-      return null;
+    Class<?> clazz = target.getClass();
+    while (clazz != null) {
+      try {
+        return clazz.getDeclaredMethod(name);
+      } catch (NoSuchMethodException | SecurityException ignored) {
+      }
+      clazz = clazz.getSuperclass();
     }
+    return null;
   }
 
   private Introspection() {}
