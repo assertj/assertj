@@ -59,4 +59,22 @@ public class Introspection_getProperty_Test {
     }
   }
 
+  @Test
+  public void should_raise_an_error_because_of_non_public_getter_when_getter_is_in_superclass() {
+    try {
+      getProperty("name", new Example());
+    } catch (IntrospectionError error) {
+      assertThat(error).hasMessage("No public getter for property 'name' in org.assertj.core.util.Introspection_getProperty_Test$Example");
+    }
+  }
+
+  public static class Example extends Super {
+  }
+
+  public static class Super {
+    @SuppressWarnings("unused")
+    private String getName() {
+      return "a";
+    }
+  }
 }
