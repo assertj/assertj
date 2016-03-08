@@ -647,7 +647,6 @@ public class Arrays {
 	  throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
   }
 
-  // TODO manage empty values + empty actual
   private static void checkIsNotNullAndNotEmpty(Object values) {
 	checkIsNotNull(values);
 	if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
