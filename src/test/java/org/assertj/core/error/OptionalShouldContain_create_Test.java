@@ -38,7 +38,7 @@ public class OptionalShouldContain_create_Test {
   public void should_create_error_message() {
     String errorMessage = shouldContain(Optional.of(20), 10).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
-                                              "  <Optional[20]>%n" +
+                                              "  <20>%n" +
                                               "to contain:%n" +
                                               "  <10>%n" +
                                               "but did not."));
@@ -48,7 +48,7 @@ public class OptionalShouldContain_create_Test {
   public void should_create_error_message_with_optionaldouble() {
     String errorMessage = shouldContain(OptionalDouble.of(20.0), 10.0).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
-                                              "  <OptionalDouble[20.0]>%n" +
+                                              "  <20.0>%n" +
                                               "to contain:%n" +
                                               "  <10.0>%n" +
                                               "but did not."));
@@ -58,7 +58,7 @@ public class OptionalShouldContain_create_Test {
   public void should_create_error_message_with_optionalint() {
     String errorMessage = shouldContain(OptionalInt.of(20), 10).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
-                                              "  <OptionalInt[20]>%n" +
+                                              "  <20>%n" +
                                               "to contain:%n" +
                                               "  <10>%n" +
                                               "but did not."));
@@ -68,7 +68,7 @@ public class OptionalShouldContain_create_Test {
   public void should_create_error_message_with_optionallong() {
     String errorMessage = shouldContain(OptionalLong.of(20L), 10L).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
-                                              "  <OptionalLong[20]>%n" +
+                                              "  <20L>%n" +
                                               "to contain:%n" +
                                               "  <10L>%n" +
                                               "but did not."));
@@ -78,7 +78,7 @@ public class OptionalShouldContain_create_Test {
   public void should_create_error_message_for_different_instances() {
     String errorMessage = shouldContainSame(Optional.of(new Integer(10)), new Integer(10)).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
-                                       "  <Optional[10]>%n" +
+                                       "  <10>%n" +
                                        "to contain the instance (i.e. compared with ==):%n" +
                                        "  <10>%n" +
                                        "but did not."));
