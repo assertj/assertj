@@ -43,6 +43,6 @@ public class WritableAssertionInfo_toString_Test {
   @Test
   public void should_implement_toString() {
     when(description.value()).thenReturn("Yoda");
-    assertThat(info.toString()).isEqualTo("WritableAssertionInfo[overridingErrorMessage='Jedi', description='Yoda']");
+    assertThat(info.toString()).isEqualTo("WritableAssertionInfo[overridingErrorMessage='Jedi', description='Yoda', representation=StandardRepresentation]");
   }
 }

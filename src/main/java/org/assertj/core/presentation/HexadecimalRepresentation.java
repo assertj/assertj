@@ -91,4 +91,8 @@ public class HexadecimalRepresentation implements Representation {
     return String.format("%0" + sizeInBits / NIBBLE_SIZE + "X", value);
   }
 
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName();
+  }
 }
