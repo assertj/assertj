@@ -104,5 +104,10 @@ public class StandardRepresentation implements Representation {
   private static String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
   }
+  
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName();
+  }
 
 }

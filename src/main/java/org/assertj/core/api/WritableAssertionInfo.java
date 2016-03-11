@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 
 import static org.assertj.core.api.DescriptionValidations.checkIsNotNull;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.quote;
 
 import org.assertj.core.description.Description;
@@ -115,6 +116,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   }
 
   public void useRepresentation(Representation newRepresentation) {
+    checkNotNull(newRepresentation, "The representation to use should not be null.");
     representation = newRepresentation;
   }
 
@@ -123,7 +125,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   @Override
   public String toString() {
-    String format = "%s[overridingErrorMessage=%s, description=%s]";
-    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()));
+    String format = "%s[overridingErrorMessage=%s, description=%s, representation=%s]";
+    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()), quote(representation()));
   }
 }

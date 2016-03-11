@@ -21,7 +21,6 @@ import java.util.Formatter;
  */
 public class UnicodeRepresentation implements Representation {
 
-
   /**
    * Returns hexadecimal the {@code toString} representation of the given String or Character.
    *
@@ -57,4 +56,8 @@ public class UnicodeRepresentation implements Representation {
     return b.toString();
   }
 
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName();
+  }
 }

@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.assertj.core.presentation.Representation;
+
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
  * 
@@ -563,4 +565,6 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @return this assertion object.
    */
   S withThreadDumpOnError();
+  
+  S withErrorRepresentation(Representation representation);
 }

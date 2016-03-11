@@ -23,6 +23,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -431,6 +432,12 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   @Override
   public S withThreadDumpOnError() {
     Failures.instance().enablePrintThreadDump();
+    return myself;
+  }
+
+  @Override
+  public S withErrorRepresentation(Representation representation) {
+    info.useRepresentation(representation);
     return myself;
   }
 

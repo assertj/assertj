@@ -88,4 +88,8 @@ public class BinaryRepresentation implements Representation {
     return String.format("%" + size + "s", value).replace(' ', '0');
   }
 
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName();
+  }
 }
