@@ -46,7 +46,8 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static <T> OptionalShouldContain shouldContain(Optional<T> optional, T expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.map(v -> new OptionalShouldContain(EXPECTING_TO_CONTAIN, v, expectedValue))
+            .orElse(shouldContain(expectedValue));
   }
 
   /**
@@ -57,7 +58,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalDouble optional, double expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional.getAsDouble(), expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**
@@ -68,7 +71,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalInt optional, int expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional.getAsInt(), expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**
@@ -79,7 +84,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalLong optional, long expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional.getAsLong(), expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**
@@ -92,7 +99,8 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static <T> OptionalShouldContain shouldContainSame(Optional<T> optional, T expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN_SAME, optional, expectedValue);
+    return optional.map(v -> new OptionalShouldContain(EXPECTING_TO_CONTAIN_SAME, v, expectedValue))
+            .orElse(shouldContain(expectedValue));
   }
 
   /**
