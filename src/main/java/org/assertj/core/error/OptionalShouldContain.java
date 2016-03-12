@@ -23,6 +23,8 @@ import java.util.OptionalLong;
  *
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
+ * @author Grzegorz Piwowarek
+ *
  */
 public class OptionalShouldContain extends BasicErrorMessageFactory {
 
@@ -46,7 +48,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static <T> OptionalShouldContain shouldContain(Optional<T> optional, T expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**
@@ -57,7 +61,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalDouble optional, double expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**
@@ -68,7 +74,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalInt optional, int expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**
@@ -79,7 +87,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalLong optional, long expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**
@@ -92,7 +102,9 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static <T> OptionalShouldContain shouldContainSame(Optional<T> optional, T expectedValue) {
-    return new OptionalShouldContain(EXPECTING_TO_CONTAIN_SAME, optional, expectedValue);
+    return optional.isPresent() ?
+            new OptionalShouldContain(EXPECTING_TO_CONTAIN_SAME, optional, expectedValue) :
+            shouldContain(expectedValue);
   }
 
   /**

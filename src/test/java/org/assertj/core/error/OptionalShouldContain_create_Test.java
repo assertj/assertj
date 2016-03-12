@@ -27,7 +27,7 @@ import org.junit.Test;
 public class OptionalShouldContain_create_Test {
 
   @Test
-  public void should_create_error_message_when_optional_is_empty() {
+  public void should_create_error_message_when_value_not_present() {
     String errorMessage = shouldContain(10).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain:%n" +
                                               "  <10>%n" +
@@ -45,6 +45,14 @@ public class OptionalShouldContain_create_Test {
   }
 
   @Test
+  public void should_create_error_message_when_optional_empty() {
+    String errorMessage = shouldContain(Optional.empty(), 10).create();
+    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain:%n" +
+                                              "  <10>%n" +
+                                              "but was empty."));
+  }
+
+  @Test
   public void should_create_error_message_with_optionaldouble() {
     String errorMessage = shouldContain(OptionalDouble.of(20.0), 10.0).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
@@ -52,6 +60,14 @@ public class OptionalShouldContain_create_Test {
                                               "to contain:%n" +
                                               "  <10.0>%n" +
                                               "but did not."));
+  }
+
+  @Test
+  public void should_create_error_message_with_empty_optionaldouble() {
+    String errorMessage = shouldContain(OptionalDouble.empty(), 10.0).create();
+    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain:%n" +
+                                              "  <10.0>%n" +
+                                              "but was empty."));
   }
 
   @Test
@@ -65,6 +81,14 @@ public class OptionalShouldContain_create_Test {
   }
 
   @Test
+  public void should_create_error_message_with_empty_optionalint() {
+    String errorMessage = shouldContain(OptionalInt.empty(), 10).create();
+    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain:%n" +
+                                              "  <10>%n" +
+                                              "but was empty."));
+  }
+
+  @Test
   public void should_create_error_message_with_optionallong() {
     String errorMessage = shouldContain(OptionalLong.of(20L), 10L).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
@@ -75,8 +99,16 @@ public class OptionalShouldContain_create_Test {
   }
 
   @Test
+  public void should_create_error_message_with_empty_optionallong() {
+    String errorMessage = shouldContain(OptionalLong.empty(), 10L).create();
+    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain:%n" +
+                                              "  <10L>%n" +
+                                              "but was empty."));
+  }
+
+  @Test
   public void should_create_error_message_for_different_instances() {
-    String errorMessage = shouldContainSame(Optional.of(new Integer(10)), new Integer(10)).create();
+    String errorMessage = shouldContainSame(Optional.of(10), 10).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n" +
                                        "  <Optional[10]>%n" +
                                        "to contain the instance (i.e. compared with ==):%n" +
