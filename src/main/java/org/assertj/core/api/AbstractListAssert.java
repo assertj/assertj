@@ -18,6 +18,7 @@ import java.util.List;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.*;
+import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -327,4 +328,9 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
     return super.withThreadDumpOnError();
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public SizeAssert<Integer> size() {
+    Preconditions.checkNotNull(actual, "Can not assert on size of empty list.");
+    return new SizeAssert(this, actual.size());
+  }
 }
