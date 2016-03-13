@@ -44,6 +44,8 @@ import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
+import org.assertj.core.util.IterableUtil;
+import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -1514,5 +1516,11 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   @Override
   public S withThreadDumpOnError() {
     return super.withThreadDumpOnError();
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public AbstractIterableSizeAssert<S, A, T> size() {
+    Preconditions.checkNotNull(actual, "Can not assert on size of iterable which is null.");
+    return new IterableSizeAssert(this, IterableUtil.sizeOf(actual));
   }
 }
