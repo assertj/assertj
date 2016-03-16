@@ -12,23 +12,24 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.data.Offset;
+import org.assertj.core.internal.Doubles;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.util.OptionalDouble;
+
 import static java.lang.Math.abs;
 import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
-import java.util.OptionalDouble;
-
-import org.assertj.core.data.Offset;
-import org.assertj.core.internal.Doubles;
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Assertions for {@link java.util.OptionalDouble}.
  *
  * @author Jean-Christophe Gay
  * @author Alexander Bischof
+ * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDoubleAssert<S>> extends
     AbstractAssert<S, OptionalDouble> {

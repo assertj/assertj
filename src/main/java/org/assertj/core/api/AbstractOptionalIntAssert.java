@@ -12,20 +12,21 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
-import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import org.assertj.core.internal.Integers;
+import org.assertj.core.util.VisibleForTesting;
 
 import java.util.OptionalInt;
 
-import org.assertj.core.internal.Integers;
-import org.assertj.core.util.VisibleForTesting;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
+import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
 /**
  * Assertions for {@link java.util.OptionalInt}.
  *
  * @author Jean-Christophe Gay
  * @author Alexander Bischof
+ * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAssert<S>> extends
     AbstractAssert<S, OptionalInt> {

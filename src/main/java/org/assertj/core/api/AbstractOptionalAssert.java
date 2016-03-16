@@ -12,27 +12,29 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.FieldByFieldComparator;
+import org.assertj.core.internal.StandardComparisonStrategy;
+
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.Consumer;
+
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
 
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.function.Consumer;
-
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.FieldByFieldComparator;
-import org.assertj.core.internal.StandardComparisonStrategy;
-
 /**
  * Assertions for {@link java.util.Optional}.
  *
  * @param <T> type of the value contained in the {@link java.util.Optional}.
+ *
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
+ * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S, T>, T> extends
     AbstractAssert<S, Optional<T>> {
