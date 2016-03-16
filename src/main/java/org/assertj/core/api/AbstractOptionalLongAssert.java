@@ -56,6 +56,21 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
   }
 
   /**
+   * Verifies that the actual {@link java.util.OptionalLong} is empty (alias of {@link #isEmpty()}).
+   * </p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(OptionalLong.empty()).isNotPresent();</code></pre>
+   * 
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(OptionalLong.of(10)).isNotPresent();</code></pre>
+   *
+   * @return this assertion object.
+   */
+  public S isNotPresent() {
+    return isEmpty();
+  }
+  
+  /**
    * Verifies that the actual {@link java.util.OptionalLong} is empty.
    * </p>
    * Assertion will pass :

@@ -65,6 +65,21 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
   }
 
   /**
+   * Verifies that the actual {@link java.util.Optional} is empty (alias of {@link #isEmpty()}).
+   * </p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(OptionalDouble.empty()).isNotPresent();</code></pre>
+   * 
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(OptionalDouble.of(10.0)).isNotPresent();</code></pre>
+   *
+   * @return this assertion object.
+   */
+  public S isNotPresent() {
+    return isEmpty();
+  }
+  
+  /**
    * Verifies that the actual {@link java.util.OptionalDouble} is empty.
    * </p>
    * Assertion will pass :
