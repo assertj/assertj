@@ -12,23 +12,24 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.data.Offset;
+import org.assertj.core.internal.Doubles;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.util.OptionalDouble;
+
 import static java.lang.Math.abs;
 import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
-import java.util.OptionalDouble;
-
-import org.assertj.core.data.Offset;
-import org.assertj.core.internal.Doubles;
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Assertions for {@link java.util.OptionalDouble}.
  *
  * @author Jean-Christophe Gay
  * @author Alexander Bischof
+ * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDoubleAssert<S>> extends
     AbstractAssert<S, OptionalDouble> {
@@ -84,6 +85,27 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
     isNotNull();
     if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
+  }
+
+  /**
+   * Verifies that there is a value present in the actual {@link java.util.OptionalDouble}, it's an alias of {@link #isPresent()}.
+   * </p>
+   * Assertion will pass :
+   * <p>
+   *
+   * <pre><code class='java'> assertThat(OptionalDouble.of(10.0)).isNotEmpty();</code></pre>
+   * <p>
+   * Assertion will fail :
+   * <p>
+   *
+   * <pre><code class='java'> assertThat(OptionalDouble.empty()).isNotEmpty();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws java.lang.AssertionError if actual value is empty.
+   * @throws java.lang.AssertionError if actual is null.
+   */
+  public S isNotEmpty() {
+    return isPresent();
   }
 
   /**
