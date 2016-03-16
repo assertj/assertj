@@ -84,6 +84,27 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
   }
 
   /**
+   * Verifies that there is a value present in the actual {@link java.util.OptionalInt}.
+   * </p>
+   * Assertion will pass :
+   * <p>
+   *
+   * <pre><code class='java'> assertThat(OptionalInt.of(10)).isNotEmpty();</code></pre>
+   * <p>
+   * Assertion will fail :
+   * <p>
+   *
+   * <pre><code class='java'> assertThat(OptionalInt.empty()).isNotEmpty();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if actual value is empty.
+   * @throws AssertionError if actual is null.
+   */
+  public S isNotEmpty() {
+    return isPresent();
+  }
+
+  /**
    * Verifies that the actual {@link java.util.OptionalInt} has the value in argument.
    * </p>
    * Assertion will pass :

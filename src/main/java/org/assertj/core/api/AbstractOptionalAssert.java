@@ -62,6 +62,21 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
+   * Verifies that there is a value present in the actual {@link java.util.Optional}.
+   * </p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(Optional.of("something")).isNotEmpty();</code></pre>
+   *
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(Optional.empty()).isNotEmpty();</code></pre>
+   *
+   * @return this assertion object.
+   */
+  public S isNotEmpty() {
+    return isPresent();
+  }
+
+  /**
    * Verifies that the actual {@link java.util.Optional} is empty.
    * </p>
    * Assertion will pass :
