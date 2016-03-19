@@ -101,11 +101,6 @@
             </goals>
             <configuration>
               <createDependencyReducedPom>true</createDependencyReducedPom>
-              <artifactSet>
-                <includes>
-                  <exclude>cglib:cglib-nodep</exclude>
-                </includes>
-              </artifactSet>
               <relocations>
                 <relocation>
                   <pattern>net.sf.cglib</pattern>
