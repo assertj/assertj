@@ -126,9 +126,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
   }
 
   /**
-   * Verifies that the content of the actual {@code Path} is the same as the given one (both paths must be a readable
-   * files).
-   * The charset to use when reading the actual path can be provided with {@link #usingCharset(Charset)} or
+   * Verifies that the content of the actual {@code Path} is the same as the expected one, the expected {@code Path} being read with the given charset while
+   * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
    * 

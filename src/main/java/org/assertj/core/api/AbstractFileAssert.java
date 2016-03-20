@@ -274,8 +274,8 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
   }
 
   /**
-   * Verifies that the content of the actual {@code File} is equal to the content of the given one.
-   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
+   * Verifies that the content of the actual {@code File} is the same as the expected one, the expected {@code File} being read with the given charset while
+   * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
    * <p>

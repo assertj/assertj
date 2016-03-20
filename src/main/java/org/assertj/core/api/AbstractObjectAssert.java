@@ -42,7 +42,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
-  
+
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
   private Map<Class<?>, Comparator<?>> comparatorByType = defaultTypeComparators();
 
@@ -219,10 +219,10 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * Allows to define a comparator which is used to compare the values of properties or fields with the given names.
+   * Allows to set a specific comparator to compare properties or fields with the given names.
    * A typical usage is for comparing double/float fields with a given precision.
    * <p> 
-   * Comparators added by this method have precedence on comparators added by {@link #usingComparatorForType}.
+   * Comparators specified by this method have precedence over comparators added by {@link #usingComparatorForType}.
    * <p>
    * Example:
    * <p>
@@ -238,7 +238,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 -d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
    *   }
    * };
    * 
@@ -271,10 +271,10 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * Allows to define a comparator which is used to compare the values of properties or fields with the given type.
+   * Allows to set a specific comparator to compare properties or fields with the given type.
    * A typical usage is for comparing fields of numeric type at a given precision.
    * <p>
-   * Comparators added by {@link #usingComparatorForFields} have precedence on comparators added by this method.
+   * Comparators specified by {@link #usingComparatorForFields} have precedence over comparators specified by this method.
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -289,7 +289,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 -d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
    *   }
    * };
    * 
@@ -444,23 +444,18 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * Assert that actual object is equal to the given object based on recursive a property/field by property/field comparison (including
-   * inherited ones). This can be handy if actual's <code>equals</code> implementation does not suit you.
-   * <p/>
-   * Note that the recursive property/field comparison is applied on fields having a custom <code>equals</code> implementation, i.e. 
+   * Assert that the object under test (actual) is equal to the given object based on recursive a property/field by property/field comparison (including
+   * inherited ones). This can be useful if actual's <code>equals</code> implementation does not suit you.
+   * The recursive property/field comparison is <b>not</b> applied on fields having a custom <code>equals</code> implementation, i.e. 
    * the overriden <code>equals</code> method will be used instead of a field by field comparison.
    * <p/>
-   * If an object has a field and a property with the same name, the property value will be used over the field.
-   * <p/>
-   * By default <code>floats</code> are compared with a precision of 1.0E-6 and <code>doubles</code> with 1.0E-15.
+   * The recursive comparison handles cycle. By default <code>floats</code> are compared with a precision of 1.0E-6 and <code>doubles</code> with 1.0E-15.
    * <p/>
    * You can specify a custom comparator per (nested) fields or type with respectively {@link #usingComparatorForFields(Comparator, String...) usingComparatorForFields(Comparator, String...)} 
    * and {@link #usingComparatorForType(Comparator, Class)}.
    * <p/>
-   * The objects to compare can be of different types but must have the same properties/fields.
-   * For example if actual object has a name String field, it is expected the other object to also have one.
-   * <p/>
-   * The recursive comparison handles cycle.  
+   * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a name String field, it is expected the other object to also have one.
+   * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p/>
    * 
    * Example:
