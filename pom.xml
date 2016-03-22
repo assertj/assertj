@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.assertj</groupId>
@@ -18,7 +19,7 @@
   </licenses>
   <organization>
     <name>AssertJ</name>
-    <url>http://assertj.org</url>
+    <url>joel-costigliola.github.io/assertj/index.html</url>
   </organization>
   <scm>
     <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-maven-parent-pom.git</developerConnection>
@@ -103,6 +104,9 @@
                 <goals>
                   <goal>jar</goal>
                 </goals>
+                <configuration>
+                    <additionalparam>${additionalparam}</additionalparam>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -182,7 +186,8 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.7.5.201505241946</version>
+          <version>0.7.6.201602180812</version>
+
           <executions>
             <execution>
               <id>prepare-agent</id>
@@ -197,7 +202,7 @@
               </goals>
             </execution>
             <execution>
-              <id>check</id>
+              <id>default-check</id>
               <goals>
                 <goal>check</goal>
               </goals>
