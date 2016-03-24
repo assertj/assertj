@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -185,7 +185,7 @@ public class Arrays extends GroupFormatUtil {
     if (!isArray(o)) return null;
     if (!isArrayTypePrimitive(o)) throw Arrays.notAnArrayOfPrimitives(o);
     int size = getLength(o);
-    if (size == 0) return DEFAULT_START + DEFAULT_END;;
+    if (size == 0) return DEFAULT_START + DEFAULT_END;
     StringBuilder buffer = new StringBuilder();
     buffer.append(DEFAULT_START);
     buffer.append(representation.toStringOf(Array.get(o, 0)));

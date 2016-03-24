@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -125,6 +125,30 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *           or values are the same but the order is not.
    */
   S containsExactly(@SuppressWarnings("unchecked") T... values);
+
+  /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   *
+   *
+   * <p>
+   * Example :
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya, vilya);
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactlyInAnyOrder(vilya, vilya, nenya, narya);
+   *
+   * // assertion will fail as vilya is contained twice in elvesRings.
+   * assertThat(elvesRings).containsExactlyInAnyOrder(nenya, vilya, narya);</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   */
+  S containsExactlyInAnyOrder(@SuppressWarnings("unchecked") T... values);
 
   /**
    * Verifies that the actual group contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
@@ -318,7 +342,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements don't satisfy the given condition.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   S are(Condition<? super T> condition);
 
@@ -326,7 +350,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that each element value does not satisfy the given condition
    * <p>
    * Example :
-   * <pre><code class='java'> Iterable&lt;String&gt; abc  = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
    * Condition&lt;String&gt; moreThanOneCharacter = 
@@ -350,7 +374,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that all elements satisfy the given condition.
    * <p>
    * Example :
-   * <pre><code class='java'> Iterable&lt;String&gt; abc  = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
    * Condition&lt;String&gt; onlyOneCharacter = 
@@ -553,8 +577,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.
    * <p>
    * Example :
-   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; cb = newArrayList("c", "b");
    *
    * // assertion will pass
@@ -613,8 +636,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
    * <p/>
    * Example :
-   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(vilya, nenya, narya));
@@ -631,8 +653,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * iterable and nothing else, <b>in any order</b>.
    * <p/>
    * Example :
-   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
    * 
    * // assertion will pass
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
@@ -652,8 +673,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * given iterable and nothing else, <b>in any order</b>.
    * </p>
    * Example:
-   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass:
    * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya));

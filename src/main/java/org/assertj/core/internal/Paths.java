@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -295,7 +295,7 @@ public class Paths {
 	}
   }
 
-  public void assertHasSameContentAs(AssertionInfo info, Path actual, Path expected) {
+  public void assertHasSameContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected, Charset expectedCharset) {
 	// @format:off
     checkNotNull(expected, "The given Path to compare actual content to should not be null");
 	if (!nioFilesWrapper.isReadable(expected))
@@ -303,7 +303,7 @@ public class Paths {
 	// @format:on
 	assertIsReadable(info, actual);
 	try {
-	  List<Delta<String>> diffs = diff.diff(actual, expected);
+	  List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
 	} catch (IOException e) {

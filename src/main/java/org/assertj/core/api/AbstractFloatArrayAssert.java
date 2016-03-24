@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -75,7 +75,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).hasSameSizeAs(Arrays.asList(1, 2, 3));
    * 
    * // assertion will fail
-   * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).hasSameSizeAs(Arrays.asList(1, 2);</code></pre>
+   * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).hasSameSizeAs(Arrays.asList(1, 2));</code></pre>
    */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {

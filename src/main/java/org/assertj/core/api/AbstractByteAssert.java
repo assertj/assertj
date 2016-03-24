@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -366,16 +366,16 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example with byte:
    * <pre><code class='java'> // assertions will pass:
-     * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 20));
-     *
-     * // if difference is exactly equals to the computed offset (1), it's ok
-     * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 10));
-     *
-     * // assertion will fail
-     * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 5));</code></pre>
+   * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 20));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 10));
+   *
+   * // assertion will fail
+   * assertThat((byte) 11).isCloseTo(Byte.valueOf(10), withinPercentage((byte) 5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
@@ -393,16 +393,16 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example with byte:
    * <pre><code class='java'> // assertions will pass:
-     * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 20));
-     *
-     * // if difference is exactly equals to the computed offset (1), it's ok
-     * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 10));
-     *
-     * // assertion will fail
-     * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 5));</code></pre>
+   * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 20));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 10));
+   *
+   * // assertion will fail
+   * assertThat((byte) 11).isCloseTo((byte) 10, withinPercentage((byte) 5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage between 0 and 100.
+   * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.

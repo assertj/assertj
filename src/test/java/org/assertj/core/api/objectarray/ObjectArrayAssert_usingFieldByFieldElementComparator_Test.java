@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -91,6 +91,13 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   public void successful_containsExactly_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Animal[] array1 = array(new Bird("White"), new Snake(15));
     assertThat(array1).usingFieldByFieldElementComparator().containsExactly(new Bird("White"), new Snake(15));
+  }
+
+  @Test
+  public void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+    Snake snake = new Snake(15);
+    Animal[] array1 = array(new Bird("White"), snake, snake);
+    assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15),new Bird("White"), new Snake(15));
   }
 
   @Test

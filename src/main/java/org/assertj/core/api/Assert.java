@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -148,10 +148,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(nenya).isIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(oneRing).isIn(elvesRings);</code></pre>
    * 
    * @param values the given array to search the actual value in.
@@ -168,10 +168,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(oneRing).isNotIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    * 
    * @param values the given array to search the actual value in.
@@ -188,10 +188,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(nenya).isIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(oneRing).isIn(elvesRings);</code></pre>
    * 
    * @param values the given iterable to search the actual value in.
@@ -208,10 +208,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(oneRing).isNotIn(elvesRings);
    * 
-   * // assertions will fail:
+   * // assertion will fail:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    * 
    * @param values the given iterable to search the actual value in.
@@ -433,7 +433,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * </p>
    * @param type the type to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual is exactly a instance of given type.
+   * @throws AssertionError if the actual is exactly an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -485,9 +485,15 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertions from this call.
    * <p>
    * Example :
-   * <pre><code class='java'> Object listAsObject = newArrayList(1, 2, 3);
+   * <pre><code class='java'> Object sortedListAsObject = Arrays.asList(1, 2, 3);
    *
-   * assertThat(listAsObject).asList().isSorted();</code></pre>
+   * // assertion will pass
+   * assertThat(sortedListAsObject).asList().isSorted();
+   * 
+   * Object unsortedListAsObject = Arrays.asList(3, 1, 2);
+   * 
+   * // assertion will fail
+   * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
    *
    * @return a list assertion object
    */
@@ -501,7 +507,11 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Example :
    * <pre><code class='java'> Object stringAsObject = "hello world";
    *
-   * assertThat(stringAsObject).asString().contains("hello");</code></pre>
+   * // assertion will pass
+   * assertThat(stringAsObject).asString().contains("hello");
+   * 
+   * // assertion will fail
+   * assertThat(stringAsObject).asString().contains("holla");</code></pre>
    *
    * @return a string assertion object
    */

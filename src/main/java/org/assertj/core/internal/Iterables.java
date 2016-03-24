@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -244,6 +245,13 @@ public class Iterables {
    */
   private void iterableRemoves(Iterable<?> actual, Object value) {
     comparisonStrategy.iterableRemoves(actual, value);
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#iterablesRemoveFirst(Iterable, Object)}
+   */
+  private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
   /**
@@ -870,6 +878,25 @@ public class Iterables {
                                        .ifPresent(e -> {
                                          throw failures.failure(info, elementsShouldMatch(actual, e, predicate));
                                        });
+  }
+
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
+    checkIsNotNull(values);
+    assertNotNull(info, actual);
+    List<Object> notExpected = newArrayList(actual);
+    List<Object> notFound = newArrayList(values);
+
+    for (Object value : values) {
+      if (iterableContains(notExpected, value)) {
+        iterablesRemoveFirst(notExpected, value);
+        iterablesRemoveFirst(notFound, value);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return; 
+
+    throw failures.failure(info,
+                           shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   private void assertNotNull(AssertionInfo info, Iterable<?> actual) {

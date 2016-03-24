@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
@@ -41,9 +42,10 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actualElement, Object otherElement) {
     try {
-      return Objects.instance().areEqualToComparingOnlyGivenFields(actualElement, otherElement, fields);
+      return Objects.instance().areEqualToComparingOnlyGivenFields(actualElement, otherElement, EMPTY_MAP, EMPTY_MAP, fields);
     } catch (IntrospectionError e) {
       return false;
     }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -21,6 +21,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +39,6 @@ public class URLs_linesOf_Test {
   private static final URL SAMPLE_RESOURCE_URL = ClassLoader.getSystemResource("utf8.txt");
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
-  public static final String UTF_8 = "UTF-8";
 
   @Rule
   public ExpectedException thrown = none();
@@ -54,11 +54,11 @@ public class URLs_linesOf_Test {
 
   @Test
   public void should_pass_if_resource_file_is_split_into_lines() {
-    assertThat(URLs.linesOf(SAMPLE_RESOURCE_URL, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
+    assertThat(URLs.linesOf(SAMPLE_RESOURCE_URL, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
   public void should_pass_if_resource_file_is_split_into_lines_using_charset() {
-    assertThat(URLs.linesOf(SAMPLE_RESOURCE_URL, UTF_8)).isEqualTo(EXPECTED_CONTENT);
+    assertThat(URLs.linesOf(SAMPLE_RESOURCE_URL, "UTF-8")).isEqualTo(EXPECTED_CONTENT);
   }
 }

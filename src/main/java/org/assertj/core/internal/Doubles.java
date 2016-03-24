@@ -8,17 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
+import static java.lang.Math.abs;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Offset;
-import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -59,41 +54,9 @@ public class Doubles extends RealNumbers<Double> {
     return Double.NaN;
   }
 
-  /**
-   * Verifies that two floats are equal within a positive offset.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
-   * comparison
-   * strategy.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param expected the expected value.
-   * @param offset the given positive offset.
-   * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one.
-   */
-  // can't be defined in RealNumbers because Offset parameter must inherits from Number
-  // while RealNumber parameter must inherits from Comparable (sadly Number is not Comparable)
-  public void assertEqual(AssertionInfo info, Double actual, Double expected, Offset<Double> offset) {
-    checkOffsetIsNotNull(offset);
-    checkNumberIsNotNull(expected);
-    assertNotNull(info, actual);
-    // doesn't use areEqual method relying on comparisonStrategy attribute
-    if (Objects.areEqual(actual, expected)) return;
-    if (isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
-  }
-
   @Override
-  protected boolean isEqualTo(Double actual, Double expected, Offset<?> offset) {
-    return absDiff(actual, expected) <= offset.value.doubleValue();
-  }
-
-  @Override
-  public void assertIsCloseTo(final AssertionInfo info, final Double actual, final Double other,
-                              final Offset<Double> offset) {
-    assertEqual(info, actual, other, offset);
+  protected Double absDiff(Double actual, Double other) {
+    return abs(other.doubleValue() - actual.doubleValue());
   }
 
 }

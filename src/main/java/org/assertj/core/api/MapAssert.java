@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -31,7 +31,7 @@ public class MapAssert<K, V> extends AbstractMapAssert<MapAssert<K, V>, Map<K, V
   protected MapAssert(Map<K, V> actual) {
     super(actual, MapAssert.class);
   }
-
+  
   // override methods to annotate them with @SafeVarargs, we unfortunately can't do that in AbstractMapAssert as it is
   // used in soft assertions which need to be able to proxy method - @SafeVarargs requiring method to be final prevents
   // using proxies.

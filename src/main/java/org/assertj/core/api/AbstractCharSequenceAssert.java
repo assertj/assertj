@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -62,6 +62,10 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * 
    * String nullString = null;
    * assertThat(nullString).isNullOrEmpty();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat(&quot;a&quot;).isNullOrEmpty();
+   * assertThat(&quot;   &quot;).isNullOrEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@code CharSequence} has a non-zero length.
    */
@@ -80,9 +84,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isEmpty();</code></pre>
    * 
-   * Whereas this assertion will fail:
+   * Whereas these assertions will fail:
    * <pre><code class='java'> String nullString = null;
-   * assertThat(nullString).isEmpty();</code></pre>
+   * assertThat(nullString).isEmpty();
+   * assertThat(&quot;a&quot;).isEmpty();
+   * assertThat(&quot;   &quot;).isEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@code CharSequence} has a non-zero length or is null.
    */
@@ -99,9 +105,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).isNotEmpty();</code></pre>
    * 
-   * Whereas this assertion will fail:
+   * Whereas these assertions will fail:
    * <pre><code class='java'> String emptyString = &quot;&quot;
-   * assertThat(emptyString).isNotEmpty();</code></pre>
+   * assertThat(emptyString).isNotEmpty();
+   * 
+   * String nullString = null;
+   * assertThat(nullString).isNotEmpty();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is empty (has a length of 0).
@@ -270,19 +279,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains only digits. It fails if String contains non-digit
+   * Verifies that the actual {@code CharSequence} contains only digits. It fails if it contains non-digit
    * characters or is empty.
    * <p>
    * This assertion succeeds:
    * <pre><code class='java'> assertThat("10").containsOnlyDigits();</code></pre>
    *
-   * Whereas these assertions fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> assertThat("10$").containsOnlyDigits();
    * assertThat("").containsOnlyDigits();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters or is {@code null}.
    */
   public S containsOnlyDigits() {
     strings.assertContainsOnlyDigits(info, actual);
@@ -296,8 +304,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;do&quot;);
    * 
-   * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;o&quot;);</code></pre>
+   * // assertions will fail
+   * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;o&quot;);
+   * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;y&quot;);</code></pre>
    * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
@@ -310,9 +319,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the given strings.
+   * Verifies that the actual {@code CharSequence} contains all the given values.
    * <p>
-   * You can use one or several strings as in this example:
+   * You can use one or several {@code CharSequence}s as in this example:
    * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;, &quot;grey&quot;);</code></pre>
    *
@@ -329,7 +338,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the strings of the given Iterable.
+   * Verifies that the actual {@code CharSequence} contains all the {@code CharSequence}s of the given Iterable.
    * <p>
    * Examples:
    * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;));
@@ -348,14 +357,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the given strings <b>in the given order</b>.
+   * Verifies that the actual {@code CharSequence} contains all the given values <b>in the given order</b>.
    * <p>
    * Note that <b>unlike</b> {@link IterableAssert#containsSequence(Object...)}, the assertion will succeed when there are values between the expected sequence values.
    * <p>
    * Example:
    * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    * 
-   * // this assertions succeed
+   * // this assertions succeeds
    * assertThat(book).containsSequence(&quot;'title'&quot;, &quot;:&quot;, &quot;'A Game of Thrones'&quot;);
    * 
    * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;) 
@@ -378,7 +387,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the strings of the given Iterable <b>in the Iterable
+   * Verifies that the actual {@code CharSequence} contains all the values of the given Iterable <b>in the Iterable
    * iteration order</b>.
    * <p>
    * Note that <b>unlike</b> {@link IterableAssert#containsSequence(Object...)}, the assertion will succeed when there are values between the expected sequence values.
@@ -455,11 +464,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} starts with the given prefix.
    * <p>
    * Example :
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;Fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;Gandalf&quot;);
    * 
-   * // assertion will fail
+   * // assertions will fail
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;grey&quot;);</code></pre>
    * 
@@ -641,7 +650,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *         &quot;  &lt;/bearer&gt;\n&quot; +
    *         &quot;&lt;/rings&gt;&quot;;
    * 
-   * // Whatever how formatted your xml string is, isXmlEqualTo assertion is able to compare it with another xml String.
+   * // No matter how your xml string is formated, isXmlEqualTo is able to compare it's content with another xml String.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
    * 

@@ -8,13 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for {@link Iterable}.
@@ -35,7 +37,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   protected IterableAssert(Iterable<? extends T> actual) {
     super(actual, IterableAssert.class);
   }
-  
+
   protected IterableAssert(Iterator<? extends T> actual) {
     this(toLazyIterable(actual));
   }
@@ -44,14 +46,93 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
     if (actual == null) {
       return null;
     }
-    return new LazyIteratorToIterableWrapper<>(actual);
+    return new LazyIterable<>(actual);
   }
 
-  private static class LazyIteratorToIterableWrapper<T> extends AbstractCollection<T> {
+  @Override
+  public IterableAssert<T> isInstanceOf(Class<?> type) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsInstanceOf(info, asLazyIterable().iterator, type);
+      return myself;
+    }
+    return super.isInstanceOf(type);
+  }
+
+  @Override
+  public IterableAssert<T> isInstanceOfAny(Class<?>... types) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsInstanceOfAny(info, asLazyIterable().iterator, types);
+      return myself;
+    }
+    return super.isInstanceOfAny(types);
+  }
+
+  @Override
+  public IterableAssert<T> isOfAnyClassIn(Class<?>... types) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsOfAnyClassIn(info, asLazyIterable().iterator, types);
+      return myself;
+    }
+    return super.isOfAnyClassIn(types);
+  }
+  
+  @Override
+  public IterableAssert<T> isExactlyInstanceOf(Class<?> type) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsExactlyInstanceOf(info, asLazyIterable().iterator, type);
+      return myself;
+    }
+    return super.isExactlyInstanceOf(type);
+  }
+
+  @Override
+  public IterableAssert<T> isNotInstanceOf(Class<?> type) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsNotInstanceOf(info, asLazyIterable().iterator, type);
+      return myself;
+    }
+    return super.isNotInstanceOf(type);
+  }
+
+  @Override
+  public IterableAssert<T> isNotInstanceOfAny(Class<?>... types) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsNotInstanceOfAny(info, asLazyIterable().iterator, types);
+      return myself;
+    }
+    return super.isNotInstanceOfAny(types);
+  }
+
+  @Override
+  public IterableAssert<T> isNotOfAnyClassIn(Class<?>... types) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsNotOfAnyClassIn(info, asLazyIterable().iterator, types);
+      return myself;
+    }
+    return super.isNotOfAnyClassIn(types);
+  }
+  
+  @Override
+  public IterableAssert<T> isNotExactlyInstanceOf(Class<?> type) {
+    if (actual instanceof LazyIterable) {
+      objects.assertIsNotExactlyInstanceOf(info, asLazyIterable().iterator, type);
+      return myself;
+    }
+    return super.isNotExactlyInstanceOf(type);
+  }
+
+  @SuppressWarnings("rawtypes")
+  private LazyIterable asLazyIterable() {
+    return (LazyIterable) actual;
+  }
+
+  // will only consume iterator when needed
+  @VisibleForTesting
+  static class LazyIterable<T> extends AbstractCollection<T> {
     private Iterator<T> iterator;
     private Iterable<T> iterable;
 
-    public LazyIteratorToIterableWrapper(Iterator<T> iterator) {
+    public LazyIterable(Iterator<T> iterator) {
       this.iterator = iterator;
     }
 

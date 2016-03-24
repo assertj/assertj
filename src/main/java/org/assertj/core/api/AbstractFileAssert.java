@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -49,7 +49,22 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the actual {@code File} exists, regardless it's a file or directory.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * File tmpDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
    * 
+   * // assertions will pass
+   * assertThat(tmpFile).exists();
+   * assertThat(tmpDir).exists();
+   * 
+   * tmpFile.delete();
+   * tmpDir.delete();
+   *
+   * // assertions will fail
+   * assertThat(tmpFile).exists();
+   * assertThat(tmpDir).exists();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} does not exist.
@@ -61,7 +76,23 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the actual {@code File} does not exist.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File parentDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
+   * File tmpDir = new File(parentDir, &quot;subDir&quot;);
+   * File tmpFile = new File(parentDir, &quot;a.txt&quot;);
    * 
+   * // assertions will pass
+   * assertThat(tmpDir).doesNotExist();
+   * assertThat(tmpFile).doesNotExist();
+   * 
+   * tmpDir.mkdir();
+   * tmpFile.createNewFile();
+   * 
+   * // assertions will fail
+   * assertThat(tmpFile).doesNotExist();
+   * assertThat(tmpDir).doesNotExist();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} exists.
@@ -73,7 +104,20 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the actual {@code File} is an existing file.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
    * 
+   * // assertion will pass
+   * assertThat(tmpFile).isFile();
+   * 
+   * tmpFile.delete();
+   * File tmpDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
+   * 
+   * // assertions will fail
+   * assertThat(tmpFile).isFile();
+   * assertThat(tmpDir).isFile();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
@@ -85,7 +129,20 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the actual {@code File} is an existing directory.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
    * 
+   * // assertion will pass
+   * assertThat(tmpDir).isDirectory();
+   * 
+   * tmpDir.delete();
+   * File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * 
+   * // assertions will fail
+   * assertThat(tmpFile).isDirectory();
+   * assertThat(tmpDir).isDirectory();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
@@ -97,7 +154,18 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the actual {@code File} is an absolute path.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File absoluteFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
    * 
+   * // assertions will pass
+   * assertThat(absoluteFile).isAbsolute();
+   * 
+   * File relativeFile = new File(&quot;./test&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(relativeFile).isAbsolute();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an absolute path.
@@ -109,7 +177,18 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the actual {@code File} is a relative path.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File relativeFile = new File(&quot;./test&quot;);
    * 
+   * // assertion will pass
+   * assertThat(relativeFile).isRelative();
+   * 
+   * File absoluteFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(absoluteFile).isRelative();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not a relative path.
@@ -121,6 +200,25 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the content of the actual {@code File} is equal to the content of the given one.
+   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * 
+   * Examples:
+   * <pre><code class="java"> // use the default charset
+   * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
+   * // use UTF-8 charsest
+   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
+   * 
+   * // The following assertion succeeds (default charset is used):
+   * assertThat(xFile).hasSameContentAs(xFileClone);
+   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
+   * 
+   * // The following assertion fails:
+   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
    * 
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.
@@ -135,13 +233,31 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    */
   @Deprecated
   public S hasContentEqualTo(File expected) {
-    files.assertSameContentAs(info, actual, expected);
-    return myself;
+    return hasSameContentAs(expected);
   }
 
   /**
    * Verifies that the content of the actual {@code File} is equal to the content of the given one.
-   *
+   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * 
+   * Examples:
+   * <pre><code class="java"> // use the default charset
+   * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
+   * // use UTF-8 charsest
+   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
+   * 
+   * // The following assertion succeeds (default charset is used):
+   * assertThat(xFile).hasSameContentAs(xFileClone);
+   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
+   * 
+   * // The following assertion fails:
+   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
+   * 
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code File} is {@code null}.
@@ -152,13 +268,56 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public S hasSameContentAs(File expected) {
-      files.assertSameContentAs(info, actual, expected);
+      files.assertSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
+      return myself;
+  }
+
+  /**
+   * Verifies that the content of the actual {@code File} is the same as the expected one, the expected {@code File} being read with the given charset while
+   * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> File fileUTF8 = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8).toFile();
+   * Charset turkishCharset = Charset.forName("windows-1254");
+   * File fileTurkischCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset).toFile();
+   * 
+   * // The following assertion succeeds:
+   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, turkishCharset);
+   * 
+   * // The following assertion fails:
+   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
+   * </p>
+   * @param expected the given {@code File} to compare the actual {@code File} to.
+   * @param expectedCharset the {@Charset} used to read the content of the expected file.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code File} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   */
+  public S hasSameContentAs(File expected, Charset expectedCharset) {
+      files.assertSameContentAs(info, actual, charset, expected, expectedCharset);
       return myself;
   }
 
   /**
    * Verifies that the binary content of the actual {@code File} is <b>exactly</b> equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File bin = File.createTempFile(&quot;tmp&quot;, &quot;bin&quot;);
+   * Files.write(bin.toPath(), new byte[] {1, 1});
    * 
+   * // assertion will pass
+   * assertThat(bin).hasBinaryContent(new byte[] {1, 1});
+   * 
+   * // assertions will fail
+   * assertThat(bin).hasBinaryContent(new byte[] { });
+   * assertThat(bin).hasBinaryContent(new byte[] {0, 0});</code></pre>
+   * </p> 
    * @param expected the expected binary content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
@@ -202,7 +361,28 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // use the default charset
+   * File xFile = Files.write(Paths.get(&quot;xfile.txt&quot;), &quot;The Truth Is Out There&quot;.getBytes()).toFile();
    * 
+   * // The following assertion succeeds (default charset is used):
+   * assertThat(xFile).hasContent(&quot;The Truth Is Out There&quot;);
+   * 
+   * // The following assertion fails:
+   * assertThat(xFile).hasContent(&quot;La Vérité Est Ailleurs&quot;);
+   * 
+   * // using a specific charset 
+   * Charset turkishCharset = Charset.forName(&quot;windows-1254&quot;);
+   * 
+   * File xFileTurkish = Files.write(Paths.get(&quot;xfile.turk&quot;), Collections.singleton(&quot;Gerçek&quot;), turkishCharset).toFile();
+   * 
+   * // The following assertion succeeds:
+   * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent(&quot;Gerçek&quot;);
+   * 
+   * // The following assertion fails :
+   * assertThat(xFileTurkish).usingCharset(StandardCharsets.UTF_8).hasContent(&quot;Gerçek&quot;);</code></pre>
+   * </p>
    * @param expected the expected text content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
@@ -217,9 +397,23 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
   }
 
   /**
-   * 
    * Verifies that the actual {@code File} can be modified by the application.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
    * 
+   * // assertions will pass
+   * assertThat(tmpFile).canWrite();
+   * assertThat(tmpDir).canWrite();
+   * 
+   * tmpFile.setReadOnly();
+   * tmpDir.setReadOnly();
+   * 
+   * // assertions will fail
+   * assertThat(tmpFile).canWrite();
+   * assertThat(tmpDir).canWrite();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be modified by the application.
@@ -230,9 +424,23 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
   }
 
   /**
-   * 
    * Verifies that the actual {@code File} can be read by the application.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
    * 
+   * // assertions will pass
+   * assertThat(tmpFile).canRead();
+   * assertThat(tmpDir).canRead();
+   * 
+   * tmpFile.setReadable(false);
+   * tmpDir.setReadable(false);
+   * 
+   * // assertions will fail
+   * assertThat(tmpFile).canRead();
+   * assertThat(tmpDir).canRead();</code></pre>
+   * </p>
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be read by the application.

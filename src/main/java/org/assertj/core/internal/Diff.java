@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -52,14 +52,13 @@ public class Diff {
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(File actual, File expected) throws IOException {
-    return diff(actual.toPath(), expected.toPath());
+  public List<Delta<String>> diff(File actual, Charset actualCharset, File expected, Charset expectedCharset) throws IOException {
+    return diff(actual.toPath(), actualCharset, expected.toPath(), expectedCharset);
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(Path actual, Path expected) throws IOException {
-    Charset defaultCharset = Charset.defaultCharset();
-    return diff(newBufferedReader(actual, defaultCharset), newBufferedReader(expected, defaultCharset));
+  public List<Delta<String>> diff(Path actual, Charset actualCharset, Path expected, Charset expectedCharset) throws IOException {
+    return diff(newBufferedReader(actual, actualCharset), newBufferedReader(expected, expectedCharset));
   }
 
   @VisibleForTesting
@@ -73,7 +72,7 @@ public class Diff {
   }
 
   private BufferedReader readerFor(InputStream stream) {
-    return new BufferedReader(new InputStreamReader(stream));
+    return new BufferedReader(new InputStreamReader(stream, Charset.defaultCharset()));
   }
 
   private BufferedReader readerFor(String string) {

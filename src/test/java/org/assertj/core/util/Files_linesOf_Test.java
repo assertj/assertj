@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -67,7 +68,7 @@ public class Files_linesOf_Test {
 
   @Test
   public void should_pass_if_unix_file_is_split_into_lines() {
-    assertThat(linesOf(SAMPLE_UNIX_FILE, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
+    assertThat(linesOf(SAMPLE_UNIX_FILE, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
@@ -77,7 +78,7 @@ public class Files_linesOf_Test {
 
   @Test
   public void should_pass_if_windows_file_is_split_into_lines() {
-    assertThat(linesOf(SAMPLE_WIN_FILE, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
+    assertThat(linesOf(SAMPLE_WIN_FILE, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
@@ -87,7 +88,7 @@ public class Files_linesOf_Test {
 
   @Test
   public void should_pass_if_mac_file_is_split_into_lines() {
-    assertThat(linesOf(SAMPLE_MAC_FILE, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
+    assertThat(linesOf(SAMPLE_MAC_FILE, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test

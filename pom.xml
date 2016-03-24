@@ -95,7 +95,7 @@
     <dependency>
       <groupId>com.tngtech.java</groupId>
       <artifactId>junit-dataprovider</artifactId>
-      <version>1.10.2</version>
+      <version>1.10.3</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -110,57 +110,84 @@
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
+      <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <version>1.14</version>
+        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <!-- No need to check. There is also no Java 8 signature artifact -->
-          <skip>true</skip>
+          <argLine>${argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <!-- Template location -->
-          <header>licence-header.txt</header>
-          <properties>
-            <!-- Values to be substituted in template -->
-            <inceptionYear>2012</inceptionYear>
-            <currentYear>2015</currentYear>
-          </properties>
-          <strictCheck>true</strictCheck>
-          <includes>
-            <include>src/main/**/*.java</include>
-          </includes>
-          <excludes>
-            <exclude>src/ide-support/**/*.*</exclude>
-          </excludes>
-        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.4.3</version>
         <executions>
           <execution>
-            <phase>validate</phase>
+            <phase>package</phase>
             <goals>
-              <goal>format</goal>
+              <goal>shade</goal>
             </goals>
+            <configuration>
+              <createDependencyReducedPom>true</createDependencyReducedPom>
+              <relocations>
+                <relocation>
+                  <pattern>net.sf.cglib</pattern>
+                  <shadedPattern>org.assertj.core.internal.cglib</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.objectweb.asm</pattern>
+                  <shadedPattern>org.assertj.core.internal.asm</shadedPattern>
+                </relocation>
+              </relocations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Unpack the shaded jar so that the maven-bundle-plugin can analyze the packages to import and to export -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-shade</id>
+            <phase>package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>${project.artifactId}</artifactId>
+                  <version>${project.version}</version>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/classes</outputDirectory>
+            </configuration>
           </execution>
         </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.1</version>
         <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>bundle-shade</id>
+            <phase>package</phase>
+            <goals>
+              <goal>bundle</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <instructions>
-            <Export-Package>
-              org.assertj.core.*
-            </Export-Package>
+            <Export-Package>org.assertj.core.*;-split-package:=merge-first</Export-Package>
             <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
             <_removeheaders>Bnd-LastModified</_removeheaders>
           </instructions>
+          <niceManifest>true</niceManifest>
         </configuration>
       </plugin>
       <!-- generate jacoco report -->
@@ -193,45 +220,14 @@
           </execution>
         </executions>
       </plugin>
-      <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <version>1.14</version>
         <configuration>
-          <argLine>${argLine}</argLine>
+          <!-- No need to check. There is also no Java 8 signature artifact -->
+          <skip>true</skip>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>jarjar-maven-plugin</artifactId>
-        <version>1.9</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>jarjar</goal>
-            </goals>
-            <configuration>
-              <!-- TODO add ASM / or get rid of CGLIB -->
-              <includes>
-                <include>cglib:cglib</include>
-                <include>org.ow2.asm:asm</include>
-              </includes>
-              <rules>
-                <rule>
-                  <pattern>org.objectweb.asm.**</pattern>
-                  <result>org.assertj.core.internal.asm.@1</result>
-                </rule>
-                <rule>
-                  <pattern>net.sf.cglib.**</pattern>
-                  <result>org.assertj.core.internal.cglib.@1</result>
-                </rule>
-                <keep>
-                  <pattern>org.assertj.core.**</pattern>
-                </keep>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

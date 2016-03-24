@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -49,7 +49,7 @@ public class AutoCloseableSoftAssertionsTest {
       softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
     }
   }
-
+ 
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {

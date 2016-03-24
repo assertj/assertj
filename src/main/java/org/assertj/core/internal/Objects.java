@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
@@ -37,6 +38,7 @@ import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
+import static org.assertj.core.internal.DeepDifference.determineDifferences;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -44,11 +46,14 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -219,12 +224,12 @@ public class Objects {
   }
 
   /**
-   * Verifies that the actual value is exactly a instance of given type.
+   * Verifies that the actual value is exactly an instance of given type.
    *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
-   * @throws AssertionError if the actual is not exactly a instance of given type.
+   * @throws AssertionError if the actual is not exactly an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -240,12 +245,12 @@ public class Objects {
   }
 
   /**
-   * Verifies that the actual value is not exactly a instance of given type.
+   * Verifies that the actual value is not exactly an instance of given type.
    *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
-   * @throws AssertionError if the actual is exactly a instance of given type.
+   * @throws AssertionError if the actual is exactly an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -513,7 +518,9 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public <A> void assertIsEqualToIgnoringNullFields(AssertionInfo info, A actual, A other) {
+  public <A> void assertIsEqualToIgnoringNullFields(AssertionInfo info, A actual, A other,
+                                                    Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                    Map<Class<?>, Comparator<?>> comparatorByType) {
     assertNotNull(info, actual);
     List<String> fieldsNames = new LinkedList<>();
     List<Object> rejectedValues = new LinkedList<>();
@@ -521,13 +528,15 @@ public class Objects {
     List<String> nullFields = new LinkedList<>();
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
       if (!canReadFieldValue(field, actual)) continue;
-      Object otherFieldValue = getPropertyOrFieldValue(other, field.getName());
+      String fieldName = field.getName();
+      Object otherFieldValue = getPropertyOrFieldValue(other, fieldName);
       if (otherFieldValue == null) {
-        nullFields.add(field.getName());
+        nullFields.add(fieldName);
       } else {
-        Object actualFieldValue = getPropertyOrFieldValue(actual, field.getName());
-        if (!otherFieldValue.equals(actualFieldValue)) {
-          fieldsNames.add(field.getName());
+        Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
+        if (!propertyOrFieldValuesAreEqual(actualFieldValue, otherFieldValue, fieldName,
+                                           comparatorByPropertyOrField, comparatorByType)) {
+          fieldsNames.add(fieldName);
           rejectedValues.add(actualFieldValue);
           expectedValues.add(otherFieldValue);
         }
@@ -551,9 +560,15 @@ public class Objects {
    * @throws AssertionError if the other object is not an instance of the actual type.
    * @throws IntrospectionError if a field does not exist in actual.
    */
-  public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other, String... fields) {
+  public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other,
+                                                          Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                          Map<Class<?>, Comparator<?>> comparatorByType,
+                                                          String... fields) {
     assertNotNull(info, actual);
-    ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other, fields);
+    ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other,
+                                                                              comparatorByPropertyOrField,
+                                                                              comparatorByType,
+                                                                              fields);
     if (byFieldsComparison.isFieldsNamesNotEmpty())
       throw failures.failure(info, shouldBeEqualComparingOnlyGivenFields(actual, byFieldsComparison.fieldsNames,
                                                                          byFieldsComparison.rejectedValues,
@@ -561,14 +576,18 @@ public class Objects {
                                                                          newArrayList(fields)));
   }
 
-  private <A> ByFieldsComparison isEqualToComparingOnlyGivenFields(A actual, A other, String[] fields) {
+  private <A> ByFieldsComparison isEqualToComparingOnlyGivenFields(A actual, A other,
+                                                                   Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                                   Map<Class<?>, Comparator<?>> comparatorByType,
+                                                                   String[] fields) {
     List<String> rejectedFieldsNames = new LinkedList<>();
     List<Object> expectedValues = new LinkedList<>();
     List<Object> rejectedValues = new LinkedList<>();
     for (String fieldName : fields) {
       Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
       Object otherFieldValue = getPropertyOrFieldValue(other, fieldName);
-      if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
+      if (!propertyOrFieldValuesAreEqual(actualFieldValue, otherFieldValue, fieldName, comparatorByPropertyOrField,
+                                         comparatorByType)) {
         rejectedFieldsNames.add(fieldName);
         expectedValues.add(otherFieldValue);
         rejectedValues.add(actualFieldValue);
@@ -590,9 +609,12 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other, String... fields) {
+  public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other,
+                                                     Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                     Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
     assertNotNull(info, actual);
-    ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, fields);
+    ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, comparatorByPropertyOrField,
+                                                                         comparatorByType, fields);
     if (byFieldsComparison.isFieldsNamesNotEmpty())
       throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, byFieldsComparison.fieldsNames,
                                                                       byFieldsComparison.rejectedValues,
@@ -600,7 +622,10 @@ public class Objects {
                                                                       newArrayList(fields)));
   }
 
-  private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] givenIgnoredFields) {
+  private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other,
+                                                              Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                              Map<Class<?>, Comparator<?>> comparatorByType,
+                                                              String[] givenIgnoredFields) {
     Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
     List<String> fieldsNames = new LinkedList<>();
     List<Object> expectedValues = new LinkedList<>();
@@ -608,13 +633,16 @@ public class Objects {
     Set<String> ignoredFields = newLinkedHashSet(givenIgnoredFields);
     for (Field field : declaredFieldsIncludingInherited) {
       // ignore private field if user has decided not to use them in comparison
-      if (ignoredFields.contains(field.getName()) || !canReadFieldValue(field, actual)) {
+      String fieldName = field.getName();
+      if (ignoredFields.contains(fieldName) || !canReadFieldValue(field, actual)) {
         continue;
       }
-      Object actualFieldValue = getPropertyOrFieldValue(actual, field.getName());
-      Object otherFieldValue = getPropertyOrFieldValue(other, field.getName());
-      if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
-        fieldsNames.add(field.getName());
+      Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
+      Object otherFieldValue = getPropertyOrFieldValue(other, fieldName);
+
+      if (!propertyOrFieldValuesAreEqual(actualFieldValue, otherFieldValue, fieldName,
+                                         comparatorByPropertyOrField, comparatorByType)) {
+        fieldsNames.add(fieldName);
         rejectedValues.add(actualFieldValue);
         expectedValues.add(otherFieldValue);
       }
@@ -622,8 +650,40 @@ public class Objects {
     return new ByFieldsComparison(fieldsNames, expectedValues, rejectedValues);
   }
 
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
+                                                Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                Map<Class<?>, Comparator<?>> comparatorByType) {
+    if (actualFieldValue != null && otherFieldValue != null
+        && actualFieldValue.getClass() == otherFieldValue.getClass()) {
+      Comparator fieldComparator = comparatorByPropertyOrField.containsKey(fieldName)
+          ? comparatorByPropertyOrField.get(fieldName) : comparatorByType.get(actualFieldValue.getClass());
+      if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
+    }
+    return org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue);
+  }
+
   private <A> boolean canReadFieldValue(Field field, A actual) {
     return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
+  }
+
+  /**
+   * Assert that the given object is "deeply" equals to other by comparing all fields recursively.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to compare {@code actual} to.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if the actual and the given object are not "deeply" equal.
+   */
+  public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, A actual, A other,
+                                                                  Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                                  Map<Class<?>, Comparator<?>> comparatorByType) {
+    assertNotNull(info, actual);
+    List<Difference> differences = determineDifferences(actual, other, comparatorByPropertyOrField, comparatorByType);
+    if (!differences.isEmpty()) {
+      throw failures.failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other, differences));
+    }
   }
 
   /**
@@ -647,24 +707,46 @@ public class Objects {
    * @param clazz the class we want the declared fields.
    * @return the declared fields of given class and its superclasses.
    */
-  private static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
+  public static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
     checkNotNull(clazz, "expecting Class parameter not to be null");
-    Set<Field> declaredFields = newLinkedHashSet(clazz.getDeclaredFields());
+    Set<Field> declaredFields = getDeclaredFieldsIgnoringSynthetic(clazz);
     // get fields declared in superclass
     Class<?> superclazz = clazz.getSuperclass();
     while (superclazz != null && !superclazz.getName().startsWith("java.lang")) {
-      declaredFields.addAll(newLinkedHashSet(superclazz.getDeclaredFields()));
+      declaredFields.addAll(getDeclaredFieldsIgnoringSynthetic(superclazz));
       superclazz = superclazz.getSuperclass();
     }
     return declaredFields;
   }
 
-  public boolean areEqualToIgnoringGivenFields(Object actual, Object other, String... fields) {
-    return isEqualToIgnoringGivenFields(actual, other, fields).isFieldsNamesEmpty();
+  /**
+   * Returns the declared fields of a given class excluding any synthetic fields.  Synthetic fields are fields that are
+   * generated by the compiler for access purposes, or by instrumentation tools e.g. JaCoCo adds in a $jacocoData field
+   * and therefore should be ignored when comparing fields.
+   *
+   * @param clazz the class we want the declared fields.
+   * @return the declared fields of given class excluding any synthetic fields.
+   */
+  private static Set<Field> getDeclaredFieldsIgnoringSynthetic(Class<?> clazz) {
+    final Set<Field> fields = newLinkedHashSet(clazz.getDeclaredFields());
+    for (Iterator<Field> iterator = fields.iterator(); iterator.hasNext();) {
+      if (iterator.next().isSynthetic()) iterator.remove();
+    }
+    return fields;
   }
 
-  public boolean areEqualToComparingOnlyGivenFields(Object actual, Object other, String... fields) {
-    return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
+  public boolean areEqualToIgnoringGivenFields(Object actual, Object other,
+                                               Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                               Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+    return isEqualToIgnoringGivenFields(actual, other, comparatorByPropertyOrField, comparatorByType,
+                                        fields).isFieldsNamesEmpty();
+  }
+
+  public boolean areEqualToComparingOnlyGivenFields(Object actual, Object other,
+                                                    Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                    Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+    return isEqualToComparingOnlyGivenFields(actual, other, comparatorByPropertyOrField, comparatorByType,
+                                             fields).isFieldsNamesEmpty();
   }
 
   public <A> void assertHasFieldOrProperty(AssertionInfo info, A actual, String name) {

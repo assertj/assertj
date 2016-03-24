@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
@@ -24,6 +24,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.internal.objects.Objects_assertIsEqualToIgnoringNullFields_Test.OuterClass.InnerClass;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
@@ -45,26 +46,21 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   public void should_pass_when_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
   }
 
   @Test
   public void should_pass_when_some_other_field_is_null_but_not_actual() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
   }
 
   @Test
   public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
     Person actual = new Person("Homer Simpson");
     CartoonCharacter other = new CartoonCharacter("Homer Simpson");
-    try {
-      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
-    } catch (AssertionError e) {
-      // jacoco instruments code adding properties that will make the test fails => ignore such failure
-      assertThat(e).as("check that failure only comes from jacoco").hasMessageContaining("$jacocoData");
-    }
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
   }
 
   @Test
@@ -74,7 +70,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
     TestClassWithRandomId other = new TestClassWithRandomId(null, 1);
     // s field is ignored because null in other, and id also because it is private without public getter
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
     // reset
     Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
@@ -83,7 +79,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other);
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators());
   }
 
   @Test
@@ -92,7 +88,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
     try {
-      objects.assertIsEqualToIgnoringNullFields(info, actual, other);
+      objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("lightSaberColor"),
@@ -110,7 +106,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Soda", "Green");
     try {
-      objects.assertIsEqualToIgnoringNullFields(info, actual, other);
+      objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators());
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("name"),
@@ -127,11 +123,41 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
       failBecauseExceptionWasNotThrown(IntrospectionError.class);
     } catch (IntrospectionError err) {
       assertThat(err).hasMessageContaining("Can't find any field or property with name 'lightSaberColor'");
       return;
+    }
+  }
+
+  @Test
+  public void should_pass_when_class_has_synthetic_field() {
+    InnerClass actual = new OuterClass().createInnerClass();
+    InnerClass other = new OuterClass().createInnerClass();
+
+    // ensure that the compiler has generated at one synthetic field for the comparison
+    assertThat(InnerClass.class.getDeclaredFields()).extracting("synthetic").contains(Boolean.TRUE);
+
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
+  }
+
+  // example taken from http://stackoverflow.com/questions/8540768/when-is-the-jvm-bytecode-access-modifier-flag-0x1000-hex-synthetic-set
+  class OuterClass {
+    private String outerField;
+
+    class InnerClass {
+      // synthetic field this$1 generated in inner class to provider reference to outer
+      private InnerClass() {
+      }
+
+      String getOuterField() {
+        return outerField;
+      }
+    }
+
+    InnerClass createInnerClass() {
+      return new InnerClass();
     }
   }
 

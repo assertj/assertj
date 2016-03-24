@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -46,20 +46,17 @@ public class DescriptionFormatter_format_Test {
   }
 
   @Test
-  @UseDataProvider("testDescriptionGenerator")
+  @UseDataProvider("descriptionGeneratorDataProvider")
   public void should_return_empty_String(TestDescription testDescription) {
     assertThat(formatter.format(testDescription)).isEmpty();
   }
 
-  // Workaround with custom format because TestDescription#toString returns the value
-  // and junit-dataprovider 1.10.2 fails if toString of a parameter returns null
-  // see: https://github.com/TNG/junit-dataprovider/issues/66
-  @DataProvider(format = "%m[%i]")
-  public static Object[][] testDescriptionGenerator() {
-    // @format:off
-    return new Object[][] { { null },
-                            { new TestDescription(null) },
-                            { new TestDescription("") }};
-     // @format:on
+  @DataProvider
+  public static Object[][] descriptionGeneratorDataProvider() {
+    return new Object[][] {
+        { null },
+        { new TestDescription(null) },
+        { new TestDescription("") }
+    };
   }
 }

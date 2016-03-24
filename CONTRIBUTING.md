@@ -1,7 +1,7 @@
 Contributing
 ============
 
-Thank you for your interest in contributing to AssertJ assertions!
+Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to make note of the following guidelines including legal contributor agreement:
 
@@ -9,9 +9,9 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * If you contribute to Java 7 feature (2.x versions), please work in **2.x** branch.
 * If you contribute to Java 6 feature (1.x versions), please work in **1.x** branch.
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it)
-* Write complete Javadocs for each assertion method and include a code example.
+* Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
-* Write unit test assertions with AssertJ ! Let's eat our own dog food.
+* Write unit test assertions with AssertJ ! Lets eat our own dog food.
 * Unit tests method naming convention is underscore-based (like python) and not camel-case, we find it is much readable for long test names!
 * Successful assertion unit test method name should start with: `should_pass_...`.
 * Failing assertion unit test method name should start with: `should_fail_...`.
@@ -33,7 +33,7 @@ Let's look at `Throwables_assertHasNoCause_Test` tests method names (underscore 
 
 A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`](src/main/java/org/assertj/core/api/AbstractCharSequenceAssert.java) including:
 * assertion description
-* a code example showing how to use the assertion
+* a code example showing how to use the assertion (succeeding and failing assertion)
 * parameters description (if any)
 * exceptions description
 

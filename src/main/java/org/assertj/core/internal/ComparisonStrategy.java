@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -93,6 +93,15 @@ public interface ComparisonStrategy {
    * @param value object to remove from given {@link Iterable}
    */
   void iterableRemoves(Iterable<?> iterable, Object value);
+
+  /**
+   * Removes the first value in {@code iterable} that matches the {@code value} according to the implemented comparison
+   * strategy. If given {@link Iterable} is null, does nothing.
+   *
+   * @param iterable the {@link Iterable} we want remove value from
+   * @param value object to remove from given {@link Iterable}
+   */
+  void iterablesRemoveFirst(Iterable<?> iterable, Object value);
 
   /**
    * Returns any duplicate elements from the given {@link Iterable} according to the implemented comparison strategy.

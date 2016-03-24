@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -37,6 +37,7 @@ import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -231,6 +232,26 @@ public class Arrays {
 	                       shouldContainExactly(actual, values, notFound, actualWithoutDuplicates, comparisonStrategy));
   }
 
+	void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
+		if (commonChecks(info, actual, values)) return;
+		List<Object> notExpected = asList(actual);
+		List<Object> notFound = asList(values);
+
+    for (Object value : asList(values)) {
+      if(iterableContains(notExpected, value)) {
+
+        iterablesRemoveFirst(notExpected, value);
+        iterablesRemoveFirst(notFound, value);
+      }
+    }
+
+    if(notExpected.isEmpty() && notFound.isEmpty()) {
+      return;
+    }
+
+    throw failures.failure(info, shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+	}
+
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
 	if (commonChecks(info, actual, values))
 	  return;
@@ -253,7 +274,7 @@ public class Arrays {
     List<Object> notFound = new ArrayList<>();
 	for (Object o : asListWithoutDuplicatesAccordingToComparisonStrategy(values)) {
 	  if (iterableContains(actual, o)) {
-		collectionRemoves(actual, o);
+		iterableRemoves(actual, o);
 	  } else {
 		notFound.add(o);
 	  }
@@ -287,8 +308,12 @@ public class Arrays {
   /**
    * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
    */
-  private void collectionRemoves(Collection<?> actual, Object value) {
+  private void iterableRemoves(Collection<?> actual, Object value) {
 	comparisonStrategy.iterableRemoves(actual, value);
+  }
+
+  private void iterablesRemoveFirst(Collection<?> actual, Object value) {
+    comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
@@ -622,7 +647,6 @@ public class Arrays {
 	  throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
   }
 
-  // TODO manage empty values + empty actual
   private static void checkIsNotNullAndNotEmpty(Object values) {
 	checkIsNotNull(values);
 	if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();

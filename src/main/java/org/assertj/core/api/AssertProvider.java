@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -50,7 +50,7 @@ public interface AssertProvider<A> {
   /**
    * Returns the associated {@link Assert} for this object.
    * 
-   * @return the assert object for use in cunjunction with {@link Assertions#assertThat(AssertProvider)}
+   * @return the assert object for use in conjunction with {@link Assertions#assertThat(AssertProvider)}
    */
   A assertThat();
 

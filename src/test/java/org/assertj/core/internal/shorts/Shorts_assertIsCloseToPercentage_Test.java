@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal.shorts;
 
@@ -23,12 +23,16 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Shorts_assertIsCloseToPercentage_Test extends ShortsBaseTest {
 
   private static final Short ZERO = (short) 0;
   private static final Short ONE = (short) 1;
-  private static final Short TWO = (short) 2;
   private static final Short TEN = (short) 10;
 
   @Test
@@ -52,21 +56,33 @@ public class Shorts_assertIsCloseToPercentage_Test extends ShortsBaseTest {
     shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage((short) -1));
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void should_fail_if_percentage_is_greater_than_one_hundred() {
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage((short) 101));
+  // @format:off
+  @Test
+  @DataProvider({
+    "1, 1, 1",
+    "1, 2, 100",
+    "-1, -1, 1",
+    "-1, -2, 100",
+    "-1, 1, 200"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_less_than_given_percentage(Short actual, Short other, Short percentage) {
+    shorts.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
+  // @format:off
   @Test
-  public void should_pass_if_difference_is_less_than_given_percentage() {
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage((short) 1));
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage((short) 100));
-  }
-
-  @Test
-  public void should_pass_if_difference_is_equal_to_given_percentage() {
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage((short) 50));
+  @DataProvider({
+    "1, 1, 0",
+    "2, 1, 100",
+    "1, 2, 50",
+    "-1, -1, 0",
+    "-2, -1, 100",
+    "-1, -2, 50"
+  })
+  // @format:on
+  public void should_pass_if_difference_is_equal_to_given_percentage(Short actual, Short other, Short percentage) {
+    shorts.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test

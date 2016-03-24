@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -38,6 +38,7 @@ public class FilesBaseTest {
   protected File actual;
   protected Failures failures;
   protected Files files;
+  protected Files unMockedFiles;
   protected Diff diff;
   protected Delta<String> delta;
   protected BinaryDiff binaryDiff;
@@ -47,7 +48,8 @@ public class FilesBaseTest {
   public void setUp() {
     actual = mock(File.class);
     failures = spy(new Failures());
-    files = new Files();
+    files = new Files(); 
+    unMockedFiles = new Files();
     files.failures = failures;
     diff = mock(Diff.class);
     delta = mock(Delta.class);

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -94,12 +94,15 @@ public final class Introspection {
   }
 
   private static Method findMethod(String name, Object target) {
-	// TODO walk class hierarchy to check if any superclass declares the method we are looking for.
-	try {
-	  return target.getClass().getDeclaredMethod(name);
-	} catch (Throwable t) {
-	  return null;
-	}
+    Class<?> clazz = target.getClass();
+    while (clazz != null) {
+      try {
+        return clazz.getDeclaredMethod(name);
+      } catch (NoSuchMethodException | SecurityException ignored) {
+      }
+      clazz = clazz.getSuperclass();
+    }
+    return null;
   }
 
   private Introspection() {
