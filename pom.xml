@@ -47,7 +47,7 @@
     </dependency>
     <dependency>
       <groupId>cglib</groupId>
-      <artifactId>cglib</artifactId>
+      <artifactId>cglib-nodep</artifactId>
       <version>3.2.0</version>
       <optional>true</optional>
     </dependency>
@@ -183,7 +183,7 @@
         </executions>
         <configuration>
           <instructions>
-            <Export-Package>org.assertj.core.*;-split-package:=merge-first</Export-Package>
+            <Export-Package>org.assertj.core.*</Export-Package>
             <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
             <_removeheaders>Bnd-LastModified</_removeheaders>
           </instructions>
