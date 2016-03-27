@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-guava</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>3.1.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>AssertJ fluent assertions for Guava</name>
   <url>https://github.com/joel-costigliola/assertj-guava</url>
@@ -28,7 +28,7 @@
 
   <properties>
     <guava.version>15.0</guava.version>
-    <assertj-core.version>3.4.0-SNAPSHOT</assertj-core.version>
+    <assertj-core.version>3.3.0</assertj-core.version>
   </properties>
 
   <dependencies>
