@@ -24,6 +24,10 @@ import java.util.*;
  * @author Alex Ruiz
  */
 public final class Throwables {
+  private static final String ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER = "org.assertj.core.error.ConstructorInvoker";
+  private static final String JAVA_LANG_REFLECT_CONSTRUCTOR = "java.lang.reflect.Constructor";
+  private static final String ORG_ASSERTJ = "org.assert";
+
   /**
    * Appends the stack trace of the current thread to the one in the given <code>{@link Throwable}</code>.
    * 
@@ -82,7 +86,7 @@ public final class Throwables {
     List<StackTraceElement> filtered = newArrayList(throwable.getStackTrace());
     StackTraceElement previous = null;
     for (StackTraceElement element : throwable.getStackTrace()) {
-      if (element.getClassName().contains("org.assert")) {
+      if (element.getClassName().contains(ORG_ASSERTJ)) {
         filtered.remove(element);
         // Handle the case when AssertJ builds a ComparisonFailure by reflection (see ShouldBeEqual.newAssertionError
         // method), the stack trace looks like:
@@ -91,8 +95,8 @@ public final class Throwables {
         // org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34),
         //
         // We want to remove java.lang.reflect.Constructor.newInstance element because it is related to AssertJ.
-        if (previous != null && previous.getClassName().equals("java.lang.reflect.Constructor")
-            && element.getClassName().contains("org.assertj.core.error.ConstructorInvoker")) {
+        if (previous != null && JAVA_LANG_REFLECT_CONSTRUCTOR.equals(previous.getClassName())
+            && element.getClassName().contains(ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER)) {
           filtered.remove(previous);
         }
       }
