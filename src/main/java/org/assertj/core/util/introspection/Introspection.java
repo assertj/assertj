@@ -65,7 +65,7 @@ public final class Introspection {
 	BeanInfo beanInfo;
 	try {
 	  beanInfo = Introspector.getBeanInfo(type);
-	} catch (Throwable t) {
+	} catch (Exception t) {
 	  throw new IntrospectionError(format("Unable to get BeanInfo for type %s", type.getName()), t);
 	}
 	for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {

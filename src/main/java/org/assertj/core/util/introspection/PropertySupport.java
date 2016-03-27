@@ -153,7 +153,7 @@ public class PropertySupport {
       String msg = format("Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>",
                           propertyName, target, clazz);
       throw new IntrospectionError(msg, e);
-    } catch (Throwable unexpected) {
+    } catch (Exception unexpected) {
       String msg = format("Unable to obtain the value of the property <'%s'> from <%s>", propertyName, target);
       throw new IntrospectionError(msg, unexpected);
     }

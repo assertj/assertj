@@ -89,13 +89,13 @@
     <dependency>
       <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
-      <version>0.7.7</version>
+      <version>0.8.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.tngtech.java</groupId>
       <artifactId>junit-dataprovider</artifactId>
-      <version>1.10.3</version>
+      <version>1.10.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

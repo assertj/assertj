@@ -29,6 +29,9 @@ import org.assertj.core.api.exception.RuntimeIOException;
  */
 public class URLs {
 
+  private URLs() {
+  }
+
   /**
    * Loads the text content of a URL into a character string.
    *
