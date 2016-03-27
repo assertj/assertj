@@ -11,7 +11,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.1.2</version>
+    <version>2.1.4</version>
   </parent>
 
   <scm>
@@ -28,7 +28,7 @@
 
   <properties>
     <guava.version>15.0</guava.version>
-    <assertj-core.version>3.0.0</assertj-core.version>
+    <assertj-core.version>3.4.0-SNAPSHOT</assertj-core.version>
   </properties>
 
   <dependencies>
@@ -70,31 +70,6 @@
           </instructions>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <configuration>
-          <!-- Template location -->
-          <header>licence-header.txt</header>
-          <properties>
-            <!-- Values to be substituted in template -->
-            <inceptionYear>2012</inceptionYear>
-            <currentYear>2015</currentYear>
-          </properties>
-          <strictCheck>true</strictCheck>
-          <includes>
-            <include>src/**/*.java</include>
-          </includes>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>format</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <!-- generate jacoco report -->
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -110,7 +85,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
         <configuration>
           <!-- (1) CSS file location -->
           <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
