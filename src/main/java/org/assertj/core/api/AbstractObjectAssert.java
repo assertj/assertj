@@ -85,7 +85,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
    * assertThat(frodo).isEqualToIgnoringNullFields(mysteriousHobbit); // OK
    * 
-   * // ... but the lenient equality is not reversible !
+   * // ... but this is not reversible !
    * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL</code></pre>
    * 
    * @param other the object to compare {@code actual} to.
@@ -464,6 +464,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *   public double height;
    *   public Home home = new Home();
    *   public Person bestFriend;
+   *   // constructor with name and height omitted for brevity 
    * }
    *
    * public class Home {
@@ -474,18 +475,15 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *   public int number = 1;
    * }
    * 
-   * Person jack = new Person();
-   * jack.name = "Jack";
-   * jackClone.height = 1.80;
-   * jack.home.address.number = 1;
+   * Person jack = new Person("Jack", 1.80);
+   * jack.home.address.number = 123;
    * 
-   * Person jackClone = new Person();
-   * jackClone.name = "Jack";
-   * jackClone.height = 1.80;
-   * jackClone.home.address.number = 1;
+   * Person jackClone = new Person("Jack", 1.80);
+   * jackClone.home.address.number = 123;
+   * 
    * // cycle are handled in comparison  
-   * jack.home.bestFriend = jackClone;
-   * jackClone.home.bestFriend = jack;
+   * jack.bestFriend = jackClone;
+   * jackClone.bestFriend = jack;
    * 
    * // will fail as equals compares object references
    * assertThat(jack).isEqualsTo(jackClone);
@@ -493,7 +491,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // jack and jackClone are equals when doing a recursive field by field comparison
    * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
    * 
-   * // any other type/field can be compared with a a specific comparator. 
+   * // any type/field can be compared with a a specific comparator. 
    * // let's change  jack's height a little bit 
    * jack.height = 1.81;
    * 
@@ -507,9 +505,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *                 
    * // you can set a comparator on specific fields (nested fields are supported)
    * assertThat(jack).usingComparatorForFields(new DoubleComparator(0.5), "height")
-   *                 .isEqualToComparingFieldByFieldRecursively(jackClone);
-   * 
-   * </code></pre>
+   *                 .isEqualToComparingFieldByFieldRecursively(jackClone);</code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @throws AssertionError if the actual object is {@code null}.
