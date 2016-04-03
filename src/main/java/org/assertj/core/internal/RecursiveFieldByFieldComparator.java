@@ -13,32 +13,32 @@
 package org.assertj.core.internal;
 
 import static java.util.Collections.EMPTY_MAP;
+import static org.assertj.core.api.AbstractObjectAssert.defaultTypeComparators;
+import static org.assertj.core.internal.DeepDifference.determineDifferences;
 
 import java.util.Comparator;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
- * Compares objects field/property by field/property including private fields unless
- * {@link Assertions#setAllowComparingPrivateFields(boolean)} has been called with false.
+ * Compares objects field/property by field/property recursively.
  */
-public class FieldByFieldComparator implements Comparator<Object> {
+public class RecursiveFieldByFieldComparator implements Comparator<Object> {
 
   private static final int NOT_EQUAL = -1;
 
   @Override
   public int compare(Object actual, Object other) {
-	if (actual == null && other == null) return 0;
-	if (actual == null || other == null) return NOT_EQUAL;
-	// value returned is not relevant for ordering if objects are not equal.
-	return areEqual(actual, other) ? 0 : NOT_EQUAL;
+    if (actual == null && other == null) return 0;
+    if (actual == null || other == null) return NOT_EQUAL;
+    // value returned is not relevant for ordering if objects are not equal.
+    return areEqual(actual, other) ? 0 : NOT_EQUAL;
   }
 
   @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actual, Object other) {
     try {
-      return Objects.instance().areEqualToIgnoringGivenFields(actual, other, EMPTY_MAP, EMPTY_MAP);
+      return determineDifferences(actual, other, EMPTY_MAP, defaultTypeComparators()).isEmpty();
     } catch (IntrospectionError e) {
       return false;
     }
@@ -46,7 +46,6 @@ public class FieldByFieldComparator implements Comparator<Object> {
 
   @Override
   public String toString() {
-    return "field/property by field/property comparator on all fields/properties";
+    return "recursive field/property by field/property comparator on all fields/properties";
   }
-
 }
