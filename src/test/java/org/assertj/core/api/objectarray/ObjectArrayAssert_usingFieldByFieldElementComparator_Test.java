@@ -150,7 +150,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
                                       " <[Foo(id=id, bar=1)]>%n" +
                                       "to be equal to:%n" +
                                       " <[Foo(id=id, bar=2)]>%n" +
-                                      "when comparing elements using 'field by field comparator on all fields' but was not."));
+                                      "when comparing elements using 'field/property by field/property comparator on all fields/properties' but was not."));
       // @format:on
       return;
     }
@@ -168,7 +168,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
                                              " <[Foo(id=id, bar=1)]>%n" +
                                              "to be in:%n" +
                                              " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n" +
-                                             "when comparing elements using 'field by field comparator on all fields'"));
+                                             "when comparing elements using 'field/property by field/property comparator on all fields/properties'"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
