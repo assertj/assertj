@@ -567,7 +567,7 @@ public class Java6Assertions {
    * Java 8 example :
    * <pre><code class='java'>  {@literal @}Test
    *  public void testException() {
-   *    assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *    assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                              .hasMessageContaining("boom");
    *  }</code></pre>
    *
@@ -612,7 +612,7 @@ public class Java6Assertions {
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    // when
-   *    Throwable thrown = catchThrowable(() -> { throw new Exception("boom!") });
+   *    Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
    *
    *    // then
    *    assertThat(thrown).isInstanceOf(Exception.class)
