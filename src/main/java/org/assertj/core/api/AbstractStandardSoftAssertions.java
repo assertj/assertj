@@ -452,7 +452,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * <pre><code class='java'>  {@literal @}Test
    *  public void testException() {
    *    SoftAssertions softly = new SoftAssertions();
-   *    softly.assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *    softly.assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                                     .hasMessageContaining("boom");
    *  }</code></pre>
    * 

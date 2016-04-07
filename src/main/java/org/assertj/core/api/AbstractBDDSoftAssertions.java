@@ -453,7 +453,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    BDDSoftAssertions softly = new BDDSoftAssertions();
-   *    softly.thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *    softly.thenThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                               .hasMessageContaining("boom");
    *  }</code></pre>
    * 
