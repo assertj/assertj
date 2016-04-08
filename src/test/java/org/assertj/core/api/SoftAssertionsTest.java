@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Maps;
@@ -523,25 +524,10 @@ public class SoftAssertionsTest {
 
   @Test
   public void should_work_with_comparable() throws Exception {
-
-    SoftAssertions softly = new SoftAssertions();
-    Example example = new Example(0);
-    softly.assertThat(example).isEqualTo(example);
+    ComparableExample example1 = new ComparableExample(0);
+    ComparableExample example2 = new ComparableExample(0);
+    softly.assertThat(example1).isEqualByComparingTo(example2);
     softly.assertAll();
-  }
-
-  class Example implements Comparable<Example> {
-
-    int id;
-
-    Example(int id) {
-      this.id = id;
-    }
-
-    @Override
-    public int compareTo(Example that) {
-      return this.id - that.id;
-    }
   }
 
   private static Name name(String first, String last) {

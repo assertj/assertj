@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
@@ -219,6 +220,14 @@ public class BDDSoftAssertionsTest {
       assertThat(errors.get(39)).contains(String.format("%nExpecting port of"));
 
     }
+  }
+
+  @Test
+  public void should_work_with_comparable() throws Exception {
+    ComparableExample example1 = new ComparableExample(0);
+    ComparableExample example2 = new ComparableExample(0);
+    softly.then(example1).isEqualByComparingTo(example2);
+    softly.assertAll();
   }
 
 }
