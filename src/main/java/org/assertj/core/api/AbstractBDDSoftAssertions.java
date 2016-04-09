@@ -163,7 +163,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   @SuppressWarnings("unchecked")
   public <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
-    return proxy(AbstractComparableAssert.class, Comparable.class, actual);
+    return proxy(GenericComparableAssert.class, Comparable.class, actual);
   }
 
   /**

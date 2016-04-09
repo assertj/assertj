@@ -33,6 +33,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
@@ -250,6 +251,14 @@ public class BDDSoftAssertionsTest {
       assertThat(errors.get(46)).isEqualTo("expected:<[+999999999-12-31T23:59:59.999999999]> but was:<[-999999999-01-01T00:00+18:00]>");
       // assertThat(errors.get(47)).isEqualTo("");
     }
+  }
+
+  @Test
+  public void should_work_with_comparable() throws Exception {
+    ComparableExample example1 = new ComparableExample(0);
+    ComparableExample example2 = new ComparableExample(0);
+    softly.then(example1).isEqualByComparingTo(example2);
+    softly.assertAll();
   }
 
 }

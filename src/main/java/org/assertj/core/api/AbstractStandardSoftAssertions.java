@@ -163,7 +163,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    */
   @SuppressWarnings("unchecked")
   public <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
-    return proxy(AbstractComparableAssert.class, Comparable.class, actual);
+    return proxy(GenericComparableAssert.class, Comparable.class, actual);
   }
 
   /**

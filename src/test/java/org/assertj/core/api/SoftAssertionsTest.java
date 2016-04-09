@@ -39,6 +39,7 @@ import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Maps;
@@ -546,6 +547,14 @@ public class SoftAssertionsTest {
       assertThat(e.getErrors()).containsOnly(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"),
                                              format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
     }
+  }
+
+  @Test
+  public void should_work_with_comparable() throws Exception {
+    ComparableExample example1 = new ComparableExample(0);
+    ComparableExample example2 = new ComparableExample(0);
+    softly.assertThat(example1).isEqualByComparingTo(example2);
+    softly.assertAll();
   }
 
   private static Name name(String first, String last) {
