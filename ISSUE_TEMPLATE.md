@@ -1,10 +1,10 @@
-### summary
+#### Summary
 
 
-### real life use case / example
+#### Real life use case or example
 
 
-### Java 8 specific ?
+#### Java 8 specific ?
 
 YES / NO 
 
