@@ -16,11 +16,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.data.Index;
+import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Lists;
-import org.assertj.core.description.Description;
-import org.assertj.core.internal.*;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
