@@ -33,19 +33,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * Verifies that the actual value is equal to zero.
    * <p/>
    * Example:
-   * <pre><code class='java'> int intZero = 0;
-   * long longZero = 0L;
-   *
-   * // assertions will pass
-   * assertThat(intZero).isZero();
-   * assertThat(longZero).isZero();
-   *
-   * int meaningOfLife = 42;
-   * double someOfPi = 3.142;
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(0).isZero();
+   * assertThat(0.0).isZero();
    *
    * // assertions will fail
-   * assertThat(meaningOfLife).isZero();
-   * assertThat(someOfPi).isZero();</code></pre>
+   * assertThat(42).isZero();
+   * assertThat(3.142).isZero();</code></pre>
    * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -57,19 +51,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * Verifies that the actual value is not equal to zero.
    * <p/>
    * Example:
-   * <pre><code class='java'> int meaningOfLife = 42;
-   * double someOfPi = 3.142;
-   *
-   * // assertions will pass
-   * assertThat(meaningOfLife).isNotZero();
-   * assertThat(someOfPi).isNotZero();
-   *
-   * int intZero = 0;
-   * long longZero = 0L;
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(42).isNotZero();
+   * assertThat(3.142).isNotZero();
    *
    * // assertions will fail
-   * assertThat(intZero).isNotZero();
-   * assertThat(longZero).isNotZero();</code></pre>
+   * assertThat(0).isNotZero();
+   * assertThat(0.0).isNotZero();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -81,16 +69,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * Verifies that the actual value is positive.
    * <p/>
    * Example:
-   * <pre><code class='java'> int positive = 42;
-   * int zero = 0;
-   * int negative = -42;
-   *
-   * // assertions will pass
-   * assertThat(positive).isPositive();
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(42).isPositive();
+   * assertThat(3.142).isPositive();
    *
    * // assertions will fail
-   * assertThat(zero).isPositive();
-   * assertThat(negative).isPositive();</code></pre>
+   * assertThat(0).isPositive();
+   * assertThat(-42).isPositive();</code></pre>
    * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -102,16 +87,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * Verifies that the actual value is negative.
    * <p/>
    * Example:
-   * <pre><code class='java'> int positive = 42;
-   * int zero = 0;
-   * int negative = -42;
-   *
-   * // assertions will pass
-   * assertThat(negative).isNegative();
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(-42).isNegative();
+   * assertThat(-3.124).isNegative();
    *
    * // assertions will fail
-   * assertThat(zero).isNegative();
-   * assertThat(positive).isNegative();</code></pre>
+   * assertThat(0).isNegative();
+   * assertThat(42).isNegative();</code></pre>
    * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -123,16 +105,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * Verifies that the actual value is non negative (positive or equal zero).
    * <p/>
    * Example:
-   * <pre><code class='java'> int positive = 42;
-   * int zero = 0;
-   * int negative = -42;
-   *
-   * // assertions will pass
-   * assertThat(positive).isNotNegative();
-   * assertThat(zero).isNotNegative();
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(42).isNotNegative();
+   * assertThat(0).isNotNegative();
    *
    * // assertions will fail
-   * assertThat(negative).isNotNegative();</code></pre>
+   * assertThat(-42).isNotNegative();
+   * assertThat(-3.124).isNotNegative();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -144,16 +123,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * Verifies that the actual value is non positive (negative or equal zero).
    * <p/>
    * Example:
-   * <pre><code class='java'> int positive = 42;
-   * int zero = 0;
-   * int negative = -42;
-   *
-   * // assertions will pass
-   * assertThat(negative).isNotPositive();
-   * assertThat(zero).isNotPositive();
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(-42).isNotPositive();
+   * assertThat(0).isNotPositive();
    *
    * // assertions will fail
-   * assertThat(positive).isNotPositive();</code></pre>
+   * assertThat(42).isNotPositive();
+   * assertThat(3.124).isNotPositive();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -211,16 +187,16 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * <p>
    * Example with double:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
+   * assertThat(8.1).isCloseTo(8.0, within(0.2));
    *
    * // you can use offset if you prefer
-   * assertThat(8.1).isCloseTo(new Double(8.0), offset(0.2));
+   * assertThat(8.1).isCloseTo(8.0, offset(0.2));
    *
    * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.1));
+   * assertThat(8.1).isCloseTo(8.0, within(0.1));
    *
    * // assertion will fail
-   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));</code></pre>
+   * assertThat(8.1).isCloseTo(8.0, within(0.01));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -237,13 +213,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * <p>
    * Example with double:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(20d));
+   * assertThat(11.0).isCloseTo(10.0, withinPercentage(20));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
-   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(10d));
+   * assertThat(11.0).isCloseTo(10.0, withinPercentage(10));
    *
    * // assertion will fail
-   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(5d));</code></pre>
+   * assertThat(11.0).isCloseTo(10.0, withinPercentage(5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
