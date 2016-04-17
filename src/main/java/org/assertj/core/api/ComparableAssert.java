@@ -107,4 +107,48 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is less than the given one.
    */
   S isGreaterThanOrEqualTo(A other);
+
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat('b').isBetween('a', 'c');
+   * assertThat('a').isBetween('a', 'b');
+   * assertThat('b').isBetween('a', 'b');
+   * 
+   * // assertions fail
+   * assertThat('a').isBetween('b', 'c');
+   * assertThat('c').isBetween('a', 'b');</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] range.
+   */
+  S isBetween(A startInclusive, A endInclusive);
+
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat('b').isStrictlyBetween('a', 'c');
+   * 
+   * // assertions fail
+   * assertThat('a').isStrictlyBetween('a', 'b');
+   * assertThat('b').isStrictlyBetween('a', 'b');</code></pre>
+   * 
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ range.
+   */
+  S isStrictlyBetween(A startExclusive, A endExclusive);
 }
