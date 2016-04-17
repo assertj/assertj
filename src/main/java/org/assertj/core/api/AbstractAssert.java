@@ -429,14 +429,16 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return myself;
   }
 
+  /** {@inheritDoc} */
   @Override
   public S withThreadDumpOnError() {
     Failures.instance().enablePrintThreadDump();
     return myself;
   }
 
+  /** {@inheritDoc} */
   @Override
-  public S withErrorRepresentation(Representation representation) {
+  public S withRepresentation(Representation representation) {
     info.useRepresentation(representation);
     return myself;
   }

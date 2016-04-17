@@ -12,17 +12,11 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.reflect.Array.getLength;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import org.assertj.core.presentation.Representation;
 
 /**
  * Utility methods related to arrays.
@@ -30,9 +24,7 @@ import org.assertj.core.presentation.Representation;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Arrays extends GroupFormatUtil {
-
-  private static final String NULL = "null";
+public class Arrays {
 
   /**
    * Indicates whether the given object is not {@code null} and is an array.
@@ -102,100 +94,20 @@ public class Arrays extends GroupFormatUtil {
     return true;
   }
 
-  /**
-   * Returns the {@code String} representation of the given array, or {@code null} if the given object is either
-   * {@code null} or not an array. This method supports arrays having other arrays as elements.
-   *
-   * @param representation
-   * @param array the object that is expected to be an array.
-   * @return the {@code String} representation of the given array.
-   */
-  public static String format(Representation representation, Object o) {
-    if (!isArray(o)) return null;
-    return isObjectArray(o) ? smartFormat(representation, (Object[]) o) : formatPrimitiveArray(representation, o);
-  }
-
   private static <T> boolean isEmpty(T[] array) {
     return array.length == 0;
   }
 
-  private static boolean isObjectArray(Object o) {
+  public static boolean isObjectArray(Object o) {
     return isArray(o) && !isArrayTypePrimitive(o);
   }
 
-  private static boolean isArrayTypePrimitive(Object o) {
+  public static boolean isArrayTypePrimitive(Object o) {
     return o != null && o.getClass().getComponentType().isPrimitive();
   }
 
-  static IllegalArgumentException notAnArrayOfPrimitives(Object o) {
+  public static IllegalArgumentException notAnArrayOfPrimitives(Object o) {
     return new IllegalArgumentException(String.format("<%s> is not an array of primitives", o));
-  }
-
-  private static String smartFormat(Representation representation, Object[] iterable) {
-    Set<Object[]> alreadyFormatted = new HashSet<>();
-    String singleLineDescription = singleLineFormat(representation, iterable, DEFAULT_START, DEFAULT_END,
-                                                    alreadyFormatted);
-    return doesDescriptionFitOnSingleLine(singleLineDescription) ?
-        singleLineDescription : multiLineFormat(representation, iterable, alreadyFormatted);
-  }
-
-  private static String singleLineFormat(Representation representation, Object[] iterable, String start, String end,
-                                        Set<Object[]> alreadyFormatted) {
-    return format(representation, iterable, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, alreadyFormatted);
-  }
-
-  private static String multiLineFormat(Representation representation, Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(representation, iterable, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyFormatted);
-  }
-
-  private static boolean doesDescriptionFitOnSingleLine(String singleLineDescription) {
-    return singleLineDescription == null || singleLineDescription.length() < maxLengthForSingleLineDescription;
-  }
-
-  private static String format(Representation representation, Object[] array, String elementSeparator,
-                               String indentation, Set<Object[]> alreadyFormatted) {
-    if (array == null) return null;
-    if (array.length == 0) return DEFAULT_START + DEFAULT_END;
-    // iterable has some elements
-    StringBuilder desc = new StringBuilder();
-    desc.append(DEFAULT_START);
-    alreadyFormatted.add(array); // used to avoid infinite recursion when array contains itself
-    int i = 0;
-    while (true) {
-      Object element = array[i];
-      // do not indent first element
-      if (i != 0) desc.append(indentation);
-      // add element representation
-      if (!isArray(element)) desc.append(element == null ? NULL : representation.toStringOf(element));
-      else if (isArrayTypePrimitive(element)) desc.append(formatPrimitiveArray(representation, element));
-      else if (alreadyFormatted.contains(element)) desc.append("(this array)");
-      else desc.append(format(representation, (Object[]) element, elementSeparator, indentation, alreadyFormatted));
-      // manage end description
-      if (i == array.length - 1) {
-        alreadyFormatted.remove(array);
-        return desc.append(DEFAULT_END).toString();
-      }
-      // there are still elements to be describe
-      desc.append(elementSeparator);
-      i++;
-    }
-  }
-
-  private static String formatPrimitiveArray(Representation representation, Object o) {
-    if (!isArray(o)) return null;
-    if (!isArrayTypePrimitive(o)) throw Arrays.notAnArrayOfPrimitives(o);
-    int size = getLength(o);
-    if (size == 0) return DEFAULT_START + DEFAULT_END;
-    StringBuilder buffer = new StringBuilder();
-    buffer.append(DEFAULT_START);
-    buffer.append(representation.toStringOf(Array.get(o, 0)));
-    for (int i = 1; i < size; i++) {
-      buffer.append(ELEMENT_SEPARATOR)
-            .append(INDENTATION_FOR_SINGLE_LINE)
-            .append(representation.toStringOf(Array.get(o, i)));
-    }
-    buffer.append(DEFAULT_END);
-    return buffer.toString();
   }
 
   private Arrays() {}

@@ -12,22 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.exception.RuntimeIOException;
-import org.assertj.core.api.filter.*;
-import org.assertj.core.condition.AllOf;
-import org.assertj.core.condition.AnyOf;
-import org.assertj.core.condition.DoesNotHave;
-import org.assertj.core.condition.Not;
-import org.assertj.core.data.Index;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
-import org.assertj.core.groups.Properties;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.Files;
-import org.assertj.core.util.GroupFormatUtil;
-import org.assertj.core.util.URLs;
-import org.assertj.core.util.introspection.FieldSupport;
+import static org.assertj.core.data.Percentage.withPercentage;
 
 import java.io.File;
 import java.io.InputStream;
@@ -42,7 +27,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.data.Percentage.withPercentage;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.exception.RuntimeIOException;
+import org.assertj.core.api.filter.FilterOperator;
+import org.assertj.core.api.filter.Filters;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
+import org.assertj.core.condition.AllOf;
+import org.assertj.core.condition.AnyOf;
+import org.assertj.core.condition.DoesNotHave;
+import org.assertj.core.condition.Not;
+import org.assertj.core.data.Index;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.groups.Properties;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.Files;
+import org.assertj.core.util.URLs;
+import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -714,7 +719,7 @@ public class Java6Assertions {
    * @param maxLengthForSingleLineDescription the maximum lenght for an iterable/array to be displayed on one line
    */
   public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
-    GroupFormatUtil.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
+    StandardRepresentation.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
   }
 
   // ------------------------------------------------------------------------------------------------------

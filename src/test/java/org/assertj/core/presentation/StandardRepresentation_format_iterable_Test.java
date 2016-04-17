@@ -10,58 +10,55 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.presentation;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.presentation.HexadecimalRepresentation.HEXA_REPRESENTATION;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.IterableUtil.multiLineFormat;
-import static org.assertj.core.util.IterableUtil.smartFormat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-public class IterableUtil_format_Test {
+public class StandardRepresentation_format_iterable_Test {
 
   @Test
   public void should_return_null_if_iterable_is_null() {
-    assertThat(IterableUtil.smartFormat(STANDARD_REPRESENTATION, null)).isNull();
+    assertThat(STANDARD_REPRESENTATION.smartFormat(null)).isNull();
   }
 
   @Test
   public void should_return_empty_brackets_if_iterable_is_empty() {
-    assertThat(IterableUtil.smartFormat(STANDARD_REPRESENTATION, asList())).isEqualTo("[]");
+    assertThat(STANDARD_REPRESENTATION.smartFormat(asList())).isEqualTo("[]");
   }
 
   @Test
   public void should_format_iterable_on_one_line_if_description_is_short_enough() {
-    String e1 = stringOfLength(IterableUtil.maxLengthForSingleLineDescription / 10);
-    String e2 = stringOfLength(IterableUtil.maxLengthForSingleLineDescription / 10);
-    assertThat(smartFormat(STANDARD_REPRESENTATION, asList(e1, e2))).isEqualTo("[\"" + e1 + "\", \"" + e2 + "\"]");
+    String e1 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription / 10);
+    String e2 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription / 10);
+    assertThat(STANDARD_REPRESENTATION.smartFormat(asList(e1, e2))).isEqualTo("[\"" + e1 + "\", \"" + e2 + "\"]");
   }
 
   @Test
   public void should_format_iterable_with_one_element_per_line_when_single_line_description_is_too_long() {
-    String e1 = stringOfLength(IterableUtil.maxLengthForSingleLineDescription);
-    String e2 = stringOfLength(IterableUtil.maxLengthForSingleLineDescription);
-    assertThat(smartFormat(STANDARD_REPRESENTATION, asList(e1, e2))).isEqualTo(format("[\"" + e1 + "\",%n" +
-                                                                                      "    \"" + e2 + "\"]"));
+    String e1 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription);
+    String e2 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription);
+    assertThat(STANDARD_REPRESENTATION.smartFormat(asList(e1, e2))).isEqualTo(format("[\"" + e1 + "\",%n" +
+                                                                                     "    \"" + e2 + "\"]"));
   }
 
   @Test
   public void should_format_iterable_with_custom_start_and_end() {
     List<? extends Object> list = asList("First", 3);
-    assertThat(IterableUtil.singleLineFormat(STANDARD_REPRESENTATION, list, "{", "}")).isEqualTo("{\"First\", 3}");
-    assertThat(IterableUtil.singleLineFormat(STANDARD_REPRESENTATION, asList(), "{", "}")).isEqualTo("{}");
+    assertThat(STANDARD_REPRESENTATION.singleLineFormat(list, "{", "}")).isEqualTo("{\"First\", 3}");
+    assertThat(STANDARD_REPRESENTATION.singleLineFormat(asList(), "{", "}")).isEqualTo("{}");
   }
 
   @Test
   public void should_format_iterable_with_an_element_per_line() {
-    String formatted = multiLineFormat(STANDARD_REPRESENTATION, asList("First", 3, "foo", "bar"));
+    String formatted = STANDARD_REPRESENTATION.multiLineFormat(asList("First", 3, "foo", "bar"));
     String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"First\",%n" +
@@ -72,7 +69,7 @@ public class IterableUtil_format_Test {
 
   @Test
   public void should_format_iterable_with_an_element_per_line_according_the_given_representation() {
-    String formatted = multiLineFormat(HEXA_REPRESENTATION, asList(1, 2, 3));
+    String formatted = new HexadecimalRepresentation().multiLineFormat(asList(1, 2, 3));
     String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[0x0000_0001,%n" +
@@ -85,7 +82,7 @@ public class IterableUtil_format_Test {
     List<Object> list = new ArrayList<>();
     list.add(list);
     list.add(list);
-    String formatted = multiLineFormat(STANDARD_REPRESENTATION, list);
+    String formatted = STANDARD_REPRESENTATION.multiLineFormat(list);
     assertThat(formatted).isEqualTo(format("[(this Collection),%n" +
                                            "    (this Collection)]"));
   }

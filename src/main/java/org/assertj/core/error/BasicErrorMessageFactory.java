@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.util.Arrays.format;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
@@ -160,7 +159,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   @Override
   public String toString() {
     return format("%s[format=%s, arguments=%s]", getClass().getSimpleName(), quote(format),
-        format(new StandardRepresentation(), arguments));
+        StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(arguments));
   }
 
 }

@@ -12,14 +12,10 @@
  */
 package org.assertj.core.util.diff;
 
-import static org.assertj.core.util.GroupFormatUtil.DEFAULT_END;
-import static org.assertj.core.util.GroupFormatUtil.DEFAULT_START;
-import static org.assertj.core.util.GroupFormatUtil.ELEMENT_SEPARATOR_WITH_NEWLINE;
+import static org.assertj.core.presentation.StandardRepresentation.ELEMENT_SEPARATOR_WITH_NEWLINE;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.List;
-
-import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.IterableUtil;
 
 /**
  * Initially copied from https://code.google.com/p/java-diff-utils/.
@@ -31,6 +27,9 @@ import org.assertj.core.util.IterableUtil;
  */
 public abstract class Delta<T> {
 
+  public static final String DEFAULT_END = "]";
+  public static final String DEFAULT_START = "[";
+  
   /** The original chunk. */
   private Chunk<T> original;
 
@@ -154,8 +153,7 @@ public abstract class Delta<T> {
   }
 
   String formatLines(List<T> lines) {
-    return IterableUtil.format(StandardRepresentation.STANDARD_REPRESENTATION, lines, DEFAULT_START, DEFAULT_END,
-                               ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
+    return STANDARD_REPRESENTATION.format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
   }
 
 }

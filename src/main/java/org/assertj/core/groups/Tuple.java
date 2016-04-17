@@ -13,7 +13,6 @@
 package org.assertj.core.groups;
 
 import static java.util.Collections.addAll;
-import static org.assertj.core.presentation.DefaultToString.toStringOf;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Objects.areEqual;
@@ -64,7 +63,7 @@ public class Tuple {
 
   @Override
   public String toString() {
-    return toStringOf(this, STANDARD_REPRESENTATION);
+    return STANDARD_REPRESENTATION.toStringOf(this);
   }
 
   public static Tuple tuple(Object... values) {

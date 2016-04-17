@@ -8,22 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.test.ExpectedException.none;
 
-import java.util.Objects;
-
-import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-
-public class AbstractAssert_withErrorRepresentation_Test {
+public class AbstractAssert_withRepresentation_Test {
 
   @Rule
   public ExpectedException thrown = none();
@@ -31,22 +29,42 @@ public class AbstractAssert_withErrorRepresentation_Test {
   @Test
   public void should_throw_error_if_description_is_null() {
     thrown.expectNullPointerException("The representation to use should not be null.");
-    assertThat(new Example()).withErrorRepresentation(null);
+    assertThat(new Example()).withRepresentation(null);
   }
 
   @Test
   public void should_be_able_to_use_a_custom_representation_for_error_messages() {
-    thrown.expectAssertionError("expected:<[null]> but was:<[Example]>");
-    assertThat(new Example()).withErrorRepresentation(new ExampleErrorRepresentation()).isNull();
+    thrown.expectAssertionError("expected:<null> but was:<Example>");
+    assertThat(new Example()).withRepresentation(new CustomRepresentation())
+                             .isNull();
   }
 
-  private class Example {}
+  @Test
+  public void should_be_able_to_override_an_existing_representation() {
+    try {
+      assertThat("foo").withRepresentation(new CustomRepresentation())
+                       .startsWith("bar");
+    } catch (AssertionError e) {
+      assertThat(e).hasMessageContaining("$foo$")
+                   .hasMessageContaining("$bar$");
+      return;
+    }
+    fail("AssertionError expected");
+  }
 
-  private class ExampleErrorRepresentation implements Representation {
+  private class Example {
+  }
+
+  private class CustomRepresentation extends StandardRepresentation {
     @Override
     public String toStringOf(Object o) {
       if (o instanceof Example) return "Example";
-      return Objects.toString(o);
+      return super.toStringOf(o);
+    }
+
+    @Override
+    protected String toStringOf(String s) {
+      return "$" + s + "$";
     }
   }
 }

@@ -19,7 +19,7 @@ import java.util.Formatter;
  *
  * @author Mariusz Smykula
  */
-public class UnicodeRepresentation implements Representation {
+public class UnicodeRepresentation extends StandardRepresentation {
 
   /**
    * Returns hexadecimal the {@code toString} representation of the given String or Character.
@@ -31,18 +31,18 @@ public class UnicodeRepresentation implements Representation {
   public String toStringOf(Object object) {
     if (object instanceof String) return toStringOf((String) object);
     if (object instanceof Character) return toStringOf((Character) object);
-    return DefaultToString.toStringOf(this, object);
+    return super.toStringOf(object);
   }
 
-  private String toStringOf(Character string) {
+  protected String toStringOf(Character string) {
     return escapeUnicode(string.toString());
   }
 
-  private String toStringOf(String string) {
+  protected String toStringOf(String string) {
     return escapeUnicode(string);
   }
 
-  private String escapeUnicode(String input) {
+  private static String escapeUnicode(String input) {
     StringBuilder b = new StringBuilder(input.length());
     Formatter formatter = new Formatter(b);
     for (char c : input.toCharArray()) {
@@ -54,10 +54,5 @@ public class UnicodeRepresentation implements Representation {
     }
     formatter.close();
     return b.toString();
-  }
-
-  @Override
-  public String toString() {
-    return this.getClass().getSimpleName();
   }
 }

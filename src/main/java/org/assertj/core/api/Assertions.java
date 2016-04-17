@@ -45,8 +45,8 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Files;
-import org.assertj.core.util.GroupFormatUtil;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
@@ -730,7 +730,7 @@ public class Assertions {
    * @param maxLengthForSingleLineDescription the maximum lenght for an iterable/array to be displayed on one line
    */
   public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
-    GroupFormatUtil.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
+    StandardRepresentation.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
   }
 
   // ------------------------------------------------------------------------------------------------------
