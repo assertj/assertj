@@ -81,6 +81,20 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public S isBetween(A startInclusive, A endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isStrictlyBetween(A startExclusive, A endExclusive) {
+    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
+    return myself;
+  }
+
   @Override
   public S usingComparator(Comparator<? super A> customComparator) {
     super.usingComparator(customComparator);
