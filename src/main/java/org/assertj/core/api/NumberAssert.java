@@ -188,12 +188,12 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * <p/>
    * Example:
    * <pre><code class='java'> // this assertion succeeds ...
-   * assertThat(12).isBetween(10, 14);
+   * assertThat(12).isStrictlyBetween(10, 14);
    * 
    * // ... but these ones fail
-   * assertThat(12).isBetween(12, 14);
-   * assertThat(12).isBetween(10, 12);
-   * assertThat(12).isBetween(16, 18);</code></pre>
+   * assertThat(12).isStrictlyBetween(12, 14);
+   * assertThat(12).isStrictlyBetween(10, 12);
+   * assertThat(12).isStrictlyBetween(16, 18);</code></pre>
    * 
    * @param start the start value (exclusive), expected not to be null.
    * @param end the end value (exclusive), expected not to be null.
