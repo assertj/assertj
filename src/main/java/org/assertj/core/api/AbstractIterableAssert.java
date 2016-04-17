@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -112,6 +113,11 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public S hasSize(int expected) {
     iterables.assertHasSize(info, actual, expected);
     return myself;
+  }
+
+  public void hasOnlyOneElementSatisfying(Consumer<T> elementAssertions) {
+    iterables.assertHasSize(info, actual, 1);
+    elementAssertions.accept(actual.iterator().next());
   }
 
   /**

@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -241,6 +242,11 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   @Override
   public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
     return containsOnly(toArray(iterable));
+  }
+
+  public void hasOnlyOneElementSatisfying(Consumer<T> elementAssertions) {
+    arrays.assertHasSize(info, actual, 1);
+    elementAssertions.accept(actual[0]);
   }
 
   /**
