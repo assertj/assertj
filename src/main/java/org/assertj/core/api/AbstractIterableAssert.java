@@ -1889,10 +1889,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(elvesRings).size().isGreaterThan(3);</code></pre>
    *   
    * @return AbstractIterableSizeAssert built with the {@code Iterable}'s size. 
+   * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> size() {
-    Preconditions.checkNotNull(actual, "Can not assert on size of a null iterable.");
+    Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null iterable.");
     return new IterableSizeAssert(this, IterableUtil.sizeOf(actual));
   }
 }

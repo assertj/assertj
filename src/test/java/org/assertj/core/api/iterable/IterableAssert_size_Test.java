@@ -28,7 +28,7 @@ public class IterableAssert_size_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_be_able_to_use_integer_assertions_on_size_of_iterable() {
+  public void should_be_able_to_use_integer_assertions_on_iterable_size() {
     Iterable<String> strings = new HashSet<String>(Arrays.asList("a", "b", "c"));
     // @format:off
     assertThat(strings).size().isGreaterThan(0)
@@ -44,9 +44,9 @@ public class IterableAssert_size_Test {
   }
 
   @Test
-  public void should_have_nice_error_message_when_size_is_used_on_iterable_which_is_null() {
+  public void should_have_an_helpful_error_message_when_size_is_used_on_a_null_iterable() {
     Iterable<Integer> nullList = null;
-    thrown.expectNullPointerException("Can not assert on size of a null iterable.");
+    thrown.expectNullPointerException("Can not perform assertions on the size of a null iterable.");
     assertThat(nullList).size().isGreaterThan(1);
   }
 }

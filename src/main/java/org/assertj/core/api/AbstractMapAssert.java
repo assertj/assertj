@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Maps;
+import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -624,8 +625,8 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Example :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),   
-   *                                                                                           entry(nenya, galadriel), 
-   *                                                                                           entry(narya, gandalf));  
+   *                                                            entry(nenya, galadriel), 
+   *                                                            entry(narya, gandalf));  
    * 
    * // assertion will pass
    * assertThat(ringBearers).containsExactly(entry(oneRing, frodo), 
@@ -840,5 +841,34 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   @Override
   public S withThreadDumpOnError() {
     return super.withThreadDumpOnError();
+  }
+  
+  /**
+   * Return an {@code Assert} object that allows to perform assertions on the size of the {@link Map} under test.
+   * <p>
+   * Once this method is called, the object under test is no more the initial {@link Map} but its size, 
+   * to perform assertions on the initial {@link Map}, call {@link AbstractMapSizeAssert#returnToMap()}. 
+   * <p>
+   * Example :
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newHashMap(entry(oneRing, frodo),   
+   *                                                      entry(nenya, galadriel), 
+   *                                                      entry(narya, gandalf));  
+   * 
+   * // assertion will pass:
+   * assertThat(ringBearers).size().isGreaterThan(1)                
+   *                               .isLessThanOrEqualTo(3)
+   *                        returnToMap().contains(entry(oneRing, frodo), 
+   *                                               entry(nenya, galadriel), 
+   *                                               entry(narya, gandalf));
+   * 
+   * // assertion will fail:
+   * assertThat(ringBearers).size().isGreaterThan(5);</code></pre>
+   * 
+   * @throws NullPointerException if the given map is {@code null}.
+   */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public AbstractMapSizeAssert<S, A, K, V> size() {
+    Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null map.");
+    return new MapSizeAssert(this, actual.size());
   }
 }
