@@ -70,6 +70,15 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
 
   /**
    * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('a').isLessThan('b');
+   * assertThat(BigInteger.ZERO).isLessThan(BigInteger.ONE);
+   * 
+   * // assertions will fail
+   * assertThat('a').isLessThan('a');
+   * assertThat(BigInteger.ONE).isLessThan(BigInteger.ZERO);</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -80,6 +89,16 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('a').isLessThanOrEqualTo('b');
+   * assertThat('a').isLessThanOrEqualTo('a');
+   * assertThat(BigInteger.ZERO).isLessThanOrEqualTo(BigInteger.ZERO);
+   * 
+   * // assertions will fail
+   * assertThat('b').isLessThanOrEqualTo('a');
+   * assertThat(BigInteger.ONE).isLessThanOrEqualTo(BigInteger.ZERO);</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -90,6 +109,15 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
 
   /**
    * Verifies that the actual value is greater than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('b').isGreaterThan('a');
+   * assertThat(BigInteger.ONE).isGreaterThan(BigInteger.ZERO);
+   * 
+   * // assertions will fail
+   * assertThat('b').isGreaterThan('a');
+   * assertThat(BigInteger.ZERO).isGreaterThan(BigInteger.ZERO);</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -100,6 +128,15 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('b').isGreaterThanOrEqualTo('a');
+   * assertThat(BigInteger.ONE).isGreaterThanOrEqualTo(BigInteger.ONE);
+   * 
+   * // assertions will fail
+   * assertThat('a').isGreaterThanOrEqualTo('b');
+   * assertThat(BigInteger.ZERO).isGreaterThanOrEqualTo(BigInteger.ONE);</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
