@@ -12,22 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.exception.RuntimeIOException;
-import org.assertj.core.api.filter.*;
-import org.assertj.core.condition.AllOf;
-import org.assertj.core.condition.AnyOf;
-import org.assertj.core.condition.DoesNotHave;
-import org.assertj.core.condition.Not;
-import org.assertj.core.data.Index;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
-import org.assertj.core.groups.Properties;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.Files;
-import org.assertj.core.util.GroupFormatUtil;
-import org.assertj.core.util.URLs;
-import org.assertj.core.util.introspection.FieldSupport;
+import static org.assertj.core.data.Percentage.withPercentage;
 
 import java.io.File;
 import java.io.InputStream;
@@ -42,7 +27,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.data.Percentage.withPercentage;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.exception.RuntimeIOException;
+import org.assertj.core.api.filter.FilterOperator;
+import org.assertj.core.api.filter.Filters;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
+import org.assertj.core.condition.AllOf;
+import org.assertj.core.condition.AnyOf;
+import org.assertj.core.condition.DoesNotHave;
+import org.assertj.core.condition.Not;
+import org.assertj.core.data.Index;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.groups.Properties;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.util.Files;
+import org.assertj.core.util.GroupFormatUtil;
+import org.assertj.core.util.URLs;
+import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -70,7 +75,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
  * @author Turbo87
  * @author dorzey
  */
-public class Java6Assertions {
+public class AssertionsWithoutPath {
 
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
@@ -276,6 +281,7 @@ public class Java6Assertions {
   public static AbstractFileAssert<?> assertThat(File actual) {
     return new FileAssert(actual);
   }
+
 
   /**
    * Creates a new instance of <code>{@link InputStreamAssert}</code>.
@@ -567,7 +573,7 @@ public class Java6Assertions {
    * Java 8 example :
    * <pre><code class='java'>  {@literal @}Test
    *  public void testException() {
-   *    assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *    assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                              .hasMessageContaining("boom");
    *  }</code></pre>
    *
@@ -583,12 +589,12 @@ public class Java6Assertions {
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
    *
-   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised, 
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored. 
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable) catchThrowable} as shown below.  
-   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error 
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.
+   * To use a test description, use {@link #catchThrowable(ThrowingCallable) catchThrowable} as shown below.
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
    * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
-   * 
+   *
    * // assertion will fail AND "display me" will appear in the error
    * Throwable thrown = catchThrowable(() -> { // do nothing });
    * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
@@ -612,7 +618,7 @@ public class Java6Assertions {
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    // when
-   *    Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
+   *    Throwable thrown = catchThrowable(() -> { throw new Exception("boom!") });
    *
    *    // then
    *    assertThat(thrown).isInstanceOf(Exception.class)
@@ -800,7 +806,7 @@ public class Java6Assertions {
    * <li>
    * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
@@ -872,12 +878,32 @@ public class Java6Assertions {
   }
 
   /**
+   * Alias for {@link #offset(Double)} to use with real number assertions.
+   * <p/>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, withPrecision(0.1));</code></pre>
+   */
+  public static Offset<Double> withPrecision(Double value) {
+    return Offset.offset(value);
+  }
+
+  /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
    */
   public static Offset<Float> within(Float value) {
+    return Offset.offset(value);
+  }
+
+  /**
+   * Alias for {@link #offset(Float)} to use with real number assertions.
+   * <p/>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(8.2f).isEqualTo(8.0f, withPrecision(0.2f));</code></pre>
+   */
+  public static Offset<Float> withPrecision(Float value) {
     return Offset.offset(value);
   }
 
@@ -1489,5 +1515,8 @@ public class Java6Assertions {
     AbstractDateAssert.useDefaultDateFormatsOnly();
   }
 
-  protected Java6Assertions() {}
+  /**
+   * Creates a new </code>{@link Assertions}</code>.
+   */
+  protected AssertionsWithoutPath() {}
 }
