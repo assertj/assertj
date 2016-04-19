@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.data.Percentage.withPercentage;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.io.InputStream;
@@ -45,6 +46,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
@@ -896,7 +898,7 @@ public class Assertions {
   public static Offset<Double> withPrecision(Double value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p/>
@@ -1526,7 +1528,57 @@ public class Assertions {
   }
 
   /**
+   * Register a {@link Representation} that will be used in all following assertions.
+   * <p>
+   * {@link Representation} are used to format types in assertions error messages.
+   * <p>
+   * Example :
+   * <pre><code class='java'> private class Example {}
+   *
+   * private class CustomRepresentation extends StandardRepresentation {
+   * 
+   *   // override needed to hook specific formatting  
+   *   {@literal @}Override
+   *   public String toStringOf(Object o) {
+   *     if (o instanceof Example) return "Example";
+   *     // fallback to default formatting.  
+   *     return super.toStringOf(o);
+   *   }
+   *   
+   *   // change String representation  
+   *   {@literal @}Override
+   *   protected String toStringOf(String s) {
+   *     return "$" + s + "$";
+   *   }
+   * }
+   * 
+   * Assertions.useRepresentation(new CustomRepresentation());
+   * Example example = new Example();
+   * // this assertion fails with error : "expected:<[null]> but was:<[Example]>"
+   * assertThat(example).isNull(); // example is not null !
+   * 
+   * // this one fails ... 
+   * assertThat("foo").startsWith("bar");
+   * // ... with error :
+   * Expecting:
+   *  <$foo$>
+   * to start with:
+   *  <$bar$></code></pre>
+   */
+  public static void useRepresentation(Representation customRepresentation) {
+    AbstractAssert.setCustomRepresentation(customRepresentation);
+  }
+
+  /**
+   * Fallback to use {@link StandardRepresentation} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   */
+  public static void useDefaultRepresentation() {
+    AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
+  }
+
+  /**
    * Creates a new </code>{@link Assertions}</code>.
    */
   protected Assertions() {}
+
 }

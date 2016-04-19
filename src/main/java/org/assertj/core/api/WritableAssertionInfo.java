@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 
 import static org.assertj.core.api.DescriptionValidations.checkIsNotNull;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.quote;
 
@@ -34,6 +35,14 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Description description;
   private Representation representation;
 
+  public WritableAssertionInfo(Representation customRepresentation) {
+    useRepresentation(customRepresentation == null ? STANDARD_REPRESENTATION : customRepresentation);
+  }
+
+  public WritableAssertionInfo() {
+    useRepresentation(STANDARD_REPRESENTATION);
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -97,9 +106,6 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   @Override
   public Representation representation() {
-    if (representation == null) {
-      representation = new StandardRepresentation();
-    }
     return representation;
   }
 

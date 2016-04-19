@@ -55,6 +55,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   protected final A actual;
   protected final S myself;
 
+  private static Representation customRepresentation = null;
+
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
@@ -62,7 +64,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   protected AbstractAssert(A actual, Class<?> selfType) {
     myself = (S) selfType.cast(this);
     this.actual = actual;
-    info = new WritableAssertionInfo();
+    info = new WritableAssertionInfo(customRepresentation);
   }
 
   /**
@@ -464,5 +466,9 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   @Override
   public int hashCode() {
     return 1;
+  }
+
+  public static void setCustomRepresentation(Representation customRepresentation) {
+    AbstractAssert.customRepresentation = customRepresentation;
   }
 }
