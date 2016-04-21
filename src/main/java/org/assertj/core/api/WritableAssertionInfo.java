@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.DescriptionValidations.checkIsNotNull;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.quote;
 
 import org.assertj.core.description.Description;
@@ -21,7 +23,6 @@ import org.assertj.core.description.EmptyTextDescription;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
 
 
@@ -37,6 +38,14 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Description description;
   private Representation representation;
 
+  public WritableAssertionInfo(Representation customRepresentation) {
+    useRepresentation(customRepresentation == null ? STANDARD_REPRESENTATION : customRepresentation);
+  }
+
+  public WritableAssertionInfo() {
+    useRepresentation(STANDARD_REPRESENTATION);
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -100,9 +109,6 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   @Override
   public Representation representation() {
-    if (representation == null) {
-      representation = new StandardRepresentation();
-    }
     return representation;
   }
 
@@ -119,6 +125,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   }
 
   public void useRepresentation(Representation newRepresentation) {
+    checkNotNull(newRepresentation, "The representation to use should not be null.");
     representation = newRepresentation;
   }
 
@@ -127,7 +134,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   @Override
   public String toString() {
-    String format = "%s[overridingErrorMessage=%s, description=%s]";
-    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()));
+    String format = "%s[overridingErrorMessage=%s, description=%s, representation=%s]";
+    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()), quote(representation()));
   }
 }

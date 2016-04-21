@@ -13,6 +13,10 @@
 package org.assertj.core.api;
 
 import java.util.Comparator;
+import java.util.Date;
+
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
@@ -573,4 +577,52 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @return this assertion object.
    */
   S withThreadDumpOnError();
+
+  /**
+   * Use the given {@link Representation} to describe/represent values in AssertJ error messages.
+   * <p>
+   * The usual to introduce a new {@link Representation} is to extend {@link StandardRepresentation} 
+   * and override any existing {@code toStringOf} methods that don't suit you, as an example you could control 
+   * {@link Date} format by overriding {@link StandardRepresentation#toStringOf(Date)}).<br/>
+   * You can also control other types format by overriding {@link StandardRepresentation#toStringOf(Object)}) 
+   * calling your formatting method first and then fallback to the default represention by calling {@code super.toStringOf(Object)}.   
+   * <p>
+   * Example :
+   * <pre><code class='java'> private class Example {}
+   *
+   * private class CustomRepresentation extends StandardRepresentation {
+   * 
+   *   // override needed to hook specific formatting  
+   *   {@literal @}Override
+   *   public String toStringOf(Object o) {
+   *     if (o instanceof Example) return "Example";
+   *     // fallback to default formatting.  
+   *     return super.toStringOf(o);
+   *   }
+   *   
+   *   // change String representation  
+   *   {@literal @}Override
+   *   protected String toStringOf(String s) {
+   *     return "$" + s + "$";
+   *   }
+   * }
+   * 
+   * // next assertion fails with error : "expected:<[null]> but was:<[Example]>"
+   * Example example = new Example();
+   * assertThat(example).withRepresentation(new CustomRepresentation())
+   *                    .isNull(); // example is not null !
+   * 
+   * // next assertion fails ... 
+   * assertThat("foo").withRepresentation(new CustomRepresentation())
+   *                  .startsWith("bar");
+   * // ... with error :
+   * Expecting:
+   *  <$foo$>
+   * to start with:
+   *  <$bar$></code></pre>
+   * 
+   * @param representation
+   * @return
+   */
+  S withRepresentation(Representation representation);
 }

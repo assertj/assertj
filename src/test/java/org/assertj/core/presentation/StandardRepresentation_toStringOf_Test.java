@@ -41,7 +41,7 @@ public class StandardRepresentation_toStringOf_Test {
 
   @Test
   public void should_return_null_if_object_is_null() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(null)).isNull();
+    assertThat(STANDARD_REPRESENTATION.toStringOf((Object)null)).isNull();
   }
 
   @Test

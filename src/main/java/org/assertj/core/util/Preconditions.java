@@ -102,6 +102,24 @@ public final class Preconditions {
         + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
     // @format:on
   }
+  
+  
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   * <p>
+   * Borrowed from Guava.
+   *
+   * @param expression a boolean expression
+   * @param errorMessageTemplate a template for the exception message should the check fail. The
+   *     message is formed by calling {@link String#format(String, Object...)} with the given parameters.
+   * @param errorMessageArgs the arguments to be substituted into the message template.
+   * @throws IllegalArgumentException if {@code expression} is false
+   * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
+   *     {@code errorMessageArgs} is null (don't let this happen)
+   */
+  public static void checkArgument(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
+    if (!expression) throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+  }
 
   private Preconditions() {}
 

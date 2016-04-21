@@ -13,6 +13,8 @@
 package org.assertj.core.presentation;
 
 /**
+ * Controls the formatting (String representation) of types in assertion error message.
+ * 
  * @author Mariusz Smykula
  */
 public interface Representation {

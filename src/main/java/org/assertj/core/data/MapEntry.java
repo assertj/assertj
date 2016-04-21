@@ -12,7 +12,6 @@
  */
 package org.assertj.core.data;
 
-import static org.assertj.core.presentation.DefaultToString.toStringOf;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.Map;
@@ -59,7 +58,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
 
   @Override
   public String toString() {
-    return toStringOf(this, STANDARD_REPRESENTATION);
+    return STANDARD_REPRESENTATION.toStringOf(this);
   }
 
   @Override

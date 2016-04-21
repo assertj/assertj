@@ -29,6 +29,7 @@ import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -60,6 +61,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   protected final A actual;
   protected final S myself;
 
+  private static Representation customRepresentation = null;
+
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
@@ -67,7 +70,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   protected AbstractAssert(A actual, Class<?> selfType) {
     myself = (S) selfType.cast(this);
     this.actual = actual;
-    info = new WritableAssertionInfo();
+    info = new WritableAssertionInfo(customRepresentation);
   }
 
   /**
@@ -452,9 +455,17 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return myself;
   }
 
+  /** {@inheritDoc} */
   @Override
   public S withThreadDumpOnError() {
     Failures.instance().enablePrintThreadDump();
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S withRepresentation(Representation representation) {
+    info.useRepresentation(representation);
     return myself;
   }
 
@@ -529,4 +540,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 	throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
   }
 
+  public static void setCustomRepresentation(Representation customRepresentation) {
+    AbstractAssert.customRepresentation = customRepresentation;
+  }
 }
