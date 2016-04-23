@@ -12,11 +12,10 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -36,9 +35,12 @@ public class Maps {
    * 
    * @param map the map to format.
    * @return the {@code String} representation of the given map.
+   * 
+   * @deprecated use {@link StandardRepresentation#toStringOf(Map)} instead.
    */
+  @Deprecated
   public static String format(Map<?, ?> map) {
-    return format(new StandardRepresentation(), map);
+    return STANDARD_REPRESENTATION.toStringOf(map);
   }
 
   /**
@@ -46,27 +48,12 @@ public class Maps {
    *
    * @param map the map to format.
    * @return the {@code String} representation of the given map.
+   * 
+   * @deprecated use {@link StandardRepresentation#toStringOf(Map)} instead.
    */
+  @Deprecated
   public static String format(Representation p, Map<?, ?> map) {
-    if (map == null) return null;
-    Map<?, ?> sortedMap = toSortedMapIfPossible(map);
-    Iterator<?> i = sortedMap.entrySet().iterator();
-    if (!i.hasNext()) return "{}";
-    StringBuilder builder = new StringBuilder("{");
-    for (;;) {
-      Entry<?, ?> entry = (Entry<?, ?>) i.next();
-      builder.append(format(map, entry.getKey(), p)).append('=').append(format(map, entry.getValue(), p));
-      if (!i.hasNext()) return builder.append("}").toString();
-      builder.append(", ");
-    }
-  }
-
-  private static Map<?, ?> toSortedMapIfPossible(Map<?, ?> map) {
-    try {
-      return new TreeMap<>(map);
-    } catch (ClassCastException | NullPointerException e) {
-      return map;
-    }
+    return STANDARD_REPRESENTATION.toStringOf(map);
   }
 
   public static <K, V> Map<K, V> newHashMap(K key, V value) {
@@ -75,9 +62,5 @@ public class Maps {
       return map;
   }
   
-  private static Object format(Map<?, ?> map, Object o, Representation p) {
-    return o == map ? "(this Map)" : p.toStringOf(o);
-  }
-
   private Maps() {}
 }

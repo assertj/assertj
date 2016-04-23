@@ -31,7 +31,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -42,7 +44,6 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.Compatibility;
 import org.assertj.core.util.DateUtil;
-import org.assertj.core.util.Maps;
 
 /**
  * Standard java object representation.
@@ -122,7 +123,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof CompletableFuture) return toStringOf((CompletableFuture<?>) object);
     if (isArray(object)) return formatArray(object);
     if (object instanceof Collection<?>) return smartFormat((Collection<?>) object);
-    if (object instanceof Map<?, ?>) return Maps.format(this, (Map<?, ?>) object);
+    if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
     return object.toString();
@@ -203,6 +204,32 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(MapEntry<?, ?> mapEntry) {
     return String.format("MapEntry[key=%s, value=%s]", toStringOf(mapEntry.key), toStringOf(mapEntry.value));
+  }
+
+  protected String toStringOf(Map<?, ?> map) {
+    if (map == null) return null;
+    Map<?, ?> sortedMap = toSortedMapIfPossible(map);
+    Iterator<?> entriesIterator = sortedMap.entrySet().iterator();
+    if (!entriesIterator.hasNext()) return "{}";
+    StringBuilder builder = new StringBuilder("{");
+    for (;;) {
+      Entry<?, ?> entry = (Entry<?, ?>) entriesIterator.next();
+      builder.append(format(map, entry.getKey())).append('=').append(format(map, entry.getValue()));
+      if (!entriesIterator.hasNext()) return builder.append("}").toString();
+      builder.append(", ");
+    }
+  }
+
+  private static Map<?, ?> toSortedMapIfPossible(Map<?, ?> map) {
+    try {
+      return new TreeMap<>(map);
+    } catch (ClassCastException | NullPointerException e) {
+      return map;
+    }
+  }
+
+  private Object format(Map<?, ?> map, Object o) {
+    return o == map ? "(this Map)" : toStringOf(o);
   }
 
   @Override

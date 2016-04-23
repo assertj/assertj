@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class StandardRepresentation_format_iterable_Test {
+public class StandardRepresentation_iterable_format_Test {
 
   @Test
   public void should_return_null_if_iterable_is_null() {

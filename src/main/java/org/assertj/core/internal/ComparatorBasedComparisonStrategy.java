@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import java.util.Comparator;
@@ -19,17 +20,12 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.assertj.core.presentation.StandardRepresentation;
-
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on a {@link Comparator}.
  * 
  * @author Joel Costigliola
  */
 public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrategy {
-
-  // stateless => can be shared
-  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   // A raw type is necessary because we can't make assumptions on object to be compared.
   @SuppressWarnings("rawtypes")

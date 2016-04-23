@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class StandardRepresentation_formatArray_Test {
+public class StandardRepresentation_array_format_Test {
 
   @Test
   public void should_return_null_if_array_is_null() {
