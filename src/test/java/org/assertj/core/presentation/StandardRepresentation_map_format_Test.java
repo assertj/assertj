@@ -10,9 +10,10 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.presentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,24 +24,23 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
- * Tests for {@link Maps#format(Map)} and {@link Maps#format(org.assertj.core.presentation.Representation, Map)}.
+ * Tests for {@link StandardRepresentation#toStringOf(Map) StandardRepresentation#toStringOf(Map)}.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author gabga
  */
-public class Maps_format_Test {
-
-  private final StandardRepresentation standardRepresentation = new StandardRepresentation();
+public class StandardRepresentation_map_format_Test {
 
   @Test
   public void should_return_null_if_Map_is_null() {
-    assertThat(Maps.format(null)).isNull();
+    Map<?,?> map = null;
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isNull();
   }
 
   @Test
   public void should_return_empty_braces_if_Map_is_empty() {
-    assertThat(Maps.format(new HashMap<String, String>())).isEqualTo("{}");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new HashMap<String, String>())).isEqualTo("{}");
   }
 
   @Test
@@ -48,15 +48,7 @@ public class Maps_format_Test {
     Map<String, Class<?>> map = new LinkedHashMap<>();
     map.put("One", String.class);
     map.put("Two", File.class);
-    assertThat(Maps.format(map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
-  }
-
-  @Test
-  public void should_format_Map_with_standard_representation_by_default() {
-    Map<String, Class<?>> map = new LinkedHashMap<>();
-    map.put("One", String.class);
-    map.put("Two", File.class);
-    assertThat(Maps.format(standardRepresentation, map)).isEqualTo(Maps.format(map));
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
   }
 
   @Test
@@ -64,7 +56,7 @@ public class Maps_format_Test {
     Map<String, Object> map = new HashMap<>();
     map.put("One", "First");
     map.put("Myself", map);
-    assertThat(Maps.format(map)).isEqualTo("{\"Myself\"=(this Map), \"One\"=\"First\"}");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"Myself\"=(this Map), \"One\"=\"First\"}");
   }
 
   @Test
@@ -73,7 +65,7 @@ public class Maps_format_Test {
     map.put('C', 3);
     map.put('B', 2);
     map.put('A', 1);
-    assertThat(Maps.format(map)).isEqualTo("{'A'=1, 'B'=2, 'C'=3}");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{'A'=1, 'B'=2, 'C'=3}");
   }
 
   @Test
@@ -83,6 +75,6 @@ public class Maps_format_Test {
     map.put(false, 2);
     map.put('A', 1);
 
-    assertThat(Maps.format(map)).isEqualTo("{\"foo\"=3, false=2, 'A'=1}");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"foo\"=3, false=2, 'A'=1}");
   }
 }
