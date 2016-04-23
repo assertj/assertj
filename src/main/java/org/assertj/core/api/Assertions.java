@@ -39,6 +39,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -1747,10 +1748,15 @@ public class Assertions {
     AbstractAssert.setCustomRepresentation(customRepresentation);
   }
 
+  public static void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
+    STANDARD_REPRESENTATION.registerFormatterForType(type, formatter);
+  }
+  
   /**
    * Fallback to use {@link StandardRepresentation} to revert the effect of calling {@link #useRepresentation(Representation)}.
    */
   public static void useDefaultRepresentation() {
+    STANDARD_REPRESENTATION.removeAllRegisteredFormatters();
     AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
   }
 

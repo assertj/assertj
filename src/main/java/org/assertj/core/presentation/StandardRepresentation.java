@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,6 +35,7 @@ import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.function.Function;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
@@ -49,7 +51,7 @@ import org.assertj.core.util.Maps;
  */
 public class StandardRepresentation implements Representation {
 
-  // can share this at StandardRepresentation has no state
+  // can be shared this at StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   private static final String NULL = "null";
@@ -70,9 +72,29 @@ public class StandardRepresentation implements Representation {
 
   static int maxLengthForSingleLineDescription = 80;
 
+  private final Map<Class<?>, Function<Object, String>> customFormatterByType;
+
   public static void setMaxLengthForSingleLineDescription(int value) {
     checkArgument(value <= 0, "maxLengthForSingleLineDescription must be > 0 but was %s", value);
     maxLengthForSingleLineDescription = value;
+  }
+
+  public StandardRepresentation() {
+    customFormatterByType = new HashMap<>();
+  }
+
+  /**
+   * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.  
+   */
+  public void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
+    customFormatterByType.put(type, formatter);
+  }
+
+  /**
+   * Clear all formatters registered per type with {@link #registerFormatterForType(Class, Function)}.
+   */
+  public void removeAllRegisteredFormatters() {
+    customFormatterByType.clear();
   }
 
   /**
@@ -84,6 +106,9 @@ public class StandardRepresentation implements Representation {
    */
   @Override
   public String toStringOf(Object object) {
+    if (object == null) return null;
+    Class<?> type = object.getClass();
+    if (customFormatterByType.containsKey(type)) return customFormatterByType.get(type).apply(object);
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
@@ -100,7 +125,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Map<?, ?>) return Maps.format(this, (Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
-    return object == null ? null : object.toString();
+    return object.toString();
   }
 
   protected String toStringOf(Number number) {
@@ -136,10 +161,10 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(PredicateDescription p) {
-	// don't enclose default description with '' 
-	return p.isDefault() ? String.format("%s", p.description) : String.format("'%s'", p.description);
+    // don't enclose default description with ''
+    return p.isDefault() ? String.format("%s", p.description) : String.format("'%s'", p.description);
   }
-  
+
   protected String toStringOf(Date d) {
     return DateUtil.formatAsDatetimeWithMs(d);
   }
