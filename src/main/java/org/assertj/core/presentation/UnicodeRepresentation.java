@@ -20,6 +20,8 @@ import java.util.Formatter;
  * @author Mariusz Smykula
  */
 public class UnicodeRepresentation extends StandardRepresentation {
+  
+  public static final UnicodeRepresentation UNICODE_REPRESENTATION = new UnicodeRepresentation();
 
   /**
    * Returns hexadecimal the {@code toString} representation of the given String or Character.
@@ -29,6 +31,7 @@ public class UnicodeRepresentation extends StandardRepresentation {
    */
   @Override
   public String toStringOf(Object object) {
+    if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof String) return toStringOf((String) object);
     if (object instanceof Character) return toStringOf((Character) object);
     return super.toStringOf(object);
@@ -38,6 +41,7 @@ public class UnicodeRepresentation extends StandardRepresentation {
     return escapeUnicode(string.toString());
   }
 
+  @Override
   protected String toStringOf(String string) {
     return escapeUnicode(string);
   }

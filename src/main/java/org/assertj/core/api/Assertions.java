@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -59,8 +60,11 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.BinaryRepresentation;
+import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.presentation.UnicodeRepresentation;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -1748,15 +1752,44 @@ public class Assertions {
     AbstractAssert.setCustomRepresentation(customRepresentation);
   }
 
+  /**
+   * Assertions error messages uses a {@link Representation} to format the different types involved, using this method
+   * you can control the formatting of a given type by providing a specific formatter.
+   * 
+   *  
+   * <p>
+   * Registering a formatter makes it available for all AssertJ {@link Representation}:
+   * <ul>
+   * <li>{@link StandardRepresentation}</li>
+   * <li>{@link UnicodeRepresentation}</li>
+   * <li>{@link HexadecimalRepresentation}</li>
+   * <li>{@link BinaryRepresentation}</li>
+   * </ul>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // without specific formatter 
+   * assertThat(STANDARD_REPRESENTATION.toStringOf(123L)).isEqualTo("123L");
+   * 
+   * // register a formatter for Long
+   * Assertions.registerFormatterForType(Long.class, value -> "$" + value + "$");
+   *
+   * // now Long will be formatted between in $$ in error message.
+   * assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+   * 
+   * // fails with error : expected:<$456$> but was:<$123$> 
+   * assertThat(123L).isEqualTo(456L);</code></pre>
+   * @param type
+   * @param formatter
+   */
   public static void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
-    STANDARD_REPRESENTATION.registerFormatterForType(type, formatter);
+    StandardRepresentation.registerFormatterForType(type, formatter);
   }
   
   /**
    * Fallback to use {@link StandardRepresentation} to revert the effect of calling {@link #useRepresentation(Representation)}.
    */
   public static void useDefaultRepresentation() {
-    STANDARD_REPRESENTATION.removeAllRegisteredFormatters();
+    StandardRepresentation.removeAllRegisteredFormatters();
     AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
   }
 

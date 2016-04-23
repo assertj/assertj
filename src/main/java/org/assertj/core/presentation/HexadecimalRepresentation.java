@@ -35,6 +35,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
    */
   @Override
   public String toStringOf(Object object) {
+    if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof Number) return toStringOf((Number) object);
     else if (object instanceof String) return toStringOf(this, (String) object);
     else if (object instanceof Character) return toStringOf((Character) object);

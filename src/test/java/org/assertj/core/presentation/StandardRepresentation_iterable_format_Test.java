@@ -36,15 +36,15 @@ public class StandardRepresentation_iterable_format_Test {
 
   @Test
   public void should_format_iterable_on_one_line_if_description_is_short_enough() {
-    String e1 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription / 10);
-    String e2 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription / 10);
+    String e1 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription() / 10);
+    String e2 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription() / 10);
     assertThat(STANDARD_REPRESENTATION.smartFormat(asList(e1, e2))).isEqualTo("[\"" + e1 + "\", \"" + e2 + "\"]");
   }
 
   @Test
   public void should_format_iterable_with_one_element_per_line_when_single_line_description_is_too_long() {
-    String e1 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription);
-    String e2 = stringOfLength(StandardRepresentation.maxLengthForSingleLineDescription);
+    String e1 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription());
+    String e2 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription());
     assertThat(STANDARD_REPRESENTATION.smartFormat(asList(e1, e2))).isEqualTo(format("[\"" + e1 + "\",%n" +
                                                                                      "    \"" + e2 + "\"]"));
   }

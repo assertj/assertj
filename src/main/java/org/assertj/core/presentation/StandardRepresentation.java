@@ -71,30 +71,30 @@ public class StandardRepresentation implements Representation {
   public static final String ELEMENT_SEPARATOR = ",";
   public static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + Compatibility.System.lineSeparator();
 
-  static int maxLengthForSingleLineDescription = 80;
+  private static int maxLengthForSingleLineDescription = 80;
 
-  private final Map<Class<?>, Function<Object, String>> customFormatterByType;
+  private static final Map<Class<?>, Function<Object, String>> customFormatterByType = new HashMap<>();
 
   public static void setMaxLengthForSingleLineDescription(int value) {
     checkArgument(value <= 0, "maxLengthForSingleLineDescription must be > 0 but was %s", value);
     maxLengthForSingleLineDescription = value;
   }
-
-  public StandardRepresentation() {
-    customFormatterByType = new HashMap<>();
+  
+  public static int getMaxLengthForSingleLineDescription() {
+    return maxLengthForSingleLineDescription;
   }
 
   /**
    * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.  
    */
-  public void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
+  public static void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
     customFormatterByType.put(type, formatter);
   }
 
   /**
    * Clear all formatters registered per type with {@link #registerFormatterForType(Class, Function)}.
    */
-  public void removeAllRegisteredFormatters() {
+  public static void removeAllRegisteredFormatters() {
     customFormatterByType.clear();
   }
 
@@ -108,8 +108,7 @@ public class StandardRepresentation implements Representation {
   @Override
   public String toStringOf(Object object) {
     if (object == null) return null;
-    Class<?> type = object.getClass();
-    if (customFormatterByType.containsKey(type)) return customFormatterByType.get(type).apply(object);
+    if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
@@ -127,6 +126,16 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
     return object.toString();
+  }
+
+  protected String customFormat(Object object) {
+    if (object == null) return null;
+    return customFormatterByType.get(object.getClass()).apply(object);
+  }
+
+  protected boolean hasCustomFormatterFor(Object object) {
+    if (object == null) return false;
+    return customFormatterByType.containsKey(object.getClass());
   }
 
   protected String toStringOf(Number number) {

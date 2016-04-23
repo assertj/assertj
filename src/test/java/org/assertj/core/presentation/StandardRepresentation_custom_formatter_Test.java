@@ -13,8 +13,12 @@
 package org.assertj.core.presentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.presentation.BinaryRepresentation.BINARY_REPRESENTATION;
+import static org.assertj.core.presentation.HexadecimalRepresentation.HEXA_REPRESENTATION;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
+import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
 
@@ -27,45 +31,40 @@ public class StandardRepresentation_custom_formatter_Test {
 
   @After
   public void afterTest() {
-    STANDARD_REPRESENTATION.removeAllRegisteredFormatters();
-  }
-  
-  @Test
-  public void should_use_registered_formatter_for_type() {
-    // GIVEN
-    Object longNumber = 123L; // need to declare as an Object otherwise toStringOf(Long) is used 
-    assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("123L");
-    // WHEN
-    STANDARD_REPRESENTATION.registerFormatterForType(Long.class, value -> "$" + value + "$");
-    // THEN
-    assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    StandardRepresentation.removeAllRegisteredFormatters();
   }
 
   @Test
-  public void should_use_registered_formatter_for_String() {
+  public void should_use_registered_formatter_for_type() {
     // GIVEN
-    Object string = "foo"; // need to declare as an Object otherwise toStringOf(String) is used 
-    assertThat(STANDARD_REPRESENTATION.toStringOf(string)).isEqualTo("\"foo\"");
+    Object longNumber = 123L; // need to declare as an Object otherwise toStringOf(Long) is used
+    assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("123L");
+    assertThat(HEXA_REPRESENTATION.toStringOf(longNumber)).isEqualTo("0x0000_0000_0000_007B");
+    assertThat(BINARY_REPRESENTATION.toStringOf(longNumber)).isEqualTo("0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_01111011");
+    assertThat(UNICODE_REPRESENTATION.toStringOf(longNumber)).isEqualTo("123L");
     // WHEN
-    STANDARD_REPRESENTATION.registerFormatterForType(String.class, value -> "$" + value + "$");
+    Assertions.registerFormatterForType(Long.class, value -> "$" + value + "$");
     // THEN
-    assertThat(STANDARD_REPRESENTATION.toStringOf(string)).isEqualTo("$foo$");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    assertThat(HEXA_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    assertThat(BINARY_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    assertThat(UNICODE_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
   }
-  
+
   @Test
   public void should_remove_all_registered_formatters_after_resetting_to_default() {
     // GIVEN
-    STANDARD_REPRESENTATION.registerFormatterForType(Long.class, value -> "$" + value + "$");
-    STANDARD_REPRESENTATION.registerFormatterForType(Integer.class, value -> "int(" + value + ")");
+    StandardRepresentation.registerFormatterForType(Long.class, value -> "$" + value + "$");
+    StandardRepresentation.registerFormatterForType(Integer.class, value -> "int(" + value + ")");
     Object longNumber = 123L;
     Object intNumber = 123;
     assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
     assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("int(123)");
     // WHEN
-    STANDARD_REPRESENTATION.removeAllRegisteredFormatters();
+    StandardRepresentation.removeAllRegisteredFormatters();
     // THEN
     assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("123L");
     assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("123");
   }
-  
+
 }
