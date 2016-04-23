@@ -13,15 +13,14 @@
 package org.assertj.core.internal;
 
 import static java.util.Collections.EMPTY_MAP;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 public class IgnoringFieldsComparator extends FieldByFieldComparator {
 
   private String[] fields;
-  private final static StandardRepresentation REPRESENTATION = new StandardRepresentation();
 
   public IgnoringFieldsComparator(String... fields) {
       this.fields = fields;
@@ -44,6 +43,6 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   
   @Override
   public String toString() {
-	return "field by field comparator on all fields except " + REPRESENTATION.toStringOf(fields);
+	return "field by field comparator on all fields except " + STANDARD_REPRESENTATION.toStringOf(fields);
   }
 }

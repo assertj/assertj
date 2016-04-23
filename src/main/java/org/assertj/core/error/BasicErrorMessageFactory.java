@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
@@ -112,13 +113,13 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   /** {@inheritDoc} */
   @Override
   public String create(Description d) {
-    return formatter.format(d, new StandardRepresentation(), format, arguments);
+    return formatter.format(d, STANDARD_REPRESENTATION, format, arguments);
   }
 
   /** {@inheritDoc} */
   @Override
   public String create() {
-    return formatter.format(EmptyTextDescription.emptyText(), new StandardRepresentation(), format, arguments);
+    return formatter.format(EmptyTextDescription.emptyText(), STANDARD_REPRESENTATION, format, arguments);
   }
 
   /**
