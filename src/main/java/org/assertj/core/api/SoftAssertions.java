@@ -12,9 +12,10 @@
  */
 package org.assertj.core.api;
 
-import java.util.List;
+import static java.lang.String.format;
 
-import static org.assertj.core.groups.Properties.extractProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -105,16 +106,40 @@ import static org.assertj.core.groups.Properties.extractProperty;
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 
-	/**
+  /**
    * Verifies that no proxied assertion methods have failed.
    *
    * @throws SoftAssertionError if any proxied assertion objects threw
    */
   public void assertAll() {
-	List<Throwable> errors = errorsCollected();
-	if (!errors.isEmpty()) {
-	  throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
-	}
+    List<Throwable> errors = errorsCollected();
+    if (!errors.isEmpty()) {
+      throw new SoftAssertionError(createErrorMessagesWithLineNumbers(errors));
+    }
   }
 
+  private ArrayList<String> createErrorMessagesWithLineNumbers(List<Throwable> errors) {
+    ArrayList<String> errorMessages = new ArrayList<>();
+    for (Throwable error : errors) {
+      String errorMessage = error.getMessage();
+      StackTraceElement stackTraceElement = searchForFirstUserElement(error.getStackTrace());
+      if (stackTraceElement != null) {
+        errorMessage += format("%nat (%s:%s)", stackTraceElement.getClassName(), stackTraceElement.getLineNumber());
+      }
+      errorMessages.add(errorMessage);
+    }
+    return errorMessages;
+  }
+
+  private StackTraceElement searchForFirstUserElement(StackTraceElement[] stacktrace) {
+    for (StackTraceElement element : stacktrace) {
+      String className = element.getClassName();
+      if (className.startsWith("sun.reflect") || className.startsWith("java.lang.reflect")
+          || className.startsWith("net.sf.cglib.proxy") || className.startsWith("org.assertj")) {
+        continue;
+      }
+      return element;
+    }
+    return null;
+  }
 }
