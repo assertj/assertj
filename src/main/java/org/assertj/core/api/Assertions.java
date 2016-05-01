@@ -1564,6 +1564,8 @@ public class Assertions {
    *  <$foo$>
    * to start with:
    *  <$bar$></code></pre>
+   *  
+   * @since 2.5.0
    */
   public static void useRepresentation(Representation customRepresentation) {
     AbstractAssert.setCustomRepresentation(customRepresentation);
@@ -1571,6 +1573,8 @@ public class Assertions {
 
   /**
    * Fallback to use {@link StandardRepresentation} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   * 
+   * @since 2.5.0
    */
   public static void useDefaultRepresentation() {
     AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
