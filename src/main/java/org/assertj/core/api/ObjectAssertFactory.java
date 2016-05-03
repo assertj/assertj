@@ -12,17 +12,11 @@
  */
 package org.assertj.core.api;
 
-import java.util.Collection;
-
-public class ConcreteIterableAssert<ELEMENT> extends
-    FactoryBasedNavigableIterableAssert<ConcreteIterableAssert<ELEMENT>, Iterable<ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
-
-  public ConcreteIterableAssert(Collection<ELEMENT> actual) {
-    super(actual, ConcreteIterableAssert.class, new ObjectAssertFactory<ELEMENT>());
-  }
+public class ObjectAssertFactory<T>  implements AssertFactory<T, ObjectAssert<T>> {
 
   @Override
-  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssert<>(value);
+  public ObjectAssert<T> createAssert(T t) {
+    return new ObjectAssert<>(t);
   }
+  
 }

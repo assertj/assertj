@@ -10,19 +10,18 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.navigation;
 
-import java.util.Collection;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ClassBasedNavigableIterableAssert;
+import org.assertj.core.test.Vehicle;
+import org.assertj.core.test.VehicleAssert;
 
-public class ConcreteIterableAssert<ELEMENT> extends
-    FactoryBasedNavigableIterableAssert<ConcreteIterableAssert<ELEMENT>, Iterable<ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
-
-  public ConcreteIterableAssert(Collection<ELEMENT> actual) {
-    super(actual, ConcreteIterableAssert.class, new ObjectAssertFactory<ELEMENT>());
-  }
+public class ClassBasedNavigableIterable_Test extends BaseNavigableIterableAssert_Test {
 
   @Override
-  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssert<>(value);
+  protected ClassBasedNavigableIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
+    return Assertions.assertThat(expectedVehicles, VehicleAssert.class);
   }
+
 }

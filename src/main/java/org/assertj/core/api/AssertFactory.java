@@ -13,13 +13,17 @@
 package org.assertj.core.api;
 
 /**
- * A factory method to create an Assert class for a given type.
- * This factory method typically wraps a call to <code>assertThat(t)</code> to map to the concrete assert type A
- * for the element T.
- * <br>
- * This interface is typically used by navigation assertions on iterable types like {@link NavigationListAssert}
+ * A single method factory interface to create an {@link Assert} class for a given type.
+ * This factory method typically wraps a call to <code>assertThat(t)</code> to map to the concrete assert type {@code ASSERT}
+ * for the element {@code T}.
+ * <p>
+ * This interface is typically used by navigation assertions on iterable types like {@link AbstractIterableAssert} when calling
+ * {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable&lt;E&gt;, AssertFactory&lt;E, ASSERT&gt;)}
+ * <p>
+ * @param <T> the type to create assertions for.
+ * @param <ASSERT> the assertions class for T.
  */
-public interface AssertFactory<T, A> {
+public interface AssertFactory<T, ASSERT> {
 
   /**
    * Creates the custom Assert object for the given element value.
@@ -28,5 +32,5 @@ public interface AssertFactory<T, A> {
    * @param t the type to convert to an Assert object
    * @return returns <code>assertThat(t)</code>
    */
-  A createAssert(T t);
+  ASSERT createAssert(T t);
 }

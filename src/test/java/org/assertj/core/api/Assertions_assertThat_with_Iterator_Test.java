@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
@@ -53,21 +52,18 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_create_Assert() {
-    AbstractIterableAssert<?, ? extends Iterable<? extends Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
-    assertThat(assertions).isNotNull();
+    assertThat(assertThat(newLinkedHashSet())).isNotNull();
   }
 
   @Test
   public void should_initialise_actual() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    AbstractIterableAssert<?, ? extends Iterable<? extends String>, String> assertions = assertThat(names);
-    assertThat(assertions.actual).containsOnly("Leia", "Luke");
+    assertThat(assertThat(names).actual).containsOnly("Leia", "Luke");
   }
 
   @Test
   public void should_allow_null() {
-    AbstractIterableAssert<?, ? extends Iterable<? extends String>, String> assertions = assertThat((Iterator<String>) null);
-    assertThat(assertions.actual).isNull();
+    assertThat(assertThat((Iterator<String>) null).actual).isNull();
   }
 
   @Test
