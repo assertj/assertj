@@ -1,6 +1,4 @@
-##### Issue
-
-Fixes #
+##### Fixes #
 
 ##### Check List
 
