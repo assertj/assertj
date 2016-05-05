@@ -157,10 +157,10 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Use unicode character representation instead of standard representation in error messages.
-   * <p/>
+   * <p>
    * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
    * it is thus impossible to find differences from the standard error message:
-   * <p/>
+   * <p>
    * With standard error message:
    * <pre><code class='java'> assertThat('µ').isEqualTo('μ');
    *

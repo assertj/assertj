@@ -44,21 +44,21 @@ public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
    * <li>a array composed of {True, "abc", False} is <b>NOT ok</b> because elements are not mutually comparable (even though each
    * element type implements Comparable)</li>
    * </ul>
-   * Empty or one element arrays are considered sorted (unless the array element type is not Comparable).</br></br>
+   * Empty or one element arrays are considered sorted (unless the array element type is not Comparable).<br><br>
    * 
    * @return {@code this} assertion object.
    * 
    * @throws AssertionError if the actual array is not sorted into ascending order according to the natural ordering of its
    *           elements.
-   * @throws AssertionError if the actual array is <code>null</code>.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array element type does not implement {@link Comparable}.
    * @throws AssertionError if the actual array elements are not mutually {@link Comparable}.
    */
   S isSorted();
 
   /**
-   * Verifies that the actual array is sorted according to the given comparator.</br> Empty arrays are considered sorted whatever
-   * the comparator is.</br> One element arrays are considered sorted if element is compatible with comparator, otherwise an
+   * Verifies that the actual array is sorted according to the given comparator.<br> Empty arrays are considered sorted whatever
+   * the comparator is.<br> One element arrays are considered sorted if element is compatible with comparator, otherwise an
    * AssertionError is thrown.
    * 
    * @param comparator the {@link Comparator} used to compare array elements
@@ -66,8 +66,8 @@ public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
    * @return {@code this} assertion object.
    * 
    * @throws AssertionError if the actual array is not sorted according to the given comparator.
-   * @throws AssertionError if the actual array is <code>null</code>.
-   * @throws NullPointerException if the given comparator is <code>null</code>.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws NullPointerException if the given comparator is {@code null}.
    * @throws AssertionError if the actual array elements are not mutually comparable according to given Comparator.
    */
   S isSortedAccordingTo(Comparator<? super E> comparator);

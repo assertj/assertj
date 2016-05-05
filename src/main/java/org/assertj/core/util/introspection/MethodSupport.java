@@ -31,7 +31,7 @@ public class MethodSupport {
 
   /**
    * Returns result of given method invocation on provided object.
-   * <p/>
+   * <p>
    * Following requirements have to be met to extract method results:
    * <ul>
    * <li>method has to be public,</li>
