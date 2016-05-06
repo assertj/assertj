@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.groups.Properties.extractProperty;
-
 import java.util.List;
 
 /**
@@ -105,16 +103,16 @@ import java.util.List;
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 
-	/**
+  /**
    * Verifies that no proxied assertion methods have failed.
    *
    * @throws SoftAssertionError if any proxied assertion objects threw
    */
   public void assertAll() {
-	List<Throwable> errors = errorsCollected();
-	if (!errors.isEmpty()) {
-	  throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
-	}
+    List<Throwable> errors = errorsCollected();
+    if (!errors.isEmpty()) {
+      throw new SoftAssertionError(createErrorMessagesWithLineNumbers(errors));
+    }
   }
 
 }

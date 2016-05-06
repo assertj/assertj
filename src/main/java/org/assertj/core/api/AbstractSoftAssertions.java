@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractSoftAssertions {
@@ -28,5 +31,32 @@ public class AbstractSoftAssertions {
 
   protected List<Throwable> errorsCollected(){
     return proxies.errorsCollected();
+  }
+
+  protected ArrayList<String> createErrorMessagesWithLineNumbers(List<Throwable> errors) {
+    ArrayList<String> errorMessages = new ArrayList<>();
+    for (Throwable error : errors) {
+      String errorMessage = error.getMessage();
+      StackTraceElement stackTraceElement = searchForFirstUserElement(error.getStackTrace());
+      if (stackTraceElement != null) {
+        String className = stackTraceElement.getClassName();
+        errorMessage += format("%nat %s.%s(%s.java:%s)", className, stackTraceElement.getMethodName(),
+                               className.substring(className.lastIndexOf('.') + 1), stackTraceElement.getLineNumber());
+      }
+      errorMessages.add(errorMessage);
+    }
+    return errorMessages;
+  }
+
+  private StackTraceElement searchForFirstUserElement(StackTraceElement[] stacktrace) {
+    for (StackTraceElement element : stacktrace) {
+      String className = element.getClassName();
+      if (className.startsWith("sun.reflect") || className.startsWith("java.lang.reflect")
+          || className.startsWith("net.sf.cglib.proxy") || className.startsWith("org.assertj")) {
+        continue;
+      }
+      return element;
+    }
+    return null;
   }
 }
