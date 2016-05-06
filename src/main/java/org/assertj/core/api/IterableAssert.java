@@ -120,6 +120,24 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
     }
     return super.isNotExactlyInstanceOf(type);
   }
+  
+  @Override
+  public IterableAssert<T> isSameAs(Object expected) {
+    if (actual instanceof LazyIterable) {
+      objects.assertSame(info, asLazyIterable().iterator, expected);
+      return myself;
+    }
+    return super.isSameAs(expected);
+  }
+  
+  @Override
+  public IterableAssert<T> isNotSameAs(Object expected) {
+    if (actual instanceof LazyIterable) {
+      objects.assertNotSame(info, asLazyIterable().iterator, expected);
+      return myself;
+    }
+    return super.isNotSameAs(expected);
+  }
 
   @SuppressWarnings("rawtypes")
   private LazyIterable asLazyIterable() {
