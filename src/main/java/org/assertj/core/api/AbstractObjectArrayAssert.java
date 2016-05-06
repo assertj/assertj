@@ -117,9 +117,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that the actual array has the same size as the given array.
-   * <p/>
+   * <p>
    * Parameter is declared as Object to accept both {@code Object[]} and primitive arrays (e.g. {@code int[]}).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * int[] fourFiveSix = {4, 5, 6}; 
@@ -142,7 +142,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that the actual group has the same size as the given {@link Iterable}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
@@ -217,7 +217,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
    * {@code Iterable} and nothing else, <b>in any order</b>.
-   * <p/>
+   * <p>
    * Example :
    * <pre><code class='java'> Ring[] rings = {nenya, vilya};
    * 
@@ -329,7 +329,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
    * actual contains all elements of the given {@code Iterable} and nothing else <b>in the same order</b>.
-   * <p/>
+   * <p>
    * Example :
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
    * 
@@ -401,7 +401,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that the actual array contains the given object at the given index.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
    *
@@ -432,7 +432,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that the actual array does not contain the given object at the given index.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
    *
@@ -487,7 +487,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that the actual array does not contain any elements of the given {@link Iterable} (i.e. none).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
    * 
@@ -591,7 +591,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that all elements of actual are present in the given {@code Iterable}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya}; 
    * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
@@ -616,7 +616,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that all elements of actual are present in the given values.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya}; 
    * 
@@ -685,35 +685,139 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that each element value satisfies the given condition
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   * 
+   * Condition&lt;String&gt; singleCharacterString 
+   *      = new Condition&lt;&gt;(s -> s.length() == 1, "single character String");
+   *
+   * // assertion will pass
+   * assertThat(abc).are(singleCharacterString);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).are(singleCharacterString);</code></pre>
+   *
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements don't satisfy the given condition.
+   */
   @Override
   public S are(Condition<? super T> condition) {
     arrays.assertAre(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that each element value does not satisfy the given condition
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   *
+   * Condition&lt;String&gt; moreThanOneCharacter = 
+   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *
+   * // assertion will pass
+   * assertThat(abc).areNot(moreThanOneCharacter);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).areNot(moreThanOneCharacter);</code></pre>
+   * 
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements satisfy the given condition.
+   */
   @Override
   public S areNot(Condition<? super T> condition) {
     arrays.assertAreNot(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that all elements satisfy the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   *
+   * Condition&lt;String&gt; onlyOneCharacter = 
+   *     = new Condition&lt;&gt;(s -> s.length() == 1, "only one character");
+   *
+   * // assertion will pass
+   * assertThat(abc).have(onlyOneCharacter);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).have(onlyOneCharacter);</code></pre>
+   * 
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements do not satisfy the given condition.
+   */
   @Override
   public S have(Condition<? super T> condition) {
     arrays.assertHave(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that all elements don't satisfy the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"}; 
+   * String[] abcc = {"a", "b", "cc"}; 
+   *
+   * Condition&lt;String&gt; moreThanOneCharacter = 
+   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *
+   * // assertion will pass
+   * assertThat(abc).doNotHave(moreThanOneCharacter);
+   * 
+   * // assertion will fail
+   * assertThat(abcc).doNotHave(moreThanOneCharacter);</code></pre>
+   * 
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements satisfy the given condition.
+   */
   @Override
   public S doNotHave(Condition<? super T> condition) {
     arrays.assertDoNotHave(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.areAtLeast(2, oddNumber);
+   * 
+   * // assertion will fail
+   * oneTwoThree.areAtLeast(3, oddNumber);</code></pre>
+   * 
+   * @param n the minimum number of times the condition should be verified.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element can not be cast to T.
+   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
+   */
   @Override
   public S areAtLeast(int times, Condition<? super T> condition) {
     arrays.assertAreAtLeast(info, actual, times, condition);
@@ -722,9 +826,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that there is <b>at least <i>one</i></b> element in the actual array satisfying the given condition.
-   * <p/>
+   * <p>
    * This method is an alias for {@code areAtLeast(1, condition)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // jedi is a Condition&lt;String&gt;
    * assertThat(new String[]{"Luke", "Solo", "Leia"}).areAtLeastOne(jedi);</code></pre>
@@ -737,14 +841,56 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertions will pass
+   * oneTwoThree.areAtMost(2, oddNumber);
+   * oneTwoThree.areAtMost(3, oddNumber);
+   * 
+   * // assertion will fail
+   * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
+   * 
+   * @param n the number of times the condition should be at most verified.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
+   */
   @Override
   public S areAtMost(int times, Condition<? super T> condition) {
     arrays.assertAreAtMost(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.areExactly(2, oddNumber);
+   * 
+   * // assertions will fail
+   * oneTwoThree.areExactly(1, oddNumber);
+   * oneTwoThree.areExactly(3, oddNumber);</code></pre>
+   * 
+   * @param n the exact number of times the condition should be verified.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
+   */
   @Override
   public S areExactly(int times, Condition<? super T> condition) {
     arrays.assertAreExactly(info, actual, times, condition);
@@ -753,9 +899,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
-   * <p/>
+   * <p>
    * This method is an alias for {@code haveAtLeast(1, condition)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> BasketBallPlayer[] bullsPlayers = {butler, rose};
    * 
@@ -769,21 +915,68 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return haveAtLeast(1, condition);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.haveAtLeast(2, oddNumber);
+   * 
+   * // assertion will fail
+   * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
+   *
+   * This method is an alias for {@link #areAtLeast(int, Condition)}.
+   */
   @Override
   public S haveAtLeast(int times, Condition<? super T> condition) {
     arrays.assertHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertions will pass
+   * oneTwoThree.haveAtMost(2, oddNumber);
+   * oneTwoThree.haveAtMost(3, oddNumber);
+   * 
+   * // assertion will fail
+   * oneTwoThree.haveAtMost(1, oddNumber);</code></pre>
+   *
+   * This method is an alias {@link #areAtMost(int, Condition)}.
+   */
   @Override
   public S haveAtMost(int times, Condition<? super T> condition) {
     arrays.assertHaveAtMost(info, actual, times, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * <p>
+   * Example :
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
+   *
+   * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
+   *
+   * // assertion will pass
+   * oneTwoThree.haveExactly(2, oddNumber);
+   * 
+   * // assertions will fail
+   * oneTwoThree.haveExactly(1, oddNumber);
+   * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
+   *
+   * This method is an alias {@link #areExactly(int, Condition)}.
+   */
   @Override
   public S haveExactly(int times, Condition<? super T> condition) {
     arrays.assertHaveExactly(info, actual, times, condition);
@@ -890,9 +1083,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
    * actual type A <code>equals</code> method to compare group elements for incoming assertion checks. Private fields
    * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p/>
+   * <p>
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p/>
+   * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
    * </p>
@@ -917,9 +1110,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p/>
+   * <p>
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p/>
+   * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
    * </p>
@@ -944,9 +1137,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p/>
+   * <p>
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p/>
+   * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
    * </p>
@@ -1065,14 +1258,14 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Extract the values of given fields/properties from the array's elements under test into a new array composed of
    * Tuple (a simple data structure), this new array becoming the array under test.
-   * <p/>
+   * <p>
    * It allows you to test fields/properties of the the array's elements instead of testing the elements themselves, it
    * can be sometimes much less work !
-   * <p/>
+   * <p>
    * The Tuple data corresponds to the extracted values of the given fields/properties, for instance if you ask to
    * extract "id", "name" and "email" then each Tuple data will be composed of id, name and email extracted from the
    * element of the initial array (the Tuple's data order is the same as the given fields/properties order).
-   * <p/>
+   * <p>
    * Let's take an example to make things clearer :
    * <pre><code class='java'> // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
    * // they can be public field or properties, both works when extracting their values.
@@ -1104,7 +1297,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * 
    * A property with the given name is looked for first, if it does not exist the a field with the given name is
    * looked for.
-   * <p/>
+   * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
    * test.
    *
@@ -1124,23 +1317,24 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Extract the values from the array's elements by applying an extracting function on them. The returned
    * array becomes a new object under test.
-   * <p/>
+   * <p>
    * It allows to test values from the elements in safer way than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
-   * <p/>
+   * <p>
    * Let's take a look an example:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
-   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
+   * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
+   *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
+   *   new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT),
+   *   new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA),
+   *   new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF),
+   *   new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT),
+   *   new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF),
+   *   new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN,
+   *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
+   * };
    * 
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    * 
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
@@ -1169,9 +1363,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Extract the Iterable values from the array's elements by applying an Iterable extracting function on them
    * and concatenating the result lists into an array which becomes the new object under test.
-   * <p/>
+   * <p>
    * It allows testing the results of extracting values that are represented by Iterables.
-   * <p/>
+   * <p>
    * For example:
    * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
    * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
@@ -1215,9 +1409,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Extract from array's elements the Iterable/Array values corresponding to the given property/field name and
    * concatenate them into a single array becoming the new object under test.
-   * <p/>
+   * <p>
    * It allows testing the elements of extracting values that are represented by iterables or arrays.
-   * <p/>
+   * <p>
    * For example:
    * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
    * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
@@ -1352,9 +1546,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Enable hexadecimal object representation of Iterable elements instead of standard java representation in error
    * messages.
-   * <p/>
+   * <p>
    * It can be useful to better understand what the error was with a more meaningful error message.
-   * <p/>
+   * <p>
    * Example
    * <pre><code class='java'> assertThat(new Byte[] { 0x10, 0x20 }).inHexadecimal().contains(new Byte[] { 0x30 });</code></pre>
    *

@@ -46,7 +46,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
 
   /**
    * Verifies that the actual value is equal to the given one.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat((byte) 1).isEqualTo((byte) 1);
@@ -68,7 +68,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
 
   /**
    * Verifies that the actual value is not equal to the given one.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat((byte) 0).isNotEqualTo((byte) 1);

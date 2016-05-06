@@ -41,7 +41,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is {@code true}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(true).isTrue();
@@ -61,7 +61,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is {@code false}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(false).isFalse();
@@ -81,7 +81,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is equal to the given one.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(true).isEqualTo(true);
@@ -103,7 +103,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is not equal to the given one.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(true).isNotEqualTo(false);

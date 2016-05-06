@@ -68,7 +68,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
 
   /**
    * Verifies that the actual group has the same size as given {@link Iterable}.
-   * <p/>
+   * <p>
    * Examples:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new byte[] { 1, 2 }).hasSameSizeAs(Arrays.asList(2, 3));

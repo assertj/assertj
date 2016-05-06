@@ -99,7 +99,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the actual group has the same size as given {@link Iterable}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
@@ -121,9 +121,9 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the actual group has the same size as given array.
-   * <p/>
+   * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 

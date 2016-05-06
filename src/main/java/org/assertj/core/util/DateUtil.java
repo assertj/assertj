@@ -87,7 +87,7 @@ public class DateUtil {
    * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br>
    * Method is synchronized
    * because SimpleDateFormat is not thread safe (sigh).
-   * <p/>
+   * <p>
    * Returns null if given the date is null.
    *
    * @param date the date to format.
@@ -101,7 +101,7 @@ public class DateUtil {
    * Formats the given date using the ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss:SSS).<br>
    * Method
    * is synchronized because SimpleDateFormat is not thread safe (sigh).
-   * <p/>
+   * <p>
    * Returns null if given the date is null.
    *
    * @param date the date to format.
@@ -114,7 +114,7 @@ public class DateUtil {
   /**
    * Formats the date of the given calendar using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br> Method is
    * thread safe.
-   * <p/>
+   * <p>
    * Returns null if the given calendar is null.
    *
    * @param calendar the calendar to format.
@@ -297,7 +297,7 @@ public class DateUtil {
   /**
    * Returns a copy of the given date without the time part (which is set to 00:00:00), for example :<br>
    * <code>truncateTime(2008-12-29T23:45:12)</code> will give <code>2008-12-29T00:00:00</code>.
-   * <p/>
+   * <p>
    * Returns null if the given Date is null.
    *
    * @param date we want to get the day part (the parameter is read only).

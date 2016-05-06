@@ -42,7 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Date}s.
- * <p/>
+ * <p>
  * Note that assertions with date parameter comes with two flavor, one is obviously a {@link Date} and the other is a
  * {@link String} representing a Date.<br>
  * For the latter, the default format follows ISO 8901 : "yyyy-MM-dd", user can override it with a custom format by
@@ -95,9 +95,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link AbstractAssert#isEqualTo(Object) isEqualTo(Date date)} but given date is represented as
    * String either with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -113,7 +113,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -135,9 +135,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringHours(Date)} but given Date is represented as String
    * either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // OK : all dates fields are the same up to minutes excluded
    * assertThat("2003-04-26T13:01:35").isEqualToIgnoringHours("2003-04-26T14:02:35");
@@ -152,7 +152,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -175,9 +175,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date is represented as String either with
    * one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
    * Date date2 = parseDatetime("2003-04-26T14:01:00");
@@ -204,9 +204,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringMinutes(Date)} but given Date is represented as
    * String either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> withDateFormat("yyyy-MM-dd'T'HH:mm:ss");
    * // OK : all dates fields are the same up to minutes excluded
@@ -222,7 +222,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -244,7 +244,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date should not take care of minutes,
    * seconds and milliseconds precision.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
    * Date date2 = parseDatetime("2003-04-26T13:02:00");
@@ -272,9 +272,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * String
    * either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
    *
@@ -291,7 +291,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -313,7 +313,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date should not take care of seconds and
    * milliseconds precision.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
    * Date date2 = parseDatetime("2003-04-26T13:01:36");
@@ -340,9 +340,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringMillis(Date)} but given Date is represented as String
    * either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:35.998");
    *
@@ -359,7 +359,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -380,7 +380,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date should not take care of milliseconds
    * precision.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetimeAndMs("2003-04-26T13:01:35.001");
    * Date date2 = parseDatetimeAndMs("2003-04-26T13:01:35.002");
@@ -406,9 +406,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(Date date)} but given date is
    * represented as String either with one of the supported defaults date format or a user custom date format (set with
    * method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass 
    * // theTwoTowers release date : 2002-12-18
@@ -424,7 +424,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -445,9 +445,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link Assert#isIn(Object...)}but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -463,7 +463,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -488,9 +488,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link Assert#isIn(Iterable)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -506,7 +506,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -514,7 +514,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Method signature could not be <code>isIn(Collection&lt;String&gt;)</code> because it would be same signature as
    * <code>isIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
    *
@@ -534,9 +534,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link Assert#isNotIn(Object...)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -552,7 +552,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -577,9 +577,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link Assert#isNotIn(Iterable)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -595,7 +595,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -621,7 +621,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is <b>strictly</b> before the given one.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -644,9 +644,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isBefore(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -663,7 +663,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -711,9 +711,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isBeforeOrEqualsTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -730,7 +730,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -753,7 +753,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is <b>strictly</b> after the given one.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -776,9 +776,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isAfter(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -795,7 +795,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -843,9 +843,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isAfterOrEqualsTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -862,7 +862,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -885,7 +885,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is in [start, end[ period (start included, end excluded).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -909,9 +909,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isBetween(Date, Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -927,7 +927,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -986,9 +986,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isBetween(Date, Date, boolean, boolean)}but given date is represented as String either
    * with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -1005,7 +1005,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1065,9 +1065,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isNotBetween(Date, Date, boolean, boolean)} but given date is represented as String
    * either with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -1084,7 +1084,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1138,9 +1138,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isNotBetween(Date, Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(theFellowshipOfTheRing.getReleaseDate()).isNotBetween("2002-12-01", "2002-12-10");
@@ -1155,7 +1155,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1179,7 +1179,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is strictly in the past.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(theTwoTowers.getReleaseDate()).isInThePast();</code></pre>
@@ -1196,7 +1196,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Verifies that the actual {@code Date} is today, that is matching current year, month and day (no check on hour,
    * minute, second, milliseconds).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new Date()).isToday();
@@ -1215,7 +1215,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is strictly in the future.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isInTheFuture();</code></pre>
@@ -1231,7 +1231,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is <b>strictly</b> before the given year.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -1253,7 +1253,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} is <b>strictly</b> after the given year.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -1277,7 +1277,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Verifies that the actual {@code Date} year is equal to the given year.
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -1310,7 +1310,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * (January=1, February=2, ...).
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -1342,7 +1342,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Verifies that the actual {@code Date} day of month is equal to the given day of month.
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
@@ -1375,7 +1375,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * {@link Calendar#DAY_OF_WEEK} for valid values).
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasDayOfWeek(Calendar.SATURDAY);
@@ -1407,7 +1407,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Verifies that the actual {@code Date} hour of day is equal to the given hour of day (24-hour clock).
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasHourOfDay(13);
@@ -1438,7 +1438,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Verifies that the actual {@code Date} minute is equal to the given minute.
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasMinute(20);
@@ -1469,7 +1469,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Verifies that the actual {@code Date} second is equal to the given second.
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasSecond(35);
@@ -1498,7 +1498,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   
   /**
    * Verifies that the actual {@code Date} millisecond is equal to the given millisecond.
-   * <p/>
+   * <p>
    * Examples:
    * <pre><code class='java'> // assertion will pass
    * assertThat(parseDatetimeWithMs("2003-04-26T13:20:35.017")).hasMillisecond(17);
@@ -1529,7 +1529,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   
   /**
    * Verifies that actual and given {@code Date} are in the same year.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * Date date2 = parse("2003-05-27");
@@ -1552,9 +1552,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isInSameYearAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameYearAs("2003-05-27");</code></pre>
@@ -1566,7 +1566,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1588,7 +1588,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that actual and given {@code Date} have same month and year fields.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * Date date2 = parse("2003-04-27");
@@ -1611,9 +1611,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isInSameMonthAs(Date)}but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameMonthAs("2003-04-27");</code></pre>
@@ -1625,7 +1625,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1646,7 +1646,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that actual and given {@code Date} have the same day of month, month and year fields values.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T23:17:00");
    * Date date2 = parseDatetime("2003-04-26T12:30:00");
@@ -1669,9 +1669,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isInSameDayAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T23:17:00");
    * assertThat(date1).isInSameDayAs("2003-04-26");</code></pre>
@@ -1683,7 +1683,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1705,7 +1705,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Verifies that actual and given {@code Date} are chronologically in the same hour (i.e. their time difference <= 1
    * hour).
-   * <p/>
+   * <p>
    * This assertion succeeds as time difference is exactly = 1h:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:00:00");
    * Date date2 = parseDatetime("2003-04-26T14:00:00");
@@ -1726,7 +1726,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <pre><code class='java'> assertThat(myDate).isWithinHour(hourOfDayOf(otherDate));</code></pre>
    * 
    * see {@link org.assertj.core.util.DateUtil#hourOfDayOf(java.util.Date) hourOfDayOf} to get the hour of a given Date.
-   * <p/>
+   * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -1744,9 +1744,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameHourWindowAs(java.util.Date)} but given date is represented as String either
    * with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1754,7 +1754,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1775,7 +1775,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that actual and given {@code Date} have same hour, day, month and year fields values.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:00:00");
    * Date date2 = parseDatetime("2003-01-01T12:30:00");
@@ -1793,11 +1793,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * If you want to assert that two dates are chronologically in the same hour time window use
    * {@link #isInSameHourWindowAs(java.util.Date) isInSameHourWindowAs} assertion (note that if
    * <code>isInSameHourAs</code> succeeds then <code>isInSameHourWindowAs</code> will succeed too).
-   * <p/>
+   * <p>
    * If you want to compare hour only (without day, month and year), you could write :
    * <code>assertThat(myDate).isWithinHour(hourOfDayOf(otherDate))</code><br>
    * see {@link org.assertj.core.util.DateUtil#hourOfDayOf(Date)} to get the hour of a given Date.
-   * <p/>
+   * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -1814,9 +1814,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isInSameHourAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1824,7 +1824,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1846,7 +1846,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Verifies that actual and given {@code Date} are chronologically in the same minute (i.e. their time difference <= 1
    * minute).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date2 = parseDatetime("2003-01-01T12:01:30");
@@ -1885,9 +1885,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameMinuteWindowAs(Date)} but given date is represented as String either with one of
    * the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1895,7 +1895,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1916,7 +1916,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that actual and given {@code Date} have same minute, same hour, day, month and year fields values.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date2 = parseDatetime("2003-01-01T12:01:30");
@@ -1936,11 +1936,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * If you want to assert that two dates are in the same minute time window use
    * {@link #isInSameMinuteWindowAs(java.util.Date) isInSameMinuteWindowAs} assertion (note that if
    * <code>isInSameMinuteAs</code> succeeds then <code>isInSameMinuteWindowAs</code> will succeed too).
-   * <p/>
+   * <p>
    * If you want to compare minute field only (without hour, day, month and year), you could write :
    * <code>assertThat(myDate).hasMinute(minuteOf(otherDate))</code><br>
    * using {@link org.assertj.core.util.DateUtil#minuteOf(Date)} to get the minute of a given Date.
-   * <p/>
+   * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -1957,9 +1957,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isInSameMinuteAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1967,7 +1967,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -1989,7 +1989,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Verifies that actual and given {@code Date} are chronologically strictly in the same second (i.e. their time
    * difference < 1 second).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:02.123");
    * Date date2 = parseDatetimeWithMs("2003-04-26T13:01:02.456");
@@ -2032,9 +2032,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameSecondWindowAs(Date)} but given date is represented as String either with one of
    * the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -2042,7 +2042,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -2080,11 +2080,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * If you want to assert that two dates are in the same second time window use
    * {@link #isInSameSecondWindowAs(java.util.Date) isInSameSecondWindowAs} assertion.
-   * <p/>
+   * <p>
    * If you want to compare second fields only (without minute, hour, day, month and year), you could write :
    * <code>assertThat(myDate).hasSecond(secondOf(otherDate))</code><br>
    * using {@link org.assertj.core.util.DateUtil#secondOf(Date)} to get the second of a given Date.
-   * <p/>
+   * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -2101,9 +2101,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isInSameSecondAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -2111,7 +2111,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -2133,7 +2133,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * seconds with <code>TimeUnit.SECONDS.toMillis(5)</code>.
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date1 = new Date();
    * Date date2 = new Date(date1.getTime() + 100);
@@ -2160,9 +2160,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Same assertion as {@link #isCloseTo(Date, long)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -2170,7 +2170,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -2192,9 +2192,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Verifies that the actual {@code Date} has the same time as the given timestamp.
-   * <p/>
+   * <p>
    * Both time or timestamp express a number of milliseconds since January 1, 1970, 00:00:00 GMT.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> assertThat(new Date(42)).hasTime(42);</code></pre>
    *
@@ -2212,7 +2212,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Verifies that the actual {@code Date} has the same time as the given date, useful to compare {@link Date} and
    * {@link Timestamp}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Date date = new Date();
    * Timestamp timestamp = new Timestamp(date.getTime());
@@ -2261,7 +2261,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -2293,13 +2293,13 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
-   * <p/>
+   * <p>
    * Beware that :
    * <ul>
    * <li>this will be the case for <b>all future Date assertions in the test suite</b></li>
    * <li>once a custom date format is registered, the default date formats are not used anymore</li>
    * </ul>
-   * <p/>
+   * <p>
    * To revert to default format, call {@link #useDefaultDateFormatsOnly()} or {@link #withDefaultDateFormatsOnly()}.
    *
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
@@ -2319,13 +2319,13 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
-   * <p/>
+   * <p>
    * Beware that :
    * <ul>
    * <li>this will be the case for <b>all future Date assertions in the test suite</b></li>
    * <li>once a custom date format is registered, the default date formats are not used anymore</li>
    * </ul>
-   * <p/>
+   * <p>
    * To revert to default format, call {@link #useDefaultDateFormatsOnly()} or {@link #withDefaultDateFormatsOnly()}.
    *
    * @param userCustomDateFormatPattern the new Date format string pattern used for String based Date assertions.
@@ -2339,7 +2339,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
    * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
-   * <p/>
+   * <p>
    * With strict parsing, inputs must match exactly date/time format.
    * <p>
    * Example:
@@ -2374,10 +2374,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link #isEqualTo(String)}.
-   * <p/>
+   * <p>
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
-   * <p/>
+   * <p>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link #withDateFormat(String)}</li>
@@ -2385,12 +2385,12 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li>this method</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
-   * <p/>
+   * <p>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
-   * <p/>
+   * <p>
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
    * {@link #withDefaultDateFormatsOnly()}.
-   * <p/>
+   * <p>
    * Code examples:
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
@@ -2420,10 +2420,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link #isEqualTo(String)}.
-   * <p/>
+   * <p>
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
-   * <p/>
+   * <p>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link #withDateFormat(String)}</li>
@@ -2431,12 +2431,12 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
    * <li>this method</li>
    * </ul>
-   * <p/>
+   * <p>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
-   * <p/>
+   * <p>
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
    * {@link #withDefaultDateFormatsOnly()}.
-   * <p/>
+   * <p>
    * Code examples:
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
@@ -2465,9 +2465,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -2475,7 +2475,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
@@ -2490,9 +2490,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 
   /**
    * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -2500,7 +2500,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
