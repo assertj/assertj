@@ -686,9 +686,9 @@ public class AssertionsForClassTypes {
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point
    * to
    * all AssertJ features (but you can use {@link Properties} if you prefer).
-   * <p/>
+   * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing))
@@ -712,9 +712,9 @@ public class AssertionsForClassTypes {
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point
    * to
    * all AssertJ features (but you can use {@link Properties} if you prefer).
-   * <p/>
+   * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> // extract simple property values, as no type has been defined the extracted property will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, String.class) instead.
@@ -783,9 +783,9 @@ public class AssertionsForClassTypes {
    * Only delegate to {@link MapEntry#entry(K key, V value)} so that Assertions offers a full feature entry point to
    * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
-   * <p/>
+   * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
    * 
@@ -798,7 +798,7 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Index#atIndex(int)} so that Assertions offers a full feature entry point to all AssertJ
    * features (but you can use {@link Index} if you prefer).
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
@@ -810,7 +810,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Assertions entry point for double {@link Offset}.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
@@ -821,7 +821,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Assertions entry point for float {@link Offset}.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
@@ -832,7 +832,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
@@ -843,7 +843,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
@@ -854,7 +854,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
@@ -865,7 +865,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
@@ -876,7 +876,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
@@ -887,7 +887,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
@@ -898,7 +898,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
@@ -910,7 +910,7 @@ public class AssertionsForClassTypes {
   /**
    * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
    * percentages.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
@@ -922,7 +922,7 @@ public class AssertionsForClassTypes {
   /**
    * Assertions entry point for Integer {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
    * percentages.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
@@ -934,7 +934,7 @@ public class AssertionsForClassTypes {
   /**
    * Assertions entry point for Long {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
    * percentages.
-   * <p/>
+   * <p>
    * Typical usage :
    *
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
@@ -977,9 +977,9 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
-   * <p/>
+   * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
    */
@@ -1028,16 +1028,16 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link Filters} if you prefer).
-   * <p/>
+   * <p>
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
-   * <p/>
+   * <p>
    * Typical usage with {@link Condition} :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
-   * <p/>
+   * <p>
    * and with filter language based on java bean property :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *           .containsOnly(james, rose);</code></pre>
@@ -1049,16 +1049,16 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link Filters} if you prefer).
-   * <p/>
+   * <p>
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
-   * <p/>
+   * <p>
    * Typical usage with {@link Condition} :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
-   * <p/>
+   * <p>
    * and with filter language based on java bean property :
-   * <p/>
+   * <p>
    * 
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *            .containsOnly(james, rose);</code></pre>
@@ -1071,7 +1071,7 @@ public class AssertionsForClassTypes {
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
    * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches one of the given values.
-   * <p/>
+   * <p>
    * As often, an example helps:
    * 
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -1095,7 +1095,7 @@ public class AssertionsForClassTypes {
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
    * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches does not match any of the given values.
-   * <p/>
+   * <p>
    * As often, an example helps:
    * 
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -1335,7 +1335,7 @@ public class AssertionsForClassTypes {
   /**
    * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
    * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
-   * <p/>
+   * <p>
    * With strict parsing, inputs must match exactly date/time format.
    *
    * <p>
@@ -1371,10 +1371,10 @@ public class AssertionsForClassTypes {
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
-   * <p/>
+   * <p>
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
-   * <p/>
+   * <p>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
@@ -1382,12 +1382,12 @@ public class AssertionsForClassTypes {
    * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
-   * <p/>
+   * <p>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
-   * <p/>
+   * <p>
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
-   * <p/>
+   * <p>
    * Code examples:
    *
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
@@ -1417,10 +1417,10 @@ public class AssertionsForClassTypes {
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
-   * <p/>
+   * <p>
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
-   * <p/>
+   * <p>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
@@ -1428,12 +1428,12 @@ public class AssertionsForClassTypes {
    * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
-   * <p/>
+   * <p>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
-   * <p/>
+   * <p>
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
-   * <p/>
+   * <p>
    * Code examples:
    * 
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
@@ -1462,9 +1462,9 @@ public class AssertionsForClassTypes {
 
   /**
    * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
-   * <p/>
+   * <p>
    * Beware that the default formats are expressed in the current local timezone.
-   * <p/>
+   * <p>
    * Defaults date format are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1472,7 +1472,7 @@ public class AssertionsForClassTypes {
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
-   * <p/>
+   * <p>
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
