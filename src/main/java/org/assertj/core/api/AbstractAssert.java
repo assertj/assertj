@@ -156,18 +156,18 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    *
    * java.lang.AssertionError:
    * Expecting:
-   *   <"µµµ">
+   *   &lt;"µµµ"&gt;
    * to contain:
-   *   <"μμμ"></code></pre>
+   *   &lt;"μμμ"&gt;</code></pre>
    *
    * With Hexadecimal message:
    * <pre><code class='java'> assertThat("µµµ").inHexadecimal().contains("μμμ");
    *
    * java.lang.AssertionError:
    * Expecting:
-   *   <"['00B5', '00B5', '00B5']">
+   *   &lt;"['00B5', '00B5', '00B5']"&gt;
    * to contain:
-   *   <"['03BC', '03BC', '03BC']"></code></pre>
+   *   &lt;"['03BC', '03BC', '03BC']"&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -472,7 +472,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   /**
    * {@inheritDoc}
    * 
-   * @deprecated use {@link #isEqualTo()} instead    
+   * @deprecated use {@link #isEqualTo} instead
    *  
    * @throws UnsupportedOperationException if this method is called.
    */
