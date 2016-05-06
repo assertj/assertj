@@ -23,7 +23,7 @@ public class IntrospectionError extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
   /**
-   * Creates a new </code>{@link IntrospectionError}</code>.
+   * Creates a new <code>{@link IntrospectionError}</code>.
    * @param message the detail message.
    */
   public IntrospectionError(String message) {
@@ -31,7 +31,7 @@ public class IntrospectionError extends RuntimeException {
   }
 
   /**
-   * Creates a new </code>{@link IntrospectionError}</code>.
+   * Creates a new <code>{@link IntrospectionError}</code>.
    * @param message the detail message.
    * @param cause the original cause.
    */

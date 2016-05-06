@@ -44,7 +44,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(&quot;abc&quot;).isEqualTo(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).isEqualTo(1);</code></pre>
-   * </p>
+   * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
@@ -62,7 +62,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(&quot;abc&quot;).isNotEqualTo(&quot;abc&quot;);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotEqualTo(new HashMap&lt;String, Integer&gt;());</code></pre>
-   * </p>
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
@@ -80,7 +80,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(&quot;abc&quot;).isNull();
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNull();</code></pre>
-   * </p>
+   * 
    * @throws AssertionError if the actual value is not {@code null}.
    */
   void isNull();
@@ -96,7 +96,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertion will fail
    * String value = null;
    * assertThat(value).isNotNull();</code></pre>
-   * </p>
+   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    */
@@ -231,7 +231,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * <p>
    * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
    * comparison strategy.
-   * <p>
+   * 
    * Examples :
    * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
    * // raceComparator implements Comparator&lt;Character&gt; 
@@ -247,6 +247,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Revert to standard comparison for incoming assertion checks.
    * <p>
    * This method should be used to disable a custom comparison strategy set by calling
+   * 
    * {@link #usingComparator(Comparator)}.
    * 
    * @return {@code this} assertion object.
@@ -265,7 +266,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(1).isInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isInstanceOf(LinkedList.class);</code></pre>
-   * </p>
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
@@ -286,7 +287,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(1).isInstanceOfAny(Double.class, Float.class);
    * assertThat(new ArrayList&lt;String&gt;()).isInstanceOfAny(LinkedList.class, Vector.class);</code></pre>
-   * </p>
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -308,7 +309,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertThat(&quot;abc&quot;).isNotInstanceOf(String.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(HashMap.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(Map.class);</code></pre>
-   * </p>
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
@@ -329,7 +330,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertThat(1).isNotInstanceOfAny(Double.class, Integer.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, ArrayList.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOfAny(TreeMap.class, Map.class);</code></pre>
-   * </p>
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -351,7 +352,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(1).hasSameClassAs(&quot;abc&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).hasSameClassAs(new LinkedList&lt;String&gt;());</code></pre>
-   * </p>
+   * 
    * @param other the object to check type against.
    * @return this assertion object.
    * @throws AssertionError if the actual has not the same type has the given object.
@@ -361,7 +362,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S hasSameClassAs(Object other);
 
   /**
-   * Verifies that actual <code>actual.toString()</code> is equal to the given <code>String</code>.
+   * Verifies that actual {@code actual.toString()} is equal to the given {@code String}.
    * <p>
    * Example :
    * <pre><code class='java'> CartoonCaracter homer = new CartoonCaracter("Homer");
@@ -373,7 +374,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * @param expectedToString the expected String description of actual.
    * @return this assertion object.
-   * @throws AssertionError if <code>actual.toString()</code> result is not to the given <code>String</code>.
+   * @throws AssertionError if {@code actual.toString()} result is not to the given {@code String}.
    * @throws AssertionError if actual is {@code null}.
    */
   S hasToString(String expectedToString);
@@ -390,7 +391,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertThat(1).doesNotHaveSameClassAs(2);
    * assertThat(&quot;abc&quot;).doesNotHaveSameClassAs(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).doesNotHaveSameClassAs(new ArrayList&lt;Integer&gt;());</code></pre>
-   * </p>
+   * 
    * @param other the object to check type against.
    * @return this assertion object.
    * @throws AssertionError if the actual has the same type has the given object.
@@ -412,7 +413,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertThat(1).isExactlyInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isExactlyInstanceOf(List.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isExactlyInstanceOf(Map.class);</code></pre>
-   * </p>
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual is not <b>exactly</b> an instance of given type.
@@ -434,7 +435,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertThat(&quot;abc&quot;).isNotExactlyInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(ArrayList.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(HashMap.class);</code></pre>
-   * </p>
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual is exactly an instance of given type.
@@ -454,7 +455,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(new HashMap&lt;String, Integer&gt;()).isOfAnyClassIn(TreeMap.class, Map.class);
    * assertThat(new ArrayList&lt;String&gt;()).isOfAnyClassIn(LinkedList.class, List.class);</code></pre>
-   * </p>
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value type is not in given type.
@@ -474,7 +475,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * // assertions will fail
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotOfAnyClassIn(HashMap.class, TreeMap.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotOfAnyClassIn(ArrayList.class, LinkedList.class);</code></pre>
-   * </p>
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value type is in given types.
@@ -498,7 +499,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * // assertion will fail
    * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
-   *
+   * 
    * @return a list assertion object
    */
   AbstractListAssert<?, ?, Object> asList();
@@ -516,7 +517,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * // assertion will fail
    * assertThat(stringAsObject).asString().contains("holla");</code></pre>
-   *
+   * 
    * @return a string assertion object
    */
   AbstractCharSequenceAssert<?, String> asString();
@@ -538,31 +539,31 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * <pre><code class='java'> assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");</code></pre>
    * 
    * will print the thread dump, something looking like:
-   * <pre><code>"JDWP Command Reader"
+   * <pre>{@code "JDWP Command Reader"
    * 	java.lang.Thread.State: RUNNABLE
-   * 
+   *
    * "JDWP Event Helper Thread"
    * 	java.lang.Thread.State: RUNNABLE
-   * 
+   *
    * "JDWP Transport Listener: dt_socket"
    * 	java.lang.Thread.State: RUNNABLE
-   * 
+   *
    * "Signal Dispatcher"
    * 	java.lang.Thread.State: RUNNABLE
-   * 
+   *
    * "Finalizer"
    * 	java.lang.Thread.State: WAITING
    * 		at java.lang.Object.wait(Native Method)
    * 		at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:135)
    * 		at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:151)
    * 		at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:189)
-   * 
+   *
    * "Reference Handler"
    * 	java.lang.Thread.State: WAITING
    * 		at java.lang.Object.wait(Native Method)
    * 		at java.lang.Object.wait(Object.java:503)
    * 		at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:133)
-   * 
+   *
    * "main"
    * 	java.lang.Thread.State: RUNNABLE
    * 		at sun.management.ThreadImpl.dumpThreads0(Native Method)
@@ -572,7 +573,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 		at org.assertj.core.internal.Failures.failure(Failures.java:91)
    * 		at org.assertj.core.internal.Objects.assertEqual(Objects.java:314)
    * 		at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:198)
-   * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)</code></pre>
+   * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)}</pre>
    * 
    * @return this assertion object.
    */
@@ -583,7 +584,8 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * <p>
    * The usual to introduce a new {@link Representation} is to extend {@link StandardRepresentation} 
    * and override any existing {@code toStringOf} methods that don't suit you, as an example you could control 
-   * {@link Date} format by overriding {@link StandardRepresentation#toStringOf(Date)}).<br/>
+   * {@link Date} format by overriding {@link StandardRepresentation#toStringOf(Date)}).
+   * <p>
    * You can also control other types format by overriding {@link StandardRepresentation#toStringOf(Object)}) 
    * calling your formatting method first and then fallback to the default represention by calling {@code super.toStringOf(Object)}.   
    * <p>
@@ -607,7 +609,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *   }
    * }
    * 
-   * // next assertion fails with error : "expected:<[null]> but was:<[Example]>"
+   * // next assertion fails with error : "expected:&lt;[null]&gt; but was:&lt;[Example]&gt;"
    * Example example = new Example();
    * assertThat(example).withRepresentation(new CustomRepresentation())
    *                    .isNull(); // example is not null !
@@ -617,11 +619,11 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *                  .startsWith("bar");
    * // ... with error :
    * Expecting:
-   *  <$foo$>
+   *  &lt;$foo$&gt;
    * to start with:
-   *  <$bar$></code></pre>
+   *  &lt;$bar$&gt;</code></pre>
    * 
-   * @param representation
+   * @param representation Describe/represent values in AssertJ error messages.
    * @return
    */
   S withRepresentation(Representation representation);

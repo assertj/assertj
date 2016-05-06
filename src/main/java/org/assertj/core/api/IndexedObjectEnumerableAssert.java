@@ -28,7 +28,7 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
 
   /**
    * Verifies that the actual group contains the given object at the given index.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
@@ -55,7 +55,7 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
 
   /**
    * Verifies that the actual group does not contain the given object at the given index.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *

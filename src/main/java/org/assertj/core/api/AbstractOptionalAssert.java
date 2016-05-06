@@ -220,7 +220,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * </p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be
    * compared to the other field/property using its <code>equals</code> method.
-   * <p/>
+   * <p>
    * Example:
    * 
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);

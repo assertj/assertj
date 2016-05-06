@@ -74,7 +74,7 @@ public final class IterableUtil {
 
   /**
    * Create an array from an {@link Iterable}.
-   * <p/>
+   * <p>
    * Note: this method will return Object[]. If you require a typed array please use {@link #toArray(Iterable, Class)}.
    * It's main usage is to keep the generic type for chaining call like in:
    * <pre><code class='java'> public S containsOnlyElementsOf(Iterable<? extends T> iterable) {

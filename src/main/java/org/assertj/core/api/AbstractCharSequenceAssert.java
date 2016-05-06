@@ -144,7 +144,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} has the expected line count.
-   * <p/>
+   * <p>
    * A line is considered to be <a name="lt">terminated</a> by any one of a line feed ('\n'), a carriage return ('\r'),
    * or a carriage return followed immediately by a linefeed (see {@link LineNumberReader}).
    * <p>
@@ -485,7 +485,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} does not start with the given prefix.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;Frodo&quot;).doesNotStartWith(&quot;fro&quot;);
@@ -529,7 +529,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} does not end with the given suffix.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;Fro&quot;);
@@ -685,7 +685,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} is equal to the content of the given file.
-   * <p/>
+   * <p>
    * This is an handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
    * </p>
    * Example :
@@ -749,10 +749,10 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Use unicode character representation instead of standard representation in error messages.
-   * <p/>
+   * <p>
    * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned, it is
    * thus impossible to find differences from the standard error message:
-   * <p/>
+   * <p>
    * With standard message:
    * <pre><code class='java'> assertThat("µµµ").contains("μμμ");
    * 

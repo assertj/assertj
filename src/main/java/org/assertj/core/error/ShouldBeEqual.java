@@ -27,7 +27,7 @@ import static org.assertj.core.util.Objects.*;
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
  * failed.
- * <p/>
+ * <p>
  * The built {@link AssertionError}'s message differentiates {@link #actual} and {@link #expected} description if their
  * string representation are the same (e.g. 42 float and 42 double). It also mentions the comparator in case of a custom
  * comparator is used (instead of equals method).

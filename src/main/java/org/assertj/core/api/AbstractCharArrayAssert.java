@@ -421,7 +421,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Use unicode character representation instead of standard representation in error messages.
-   * <p/>
+   * <p>
    * With standard error message:
    * <pre><code class='java'> assertThat("a6c".toCharArray()).isEqualTo("abó".toCharArray());
    *

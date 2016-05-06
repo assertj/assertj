@@ -58,7 +58,7 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
 
   /**
    * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameContentAs(new ByteArrayInputStream(new byte[] {0xa}));
