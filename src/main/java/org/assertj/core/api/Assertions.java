@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -81,7 +80,7 @@ import org.assertj.core.util.introspection.FieldSupport;
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);</code></pre>
  * <p/>
- * This class only contains all assertThat methods, if you have ambiguous method compilation error, use either {@link AssertionsForClassTypes} or {@link AssertionsForInterfaceTypes} 
+ * This class only contains all <code>assertThat</code> methods, if you have ambiguous method compilation error, use either {@link AssertionsForClassTypes} or {@link AssertionsForInterfaceTypes} 
  * and if you need both, fully qualify you assertThat method.
  * <p/>
  * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded, 
@@ -1620,7 +1619,7 @@ public class Assertions {
   public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(Stream<? extends T> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
-  
+
   /**
    * Creates a new instance of {@link PathAssert}
    *
@@ -1747,6 +1746,8 @@ public class Assertions {
    *  <$foo$>
    * to start with:
    *  <$bar$></code></pre>
+   * 
+   * @since 3.5.0
    */
   public static void useRepresentation(Representation customRepresentation) {
     AbstractAssert.setCustomRepresentation(customRepresentation);
@@ -1778,15 +1779,20 @@ public class Assertions {
    * 
    * // fails with error : expected:<$456$> but was:<$123$> 
    * assertThat(123L).isEqualTo(456L);</code></pre>
+   * 
    * @param type
    * @param formatter
+   * 
+   * @since 3.5.0
    */
   public static void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
     StandardRepresentation.registerFormatterForType(type, formatter);
   }
-  
+
   /**
    * Fallback to use {@link StandardRepresentation} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   * 
+   * @since 3.5.0
    */
   public static void useDefaultRepresentation() {
     StandardRepresentation.removeAllRegisteredFormatters();
