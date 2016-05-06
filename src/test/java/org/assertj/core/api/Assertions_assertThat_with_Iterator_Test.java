@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
@@ -128,6 +129,25 @@ public class Assertions_assertThat_with_Iterator_Test {
     assertThat(stringIterator).isNotOfAnyClassIn(LazyIterable.class, String.class);
   }
 
+  @Test
+  public void isSameAs_should_check_the_original_iterator_without_consuming_it() {
+    Iterator<?> iterator = mock(Iterator.class);
+    assertThat(iterator).isSameAs(iterator);
+    verifyZeroInteractions(iterator);
+  }
+  
+  @Test
+  public void isNotSameAs_should_check_the_original_iterator_without_consuming_it() {
+    Iterator<?> iterator = mock(Iterator.class);
+    try{
+      assertThat(iterator).isNotSameAs(iterator);
+    } catch(AssertionError e){
+      verifyZeroInteractions(iterator);
+      return;
+    }
+    Assertions.fail("Expected assertionError, because assert notSame on same iterator.");
+  }
+  
   @Test
   public void iterator_can_be_asserted_twice_even_though_it_can_be_iterated_only_once() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
