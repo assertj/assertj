@@ -12,8 +12,9 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Lists.newArrayList;
+import static java.lang.String.format;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class AbstractSoftAssertions {
@@ -33,7 +34,7 @@ public class AbstractSoftAssertions {
    * @return a copy of list of soft assertions collected errors.
    */
   public List<Throwable> errorsCollected(){
-    return newArrayList(proxies.errorsCollected());
+    return addLineNumberToErrorMessages(proxies.errorsCollected());
   }
 
   /**
@@ -50,5 +51,53 @@ public class AbstractSoftAssertions {
    */
   public boolean wasSuccess(){
     return proxies.wasSuccess();
+  }
+
+  private List<Throwable> addLineNumberToErrorMessages(List<Throwable> errors) {
+    for (Throwable error : errors) {
+      addLineNumberToErrorMessage(error);
+    }
+    return errors;
+  }
+
+  private void addLineNumberToErrorMessage(Throwable error) {
+    StackTraceElement testStackTraceElement = getFirstStackTraceElementFromTest(error.getStackTrace());
+    if (testStackTraceElement != null) {
+      changeErrorMessage(error, buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement));
+    }
+  }
+
+  private String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
+    String testClassName = simpleClassNameOf(testStackTraceElement);
+    String testName = testStackTraceElement.getMethodName();
+    int lineNumber = testStackTraceElement.getLineNumber();
+    return format("%s%nat %s.%s(%s.java:%s)", originalErrorMessage, testClassName, testName, testClassName, lineNumber);
+  }
+
+  private void changeErrorMessage(Throwable error, String errorMessageWithLineNumber) {
+    try {
+      Field field = Throwable.class.getDeclaredField("detailMessage");
+      field.setAccessible(true);
+      field.set(error, errorMessageWithLineNumber);
+    } catch (Exception ignored) {}
+  }
+
+  private String simpleClassNameOf(StackTraceElement testStackTraceElement) {
+    String className = testStackTraceElement.getClassName();
+    return className.substring(className.lastIndexOf('.') + 1);
+  }
+
+  private StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
+    for (StackTraceElement element : stacktrace) {
+      String className = element.getClassName();
+      if (className.startsWith("sun.reflect")
+          || className.startsWith("java.lang")
+          || className.startsWith("net.sf.cglib.proxy")
+          || className.startsWith("org.assertj")) {
+        continue;
+      }
+      return element;
+    }
+    return null;
   }
 }
