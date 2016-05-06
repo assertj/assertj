@@ -443,9 +443,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
-   * <p/>
+   * <p>
    * This method is an alias for {@code areAtLeast(1, condition)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // jedi is a Condition&lt;String&gt;
    * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);</code></pre>
@@ -504,9 +504,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
-   * <p/>
+   * <p>
    * This method is an alias for {@code haveAtLeast(1, condition)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;BasketBallPlayer&gt; bullsPlayers = newArrayList(butler, rose);
    * 
@@ -594,7 +594,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   /**
    * Verifies that at least one element in the actual {@code Object} group belong to the specified type (matching
    * includes subclasses of the given type).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Number[] numbers = { 2, 6L, 8.0 };
    * 
@@ -614,7 +614,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   /**
    * Verifies that all the elements in the actual {@code Object} group belong to the specified type (matching includes
    * subclasses of the given type).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Number[] numbers = { 2, 6, 8 };
    * 
@@ -634,7 +634,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
    * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
-   * <p/>
+   * <p>
    * Example :
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
@@ -651,7 +651,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
    * iterable and nothing else, <b>in any order</b>.
-   * <p/>
+   * <p>
    * Example :
    * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
    * 
@@ -694,7 +694,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that actual does not contain any elements of the given {@link Iterable} (i.e. none).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c"); 
    * 
@@ -715,7 +715,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that all the elements of actual are present in the given {@code Iterable}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
@@ -737,7 +737,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   
   /**
    * Verifies that all the elements of actual are present in the given values.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);

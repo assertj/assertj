@@ -62,23 +62,23 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   /**
    * Assert that the actual object is equal to the given one by comparing actual's properties/fields with other's
    * <b>not null</b> properties/fields only (including inherited ones).
-   * <p/>
+   * <p>
    * It means that if an actual field is not null and the corresponding field in other is null, this field will be
    * ignored in comparison, but the opposite will make assertion fail (null field in actual, not null in other) as 
    * the field is used in the performed comparison and the values differ.
-   * <p/>
+   * <p>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
-   * field using its <code>equals</code> method.
-   * <p/>
+   * field using its {@code equals} method.
+   * <p>
    * If an object has a field and a property with the same name, the property value will be used over the field.
-   * <p/>
+   * <p>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible</b> fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p/>
+   * <p>
    * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
    * for example if actual object has a name String field, it is expected other object to also have one.
-   * <p/>
+   * <p>
    * 
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -102,20 +102,20 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Assert that the actual object is equal to the given one using a property/field by property/field comparison <b>on the given properties/fields only</b>
-   * (fields can be inherited fields or nested fields). This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
-   * <p/>
+   * (fields can be inherited fields or nested fields). This can be handy if {@code equals} implementation of objects to compare does not suit you.
+   * <p>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
-   * field using its <code>equals</code> method.
-   * <p/>
+   * field using its {@code equals} method.
+   * <p>
    * If an object has a field and a property with the same name, the property value will be used over the  field.
-   * <p/>
+   * <p>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p/>
+   * <p>
    * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
    * for example if actual object has a name String field, it is expected the other object to also have one.
-   * <p/>
+   * <p>
    * 
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
@@ -145,20 +145,20 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Assert that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
-   * (inherited ones are taken into account). This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
-   * <p/>
+   * (inherited ones are taken into account). This can be handy if {@code equals} implementation of objects to compare does not suit you.
+   * <p>
    * Note that comparison is <b>not</b> recursive, if one of the property/field is an Object, it will be compared to the other
-   * field using its <code>equals</code> method.
-   * <p/>
+   * field using its {@code equals} method.
+   * <p>
    * If an object has a field and a property with the same name, the property value will be used over the  field.
-   * <p/>
+   * <p>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p/>
+   * <p>
    * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
    * for example if actual object has a name String field, it is expected the other object to also have one.
-   * <p/>
+   * <p>
    * 
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -184,20 +184,20 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Assert that actual object is equal to the given object based on a property/field by property/field comparison (including
-   * inherited ones). This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
-   * <p/>
+   * inherited ones). This can be handy if {@code equals} implementation of objects to compare does not suit you.
+   * <p>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
-   * field using its <code>equals</code> method.
-   * <p/>
+   * field using its {@code equals} method.
+   * <p>
    * If an object has a field and a property with the same name, the property value will be used over the  field.
-   * <p/>
+   * <p>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p/>
+   * <p>
    * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
    * for example if actual object has a name String field, it is expected the other object to also have one.
-   * <p/>
+   * <p>
    * 
    * Example:
    * <pre><code class='java'> // equals not overridden in TolkienCharacter 
@@ -323,9 +323,9 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Assert that the actual object has the specified field or property.
-   * <p/>
+   * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
-   * <p/>
+   * <p>
    *
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -364,9 +364,9 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Assert that the actual object has the specified field or property with the given value.
-   * <p/>
+   * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
-   * <p/>
+   * <p>
    *
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -413,15 +413,15 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   /**
    * Extract the values of given fields/properties from the object under test into an array, this new array becoming
    * the object under test. 
-   * <p/>
+   * <p>
    * If you extract "id", "name" and "email" fields/properties then the array will contain the id, name and email values 
    * of the object under test, you can then perform array assertions on the extracted values.
-   * <p/>
+   * <p>
    * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to get the value 
    * corresponding to actual.getAdress().getStreet().getNumber()  
-   * <p/>
+   * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
@@ -432,7 +432,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * 
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
    * for, if the field is not accessible (i.e. does not exist) an IntrospectionError is thrown.
-   * <p/>
+   * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
    * test.
    *
@@ -448,10 +448,10 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   /**
    * Use the given {@link Function}s to extract the values from the object under test into an array, this new array becoming
    * the object under test. 
-   * <p/>
+   * <p>
    * If the given {@link Function}s extract the id, name and email values then the array will contain the id, name and email values 
    * of the object under test, you can then perform array assertions on the extracted values.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
@@ -461,7 +461,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *                              character -> character.age, // public field
    *                              character -> character.getRace().getName())
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
-   * <p/>
+   * <p>
    * Note that the order of extracted values is consistent with the iteration order of the array under test.
    *
    * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
@@ -477,18 +477,18 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Assert that the object under test (actual) is equal to the given object based on recursive a property/field by property/field comparison (including
-   * inherited ones). This can be useful if actual's <code>equals</code> implementation does not suit you.
-   * The recursive property/field comparison is <b>not</b> applied on fields having a custom <code>equals</code> implementation, i.e. 
-   * the overriden <code>equals</code> method will be used instead of a field by field comparison.
-   * <p/>
-   * The recursive comparison handles cycle. By default <code>floats</code> are compared with a precision of 1.0E-6 and <code>doubles</code> with 1.0E-15.
-   * <p/>
+   * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
+   * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
+   * the overriden {@code equals} method will be used instead of a field by field comparison.
+   * <p>
+   * The recursive comparison handles cycle. By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
+   * <p>
    * You can specify a custom comparator per (nested) fields or type with respectively {@link #usingComparatorForFields(Comparator, String...) usingComparatorForFields(Comparator, String...)} 
    * and {@link #usingComparatorForType(Comparator, Class)}.
-   * <p/>
+   * <p>
    * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a name String field, it is expected the other object to also have one.
    * If an object has a field and a property with the same name, the property value will be used over the field.
-   * <p/>
+   * <p>
    * 
    * Example:
    * <pre><code class='java'> public class Person {

@@ -310,7 +310,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
 
   /**
    * Verifies that the actual {@code LocalDate} is today, that is matching current year, month and day.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(LocalDate.now()).isToday();

@@ -31,7 +31,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is equal to zero.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(0).isZero();
@@ -49,7 +49,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is not equal to zero.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(42).isNotZero();
@@ -67,7 +67,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is positive.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(42).isPositive();
@@ -85,7 +85,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is negative.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(-42).isNegative();
@@ -103,7 +103,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is non negative (positive or equal zero).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(42).isNotNegative();
@@ -121,7 +121,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is non positive (negative or equal zero).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(-42).isNotPositive();
@@ -139,7 +139,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // these assertions succeed ...
    * assertThat(12).isBetween(10, 14);
@@ -161,7 +161,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // this assertion succeeds ...
    * assertThat(12).isStrictlyBetween(10, 14);

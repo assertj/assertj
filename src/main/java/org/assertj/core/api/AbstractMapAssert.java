@@ -138,9 +138,9 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map has the same size as given array.
-   * <p/>
+   * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * 

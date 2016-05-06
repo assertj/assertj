@@ -147,10 +147,10 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * Use hexadecimal object representation instead of standard representation in error messages.
-   * <p/>
+   * <p>
    * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned, it is
    * thus impossible to find differences from the standard error message:
-   * <p/>
+   * <p>
    * With standard message:
    * <pre><code class='java'> assertThat("µµµ").contains("μμμ");
    *
@@ -178,7 +178,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * Use binary object representation instead of standard representation in error messages.
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> assertThat(1).inBinary().isEqualTo(2);
    *

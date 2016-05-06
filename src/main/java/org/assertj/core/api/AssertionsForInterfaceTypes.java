@@ -94,7 +94,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
 
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
-   * <p/>
+   * <p>
    * <b>Be aware that calls to most methods on returned IterableAssert will consume Iterator so it won't be possible to
    * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
    * cached by IterableAssert first time Iterator is consumed.
@@ -118,7 +118,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
 
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
-   * <p/>
+   * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be 
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only 
    * interacts with the {@link List} built from the {@link Stream}.
