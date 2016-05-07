@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class AbstractSoftAssertions {
@@ -30,11 +30,10 @@ public class AbstractSoftAssertions {
   }
 
   protected List<Throwable> errorsCollected(){
-    return proxies.errorsCollected();
+    return enrichErrorMessagesWithLineNumbers(proxies.errorsCollected());
   }
 
-  protected ArrayList<String> createErrorMessagesWithLineNumbers(List<Throwable> errors) {
-    ArrayList<String> errorMessages = new ArrayList<>();
+  private List<Throwable> enrichErrorMessagesWithLineNumbers(List<Throwable> errors) {
     for (Throwable error : errors) {
       String errorMessage = error.getMessage();
       StackTraceElement stackTraceElement = searchForFirstUserElement(error.getStackTrace());
@@ -42,10 +41,15 @@ public class AbstractSoftAssertions {
         String className = stackTraceElement.getClassName();
         errorMessage += format("%nat %s.%s(%s.java:%s)", className, stackTraceElement.getMethodName(),
                                className.substring(className.lastIndexOf('.') + 1), stackTraceElement.getLineNumber());
+        try {
+          Field field = Throwable.class.getDeclaredField("detailMessage");
+          field.setAccessible(true);
+          field.set(error, errorMessage);
+        } catch (Exception ignored) {
+        }
       }
-      errorMessages.add(errorMessage);
     }
-    return errorMessages;
+    return errors;
   }
 
   private StackTraceElement searchForFirstUserElement(StackTraceElement[] stacktrace) {

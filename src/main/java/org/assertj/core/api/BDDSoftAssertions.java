@@ -114,7 +114,7 @@ public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throw new SoftAssertionError(createErrorMessagesWithLineNumbers(errors));
+    if (!errors.isEmpty()) throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
   }
 
 }

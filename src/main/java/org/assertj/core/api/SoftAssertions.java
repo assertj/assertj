@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.extractProperty;
+
 import java.util.List;
 
 /**
@@ -111,7 +113,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
     if (!errors.isEmpty()) {
-      throw new SoftAssertionError(createErrorMessagesWithLineNumbers(errors));
+      throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
     }
   }
 
