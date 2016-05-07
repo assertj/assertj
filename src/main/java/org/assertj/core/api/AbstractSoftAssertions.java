@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class AbstractSoftAssertions {
@@ -27,6 +30,37 @@ public class AbstractSoftAssertions {
   }
 
   protected List<Throwable> errorsCollected(){
-    return proxies.errorsCollected();
+    return enrichErrorMessagesWithLineNumbers(proxies.errorsCollected());
+  }
+
+  private List<Throwable> enrichErrorMessagesWithLineNumbers(List<Throwable> errors) {
+    for (Throwable error : errors) {
+      String errorMessage = error.getMessage();
+      StackTraceElement stackTraceElement = searchForFirstUserElement(error.getStackTrace());
+      if (stackTraceElement != null) {
+        String className = stackTraceElement.getClassName();
+        errorMessage += format("%nat %s.%s(%s.java:%s)", className, stackTraceElement.getMethodName(),
+                               className.substring(className.lastIndexOf('.') + 1), stackTraceElement.getLineNumber());
+        try {
+          Field field = Throwable.class.getDeclaredField("detailMessage");
+          field.setAccessible(true);
+          field.set(error, errorMessage);
+        } catch (Exception ignored) {
+        }
+      }
+    }
+    return errors;
+  }
+
+  private StackTraceElement searchForFirstUserElement(StackTraceElement[] stacktrace) {
+    for (StackTraceElement element : stacktrace) {
+      String className = element.getClassName();
+      if (className.startsWith("sun.reflect") || className.startsWith("java.lang.reflect")
+          || className.startsWith("net.sf.cglib.proxy") || className.startsWith("org.assertj")) {
+        continue;
+      }
+      return element;
+    }
+    return null;
   }
 }
