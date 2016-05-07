@@ -12,23 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.util.DateUtil.parseDatetime;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.test.ComparableExample;
@@ -39,6 +22,20 @@ import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.util.DateUtil.parseDatetime;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
@@ -75,6 +72,40 @@ public class SoftAssertionsTest {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
     softly.assertAll();
+  }
+
+  @Test
+  public void should_return_success_of_last_assertion() {
+    try {
+      softly.assertThat(true).isFalse();
+    } catch (AssertionError ignore) {
+    }
+    softly.assertThat(true).isEqualTo(true);
+    assertThat(softly.wasSuccess()).isTrue();
+  }
+
+  @Test
+  public void should_return_success_of_last_assertion_with_nested_calls() {
+    try {
+      softly.assertThat(true).isFalse();
+    } catch (AssertionError ignore) {
+    }
+    softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
+    assertThat(softly.wasSuccess()).isTrue();
+  }
+
+  @Test
+  public void should_return_failure_of_last_assertion() {
+    softly.assertThat(true).isTrue();
+    softly.assertThat(true).isEqualTo(false);
+    assertThat(softly.wasSuccess()).isFalse();
+  }
+
+  @Test
+  public void should_return_failure_of_last_assertion_with_nested_calls() {
+    softly.assertThat(true).isTrue();
+    softly.assertThat(true).isFalse(); // isFalse() calls isEqualTo(false)
+    assertThat(softly.wasSuccess()).isFalse();
   }
 
   @SuppressWarnings("unchecked")

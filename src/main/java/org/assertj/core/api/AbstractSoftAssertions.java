@@ -29,4 +29,20 @@ public class AbstractSoftAssertions {
   protected List<Throwable> errorsCollected(){
     return proxies.errorsCollected();
   }
+
+  /**
+   * Returns the result of last assertion.<br/>
+   * Example :<br/>
+   * <pre>
+   * Person person = ...
+   * SoftAssertion soft = new SoftAssertions();
+   * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
+   *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
+   * }
+   * </pre>
+   * @return true if the last assertion was a success.
+   */
+  public boolean wasSuccess(){
+    return proxies.wasSuccess();
+  }
 }
