@@ -402,6 +402,16 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link NavigationListAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T, TA extends AbstractAssert> NavigationListAssert<T, TA> assertThat(List<? extends T> actual, AssertFactory<T, TA> assertFactory) {
+    return new NavigationListAssert<>(actual, assertFactory);
+  }
+
+  /**
    * Creates a new instance of <code>{@link LongAssert}</code>.
    *
    * @param actual the actual value.
