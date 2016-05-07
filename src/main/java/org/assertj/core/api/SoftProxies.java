@@ -12,14 +12,14 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Arrays.array;
+import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.proxy.CallbackFilter;
+import net.sf.cglib.proxy.Enhancer;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.CallbackFilter;
-import net.sf.cglib.proxy.Enhancer;
+import static org.assertj.core.util.Arrays.array;
 
 class SoftProxies {
 
@@ -36,6 +36,10 @@ class SoftProxies {
     enhancer.setCallbackFilter(CollectErrorsOrCreateExtractedProxy.FILTER);
     enhancer.setCallbacks(new Callback[] { collector, new ProxifyExtractingResult(this) });
     return (V) enhancer.create(array(actualClass), array(actual));
+  }
+
+  public boolean wasSuccess() {
+    return collector.wasSuccess();
   }
 
   private enum CollectErrorsOrCreateExtractedProxy implements CallbackFilter {

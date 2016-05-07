@@ -24,12 +24,15 @@ import java.util.List;
 public class ErrorCollector implements MethodInterceptor {
 
   private final List<Throwable> errors = new ArrayList<>();
+  private final LastResult lastResult = new LastResult();
 
   @Override
   public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
     try {
       proxy.invokeSuper(obj, args);
+      lastResult.setSuccess(true);
     } catch (AssertionError e) {
+      lastResult.setSuccess(false);
       errors.add(e);
     }
     return obj;
@@ -37,5 +40,39 @@ public class ErrorCollector implements MethodInterceptor {
 
   public List<Throwable> errors() {
     return Collections.unmodifiableList(errors);
+  }
+
+  public boolean wasSuccess() {
+    return lastResult.wasSuccess();
+  }
+
+  private static class LastResult {
+    private boolean wasSuccess = true;
+    private boolean errorFound = false;
+
+    private boolean wasSuccess() {
+      return wasSuccess;
+    }
+
+    private void setSuccess(boolean success) {
+      errorFound |= !success;
+
+      // if nbCalls > 1, we have nested calls to our intercept() method (deeper call first)
+      int nbCalls = countCalls();
+      if (nbCalls == 1) {
+        wasSuccess = !errorFound;
+        errorFound = false;
+      }
+    }
+
+    private int countCalls() {
+      int nbCalls = 0;
+      for (StackTraceElement e : Thread.currentThread().getStackTrace()) {
+        if (e.getClassName().equals(ErrorCollector.class.getName())) {
+          nbCalls++;
+        }
+      }
+      return nbCalls;
+    }
   }
 }
