@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Lists.newArrayList;
+
 import java.util.List;
 
 public class AbstractSoftAssertions {
@@ -26,8 +28,12 @@ public class AbstractSoftAssertions {
     return proxies.create(assertClass, actualClass, actual);
   }
 
-  protected List<Throwable> errorsCollected(){
-    return proxies.errorsCollected();
+  /**
+   * Returns a copy of list of soft assertions collected errors.
+   * @return a copy of list of soft assertions collected errors.
+   */
+  public List<Throwable> errorsCollected(){
+    return newArrayList(proxies.errorsCollected());
   }
 
   /**
