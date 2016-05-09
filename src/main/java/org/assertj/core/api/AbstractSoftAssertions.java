@@ -37,11 +37,11 @@ public class AbstractSoftAssertions {
   }
 
   /**
-   * Returns the result of last assertion which can used to decide what the nex soft assertion should be.
+   * Returns the result of last soft assertion which can used to decide what the next one should be.
    * <p>
    * Example :
    * <pre><code class='java'> Person person = ...
-   * SoftAssertion soft = new SoftAssertions();
+   * SoftAssertions soft = new SoftAssertions();
    * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
    *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
    * }</code></pre>
