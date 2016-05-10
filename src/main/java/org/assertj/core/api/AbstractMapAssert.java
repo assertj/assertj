@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Maps;
+import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -840,5 +841,11 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   @Override
   public S withThreadDumpOnError() {
     return super.withThreadDumpOnError();
+  }
+  
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public AbstractMapSizeAssert<S, A, K, V> size() {
+    Preconditions.checkNotNull(actual, "Can not assert on size of map which is null.");
+    return new MapSizeAssert(this, actual.size());
   }
 }
