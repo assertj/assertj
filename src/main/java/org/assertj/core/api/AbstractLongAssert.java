@@ -41,7 +41,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
   @VisibleForTesting
   Longs longs = Longs.instance();
 
-  protected AbstractLongAssert(Long actual, Class<?> selfType) {
+  public AbstractLongAssert(Long actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

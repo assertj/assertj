@@ -35,7 +35,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
   @VisibleForTesting
   Booleans booleans = Booleans.instance();
 
-  protected AbstractBooleanAssert(Boolean actual, Class<?> selfType) {
+  public AbstractBooleanAssert(Boolean actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

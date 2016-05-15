@@ -28,7 +28,7 @@ package org.assertj.core.api;
  */
 public class CharacterAssert extends AbstractCharacterAssert<CharacterAssert> {
 
-  protected CharacterAssert(Character actual) {
+  public CharacterAssert(Character actual) {
     super(actual, CharacterAssert.class);
   }
 }

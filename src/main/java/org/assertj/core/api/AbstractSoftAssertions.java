@@ -24,7 +24,7 @@ public class AbstractSoftAssertions {
     proxies = new SoftProxies();
   }
 
-  protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
+  public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
     return proxies.create(assertClass, actualClass, actual);
   }
 

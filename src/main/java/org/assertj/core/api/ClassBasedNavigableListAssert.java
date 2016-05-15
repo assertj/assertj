@@ -32,7 +32,7 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
     this.assertClass = assertClass;
   }
 
-  protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
+  public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
 
     return buildAssert(value, description, value.getClass());
   }

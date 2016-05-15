@@ -44,7 +44,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
   @VisibleForTesting
   Charset charset = Charset.defaultCharset();
 
-  protected AbstractFileAssert(File actual, Class<?> selfType) {
+  public AbstractFileAssert(File actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

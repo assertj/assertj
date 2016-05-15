@@ -41,7 +41,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
 
-  protected AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
+  public AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

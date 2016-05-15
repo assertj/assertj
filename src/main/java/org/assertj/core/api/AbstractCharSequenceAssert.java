@@ -46,7 +46,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   @VisibleForTesting
   Strings strings = Strings.instance();
 
-  protected AbstractCharSequenceAssert(A actual, Class<?> selfType) {
+  public AbstractCharSequenceAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

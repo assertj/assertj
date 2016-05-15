@@ -35,7 +35,7 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
   @VisibleForTesting
   Comparables comparables = Comparables.instance();
 
-  protected AbstractComparableAssert(A actual, Class<?> selfType) {
+  public AbstractComparableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

@@ -402,8 +402,17 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableIterableAssert}</code> that allows to navigate to the {@code Iterable} elements 
-   * and perform strongly typed assertions on them, the type of element assertions is specified with an {@link AssertFactory}.
+   * Creates a new instance of <code>{@link FactoryBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the given {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} 
+   * {@code ELEMENT_ASSERT} parameter (AssertJ can't figure it out because of Java type erasure).
    * <p>
    * Example with {@code String} element assertions:
    * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
@@ -434,8 +443,17 @@ public class Assertions {
   }
          
   /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableIterableAssert}</code> that allows to navigate to the {@code Iterable} elements 
-   * and perform strongly typed assertions on them, the type of element assertions is specified with a class.
+   * Creates a new instance of <code>{@link ClassBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the given {@code assertClass} 
+   * (AssertJ can't find the element assert type by itself because of Java type erasure).
    * <p>
    * Example with {@code String} element assertions:
    * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
@@ -449,15 +467,25 @@ public class Assertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual, 
                                                                                           Class<ELEMENT_ASSERT> assertClass) {
-    return new ClassBasedNavigableIterableAssert<>(actual, ClassBasedNavigableIterableAssert.class, assertClass);
+    return new ClassBasedNavigableIterableAssert(actual, ClassBasedNavigableIterableAssert.class, assertClass);
   }
 
   /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableListAssert}</code> that allows to navigate to the {@code List} elements 
-   * and perform strongly typed assertions on them, the type of element assertions is specified with an {@link AssertFactory}.
+   * Creates a new instance of <code>{@link FactoryBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the given {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} 
+   * {@code ELEMENT_ASSERT} parameter (AssertJ can't figure it out because of Java type erasure).
    * <p>
    * Example with {@code String} element assertions:
    * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
@@ -487,8 +515,17 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableListAssert}</code> that allows to navigate to the {@code List} elements 
-   * and perform strongly typed assertions on them, the type of element assertions is specified with an {@link AssertFactory}.
+   * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> tallowing to navigate to any {@code List} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the given {@code assertClass} 
+   * (AssertJ can't find the element assert type by itself because of Java type erasure).
    * <p>
    * Example with {@code String} element assertions:
    * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");

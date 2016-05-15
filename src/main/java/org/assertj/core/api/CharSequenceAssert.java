@@ -22,7 +22,7 @@ package org.assertj.core.api;
  */
 public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceAssert, CharSequence> {
 
-  protected CharSequenceAssert(CharSequence actual) {
+  public CharSequenceAssert(CharSequence actual) {
     super(actual, CharSequenceAssert.class);
   }
 }

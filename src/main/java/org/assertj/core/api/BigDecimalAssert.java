@@ -30,7 +30,7 @@ import java.math.BigDecimal;
  */
 public class BigDecimalAssert extends AbstractBigDecimalAssert<BigDecimalAssert> {
 
-  protected BigDecimalAssert(BigDecimal actual) {
+  public BigDecimalAssert(BigDecimal actual) {
     super(actual, BigDecimalAssert.class);
   }
 }

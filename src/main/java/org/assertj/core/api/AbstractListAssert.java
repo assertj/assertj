@@ -48,7 +48,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   @VisibleForTesting
   Lists lists = Lists.instance();
 
-  protected AbstractListAssert(ACTUAL actual, Class<?> selfType) {
+  public AbstractListAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

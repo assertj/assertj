@@ -27,7 +27,7 @@ package org.assertj.core.api;
  */
 public class DoubleArrayAssert extends AbstractDoubleArrayAssert<DoubleArrayAssert> {
 
-  protected DoubleArrayAssert(double[] actual) {
+  public DoubleArrayAssert(double[] actual) {
     super(actual, DoubleArrayAssert.class);
   }
 }

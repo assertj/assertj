@@ -86,7 +86,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  protected AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
+  public AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -1458,7 +1458,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return toAssert(elementAtIndex, navigationDescription("index(" + index + ")"));
   }
 
-  protected abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);
+  public abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);
 
   protected String navigationDescription(String propertyName) {
     String text = this.descriptionText();

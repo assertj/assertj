@@ -48,7 +48,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   Conditions conditions = Conditions.instance();
 
   @VisibleForTesting
-  protected final WritableAssertionInfo info;
+  public final WritableAssertionInfo info;
 
   // visibility is protected to allow us write custom assertions that need access to actual
   @VisibleForTesting
@@ -61,7 +61,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
   @SuppressWarnings("unchecked")
-  protected AbstractAssert(A actual, Class<?> selfType) {
+  public AbstractAssert(A actual, Class<?> selfType) {
     myself = (S) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo(customRepresentation);
@@ -74,7 +74,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * 
    * @return the {@link WritableAssertionInfo} used in the current assertion
    */
-  protected WritableAssertionInfo getWritableAssertionInfo() {
+  public WritableAssertionInfo getWritableAssertionInfo() {
     return info;
   }
 

@@ -38,7 +38,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
   @VisibleForTesting
   Characters characters = Characters.instance();
 
-  protected AbstractCharacterAssert(Character actual, Class<?> selfType) {
+  public AbstractCharacterAssert(Character actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

@@ -27,7 +27,7 @@ package org.assertj.core.api;
  */
 public class ByteArrayAssert extends AbstractByteArrayAssert<ByteArrayAssert> {
 
-  protected ByteArrayAssert(byte[] actual) {
+  public ByteArrayAssert(byte[] actual) {
     super(actual, ByteArrayAssert.class);
   }
 

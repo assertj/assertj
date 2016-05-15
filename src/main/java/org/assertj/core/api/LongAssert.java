@@ -31,7 +31,7 @@ package org.assertj.core.api;
  */
 public class LongAssert extends AbstractLongAssert<LongAssert> {
 
-  protected LongAssert(Long actual) {
+  public LongAssert(Long actual) {
     super(actual, LongAssert.class);
   }
 

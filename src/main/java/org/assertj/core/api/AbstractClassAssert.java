@@ -30,7 +30,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
 
   Classes classes = Classes.instance();
 
-  protected AbstractClassAssert(Class<?> actual, Class<?> selfType) {
+  public AbstractClassAssert(Class<?> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

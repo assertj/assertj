@@ -47,7 +47,7 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
     return myself;
   }
 
-  protected AbstractEnumerableAssert(final A actual, final Class<?> selfType) {
+  public AbstractEnumerableAssert(final A actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 

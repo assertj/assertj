@@ -29,7 +29,7 @@ import java.util.List;
 public class ListAssert<ELEMENT> extends
     FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  protected ListAssert(List<? extends ELEMENT> actual) {
+  public ListAssert(List<? extends ELEMENT> actual) {
 
     super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
   }

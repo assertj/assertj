@@ -25,7 +25,7 @@ import java.lang.annotation.Annotation;
  */
 public class ClassAssert extends AbstractClassAssert<ClassAssert> {
 
-  protected ClassAssert(Class<?> actual) {
+  public ClassAssert(Class<?> actual) {
     super(actual, ClassAssert.class);
   }
   

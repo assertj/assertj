@@ -30,7 +30,7 @@ import java.io.File;
  */
 public class FileAssert extends AbstractFileAssert<FileAssert> {
 
-  protected FileAssert(File actual) {
+  public FileAssert(File actual) {
     super(actual, FileAssert.class);
   }
 }

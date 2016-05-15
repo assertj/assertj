@@ -26,7 +26,7 @@ package org.assertj.core.api;
  */
 public class IntArrayAssert extends AbstractIntArrayAssert<IntArrayAssert> {
 
-  protected IntArrayAssert(int[] actual) {
+  public IntArrayAssert(int[] actual) {
     super(actual, IntArrayAssert.class);
   }
 }

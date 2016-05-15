@@ -46,7 +46,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
   private Map<Class<?>, Comparator<?>> comparatorByType = defaultTypeComparators();
 
-  protected AbstractObjectAssert(A actual, Class<?> selfType) {
+  public AbstractObjectAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

@@ -31,7 +31,7 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
     this.assertFactory = assertFactory;
   }
 
-  protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
+  public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
     return assertFactory.createAssert(value).as(description);
   }
 }

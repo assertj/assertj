@@ -28,7 +28,7 @@ package org.assertj.core.api;
  */
 public class FloatAssert extends AbstractFloatAssert<FloatAssert> {
 
-  protected FloatAssert(Float actual) {
+  public FloatAssert(Float actual) {
     super(actual, FloatAssert.class);
   }
 }

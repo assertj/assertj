@@ -35,11 +35,11 @@ import org.assertj.core.util.VisibleForTesting;
 public class IterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  protected IterableAssert(Iterable<? extends ELEMENT> actual) {
+  public IterableAssert(Iterable<? extends ELEMENT> actual) {
     super(actual, IterableAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
 
-  protected IterableAssert(Iterator<? extends ELEMENT> actual) {
+  public IterableAssert(Iterator<? extends ELEMENT> actual) {
     this(toLazyIterable(actual));
   }
 

@@ -40,7 +40,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
   @VisibleForTesting
   Shorts shorts = Shorts.instance();
 
-  protected AbstractShortAssert(Short actual, Class<?> selfType) {
+  public AbstractShortAssert(Short actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
