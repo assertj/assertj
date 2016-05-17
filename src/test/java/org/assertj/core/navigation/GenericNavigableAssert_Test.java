@@ -68,20 +68,40 @@ public abstract class GenericNavigableAssert_Test<T extends Iterable<Vehicle>, A
   }
 
   @Test
-  public void failing_tests() {
+  public void element_navigating_failing_tests() {
     assertThatThrownBy(new ThrowableAssert.ThrowingCallable() {
       @Override
       public void call() throws Throwable {
         vehiclesAssert.element(10).isEqualTo(getVehicle(0));
       }
-    }).hasMessageContaining("VehicleFactory.vehicles.check index");
+    }).hasMessageContaining("VehicleFactory.vehicles check index");
 
     assertThatThrownBy(new ThrowableAssert.ThrowingCallable() {
       @Override
       public void call() throws Throwable {
         vehiclesAssert.element(1).isEqualTo(getVehicle(2));
       }
-    }).hasMessageContaining("VehicleFactory.vehicles.index");
+    }).hasMessageContaining("VehicleFactory.vehicles element at index 1");
   }
 
+  @Test
+  public void first_element_navigating_failing_test() {
+    assertThatThrownBy(new ThrowableAssert.ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        vehiclesAssert.first().isEqualTo(getVehicle(1));
+      }
+    }).hasMessageContaining("VehicleFactory.vehicles check first element");
+  }
+  
+  @Test
+  public void last_element_navigating_failing_test() {
+    assertThatThrownBy(new ThrowableAssert.ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        vehiclesAssert.last().isEqualTo(getVehicle(1));
+      }
+    }).hasMessageContaining("VehicleFactory.vehicles check last element");
+  }
+  
 }

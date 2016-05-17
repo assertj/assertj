@@ -411,8 +411,8 @@ public class Assertions {
    * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
    * </ul>
    * <p>
-   * The available assertions after navigating to an element depend on the given {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} 
-   * {@code ELEMENT_ASSERT} parameter (AssertJ can't figure it out because of Java type erasure).
+   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given 
+   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
    * <p>
    * Example with {@code String} element assertions:
    * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
@@ -484,8 +484,8 @@ public class Assertions {
    * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
    * </ul>
    * <p>
-   * The available assertions after navigating to an element depend on the given {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} 
-   * {@code ELEMENT_ASSERT} parameter (AssertJ can't figure it out because of Java type erasure).
+   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given 
+   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
    * <p>
    * Example with {@code String} element assertions:
    * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");

@@ -1366,37 +1366,41 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   // navigable assertions
 
   /**
-   * Navigate and allow to perform assertions on  to the first element in the {@link Iterable}.
+   * Navigate and allow to perform assertions on the first element of the {@link Iterable} under test.
    * <p>
-   * The assertions you can chain after {@code first()} are by default {@code Object} assertions, it is possible to
-   * use more specific assertions, for this, when creating {@link Iterable} assertion you need to provide either:
+   * By default available assertions after {@code first()} are {@code Object} assertions, it is possible though to
+   * get more specific assertions if you create {@code IterableAssert} with either:
    * <ul>
-   * <li>the element assert class with {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable&lt;E&gt;, Class&lt;E_ASSERT&gt;)}</li>
-   * <li>an assert factory with {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable&lt;E&gt;, AssertFactory&lt;E, E_ASSERT&gt;)}</li>
+   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
+   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
    * </ul>
    * <p>
    * Example: default {@code Object} assertions
    * <pre><code class='java'> // default iterable assert => element assert is ObjectAssert 
    * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
    * 
-   * // assertion succeeds, object assertions chained after first()
-   * assertThat(hobbits).first().isEqualTo(frodo);
+   * // assertion succeeds, only Object assertions are available after first()
+   * assertThat(hobbits).first()
+   *                    .isEqualTo(frodo);
    * 
    * // assertion fails
-   * assertThat(hobbits).first().isEqualTo(pippin);</code></pre>
+   * assertThat(hobbits).first()
+   *                    .isEqualTo(pippin);</code></pre>
    * <p>
    * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class, 
-   * {@code first()} will return a typed assertion.
+   * you will be able to chain {@code first()} with more specific typed assertion.
    * <p>
-   * Example: chain with {@code String} assertions
+   * Example: use of {@code String} assertions after {@code first()} 
    * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
    * 
-   * // assertion succeeds with String assertions chained after first()
+   * // assertion succeeds
+   * // String assertions are available after first()
    * assertThat(hobbits, StringAssert.class).first()
    *                                        .startsWith("fro")
    *                                        .endsWith("do");
    * // assertion fails
-   * assertThat(hobbits, StringAssert.class).first().startsWith("pip");</code></pre>
+   * assertThat(hobbits, StringAssert.class).first()
+   *                                        .startsWith("pip");</code></pre>
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty. 
@@ -1404,19 +1408,53 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   public ELEMENT_ASSERT first() {
     isNotEmpty();
-    return toAssert(actual.iterator().next(), navigationDescription("first()"));
+    return toAssert(actual.iterator().next(), navigationDescription("check first element")); // TOD better description
   }
 
   /**
-   * Navigates to the last element in the list if the {@link Iterable} is not empty.
+   * Navigate and allow to perform assertions on the first element of the {@link Iterable} under test.
+   * <p>
+   * By default available assertions after {@code last()} are {@code Object} assertions, it is possible though to
+   * get more specific assertions if you create {@code IterableAssert} with either:
+   * <ul>
+   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
+   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
+   * </ul>
+   * <p>
+   * Example: default {@code Object} assertions
+   * <pre><code class='java'> // default iterable assert => element assert is ObjectAssert 
+   * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   * 
+   * // assertion succeeds, only Object assertions are available after last()
+   * assertThat(hobbits).last()
+   *                    .isEqualTo(pippin);
+   * 
+   * // assertion fails
+   * assertThat(hobbits).last()
+   *                    .isEqualTo(frodo);</code></pre>
+   * <p>
+   * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class, 
+   * you will be able to chain {@code last()} with more specific typed assertion.
+   * <p>
+   * Example: use of {@code String} assertions after {@code last()} 
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * 
+   * // assertion succeeds
+   * // String assertions are available after last()
+   * assertThat(hobbits, StringAssert.class).last()
+   *                                        .startsWith("pi")
+   *                                        .endsWith("in");
+   * // assertion fails
+   * assertThat(hobbits, StringAssert.class).last()
+   *                                        .startsWith("fro");</code></pre>
    *
-   * @return the assertion on the last element
-   * @throws AssertionError - if the actual {@link Iterable}  is empty. 
+   * @return the assertion on the first element
+   * @throws AssertionError if the actual {@link Iterable} is empty. 
    * @since 2.5.0 
    */
   public ELEMENT_ASSERT last() {
     isNotEmpty();
-    return toAssert(lastElement(), navigationDescription("last()"));
+    return toAssert(lastElement(), navigationDescription("check last element"));
   }
 
   private ELEMENT lastElement() {
@@ -1433,7 +1471,41 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Navigates to the element at the given index if the index is within the range of the {@link Iterable}.
+   * Navigate and allow to perform assertions on the chosen element of the {@link Iterable} under test.
+   * <p>
+   * By default available assertions after {@code element(index)} are {@code Object} assertions, it is possible though to
+   * get more specific assertions if you create {@code IterableAssert} with either:
+   * <ul>
+   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
+   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
+   * </ul>
+   * <p>
+   * Example: default {@code Object} assertions
+   * <pre><code class='java'> // default iterable assert => element assert is ObjectAssert 
+   * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   * 
+   * // assertion succeeds, only Object assertions are available after element(index)
+   * assertThat(hobbits).element(1)
+   *                    .isEqualTo(sam);
+   * 
+   * // assertion fails
+   * assertThat(hobbits).element(1)
+   *                    .isEqualTo(pippin);</code></pre>
+   * <p>
+   * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class, 
+   * you will be able to chain {@code element(index)} with more specific typed assertion.
+   * <p>
+   * Example: use of {@code String} assertions after {@code element(index)} 
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * 
+   * // assertion succeeds
+   * // String assertions are available after element(index)
+   * assertThat(hobbits, StringAssert.class).element(1)
+   *                                        .startsWith("sa")
+   *                                        .endsWith("am");
+   * // assertion fails
+   * assertThat(hobbits, StringAssert.class).element(1)
+   *                                        .startsWith("fro");</code></pre>
    *
    * @return the assertion on the given element
    * @throws AssertionError if the given index is out of bound.
@@ -1455,17 +1527,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       elementAtIndex = actualIterator.next();
     }
 
-    return toAssert(elementAtIndex, navigationDescription("index(" + index + ")"));
+    return toAssert(elementAtIndex, navigationDescription("element at index " + index));
   }
 
-  public abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);
+  protected abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);
 
   protected String navigationDescription(String propertyName) {
     String text = this.descriptionText();
     if (Strings.isNullOrEmpty(text)) {
       text = removeAssert(this.getClass().getSimpleName());
     }
-    return text + "." + propertyName;
+    return text + " " + propertyName;
   }
 
   private static String removeAssert(String text) {
