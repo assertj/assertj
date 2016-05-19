@@ -37,7 +37,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   @VisibleForTesting
   Throwables throwables = Throwables.instance();
 
-  protected AbstractThrowableAssert(A actual, Class<?> selfType) {
+  public AbstractThrowableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

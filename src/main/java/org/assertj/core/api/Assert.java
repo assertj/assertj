@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -502,7 +503,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * @return a list assertion object
    */
-  AbstractListAssert<?, ?, Object> asList();
+  AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList();
 
   /**
    * Verifies that the actual value is an instance of String,

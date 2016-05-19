@@ -31,11 +31,11 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
     void call() throws Throwable;
   }
 
-  protected ThrowableAssert(Throwable actual) {
+  public ThrowableAssert(Throwable actual) {
 	super(actual, ThrowableAssert.class);
   }
 
-  protected <V> ThrowableAssert(Callable<V> runnable) {
+  public <V> ThrowableAssert(Callable<V> runnable) {
 	super(buildThrowableAssertFromCallable(runnable), ThrowableAssert.class);
   }
 

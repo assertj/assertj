@@ -30,7 +30,7 @@ package org.assertj.core.api;
  */
 public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
 
-  protected IntegerAssert(Integer actual) {
+  public IntegerAssert(Integer actual) {
     super(actual, IntegerAssert.class);
   }
 }

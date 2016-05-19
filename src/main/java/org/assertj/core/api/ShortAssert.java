@@ -28,7 +28,7 @@ package org.assertj.core.api;
  */
 public class ShortAssert extends AbstractShortAssert<ShortAssert> {
 
-  protected ShortAssert(Short actual) {
+  public ShortAssert(Short actual) {
     super(actual, ShortAssert.class);
   }
 }

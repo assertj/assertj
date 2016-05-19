@@ -27,8 +27,8 @@ public class Assertions_assertThat_with_Iterable_Test {
 
   @Test
   public void should_create_Assert() {
-    Object assertions = Assertions.assertThat(newLinkedHashSet());
-    assertThat(assertions).isNotNull();
+    AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> assertThat = Assertions.assertThat(newLinkedHashSet());
+    assertThat(assertThat).isNotNull();
   }
 
   @Test

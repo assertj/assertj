@@ -24,7 +24,7 @@ public class PathAssert extends AbstractPathAssert<PathAssert>
      *
      * @param actual the path to test
      */
-    protected PathAssert(Path actual)
+    public PathAssert(Path actual)
     {
         super(actual, PathAssert.class);
     }

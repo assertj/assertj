@@ -85,6 +85,40 @@ public class SoftAssertionsTest {
     softly.assertAll();
   }
 
+  @Test
+  public void should_return_success_of_last_assertion() {
+    try {
+      softly.assertThat(true).isFalse();
+    } catch (AssertionError ignore) {
+    }
+    softly.assertThat(true).isEqualTo(true);
+    assertThat(softly.wasSuccess()).isTrue();
+  }
+
+  @Test
+  public void should_return_success_of_last_assertion_with_nested_calls() {
+    try {
+      softly.assertThat(true).isFalse();
+    } catch (AssertionError ignore) {
+    }
+    softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
+    assertThat(softly.wasSuccess()).isTrue();
+  }
+
+  @Test
+  public void should_return_failure_of_last_assertion() {
+    softly.assertThat(true).isTrue();
+    softly.assertThat(true).isEqualTo(false);
+    assertThat(softly.wasSuccess()).isFalse();
+  }
+
+  @Test
+  public void should_return_failure_of_last_assertion_with_nested_calls() {
+    softly.assertThat(true).isTrue();
+    softly.assertThat(true).isFalse(); // isFalse() calls isEqualTo(false)
+    assertThat(softly.wasSuccess()).isFalse();
+  }
+
   @SuppressWarnings("unchecked")
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {

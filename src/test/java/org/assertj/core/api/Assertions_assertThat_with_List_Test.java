@@ -47,7 +47,7 @@ public class Assertions_assertThat_with_List_Test {
 
   @Test
   public void should_create_Assert() {
-    Object assertions = Assertions.assertThat(emptyList());
+    AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> assertions = assertThat(emptyList());
     assertThat(assertions).isNotNull();
   }
 
@@ -81,6 +81,6 @@ public class Assertions_assertThat_with_List_Test {
   @Test
   public void should_pass_actual() {
     List<String> names = singletonList("Luke");
-    assertThat(Assertions.assertThat(names).actual).isSameAs(names);
+    assertThat(assertThat(names).actual).isSameAs(names);
   }
 }

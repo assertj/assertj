@@ -29,7 +29,7 @@ public class VehicleFactory {
     return Arrays.asList(car1, car2, car3);
   }
 
-  static class Car implements Vehicle {
+  public static class Car implements Vehicle {
     private String brand;
 
     public Car(String brand) {
@@ -39,6 +39,11 @@ public class VehicleFactory {
     @Override
     public String getName() {
       return brand;
+    }
+
+    @Override
+    public String toString() {
+      return "Car(" + brand + ")";
     }
   }
 }

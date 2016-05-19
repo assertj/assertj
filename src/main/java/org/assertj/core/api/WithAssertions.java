@@ -259,17 +259,15 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable)}
    */
-  @SuppressWarnings("unchecked")
-  default public <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(final Iterable<T> actual) {
-    return (AbstractIterableAssert<?, ? extends Iterable<T>, T>) Assertions.assertThat(actual);
+  default public <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(final Iterable<? extends T> actual) {
+    return Assertions.assertThat(actual);
   }
 
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterator)}
    */
-  @SuppressWarnings("unchecked")
-  default public <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(final Iterator<T> actual) {
-    return (AbstractIterableAssert<?, ? extends Iterable<T>, T>) Assertions.assertThat(actual);
+  default public <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(final Iterator<? extends T> actual) {
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -387,17 +385,15 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
-  @SuppressWarnings("unchecked")
-  default public <T> AbstractListAssert<?, ? extends List<T>, T> assertThat(final List<T> actual) {
-    return (AbstractListAssert<?, ? extends List<T>, T>) Assertions.assertThat(actual);
+  default public <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> assertThat(final List<? extends T> actual) {
+    return Assertions.assertThat(actual);
   } 
 
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
-  @SuppressWarnings("unchecked")
-  default public <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(final Stream<? extends T> actual) {
-    return (AbstractListAssert<?, ? extends List<? extends T>, T>) Assertions.assertThat(actual);
+  default public <T> AbstractListAssert<?, ? extends List<? extends T>, T, ObjectAssert<T>> assertThat(final Stream<? extends T> actual) {
+    return Assertions.assertThat(actual);
   }
   
   /**

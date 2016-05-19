@@ -39,7 +39,7 @@ public class DateAssert extends AbstractDateAssert<DateAssert> {
    * Creates a new {@link DateAssert}.
    * @param actual the target to verify.
    */
-  protected DateAssert(Date actual) {
+  public DateAssert(Date actual) {
     super(actual, DateAssert.class);
   }
 }

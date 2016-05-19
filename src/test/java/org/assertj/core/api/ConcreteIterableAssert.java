@@ -14,13 +14,15 @@ package org.assertj.core.api;
 
 import java.util.Collection;
 
-/**
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- */
-public class ConcreteIterableAssert<T> extends AbstractIterableAssert<ConcreteIterableAssert<T>, Collection<T>, T> {
+public class ConcreteIterableAssert<ELEMENT> extends
+    FactoryBasedNavigableIterableAssert<ConcreteIterableAssert<ELEMENT>, Iterable<ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  public ConcreteIterableAssert(Collection<T> actual) {
-    super(actual, ConcreteIterableAssert.class);
+  public ConcreteIterableAssert(Collection<ELEMENT> actual) {
+    super(actual, ConcreteIterableAssert.class, new ObjectAssertFactory<ELEMENT>());
+  }
+
+  @Override
+  public ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
+    return new ObjectAssert<>(value);
   }
 }

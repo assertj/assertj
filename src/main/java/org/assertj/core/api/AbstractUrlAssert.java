@@ -28,7 +28,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
   @VisibleForTesting
   protected Urls urls = Urls.instance();
 
-  protected AbstractUrlAssert(final URL actual, final Class<?> selfType) {
+  public AbstractUrlAssert(final URL actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 

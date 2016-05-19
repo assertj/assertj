@@ -30,7 +30,7 @@ package org.assertj.core.api;
  */
 public class ObjectArrayAssert<T> extends AbstractObjectArrayAssert<ObjectArrayAssert<T>, T> {
 
-  protected ObjectArrayAssert(T[] actual) {
+  public ObjectArrayAssert(T[] actual) {
     super(actual, ObjectArrayAssert.class);
   }
 

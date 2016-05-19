@@ -15,8 +15,6 @@ package org.assertj.core.api;
 import static java.util.Collections.emptyList;
 import static org.mockito.Mockito.mock;
 
-import java.util.Collection;
-
 import org.assertj.core.internal.Iterables;
 
 
@@ -25,7 +23,7 @@ import org.assertj.core.internal.Iterables;
  * 
  * @author Joel Costigliola
  */
-public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIterableAssert<Object>, Collection<Object>>{
+public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIterableAssert<Object>, Iterable<Object>>{
 
   protected Iterables iterables;
 

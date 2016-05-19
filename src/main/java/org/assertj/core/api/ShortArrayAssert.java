@@ -27,7 +27,7 @@ package org.assertj.core.api;
  */
 public class ShortArrayAssert extends AbstractShortArrayAssert<ShortArrayAssert> {
 
-  protected ShortArrayAssert(short[] actual) {
+  public ShortArrayAssert(short[] actual) {
     super(actual, ShortArrayAssert.class);
   }
 }

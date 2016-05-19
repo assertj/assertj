@@ -30,7 +30,7 @@ package org.assertj.core.api;
  */
 public class DoubleAssert extends AbstractDoubleAssert<DoubleAssert> {
 
-  protected DoubleAssert(Double actual) {
+  public DoubleAssert(Double actual) {
     super(actual, DoubleAssert.class);
   }
 }

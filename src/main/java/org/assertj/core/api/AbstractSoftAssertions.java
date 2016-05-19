@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Lists.newArrayList;
+
 import java.util.List;
 
 public class AbstractSoftAssertions {
@@ -22,11 +24,31 @@ public class AbstractSoftAssertions {
     proxies = new SoftProxies();
   }
 
-  protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
+  public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
     return proxies.create(assertClass, actualClass, actual);
   }
 
-  protected List<Throwable> errorsCollected(){
-    return proxies.errorsCollected();
+  /**
+   * Returns a copy of list of soft assertions collected errors.
+   * @return a copy of list of soft assertions collected errors.
+   */
+  public List<Throwable> errorsCollected(){
+    return newArrayList(proxies.errorsCollected());
+  }
+
+  /**
+   * Returns the result of last soft assertion which can used to decide what the next one should be.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Person person = ...
+   * SoftAssertions soft = new SoftAssertions();
+   * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
+   *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
+   * }</code></pre>
+   * 
+   * @return true if the last assertion was a success.
+   */
+  public boolean wasSuccess(){
+    return proxies.wasSuccess();
   }
 }

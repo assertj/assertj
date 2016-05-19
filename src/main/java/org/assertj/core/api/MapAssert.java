@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class MapAssert<K, V> extends AbstractMapAssert<MapAssert<K, V>, Map<K, V>, K, V> {
 
-  protected MapAssert(Map<K, V> actual) {
+  public MapAssert(Map<K, V> actual) {
     super(actual, MapAssert.class);
   }
   

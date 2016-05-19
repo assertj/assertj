@@ -88,7 +88,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterable<? extends T> actual) {
+  public static <ELEMENT> AbstractIterableAssert<?, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Iterable<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -102,7 +102,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterator<? extends T> actual) {
+  public static <ELEMENT> AbstractIterableAssert<?, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Iterator<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -112,7 +112,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(List<? extends T> actual) {
+  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(List<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
 
@@ -126,10 +126,47 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
-  public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(Stream<? extends T> actual) {
+  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
+
   
+  /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+//@format:off
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual, 
+                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return new FactoryBasedNavigableIterableAssert(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual, 
+                                                                                          Class<ELEMENT_ASSERT> assertClass) {
+    return new ClassBasedNavigableIterableAssert(actual, ClassBasedNavigableIterableAssert.class, assertClass);
+  }
+         
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual, 
+                                                                                        AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return new FactoryBasedNavigableListAssert(actual, FactoryBasedNavigableListAssert.class, assertFactory);
+  }
+         
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
+                                                                                      Class<ELEMENT_ASSERT> assertClass) {
+    return new ClassBasedNavigableListAssert(actual, assertClass);
+  }
+//@format:on
+         
   /**
    * Creates a new instance of {@link PathAssert}
    *

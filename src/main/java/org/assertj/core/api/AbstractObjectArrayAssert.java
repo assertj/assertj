@@ -75,7 +75,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  protected AbstractObjectArrayAssert(T[] actual, Class<?> selfType) {
+  public AbstractObjectArrayAssert(T[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

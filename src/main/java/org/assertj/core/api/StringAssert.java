@@ -25,7 +25,7 @@ package org.assertj.core.api;
  */
 public class StringAssert extends AbstractCharSequenceAssert<StringAssert, String> {
 
-  protected StringAssert(String actual) {
+  public StringAssert(String actual) {
     super(actual, StringAssert.class);
   }
 }

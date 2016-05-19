@@ -23,7 +23,7 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Iterable)}</code>.
  * </p>
- * @param <T> the type of elements of the "actual" value.
+ * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -32,13 +32,14 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Julien Meddah
  */
-public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T> {
+public class IterableAssert<ELEMENT> extends
+    FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  protected IterableAssert(Iterable<? extends T> actual) {
-    super(actual, IterableAssert.class);
+  public IterableAssert(Iterable<? extends ELEMENT> actual) {
+    super(actual, IterableAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
 
-  protected IterableAssert(Iterator<? extends T> actual) {
+  public IterableAssert(Iterator<? extends ELEMENT> actual) {
     this(toLazyIterable(actual));
   }
 
@@ -50,7 +51,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   @Override
-  public IterableAssert<T> isInstanceOf(Class<?> type) {
+  public IterableAssert<ELEMENT> isInstanceOf(Class<?> type) {
     if (actual instanceof LazyIterable) {
       objects.assertIsInstanceOf(info, asLazyIterable().iterator, type);
       return myself;
@@ -59,7 +60,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   @Override
-  public IterableAssert<T> isInstanceOfAny(Class<?>... types) {
+  public IterableAssert<ELEMENT> isInstanceOfAny(Class<?>... types) {
     if (actual instanceof LazyIterable) {
       objects.assertIsInstanceOfAny(info, asLazyIterable().iterator, types);
       return myself;
@@ -68,16 +69,16 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   @Override
-  public IterableAssert<T> isOfAnyClassIn(Class<?>... types) {
+  public IterableAssert<ELEMENT> isOfAnyClassIn(Class<?>... types) {
     if (actual instanceof LazyIterable) {
       objects.assertIsOfAnyClassIn(info, asLazyIterable().iterator, types);
       return myself;
     }
     return super.isOfAnyClassIn(types);
   }
-  
+
   @Override
-  public IterableAssert<T> isExactlyInstanceOf(Class<?> type) {
+  public IterableAssert<ELEMENT> isExactlyInstanceOf(Class<?> type) {
     if (actual instanceof LazyIterable) {
       objects.assertIsExactlyInstanceOf(info, asLazyIterable().iterator, type);
       return myself;
@@ -86,7 +87,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   @Override
-  public IterableAssert<T> isNotInstanceOf(Class<?> type) {
+  public IterableAssert<ELEMENT> isNotInstanceOf(Class<?> type) {
     if (actual instanceof LazyIterable) {
       objects.assertIsNotInstanceOf(info, asLazyIterable().iterator, type);
       return myself;
@@ -95,7 +96,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   @Override
-  public IterableAssert<T> isNotInstanceOfAny(Class<?>... types) {
+  public IterableAssert<ELEMENT> isNotInstanceOfAny(Class<?>... types) {
     if (actual instanceof LazyIterable) {
       objects.assertIsNotInstanceOfAny(info, asLazyIterable().iterator, types);
       return myself;
@@ -104,16 +105,16 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   @Override
-  public IterableAssert<T> isNotOfAnyClassIn(Class<?>... types) {
+  public IterableAssert<ELEMENT> isNotOfAnyClassIn(Class<?>... types) {
     if (actual instanceof LazyIterable) {
       objects.assertIsNotOfAnyClassIn(info, asLazyIterable().iterator, types);
       return myself;
     }
     return super.isNotOfAnyClassIn(types);
   }
-  
+
   @Override
-  public IterableAssert<T> isNotExactlyInstanceOf(Class<?> type) {
+  public IterableAssert<ELEMENT> isNotExactlyInstanceOf(Class<?> type) {
     if (actual instanceof LazyIterable) {
       objects.assertIsNotExactlyInstanceOf(info, asLazyIterable().iterator, type);
       return myself;
@@ -122,16 +123,16 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
   
   @Override
-  public IterableAssert<T> isSameAs(Object expected) {
+  public IterableAssert<ELEMENT> isSameAs(Object expected) {
     if (actual instanceof LazyIterable) {
       objects.assertSame(info, asLazyIterable().iterator, expected);
       return myself;
     }
     return super.isSameAs(expected);
   }
-  
+
   @Override
-  public IterableAssert<T> isNotSameAs(Object expected) {
+  public IterableAssert<ELEMENT> isNotSameAs(Object expected) {
     if (actual instanceof LazyIterable) {
       objects.assertNotSame(info, asLazyIterable().iterator, expected);
       return myself;

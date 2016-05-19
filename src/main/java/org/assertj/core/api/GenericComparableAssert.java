@@ -19,7 +19,7 @@ package org.assertj.core.api;
 public class GenericComparableAssert<A extends Comparable<? super A>>
         extends AbstractComparableAssert<GenericComparableAssert<A>, A> {
 
-    protected GenericComparableAssert(A actual) {
+    public GenericComparableAssert(A actual) {
         super(actual, GenericComparableAssert.class);
     }
 }

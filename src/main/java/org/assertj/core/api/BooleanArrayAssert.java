@@ -27,7 +27,7 @@ package org.assertj.core.api;
  */
 public class BooleanArrayAssert extends AbstractBooleanArrayAssert<BooleanArrayAssert> {
 
-  protected BooleanArrayAssert(boolean[] actual) {
+  public BooleanArrayAssert(boolean[] actual) {
     super(actual, BooleanArrayAssert.class);
   }
 

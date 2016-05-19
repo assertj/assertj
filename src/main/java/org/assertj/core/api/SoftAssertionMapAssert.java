@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class SoftAssertionMapAssert<K, V> extends AbstractMapAssert<SoftAssertionMapAssert<K, V>, Map<K, V>, K, V> {
 
-  protected SoftAssertionMapAssert(Map<K, V> actual) {
+  public SoftAssertionMapAssert(Map<K, V> actual) {
     super(actual, SoftAssertionMapAssert.class);
   }
 

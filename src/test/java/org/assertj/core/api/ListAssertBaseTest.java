@@ -49,4 +49,6 @@ public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<Str
   protected Iterables getIterables(ListAssert<String> assertions) {
     return assertions.iterables;
   }
+  
+  
 }

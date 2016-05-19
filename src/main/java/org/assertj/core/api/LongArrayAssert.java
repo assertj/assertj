@@ -27,7 +27,7 @@ package org.assertj.core.api;
  */
 public class LongArrayAssert extends AbstractLongArrayAssert<LongArrayAssert>  {
 
-  protected LongArrayAssert(long[] actual) {
+  public LongArrayAssert(long[] actual) {
     super(actual, LongArrayAssert.class);
   }
 }

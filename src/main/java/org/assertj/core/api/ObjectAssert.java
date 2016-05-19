@@ -26,7 +26,7 @@ package org.assertj.core.api;
  */
 public class ObjectAssert<A> extends AbstractObjectAssert<ObjectAssert<A>, A> {
 
-  protected ObjectAssert(A actual) {
+  public ObjectAssert(A actual) {
     super(actual, ObjectAssert.class);
   }
 }

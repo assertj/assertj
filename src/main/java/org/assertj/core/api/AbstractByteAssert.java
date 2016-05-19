@@ -40,7 +40,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
   @VisibleForTesting
   Bytes bytes = Bytes.instance();
 
-  protected AbstractByteAssert(Byte actual, Class<?> selfType) {
+  public AbstractByteAssert(Byte actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

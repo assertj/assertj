@@ -16,26 +16,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 /**
  * Assertion methods for {@link List}s.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(List)}</code>.
- * </p>
- * @param <T> the type of elements of the "actual" value.
+ * <p>
+ * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ListAssert<T> extends AbstractListAssert<ListAssert<T>, List<? extends T>, T> {
+public class ListAssert<ELEMENT> extends
+    FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  protected ListAssert(List<? extends T> actual) {
-    super(actual, ListAssert.class);
+  public ListAssert(List<? extends ELEMENT> actual) {
+
+    super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
   
-  protected ListAssert(Stream<? extends T> actual) {
-    super(actual == null ? null : actual.collect(Collectors.toList()), ListAssert.class);
+  protected ListAssert(Stream<? extends ELEMENT> actual) {
+    this(actual == null ? null : actual.collect(Collectors.toList()));
   }
 }

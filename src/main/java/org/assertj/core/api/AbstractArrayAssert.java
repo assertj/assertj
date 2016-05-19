@@ -24,7 +24,7 @@ public abstract class AbstractArrayAssert<S extends AbstractArrayAssert<S, A, E>
   extends AbstractEnumerableAssert<S, A, E>
   implements ArraySortedAssert<AbstractArrayAssert<S, A, E>, E> {
 
-  protected AbstractArrayAssert(final A actual, final Class<?> selfType) {
+  public AbstractArrayAssert(final A actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 }

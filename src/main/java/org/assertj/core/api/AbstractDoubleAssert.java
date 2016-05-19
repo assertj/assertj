@@ -41,7 +41,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
   @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
-  protected AbstractDoubleAssert(Double actual, Class<?> selfType) {
+  public AbstractDoubleAssert(Double actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

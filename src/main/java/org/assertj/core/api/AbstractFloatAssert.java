@@ -39,7 +39,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
   @VisibleForTesting
   Floats floats = Floats.instance();
 
-  protected AbstractFloatAssert(Float actual, Class<?> selfType) {
+  public AbstractFloatAssert(Float actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

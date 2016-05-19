@@ -27,7 +27,7 @@ package org.assertj.core.api;
  */
 public class CharArrayAssert extends AbstractCharArrayAssert<CharArrayAssert> {
 
-  protected CharArrayAssert(char[] actual) {
+  public CharArrayAssert(char[] actual) {
     super(actual, CharArrayAssert.class);
   }
 

@@ -35,7 +35,7 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
   @VisibleForTesting
   Comparables comparables = Comparables.instance();
 
-  protected AbstractComparableAssert(A actual, Class<?> selfType) {
+  public AbstractComparableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -78,6 +78,20 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
   @Override
   public S isGreaterThanOrEqualTo(A other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isBetween(A startInclusive, A endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isStrictlyBetween(A startExclusive, A endExclusive) {
+    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
 

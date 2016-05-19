@@ -18,7 +18,7 @@ package org.assertj.core.api;
  */
 public class SoftAssertionClassAssert extends AbstractClassAssert<SoftAssertionClassAssert> {
 
-  protected SoftAssertionClassAssert(Class<?> actual) {
+  public SoftAssertionClassAssert(Class<?> actual) {
     super(actual, SoftAssertionClassAssert.class);
   }
   
