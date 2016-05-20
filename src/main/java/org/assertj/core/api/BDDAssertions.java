@@ -66,7 +66,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractBigDecimalAssert<?> then(BigDecimal actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -76,7 +76,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractBooleanAssert<?> then(boolean actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -86,7 +86,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractBooleanAssert<?> then(Boolean actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -96,7 +96,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractBooleanArrayAssert<?> then(boolean[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -106,7 +106,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractByteAssert<?> then(byte actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -116,7 +116,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractByteAssert<?> then(Byte actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -126,7 +126,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractByteArrayAssert<?> then(byte[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -136,7 +136,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharacterAssert<?> then(char actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -146,7 +146,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharArrayAssert<?> then(char[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -156,7 +156,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharacterAssert<?> then(Character actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -166,7 +166,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractClassAssert<?> then(Class<?> actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -186,8 +186,8 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?,Iterable<? extends T>,T,ObjectAssert<T>> then(Iterable<? extends T> actual) {
-	return assertThat(actual);
+  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> then(Iterable<? extends T> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -199,10 +199,153 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?,Iterable<? extends T>,T,ObjectAssert<T>> then(Iterator<? extends T> actual) {
-	return assertThat(actual);
+  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> then(Iterator<? extends T> actual) {
+    return assertThat(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link FactoryBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given 
+   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
+   * <p>
+   * Example with {@code String} element assertions:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
+   * 
+   * // build an AssertFactory for StringAssert (much nicer with Java 8 lambdas)
+   * AssertFactory&lt;String, StringAssert&gt; stringAssertFactory = new AssertFactory&lt;String, StringAssert&gt;() {
+   *   {@literal @}Override
+   *   public StringAssert createAssert(String string) {
+   *     return new StringAssert(string);
+   *   }
+   * };
+   * 
+   * // assertion succeeds with String assertions chained after first()
+   * then(hobbits, stringAssertFactory).first()
+   *                                   .startsWith("fro")
+   *                                   .endsWith("do");</code></pre>
+   *
+   * @param actual the actual value.
+   * @param assertFactory the factory used to create the elements assert instance.
+   * @return the created assertion object.
+   */
+//@format:off
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual, 
+                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return assertThat(actual, assertFactory);
+  }
+         
+  /**
+   * Creates a new instance of <code>{@link ClassBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the given {@code assertClass} 
+   * (AssertJ can't find the element assert type by itself because of Java type erasure).
+   * <p>
+   * Example with {@code String} element assertions:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
+   * 
+   * // assertion succeeds with String assertions chained after first()
+   * then(hobbits, StringAssert.class).first()
+   *                                  .startsWith("fro")
+   *                                  .endsWith("do");</code></pre>
+   *
+   * @param actual the actual value.
+   * @param assertClass the class used to create the elements assert instance.
+   * @return the created assertion object.
+   */
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual, 
+                                                                                          Class<ELEMENT_ASSERT> assertClass) {
+    return assertThat(actual, assertClass);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FactoryBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given 
+   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
+   * <p>
+   * Example with {@code String} element assertions:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * 
+   * // build an AssertFactory for StringAssert (much nicer with Java 8 lambdas)
+   * AssertFactory&lt;String, StringAssert&gt; stringAssertFactory = new AssertFactory&lt;String, StringAssert&gt;() {
+   *   {@literal @}Override
+   *   public StringAssert createAssert(String string) {
+   *     return new StringAssert(string);
+   *   }
+   * };
+   * 
+   * // assertion succeeds with String assertions chained after first()
+   * then(hobbits, stringAssertFactory).first()
+   *                                   .startsWith("fro")
+   *                                   .endsWith("do");</code></pre>
+   *
+   * @param actual the actual value.
+   * @param assertFactory the factory used to create the elements assert instance.
+   * @return the created assertion object.
+   */
+  public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual, 
+                                                                                        AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return assertThat(actual, assertFactory);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> tallowing to navigate to any {@code List} element 
+   * in order to perform assertions on it. 
+   * <p>
+   * Navigational methods provided:<ul>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * </ul>
+   * <p>
+   * The available assertions after navigating to an element depend on the given {@code assertClass} 
+   * (AssertJ can't find the element assert type by itself because of Java type erasure).
+   * <p>
+   * Example with {@code String} element assertions:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * 
+   * // assertion succeeds with String assertions chained after first()
+   * then(hobbits, StringAssert.class).first()
+   *                                  .startsWith("fro")
+   *                                  .endsWith("do");</code></pre>
+   *
+   * @param actual the actual value.
+   * @param assertClass the class used to create the elements assert instance.
+   * @return the created assertion object.
+   */
+  public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+         ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
+                                                                                      Class<ELEMENT_ASSERT> assertClass) {
+    return assertThat(actual, assertClass);
+  }
+  
+//@format:on
+  
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.DoubleAssert}</code>.
    *
@@ -210,7 +353,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractDoubleAssert<?> then(double actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -220,7 +363,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractDoubleAssert<?> then(Double actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -230,7 +373,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractDoubleArrayAssert<?> then(double[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -240,7 +383,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractFileAssert<?> then(File actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -250,7 +393,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractInputStreamAssert<?, ? extends InputStream> then(InputStream actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -260,7 +403,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractFloatAssert<?> then(float actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -270,7 +413,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractFloatAssert<?> then(Float actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -280,7 +423,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractFloatArrayAssert<?> then(float[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -290,7 +433,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntegerAssert<?> then(int actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -300,7 +443,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntArrayAssert<?> then(int[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -310,7 +453,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntegerAssert<?> then(Integer actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -319,8 +462,8 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractListAssert<?,List<? extends T>,T,ObjectAssert<T>> then(List<? extends T> actual) {
-	return assertThat(actual);
+  public static <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> then(List<? extends T> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -330,7 +473,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractLongAssert<?> then(long actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -340,7 +483,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractLongAssert<?> then(Long actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -350,7 +493,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractLongArrayAssert<?> then(long[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -360,7 +503,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectAssert<?, T> then(T actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -370,7 +513,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectArrayAssert<?, T> then(T[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -380,7 +523,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <K, V> AbstractMapAssert<?, ? extends Map<K, V>, K, V> then(Map<K, V> actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -390,7 +533,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractShortAssert<?> then(short actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -400,7 +543,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractShortAssert<?> then(Short actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -410,7 +553,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractShortArrayAssert<?> then(short[] actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -420,7 +563,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(CharSequence actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -430,7 +573,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharSequenceAssert<?, String> then(String actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -440,7 +583,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractDateAssert<?> then(Date actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -450,9 +593,9 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion Throwable.
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
-	return assertThat(actual);
+    return assertThat(actual);
   }
-  
+
   /**
    * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
    * 
@@ -505,6 +648,5 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
-  protected BDDAssertions() {
-  }
+  protected BDDAssertions() {}
 }

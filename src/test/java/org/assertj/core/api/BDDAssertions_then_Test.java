@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Test;
@@ -34,6 +35,20 @@ import org.junit.Test;
  */
 public class BDDAssertions_then_Test {
 
+  AssertFactory<String, StringAssert> stringAssertFactory = new AssertFactory<String, StringAssert>() {
+    @Override
+    public StringAssert createAssert(String string) {
+      return new StringAssert(string);
+    }
+  };
+  
+  AssertFactory<Integer, IntegerAssert> integerAssertFactory = new AssertFactory<Integer, IntegerAssert>() {
+    @Override
+    public IntegerAssert createAssert(Integer string) {
+      return new IntegerAssert(string);
+    }
+  };
+  
   @Test
   public void then_char() {
     then('z').isGreaterThan('a');
@@ -83,6 +98,8 @@ public class BDDAssertions_then_Test {
   public void then_Iterable() {
     Iterable<String> iterable = Arrays.asList("1");
     then(iterable).contains("1");
+    then(iterable, StringAssert.class).first().startsWith("1");
+    then(iterable, stringAssertFactory).first().startsWith("1");
   }
 
   @Test
@@ -218,7 +235,10 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_List() {
-    then(asList(5, 6)).hasSize(2);
+    List<Integer> list = asList(5, 6);
+    then(list).hasSize(2);
+    then(list, IntegerAssert.class).first().isLessThan(10);
+    then(list, integerAssertFactory).first().isLessThan(10);
   }
 
   @Test
