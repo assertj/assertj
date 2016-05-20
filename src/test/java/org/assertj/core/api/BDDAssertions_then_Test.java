@@ -32,6 +32,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,8 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.Iterator;
+import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Before;
@@ -62,6 +65,20 @@ public class BDDAssertions_then_Test {
     mockStatic(Assertions.class);
   }
 
+  AssertFactory<String, StringAssert> stringAssertFactory = new AssertFactory<String, StringAssert>() {
+    @Override
+    public StringAssert createAssert(String string) {
+      return new StringAssert(string);
+    }
+  };
+  
+  AssertFactory<Integer, IntegerAssert> integerAssertFactory = new AssertFactory<Integer, IntegerAssert>() {
+    @Override
+    public IntegerAssert createAssert(Integer string) {
+      return new IntegerAssert(string);
+    }
+  };
+  
   @Test
   public void then_of_char_should_delegate_to_assertThat() {
     // GIVEN
@@ -600,4 +617,70 @@ public class BDDAssertions_then_Test {
     assertThat(actual);
   }
 
+  @Test
+  public void then_of_List_should_delegate_to_assertThat() {
+    // GIVEN
+    List<String> actual = new ArrayList<>();
+    // WHEN
+    then(actual);
+    // THEN
+    verifyStatic();
+    assertThat(actual);
+  }
+
+  @Test
+  public void then_of_class_based_navigational_assert_List_should_delegate_to_assertThat() {
+    // GIVEN
+    List<String> actual = new ArrayList<>();
+    // WHEN
+    then(actual, StringAssert.class);
+    // THEN
+    verifyStatic();
+    assertThat(actual, StringAssert.class);
+  }
+  
+  @Test
+  public void then_of_factory_based_navigational_assert_List_should_delegate_to_assertThat() {
+    // GIVEN
+    List<String> actual = new ArrayList<>();
+    // WHEN
+    then(actual, stringAssertFactory);
+    // THEN
+    verifyStatic();
+    assertThat(actual, stringAssertFactory);
+  }
+  
+  @Test
+  public void then_of_Iterable_should_delegate_to_assertThat() {
+    // GIVEN
+    Iterable<String> actual = new ArrayList<>();
+    // WHEN
+    then(actual);
+    // THEN
+    verifyStatic();
+    assertThat(actual);
+  }
+  
+  @Test
+  public void then_of_class_based_navigational_assert_Iterable_should_delegate_to_assertThat() {
+    // GIVEN
+    Iterable<String> actual = new ArrayList<>();
+    // WHEN
+    then(actual, StringAssert.class);
+    // THEN
+    verifyStatic();
+    assertThat(actual, StringAssert.class);
+  }
+  
+  @Test
+  public void then_of_factory_based_navigational_assert_Iterable_should_delegate_to_assertThat() {
+    // GIVEN
+    Iterable<String> actual = new ArrayList<>();
+    // WHEN
+    then(actual, stringAssertFactory);
+    // THEN
+    verifyStatic();
+    assertThat(actual, stringAssertFactory);
+  }
+  
 }
