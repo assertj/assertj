@@ -32,7 +32,7 @@ import java.util.IllegalFormatException;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<S, A>, A extends Throwable>
-    extends AbstractAssert<S, A> {
+    extends AbstractObjectAssert<S, A> {
 
   @VisibleForTesting
   Throwables throwables = Throwables.instance();
