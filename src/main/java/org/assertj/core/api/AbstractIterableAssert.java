@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -126,6 +127,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public SELF hasSize(int expected) {
     iterables.assertHasSize(info, actual, expected);
     return myself;
+  }
+
+  public void hasOnlyOneElementSatisfying(Consumer<T> elementAssertions) {
+    iterables.assertHasSize(info, actual, 1);
+    elementAssertions.accept(actual.iterator().next());
   }
 
   /**
