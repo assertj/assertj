@@ -1,11 +1,15 @@
 #### Summary
 
 
-#### Real life use case / example
+#### Example
 
+```java
+<add example here>
+```
 
 #### Java 8 specific ?
 
-YES / NO 
+* YES : create Pull Request from the `master` branch
+* NO  : create Pull Request from the `2.x` branch
 
-If the issue Java 8 specific, the Pull Request must be based on the `master`, otherwise the `2.x` branch must be used.
+
