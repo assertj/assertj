@@ -165,6 +165,8 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] range.
+   * 
+   * @since 2.5.0
    */
   S isBetween(A startInclusive, A endInclusive);
 
@@ -188,6 +190,8 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ range.
+   * 
+   * @since 2.5.0
    */
   S isStrictlyBetween(A startExclusive, A endExclusive);
 }
