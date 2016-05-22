@@ -20,18 +20,16 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertStartsWith(AssertionInfo, Collection, Object[])}</code>.
@@ -157,7 +155,7 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
       }
     };
   }
-
+  
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
@@ -178,7 +176,7 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    Object[] sequence = { "Leia", "Obi-Wan", "Han" };
+    Object[] sequence = { "YODA", "luke", "Leia", "Obi-Wan", "Han" };
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {

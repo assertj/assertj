@@ -48,7 +48,6 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.Strings;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -83,8 +82,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private static final String ASSERT = "Assert";
 
-  @VisibleForTesting
-  Iterables iterables = Iterables.instance();
+  protected Iterables iterables = Iterables.instance();
 
   public AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
