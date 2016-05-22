@@ -35,7 +35,7 @@ import java.util.Map;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-final class CommonValidations {
+public final class CommonValidations {
 
   private static Failures failures = Failures.instance();
 
@@ -68,7 +68,7 @@ final class CommonValidations {
     if (!iterable.iterator().hasNext()) throw iterableOfValuesToLookForIsEmpty();
   }
 
-  static void checkIsNotNull(Object[] values) {
+  public static void checkIsNotNull(Object[] values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
   }
 
@@ -86,7 +86,7 @@ final class CommonValidations {
     checkIsNotEmpty(iterable);
   }
 
-  static void failIfEmptySinceActualIsNotEmpty(Object[] values) {
+  public static void failIfEmptySinceActualIsNotEmpty(Object[] values) {
     if (values.length == 0) throw new AssertionError("actual is not empty");
   }
 

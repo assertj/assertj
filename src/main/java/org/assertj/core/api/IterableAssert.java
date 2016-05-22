@@ -12,10 +12,14 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
+
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -138,6 +142,34 @@ public class IterableAssert<ELEMENT> extends
       return myself;
     }
     return super.isNotSameAs(expected);
+  }
+
+  @Override
+  public IterableAssert<ELEMENT> startsWith(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+    if (!(actual instanceof LazyIterable)) {
+      return super.startsWith(sequence);
+    }
+    objects.assertNotNull(info, actual);
+    checkIsNotNull(sequence);
+    // To handle infinite iterator we use the internal iterator instead of iterator() that consumes it totally.
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    Iterator<? extends ELEMENT> iterator = ((LazyIterable) actual).iterator;
+    if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
+    int i = 0;
+    while (iterator.hasNext()) {
+      if (i >= sequence.length) break;
+      if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
+      throw actualDoesNotStartWithSequence(info, actual, sequence);
+    }
+    if (sequence.length > i) {
+      // sequence has more elements than actual
+      throw actualDoesNotStartWithSequence(info, actual, sequence);
+    }
+    return myself;
+  }
+
+  private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+    return Failures.instance().failure(info, shouldStartWith(actual, sequence, iterables.getComparisonStrategy()));
   }
 
   @SuppressWarnings("rawtypes")

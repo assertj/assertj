@@ -14,7 +14,12 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -22,6 +27,9 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import java.util.Iterator;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
+import org.assertj.core.test.ExpectedException;
+import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -33,12 +41,15 @@ import org.junit.Test;
  */
 public class Assertions_assertThat_with_Iterator_Test {
 
+  @Rule
+  public ExpectedException thrown = none();
+  
   private StringIterator stringIterator = new StringIterator();
-
+  
   private final class StringIterator implements Iterator<String> {
     @Override
     public boolean hasNext() {
-      return false;
+      return true;
     }
 
     @Override
@@ -151,4 +162,108 @@ public class Assertions_assertThat_with_Iterator_Test {
     Iterator<String> names = asList("Luke", "Leia").iterator();
     assertThat(names).containsExactly("Luke", "Leia").containsExactly("Luke", "Leia");
   }
+  
+  @Test
+  public void startsWith_should_work_with_infinite_iterators() {
+    assertThat(stringIterator).startsWith("", "");
+  }
+  
+  @Test
+  public void should_throw_error_if_sequence_is_null() {
+    thrown.expectNullPointerException(valuesToLookForIsNull());
+    assertThat(stringIterator).startsWith((String[])null);
+  }
+
+  @Test
+  public void should_pass_if_actual_and_sequence_are_empty() {
+    Iterator<?> empty = asList().iterator();
+    assertThat(empty).startsWith(emptyArray());
+  }
+
+  @Test
+  public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
+    thrown.expect(AssertionError.class);
+    Iterator<?> names = asList("Luke", "Leia").iterator();
+    assertThat(names).startsWith(emptyArray());
+  }
+
+  // startsWith tests
+  
+  @Test
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    Iterator<?> names = null;
+    assertThat(names).startsWith(emptyArray());
+  }
+
+  @Test
+  public void should_fail_if_sequence_is_bigger_than_actual() {
+    thrown.expect(AssertionError.class);
+    String[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    assertThat(names).startsWith(sequence);
+  }
+
+  @Test
+  public void should_fail_if_actual_does_not_start_with_sequence() {
+    thrown.expect(AssertionError.class);
+    String[] sequence = { "Han", "C-3PO" };
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    assertThat(names).startsWith(sequence);
+  }
+
+  @Test
+  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
+    thrown.expect(AssertionError.class);
+    String[] sequence = { "Luke", "Yoda" };
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    assertThat(names).startsWith(sequence);
+  }
+
+  @Test
+  public void should_pass_if_actual_starts_with_sequence() {
+    Iterator<String> names = asList("Luke", "Leia", "Yoda").iterator();
+    assertThat(names).startsWith(array("Luke", "Leia"));
+  }
+
+  @Test
+  public void should_pass_if_actual_and_sequence_are_equal() {
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    assertThat(names).startsWith(array("Luke", "Leia"));
+  }
+
+  // ------------------------------------------------------------------------------------------------------------------
+  // tests using a custom comparison strategy
+  // ------------------------------------------------------------------------------------------------------------------
+
+  @Test
+  public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
+    thrown.expect(AssertionError.class);
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    String[] sequence = { "Han", "C-3PO" };
+    assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+  }
+
+  @Test
+  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
+    thrown.expect(AssertionError.class);
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    String[] sequence = { "Luke", "Obi-Wan", "Han" };
+    assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+  }
+
+  @Test
+  public void should_pass_if_actual_starts_with_sequence_according_to_custom_comparison_strategy() {
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    String[] sequence = { "LUKE" };
+    assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+  }
+
+  @Test
+  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    String[] sequence = { "LUKE", "lEIA" };
+    assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+  }
+    
 }

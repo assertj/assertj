@@ -899,7 +899,7 @@ public class Iterables {
                            shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
-  private void assertNotNull(AssertionInfo info, Iterable<?> actual) {
+  void assertNotNull(AssertionInfo info, Iterable<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 
