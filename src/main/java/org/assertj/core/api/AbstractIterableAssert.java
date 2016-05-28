@@ -52,6 +52,7 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.util.IterableUtil;
+import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -1867,5 +1868,31 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF withThreadDumpOnError() {
     return super.withThreadDumpOnError();
+  }
+
+  /**
+   * Return an {@code Assert} object that allows to perform assertions on the size of the {@link Iterable} under test.
+   * <p>
+   * Once this method is called, the object under test is no more the initial {@link Iterable} but its size, 
+   * to perform assertions on the initial {@link Iterable}, call {@link AbstractIterableSizeAssert#returnToIterable()}. 
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertion will pass:
+   * assertThat(elvesRings).size().isGreaterThan(1)                
+   *                              .isLessThanOrEqualTo(3)          
+   *                       .returnToIterable().contains(narya)       
+   *                                          .doesNotContain(oneRing);
+   * 
+   * // assertion will fail:
+   * assertThat(elvesRings).size().isGreaterThan(3);</code></pre>
+   *   
+   * @return AbstractIterableSizeAssert built with the {@code Iterable}'s size. 
+   */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> size() {
+    Preconditions.checkNotNull(actual, "Can not assert on size of a null iterable.");
+    return new IterableSizeAssert(this, IterableUtil.sizeOf(actual));
   }
 }
