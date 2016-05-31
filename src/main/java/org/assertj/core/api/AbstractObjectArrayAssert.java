@@ -383,19 +383,24 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
-   * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
+   * Verifies that the actual array contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   *
    * <p>
    * Example :
-   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
-   * 
-   * // assertion will pass
-   * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(vilya, nenya, narya));
-   * 
-   * // assertion will fail as actual and expected order differ
-   * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya, vilya};
    *
-   * @param iterable the given {@code Iterable} we will get elements from.
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactlyInAnyOrder(vilya, vilya, nenya, narya);
+   *
+   * // assertion will fail as vilya exists twice in elvesRings
+   * assertThat(elvesRings).containsExactlyInAnyOrder(nenya, vilya, narya);</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual arrray does not contain the given values, i.e. the actual array
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
    */
   @Override
   public S containsExactlyInAnyOrder(@SuppressWarnings("unchecked") T... values) {
