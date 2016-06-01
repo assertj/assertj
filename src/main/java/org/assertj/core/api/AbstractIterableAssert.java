@@ -1528,7 +1528,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty. 
-   * @since 2.5.0 
+   * @since 2.5.0 / 3.5.0
    */
   public ELEMENT_ASSERT first() {
     isNotEmpty();
@@ -1574,7 +1574,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty. 
-   * @since 2.5.0 
+   * @since 2.5.0 / 3.5.0 
    */
   public ELEMENT_ASSERT last() {
     isNotEmpty();
@@ -1633,7 +1633,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @return the assertion on the given element
    * @throws AssertionError if the given index is out of bound.
-   * @since 2.5.0 
+   * @since 2.5.0 / 3.5.0
    */
   public ELEMENT_ASSERT element(int index) {
     isNotEmpty();
