@@ -16,6 +16,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
+import org.assertj.core.description.Description;
+
 /**
  * Encapsulate a {@link Predicate} description to be able to control how it is formatted in error messages using a
  * {@link Representation}.
@@ -43,4 +45,12 @@ public class PredicateDescription {
 	return DEFAULT.equals(description);
   }
 
+  public static PredicateDescription fromDescription(Description description) {
+    PredicateDescription desc = PredicateDescription.GIVEN;
+    if (description != null) {
+      String value = description.value();
+      desc = value != null ? new PredicateDescription(value) : desc;
+    }
+    return desc;
+  }
 }

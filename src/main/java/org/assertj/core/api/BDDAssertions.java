@@ -33,6 +33,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -773,6 +774,20 @@ public class BDDAssertions extends Assertions {
     return assertThat(future);
   }
 
+
+  /**
+   * Create assertion for {@link Predicate}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   *
+   * @return the created assertion object.
+   *
+   * @since 3.5.0
+   */
+  public static <T> PredicateAssert<T> then(Predicate<T> actual) {
+    return assertThat(actual);
+  }
 
   /**
    * Returns the given assertion. This method improves code readability by surrounding the given assertion with

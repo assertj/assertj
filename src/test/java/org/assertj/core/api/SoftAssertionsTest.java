@@ -36,6 +36,10 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.DoublePredicate;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
@@ -242,12 +246,16 @@ public class SoftAssertionsTest {
       softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
       softly.assertThat(new URI("http://assertj.org")).hasPort(8888);
       softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
+      softly.assertThat((Predicate<String>) s -> s.equals("something")).accepts("something else");
+      softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
+      softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
+      softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(48);
+      assertThat(errors).hasSize(52);
       assertThat(errors.get(0)).startsWith("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).startsWith("expected:<[tru]e> but was:<[fals]e>");
@@ -336,6 +344,16 @@ public class SoftAssertionsTest {
       assertThat(errors.get(45)).startsWith("expected:<[1L]> but was:<[OptionalLong[0]]>");
       assertThat(errors.get(46)).contains("Expecting port of");
       assertThat(errors.get(47)).contains("to have failed");
+      assertThat(errors.get(48)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                        + "to accept <\"something else\"> but it did not."));
+
+      assertThat(errors.get(49)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                         + "to accept <2> but it did not."));
+
+      assertThat(errors.get(50)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                         + "to accept <2L> but it did not."));
+      assertThat(errors.get(51)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                         + "to accept <2.0> but it did not."));
     }
   }  
 

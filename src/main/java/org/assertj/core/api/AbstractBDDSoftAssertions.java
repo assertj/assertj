@@ -35,6 +35,10 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.DoublePredicate;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -624,5 +628,56 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   @SuppressWarnings("unchecked")
   public <T> CompletableFutureAssert<T> then(CompletableFuture<T> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link Predicate}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   *
+   * @return the created assertion object.
+   *
+   * @since 3.5.0
+   */
+  @SuppressWarnings("unchecked")
+  public <T> PredicateAssert<T> then(Predicate<T> actual) {
+    return proxy(PredicateAssert.class, Predicate.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link IntPredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  @SuppressWarnings("unchecked")
+  public IntPredicateAssert then(IntPredicate actual) {
+    return proxy(IntPredicateAssert.class, IntPredicate.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link DoublePredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  @SuppressWarnings("unchecked")
+  public DoublePredicateAssert then(DoublePredicate actual) {
+    return proxy(DoublePredicateAssert.class, DoublePredicate.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link DoublePredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  @SuppressWarnings("unchecked")
+  public LongPredicateAssert then(LongPredicate actual) {
+    return proxy(LongPredicateAssert.class, LongPredicate.class, actual);
   }
 }

@@ -45,7 +45,7 @@ import org.junit.Test;
  * 
  * @author Olivier Michallat
  */
-public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
+public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extends BaseTest {
   protected S assertions;
   protected Objects objects;
   protected Conditions conditions;

@@ -39,7 +39,11 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.DoublePredicate;
 import java.util.function.Function;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -103,6 +107,54 @@ import org.assertj.core.util.introspection.FieldSupport;
  * @author William Delanoue
  */
 public class Assertions {
+
+  /**
+   * Create assertion for {@link Predicate}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @return the created assertion object.
+   *
+   * @since 3.5.0
+   */
+  public static <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link IntPredicate}.
+   *
+   * @return the created assertion object.
+   *
+   * @since 3.5.0
+   */
+  public static IntPredicateAssert assertThat(IntPredicate actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link LongPredicate}.
+   *
+   * @return the created assertion object.
+   *
+   * @since 3.5.0
+   */
+  public static LongPredicateAssert assertThat(LongPredicate actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link DoublePredicate}.
+   *
+   * @return the created assertion object.
+   *
+   * @since 3.5.0
+   */
+  public static DoublePredicateAssert assertThat(DoublePredicate actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+
 
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
