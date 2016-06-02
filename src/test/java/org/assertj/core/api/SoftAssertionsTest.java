@@ -36,6 +36,10 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.DoublePredicate;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
@@ -242,12 +246,16 @@ public class SoftAssertionsTest {
       softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
       softly.assertThat(new URI("http://assertj.org")).hasPort(8888);
       softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
+      softly.assertThat((Predicate<String>) s -> s.equals("something")).matches("something else");
+      softly.assertThat((IntPredicate) s -> s == 1).matches(2);
+      softly.assertThat((LongPredicate) s -> s == 1).matches(2);
+      softly.assertThat((DoublePredicate) s -> s == 1).matches(2);
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(48);
+      assertThat(errors).hasSize(52);
       assertThat(errors.get(0)).startsWith("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).startsWith("expected:<[tru]e> but was:<[fals]e>");
@@ -336,6 +344,57 @@ public class SoftAssertionsTest {
       assertThat(errors.get(45)).startsWith("expected:<[1L]> but was:<[OptionalLong[0]]>");
       assertThat(errors.get(46)).contains("Expecting port of");
       assertThat(errors.get(47)).contains("to have failed");
+      assertThat(errors.get(48)).startsWith(String.format("%nExpecting:%n"
+                                                        + "  <\"something else\">%n"
+                                                        + "to match given predicate.%n"
+                                                        + "%n"
+                                                        + "You can use 'matches(Predicate p, String description)' to have a better error message%n"
+                                                        + "For example:%n"
+                                                        + "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");%n"
+                                                        + "will give an error message looking like:%n"
+                                                        + "%n"
+                                                        + "Expecting:%n"
+                                                        + "  <player>%n"
+                                                        + "to match 'is rookie' predicate"));
+
+      assertThat(errors.get(49)).startsWith(String.format("%nExpecting:%n"
+                                                         + "  <2>%n"
+                                                         + "to match given predicate.%n"
+                                                         + "%n"
+                                                         + "You can use 'matches(Predicate p, String description)' to have a better error message%n"
+                                                         + "For example:%n"
+                                                         + "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");%n"
+                                                         + "will give an error message looking like:%n"
+                                                         + "%n"
+                                                         + "Expecting:%n"
+                                                         + "  <player>%n"
+                                                         + "to match 'is rookie' predicate"));
+
+      assertThat(errors.get(50)).startsWith(String.format("%nExpecting:%n"
+                                                         + "  <2L>%n"
+                                                         + "to match given predicate.%n"
+                                                         + "%n"
+                                                         + "You can use 'matches(Predicate p, String description)' to have a better error message%n"
+                                                         + "For example:%n"
+                                                         + "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");%n"
+                                                         + "will give an error message looking like:%n"
+                                                         + "%n"
+                                                         + "Expecting:%n"
+                                                         + "  <player>%n"
+                                                         + "to match 'is rookie' predicate"));
+
+      assertThat(errors.get(51)).startsWith(String.format("%nExpecting:%n"
+                                                         + "  <2.0>%n"
+                                                         + "to match given predicate.%n"
+                                                         + "%n"
+                                                         + "You can use 'matches(Predicate p, String description)' to have a better error message%n"
+                                                         + "For example:%n"
+                                                         + "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");%n"
+                                                         + "will give an error message looking like:%n"
+                                                         + "%n"
+                                                         + "Expecting:%n"
+                                                         + "  <player>%n"
+                                                         + "to match 'is rookie' predicate"));
     }
   }  
 

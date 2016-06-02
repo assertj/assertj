@@ -16,6 +16,10 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.DoublePredicate;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -255,4 +259,51 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
     return assertion;
   }
+
+  /**
+   * Create assertion for {@link Predicate}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  public static <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
+    return new PredicateAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link IntPredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  public static IntPredicateAssert assertThat(IntPredicate actual) {
+    return new IntPredicateAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link LongPredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  public static LongPredicateAssert assertThat(LongPredicate actual) {
+    return new LongPredicateAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link DoublePredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  public static DoublePredicateAssert assertThat(DoublePredicate actual) {
+    return new DoublePredicateAssert(actual);
+  }
+
+
 }
