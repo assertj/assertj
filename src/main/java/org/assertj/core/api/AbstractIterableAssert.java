@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -942,11 +944,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parent).flatExtracting(CartoonCharacter::getChildren)
    *                   .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    * 
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * The order of extracted values is consistent with both the order of the collection itself, as well as the extracted
    * collections.
    * 
-   * @param extractor the object transforming input object to an Iterable of desired ones
+   * @param extractor the object transforming input object to an {@code Iterable} of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
+   * @throws NullPointerException if one of the {@code Iterable}'s element is null.
    */
   public <V> ListAssert<V> flatExtracting(Extractor<? super ELEMENT, ? extends Collection<V>> extractor) {
     List<V> result = newArrayList();
@@ -956,6 +959,40 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       result.addAll(iterable);
     }
 
+    return new ListAssert<>(result);
+  }
+
+  /**
+   * Extract multiple values from each {@code Iterable}'s element according to the given {@code Extractor}s
+   * and concatenate/flatten the extracted values in a list that is used as the new object under test.
+   * <p>
+   * If extracted values were not flattened, instead of a simple list like (given 2 extractors) : 
+   * <pre>element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
+   * we would get a list of list like : 
+   * <pre>list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
+   * <p>
+   * Code example:
+   * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
+   * 
+   * // values are extracted in order and flattened : age1, name1, age2, name2, age3 ...  
+   * assertThat(fellowshipOfTheRing).flatExtracting(TolkienCharacter::getAge, 
+   *                                                TolkienCharacter::getName)
+   *                                .contains(33 ,"Frodo", 
+   *                                          1000, "Legolas",
+   *                                          87, "Aragorn");</code></pre>
+   * 
+   * The resulting extracted values list is ordered by {@code Iterable}'s element first and then extracted values, 
+   * this is why is in the example that age values come before names.
+   * 
+   * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
+   * @return a new assertion object whose object under test is a flattened list of all extracted values. 
+   */
+  @SafeVarargs
+  public final ListAssert<Object> flatExtracting(Extractor<? super ELEMENT, ? extends Object>... extractors) {
+    Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
+    List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
+                                                                .map(extractor -> extractor.extract(element)))
+                                      .collect(Collectors.toList());
     return new ListAssert<>(result);
   }
 
@@ -1723,7 +1760,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     if (predicate == null) throw new IllegalArgumentException("The filter predicate should not be null");
     return (SELF) new ListAssert<>(stream(actual.spliterator(), false).filter(predicate).collect(toList()));
   }
-
 
   /**
    * {@inheritDoc}
