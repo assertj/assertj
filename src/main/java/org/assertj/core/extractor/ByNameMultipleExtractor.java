@@ -18,11 +18,11 @@ import java.util.List;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.Tuple;
 
-class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
+public class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
 
   private final String[] fieldsOrProperties;
 
-  ByNameMultipleExtractor(String... fieldsOrProperties) {
+  public ByNameMultipleExtractor(String... fieldsOrProperties) {
     this.fieldsOrProperties = fieldsOrProperties;
   }
 
