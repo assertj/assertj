@@ -39,6 +39,7 @@ import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
+import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -983,13 +984,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
    * collections.
    *
-   * @param propertyName the object transforming input object to an Iterable of desired ones
+   * @param fieldOrPropertyName the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @throws IllegalArgumentException if one of the extracted property value was not an array or an iterable.
    */
-  public ListAssert<Object> flatExtracting(String propertyName) {
+  public ListAssert<Object> flatExtracting(String fieldOrPropertyName) {
     List<Object> extractedValues = newArrayList();
-    List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(actual, byName(propertyName));
+    List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyName));
     for (Object group : extractedGroups) {
       // expecting group to be an iterable or an array
       if (isArray(group)) {
@@ -1073,6 +1074,37 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
                                                             .collect(toList());
     return new ListAssert<Tuple>(tuples);
+  }
+
+  /**
+   * Extract the given property/field values from each {@code Iterable}'s element and 
+   * flatten the extracted values in a list that is used as the new object under test.
+   * <p>
+   * Given 2 properties, if the extracted values were not flattened, instead having a simple list like : 
+   * <pre>element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
+   * ... we would get a list of list : 
+   * <pre>list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
+   * <p>
+   * Code example:
+   * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
+   * 
+   * // values are extracted in order and flattened : age1, name1, age2, name2, age3 ...  
+   * assertThat(fellowshipOfTheRing).flatExtracting("age", "name")
+   *                                .contains(33 ,"Frodo", 
+   *                                          1000, "Legolas",
+   *                                          87, "Aragorn");</code></pre>
+   * 
+   * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
+   * @return a new assertion object whose object under test is a flattened list of all extracted values.
+   * @throws IllegalArgumentException if fieldOrPropertyNames vararg is null or empty
+   * @since 2.5.0
+   */
+  public ListAssert<Object> flatExtracting(String... fieldOrPropertyNames) {
+    List<Object> extractedValues = newArrayList();
+    for (Tuple tuple : FieldsOrPropertiesExtractor.extract(actual, Extractors.byName(fieldOrPropertyNames))) {
+      extractedValues.addAll(tuple.toList());
+    }
+    return new ListAssert<>(extractedValues);
   }
 
   /**
