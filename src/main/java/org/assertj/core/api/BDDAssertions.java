@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -387,6 +388,16 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of {@link PathAssert}
+   *
+   * @param actual the path to test
+   * @return the created assertion object
+   */
+  public static AbstractPathAssert<?> then(Path actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.InputStreamAssert}</code>.
    *
    * @param actual the actual value.
@@ -643,6 +654,76 @@ public class BDDAssertions extends Assertions {
    */
   public static AbstractUrlAssert<?> then(URL actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Returns the given assertion. This method improves code readability by surrounding the given assertion with
+   * <code>then</code>.
+   * <p>
+   * Consider for example the following MyButton and MyButtonAssert classes:
+   * <pre><code class='java'> public class MyButton extends JButton {
+   *
+   *   private boolean blinking;
+   *
+   *   public boolean isBlinking() { return this.blinking; }
+   *
+   *   public void setBlinking(boolean blink) { this.blinking = blink; }
+   *
+   * }
+   *
+   * private static class MyButtonAssert implements AssertDelegateTarget {
+   *
+   *   private MyButton button;
+   *   MyButtonAssert(MyButton button) { this.button = button; }
+   *
+   *   void isBlinking() {
+   *     // standard assertion from core Assertions.then
+   *     then(button.isBlinking()).isTrue();
+   *   }
+   *
+   *   void isNotBlinking() {
+   *     // standard assertion from core Assertions.then
+   *     then(button.isBlinking()).isFalse();
+   *   }
+   * }</code></pre>
+   *
+   * As MyButtonAssert implements AssertDelegateTarget, you can use <code>then(buttonAssert).isBlinking();</code>
+   * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions:
+   * <pre><code class='java'> {@literal @}Test
+   * public void AssertDelegateTarget_example() {
+   *
+   *   MyButton button = new MyButton();
+   *   MyButtonAssert buttonAssert = new MyButtonAssert(button);
+   *
+   *   // you can encapsulate MyButtonAssert assertions methods within then
+   *   then(buttonAssert).isNotBlinking(); // same as : buttonAssert.isNotBlinking();
+   *
+   *   button.setBlinking(true);
+   *
+   *   then(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
+   * }</code></pre>
+   * 
+   * @param <T> the generic type of the user-defined assert.
+   * @param assertion the assertion to return.
+   * @return the given assertion.
+   */
+  public static <T extends AssertDelegateTarget> T then(T assertion) {
+    return assertion;
+  }
+
+  /**
+   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#then()} of the given component.
+   * 
+   * <p>
+   * Read the comments on {@link AssertProvider} for an example of its usage.
+   * </p>
+   * 
+   * @param component
+   *          the component that creates its own assert
+   * @return the associated {@link Assert} of the given component
+   */
+  public static <T> T then(final AssertProvider<T> component) {
+    return component.assertThat();
   }
 
   /**
