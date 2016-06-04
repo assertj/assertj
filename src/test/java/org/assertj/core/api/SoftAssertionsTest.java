@@ -25,10 +25,12 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +44,7 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
  *
  * @author Brian Laframboise
  */
-public class SoftAssertionsTest {
+public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
@@ -559,6 +561,20 @@ public class SoftAssertionsTest {
     ComparableExample example2 = new ComparableExample(0);
     softly.assertThat(example1).isEqualByComparingTo(example2);
     softly.assertAll();
+  }
+
+  @Test
+  public void should_have_the_same_methods_as_in_bdd_soft_assertions() {
+    Class<AbstractStandardSoftAssertions> classA = AbstractStandardSoftAssertions.class;
+    String methodA = "assertThat";
+    Class<AbstractBDDSoftAssertions> classB = AbstractBDDSoftAssertions.class;
+    String methodB = "then";
+    List<Method> assertThatMethods = findMethodsWithName(classA, methodA);
+    List<Method> thenMethods = findMethodsWithName(classB, methodB);
+
+    Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
+    Assertions.assertThat(assertThatMethods).usingElementComparator(methodComparator)
+              .containsExactlyInAnyOrder(thenMethods.toArray(new Method[thenMethods.size()]));
   }
 
   private static Name name(String first, String last) {
