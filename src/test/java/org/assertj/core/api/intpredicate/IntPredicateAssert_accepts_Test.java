@@ -26,28 +26,28 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 /**
  * @author Filip Hrisafov
  */
-public class IntPredicateAssert_matches_Test extends BaseTest {
+public class IntPredicateAssert_accepts_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((IntPredicate) null).matches(1);
+    assertThat((IntPredicate) null).accepts(1);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_match_value() {
+  public void should_fail_when_predicate_does_not_accept_value() {
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 3;
     thrown.expectAssertionError(shouldMatch(expectedValue, wrapPredicate, PredicateDescription.GIVEN).create());
-    assertThat(predicate).matches(expectedValue);
+    assertThat(predicate).accepts(expectedValue);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_value() {
+  public void should_pass_when_predicate_accepts_value() {
     IntPredicate predicate = val -> val <= 2;
-    assertThat(predicate).matches(1);
+    assertThat(predicate).accepts(1);
   }
 
 }

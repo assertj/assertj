@@ -10,8 +10,9 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.predicate;
+package org.assertj.core.api.intpredicate;
 
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.BaseTest;
@@ -19,33 +20,34 @@ import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_doesNotMatch_Test extends BaseTest {
+public class IntPredicateAssert_doesNotAccept_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
-   thrown.expectAssertionError(actualIsNull());
+    thrown.expectAssertionError(actualIsNull());
 
-    assertThat((Predicate<String>) null).matches("something");
-  }
-  @Test
-  public void should_pass_when_predicate_does_not_match_value() {
-    Predicate<String> predicate = val -> val.equals("something");
-    assertThat(predicate).doesNotMatch("something else");
+    assertThat((IntPredicate) null).accepts(1);
   }
 
   @Test
-  public void should_fail_when_predicate_matches_value() {
-    Predicate<String> predicate = val -> val.equals("something");
-    String expectedValue = "something";
-    thrown.expectAssertionError(shouldNotMatch(expectedValue, predicate, PredicateDescription.GIVEN).create());
-    assertThat(predicate).doesNotMatch("something");
+  public void should_pass_when_predicate_does_not_accept_value() {
+    IntPredicate predicate = val -> val <= 2;
+    assertThat(predicate).doesNotAccept(3);
+  }
+
+  @Test
+  public void should_fail_when_predicate_accepts_value() {
+    IntPredicate predicate = val -> val <= 2;
+    Predicate<Integer> wrapPredicate = predicate::test;
+    int expectedValue = 2;
+    thrown.expectAssertionError(shouldNotMatch(expectedValue, wrapPredicate, PredicateDescription.GIVEN).create());
+    assertThat(predicate).doesNotAccept(expectedValue);
   }
 
 }

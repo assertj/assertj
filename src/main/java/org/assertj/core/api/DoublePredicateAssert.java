@@ -39,16 +39,16 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(1);</code></pre>
+   *            .accepts(1);</code></pre>
    * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(2);</code></pre>
+   *            .accepts(2);</code></pre>
    *
    * @return this assertion object.
    */
-  public DoublePredicateAssert matches(double value) {
-    return matchesInternal(value);
+  public DoublePredicateAssert accepts(double value) {
+    return acceptsInternal(value);
   }
 
   /**
@@ -75,16 +75,16 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotMatch(3);</code></pre>
+   *            .doesNotAccept(3);</code></pre>
    * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotMatch(1);</code></pre>
+   *            .doesNotAccept(1);</code></pre>
    *
    * @return this assertion object.
    */
-  public DoublePredicateAssert doesNotMatch(double value) {
-    return doesNotMatchInternal(value);
+  public DoublePredicateAssert doesNotAccept(double value) {
+    return doesNotAcceptInternal(value);
   }
 
   /**
@@ -111,16 +111,16 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).matchesAll(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).acceptsAll(0, 1);</code></pre>
    * <p>
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).matchesAll(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).acceptsAll(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public DoublePredicateAssert matchesAll(double... values) {
-    return matchesAllInternal(DoubleStream.of(values).boxed().collect(Collectors.toList()));
+  public DoublePredicateAssert acceptsAll(double... values) {
+    return acceptsAllInternal(DoubleStream.of(values).boxed().collect(Collectors.toList()));
   }
 
   /**
@@ -129,15 +129,15 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneMatch(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).noneAccepted(0, 1);</code></pre>
    * <p>
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneMatch(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).noneAccepted(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public DoublePredicateAssert noneMatch(double... values) {
-    return noneMatchInternal(DoubleStream.of(values).boxed().collect(Collectors.toList()));
+  public DoublePredicateAssert noneAccepted(double... values) {
+    return noneAcceptedInternal(DoubleStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

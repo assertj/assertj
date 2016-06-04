@@ -30,35 +30,35 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_noneMatch_Test extends DoublePredicateAssertBaseTest {
+public class DoublePredicateAssert_noneAccepted_Test extends DoublePredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
     double[] acceptedValues = new double[] { 1, 2, 3 };
 
-    assertThat((DoublePredicate) null).noneMatch(acceptedValues);
+    assertThat((DoublePredicate) null).noneAccepted(acceptedValues);
   }
 
   @Test
-  public void should_fail_when_predicate_matches_some_value() {
+  public void should_fail_when_predicate_accepts_some_value() {
     DoublePredicate predicate = num -> num <= 2;
     double[] matchValues = new double[] { 1, 2, 3 };
     List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
     thrown.expectAssertionError(elementsShouldNotMatch(matchValuesList, 1D).create());
-    assertThat(predicate).noneMatch(matchValues);
+    assertThat(predicate).noneAccepted(matchValues);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_no_value() {
+  public void should_pass_when_predicate_accepts_no_value() {
     DoublePredicate predicate = num -> num <= 2;
     double[] acceptedValues = new double[] { 3, 4, 5 };
-    assertThat(predicate).noneMatch(acceptedValues);
+    assertThat(predicate).noneAccepted(acceptedValues);
   }
 
   @Override
   protected DoublePredicateAssert invoke_api_method() {
-    return assertions.noneMatch(3, 4);
+    return assertions.noneAccepted(3, 4);
   }
 
   @Override

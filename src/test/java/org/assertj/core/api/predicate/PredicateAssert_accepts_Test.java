@@ -10,9 +10,8 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.doublepredicate;
+package org.assertj.core.api.predicate;
 
-import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.BaseTest;
@@ -26,27 +25,26 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_matches_Test extends BaseTest {
+public class PredicateAssert_accepts_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
-    thrown.expectAssertionError(actualIsNull());
+   thrown.expectAssertionError(actualIsNull());
 
-    assertThat((DoublePredicate) null).matches(1);
+    assertThat((Predicate<String>) null).accepts("something");
+  }
+  @Test
+  public void should_fail_when_predicate_does_not_accept_value() {
+    Predicate<String> predicate = val -> val.equals("something");
+    String expectedValue = "something else";
+    thrown.expectAssertionError(shouldMatch(expectedValue, predicate, PredicateDescription.GIVEN).create());
+    assertThat(predicate).accepts(expectedValue);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_match_value() {
-    DoublePredicate predicate = val -> val <= 2;
-    Predicate<Double> wrapPredicate = predicate::test;
-    double expectedValue = 3;
-    thrown.expectAssertionError(shouldMatch(expectedValue, wrapPredicate, PredicateDescription.GIVEN).create());
-    assertThat(predicate).matches(expectedValue);
+  public void should_pass_when_predicate_accepts_value() {
+    Predicate<String> predicate = val -> val.equals("something");
+    assertThat(predicate).accepts("something");
   }
 
-  @Test
-  public void should_pass_when_predicate_matches_value() {
-    DoublePredicate predicate = val -> val <= 2;
-    assertThat(predicate).matches(1);
-  }
 }

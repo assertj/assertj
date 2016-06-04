@@ -10,9 +10,9 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.intpredicate;
+package org.assertj.core.api.longpredicate;
 
-import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.BaseTest;
@@ -20,34 +20,34 @@ import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
+import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class IntPredicateAssert_doesNotMatch_Test extends BaseTest {
+public class LongPredicateAssert_accepts_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((IntPredicate) null).matches(1);
+    assertThat((LongPredicate) null).accepts(1);
   }
 
   @Test
-  public void should_pass_when_predicate_does_not_match_value() {
-    IntPredicate predicate = val -> val <= 2;
-    assertThat(predicate).doesNotMatch(3);
+  public void should_fail_when_predicate_does_not_accept_value() {
+    LongPredicate predicate = val -> val <= 2;
+    Predicate<Long> wrapPredicate = predicate::test;
+    long expectedValue = 3;
+    thrown.expectAssertionError(shouldMatch(expectedValue, wrapPredicate, PredicateDescription.GIVEN).create());
+    assertThat(predicate).accepts(expectedValue);
   }
 
   @Test
-  public void should_fail_when_predicate_matches_value() {
-    IntPredicate predicate = val -> val <= 2;
-    Predicate<Integer> wrapPredicate = predicate::test;
-    int expectedValue = 2;
-    thrown.expectAssertionError(shouldNotMatch(expectedValue, wrapPredicate, PredicateDescription.GIVEN).create());
-    assertThat(predicate).doesNotMatch(expectedValue);
+  public void should_pass_when_predicate_accepts_value() {
+    LongPredicate predicate = val -> val <= 2;
+    assertThat(predicate).accepts(1);
   }
 
 }

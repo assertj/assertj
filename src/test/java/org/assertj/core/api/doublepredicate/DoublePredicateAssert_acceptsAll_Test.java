@@ -28,34 +28,34 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_matchesAll_Test extends DoublePredicateAssertBaseTest {
+public class DoublePredicateAssert_acceptsAll_Test extends DoublePredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
     double[] acceptedValues = new double[] { 1, 2 };
 
-    assertThat((DoublePredicate) null).matchesAll(acceptedValues);
+    assertThat((DoublePredicate) null).acceptsAll(acceptedValues);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_match_values() {
+  public void should_fail_when_predicate_does_not_accept_all_values() {
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
     double[] matchValues = new double[] { 1, 2, 3 };
     thrown.expectAssertionError(elementsShouldMatch(matchValues, 3D, wrapPredicate).create());
-    assertThat(predicate).matchesAll(matchValues);
+    assertThat(predicate).acceptsAll(matchValues);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_all_values() {
+  public void should_pass_when_predicate_accepts_all_values() {
     DoublePredicate predicate = val -> val <= 2;
-    assertThat(predicate).matchesAll(1, 2);
+    assertThat(predicate).acceptsAll(1, 2);
   }
 
   @Override
   protected DoublePredicateAssert invoke_api_method() {
-    return assertions.matchesAll(1, 2);
+    return assertions.acceptsAll(1, 2);
   }
 
   @Override

@@ -14,40 +14,37 @@ package org.assertj.core.api.predicate;
 
 import java.util.function.Predicate;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.BaseTest;
-import org.assertj.core.error.ShouldMatch;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.FailureMessages;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
+import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_matches_Test extends BaseTest {
+public class PredicateAssert_doesNotAccept_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
    thrown.expectAssertionError(actualIsNull());
 
-    assertThat((Predicate<String>) null).matches("something");
+    assertThat((Predicate<String>) null).accepts("something");
   }
   @Test
-  public void should_fail_when_predicate_does_not_match_value() {
+  public void should_pass_when_predicate_does_not_accept_value() {
     Predicate<String> predicate = val -> val.equals("something");
-    String expectedValue = "something else";
-    thrown.expectAssertionError(shouldMatch(expectedValue, predicate, PredicateDescription.GIVEN).create());
-    assertThat(predicate).matches(expectedValue);
+    assertThat(predicate).doesNotAccept("something else");
   }
 
   @Test
-  public void should_pass_when_predicate_matches_value() {
+  public void should_fail_when_predicate_accepts_value() {
     Predicate<String> predicate = val -> val.equals("something");
-    assertThat(predicate).matches("something");
+    String expectedValue = "something";
+    thrown.expectAssertionError(shouldNotMatch(expectedValue, predicate, PredicateDescription.GIVEN).create());
+    assertThat(predicate).doesNotAccept("something");
   }
 
 }

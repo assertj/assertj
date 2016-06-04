@@ -246,10 +246,10 @@ public class SoftAssertionsTest {
       softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
       softly.assertThat(new URI("http://assertj.org")).hasPort(8888);
       softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
-      softly.assertThat((Predicate<String>) s -> s.equals("something")).matches("something else");
-      softly.assertThat((IntPredicate) s -> s == 1).matches(2);
-      softly.assertThat((LongPredicate) s -> s == 1).matches(2);
-      softly.assertThat((DoublePredicate) s -> s == 1).matches(2);
+      softly.assertThat((Predicate<String>) s -> s.equals("something")).accepts("something else");
+      softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
+      softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
+      softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
 
       softly.assertAll();
       fail("Should not reach here");

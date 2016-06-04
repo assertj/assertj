@@ -48,15 +48,15 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something");</code></pre>
+   *            .accepts("something");</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something else");</code></pre>
+   *            .accepts("something else");</code></pre>
    *
    * @return this assertion object.
    */
-  protected S matchesInternal(W value) {
+  protected S acceptsInternal(W value) {
     isNotNull();
     if (!wrappedPredicate.test(value)) { throwAssertionError(shouldMatch(value, wrappedPredicate, PredicateDescription.GIVEN)); }
     return myself;
@@ -87,15 +87,15 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .doesNotMatch("something else");</code></pre>
+   *            .doesNotAccept("something else");</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .doesNotMatch("something");</code></pre>
+   *            .doesNotAccept("something");</code></pre>
    *
    * @return this assertion object.
    */
-  protected S doesNotMatchInternal(W value) {
+  protected S doesNotAcceptInternal(W value) {
     isNotNull();
     if (wrappedPredicate.test(value)) { throwAssertionError(shouldNotMatch(value, wrappedPredicate, PredicateDescription.GIVEN)); }
     return myself;
@@ -130,16 +130,16 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
    * Assertion will pass:
    * <pre><code class='java'>
    *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).matchesAll(elements);</code></pre>
+   *     assertThat(value -> elements.contains(value)).acceptsAll(elements);</code></pre>
    *
    * Assertion will fail:
    * <pre><code class='java'>
    *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).matchesAll(Arrays.asList("first", "third"));</code></pre>
+   *     assertThat(value -> elements.contains(value)).acceptsAll(Arrays.asList("first", "third"));</code></pre>
    *
    * @return this assertion object
    */
-  protected S matchesAllInternal(Iterable<? extends W> values) {
+  protected S acceptsAllInternal(Iterable<? extends W> values) {
     isNotNull();
     iterables.assertAllMatch(info, values, wrappedPredicate);
     return myself;
@@ -152,16 +152,16 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
    * Assertion will pass:
    * <pre><code class='java'>
    *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).noneMatch(Arrays.asList("third", "fourth"));</code></pre>
+   *     assertThat(value -> elements.contains(value)).noneAccepted(Arrays.asList("third", "fourth"));</code></pre>
    *
    * Assertion will fail:
    * <pre><code class='java'>
    *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).noneMatch(Arrays.asList("first", "third"));</code></pre>
+   *     assertThat(value -> elements.contains(value)).noneAccepted(Arrays.asList("first", "third"));</code></pre>
    *
    * @return this assertion object
    */
-  protected S noneMatchInternal(Iterable<? extends W> values) {
+  protected S noneAcceptedInternal(Iterable<? extends W> values) {
     isNotNull();
     iterables.assertNoneMatch(info, values, wrappedPredicate);
     return myself;

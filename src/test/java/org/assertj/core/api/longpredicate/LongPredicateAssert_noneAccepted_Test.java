@@ -12,16 +12,17 @@
  */
 package org.assertj.core.api.longpredicate;
 
-import java.util.function.IntPredicate;
+import java.util.List;
 import java.util.function.LongPredicate;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import org.assertj.core.api.LongPredicateAssert;
 import org.assertj.core.api.LongPredicateAssertBaseTest;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
+import static org.assertj.core.error.ElementsShouldNotMatch.elementsShouldNotMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -29,38 +30,39 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class LongPredicateAssert_matchesAll_Test extends LongPredicateAssertBaseTest {
+public class LongPredicateAssert_noneAccepted_Test extends LongPredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    int[] acceptedValues = new int[] { 1, 2 };
+    long[] acceptedValues = new long[] { 1, 2, 3 };
 
-    assertThat((IntPredicate) null).matchesAll(acceptedValues);
+    assertThat((LongPredicate) null).noneAccepted(acceptedValues);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_match_values() {
-    LongPredicate predicate = val -> val <= 2;
-    Predicate<Long> wrapPredicate = predicate::test;
+  public void should_fail_when_predicate_accepts_some_value() {
+    LongPredicate predicate = num -> num <= 2;
     long[] matchValues = new long[] { 1, 2, 3 };
-    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3L, wrapPredicate).create());
-    assertThat(predicate).matchesAll(matchValues);
+    List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
+    thrown.expectAssertionError(elementsShouldNotMatch(matchValuesList, 1L).create());
+    assertThat(predicate).noneAccepted(matchValues);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_all_values() {
-    IntPredicate predicate = val -> val <= 2;
-    assertThat(predicate).matchesAll(1, 2);
+  public void should_pass_when_predicate_accepts_no_value() {
+    LongPredicate predicate = num -> num <= 2;
+    long[] acceptedValues = new long[] { 3, 4, 5 };
+    assertThat(predicate).noneAccepted(acceptedValues);
   }
 
   @Override
   protected LongPredicateAssert invoke_api_method() {
-    return assertions.matchesAll(1, 2);
+    return assertions.noneAccepted(3, 4);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1L, 2L), wrapped);
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3L, 4L), wrapped);
   }
 }

@@ -164,10 +164,10 @@ public class BDDSoftAssertionsTest {
       softly.then(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
       softly.then(OffsetDateTime.MIN).isEqualTo(LocalDateTime.MAX);
       // softly.then(completedFuture("done")).hasFailed();
-      softly.then((Predicate<String>) s -> s.equals("something")).matches("something else");
-      softly.then((IntPredicate) s -> s == 1).matches(2);
-      softly.then((LongPredicate) s -> s == 1).matches(2);
-      softly.then((DoublePredicate) s -> s == 1).matches(2);
+      softly.then((Predicate<String>) s -> s.equals("something")).accepts("something else");
+      softly.then((IntPredicate) s -> s == 1).accepts(2);
+      softly.then((LongPredicate) s -> s == 1).accepts(2);
+      softly.then((DoublePredicate) s -> s == 1).accepts(2);
 
       softly.assertAll();
 

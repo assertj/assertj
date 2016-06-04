@@ -30,35 +30,35 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class IntPredicateAssert_noneMatch_Test extends IntPredicateAssertBaseTest {
+public class IntPredicateAssert_noneAccepted_Test extends IntPredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
     int[] acceptedValues = new int[] { 1, 2, 3 };
 
-    assertThat((IntPredicate) null).noneMatch(acceptedValues);
+    assertThat((IntPredicate) null).noneAccepted(acceptedValues);
   }
 
   @Test
-  public void should_fail_when_predicate_matches_some_value() {
+  public void should_fail_when_predicate_accepts_some_value() {
     IntPredicate predicate = num -> num <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
     List<Integer> matchValuesList = IntStream.of(matchValues).boxed().collect(Collectors.toList());
     thrown.expectAssertionError(elementsShouldNotMatch(matchValuesList, 1).create());
-    assertThat(predicate).noneMatch(matchValues);
+    assertThat(predicate).noneAccepted(matchValues);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_no_value() {
+  public void should_pass_when_predicate_accepts_no_value() {
     IntPredicate predicate = num -> num <= 2;
     int[] acceptedValues = new int[] { 3, 4, 5 };
-    assertThat(predicate).noneMatch(acceptedValues);
+    assertThat(predicate).noneAccepted(acceptedValues);
   }
 
   @Override
   protected IntPredicateAssert invoke_api_method() {
-    return assertions.noneMatch(3, 4);
+    return assertions.noneAccepted(3, 4);
   }
 
   @Override

@@ -30,36 +30,36 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_noneMatch_Test extends PredicateAssertBaseTest {
+public class PredicateAssert_noneAcceptedTest extends PredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
     LinkedHashSet<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
 
-    assertThat((Predicate<String>) null).noneMatch(acceptedValues);
+    assertThat((Predicate<String>) null).noneAccepted(acceptedValues);
   }
 
   @Test
-  public void should_fail_when_predicate_matches_some_value() {
+  public void should_fail_when_predicate_accepts_some_value() {
     Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
     Predicate<String> predicate = acceptedValues::contains;
     Set<String> matchValues = Sets.newHashSet(acceptedValues);
     matchValues.add("third");
     thrown.expectAssertionError(elementsShouldNotMatch(matchValues, "first").create());
-    assertThat(predicate).noneMatch(matchValues);
+    assertThat(predicate).noneAccepted(matchValues);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_no_value() {
+  public void should_pass_when_predicate_accepts_no_value() {
     Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
     Predicate<String> predicate = acceptedValues::contains;
-    assertThat(predicate).noneMatch(Sets.newLinkedHashSet("third", "fourth"));
+    assertThat(predicate).noneAccepted(Sets.newLinkedHashSet("third", "fourth"));
   }
 
   @Override
   protected PredicateAssert<Boolean> invoke_api_method() {
-    return assertions.noneMatch(newArrayList(false, false));
+    return assertions.noneAccepted(newArrayList(false, false));
   }
 
   @Override

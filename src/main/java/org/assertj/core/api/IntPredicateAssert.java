@@ -17,10 +17,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.assertj.core.presentation.PredicateDescription;
-
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
-
 /**
  * Assertions for {@link Predicate}.
  *
@@ -43,16 +39,16 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(1);</code></pre>
+   *            .accepts(1);</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(2);</code></pre>
+   *            .accepts(2);</code></pre>
    *
    * @return this assertion object.
    */
-  public IntPredicateAssert matches(int value) {
-    return matchesInternal(value);
+  public IntPredicateAssert accepts(int value) {
+    return acceptsInternal(value);
   }
 
   /**
@@ -79,16 +75,16 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotMatch(3);</code></pre>
+   *            .doesNotAccept(3);</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotMatch(1);</code></pre>
+   *            .doesNotAccept(1);</code></pre>
    *
    * @return this assertion object.
    */
-  public IntPredicateAssert doesNotMatch(int value) {
-    return doesNotMatchInternal(value);
+  public IntPredicateAssert doesNotAccept(int value) {
+    return doesNotAcceptInternal(value);
   }
 
   /**
@@ -115,16 +111,16 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).matchesAll(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).acceptsAll(0, 1);</code></pre>
    *
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).matchesAll(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).acceptsAll(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public IntPredicateAssert matchesAll(int... values) {
-    return matchesAllInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
+  public IntPredicateAssert acceptsAll(int... values) {
+    return acceptsAllInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
   }
 
   /**
@@ -133,15 +129,15 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneMatch(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).noneAccepted(0, 1);</code></pre>
    *
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneMatch(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).noneAccepted(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public IntPredicateAssert noneMatch(int... values) {
-    return noneMatchInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
+  public IntPredicateAssert noneAccepted(int... values) {
+    return noneAcceptedInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

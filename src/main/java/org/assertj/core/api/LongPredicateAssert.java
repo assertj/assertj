@@ -39,16 +39,16 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(1);</code></pre>
+   *            .accepts(1);</code></pre>
    * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(2);</code></pre>
+   *            .accepts(2);</code></pre>
    *
    * @return this assertion object.
    */
-  public LongPredicateAssert matches(long value) {
-    return matchesInternal(value);
+  public LongPredicateAssert accepts(long value) {
+    return acceptsInternal(value);
   }
 
   /**
@@ -75,16 +75,16 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotMatch(3);</code></pre>
+   *            .doesNotAccept(3);</code></pre>
    * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotMatch(1);</code></pre>
+   *            .doesNotAccept(1);</code></pre>
    *
    * @return this assertion object.
    */
-  public LongPredicateAssert doesNotMatch(long value) {
-    return doesNotMatchInternal(value);
+  public LongPredicateAssert doesNotAccept(long value) {
+    return doesNotAcceptInternal(value);
   }
 
   /**
@@ -111,16 +111,16 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).matchesAll(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).acceptsAll(0, 1);</code></pre>
    * <p>
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).matchesAll(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).acceptsAll(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public LongPredicateAssert matchesAll(long... values) {
-    return matchesAllInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
+  public LongPredicateAssert acceptsAll(long... values) {
+    return acceptsAllInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
   }
 
   /**
@@ -129,15 +129,15 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneMatch(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).noneAccepted(0, 1);</code></pre>
    * <p>
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneMatch(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).noneAccepted(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public LongPredicateAssert noneMatch(long... values) {
-    return noneMatchInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
+  public LongPredicateAssert noneAccepted(long... values) {
+    return noneAcceptedInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

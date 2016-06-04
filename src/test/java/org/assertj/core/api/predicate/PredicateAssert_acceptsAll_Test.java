@@ -20,7 +20,6 @@ import org.assertj.core.api.PredicateAssert;
 import org.assertj.core.api.PredicateAssertBaseTest;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
@@ -31,36 +30,36 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_matchesAll_Test extends PredicateAssertBaseTest {
+public class PredicateAssert_acceptsAll_Test extends PredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
     LinkedHashSet<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
 
-    assertThat((Predicate<String>) null).matchesAll(acceptedValues);
+    assertThat((Predicate<String>) null).acceptsAll(acceptedValues);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_match_values() {
+  public void should_fail_when_predicate_does_not_accept_values() {
     Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
     Predicate<String> predicate = acceptedValues::contains;
     Set<String> matchValues = Sets.newHashSet(acceptedValues);
     matchValues.add("third");
     thrown.expectAssertionError(elementsShouldMatch(matchValues, "third", predicate).create());
-    assertThat(predicate).matchesAll(matchValues);
+    assertThat(predicate).acceptsAll(matchValues);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_all_values() {
+  public void should_pass_when_predicate_accepts_all_values() {
     Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
     Predicate<String> predicate = acceptedValues::contains;
-    assertThat(predicate).matchesAll(acceptedValues);
+    assertThat(predicate).acceptsAll(acceptedValues);
   }
 
   @Override
   protected PredicateAssert<Boolean> invoke_api_method() {
-    return assertions.matchesAll(newArrayList(true, true));
+    return assertions.acceptsAll(newArrayList(true, true));
   }
 
   @Override

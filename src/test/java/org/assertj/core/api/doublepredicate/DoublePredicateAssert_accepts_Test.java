@@ -10,9 +10,9 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.longpredicate;
+package org.assertj.core.api.doublepredicate;
 
-import java.util.function.LongPredicate;
+import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.BaseTest;
@@ -26,28 +26,27 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 /**
  * @author Filip Hrisafov
  */
-public class LongPredicateAssert_matches_Test extends BaseTest {
+public class DoublePredicateAssert_accepts_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((LongPredicate) null).matches(1);
+    assertThat((DoublePredicate) null).accepts(1);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_match_value() {
-    LongPredicate predicate = val -> val <= 2;
-    Predicate<Long> wrapPredicate = predicate::test;
-    long expectedValue = 3;
+  public void should_fail_when_predicate_does_not_accept_value() {
+    DoublePredicate predicate = val -> val <= 2;
+    Predicate<Double> wrapPredicate = predicate::test;
+    double expectedValue = 3;
     thrown.expectAssertionError(shouldMatch(expectedValue, wrapPredicate, PredicateDescription.GIVEN).create());
-    assertThat(predicate).matches(expectedValue);
+    assertThat(predicate).accepts(expectedValue);
   }
 
   @Test
-  public void should_pass_when_predicate_matches_value() {
-    LongPredicate predicate = val -> val <= 2;
-    assertThat(predicate).matches(1);
+  public void should_pass_when_predicate_accepts_value() {
+    DoublePredicate predicate = val -> val <= 2;
+    assertThat(predicate).accepts(1);
   }
-
 }
