@@ -965,7 +965,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Extract the given property/field values from each {@code Iterable}'s element and 
+   * Extract the given properties/fields values from each {@code Iterable}'s element and 
    * flatten the extracted values in a list that is used as the new object under test.
    * <p>
    * Given 2 properties, if the extracted values were not flattened, instead having a simple list like : 
