@@ -52,25 +52,6 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
   }
 
   /**
-   * <p>
-   * Verifies that the {@link DoublePredicate} evaluates {@code true} for the given value,
-   * the {@link String} parameter is used in the error message.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(2, "expected '2' to match");</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something else", "expected 'something else' to match");</code></pre>
-   *
-   * @return this assertion object.
-  public DoublePredicateAssert matches(double value, String description) {
-  return matchesInternal(value, description);
-  }
-
-   */
-  /**
    * Verifies that the {@link DoublePredicate} evaluates {@code true} for the given value.
    * </p>
    * Assertion will pass :
@@ -85,24 +66,6 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    */
   public DoublePredicateAssert doesNotAccept(double value) {
     return doesNotAcceptInternal(value);
-  }
-
-  /**
-   * Verifies that the {@link DoublePredicate} evaluates {@code true} for the given value,
-   * the {@link String} parameter is used in the error message.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotMatch(3, "expected '2 else' not to match");</code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .matches(1, "expected '1' not to match");</code></pre>
-   *
-   * @return this assertion object.
-   */
-  public DoublePredicateAssert doesNotMatch(double value, String description) {
-    return doesNotMatchInternal(value, description);
   }
 
   /**

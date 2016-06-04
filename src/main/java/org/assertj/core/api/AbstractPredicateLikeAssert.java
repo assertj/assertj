@@ -63,26 +63,6 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
   }
 
   /**
-   * Verifies that the {@link Predicate} evaluates {@code true} for the given value,
-   * the {@link String} parameter is used in the error message.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something", "expected 'something' to match");</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something else", "expected 'something else' to match");</code></pre>
-   *
-   * @return this assertion object.
-   */
-  protected S matchesInternal(W value, String description) {
-    isNotNull();
-    if (!wrappedPredicate.test(value)) { throwAssertionError(shouldMatch(value, wrappedPredicate, new PredicateDescription(description))); }
-    return myself;
-  }
-
-  /**
    * Verifies that the {@link Predicate} evaluates {@code true} for the given value.
    * </p>
    * Assertion will pass :
@@ -98,28 +78,6 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
   protected S doesNotAcceptInternal(W value) {
     isNotNull();
     if (wrappedPredicate.test(value)) { throwAssertionError(shouldNotMatch(value, wrappedPredicate, PredicateDescription.GIVEN)); }
-    return myself;
-  }
-
-  /**
-   * Verifies that the {@link Predicate} evaluates {@code true} for the given value,
-   * the {@link String} parameter is used in the error message.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .doesNotMatch("something else", "expected 'something else' not to match");</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something", "expected 'something' not to match");</code></pre>
-   *
-   * @return this assertion object.
-   */
-  protected S doesNotMatchInternal(W value, String description) {
-    isNotNull();
-    if (!wrappedPredicate.test(value)) {
-      throwAssertionError(shouldNotMatch(value, wrappedPredicate, new PredicateDescription(description)));
-    }
     return myself;
   }
 

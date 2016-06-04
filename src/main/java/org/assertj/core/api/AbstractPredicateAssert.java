@@ -60,27 +60,6 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
 
   /**
    * <p>
-   * Verifies that the {@link Predicate} evaluates {@code true} for the given value,
-   * the {@link String} parameter is used in the error message.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something", "expected 'something' to match");</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something else", "expected 'something else' to match");</code></pre>
-   *
-   * @return this assertion object.
-   */
-  public S matches(T value, String description) {
-    isNotNull();
-    if (!actual.test(value)) { throwAssertionError(shouldMatch(value, actual, new PredicateDescription(description))); }
-    return myself;
-  }
-
-  /**
-   * <p>
    * Verifies that the {@link Predicate} evaluates {@code true} for the given value.
    * </p>
    * Assertion will pass :
@@ -96,29 +75,6 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
   public S doesNotAccept(T value) {
     isNotNull();
     if (actual.test(value)) { throwAssertionError(shouldNotMatch(value, actual, PredicateDescription.GIVEN)); }
-    return myself;
-  }
-
-  /**
-   * <p>
-   * Verifies that the {@link Predicate} evaluates {@code true} for the given value,
-   * the {@link String} parameter is used in the error message.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .doesNotMatch("something else", "expected 'something else' not to match");</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .matches("something", "expected 'something' not to match");</code></pre>
-   *
-   * @return this assertion object.
-   */
-  public S doesNotMatch(T value, String description) {
-    isNotNull();
-    if (!actual.test(value)) {
-      throwAssertionError(shouldNotMatch(value, actual, new PredicateDescription(description)));
-    }
     return myself;
   }
 
