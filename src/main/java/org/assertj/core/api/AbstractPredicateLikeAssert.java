@@ -18,8 +18,9 @@ import org.assertj.core.internal.Iterables;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
-import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
+import static org.assertj.core.error.ShouldAccept.shouldAccept;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
+import static org.assertj.core.presentation.PredicateDescription.fromDescription;
 
 /**
  * Assertions for {@link Predicate}.
@@ -58,7 +59,7 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
    */
   protected S acceptsInternal(W value) {
     isNotNull();
-    if (!wrappedPredicate.test(value)) { throwAssertionError(shouldMatch(value, wrappedPredicate, PredicateDescription.GIVEN)); }
+    if (!wrappedPredicate.test(value)) { throwAssertionError(shouldAccept(wrappedPredicate, value, fromDescription(info.description()))); }
     return myself;
   }
 
@@ -77,7 +78,7 @@ public abstract class AbstractPredicateLikeAssert<S extends AbstractPredicateLik
    */
   protected S doesNotAcceptInternal(W value) {
     isNotNull();
-    if (wrappedPredicate.test(value)) { throwAssertionError(shouldNotMatch(value, wrappedPredicate, PredicateDescription.GIVEN)); }
+    if (wrappedPredicate.test(value)) { throwAssertionError(shouldNotAccept(wrappedPredicate, value, fromDescription(info.description()))); }
     return myself;
   }
 

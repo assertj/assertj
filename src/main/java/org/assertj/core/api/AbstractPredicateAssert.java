@@ -14,12 +14,15 @@ package org.assertj.core.api;
 
 import java.util.function.Predicate;
 
+import org.assertj.core.error.ShouldNotAccept;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
+import static org.assertj.core.error.ShouldAccept.shouldAccept;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
 import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
+import static org.assertj.core.presentation.PredicateDescription.fromDescription;
 
 /**
  * Assertions for {@link Predicate}.
@@ -54,7 +57,7 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
    */
   public S accepts(T value) {
     isNotNull();
-    if (!actual.test(value)) { throwAssertionError(shouldMatch(value, actual, PredicateDescription.GIVEN)); }
+    if (!actual.test(value)) { throwAssertionError(shouldAccept(actual, value, fromDescription(info.description()))); }
     return myself;
   }
 
@@ -74,7 +77,7 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
    */
   public S doesNotAccept(T value) {
     isNotNull();
-    if (actual.test(value)) { throwAssertionError(shouldNotMatch(value, actual, PredicateDescription.GIVEN)); }
+    if (actual.test(value)) { throwAssertionError(shouldNotAccept(actual, value, fromDescription(info.description()))); }
     return myself;
   }
 

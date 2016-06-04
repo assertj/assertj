@@ -16,10 +16,13 @@ import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.error.ShouldNotAccept;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
 import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -46,8 +49,26 @@ public class IntPredicateAssert_doesNotAccept_Test extends BaseTest {
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
-    thrown.expectAssertionError(shouldNotMatch(expectedValue, wrapPredicate, PredicateDescription.GIVEN).create());
+    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
     assertThat(predicate).doesNotAccept(expectedValue);
+  }
+
+  @Test
+  public void should_fail_when_predicate_accepts_value_with_string_description() {
+    IntPredicate predicate = val -> val <= 2;
+    Predicate<Integer> wrapPredicate = predicate::test;
+    int expectedValue = 2;
+    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
+    assertThat(predicate).as("test").doesNotAccept(expectedValue);
+  }
+
+  @Test
+  public void should_fail_when_predicate_accepts_value_with_description() {
+    IntPredicate predicate = val -> val <= 2;
+    Predicate<Integer> wrapPredicate = predicate::test;
+    int expectedValue = 2;
+    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
+    assertThat(predicate).as(new TextDescription("test")).doesNotAccept(expectedValue);
   }
 
 }

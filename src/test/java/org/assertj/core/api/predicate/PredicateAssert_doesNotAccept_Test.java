@@ -15,10 +15,13 @@ package org.assertj.core.api.predicate;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.error.ShouldNotAccept;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
 import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -40,11 +43,26 @@ public class PredicateAssert_doesNotAccept_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_value() {
+  public void should_fail_when_predicate_accepts_value_with_no_description() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something";
-    thrown.expectAssertionError(shouldNotMatch(expectedValue, predicate, PredicateDescription.GIVEN).create());
+    thrown.expectAssertionError(shouldNotAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
     assertThat(predicate).doesNotAccept("something");
   }
 
+  @Test
+  public void should_fail_when_predicate_accepts_value_with_given_string_description() {
+    Predicate<String> predicate = val -> val.equals("something");
+    String expectedValue = "something";
+    thrown.expectAssertionError(shouldNotAccept(predicate, expectedValue, new PredicateDescription("test")).create());
+    assertThat(predicate).as("test").doesNotAccept("something");
+  }
+
+  @Test
+  public void should_fail_when_predicate_accepts_value_with_given_description() {
+    Predicate<String> predicate = val -> val.equals("something");
+    String expectedValue = "something";
+    thrown.expectAssertionError(shouldNotAccept(predicate, expectedValue, new PredicateDescription("test")).create());
+    assertThat(predicate).as(new TextDescription("test")).doesNotAccept("something");
+  }
 }
