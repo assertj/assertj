@@ -36,17 +36,25 @@ public class BaseAssertionsTest {
   }
 
   protected static Comparator<Method> ignoringDeclaringClassAndMethodName() {
+    return internalMethodComparator(true, false, true);
+  }
+
+  private static Comparator<Method> internalMethodComparator(final boolean ignoreDeclaringClass,
+                                                             final boolean ignoreReturnType,
+                                                             final boolean ignoreMethodName) {
     return new Comparator<Method>() {
       @Override
-      public int compare(Method o1, Method o2) {
+      public int compare(Method method1, Method method2) {
 
         // the methods should be with the same access type
         // static vs not static is not important Soft vs Not Soft assertions
-        boolean equal = (ACCESS_MODIFIERS & o1.getModifiers() & o2.getModifiers()) != 0;
-        equal = equal && o1.getReturnType().equals(o2.getReturnType());
+        boolean equal = (ACCESS_MODIFIERS & method1.getModifiers() & method2.getModifiers()) != 0;
+        equal = equal && (ignoreDeclaringClass || method1.getDeclaringClass().equals(method2.getDeclaringClass()));
+        equal = equal && (ignoreReturnType || method1.getReturnType().equals(method2.getReturnType()));
+        equal = equal && (ignoreMethodName || method1.getName().equals(method2.getName()));
 
-        Class<?>[] pTypes1 = o1.getParameterTypes();
-        Class<?>[] pTypes2 = o2.getParameterTypes();
+        Class<?>[] pTypes1 = method1.getParameterTypes();
+        Class<?>[] pTypes2 = method2.getParameterTypes();
         equal = equal && pTypes1.length == pTypes2.length;
         if (equal) {
           for (int i = 0; i < pTypes1.length; i++) {
