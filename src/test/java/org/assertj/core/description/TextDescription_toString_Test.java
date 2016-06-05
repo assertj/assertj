@@ -28,12 +28,12 @@ public class TextDescription_toString_Test {
   @Test
   public void should_return_value() {
     TextDescription description = new TextDescription("Flash");
-    assertThat(description.toString()).isEqualTo(description.value);
+    assertThat(description).hasToString(description.value);
   }
 
   @Test
   public void should_return_formatted_value() {
     TextDescription description = new TextDescription("Flash %s {}", "MacQueen");
-    assertThat(description.toString()).isEqualTo("Flash MacQueen {}");
+    assertThat(description).hasToString("Flash MacQueen {}");
   }
 }

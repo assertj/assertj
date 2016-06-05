@@ -27,12 +27,12 @@ public class MapEntry_toString_Test {
   @Test
   public void should_implement_toString() {
     MapEntry<String, String> entry = entry("name", "Yoda");
-    assertThat(entry.toString()).isEqualTo("MapEntry[key=\"name\", value=\"Yoda\"]");
+    assertThat(entry).hasToString("MapEntry[key=\"name\", value=\"Yoda\"]");
   }
 
   @Test
   public void should_implement_toString_using_standard_representation() {
     MapEntry<String, String[]> entry = entry("name", new String[] { "Yoda" });
-    assertThat(entry.toString()).isEqualTo("MapEntry[key=\"name\", value=[\"Yoda\"]]");
+    assertThat(entry).hasToString("MapEntry[key=\"name\", value=[\"Yoda\"]]");
   }
 }

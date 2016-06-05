@@ -47,8 +47,8 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   @Override
   protected void verify_internal_effects() {
     assertThat(iterablesBefore).isNotSameAs(getIterables(assertions));
-    assertThat(getIterables(assertions).getComparisonStrategy() instanceof ComparatorBasedComparisonStrategy).isTrue();
-    assertThat(getObjects(assertions).getComparisonStrategy() instanceof IterableElementComparisonStrategy).isTrue();
+    assertThat(getIterables(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    assertThat(getObjects(assertions).getComparisonStrategy()).isInstanceOf(IterableElementComparisonStrategy.class);
   }
 
   @Test

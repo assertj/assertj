@@ -44,8 +44,8 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   @Override
   protected void verify_internal_effects() {
     assertThat(arraysBefore).isNotSameAs(getArrays(assertions));
-    assertThat(getArrays(assertions).getComparisonStrategy() instanceof ComparatorBasedComparisonStrategy).isTrue();
-    assertThat(getObjects(assertions).getComparisonStrategy() instanceof ObjectArrayElementComparisonStrategy).isTrue();
+    assertThat(getArrays(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    assertThat(getObjects(assertions).getComparisonStrategy()).isInstanceOf(ObjectArrayElementComparisonStrategy.class);
   }
 
   @Test

@@ -33,6 +33,6 @@ public class Offset_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertThat(offset.toString()).isEqualTo("Offset[value=8]");
+    assertThat(offset).hasToString("Offset[value=8]");
   }
 }

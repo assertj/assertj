@@ -34,8 +34,7 @@ public class ConstructorInvoker_newInstance_Test {
   @Test
   public void should_create_Object_using_reflection() throws Exception {
     Object o = invoker.newInstance("java.lang.Exception", new Class<?>[] { String.class }, new Object[] { "Hi" });
-    assertThat(o instanceof Exception).isTrue();
-    Exception e = (Exception) o;
-    assertThat(e.getMessage()).isEqualTo("Hi");
+    assertThat(o).isInstanceOf(Exception.class);
+    assertThat((Exception) o).hasMessage("Hi");
   }
 }
