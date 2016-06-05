@@ -26,7 +26,7 @@ import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHav
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
-import static org.assertj.core.error.ElementsShouldNotMatch.elementsShouldNotMatch;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
@@ -887,7 +887,7 @@ public class Iterables {
     stream(actual.spliterator(), false).filter(predicate)
                                        .findFirst()
                                        .ifPresent(e -> {
-                                         throw failures.failure(info, elementsShouldNotMatch(actual, e));
+                                         throw failures.failure(info, noElementsShouldMatch(actual, e));
                                        });
   }
 

@@ -22,7 +22,7 @@ import org.assertj.core.util.Sets;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ElementsShouldNotMatch.elementsShouldNotMatch;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -46,7 +46,7 @@ public class PredicateAssert_noneAcceptedTest extends PredicateAssertBaseTest {
     Predicate<String> predicate = acceptedValues::contains;
     Set<String> matchValues = Sets.newHashSet(acceptedValues);
     matchValues.add("third");
-    thrown.expectAssertionError(elementsShouldNotMatch(matchValues, "first").create());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValues, "first").create());
     assertThat(predicate).noneAccepted(matchValues);
   }
 

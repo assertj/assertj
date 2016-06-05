@@ -22,7 +22,7 @@ import org.assertj.core.api.LongPredicateAssertBaseTest;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ElementsShouldNotMatch.elementsShouldNotMatch;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -45,7 +45,7 @@ public class LongPredicateAssert_noneAccepted_Test extends LongPredicateAssertBa
     LongPredicate predicate = num -> num <= 2;
     long[] matchValues = new long[] { 1, 2, 3 };
     List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(elementsShouldNotMatch(matchValuesList, 1L).create());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1L).create());
     assertThat(predicate).noneAccepted(matchValues);
   }
 

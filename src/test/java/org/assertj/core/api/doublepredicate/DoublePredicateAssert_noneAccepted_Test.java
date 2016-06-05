@@ -22,7 +22,7 @@ import org.assertj.core.api.DoublePredicateAssertBaseTest;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ElementsShouldNotMatch.elementsShouldNotMatch;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -45,7 +45,7 @@ public class DoublePredicateAssert_noneAccepted_Test extends DoublePredicateAsse
     DoublePredicate predicate = num -> num <= 2;
     double[] matchValues = new double[] { 1, 2, 3 };
     List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(elementsShouldNotMatch(matchValuesList, 1D).create());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1D).create());
     assertThat(predicate).noneAccepted(matchValues);
   }
 

@@ -18,17 +18,17 @@ import org.junit.Test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ElementsShouldNotMatch.elementsShouldNotMatch;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * @author Filip Hrisafov
  */
-public class ElementsShouldNotMatch_create_Test {
+public class NoElementsShouldMatch_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = elementsShouldNotMatch(newArrayList("Luke", "Yoda"), "Yoda");
+    ErrorMessageFactory factory = noElementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda");
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting no elements of:%n" +
