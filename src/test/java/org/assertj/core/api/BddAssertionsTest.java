@@ -32,4 +32,16 @@ public class BddAssertionsTest extends BaseAssertionsTest {
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
     assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(assertThatMethods);
   }
+
+  @Test
+  public void should_have_the_same_methods_as_in_bdd_soft_assertions() {
+    // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
+    // the soft assertions we need to ignore them
+    Method[] thenMethods = findMethodsWithName(BDDAssertions.class, "then", SPECIAL_IGNORED_RETURN_TYPES);
+    Method[] thenSoftMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
+
+    // Until the soft assertions are not changed to have the same return as the BDD then we need to ignore the return
+    Comparator<Method> methodComparator = ignoringDeclaringClassAndReturnType();
+    assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(thenSoftMethods);
+  }
 }

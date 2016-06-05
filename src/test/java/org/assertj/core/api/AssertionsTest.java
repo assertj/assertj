@@ -32,4 +32,18 @@ public class AssertionsTest extends BaseAssertionsTest {
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
     assertThat(assertThatMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(thenMethods);
   }
+
+  @Test
+  public void should_have_the_same_methods_as_in_standard_soft_assertions() {
+    // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
+    // the soft assertions we need to ignore them
+    Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
+    Method[] assertThatSoftMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
+
+    //Until the soft assertions are not changed to have the same return as the Assertions then we need to ignore the return
+    Comparator<Method> methodComparator = ignoringDeclaringClassAndReturnType();
+    assertThat(assertThatMethods).usingElementComparator(methodComparator)
+              .containsExactlyInAnyOrder(assertThatSoftMethods);
+
+  }
 }
