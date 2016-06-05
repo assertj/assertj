@@ -238,12 +238,11 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     String methodA = "then";
     Class<AbstractStandardSoftAssertions> classB = AbstractStandardSoftAssertions.class;
     String methodB = "assertThat";
-    List<Method> thenMethods = findMethodsWithName(classA, methodA);
-    List<Method> assertThatMethods = findMethodsWithName(classB, methodB);
+    Method[] thenMethods = findMethodsWithName(classA, methodA);
+    Method[] assertThatMethods = findMethodsWithName(classB, methodB);
 
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
-    Assertions.assertThat(thenMethods).usingElementComparator(methodComparator)
-              .containsExactlyInAnyOrder(assertThatMethods.toArray(new Method[assertThatMethods.size()]));
+    assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(assertThatMethods);
   }
 
 }

@@ -18,6 +18,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Filip Hrisafov
  */
@@ -29,12 +31,11 @@ public class AssertionsTest extends BaseAssertionsTest {
     String methodA = "assertThat";
     Class<BDDAssertions> classB = BDDAssertions.class;
     String methodB = "then";
-    List<Method> assertThatMethods = findMethodsWithName(classA, methodA);
-    List<Method> thenMethods = findMethodsWithName(classB, methodB);
+    Method[] assertThatMethods = findMethodsWithName(classA, methodA);
+    Method[] thenMethods = findMethodsWithName(classB, methodB);
 
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
-    Assertions.assertThat(assertThatMethods).usingElementComparator(methodComparator)
-              .containsExactlyInAnyOrder(thenMethods.toArray(new Method[thenMethods.size()]));
+    assertThat(assertThatMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(thenMethods);
   }
 
   @Test
@@ -43,12 +44,12 @@ public class AssertionsTest extends BaseAssertionsTest {
     String methodA = "assertThat";
     Class<AbstractStandardSoftAssertions> classB = AbstractStandardSoftAssertions.class;
     String methodB = "assertThat";
-    List<Method> assertThatMethods = findMethodsWithName(classA, methodA);
-    List<Method> assertThatSoftMethods = findMethodsWithName(classB, methodB);
+    Method[] assertThatMethods = findMethodsWithName(classA, methodA);
+    Method[] assertThatSoftMethods = findMethodsWithName(classB, methodB);
 
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
-    Assertions.assertThat(assertThatMethods).usingElementComparator(methodComparator)
-              .containsExactlyInAnyOrder(assertThatSoftMethods.toArray(new Method[assertThatSoftMethods.size()]));
+    assertThat(assertThatMethods).usingElementComparator(methodComparator)
+              .containsExactlyInAnyOrder(assertThatSoftMethods);
 
   }
 }

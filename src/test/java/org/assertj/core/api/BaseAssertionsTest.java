@@ -25,14 +25,14 @@ public class BaseAssertionsTest {
 
   private static final int ACCESS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 
-  protected static List<Method> findMethodsWithName(Class<?> clazz, String name) {
+  protected static Method[] findMethodsWithName(Class<?> clazz, String name) {
     List<Method> matchingMethods = new ArrayList<>();
-    for (Method method : clazz.getDeclaredMethods()) {
+    for (Method method : clazz.getMethods()) {
       if (method.getName().equals(name)) {
         matchingMethods.add(method);
       }
     }
-    return matchingMethods;
+    return matchingMethods.toArray(new Method[matchingMethods.size()]);
   }
 
   protected static Comparator<Method> ignoringDeclaringClassAndMethodName() {
