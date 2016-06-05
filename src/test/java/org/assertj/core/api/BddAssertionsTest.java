@@ -37,17 +37,4 @@ public class BddAssertionsTest extends BaseAssertionsTest {
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
     assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(assertThatMethods);
   }
-
-  @Test
-  public void should_have_the_same_methods_as_in_bdd_soft_assertions() {
-    Class<BDDAssertions> classA = BDDAssertions.class;
-    String methodA = "then";
-    Class<AbstractBDDSoftAssertions> classB = AbstractBDDSoftAssertions.class;
-    String methodB = "then";
-    Method[] thenMethods = findMethodsWithName(classA, methodA);
-    Method[] thenSoftMethods = findMethodsWithName(classB, methodB);
-
-    Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
-    assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(thenSoftMethods);
-  }
 }

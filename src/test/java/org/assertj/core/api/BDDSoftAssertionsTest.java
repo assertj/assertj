@@ -231,18 +231,4 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(example1).isEqualByComparingTo(example2);
     softly.assertAll();
   }
-
-  @Test
-  public void should_have_the_same_methods_as_in_standard_soft_assertions() {
-    Class<AbstractBDDSoftAssertions> classA = AbstractBDDSoftAssertions.class;
-    String methodA = "then";
-    Class<AbstractStandardSoftAssertions> classB = AbstractStandardSoftAssertions.class;
-    String methodB = "assertThat";
-    Method[] thenMethods = findMethodsWithName(classA, methodA);
-    Method[] assertThatMethods = findMethodsWithName(classB, methodB);
-
-    Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
-    assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(assertThatMethods);
-  }
-
 }

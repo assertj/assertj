@@ -37,19 +37,4 @@ public class AssertionsTest extends BaseAssertionsTest {
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
     assertThat(assertThatMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(thenMethods);
   }
-
-  @Test
-  public void should_have_the_same_methods_as_in_standard_soft_assertions() {
-    Class<Assertions> classA = Assertions.class;
-    String methodA = "assertThat";
-    Class<AbstractStandardSoftAssertions> classB = AbstractStandardSoftAssertions.class;
-    String methodB = "assertThat";
-    Method[] assertThatMethods = findMethodsWithName(classA, methodA);
-    Method[] assertThatSoftMethods = findMethodsWithName(classB, methodB);
-
-    Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
-    assertThat(assertThatMethods).usingElementComparator(methodComparator)
-              .containsExactlyInAnyOrder(assertThatSoftMethods);
-
-  }
 }
