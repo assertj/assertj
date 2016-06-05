@@ -25,10 +25,12 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +44,7 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
  *
  * @author Brian Laframboise
  */
-public class SoftAssertionsTest {
+public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 

@@ -18,9 +18,11 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -31,7 +33,7 @@ import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BDDSoftAssertionsTest {
+public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   private BDDSoftAssertions softly;
 
@@ -229,5 +231,4 @@ public class BDDSoftAssertionsTest {
     softly.then(example1).isEqualByComparingTo(example2);
     softly.assertAll();
   }
-
 }
