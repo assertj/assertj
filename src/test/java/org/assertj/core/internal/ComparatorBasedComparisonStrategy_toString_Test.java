@@ -34,12 +34,12 @@ public class ComparatorBasedComparisonStrategy_toString_Test extends AbstractTes
         return s1.length() - s2.length();
       }
     });
-    assertThat(lengthComparisonStrategy.toString()).isEqualTo("'anonymous comparator class'");
+    assertThat(lengthComparisonStrategy).hasToString("'anonymous comparator class'");
   }
 
   @Test
   public void toString_with_non_anonymous_comparator() {
-    assertThat(caseInsensitiveComparisonStrategy.toString()).isEqualTo("'CaseInsensitiveStringComparator'");
+    assertThat(caseInsensitiveComparisonStrategy).hasToString("'CaseInsensitiveStringComparator'");
   }
 
 }

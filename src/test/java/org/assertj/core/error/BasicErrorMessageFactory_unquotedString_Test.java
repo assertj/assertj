@@ -24,6 +24,6 @@ public class BasicErrorMessageFactory_unquotedString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertThat(unquotedString("some value").toString()).isEqualTo("some value");
+    assertThat(unquotedString("some value")).hasToString("some value");
   }
 }

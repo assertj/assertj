@@ -66,7 +66,7 @@ public class Tuple_Test {
   @Test
   public void tuple_representation() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
-    assertThat(tuple.toString()).isEqualTo("(\"Yoda\", 800, \"Jedi\")");
+    assertThat(tuple).hasToString("(\"Yoda\", 800, \"Jedi\")");
   }
 
   @Test

@@ -33,6 +33,6 @@ public class BasicErrorMessageFactory_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertThat(factory.toString()).isEqualTo("BasicErrorMessageFactory[format='Hello %s', arguments=[\"Yoda\"]]");
+    assertThat(factory).hasToString("BasicErrorMessageFactory[format='Hello %s', arguments=[\"Yoda\"]]");
   }
 }

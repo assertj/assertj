@@ -40,7 +40,7 @@ public class DoesNotHave_toString_Test {
   @Test
   public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "does not have :<JediPower>";
-    assertThat(doesNotHave.toString()).isEqualTo(expected);
+    assertThat(doesNotHave).hasToString(expected);
   }
 
 }

@@ -33,6 +33,6 @@ public class Index_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertThat(index.toString()).isEqualTo("Index[value=8]");
+    assertThat(index).hasToString("Index[value=8]");
   }
 }
