@@ -17,6 +17,9 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+
+import org.assertj.core.util.Sets;
 
 /**
  * @author Filip Hrisafov
@@ -25,10 +28,16 @@ public class BaseAssertionsTest {
 
   private static final int ACCESS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 
-  protected static Method[] findMethodsWithName(Class<?> clazz, String name) {
+  //Object is ignored because of the AssertProvider
+  protected static final Class<?>[] SPECIAL_IGNORED_RETURN_TYPES = new Class[] { AssertDelegateTarget.class,
+    FactoryBasedNavigableListAssert.class, FactoryBasedNavigableIterableAssert.class,
+    ClassBasedNavigableListAssert.class, ClassBasedNavigableIterableAssert.class, Object.class};
+
+  protected static Method[] findMethodsWithName(Class<?> clazz, String name, Class<?>... ignoredReturnTypes) {
     List<Method> matchingMethods = new ArrayList<>();
+    Set<Class<?>> ignoredReturnTypesSet = Sets.newLinkedHashSet(ignoredReturnTypes);
     for (Method method : clazz.getMethods()) {
-      if (method.getName().equals(name)) {
+      if (!ignoredReturnTypesSet.contains(method.getReturnType()) && method.getName().equals(name)) {
         matchingMethods.add(method);
       }
     }
@@ -37,6 +46,10 @@ public class BaseAssertionsTest {
 
   protected static Comparator<Method> ignoringDeclaringClassAndMethodName() {
     return internalMethodComparator(true, false, true);
+  }
+
+  protected static Comparator<Method> ignoringDeclaringClassAndReturnType() {
+    return internalMethodComparator(true, true, false);
   }
 
   private static Comparator<Method> internalMethodComparator(final boolean ignoreDeclaringClass,

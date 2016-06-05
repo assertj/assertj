@@ -18,9 +18,11 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -31,7 +33,7 @@ import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BDDSoftAssertionsTest {
+public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   private BDDSoftAssertions softly;
 
@@ -228,6 +230,15 @@ public class BDDSoftAssertionsTest {
     ComparableExample example2 = new ComparableExample(0);
     softly.then(example1).isEqualByComparingTo(example2);
     softly.assertAll();
+  }
+
+  @Test
+  public void should_have_the_same_methods_as_in_standard_soft_assertions() {
+    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
+    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
+
+    Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
+    assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(assertThatMethods);
   }
 
 }
