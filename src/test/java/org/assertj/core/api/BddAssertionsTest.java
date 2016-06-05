@@ -27,12 +27,8 @@ public class BddAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_have_the_same_methods_as_in_assertions() {
-    Class<BDDAssertions> classA = BDDAssertions.class;
-    String methodA = "then";
-    Class<Assertions> classB = Assertions.class;
-    String methodB = "assertThat";
-    Method[] thenMethods = findMethodsWithName(classA, methodA);
-    Method[] assertThatMethods = findMethodsWithName(classB, methodB);
+    Method[] thenMethods = findMethodsWithName(BDDAssertions.class, "then");
+    Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat");
 
     Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
     assertThat(thenMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(assertThatMethods);
