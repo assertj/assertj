@@ -16,11 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-public class FieldByFieldComparator_toString_Test {
+public class RecursiveFieldByFieldComparator_toString_Test {
 
   @Test
-  public void should_return_description_of_FieldByFieldComparator() {
-    assertThat(new FieldByFieldComparator()).hasToString("field/property by field/property comparator on all fields/properties");
+  public void should_return_description_of_RecursiveFieldByFieldComparator() {
+    assertThat(new RecursiveFieldByFieldComparator()).hasToString("recursive field/property by field/property comparator on all fields/properties");
   }
-
 }

@@ -54,6 +54,7 @@ import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.internal.RecursiveFieldByFieldComparator;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -1138,6 +1139,51 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   public SELF usingFieldByFieldElementComparator() {
     return usingElementComparator(new FieldByFieldComparator());
+  }
+
+  /**
+   * Use a recursive field/property by field/property comparison (including
+   * inherited fields/properties) instead of relying on actual type A
+   * <code>equals</code> method to compare group elements for incoming
+   * assertion checks. This can be useful if actual's {@code equals}
+   * implementation does not suit you. The recursive property/field comparison
+   * is <b>not</b> applied on fields having a custom {@code equals}
+   * implementation, i.e. the overriden {@code equals} method will be used
+   * instead of a field/property by field/property comparison.
+   * <p>
+   * The recursive comparison handles cycle. {@code floats} are
+   * compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
+   * <p>
+   * The objects to compare can be of different types but must have the same
+   * properties/fields. For example if actual object has a name String field,
+   * it is expected the other object to also have one. If an object has a
+   * field and a property with the same name, the property value will be used
+   * over the field.
+   * </p>
+   * Example:
+   * <pre>
+   * <code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * frodo.setFriend(pippin);
+   * pippin.setFriend(frodo);
+   * 
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter pippinClone = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * frodoClone.setFriend(pippinClone);
+   * pippinClone.setFriend(frodoClone);
+   * 
+   * // fails if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
+   * assertThat(Arrays.asList(frodo, pippin)).contains(frodoClone, pippinClone);
+   * 
+   * // frodo and frodoClone, pippin and pippinClone are equals when doing a recursive property/field by property/field comparison
+   * assertThat(Arrays.asList(frodo, pippin)).usingRecursiveFieldByFieldElementComparator().contains(frodoClone, pippinClone);</code>
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   * @since 2.5.0 / 3.5.0
+   */
+  public SELF usingRecursiveFieldByFieldElementComparator() {
+    return usingElementComparator(new RecursiveFieldByFieldComparator());
   }
 
   /**
