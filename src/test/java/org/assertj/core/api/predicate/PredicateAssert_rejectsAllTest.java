@@ -10,15 +10,15 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.doublepredicate;
+package org.assertj.core.api.predicate;
 
-import java.util.List;
-import java.util.function.DoublePredicate;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.function.Predicate;
 
-import org.assertj.core.api.DoublePredicateAssert;
-import org.assertj.core.api.DoublePredicateAssertBaseTest;
+import org.assertj.core.api.PredicateAssert;
+import org.assertj.core.api.PredicateAssertBaseTest;
+import org.assertj.core.util.Sets;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,39 +30,40 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_noneAccepted_Test extends DoublePredicateAssertBaseTest {
+public class PredicateAssert_rejectsAllTest extends PredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    double[] acceptedValues = new double[] { 1, 2, 3 };
+    LinkedHashSet<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
 
-    assertThat((DoublePredicate) null).noneAccepted(acceptedValues);
+    assertThat((Predicate<String>) null).rejectsAll(acceptedValues);
   }
 
   @Test
   public void should_fail_when_predicate_accepts_some_value() {
-    DoublePredicate predicate = num -> num <= 2;
-    double[] matchValues = new double[] { 1, 2, 3 };
-    List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1D).create());
-    assertThat(predicate).noneAccepted(matchValues);
+    Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
+    Predicate<String> predicate = acceptedValues::contains;
+    Set<String> matchValues = Sets.newHashSet(acceptedValues);
+    matchValues.add("third");
+    thrown.expectAssertionError(noElementsShouldMatch(matchValues, "first").create());
+    assertThat(predicate).rejectsAll(matchValues);
   }
 
   @Test
   public void should_pass_when_predicate_accepts_no_value() {
-    DoublePredicate predicate = num -> num <= 2;
-    double[] acceptedValues = new double[] { 3, 4, 5 };
-    assertThat(predicate).noneAccepted(acceptedValues);
+    Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
+    Predicate<String> predicate = acceptedValues::contains;
+    assertThat(predicate).rejectsAll(Sets.newLinkedHashSet("third", "fourth"));
   }
 
   @Override
-  protected DoublePredicateAssert invoke_api_method() {
-    return assertions.noneAccepted(3, 4);
+  protected PredicateAssert<Boolean> invoke_api_method() {
+    return assertions.rejectsAll(newArrayList(false, false));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3D, 4D), wrapped);
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(false, false), getActual(assertions));
   }
 }

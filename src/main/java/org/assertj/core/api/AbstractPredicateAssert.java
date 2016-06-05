@@ -67,15 +67,15 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .doesNotAccept("something else");</code></pre>
+   *            .rejects("something else");</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .doesNotAccept("something");</code></pre>
+   *            .rejects("something");</code></pre>
    *
    * @return this assertion object.
    */
-  public S doesNotAccept(T value) {
+  public S rejects(T value) {
     isNotNull();
     if (actual.test(value)) { throwAssertionError(shouldNotAccept(actual, value, fromDescription(info.description()))); }
     return myself;
@@ -110,16 +110,16 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
    * Assertion will pass:
    * <pre><code class='java'>
    *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).noneAccepted(Arrays.asList("third", "fourth"));</code></pre>
+   *     assertThat(value -> elements.contains(value)).rejectsAll(Arrays.asList("third", "fourth"));</code></pre>
    *
    * Assertion will fail:
    * <pre><code class='java'>
    *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).noneAccepted(Arrays.asList("first", "third"));</code></pre>
+   *     assertThat(value -> elements.contains(value)).rejectsAll(Arrays.asList("first", "third"));</code></pre>
    *
    * @return this assertion object
    */
-  public S noneAccepted(Iterable<? extends T> values) {
+  public S rejectsAll(Iterable<? extends T> values) {
     isNotNull();
     iterables.assertNoneMatch(info, values, actual);
     return myself;

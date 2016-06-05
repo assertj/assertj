@@ -56,16 +56,16 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotAccept(3);</code></pre>
+   *            .rejects(3);</code></pre>
    * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotAccept(1);</code></pre>
+   *            .rejects(1);</code></pre>
    *
    * @return this assertion object.
    */
-  public LongPredicateAssert doesNotAccept(long value) {
-    return doesNotAcceptInternal(value);
+  public LongPredicateAssert rejects(long value) {
+    return rejectsInternal(value);
   }
 
   /**
@@ -92,15 +92,15 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneAccepted(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).rejectsAll(0, 1);</code></pre>
    * <p>
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneAccepted(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).rejectsAll(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public LongPredicateAssert noneAccepted(long... values) {
-    return noneAcceptedInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
+  public LongPredicateAssert rejectsAll(long... values) {
+    return rejectsAllInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

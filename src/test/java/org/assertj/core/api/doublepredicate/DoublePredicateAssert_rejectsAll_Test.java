@@ -10,15 +10,15 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.longpredicate;
+package org.assertj.core.api.doublepredicate;
 
 import java.util.List;
-import java.util.function.LongPredicate;
+import java.util.function.DoublePredicate;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import java.util.stream.DoubleStream;
 
-import org.assertj.core.api.LongPredicateAssert;
-import org.assertj.core.api.LongPredicateAssertBaseTest;
+import org.assertj.core.api.DoublePredicateAssert;
+import org.assertj.core.api.DoublePredicateAssertBaseTest;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,39 +30,39 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Filip Hrisafov
  */
-public class LongPredicateAssert_noneAccepted_Test extends LongPredicateAssertBaseTest {
+public class DoublePredicateAssert_rejectsAll_Test extends DoublePredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    long[] acceptedValues = new long[] { 1, 2, 3 };
+    double[] acceptedValues = new double[] { 1, 2, 3 };
 
-    assertThat((LongPredicate) null).noneAccepted(acceptedValues);
+    assertThat((DoublePredicate) null).rejectsAll(acceptedValues);
   }
 
   @Test
   public void should_fail_when_predicate_accepts_some_value() {
-    LongPredicate predicate = num -> num <= 2;
-    long[] matchValues = new long[] { 1, 2, 3 };
-    List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1L).create());
-    assertThat(predicate).noneAccepted(matchValues);
+    DoublePredicate predicate = num -> num <= 2;
+    double[] matchValues = new double[] { 1, 2, 3 };
+    List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1D).create());
+    assertThat(predicate).rejectsAll(matchValues);
   }
 
   @Test
   public void should_pass_when_predicate_accepts_no_value() {
-    LongPredicate predicate = num -> num <= 2;
-    long[] acceptedValues = new long[] { 3, 4, 5 };
-    assertThat(predicate).noneAccepted(acceptedValues);
+    DoublePredicate predicate = num -> num <= 2;
+    double[] acceptedValues = new double[] { 3, 4, 5 };
+    assertThat(predicate).rejectsAll(acceptedValues);
   }
 
   @Override
-  protected LongPredicateAssert invoke_api_method() {
-    return assertions.noneAccepted(3, 4);
+  protected DoublePredicateAssert invoke_api_method() {
+    return assertions.rejectsAll(3, 4);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3L, 4L), wrapped);
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3D, 4D), wrapped);
   }
 }

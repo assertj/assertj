@@ -56,16 +56,16 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotAccept(3);</code></pre>
+   *            .rejects(3);</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .doesNotAccept(1);</code></pre>
+   *            .rejects(1);</code></pre>
    *
    * @return this assertion object.
    */
-  public IntPredicateAssert doesNotAccept(int value) {
-    return doesNotAcceptInternal(value);
+  public IntPredicateAssert rejects(int value) {
+    return rejectsInternal(value);
   }
 
   /**
@@ -92,15 +92,15 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * </p>
    * Assertion will pass:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneAccepted(0, 1);</code></pre>
+   *     assertThat(value -> value < 2).rejectsAll(0, 1);</code></pre>
    *
    * Assertion will fail:
    * <pre><code class='java'>
-   *     assertThat(value -> value < 2).noneAccepted(1, 2);</code></pre>
+   *     assertThat(value -> value < 2).rejectsAll(1, 2);</code></pre>
    *
    * @return this assertion object
    */
-  public IntPredicateAssert noneAccepted(int... values) {
-    return noneAcceptedInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
+  public IntPredicateAssert rejectsAll(int... values) {
+    return rejectsAllInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

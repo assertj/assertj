@@ -28,7 +28,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_doesNotAccept_Test extends BaseTest {
+public class PredicateAssert_rejects_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
@@ -39,7 +39,7 @@ public class PredicateAssert_doesNotAccept_Test extends BaseTest {
   @Test
   public void should_pass_when_predicate_does_not_accept_value() {
     Predicate<String> predicate = val -> val.equals("something");
-    assertThat(predicate).doesNotAccept("something else");
+    assertThat(predicate).rejects("something else");
   }
 
   @Test
@@ -47,7 +47,7 @@ public class PredicateAssert_doesNotAccept_Test extends BaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something";
     thrown.expectAssertionError(shouldNotAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
-    assertThat(predicate).doesNotAccept("something");
+    assertThat(predicate).rejects("something");
   }
 
   @Test
@@ -55,7 +55,7 @@ public class PredicateAssert_doesNotAccept_Test extends BaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something";
     thrown.expectAssertionError(shouldNotAccept(predicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as("test").doesNotAccept("something");
+    assertThat(predicate).as("test").rejects("something");
   }
 
   @Test
@@ -63,6 +63,6 @@ public class PredicateAssert_doesNotAccept_Test extends BaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something";
     thrown.expectAssertionError(shouldNotAccept(predicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as(new TextDescription("test")).doesNotAccept("something");
+    assertThat(predicate).as(new TextDescription("test")).rejects("something");
   }
 }

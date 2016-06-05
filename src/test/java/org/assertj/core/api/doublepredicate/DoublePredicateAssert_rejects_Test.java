@@ -29,7 +29,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_doesNotAccept_Test extends BaseTest {
+public class DoublePredicateAssert_rejects_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
@@ -41,7 +41,7 @@ public class DoublePredicateAssert_doesNotAccept_Test extends BaseTest {
   @Test
   public void should_pass_when_predicate_does_not_accept_value() {
     DoublePredicate predicate = val -> val <= 2;
-    assertThat(predicate).doesNotAccept(3);
+    assertThat(predicate).rejects(3);
   }
 
   @Test
@@ -50,7 +50,7 @@ public class DoublePredicateAssert_doesNotAccept_Test extends BaseTest {
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-    assertThat(predicate).doesNotAccept(expectedValue);
+    assertThat(predicate).rejects(expectedValue);
   }
 
   @Test
@@ -59,7 +59,7 @@ public class DoublePredicateAssert_doesNotAccept_Test extends BaseTest {
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as("test").doesNotAccept(expectedValue);
+    assertThat(predicate).as("test").rejects(expectedValue);
   }
 
   @Test
@@ -68,6 +68,6 @@ public class DoublePredicateAssert_doesNotAccept_Test extends BaseTest {
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as(new TextDescription("test")).doesNotAccept(expectedValue);
+    assertThat(predicate).as(new TextDescription("test")).rejects(expectedValue);
   }
 }

@@ -10,9 +10,9 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.intpredicate;
+package org.assertj.core.api.longpredicate;
 
-import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.BaseTest;
@@ -29,46 +29,46 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 /**
  * @author Filip Hrisafov
  */
-public class IntPredicateAssert_doesNotAccept_Test extends BaseTest {
+public class LongPredicateAssert_rejects_Test extends BaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((IntPredicate) null).accepts(1);
+    assertThat((LongPredicate) null).accepts(1);
   }
 
   @Test
   public void should_pass_when_predicate_does_not_accept_value() {
-    IntPredicate predicate = val -> val <= 2;
-    assertThat(predicate).doesNotAccept(3);
+    LongPredicate predicate = val -> val <= 2;
+    assertThat(predicate).rejects(3);
   }
 
   @Test
   public void should_fail_when_predicate_accepts_value() {
-    IntPredicate predicate = val -> val <= 2;
-    Predicate<Integer> wrapPredicate = predicate::test;
-    int expectedValue = 2;
+    LongPredicate predicate = val -> val <= 2;
+    Predicate<Long> wrapPredicate = predicate::test;
+    long expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-    assertThat(predicate).doesNotAccept(expectedValue);
+    assertThat(predicate).rejects(expectedValue);
   }
 
   @Test
   public void should_fail_when_predicate_accepts_value_with_string_description() {
-    IntPredicate predicate = val -> val <= 2;
-    Predicate<Integer> wrapPredicate = predicate::test;
-    int expectedValue = 2;
+    LongPredicate predicate = val -> val <= 2;
+    Predicate<Long> wrapPredicate = predicate::test;
+    long expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as("test").doesNotAccept(expectedValue);
+    assertThat(predicate).as("test").rejects(expectedValue);
   }
 
   @Test
   public void should_fail_when_predicate_accepts_value_with_description() {
-    IntPredicate predicate = val -> val <= 2;
-    Predicate<Integer> wrapPredicate = predicate::test;
-    int expectedValue = 2;
+    LongPredicate predicate = val -> val <= 2;
+    Predicate<Long> wrapPredicate = predicate::test;
+    long expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as(new TextDescription("test")).doesNotAccept(expectedValue);
+    assertThat(predicate).as(new TextDescription("test")).rejects(expectedValue);
   }
 
 }
