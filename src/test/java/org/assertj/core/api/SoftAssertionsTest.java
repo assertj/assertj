@@ -12,6 +12,24 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.util.DateUtil.parseDatetime;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.test.ComparableExample;
@@ -23,26 +41,12 @@ import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.util.DateUtil.parseDatetime;
-
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
  *
  * @author Brian Laframboise
  */
-public class SoftAssertionsTest {
+public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
@@ -78,8 +82,7 @@ public class SoftAssertionsTest {
   public void should_return_success_of_last_assertion() {
     try {
       softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {
-    }
+    } catch (AssertionError ignore) {}
     softly.assertThat(true).isEqualTo(true);
     assertThat(softly.wasSuccess()).isTrue();
   }
@@ -88,8 +91,7 @@ public class SoftAssertionsTest {
   public void should_return_success_of_last_assertion_with_nested_calls() {
     try {
       softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {
-    }
+    } catch (AssertionError ignore) {}
     softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
     assertThat(softly.wasSuccess()).isTrue();
   }
@@ -559,6 +561,15 @@ public class SoftAssertionsTest {
     ComparableExample example2 = new ComparableExample(0);
     softly.assertThat(example1).isEqualByComparingTo(example2);
     softly.assertAll();
+  }
+
+  @Test
+  public void should_have_the_same_methods_as_in_bdd_soft_assertions() {
+    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
+    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
+
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
+                                 .containsExactlyInAnyOrder(thenMethods);
   }
 
   private static Name name(String first, String last) {

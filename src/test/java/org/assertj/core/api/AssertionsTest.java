@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
-import java.util.Comparator;
 
 import org.junit.Test;
 
@@ -29,7 +28,20 @@ public class AssertionsTest extends BaseAssertionsTest {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat");
     Method[] thenMethods = findMethodsWithName(BDDAssertions.class, "then");
 
-    Comparator<Method> methodComparator = ignoringDeclaringClassAndMethodName();
-    assertThat(assertThatMethods).usingElementComparator(methodComparator).containsExactlyInAnyOrder(thenMethods);
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
+                                 .containsExactlyInAnyOrder(thenMethods);
+  }
+
+  @Test
+  public void should_have_the_same_methods_as_in_standard_soft_assertions() {
+    // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
+    // the soft assertions we need to ignore them
+    Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
+    Method[] assertThatSoftMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
+
+    // ignore the return type of soft assertions until they have the same as the Assertions 
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
+                                 .containsExactlyInAnyOrder(assertThatSoftMethods);
+
   }
 }
