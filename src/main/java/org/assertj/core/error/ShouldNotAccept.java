@@ -27,21 +27,6 @@ import static java.util.Objects.requireNonNull;
  */
 public class ShouldNotAccept extends BasicErrorMessageFactory {
 
-  // @format:off
-  public static final String ADVICE = format("%n%n"+
-	                                         "You can use " +
-                                           "'assertThat(Predicate p).as(String|Description).doesNotAccept(\"something\")' " +
-                                           "to have a better error message%n" +
-	                                         "For example:%n" +
-                                           " Predicate<Integer> p = i -> i <= 2;%n" +
-	                                         "assertThat(p).as(\"smaller or equal to 2\").doesNot(2);%n" +
-	                                         "will give an error message looking like:%n" +
-	                                         "%n" +
-	                                         "Expecting:%n" +
-	                                         "  <'smaller or equal to' predicate>%n" +
-	                                         "not to accept <2> but it did");
-  // @format:on
-
   /**
    * Creates a new </code>{@link ShouldNotAccept}</code>.
    *
@@ -58,7 +43,6 @@ public class ShouldNotAccept extends BasicErrorMessageFactory {
   }
 
   private ShouldNotAccept(Predicate<?> predicate, Object value, PredicateDescription description) {
-    super("%nExpecting:%n  <%s predicate>%nnot to accept <%s> but it did." + (description.isDefault() ? ADVICE : ""),
-          description, value);
+    super("%nExpecting:%n  <%s predicate>%nnot to accept <%s> but it did.", description, value);
   }
 }

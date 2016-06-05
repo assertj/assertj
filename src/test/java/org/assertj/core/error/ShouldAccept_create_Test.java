@@ -33,8 +33,8 @@ public class ShouldAccept_create_Test {
   public void should_create_error_message_with_default_predicate_description() {
     ErrorMessageFactory factory = shouldAccept(color -> color.equals("green"), "Yoda", PredicateDescription.GIVEN);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(
-      format("[Test] %nExpecting:%n  <given predicate>%nto accept <\"Yoda\"> but it did not." + ShouldAccept.ADVICE));
+    assertThat(message)
+      .isEqualTo(format("[Test] %nExpecting:%n  <given predicate>%nto accept <\"Yoda\"> but it did not."));
   }
 
   @Test

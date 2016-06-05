@@ -344,68 +344,16 @@ public class SoftAssertionsTest {
       assertThat(errors.get(45)).startsWith("expected:<[1L]> but was:<[OptionalLong[0]]>");
       assertThat(errors.get(46)).contains("Expecting port of");
       assertThat(errors.get(47)).contains("to have failed");
-      assertThat(errors.get(48)).startsWith(String.format("%nExpecting:%n"
-                                                        + "  <given predicate>%n"
-                                                        + "to accept <\"something else\"> but it did not.%n"
-                                                        + "%n"
-                                                        + "You can use "
-                                                        + "'assertThat(Predicate p).as(String|Description).accepts(\"something\")' "
-                                                        + "to have a better error message%n"
-                                                        + "For example:%n"
-                                                        + " Predicate<Integer> p = i -> i <= 2;%n"
-                                                        + "assertThat(p).as(\"smaller or equal to 2\").accepts(3);%n"
-                                                        + "will give an error message looking like:%n"
-                                                        + "%n"
-                                                        + "Expecting:%n"
-                                                        + "  <'smaller or equal to' predicate>%n"
-                                                        + "to accept <3> but it did not"));
+      assertThat(errors.get(48)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                        + "to accept <\"something else\"> but it did not."));
 
-      assertThat(errors.get(49)).startsWith(String.format("%nExpecting:%n"
-                                                         + "  <given predicate>%n"
-                                                         + "to accept <2> but it did not.%n"
-                                                         + "%n"
-                                                         + "You can use "
-                                                         + "'assertThat(Predicate p).as(String|Description).accepts(\"something\")' "
-                                                         + "to have a better error message%n"
-                                                         + "For example:%n"
-                                                         + " Predicate<Integer> p = i -> i <= 2;%n"
-                                                         + "assertThat(p).as(\"smaller or equal to 2\").accepts(3);%n"
-                                                         + "will give an error message looking like:%n"
-                                                         + "%n"
-                                                         + "Expecting:%n"
-                                                         + "  <'smaller or equal to' predicate>%n"
-                                                         + "to accept <3> but it did not"));
+      assertThat(errors.get(49)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                         + "to accept <2> but it did not."));
 
-      assertThat(errors.get(50)).startsWith(String.format("%nExpecting:%n"
-                                                         + "  <given predicate>%n"
-                                                         + "to accept <2L> but it did not.%n"
-                                                         + "%n"
-                                                         + "You can use "
-                                                         + "'assertThat(Predicate p).as(String|Description).accepts(\"something\")' "
-                                                         + "to have a better error message%n"
-                                                         + "For example:%n"
-                                                         + " Predicate<Integer> p = i -> i <= 2;%n"
-                                                         + "assertThat(p).as(\"smaller or equal to 2\").accepts(3);%n"
-                                                         + "will give an error message looking like:%n"
-                                                         + "%n"
-                                                         + "Expecting:%n"
-                                                         + "  <'smaller or equal to' predicate>%n"
-                                                         + "to accept <3> but it did not"));
-      assertThat(errors.get(51)).startsWith(String.format("%nExpecting:%n"
-                                                         + "  <given predicate>%n"
-                                                         + "to accept <2.0> but it did not.%n"
-                                                         + "%n"
-                                                         + "You can use "
-                                                         + "'assertThat(Predicate p).as(String|Description).accepts(\"something\")' "
-                                                         + "to have a better error message%n"
-                                                         + "For example:%n"
-                                                         + " Predicate<Integer> p = i -> i <= 2;%n"
-                                                         + "assertThat(p).as(\"smaller or equal to 2\").accepts(3);%n"
-                                                         + "will give an error message looking like:%n"
-                                                         + "%n"
-                                                         + "Expecting:%n"
-                                                         + "  <'smaller or equal to' predicate>%n"
-                                                         + "to accept <3> but it did not"));
+      assertThat(errors.get(50)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                         + "to accept <2L> but it did not."));
+      assertThat(errors.get(51)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
+                                                         + "to accept <2.0> but it did not."));
     }
   }  
 
