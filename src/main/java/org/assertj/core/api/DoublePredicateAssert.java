@@ -52,7 +52,7 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
   }
 
   /**
-   * Verifies that the {@link DoublePredicate} evaluates {@code true} for the given value.
+   * Verifies that the {@link DoublePredicate} evaluates {@code false} for the given value.
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)

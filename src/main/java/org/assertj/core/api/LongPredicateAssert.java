@@ -52,7 +52,7 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
   }
 
   /**
-   * Verifies that the {@link LongPredicate} evaluates {@code true} for the given value.
+   * Verifies that the {@link LongPredicate} evaluates {@code false} for the given value.
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)

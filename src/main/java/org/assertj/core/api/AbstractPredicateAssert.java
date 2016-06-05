@@ -63,7 +63,7 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
 
   /**
    * <p>
-   * Verifies that the {@link Predicate} evaluates {@code true} for the given value.
+   * Verifies that the {@link Predicate} evaluates {@code false} for the given value.
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))

@@ -52,7 +52,7 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
   }
 
   /**
-   * Verifies that the {@link IntPredicate} evaluates {@code true} for the given value.
+   * Verifies that the {@link IntPredicate} evaluates {@code false} for the given value.
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(predicate -> predicate < 2)
