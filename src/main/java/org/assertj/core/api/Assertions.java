@@ -677,7 +677,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+  public static <K, V> AbstractMapAssert<?, ?, K, V> assertThat(Map<K, V> actual) {
     return new MapAssert<>(actual);
   }
 
