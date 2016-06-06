@@ -12,17 +12,18 @@
  */
 package org.assertj.core.api;
 
-import java.nio.file.Path;
+import org.junit.Rule;
+import org.junit.Test;
 
-public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
+import static org.assertj.core.util.Lists.newArrayList;
 
-  /**
-   * Creates a new, proxied instance of a {@link PathAssert}
-   *
-   * @param actual the path
-   * @return the created assertion object
-   */
-  public PathAssert then(Path actual) {
-    return proxy(PathAssert.class, Path.class, actual);
+public class Java6JUnitSoftAssertionsSuccessTest {
+  @Rule
+  public final Java6JUnitSoftAssertions softly = new Java6JUnitSoftAssertions();
+
+  @Test
+  public void all_assertions_should_pass() throws Throwable {
+    softly.assertThat(1).isEqualTo(1);
+    softly.assertThat(newArrayList(1, 2)).containsOnly(1, 2);
   }
 }

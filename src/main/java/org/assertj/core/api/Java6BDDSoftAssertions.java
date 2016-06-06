@@ -12,17 +12,23 @@
  */
 package org.assertj.core.api;
 
-import java.nio.file.Path;
+import java.util.List;
 
-public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
+import static org.assertj.core.groups.Properties.extractProperty;
 
+/**
+ * BDD-style Android-compatible soft assertions. Duplicated from {@link BDDSoftAssertions}.
+ *
+ * @see BDDSoftAssertions
+ */
+public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
   /**
-   * Creates a new, proxied instance of a {@link PathAssert}
+   * Verifies that no proxied assertion methods have failed.
    *
-   * @param actual the path
-   * @return the created assertion object
+   * @throws SoftAssertionError if any proxied assertion objects threw
    */
-  public PathAssert then(Path actual) {
-    return proxy(PathAssert.class, Path.class, actual);
+  public void assertAll() {
+    List<Throwable> errors = errorsCollected();
+    if (!errors.isEmpty()) throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
   }
 }
