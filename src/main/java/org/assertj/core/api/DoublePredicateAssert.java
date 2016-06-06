@@ -34,73 +34,45 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
   }
 
   /**
+   * Verifies that {@link DoublePredicate} evaluates all the given values to {@code true}.
    * <p>
-   * Verifies that the {@link DoublePredicate} evaluates {@code true} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .accepts(1);</code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .accepts(2);</code></pre>
+   * Example :
+   * <pre><code class='java'> DoublePredicate tallSize = size -> size > 1.90;
    *
+   * // assertion succeeds:
+   * assertThat(tallSize).accepts(1.95, 2.00, 2.05);
+   *
+   * // assertion fails:
+   * assertThat(tallSize).accepts(1.85, 1.95, 2.05);</code></pre>
+   *
+   * @param values values that the actual {@code Predicate} should accept.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} does not accept all given values.
    */
-  public DoublePredicateAssert accepts(double value) {
-    return acceptsInternal(value);
-  }
-
-  /**
-   * Verifies that the {@link DoublePredicate} evaluates {@code false} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .rejects(3);</code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .rejects(1);</code></pre>
-   *
-   * @return this assertion object.
-   */
-  public DoublePredicateAssert rejects(double value) {
-    return rejectsInternal(value);
-  }
-
-  /**
-   * <p>
-   * Verifies that {@link DoublePredicate} evaluates to {@code true} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).acceptsAll(0, 1);</code></pre>
-   * <p>
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).acceptsAll(1, 2);</code></pre>
-   *
-   * @return this assertion object
-   */
-  public DoublePredicateAssert acceptsAll(double... values) {
+  public DoublePredicateAssert accepts(double... values) {
+    if (values.length == 1) return acceptsInternal(values[0]);
     return acceptsAllInternal(DoubleStream.of(values).boxed().collect(Collectors.toList()));
   }
 
   /**
+   * Verifies that {@link DoublePredicate} evaluates all the given values to {@code false}.
    * <p>
-   * Verifies that {@link DoublePredicate} evaluates to {@code false} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).rejectsAll(0, 1);</code></pre>
    * <p>
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).rejectsAll(1, 2);</code></pre>
+   * Example :
+   * <pre><code class='java'> DoublePredicate tallSize = size -> size > 1.90;
    *
-   * @return this assertion object
+   * // assertion succeeds:
+   * assertThat(tallSize).rejects(1.75, 1.80, 1.85);
+   *
+   * // assertion fails because of 1.90 size:
+   * assertThat(tallSize).rejects(1.80, 1.85, 1.90);</code></pre>
+   *
+   * @param values values that the actual {@code Predicate} should reject.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} accepts one of the given values.
    */
-  public DoublePredicateAssert rejectsAll(double... values) {
+  public DoublePredicateAssert rejects(double... values) {
+    if (values.length == 1) return rejectsInternal(values[0]);
     return rejectsAllInternal(DoubleStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

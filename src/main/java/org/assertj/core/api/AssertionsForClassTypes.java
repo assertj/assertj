@@ -35,8 +35,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;

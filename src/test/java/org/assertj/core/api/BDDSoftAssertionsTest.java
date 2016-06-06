@@ -167,7 +167,7 @@ public class BDDSoftAssertionsTest {
       softly.then((Predicate<String>) s -> s.equals("something")).accepts("something else");
       softly.then((IntPredicate) s -> s == 1).accepts(2);
       softly.then((LongPredicate) s -> s == 1).accepts(2);
-      softly.then((DoublePredicate) s -> s == 1).accepts(2);
+      softly.then((DoublePredicate) s -> s == 1).accepts(2.0);
 
       softly.assertAll();
 

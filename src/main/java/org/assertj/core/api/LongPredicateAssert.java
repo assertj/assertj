@@ -34,73 +34,44 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
   }
 
   /**
+   * Verifies that {@link LongPredicate} evaluates all the given values to {@code true}.
    * <p>
-   * Verifies that the {@link LongPredicate} evaluates {@code true} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .accepts(1);</code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .accepts(2);</code></pre>
+   * Example :
+   * <pre><code class='java'> LongPredicate evenNumber = n -> n % 2 == 0;
    *
+   * // assertion succeeds:
+   * assertThat(evenNumber).accepts(2, 4, 6);
+   *
+   * // assertion fails because of 3:
+   * assertThat(evenNumber).accepts(2, 3, 4);</code></pre>
+   *
+   * @param values values that the actual {@code Predicate} should accept.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} does not accept all given values.
    */
-  public LongPredicateAssert accepts(long value) {
-    return acceptsInternal(value);
-  }
-
-  /**
-   * Verifies that the {@link LongPredicate} evaluates {@code false} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .rejects(3);</code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .rejects(1);</code></pre>
-   *
-   * @return this assertion object.
-   */
-  public LongPredicateAssert rejects(long value) {
-    return rejectsInternal(value);
-  }
-
-  /**
-   * <p>
-   * Verifies that {@link LongPredicate} evaluates to {@code true} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).acceptsAll(0, 1);</code></pre>
-   * <p>
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).acceptsAll(1, 2);</code></pre>
-   *
-   * @return this assertion object
-   */
-  public LongPredicateAssert acceptsAll(long... values) {
+  public LongPredicateAssert accepts(long... values) {
+    if (values.length == 1) return acceptsInternal(values[0]);
     return acceptsAllInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
   }
 
   /**
+   * Verifies that {@link LongPredicate} evaluates all the given values to {@code false}.
    * <p>
-   * Verifies that {@link LongPredicate} evaluates to {@code false} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).rejectsAll(0, 1);</code></pre>
-   * <p>
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).rejectsAll(1, 2);</code></pre>
+   * Example :
+   * <pre><code class='java'> LongPredicate evenNumber = n -> n % 2 == 0;
    *
-   * @return this assertion object
+   * // assertion succeeds:
+   * assertThat(evenNumber).rejects(1, 3, 5);
+   *
+   * // assertion fails because of 2:
+   * assertThat(evenNumber).rejects(1, 2, 3);</code></pre>
+   *
+   * @param values values that the actual {@code Predicate} should reject.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} accepts one of the given values.
    */
-  public LongPredicateAssert rejectsAll(long... values) {
+  public LongPredicateAssert rejects(long... values) {
+    if (values.length == 1) return rejectsInternal(values[0]);
     return rejectsAllInternal(LongStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

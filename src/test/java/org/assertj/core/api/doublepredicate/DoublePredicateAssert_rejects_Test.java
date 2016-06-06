@@ -12,44 +12,49 @@
  */
 package org.assertj.core.api.doublepredicate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
+import java.util.List;
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
-import org.assertj.core.api.BaseTest;
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ShouldNotAccept;
+import org.assertj.core.api.DoublePredicateAssert;
+import org.assertj.core.api.DoublePredicateAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
-import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_rejects_Test extends BaseTest {
+public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((DoublePredicate) null).accepts(1);
+    assertThat((DoublePredicate) null).rejects(1.0, 2.0, 3.0);
   }
-
   @Test
   public void should_pass_when_predicate_does_not_accept_value() {
     DoublePredicate predicate = val -> val <= 2;
-    assertThat(predicate).rejects(3);
+
+    assertThat(predicate).rejects(3.0);
   }
 
   @Test
   public void should_fail_when_predicate_accepts_value() {
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
-    double expectedValue = 2;
+    double expectedValue = 2.0;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+
     assertThat(predicate).rejects(expectedValue);
   }
 
@@ -57,17 +62,35 @@ public class DoublePredicateAssert_rejects_Test extends BaseTest {
   public void should_fail_when_predicate_accepts_value_with_string_description() {
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
-    double expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
+    double expectedValue = 2.0;
+    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+
     assertThat(predicate).as("test").rejects(expectedValue);
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_value_with_description() {
-    DoublePredicate predicate = val -> val <= 2;
-    Predicate<Double> wrapPredicate = predicate::test;
-    double expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as(new TextDescription("test")).rejects(expectedValue);
+  public void should_fail_when_predicate_accepts_some_value() {
+    DoublePredicate predicate = num -> num <= 2;
+    double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
+    List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1D).create());
+    assertThat(predicate).rejects(matchValues);
+  }
+
+  @Test
+  public void should_pass_when_predicate_accepts_no_value() {
+    DoublePredicate predicate = num -> num <= 2;
+
+    assertThat(predicate).rejects(3.0, 4.0, 5.0);
+  }
+
+  @Override
+  protected DoublePredicateAssert invoke_api_method() {
+    return assertions.rejects(3.0, 4.0);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3.0D, 4.0D), wrapped);
   }
 }

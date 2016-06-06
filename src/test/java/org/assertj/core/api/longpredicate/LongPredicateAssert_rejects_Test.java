@@ -12,35 +12,41 @@
  */
 package org.assertj.core.api.longpredicate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
+import java.util.List;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
-import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.LongPredicateAssert;
+import org.assertj.core.api.LongPredicateAssertBaseTest;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ShouldNotAccept;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
-import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class LongPredicateAssert_rejects_Test extends BaseTest {
+public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((LongPredicate) null).accepts(1);
+    assertThat((LongPredicate) null).rejects(1l, 2l, 3l);
   }
 
   @Test
   public void should_pass_when_predicate_does_not_accept_value() {
     LongPredicate predicate = val -> val <= 2;
+
     assertThat(predicate).rejects(3);
   }
 
@@ -50,16 +56,8 @@ public class LongPredicateAssert_rejects_Test extends BaseTest {
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-    assertThat(predicate).rejects(expectedValue);
-  }
 
-  @Test
-  public void should_fail_when_predicate_accepts_value_with_string_description() {
-    LongPredicate predicate = val -> val <= 2;
-    Predicate<Long> wrapPredicate = predicate::test;
-    long expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as("test").rejects(expectedValue);
+    assertThat(predicate).rejects(expectedValue);
   }
 
   @Test
@@ -67,8 +65,35 @@ public class LongPredicateAssert_rejects_Test extends BaseTest {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
+    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+
     assertThat(predicate).as(new TextDescription("test")).rejects(expectedValue);
   }
 
+  @Test
+  public void should_fail_when_predicate_accepts_some_value() {
+    LongPredicate predicate = num -> num <= 2;
+    long[] matchValues = new long[] { 1l, 2l, 3l };
+    List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1L).create());
+
+    assertThat(predicate).rejects(matchValues);
+  }
+
+  @Test
+  public void should_pass_when_predicate_accepts_no_value() {
+    LongPredicate predicate = num -> num <= 2;
+
+    assertThat(predicate).rejects(3l, 4l, 5l);
+  }
+
+  @Override
+  protected LongPredicateAssert invoke_api_method() {
+    return assertions.rejects(3l, 4l);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3L, 4L), wrapped);
+  }
 }

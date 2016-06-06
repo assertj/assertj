@@ -12,30 +12,31 @@
  */
 package org.assertj.core.api.longpredicate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
+import static org.assertj.core.error.ShouldAccept.shouldAccept;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.BaseTest;
-import org.assertj.core.error.ShouldAccept;
-import org.assertj.core.internal.TestDescription;
+import org.assertj.core.api.LongPredicateAssert;
+import org.assertj.core.api.LongPredicateAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldAccept.shouldAccept;
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class LongPredicateAssert_accepts_Test extends BaseTest {
+public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((LongPredicate) null).accepts(1);
+    assertThat((LongPredicate) null).accepts(1l, 2l);
   }
 
   @Test
@@ -44,6 +45,7 @@ public class LongPredicateAssert_accepts_Test extends BaseTest {
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 3;
     thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+
     assertThat(predicate).accepts(expectedValue);
   }
 
@@ -52,23 +54,43 @@ public class LongPredicateAssert_accepts_Test extends BaseTest {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 3;
-    thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as("test").accepts(expectedValue);
-  }
+    thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
 
-  @Test
-  public void should_fail_when_predicate_does_not_accept_value_with_description() {
-    LongPredicate predicate = val -> val <= 2;
-    Predicate<Long> wrapPredicate = predicate::test;
-    long expectedValue = 3;
-    thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as(new TestDescription("test")).accepts(expectedValue);
+    assertThat(predicate).as("test").accepts(expectedValue);
   }
 
   @Test
   public void should_pass_when_predicate_accepts_value() {
     LongPredicate predicate = val -> val <= 2;
+
     assertThat(predicate).accepts(1);
   }
 
+
+  @Test
+  public void should_fail_when_predicate_does_not_accept_values() {
+    LongPredicate predicate = val -> val <= 2;
+    Predicate<Long> wrapPredicate = predicate::test;
+    long[] matchValues = new long[] { 1l, 2l, 3l };
+    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3L, wrapPredicate).create());
+
+    assertThat(predicate).accepts(matchValues);
+  }
+
+  @Test
+  public void should_pass_when_predicate_accepts_all_values() {
+    LongPredicate predicate = val -> val <= 2;
+
+    assertThat(predicate).accepts(1l, 2l);
+  }
+
+  @Override
+  protected LongPredicateAssert invoke_api_method() {
+    return assertions.accepts(1l, 2l);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1L, 2L), wrapped);
+  }
 }

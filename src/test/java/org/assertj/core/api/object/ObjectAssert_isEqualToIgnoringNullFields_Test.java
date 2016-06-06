@@ -12,17 +12,17 @@
  */
 package org.assertj.core.api.object;
 
-import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.api.ObjectAssertBaseTest;
-import org.assertj.core.test.Jedi;
-import org.junit.Test;
-
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
+
+import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.ObjectAssertBaseTest;
+import org.assertj.core.test.Jedi;
+import org.junit.Test;
 
 
 /**

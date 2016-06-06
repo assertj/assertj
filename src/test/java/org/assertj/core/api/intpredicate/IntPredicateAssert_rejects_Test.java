@@ -12,35 +12,40 @@
  */
 package org.assertj.core.api.intpredicate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
+import java.util.List;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import org.assertj.core.api.BaseTest;
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ShouldNotAccept;
+import org.assertj.core.api.IntPredicateAssert;
+import org.assertj.core.api.IntPredicateAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
-import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class IntPredicateAssert_rejects_Test extends BaseTest {
+public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((IntPredicate) null).accepts(1);
+    assertThat((IntPredicate) null).rejects(3, 4, 5);
   }
 
   @Test
   public void should_pass_when_predicate_does_not_accept_value() {
     IntPredicate predicate = val -> val <= 2;
+
     assertThat(predicate).rejects(3);
   }
 
@@ -50,6 +55,7 @@ public class IntPredicateAssert_rejects_Test extends BaseTest {
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
     thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+
     assertThat(predicate).rejects(expectedValue);
   }
 
@@ -58,17 +64,35 @@ public class IntPredicateAssert_rejects_Test extends BaseTest {
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
+    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+
     assertThat(predicate).as("test").rejects(expectedValue);
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_value_with_description() {
-    IntPredicate predicate = val -> val <= 2;
-    Predicate<Integer> wrapPredicate = predicate::test;
-    int expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as(new TextDescription("test")).rejects(expectedValue);
+  public void should_fail_when_predicate_accepts_some_value() {
+    IntPredicate predicate = num -> num <= 2;
+    int[] matchValues = new int[] { 1, 2, 3 };
+    List<Integer> matchValuesList = IntStream.of(matchValues).boxed().collect(Collectors.toList());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1).create());
+
+    assertThat(predicate).rejects(matchValues);
   }
 
+  @Test
+  public void should_pass_when_predicate_accepts_no_value() {
+    IntPredicate predicate = num -> num <= 2;
+
+    assertThat(predicate).rejects(3, 4, 5);
+  }
+
+  @Override
+  protected IntPredicateAssert invoke_api_method() {
+    return assertions.rejects(3, 4);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3, 4), wrapped);
+  }
 }

@@ -15,7 +15,6 @@ package org.assertj.core.api.object;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;

@@ -652,7 +652,6 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  @SuppressWarnings("unchecked")
   public IntPredicateAssert then(IntPredicate actual) {
     return proxy(IntPredicateAssert.class, IntPredicate.class, actual);
   }
@@ -664,7 +663,6 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  @SuppressWarnings("unchecked")
   public DoublePredicateAssert then(DoublePredicate actual) {
     return proxy(DoublePredicateAssert.class, DoublePredicate.class, actual);
   }
@@ -676,7 +674,6 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  @SuppressWarnings("unchecked")
   public LongPredicateAssert then(LongPredicate actual) {
     return proxy(LongPredicateAssert.class, LongPredicate.class, actual);
   }

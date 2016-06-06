@@ -12,17 +12,15 @@
  */
 package org.assertj.core.api;
 
-import java.util.function.Predicate;
-
-import org.assertj.core.error.ShouldNotAccept;
-import org.assertj.core.internal.Iterables;
-import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
-
 import static org.assertj.core.error.ShouldAccept.shouldAccept;
 import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
-import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
-import static org.assertj.core.presentation.PredicateDescription.fromDescription;
+import static org.assertj.core.presentation.PredicateDescription.GIVEN;
+import static org.assertj.core.util.Lists.newArrayList;
+
+import java.util.function.Predicate;
+
+import org.assertj.core.internal.Iterables;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link Predicate}.
@@ -31,8 +29,8 @@ import static org.assertj.core.presentation.PredicateDescription.fromDescription
  *
  * @author Filip Hrisafov
  */
-public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<S, T>, T> extends
-  AbstractAssert<S, Predicate<T>> {
+public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
+    AbstractAssert<SELF, Predicate<T>> {
 
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
@@ -42,86 +40,96 @@ public abstract class AbstractPredicateAssert<S extends AbstractPredicateAssert<
   }
 
   /**
+   * Verifies that the {@link Predicate} evaluates all given values to {@code true}.
    * <p>
-   * Verifies that the {@link Predicate} evaluates {@code true} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .accepts("something");</code></pre>
+   * Example :
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
    *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .accepts("something else");</code></pre>
+   * // assertion succeeds:
+   * assertThat(ballSportPredicate).accepts("football")
+   *                               .accepts("football", "basketball", "handball");
    *
+   * // assertion fails because of curling :p
+   * assertThat(ballSportPredicate).accepts("curling")
+   * assertThat(ballSportPredicate).accepts("football", "basketball", "curling");</code></pre>
+   *
+   * @param values values the actual {@code Predicate} should accept.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} does not accept all the given {@code Iterable}'s elements.
    */
-  public S accepts(T value) {
+  public SELF accepts(@SuppressWarnings("unchecked") T... values) {
     isNotNull();
-    if (!actual.test(value)) { throwAssertionError(shouldAccept(actual, value, fromDescription(info.description()))); }
+    if (values.length == 1 && !actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], GIVEN));
+    else iterables.assertAllMatch(info, newArrayList(values), actual);
     return myself;
   }
 
   /**
+   * Verifies that the {@link Predicate} evaluates all given values to {@code false}.
    * <p>
-   * Verifies that the {@link Predicate} evaluates {@code false} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .rejects("something else");</code></pre>
+   * Example :
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
    *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate.equals("something"))
-   *            .rejects("something");</code></pre>
+   * // assertion succeeds:
+   * assertThat(ballSportPredicate).rejects("curling")
+   *                               .rejects("curling", "judo", "marathon");
    *
+   * // assertion fails because of football:
+   * assertThat(ballSportPredicate).rejects("football");
+   * assertThat(ballSportPredicate).rejects("curling", "judo", "football");</code></pre>
+   *
+   * @param values values the actual {@code Predicate} should reject.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} accepts one of the given {@code Iterable}'s elements.
    */
-  public S rejects(T value) {
+  public SELF rejects(@SuppressWarnings("unchecked") T... values) {
     isNotNull();
-    if (actual.test(value)) { throwAssertionError(shouldNotAccept(actual, value, fromDescription(info.description()))); }
+    if (values.length == 1 && actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], GIVEN));
+    else iterables.assertNoneMatch(info, newArrayList(values), actual);
     return myself;
   }
 
   /**
+   * Verifies that the {@link Predicate} evaluates all given {@link Iterable}'s elements to {@code true}.
    * <p>
-   * Verifies that {@link Predicate} evaluates to {@code true} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).acceptsAll(elements);</code></pre>
+   * Example :
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
    *
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).acceptsAll(Arrays.asList("first", "third"));</code></pre>
+   * // assertion succeeds:
+   * assertThat(ballSportPredicate).acceptsAll(list("football", "basketball", "handball"));
    *
-   * @return this assertion object
+   * // assertion fails because of curling :p
+   * assertThat(ballSportPredicate).acceptsAll(list("football", "basketball", "curling"));</code></pre>
+   *
+   * @param iterable {@code Iterable} whose elements the actual {@code Predicate} should accept.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} does not accept all the given {@code Iterable}'s elements.
    */
-  public S acceptsAll(Iterable<? extends T> values) {
+  public SELF acceptsAll(Iterable<? extends T> iterable) {
     isNotNull();
-    iterables.assertAllMatch(info, values, actual);
+    iterables.assertAllMatch(info, iterable, actual);
     return myself;
   }
 
   /**
+   * Verifies that the {@link Predicate} evaluates all given {@link Iterable}'s elements to {@code false}.
    * <p>
-   * Verifies that {@link Predicate} evaluates to {@code false} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).rejectsAll(Arrays.asList("third", "fourth"));</code></pre>
+   * Example :
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
    *
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     List<String> elements = Arrays.asList("first", "second");
-   *     assertThat(value -> elements.contains(value)).rejectsAll(Arrays.asList("first", "third"));</code></pre>
+   * // assertion succeeds:
+   * assertThat(ballSportPredicate).rejectsAll(list("curling", "judo", "marathon"));
    *
-   * @return this assertion object
+   * // assertion fails because of football:
+   * assertThat(ballSportPredicate).rejectsAll(list("curling", "judo", "football"));</code></pre>
+   *
+   * @param iterable {@code Iterable} whose elements the actual {@code Predicate} should reject.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} accepts one of the given {@code Iterable}'s elements.
    */
-  public S rejectsAll(Iterable<? extends T> values) {
+  public SELF rejectsAll(Iterable<? extends T> iterable) {
     isNotNull();
-    iterables.assertNoneMatch(info, values, actual);
+    iterables.assertNoneMatch(info, iterable, actual);
     return myself;
   }
 }

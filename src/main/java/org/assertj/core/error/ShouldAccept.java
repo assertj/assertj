@@ -12,12 +12,11 @@
  */
 package org.assertj.core.error;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
-
-import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
 
 /**
  * Creates an error message indicating that an assertion that verifies that

@@ -39,6 +39,6 @@ public abstract class IntPredicateAssertBaseTest extends BaseTestTemplate<IntPre
     super.inject_internal_objects();
     iterables = mock(Iterables.class);
     assertions.iterables = iterables;
-    wrapped = assertions.wrappedPredicate;
+    wrapped = assertions.primitivePredicate;
   }
 }

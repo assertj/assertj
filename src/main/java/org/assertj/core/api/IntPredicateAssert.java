@@ -34,73 +34,44 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
   }
 
   /**
+   * Verifies that {@link IntPredicate} evaluates all the given values to {@code true}.
    * <p>
-   * Verifies that the {@link IntPredicate} evaluates {@code true} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .accepts(1);</code></pre>
+   * Example :
+   * <pre><code class='java'> IntPredicate evenNumber = n -> n % 2 == 0;
    *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .accepts(2);</code></pre>
+   * // assertion succeeds:
+   * assertThat(evenNumber).accepts(2, 4, 6);
    *
+   * // assertion fails because of 3:
+   * assertThat(evenNumber).accepts(2, 3, 4);</code></pre>
+   *
+   * @param values values that the actual {@code Predicate} should accept.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} does not accept all given values.
    */
-  public IntPredicateAssert accepts(int value) {
-    return acceptsInternal(value);
-  }
-
-  /**
-   * Verifies that the {@link IntPredicate} evaluates {@code false} for the given value.
-   * </p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .rejects(3);</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(predicate -> predicate < 2)
-   *            .rejects(1);</code></pre>
-   *
-   * @return this assertion object.
-   */
-  public IntPredicateAssert rejects(int value) {
-    return rejectsInternal(value);
-  }
-
-  /**
-   * <p>
-   * Verifies that {@link IntPredicate} evaluates to {@code true} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).acceptsAll(0, 1);</code></pre>
-   *
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).acceptsAll(1, 2);</code></pre>
-   *
-   * @return this assertion object
-   */
-  public IntPredicateAssert acceptsAll(int... values) {
+  public IntPredicateAssert accepts(int... values) {
+    if (values.length == 1) return acceptsInternal(values[0]);
     return acceptsAllInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
   }
 
   /**
+   * Verifies that {@link IntPredicate} evaluates all the given values to {@code false}.
    * <p>
-   * Verifies that {@link IntPredicate} evaluates to {@code false} for all the elements from the {@code values}.
-   * </p>
-   * Assertion will pass:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).rejectsAll(0, 1);</code></pre>
+   * Example :
+   * <pre><code class='java'> IntPredicate evenNumber = n -> n % 2 == 0;
    *
-   * Assertion will fail:
-   * <pre><code class='java'>
-   *     assertThat(value -> value < 2).rejectsAll(1, 2);</code></pre>
+   * // assertion succeeds:
+   * assertThat(evenNumber).rejects(1, 3, 5);
    *
-   * @return this assertion object
+   * // assertion fails because of 2:
+   * assertThat(evenNumber).rejects(1, 2, 3);</code></pre>
+   *
+   * @param values values that the actual {@code Predicate} should reject.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Predicate} accepts one of the given values.
    */
-  public IntPredicateAssert rejectsAll(int... values) {
+  public IntPredicateAssert rejects(int... values) {
+    if (values.length == 1) return rejectsInternal(values[0]);
     return rejectsAllInternal(IntStream.of(values).boxed().collect(Collectors.toList()));
   }
 }

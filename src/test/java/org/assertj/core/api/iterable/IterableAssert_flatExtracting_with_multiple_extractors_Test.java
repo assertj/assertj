@@ -35,19 +35,9 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
-  private static final Extractor<TolkienCharacter, String> name = new Extractor<TolkienCharacter, String>() {
-    @Override
-    public String extract(TolkienCharacter input) {
-      return input.getName();
-    }
-  };
+  private static final Extractor<TolkienCharacter, String> name = TolkienCharacter::getName;
 
-  private static final Extractor<TolkienCharacter, Integer> age = new Extractor<TolkienCharacter, Integer>() {
-    @Override
-    public Integer extract(TolkienCharacter input) {
-      return input.getAge();
-    }
-  };
+  private static final Extractor<TolkienCharacter, Integer> age = TolkienCharacter::getAge;
 
   @Before
   public void setUp() {
@@ -66,11 +56,6 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     assertThat(fellowshipOfTheRing).flatExtracting(age, name)
                                    .as("extract ages and names")
                                    .contains(33, "Frodo", 38, "Sam");
-  }
-
-  @Test
-  public void should_return_empty_list_if_no_extractors_are_specified() {
-    assertThat(fellowshipOfTheRing).flatExtracting().isEmpty();
   }
 
   @Test

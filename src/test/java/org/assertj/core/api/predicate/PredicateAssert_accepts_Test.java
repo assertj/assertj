@@ -12,34 +12,54 @@
  */
 package org.assertj.core.api.predicate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
+import static org.assertj.core.error.ShouldAccept.shouldAccept;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
 import java.util.function.Predicate;
 
-import org.assertj.core.api.BaseTest;
-import org.assertj.core.error.ShouldAccept;
+import org.assertj.core.api.PredicateAssert;
+import org.assertj.core.api.PredicateAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldAccept.shouldAccept;
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_accepts_Test extends BaseTest {
+public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
-   thrown.expectAssertionError(actualIsNull());
+    thrown.expectAssertionError(actualIsNull());
 
-    assertThat((Predicate<String>) null).accepts("something");
+    assertThat((Predicate<String>) null).accepts("first", "second");
   }
+
+  @Test
+  public void should_fail_when_predicate_does_not_accept_values() {
+    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
+    thrown.expectAssertionError(elementsShouldMatch(newArrayList("football", "basketball", "curling"), "curling",
+                                                    ballSportPredicate).create());
+
+    assertThat(ballSportPredicate).accepts("football", "basketball", "curling");
+  }
+
+  @Test
+  public void should_pass_when_predicate_accepts_all_values() {
+    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
+
+    assertThat(ballSportPredicate).accepts("football", "basketball", "handball");
+  }
+
   @Test
   public void should_fail_when_predicate_does_not_accept_value() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
     thrown.expectAssertionError(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
+
     assertThat(predicate).accepts(expectedValue);
   }
 
@@ -47,22 +67,27 @@ public class PredicateAssert_accepts_Test extends BaseTest {
   public void should_fail_when_predicate_does_not_accept_value_with_string_description() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
-    thrown.expectAssertionError(shouldAccept(predicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as("test").accepts(expectedValue);
-  }
+    thrown.expectAssertionError(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
 
-  @Test
-  public void should_fail_when_predicate_does_not_accept_value_with_description() {
-    Predicate<String> predicate = val -> val.equals("something");
-    String expectedValue = "something else";
-    thrown.expectAssertionError(shouldAccept(predicate, expectedValue, new PredicateDescription("test")).create());
     assertThat(predicate).as("test").accepts(expectedValue);
   }
 
   @Test
   public void should_pass_when_predicate_accepts_value() {
     Predicate<String> predicate = val -> val.equals("something");
+
     assertThat(predicate).accepts("something");
+  }
+
+
+  @Override
+  protected PredicateAssert<Boolean> invoke_api_method() {
+    return assertions.accepts(true, true);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(true, true), getActual(assertions));
   }
 
 }

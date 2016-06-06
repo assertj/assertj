@@ -12,62 +12,55 @@
  */
 package org.assertj.core.api.doublepredicate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.BaseTest;
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ShouldAccept;
-import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.api.DoublePredicateAssert;
+import org.assertj.core.api.DoublePredicateAssertBaseTest;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldAccept.shouldAccept;
-import static org.assertj.core.error.ShouldMatch.shouldMatch;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_accepts_Test extends BaseTest {
+public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((DoublePredicate) null).accepts(1);
+    assertThat((DoublePredicate) null).accepts(1.0, 2.0, 3.0);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value() {
+  public void should_fail_when_predicate_does_not_accept_all_values() {
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
-    double expectedValue = 3;
-    thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-    assertThat(predicate).accepts(expectedValue);
+    double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
+    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3D, wrapPredicate).create());
+
+    assertThat(predicate).accepts(matchValues);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value_with_string_description() {
+  public void should_pass_when_predicate_accepts_all_values() {
     DoublePredicate predicate = val -> val <= 2;
-    Predicate<Double> wrapPredicate = predicate::test;
-    double expectedValue = 3;
-    thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as("test").accepts(expectedValue);
+
+    assertThat(predicate).accepts(1.0, 2.0);
   }
 
-  @Test
-  public void should_fail_when_predicate_does_not_accept_value_with_description() {
-    DoublePredicate predicate = val -> val <= 2;
-    Predicate<Double> wrapPredicate = predicate::test;
-    double expectedValue = 3;
-    thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, new PredicateDescription("test")).create());
-    assertThat(predicate).as(new TextDescription("test")).accepts(expectedValue);
+  @Override
+  protected DoublePredicateAssert invoke_api_method() {
+    return assertions.accepts(1.0, 2.0);
   }
 
-  @Test
-  public void should_pass_when_predicate_accepts_value() {
-    DoublePredicate predicate = val -> val <= 2;
-    assertThat(predicate).accepts(1);
+  @Override
+  protected void verify_internal_effects() {
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1.0D, 2.0D), wrapped);
   }
 }

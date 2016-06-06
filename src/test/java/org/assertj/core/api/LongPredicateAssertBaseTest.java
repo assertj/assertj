@@ -39,6 +39,6 @@ public abstract class LongPredicateAssertBaseTest extends BaseTestTemplate<LongP
     super.inject_internal_objects();
     iterables = mock(Iterables.class);
     assertions.iterables = iterables;
-    wrapped = assertions.wrappedPredicate;
+    wrapped = assertions.primitivePredicate;
   }
 }

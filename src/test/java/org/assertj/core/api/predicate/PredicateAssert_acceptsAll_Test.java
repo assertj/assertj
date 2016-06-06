@@ -12,20 +12,17 @@
  */
 package org.assertj.core.api.predicate;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import org.assertj.core.api.PredicateAssert;
-import org.assertj.core.api.PredicateAssertBaseTest;
-import org.assertj.core.util.Sets;
-import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
+
+import java.util.function.Predicate;
+
+import org.assertj.core.api.PredicateAssert;
+import org.assertj.core.api.PredicateAssertBaseTest;
+import org.junit.Test;
 
 /**
  * @author Filip Hrisafov
@@ -35,26 +32,24 @@ public class PredicateAssert_acceptsAll_Test extends PredicateAssertBaseTest {
   @Test
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    LinkedHashSet<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
 
-    assertThat((Predicate<String>) null).acceptsAll(acceptedValues);
+    assertThat((Predicate<String>) null).acceptsAll(newArrayList("first", "second"));
   }
 
   @Test
   public void should_fail_when_predicate_does_not_accept_values() {
-    Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
-    Predicate<String> predicate = acceptedValues::contains;
-    Set<String> matchValues = Sets.newHashSet(acceptedValues);
-    matchValues.add("third");
-    thrown.expectAssertionError(elementsShouldMatch(matchValues, "third", predicate).create());
-    assertThat(predicate).acceptsAll(matchValues);
+    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
+    thrown.expectAssertionError(elementsShouldMatch(newArrayList("football", "basketball", "curling"), "curling",
+                                                    ballSportPredicate).create());
+
+    assertThat(ballSportPredicate).acceptsAll(newArrayList("football", "basketball", "curling"));
   }
 
   @Test
   public void should_pass_when_predicate_accepts_all_values() {
-    Set<String> acceptedValues = Sets.newLinkedHashSet("first", "second");
-    Predicate<String> predicate = acceptedValues::contains;
-    assertThat(predicate).acceptsAll(acceptedValues);
+    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
+
+    assertThat(ballSportPredicate).acceptsAll(newArrayList("football", "basketball", "handball"));
   }
 
   @Override
