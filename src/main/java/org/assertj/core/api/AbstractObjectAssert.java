@@ -27,12 +27,12 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Base class for all implementations of assertions for {@link Object}s.
- * 
+ *
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
@@ -64,7 +64,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <b>not null</b> properties/fields only (including inherited ones).
    * <p>
    * It means that if an actual field is not null and the corresponding field in other is null, this field will be
-   * ignored in comparison, but the opposite will make assertion fail (null field in actual, not null in other) as 
+   * ignored in comparison, but the opposite will make assertion fail (null field in actual, not null in other) as
    * the field is used in the performed comparison and the values differ.
    * <p>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
@@ -76,20 +76,20 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible</b> fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
+   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
    * for example if actual object has a name String field, it is expected other object to also have one.
    * <p>
-   * 
+   *
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
-   * 
+   *
    * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
    * assertThat(frodo).isEqualToIgnoringNullFields(mysteriousHobbit); // OK
-   * 
+   *
    * // ... but this is not reversible !
    * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL</code></pre>
-   * 
+   *
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual or other object is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
@@ -113,23 +113,23 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
+   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
    * for example if actual object has a name String field, it is expected the other object to also have one.
    * <p>
-   * 
+   *
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
-   * 
+   *
    * // frodo and sam both are hobbits, so they are equals when comparing only race
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;race&quot;); // OK
-   * 
+   *
    * // they are also equals when comparing only race name (nested field).
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;race.name&quot;); // OK
-   * 
+   *
    * // ... but not when comparing both name and race
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL</code></pre>
-   * 
+   *
    * @param other the object to compare {@code actual} to.
    * @param propertiesOrFieldsUsedInComparison properties/fields used in comparison.
    * @throws NullPointerException if the actual or other is {@code null}.
@@ -156,20 +156,20 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
+   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
    * for example if actual object has a name String field, it is expected the other object to also have one.
    * <p>
-   * 
+   *
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-   * 
+   *
    * // frodo and sam are equals when ignoring name and age since the only remaining field is race which they share as HOBBIT.
    * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "name", "age"); // OK
-   * 
+   *
    * // ... but they are not equals if only age is ignored as their names differ.
    * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL</code></pre>
-   * 
+   *
    * @param other the object to compare {@code actual} to.
    * @param propertiesOrFieldsToIgnore ignored properties/fields to ignore in comparison.
    * @throws NullPointerException if the actual or given object is {@code null}.
@@ -179,6 +179,66 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   public S isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType,
                                                propertiesOrFieldsToIgnore);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object has no fields has has value null (inherited ones are taken into account).
+   * This can be handy if you are maintaining object factories and want to ensure that you don't forget to
+   * add a value when you add a new field.
+   * <p>
+   * If an object has a field and a property with the same name, the property value will be used over the  field.
+   * <p>
+   * Private fields are used in comparison but this can be disabled using
+   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
+   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p>
+   *
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", null, HOBBIT);
+   *
+   * // frodo has all fields set
+   * assertThat(frodo).hasNoNullFields(); // OK
+   *
+   * // ... but sam does not have age set
+   * assertThat(sam).hasNoNullFields(); // FAIL</code></pre>
+   *
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError if some of the fields of the actual object are null.
+   */
+  public S hasNoNullFields() {
+      objects.assertHasNoNullFieldsExcept(info, actual);
+      return myself;
+  }
+
+  /**
+   * Assert that the actual object has no fields has has value null <b>except for the given ones</b>
+   * (inherited ones are taken into account). This can be handy if you are maintaining object factories and want
+   * to ensure that you don't forget to add a value when you add a new field.
+   * <p>
+   * If an object has a field and a property with the same name, the property value will be used over the  field.
+   * <p>
+   * Private fields are used in comparison but this can be disabled using
+   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
+   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p>
+   *
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, null);
+   *
+   * // frodo has only the race field as null.
+   * assertThat(frodo).hasNoNullFieldsExcept("race"); // OK
+   *
+   * // ... but if we require the race field, the test fails.
+   * assertThat(frodo).hasNoNullFieldsExcept("name", "age"); // FAIL</code></pre>
+   *
+   * @param propertiesOrFieldsToIgnore ignored properties/fields to ignore in comparison.
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError if some of the fields of the actual object are null.
+   */
+  public S hasNoNullFieldsExcept(String... propertiesOrFieldsToIgnore) {
+    objects.assertHasNoNullFieldsExcept(info, actual, propertiesOrFieldsToIgnore);
     return myself;
   }
 
@@ -195,21 +255,21 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both, 
+   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
    * for example if actual object has a name String field, it is expected the other object to also have one.
    * <p>
-   * 
+   *
    * Example:
-   * <pre><code class='java'> // equals not overridden in TolkienCharacter 
+   * <pre><code class='java'> // equals not overridden in TolkienCharacter
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * 
+   *
    * // Fail as equals compares object references
    * assertThat(frodo).isEqualsTo(frodoClone);
-   * 
+   *
    * // frodo and frodoClone are equals when doing a field by field comparison.
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
-   * 
+   *
    * @param other the object to compare {@code actual} to.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
@@ -223,7 +283,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   /**
    * Allows to set a specific comparator to compare properties or fields with the given names.
    * A typical usage is for comparing double/float fields with a given precision.
-   * <p> 
+   * <p>
    * Comparators specified by this method have precedence over comparators added by {@link #usingComparatorForType}.
    * <p>
    * Example:
@@ -236,27 +296,27 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
    * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
    * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   * 
+   *
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
    *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
    *   }
    * };
-   * 
+   *
    * // assertions will pass
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToComparingFieldByField(tallerFrodo);
-   *                  
+   *
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToIgnoringNullFields(tallerFrodo);
-   *                  
+   *
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToIgnoringGivenFields(tallerFrodo);
-   *                  
+   *
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToComparingOnlyGivenFields(tallerFrodo);
-   *                  
+   *
    * // assertion will fail
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
@@ -287,27 +347,27 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
    * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
    * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   * 
+   *
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
    *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
    *   }
    * };
-   * 
+   *
    * // assertions will pass
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToComparingFieldByField(tallerFrodo);
-   *                  
+   *
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToIgnoringNullFields(tallerFrodo);
-   *                  
+   *
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToIgnoringGivenFields(tallerFrodo);
-   *                  
+   *
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToComparingOnlyGivenFields(tallerFrodo);
-   *                  
+   *
    * // assertion will fail
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
@@ -333,18 +393,18 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *   private String name;
    *   private int age;
    *   // constructor omitted
-   *      
+   *
    *   public String getName() {
    *     return this.name;
    *   }
    * }
    *
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
-   * 
+   *
    * // assertions will pass :
    * assertThat(frodo).hasFieldOrProperty("name")
    *                  .hasFieldOrProperty("age"); // private field are matched by default
-   *         
+   *
    * // assertions will fail :
    * assertThat(frodo).hasFieldOrProperty("not_exists");
    * assertThat(frodo).hasFieldOrProperty(null);
@@ -352,7 +412,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Assertions.setAllowExtractingPrivateFields(false);
    * assertThat(frodo).hasFieldOrProperty("age"); </code></pre>
    *
-   * @param name the field/property name to check 
+   * @param name the field/property name to check
    * @throws AssertionError if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
    * @throws AssertionError if the actual object has not the given field/property
@@ -388,16 +448,16 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * assertThat(noname).hasFieldOrProperty("name", null);
    *
    * // assertions will fail :
-   * assertThat(frodo).hasFieldOrProperty("name", "not_equals"); 
-   * assertThat(frodo).hasFieldOrProperty(null, 33);             
-   * assertThat(frodo).hasFieldOrProperty("age", null);          
+   * assertThat(frodo).hasFieldOrProperty("name", "not_equals");
+   * assertThat(frodo).hasFieldOrProperty(null, 33);
+   * assertThat(frodo).hasFieldOrProperty("age", null);
    * assertThat(noname).hasFieldOrProperty("name", "Frodo");
    * // disable extracting private fields
    * Assertions.setAllowExtractingPrivateFields(false);
    * assertThat(frodo).hasFieldOrProperty("age", 33); </code></pre>
    *
-   * @param name the field/property name to check 
-   * @param value the field/property expected value 
+   * @param name the field/property name to check
+   * @param value the field/property expected value
    * @throws AssertionError if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
    * @throws AssertionError if the actual object has not the given field/property
@@ -412,24 +472,24 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Extract the values of given fields/properties from the object under test into an array, this new array becoming
-   * the object under test. 
+   * the object under test.
    * <p>
-   * If you extract "id", "name" and "email" fields/properties then the array will contain the id, name and email values 
+   * If you extract "id", "name" and "email" fields/properties then the array will contain the id, name and email values
    * of the object under test, you can then perform array assertions on the extracted values.
    * <p>
-   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to get the value 
-   * corresponding to actual.getAdress().getStreet().getNumber()  
+   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to get the value
+   * corresponding to actual.getAdress().getStreet().getNumber()
    * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
-   * 
+   *
    * // let's verify Frodo's name, age and race name:
    * assertThat(frodo).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
-   * 
+   *
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
    * for, if the field is not accessible (i.e. does not exist) an IntrospectionError is thrown.
    * <p>
@@ -447,17 +507,17 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 
   /**
    * Use the given {@link Function}s to extract the values from the object under test into an array, this new array becoming
-   * the object under test. 
+   * the object under test.
    * <p>
-   * If the given {@link Function}s extract the id, name and email values then the array will contain the id, name and email values 
+   * If the given {@link Function}s extract the id, name and email values then the array will contain the id, name and email values
    * of the object under test, you can then perform array assertions on the extracted values.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
-   * 
+   *
    * // let's verify Frodo's name, age and race name:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, 
+   * assertThat(frodo).extracting(TolkienCharacter::getName,
    *                              character -> character.age, // public field
    *                              character -> character.getRace().getName())
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
@@ -483,20 +543,20 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <p>
    * The recursive comparison handles cycle. By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
    * <p>
-   * You can specify a custom comparator per (nested) fields or type with respectively {@link #usingComparatorForFields(Comparator, String...) usingComparatorForFields(Comparator, String...)} 
+   * You can specify a custom comparator per (nested) fields or type with respectively {@link #usingComparatorForFields(Comparator, String...) usingComparatorForFields(Comparator, String...)}
    * and {@link #usingComparatorForType(Comparator, Class)}.
    * <p>
    * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a name String field, it is expected the other object to also have one.
    * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
-   * 
+   *
    * Example:
    * <pre><code class='java'> public class Person {
    *   public String name;
    *   public double height;
    *   public Home home = new Home();
    *   public Person bestFriend;
-   *   // constructor with name and height omitted for brevity 
+   *   // constructor with name and height omitted for brevity
    * }
    *
    * public class Home {
@@ -506,39 +566,39 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * public static class Address {
    *   public int number = 1;
    * }
-   * 
+   *
    * Person jack = new Person("Jack", 1.80);
    * jack.home.address.number = 123;
-   * 
+   *
    * Person jackClone = new Person("Jack", 1.80);
    * jackClone.home.address.number = 123;
-   * 
-   * // cycle are handled in comparison  
+   *
+   * // cycle are handled in comparison
    * jack.bestFriend = jackClone;
    * jackClone.bestFriend = jack;
-   * 
+   *
    * // will fail as equals compares object references
    * assertThat(jack).isEqualsTo(jackClone);
-   * 
+   *
    * // jack and jackClone are equals when doing a recursive field by field comparison
    * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
-   * 
-   * // any type/field can be compared with a a specific comparator. 
-   * // let's change  jack's height a little bit 
+   *
+   * // any type/field can be compared with a a specific comparator.
+   * // let's change  jack's height a little bit
    * jack.height = 1.81;
-   * 
-   * // assertion fails because of the height difference 
+   *
+   * // assertion fails because of the height difference
    * // (the default precision comparison for double is 1.0E-15)
    * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
-   * 
-   * // this succeeds because we allow a 0.5 tolerance on double 
+   *
+   * // this succeeds because we allow a 0.5 tolerance on double
    * assertThat(jack).usingComparatorForType(new DoubleComparator(0.5), Double.class)
    *                 .isEqualToComparingFieldByFieldRecursively(jackClone);
-   *                 
+   *
    * // you can set a comparator on specific fields (nested fields are supported)
    * assertThat(jack).usingComparatorForFields(new DoubleComparator(0.5), "height")
    *                 .isEqualToComparingFieldByFieldRecursively(jackClone);</code></pre>
-   * 
+   *
    * @param other the object to compare {@code actual} to.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
