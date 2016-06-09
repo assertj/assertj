@@ -53,7 +53,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldHaveNoNullFields;
 import org.assertj.core.internal.DeepDifference.Difference;
+import org.assertj.core.internal.Objects.ByFieldsComparison;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -62,7 +64,7 @@ import org.assertj.core.util.introspection.PropertySupport;
 
 /**
  * Reusable assertions for {@code Object}s.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
@@ -80,7 +82,7 @@ public class Objects {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
-   * 
+   *
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Objects instance() {
@@ -665,6 +667,37 @@ public class Objects {
 
   private <A> boolean canReadFieldValue(Field field, A actual) {
     return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
+  }
+
+  /**
+   * Assert that the given object has no null fields except the given ones.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param propertiesOrFieldsToIgnore the fields to ignore in comparison
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if some of the fields of the actual object are null.
+   */
+  public <A> void assertHasNoNullFieldsExcept(AssertionInfo info, A actual, String... propertiesOrFieldsToIgnore) {
+    assertNotNull(info, actual);
+    Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
+    List<String> nullFieldNames = new LinkedList<>();
+    Set<String> ignoredFields = newLinkedHashSet(propertiesOrFieldsToIgnore);
+    for (Field field : declaredFieldsIncludingInherited) {
+      // ignore private field if user has decided not to use them in comparison
+      String fieldName = field.getName();
+      if (ignoredFields.contains(fieldName) || !canReadFieldValue(field, actual)) {
+        continue;
+      }
+      Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
+
+      if (actualFieldValue == null) {
+        nullFieldNames.add(fieldName);
+      }
+    }
+    if (!nullFieldNames.isEmpty())
+      throw failures.failure(info, ShouldHaveNoNullFields.shouldHaveNoNullFieldsExcept(actual, nullFieldNames,
+                                                                      newArrayList(propertiesOrFieldsToIgnore)));
   }
 
   /**
