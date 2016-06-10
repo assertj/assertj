@@ -39,7 +39,7 @@ public class Not_toString_Test {
   @Test
   public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "not :<Jedi>";
-    assertThat(not.toString()).isEqualTo(expected);
+    assertThat(not).hasToString(expected);
   }
 
 }

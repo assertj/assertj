@@ -34,7 +34,7 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(Iterator)}</code>.
- * 
+ *
  * @author Julien Meddah
  * @author Joel Costigliola
  * @author Mikhail Mazursky
@@ -43,9 +43,9 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Rule
   public ExpectedException thrown = none();
-  
+
   private StringIterator stringIterator = new StringIterator();
-  
+
   private final class StringIterator implements Iterator<String> {
     @Override
     public boolean hasNext() {
@@ -144,7 +144,7 @@ public class Assertions_assertThat_with_Iterator_Test {
     assertThat(iterator).isSameAs(iterator);
     verifyZeroInteractions(iterator);
   }
-  
+
   @Test
   public void isNotSameAs_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
@@ -156,18 +156,18 @@ public class Assertions_assertThat_with_Iterator_Test {
     }
     Assertions.fail("Expected assertionError, because assert notSame on same iterator.");
   }
-  
+
   @Test
   public void iterator_can_be_asserted_twice_even_though_it_can_be_iterated_only_once() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
     assertThat(names).containsExactly("Luke", "Leia").containsExactly("Luke", "Leia");
   }
-  
+
   @Test
   public void startsWith_should_work_with_infinite_iterators() {
     assertThat(stringIterator).startsWith("", "");
   }
-  
+
   @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
@@ -176,23 +176,23 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_pass_if_actual_and_sequence_are_empty() {
-    Iterator<?> empty = asList().iterator();
+    Iterator<Object> empty = asList().iterator();
     assertThat(empty).startsWith(emptyArray());
   }
 
   @Test
   public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
     thrown.expect(AssertionError.class);
-    Iterator<?> names = asList("Luke", "Leia").iterator();
-    assertThat(names).startsWith(emptyArray());
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    assertThat(names).startsWith(new String[0]);
   }
 
   // startsWith tests
-  
+
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    Iterator<?> names = null;
+    Iterator<Object> names = null;
     assertThat(names).startsWith(emptyArray());
   }
 
@@ -265,5 +265,5 @@ public class Assertions_assertThat_with_Iterator_Test {
     String[] sequence = { "LUKE", "lEIA" };
     assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
   }
-    
+
 }

@@ -10,17 +10,20 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import org.junit.Rule;
 import org.junit.Test;
 
-public class FieldByFieldComparator_toString_Test {
+import static org.assertj.core.util.Lists.newArrayList;
+
+public class Java6JUnitSoftAssertionsSuccessTest {
+  @Rule
+  public final Java6JUnitSoftAssertions softly = new Java6JUnitSoftAssertions();
 
   @Test
-  public void should_return_description_of_FieldByFieldComparator() {
-    assertThat(new FieldByFieldComparator()).hasToString("field/property by field/property comparator on all fields/properties");
+  public void all_assertions_should_pass() throws Throwable {
+    softly.assertThat(1).isEqualTo(1);
+    softly.assertThat(newArrayList(1, 2)).containsOnly(1, 2);
   }
-
 }

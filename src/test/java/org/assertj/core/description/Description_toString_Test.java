@@ -37,7 +37,7 @@ public class Description_toString_Test {
   @Test
   public void should_return_value_in_toString() {
     when(valueSource.value()).thenReturn("Yoda");
-    assertThat(description.toString()).isEqualTo("Yoda");
+    assertThat(description).hasToString("Yoda");
   }
 
   private static interface ValueSource {

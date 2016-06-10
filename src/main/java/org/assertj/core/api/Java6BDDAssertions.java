@@ -17,155 +17,20 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZonedDateTime;
-import java.nio.file.Path;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.DoublePredicate;
-import java.util.function.IntPredicate;
-import java.util.function.LongPredicate;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
 /**
- * BDD style entry point for assertion methods for different data types. Each method in this class is a static factory
- * for the type-specific assertion objects. The purpose of this class is to make test code more readable.
- * <p>
- * The difference with Assertions class is that entry point methods are named <code>then</code> instead of
- * <code>assertThat</code>.
- * <p>
- * For example:
- * <pre><code class='java'> {@literal @}Test
- * public void bdd_assertions_examples() {
+ * Android-compatible BDD-style assertions duplicated from {@link BDDAssertions}.
  *
- *   //given
- *   List&lt;BasketBallPlayer&gt; bulls = new ArrayList&lt;BasketBallPlayer&gt;();
- *
- *   //when
- *   bulls.add(rose);
- *   bulls.add(noah);
- *
- *   then(bulls).contains(rose, noah).doesNotContain(james);
- * }</code></pre>
- *
- * @author Alex Ruiz
- * @author Yvonne Wang
- * @author David DIDIER
- * @author Ted Young
- * @author Joel Costigliola
- * @author Matthieu Baechler
- * @author Mikhail Mazursky
- * @author Nicolas François
- * @author Julien Meddah
- * @author William Delanoue
- * @author Mariusz Smykula
+ * @see BDDAssertions
  */
-public class BDDAssertions extends Assertions {
-
-  /**
-   * Create assertion for {@link Predicate}.
-   *
-   * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link Predicate}.
-   * @return the created assertion object.
-   *
-   * @since 3.5.0
-   */
-  public static <T> PredicateAssert<T> then(Predicate<T> actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Create assertion for {@link IntPredicate}.
-   *
-   * @return the created assertion object.
-   *
-   * @since 3.5.0
-   */
-  public static IntPredicateAssert then(IntPredicate actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Create assertion for {@link LongPredicate}.
-   *
-   * @return the created assertion object.
-   *
-   * @since 3.5.0
-   */
-  public static LongPredicateAssert then(LongPredicate actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Create assertion for {@link DoublePredicate}.
-   *
-   * @return the created assertion object.
-   *
-   * @since 3.5.0
-   */
-  public static DoublePredicateAssert then(DoublePredicate actual) {
-    return assertThat(actual);
-  }
-  /**
-   * Create assertion for {@link java.util.Optional}.
-   *
-   * @param optional the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
-   *
-   * @return the created assertion object.
-   */
-  public static <T> OptionalAssert<T> then(Optional<T> optional) {
-    return assertThat(optional);
-  }
-
-  /**
-   * Create assertion for {@link java.util.OptionalInt}.
-   *
-   * @param optional the actual value.
-   *
-   * @return the created assertion object.
-   */
-  public static OptionalIntAssert then(OptionalInt optional) {
-    return assertThat(optional);
-  }
-
-  /**
-   * Create assertion for {@link java.util.OptionalLong}.
-   *
-   * @param optional the actual value.
-   *
-   * @return the created assertion object.
-   */
-  public static OptionalLongAssert then(OptionalLong optional) {
-    return assertThat(optional);
-  }
-
-  /**
-   * Create assertion for {@link java.util.OptionalDouble}.
-   *
-   * @param optional the actual value.
-   *
-   * @return the created assertion object.
-   */
-  public static OptionalDoubleAssert then(OptionalDouble optional) {
-    return assertThat(optional);
-  }
-
+public class Java6BDDAssertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.BigDecimalAssert}</code>.
    *
@@ -345,8 +210,8 @@ public class BDDAssertions extends Assertions {
    */
 //@format:off
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
-                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+      FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
+                                                                               AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return assertThat(actual, assertFactory);
   }
 
@@ -376,8 +241,8 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
-                                                                                          Class<ELEMENT_ASSERT> assertClass) {
+      ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
+                                                                             Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
 
@@ -415,8 +280,8 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
-                                                                                        AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+      FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
+                                                                           AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return assertThat(actual, assertFactory);
   }
 
@@ -446,8 +311,8 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
-                                                                                      Class<ELEMENT_ASSERT> assertClass) {
+      ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
+                                                                         Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
 
@@ -490,16 +355,6 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractFileAssert<?> then(File actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of {@link PathAssert}
-   *
-   * @param actual the path to test
-   * @return the created assertion object
-   */
-  public static AbstractPathAssert<?> then(Path actual) {
     return assertThat(actual);
   }
 
@@ -720,65 +575,26 @@ public class BDDAssertions extends Assertions {
    * Java 8 example :
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
-   *    thenThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
-   *                                                         .hasMessageContaining("boom");
+   *    thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *                                                        .hasMessageContaining("boom");
    *  }</code></pre>
    *
-   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * Java 7 example :
+   * <pre><code class='java'> thenThrownBy(new ThrowingCallable() {
+   *
+   *   {@literal @}Override
+   *   public Void call() throws Exception {
+   *     throw new Exception("boom!");
+   *   }
+   *
+   * }).isInstanceOf(Exception.class)
+   *   .hasMessageContaining("boom");</code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowableAssert.ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
     return assertThatThrownBy(shouldRaiseThrowable);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.LocalDateAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  public static AbstractLocalDateAssert<?> then(LocalDate actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.LocalDateTimeAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  public static AbstractLocalDateTimeAssert<?> then(LocalDateTime actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.ZonedDateTimeAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  public static AbstractZonedDateTimeAssert<?> then(ZonedDateTime actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link LocalTimeAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  public static AbstractLocalTimeAssert<?> then(LocalTime actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  public static AbstractOffsetTimeAssert<?> then(OffsetTime actual) {
-    return assertThat(actual);
   }
 
   /**
@@ -799,28 +615,6 @@ public class BDDAssertions extends Assertions {
    */
   public static AbstractUrlAssert<?> then(URL actual) {
     return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  public static AbstractOffsetDateTimeAssert<?> then(OffsetDateTime actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Create assertion for {@link java.util.concurrent.CompletableFuture}.
-   *
-   * @param future the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
-   *
-   * @return the created assertion object.
-   */
-  public static <T> CompletableFutureAssert<T> then(CompletableFuture<T> future) {
-    return assertThat(future);
   }
 
   /**
@@ -894,21 +688,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
-   * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
-   *
-   * @param actual the actual {@link Stream} value.
-   * @return the created assertion object.
-   */
-  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
-    return assertThat(actual);
-  }
-
-  /**
    * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
-  protected BDDAssertions() {}
+  protected Java6BDDAssertions() {}
 }

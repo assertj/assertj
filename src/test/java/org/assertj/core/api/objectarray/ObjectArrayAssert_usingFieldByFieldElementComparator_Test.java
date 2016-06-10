@@ -43,8 +43,8 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   @Override
   protected void verify_internal_effects() {
     assertThat(arraysBefore).isNotSameAs(getArrays(assertions));
-    assertThat(getArrays(assertions).getComparisonStrategy() instanceof ComparatorBasedComparisonStrategy).isTrue();
-    assertThat(getObjects(assertions).getComparisonStrategy() instanceof ObjectArrayElementComparisonStrategy).isTrue();
+    assertThat(getArrays(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    assertThat(getObjects(assertions).getComparisonStrategy()).isInstanceOf(ObjectArrayElementComparisonStrategy.class);
   }
 
   @Test
@@ -149,7 +149,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
                                       " <[Foo(id=id, bar=1)]>%n" +
                                       "to be equal to:%n" +
                                       " <[Foo(id=id, bar=2)]>%n" +
-                                      "when comparing elements using 'field by field comparator on all fields' but was not."));
+                                      "when comparing elements using 'field/property by field/property comparator on all fields/properties' but was not."));
       // @format:on
       return;
     }
@@ -167,7 +167,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
                                              " <[Foo(id=id, bar=1)]>%n" +
                                              "to be in:%n" +
                                              " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n" +
-                                             "when comparing elements using 'field by field comparator on all fields'"));
+                                             "when comparing elements using 'field/property by field/property comparator on all fields/properties'"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

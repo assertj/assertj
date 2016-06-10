@@ -53,13 +53,37 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
   @Test
   public void should_allow_assertions_on_multiple_extracted_values_flattened_in_a_single_list() {
+    assertThat(fellowshipOfTheRing).flatExtracting("age", "name")
+                                   .as("extract ages and names")
+                                   .containsSequence(33, "Frodo", 38, "Sam");
+
     assertThat(fellowshipOfTheRing).flatExtracting(age, name)
                                    .as("extract ages and names")
                                    .contains(33, "Frodo", 38, "Sam");
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null() {
+  public void should_throw_IllegalArgumentException_when_no_fields_or_properties_are_specified() {
+    thrown.expect(IllegalArgumentException.class);
+    assertThat(fellowshipOfTheRing).flatExtracting(new String[0]);
+  }
+
+  @Test
+  public void should_throw_IllegalArgumentException_when_null_fields_or_properties_vararg() {
+    thrown.expect(IllegalArgumentException.class);
+    String[] fields = null;
+    assertThat(fellowshipOfTheRing).flatExtracting(fields);
+  }
+
+  @Test
+  public void should_throw_IllegalArgumentException_when_extracting_from_null() {
+    thrown.expect(IllegalArgumentException.class);
+    fellowshipOfTheRing.add(null);
+    assertThat(fellowshipOfTheRing).flatExtracting("age", "name");
+  }
+
+  @Test
+  public void should_throw_IllegalArgumentException_when_extracting_from_null_extractors() {
     thrown.expect(NullPointerException.class);
     fellowshipOfTheRing.add(null);
     assertThat(fellowshipOfTheRing).flatExtracting(age, name);

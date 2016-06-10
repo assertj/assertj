@@ -22,6 +22,7 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -40,6 +41,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
@@ -57,7 +59,7 @@ import org.junit.Test;
  *
  * @author Brian Laframboise
  */
-public class SoftAssertionsTest {
+public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
@@ -93,8 +95,7 @@ public class SoftAssertionsTest {
   public void should_return_success_of_last_assertion() {
     try {
       softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {
-    }
+    } catch (AssertionError ignore) {}
     softly.assertThat(true).isEqualTo(true);
     assertThat(softly.wasSuccess()).isTrue();
   }
@@ -103,8 +104,7 @@ public class SoftAssertionsTest {
   public void should_return_success_of_last_assertion_with_nested_calls() {
     try {
       softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {
-    }
+    } catch (AssertionError ignore) {}
     softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
     assertThat(softly.wasSuccess()).isTrue();
   }
@@ -355,7 +355,7 @@ public class SoftAssertionsTest {
       assertThat(errors.get(51)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
                                                          + "to accept <2.0> but it did not."));
     }
-  }  
+  }
 
   @Test
   public void should_pass_when_using_extracting_with_list() {
@@ -607,11 +607,27 @@ public class SoftAssertionsTest {
   }
 
   @Test
-  public void should_work_with_comparable() throws Exception {
+  public void should_work_with_comparable() {
     ComparableExample example1 = new ComparableExample(0);
     ComparableExample example2 = new ComparableExample(0);
     softly.assertThat(example1).isEqualByComparingTo(example2);
     softly.assertAll();
+  }
+
+  @Test
+  public void should_work_with_stream() {
+    Stream<String> stream = Stream.of("a", "b", "c");
+    softly.assertThat(stream).contains("a", "b", "c");
+    softly.assertAll();
+  }
+
+  @Test
+  public void bdd_soft_assertions_should_have_the_same_methods_as_in_standard_soft_assertions() {
+    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
+    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
+
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
+                                 .containsExactlyInAnyOrder(thenMethods);
   }
 
   private static Name name(String first, String last) {
