@@ -348,8 +348,8 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasParameter("happy");
    * 
    * // These assertions fail:
-   * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasParameter("sad");
-   * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasParameter("sad");</code></pre>
+   * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad");
+   * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad");</code></pre>
    * 
    * @param name the name of the parameter expected to be absent.
    * @return {@code this} assertion object.
@@ -369,13 +369,13 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <p>
    * Examples:
    * <pre><code class='java'> // These assertions succeed:
-   * assertThat(new URI("http://www.helloworld.org/index.html")).hasParameter("happy", "very");
-   * assertThat(new URI("http://www.helloworld.org/index.html?happy")).hasParameter("happy", "very");
-   * assertThat(new URI("http://www.helloworld.org/index.html?happy=very")).hasParameter("happy", null);
+   * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoParameter("happy", "very");
+   * assertThat(new URI("http://www.helloworld.org/index.html?happy")).hasNoParameter("happy", "very");
+   * assertThat(new URI("http://www.helloworld.org/index.html?happy=very")).hasNoParameter("happy", null);
    * 
    * // These assertions fail:
-   * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasParameter("sad", null);
-   * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasParameter("sad", "much");</code></pre>
+   * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad", null);
+   * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad", "much");</code></pre>
    * 
    * @param name the name of the parameter expected to be absent.
    * @param value the value of the parameter expected to be absent.
