@@ -291,4 +291,104 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
     urls.assertHasUserInfo(info, actual, null);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code URL} has a parameter with the expected name.
+   * <p>
+   * The value of the parameter is not checked.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // These assertions succeed:
+   * assertThat(new URL("http://www.helloworld.org/index.html?happy")).hasParameter("happy");
+   * assertThat(new URL("http://www.helloworld.org/index.html?happy=very")).hasParameter("happy");
+   * 
+   * // These assertions fail:
+   * assertThat(new URL("http://www.helloworld.org/index.html")).hasParameter("happy");
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasParameter("happy");</code></pre>
+   * 
+   * @param name the name of the parameter expected to be present.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   */
+  public S hasParameter(String name) {
+    urls.assertHasParameter(info, actual, name);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code URL} has a parameter with the expected name and value.
+   * <p>
+   * Use {@code null} to indicate an absent value (e.g. {@code foo&bar}) as opposed to an empty value (e.g.
+   * {@code foo=&bar=}).
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // These assertions succeed:
+   * assertThat(new URL("http://www.helloworld.org/index.html?happy")).hasParameter("happy", null);
+   * assertThat(new URL("http://www.helloworld.org/index.html?happy=very")).hasParameter("happy", "very");
+   * 
+   * // These assertions fail:
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad")).hasParameter("sad", "much");
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasParameter("sad", null);</code></pre>
+   * 
+   * @param name the name of the parameter expected to be present.
+   * @param value the value of the parameter expected to be present.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   */
+  public S hasParameter(String name, String value) {
+    urls.assertHasParameter(info, actual, name, value);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code URL} does not have a parameter with the specified name.
+   * <p>
+   * The value of the parameter is not checked.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // This assertion succeeds:
+   * assertThat(new URL("http://www.helloworld.org/index.html")).hasNoParameter("happy");
+   * 
+   * // These assertions fail:
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad");
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad");</code></pre>
+   * 
+   * @param name the name of the parameter expected to be absent.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual has the expected parameter.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   */
+  public S hasNoParameter(String name) {
+    urls.assertHasNoParameter(info, actual, name);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code URL} does not have a parameter with the expected name and value.
+   * <p>
+   * Use {@code null} to indicate an absent value (e.g. {@code foo&bar}) as opposed to an empty value (e.g.
+   * {@code foo=&bar=}).
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // These assertions succeed:
+   * assertThat(new URL("http://www.helloworld.org/index.html")).hasNoParameter("happy", "very");
+   * assertThat(new URL("http://www.helloworld.org/index.html?happy")).hasNoParameter("happy", "very");
+   * assertThat(new URL("http://www.helloworld.org/index.html?happy=very")).hasNoParameter("happy", null);
+   * 
+   * // These assertions fail:
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad", null);
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad", "much");</code></pre>
+   * 
+   * @param name the name of the parameter expected to be absent.
+   * @param value the value of the parameter expected to be absent.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual has the expected parameter.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   */
+  public S hasNoParameter(String name, String value) {
+    urls.assertHasNoParameter(info, actual, name, value);
+    return myself;
+  }
 }
