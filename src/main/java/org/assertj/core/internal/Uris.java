@@ -15,6 +15,8 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
 import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
@@ -23,7 +25,13 @@ import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
 import static org.assertj.core.util.Objects.areEqual;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -80,5 +88,92 @@ public class Uris {
   public void assertHasUserInfo(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
     if (!areEqual(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
+  }
+
+  @VisibleForTesting
+  public static Map<String, List<String>> getParameters(String query) {
+    Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+
+    if (query != null && !query.isEmpty()) {
+      for (String pair : query.split("&")) {
+        int equalSign = pair.indexOf("=");
+        String key = equalSign == -1 ? pair : pair.substring(0, equalSign);
+        String value = equalSign == -1 ? null : pair.substring(equalSign + 1);
+
+        try {
+          key = URLDecoder.decode(key, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+          // UTF-8 is missing? Allow the key to remain encoded (no reasonable alternative).
+        }
+
+        if (value != null) {
+          try {
+            value = URLDecoder.decode(value, "UTF-8");
+          } catch (UnsupportedEncodingException ex) {
+            // UTF-8 is missing? Allow the value to remain encoded (no reasonable alternative).
+          }
+        }
+
+        if (!parameters.containsKey(key)) {
+          parameters.put(key, new ArrayList<String>());
+        }
+
+        parameters.get(key).add(value);
+      }
+    }
+
+    return parameters;
+  }
+
+  public void assertHasParameter(AssertionInfo info, URI actual, String name) {
+    assertNotNull(info, actual);
+
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+
+    if (!parameters.containsKey(name)) {
+      throw failures.failure(info, shouldHaveParameter(actual, name));
+    }
+  }
+
+  public void assertHasParameter(AssertionInfo info, URI actual, String name, String value) {
+    assertNotNull(info, actual);
+
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+
+    if (!parameters.containsKey(name)) {
+      throw failures.failure(info, shouldHaveParameter(actual, name, value));
+    }
+
+    List<String> values = parameters.get(name);
+
+    if (!values.contains(value)) {
+      throw failures.failure(info, shouldHaveParameter(actual, name, value, values.get(0)));
+    }
+  }
+
+  public void assertHasNoParameter(AssertionInfo info, URI actual, String name) {
+    assertNotNull(info, actual);
+
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+
+    if (parameters.containsKey(name)) {
+      List<String> values = parameters.get(name);
+
+      throw failures.failure(info, shouldHaveNoParameter(actual, name, values.get(0)));
+    }
+  }
+
+  public void assertHasNoParameter(AssertionInfo info, URI actual, String name, String value) {
+    assertNotNull(info, actual);
+
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+
+    if (parameters.containsKey(name)) {
+      List<String> values = parameters.get(name);
+
+      if (values.contains(value)) {
+        throw failures.failure(info, shouldHaveNoParameter(actual, name, value, values.get(0)));
+      }
+    }
   }
 }
