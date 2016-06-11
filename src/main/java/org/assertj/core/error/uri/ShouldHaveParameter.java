@@ -26,10 +26,10 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
   private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut was absent";
   private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_NO_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had no value";
   private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_WRONG = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had value:%n  <%s>";
-  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_NO_VALUE = "%nExpecting:%n  <%s>%nto not have parameter:%n  <%s>%nbut was present with no value";
-  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_VALUE = "%nExpecting:%n  <%s>%nto not have parameter:%n  <%s>%nbut was present with value:%n  <%s>";
-  private static final String SHOULD_HAVE_NO_PARAMETER_NO_VALUE_BUT_FOUND = "%nExpecting:%n  <%s>%nto not have parameter:%n  <%s>%nwith no value, but was present";
-  private static final String SHOULD_HAVE_NO_PARAMETER_VALUE_BUT_FOUND = "%nExpecting:%n  <%s>%nto not have parameter:%n  <%s>%nwith value:%n  <%s>%nbut was present";
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_NO_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut was present with no value";
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut was present with value:%n  <%s>";
+  private static final String SHOULD_HAVE_NO_PARAMETER_NO_VALUE_BUT_FOUND = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith no value, but was present";
+  private static final String SHOULD_HAVE_NO_PARAMETER_VALUE_BUT_FOUND = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith value:%n  <%s>%nbut was present";
 
   public static ErrorMessageFactory shouldHaveParameter(URI actual, String name) {
     return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_BUT_MISSING, actual, name);

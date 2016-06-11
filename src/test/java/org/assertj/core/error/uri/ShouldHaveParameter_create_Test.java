@@ -119,7 +119,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "but was present with no value"));
   }
@@ -132,7 +132,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article=10>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "but was present with value:%n" +
         "  <\"10\">"));
@@ -146,7 +146,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "with no value, but was present"));
   }
@@ -159,7 +159,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article=10>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "with value:%n" +
         "  <\"10\">%n" +
@@ -260,7 +260,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "but was present with no value"));
   }
@@ -273,7 +273,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article=10>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "but was present with value:%n" +
         "  <\"10\">"));
@@ -287,7 +287,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "with no value, but was present"));
   }
@@ -300,7 +300,7 @@ public class ShouldHaveParameter_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
         "Expecting:%n" +
         "  <http://assertj.org/news?article=10>%n" +
-        "to not have parameter:%n" +
+        "not to have parameter:%n" +
         "  <\"article\">%n" +
         "with value:%n" +
         "  <\"10\">%n" +
