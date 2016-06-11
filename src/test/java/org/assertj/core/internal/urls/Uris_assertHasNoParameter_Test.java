@@ -62,6 +62,22 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
+  public void should_fail_if_parameter_is_present_multiple_times() throws URISyntaxException {
+    URI uri = new URI("http://assertj.org/news?article&article=10");
+    String name = "article";
+    String actualValue = "[null, 10]";
+
+    try {
+      uris.assertHasNoParameter(info, uri, name);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValue));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
   public void should_pass_if_parameter_without_value_is_missing() throws URISyntaxException {
     uris.assertHasNoParameter(info, new URI("http://assertj.org/news"), "article", null);
   }

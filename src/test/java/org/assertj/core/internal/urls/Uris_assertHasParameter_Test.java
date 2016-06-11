@@ -88,6 +88,23 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
+  public void should_fail_if_parameter_without_value_has_multiple_values() throws URISyntaxException {
+    URI uri = new URI("http://assertj.org/news?article=11&article=12");
+    String name = "article";
+    String expectedValue = null;
+    String actualValue = "[11, 12]";
+
+    try {
+      uris.assertHasParameter(info, uri, name, expectedValue);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue, actualValue));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
   public void should_fail_if_parameter_with_value_is_missing() throws URISyntaxException {
     URI uri = new URI("http://assertj.org/news");
     String name = "article";
@@ -109,6 +126,23 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
     String name = "article";
     String expectedValue = "10";
     String actualValue = null;
+
+    try {
+      uris.assertHasParameter(info, uri, name, expectedValue);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue, actualValue));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_parameter_with_value_has_multiple_no_values() throws URISyntaxException {
+    URI uri = new URI("http://assertj.org/news?article&article");
+    String name = "article";
+    String expectedValue = "10";
+    String actualValue = "[null, null]";
 
     try {
       uris.assertHasParameter(info, uri, name, expectedValue);

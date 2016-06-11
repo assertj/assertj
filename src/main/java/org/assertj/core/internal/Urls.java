@@ -109,7 +109,11 @@ public class Urls {
     List<String> values = parameters.get(name);
 
     if (!values.contains(value)) {
-      throw failures.failure(info, shouldHaveParameter(actual, name, value, values.get(0)));
+      if (values.size() == 1) {
+        throw failures.failure(info, shouldHaveParameter(actual, name, value, values.get(0)));
+      }
+
+      throw failures.failure(info, shouldHaveParameter(actual, name, value, values.toString()));
     }
   }
 
@@ -121,7 +125,11 @@ public class Urls {
     if (parameters.containsKey(name)) {
       List<String> values = parameters.get(name);
 
-      throw failures.failure(info, shouldHaveNoParameter(actual, name, values.get(0)));
+      if (values.size() == 1) {
+        throw failures.failure(info, shouldHaveNoParameter(actual, name, values.get(0)));
+      }
+
+      throw failures.failure(info, shouldHaveNoParameter(actual, name, values.toString()));
     }
   }
 

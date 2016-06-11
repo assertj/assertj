@@ -62,6 +62,22 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
   }
 
   @Test
+  public void should_fail_if_parameter_is_present_multiple_times() throws MalformedURLException {
+    URL url = new URL("http://assertj.org/news?article&article=10");
+    String name = "article";
+    String actualValue = "[null, 10]";
+
+    try {
+      urls.assertHasNoParameter(info, url, name);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValue));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
   public void should_pass_if_parameter_without_value_is_missing() throws MalformedURLException {
     urls.assertHasNoParameter(info, new URL("http://assertj.org/news"), "article", null);
   }

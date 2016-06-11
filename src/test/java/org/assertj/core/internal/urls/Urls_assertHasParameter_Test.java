@@ -88,6 +88,23 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
+  public void should_fail_if_parameter_without_value_has_multiple_values() throws MalformedURLException {
+    URL url = new URL("http://assertj.org/news?article=11&article=12");
+    String name = "article";
+    String expectedValue = null;
+    String actualValue = "[11, 12]";
+
+    try {
+      urls.assertHasParameter(info, url, name, expectedValue);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValue));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
   public void should_fail_if_parameter_with_value_is_missing() throws MalformedURLException {
     URL url = new URL("http://assertj.org/news");
     String name = "article";
@@ -109,6 +126,23 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String name = "article";
     String expectedValue = "10";
     String actualValue = null;
+
+    try {
+      urls.assertHasParameter(info, url, name, expectedValue);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValue));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_parameter_with_value_has_multiple_no_values() throws MalformedURLException {
+    URL url = new URL("http://assertj.org/news?article&article");
+    String name = "article";
+    String expectedValue = "10";
+    String actualValue = "[null, null]";
 
     try {
       urls.assertHasParameter(info, url, name, expectedValue);
