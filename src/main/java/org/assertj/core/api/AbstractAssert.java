@@ -18,6 +18,7 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.description.Description;
@@ -34,12 +35,12 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all assertions.
- * 
+ *
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
@@ -77,7 +78,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Exposes the {@link WritableAssertionInfo} used in the current assertion for better extensibility.</br> When writing
    * your own assertion class, you can use the returned {@link WritableAssertionInfo} to change the error message and
    * still keep the description set by the assertion user.
-   * 
+   *
    * @return the {@link WritableAssertionInfo} used in the current assertion
    */
   public WritableAssertionInfo getWritableAssertionInfo() {
@@ -95,16 +96,16 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <pre><code class='java'> public TolkienCharacterAssert hasName(String name) {
    *   // check that actual TolkienCharacter we want to make assertions on is not null.
    *   isNotNull();
-   * 
+   *
    *   // check condition
    *   if (!actual.getName().equals(name)) {
    *     failWithMessage(&quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
    *   }
-   * 
+   *
    *   // return the current assertion for method chaining
    *   return this;
    * }</code></pre>
-   * 
+   *
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
    */
@@ -119,12 +120,12 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Utility method to throw an {@link AssertionError} given a {@link BasicErrorMessageFactory}.
    * <p>
    * Instead of writing ...
-   * 
+   *
    * <pre><code class='java'> throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());</code></pre>
    * ... you can simply write :
-   * 
+   *
    * <pre><code class='java'> throwAssertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
-   * 
+   *
    * @param errorMessageFactory used to define the error message.
    * @return an {@link AssertionError} with a message corresponding to the given {@link BasicErrorMessageFactory}.
    */
@@ -185,7 +186,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * org.junit.ComparisonFailure:
    * Expected :0b00000000_00000000_00000000_00000010
    * Actual   :0b00000000_00000000_00000000_00000001</code></pre>
-   * 
+   *
    * @return {@code this} assertion object.
    */
   protected S inBinary() {
@@ -399,7 +400,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   /**
    * The description of this assertion set with {@link #describedAs(String, Object...)} or
    * {@link #describedAs(Description)}.
-   * 
+   *
    * @return the description String representation of this assertion.
    */
   public String descriptionText() {
@@ -415,7 +416,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Example :
    * <pre><code class='java'>assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
    *                              .isTrue();</code></pre>
-   * 
+   *
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
@@ -471,9 +472,9 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @deprecated use {@link #isEqualTo} instead
-   *  
+   *
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
@@ -484,7 +485,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * Always returns 1.
-   * 
+   *
    * @return 1.
    */
   @Override
@@ -496,9 +497,9 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Verifies that the actual object matches the given predicate.
    * <p>
    * Example :
-   * 
+   *
    * <pre><code class='java'> assertThat(player).matches(p -> p.isRookie());</code></pre>
-   * 
+   *
    * @param predicate the {@link Predicate} to match
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual does not match the given {@link Predicate}.
@@ -514,15 +515,15 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * informative error message.
    * <p>
    * Example :
-   * 
+   *
    * <pre><code class='java'> assertThat(player).matches(p -> p.isRookie(), "is rookie");</code></pre>
-   * 
+   *
    * The error message contains the predicate description, if the previous assertion fails, it will be:
-   * 
+   *
    * <pre><code class='java'> Expecting:
    *   &lt;player&gt;
    * to match 'is rookie' predicate.</code></pre>
-   * 
+   *
    * @param predicate the {@link Predicate} to match
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} assertion object.
@@ -532,6 +533,46 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    */
   public S matches(Predicate<? super A> predicate, String predicateDescription) {
 	return matches(predicate, new PredicateDescription(predicateDescription));
+  }
+
+  /**
+   * Verifies that the actual object satisfied the given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to perform a group of assertions on a single object.
+   * <p>
+   * Grouping assertions example :
+   * <pre><code class='java'> // second constructor parameter is the light saber color
+   * Jedi yoda = new Jedi("Yoda", "Green");
+   * Jedi luke = new Jedi("Luke Skywalker", "Green");
+   *
+   * Consumer&lt;Jedi&gt; jediRequirements = jedi -> {
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   *   assertThat(jedi.getName()).doesNotContain("Dark");
+   * };
+   *
+   * // assertions succeed:
+   * assertThat(yoda).satisfies(jediRequirements);
+   * assertThat(luke).satisfies(jediRequirements);
+   *
+   * // assertions fails:
+   * Jedi vader = new Jedi("Vader", "Red");
+   * assertThat(vader).satisfies(jediRequirements);</code></pre>
+   * <p>
+   * In the following example, {@code satisfies} prevents the need of define a local variable in order to multiple assertions:
+   * <pre><code class='java'> // no need to define team.getPlayers().get(0).getStats() as a local variable
+   * assertThat(team.getPlayers().get(0).getStats()).satisfies(stats -> {
+   *   assertThat(stats.pointPerGame).isGreaterThan(25.7);
+   *   assertThat(stats.assistsPerGame).isGreaterThan(7.2);
+   *   assertThat(stats.reboundsPerGame).isBetween(9, 12);
+   * };</code></pre>
+   *
+   * @param requirements to assert on the actual object.
+   * @return this assertion object.
+   */
+  public S satisfies(Consumer<A> requirements) {
+    requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
+    requirements.accept(actual);
+    return myself;
   }
 
   private S matches(Predicate<? super A> predicate, PredicateDescription predicateDescription) {
