@@ -345,7 +345,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <p>
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
-   * assertThat(new URI("http://www.helloworld.org/index.html")).hasParameter("happy");
+   * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoParameter("happy");
    * 
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad");
