@@ -19,7 +19,10 @@ import java.util.Comparator;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.test.AlwaysEqualStringComparator;
+import org.assertj.core.test.Jedi;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 
 /**
@@ -47,4 +50,5 @@ public class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAs
   protected void verify_internal_effects() {
     assertThat(elementComparator).isSameAs(getArrays(assertions).getComparator());
   }
+
 }

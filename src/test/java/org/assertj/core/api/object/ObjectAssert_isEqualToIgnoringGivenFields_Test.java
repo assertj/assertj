@@ -14,6 +14,7 @@ package org.assertj.core.api.object;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
+import org.assertj.core.test.AlwaysEqualStringComparator;
 import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
@@ -51,7 +52,7 @@ public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssert
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Blue");
     
-    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name").isEqualToIgnoringGivenFields(other, "lightSaberColor");
+    assertThat(actual).usingComparatorForFields(new AlwaysEqualStringComparator(), "name").isEqualToIgnoringGivenFields(other, "lightSaberColor");
   }
 
   @Test
@@ -64,7 +65,7 @@ public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssert
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name")
+    assertThat(actual).usingComparatorForFields(new AlwaysEqualStringComparator(), "name")
       .usingComparatorForType(comperator, String.class).isEqualToIgnoringGivenFields(other, "lightSaberColor");
   }
 
@@ -73,13 +74,7 @@ public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssert
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(actual).usingComparatorForType(new AlwaysEqual(), String.class).isEqualToIgnoringGivenFields(other, "lightSaberColor");
+    assertThat(actual).usingComparatorForType(new AlwaysEqualStringComparator(), String.class).isEqualToIgnoringGivenFields(other, "lightSaberColor");
   }
 
-  private final class AlwaysEqual implements Comparator<String> {
-    @Override
-    public int compare(String o1, String o2) {
-      return 0;
-    }
-  }
 }

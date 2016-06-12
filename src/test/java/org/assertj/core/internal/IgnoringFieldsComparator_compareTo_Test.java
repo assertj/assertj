@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -22,8 +23,9 @@ public class IgnoringFieldsComparator_compareTo_Test {
   private IgnoringFieldsComparator ignoringFieldsComparator;
 
   @Before
+  @SuppressWarnings("unchecked")
   public void setUp() {
-	ignoringFieldsComparator = new IgnoringFieldsComparator("thinking");
+    ignoringFieldsComparator = new IgnoringFieldsComparator(EMPTY_MAP, EMPTY_MAP, "thinking");
   }
 
   @Test

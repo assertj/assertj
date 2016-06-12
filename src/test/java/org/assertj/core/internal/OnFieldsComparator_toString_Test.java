@@ -12,20 +12,22 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
+@SuppressWarnings("unchecked")
 public class OnFieldsComparator_toString_Test {
 
   @Test
   public void should_return_description_for_multiple_given_fields() {
-	assertThat(new OnFieldsComparator("a", "b")).hasToString("field by field comparator on fields [\"a\", \"b\"]");
+	assertThat(new OnFieldsComparator(EMPTY_MAP, EMPTY_MAP, "a", "b")).hasToString("field/property by field/property comparator on fields/properties [\"a\", \"b\"]");
   }
 
   @Test
   public void should_return_description_for_a_single_given_field() {
-	assertThat(new OnFieldsComparator("a")).hasToString("single field comparator on field \"a\"");
+	assertThat(new OnFieldsComparator(EMPTY_MAP, EMPTY_MAP, "a")).hasToString("single field/property comparator on field/property \"a\"");
   }
   
 }

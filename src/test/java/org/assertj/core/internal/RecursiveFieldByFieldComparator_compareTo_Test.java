@@ -12,13 +12,16 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
 public class RecursiveFieldByFieldComparator_compareTo_Test {
 
-  private static final RecursiveFieldByFieldComparator RECURSIVE_FIELD_BY_FIELD_COMPARATOR = new RecursiveFieldByFieldComparator();
+  @SuppressWarnings("unchecked")
+  private static final RecursiveFieldByFieldComparator RECURSIVE_FIELD_BY_FIELD_COMPARATOR = new RecursiveFieldByFieldComparator(EMPTY_MAP,
+                                                                                                                                 EMPTY_MAP);
 
   @Test
   public void should_return_true_if_Objects_are_equal() {

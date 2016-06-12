@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+
+import java.util.Comparator;
+import java.util.Map;
 
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -22,8 +24,10 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
 
   private String[] fields;
 
-  public IgnoringFieldsComparator(String... fields) {
-      this.fields = fields;
+  public IgnoringFieldsComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                  Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+    super(comparatorByPropertyOrField, comparatorByType);
+    this.fields = fields;
   }
   
   @VisibleForTesting
@@ -32,17 +36,18 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   }
   
   @Override
-  @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actualElement, Object otherElement) {
     try {
-      return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, EMPTY_MAP, EMPTY_MAP, fields);
+      return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, comparatorByPropertyOrField,
+                                                              comparatorByType, fields);
     } catch (IntrospectionError e) {
       return false;
     }
   }
-  
+
   @Override
   public String toString() {
-	return "field by field comparator on all fields except " + STANDARD_REPRESENTATION.toStringOf(fields);
+    return "field/property by field/property comparator on all fields/properties except "
+           + STANDARD_REPRESENTATION.toStringOf(fields);
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -22,8 +23,9 @@ public class OnFieldsComparator_compare_Test {
   private OnFieldsComparator onFieldsComparator;
 
   @Before
+  @SuppressWarnings("unchecked")
   public void setUp() {
-	onFieldsComparator = new OnFieldsComparator("telling");
+    onFieldsComparator = new OnFieldsComparator(EMPTY_MAP, EMPTY_MAP, "telling");
   }
 
   @Test

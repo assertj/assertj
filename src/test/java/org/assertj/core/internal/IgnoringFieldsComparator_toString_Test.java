@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
@@ -19,8 +20,9 @@ import org.junit.Test;
 public class IgnoringFieldsComparator_toString_Test {
 
   @Test
+  @SuppressWarnings("unchecked")
   public void should_return_description_of_IgnoringFieldsComparator() {
-	assertThat(new IgnoringFieldsComparator("a", "b")).hasToString("field by field comparator on all fields except [\"a\", \"b\"]");
+    assertThat(new IgnoringFieldsComparator(EMPTY_MAP, EMPTY_MAP, "a", "b")).hasToString("field/property by field/property comparator on all fields/properties except [\"a\", \"b\"]");
   }
 
 }

@@ -14,6 +14,7 @@ package org.assertj.core.api.object;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
+import org.assertj.core.test.AlwaysEqualStringComparator;
 import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
@@ -51,7 +52,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Luke", null);
     
-    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name").isEqualToIgnoringNullFields(other);
+    assertThat(actual).usingComparatorForFields(new AlwaysEqualStringComparator(), "name").isEqualToIgnoringNullFields(other);
   }
   
   @Test
@@ -64,7 +65,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Luke", null);
 
-    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name")
+    assertThat(actual).usingComparatorForFields(new AlwaysEqualStringComparator(), "name")
       .usingComparatorForType(comperator, String.class).isEqualToIgnoringNullFields(other);
   }
 
@@ -73,13 +74,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Luke", null);
 
-    assertThat(actual).usingComparatorForType(new AlwaysEqual(), String.class).isEqualToIgnoringNullFields(other);
+    assertThat(actual).usingComparatorForType(new AlwaysEqualStringComparator(), String.class).isEqualToIgnoringNullFields(other);
   }
 
-  private final class AlwaysEqual implements Comparator<String> {
-    @Override
-    public int compare(String o1, String o2) {
-      return 0;
-    }
-  }
 }
