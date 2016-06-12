@@ -23,7 +23,7 @@ public class IgnoringFieldsComparator_compareTo_Test {
 
   @Before
   public void setUp() {
-	ignoringFieldsComparator = new IgnoringFieldsComparator("thinking");
+    ignoringFieldsComparator = new IgnoringFieldsComparator("thinking");
   }
 
   @Test

@@ -12,14 +12,20 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+
+import java.util.Comparator;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.OnFieldsComparator;
+import org.assertj.core.test.Jedi;
 import org.junit.Before;
+import org.junit.Test;
 
 public class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertBaseTest {
 
@@ -27,22 +33,58 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
 
   @Before
   public void before() {
-	iterablesBefore = getIterables(assertions);
+    iterablesBefore = getIterables(assertions);
   }
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-	return assertions.usingElementComparatorOnFields("field");
+    return assertions.usingElementComparatorOnFields("field");
   }
 
   @Override
   protected void verify_internal_effects() {
-	Iterables iterables = getIterables(assertions);
-	assertThat(iterables).isNotSameAs(iterablesBefore);
-	assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
-	ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
-	assertThat(strategy.getComparator()).isInstanceOf(OnFieldsComparator.class);
-	assertThat(((OnFieldsComparator)strategy.getComparator()).getFields()).containsOnly("field");
+    Iterables iterables = getIterables(assertions);
+    assertThat(iterables).isNotSameAs(iterablesBefore);
+    assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
+    assertThat(strategy.getComparator()).isInstanceOf(OnFieldsComparator.class);
+    assertThat(((OnFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_element_comparator_on_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+                                     .usingElementComparatorOnFields("name", "lightSaberColor")
+                                     .contains(other);
+  }
+
+  @Test
+  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_using_element_comparator_on_fields() {
+    Comparator<String> comparator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+                                     .usingComparatorForElementFieldsWithType(comparator, String.class)
+                                     .usingElementComparatorOnFields("name", "lightSaberColor")
+                                     .contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_using_element_comparator_on_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+                                     .usingElementComparatorOnFields("name", "lightSaberColor")
+                                     .contains(other);
   }
 
 }

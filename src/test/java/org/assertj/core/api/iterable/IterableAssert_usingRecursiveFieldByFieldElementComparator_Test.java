@@ -15,8 +15,10 @@ package org.assertj.core.api.iterable;
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.api.ConcreteIterableAssert;
@@ -96,6 +98,48 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_recursive_field_by_field_element_comparator() {
+    Foo actual = new Foo("1", new Bar(1));
+    Foo other = new Foo("1", new Bar(2));
+    final class AlwaysEqualIntegerComparator implements Comparator<Integer> {
+      @Override
+      public int compare(Integer o1, Integer o2) {
+        return 0;
+      }
+    }
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(new AlwaysEqualIntegerComparator(),
+                                                                               "bar.id")
+                                     .usingRecursiveFieldByFieldElementComparator().contains(other);
+  }
+
+  @Test
+  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
+    Comparator<String> comparator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Foo actual = new Foo("1", new Bar(1));
+    Foo other = new Foo("2", new Bar(1));
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "id")
+                                     .usingComparatorForElementFieldsWithType(comparator, String.class)
+                                     .usingRecursiveFieldByFieldElementComparator()
+                                     .contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
+    Foo actual = new Foo("1", new Bar(1));
+    Foo other = new Foo("2", new Bar(1));
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+                                     .usingRecursiveFieldByFieldElementComparator()
+                                     .contains(other);
   }
 
   public static class Foo {

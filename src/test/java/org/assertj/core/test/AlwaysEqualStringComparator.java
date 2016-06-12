@@ -10,18 +10,16 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.test;
 
-import static java.util.Collections.EMPTY_MAP;
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Comparator;
 
-import org.junit.Test;
+public class AlwaysEqualStringComparator implements Comparator<String> {
 
-public class RecursiveFieldByFieldComparator_toString_Test {
+  public static final AlwaysEqualStringComparator ALWAY_EQUALS = new AlwaysEqualStringComparator();
 
-  @Test
-  @SuppressWarnings("unchecked")
-  public void should_return_description_of_RecursiveFieldByFieldComparator() {
-    assertThat(new RecursiveFieldByFieldComparator(EMPTY_MAP, EMPTY_MAP)).hasToString("recursive field/property by field/property comparator on all fields/properties");
+  @Override
+  public int compare(String o1, String o2) {
+    return 0;
   }
 }

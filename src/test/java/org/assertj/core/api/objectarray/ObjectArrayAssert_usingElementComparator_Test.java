@@ -24,7 +24,7 @@ import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#usingElementComparator(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
@@ -47,4 +47,5 @@ public class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAs
   protected void verify_internal_effects() {
     assertThat(elementComparator).isSameAs(getArrays(assertions).getComparator());
   }
+
 }
