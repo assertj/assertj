@@ -20,6 +20,8 @@ import static org.assertj.core.groups.Properties.extractProperty;
  * BDD-style Android-compatible soft assertions. Duplicated from {@link BDDSoftAssertions}.
  *
  * @see BDDSoftAssertions
+ * 
+ * @since 2.5.0 / 3.5.0
  */
 public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
   /**

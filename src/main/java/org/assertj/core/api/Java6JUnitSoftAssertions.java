@@ -22,6 +22,8 @@ import org.junit.runners.model.Statement;
  * {@link JUnitSoftAssertions}.
  *
  * @see JUnitSoftAssertions
+ * 
+ * @since 2.5.0 / 3.5.0
  */
 public class Java6JUnitSoftAssertions extends Java6AbstractStandardSoftAssertions
     implements TestRule {

@@ -433,8 +433,9 @@ public class Assertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @since 2.5.0 / 3.5.0
    */
-//@format:off
+  //@format:off
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
          FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual, 
@@ -466,6 +467,7 @@ public class Assertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @since 2.5.0 / 3.5.0
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
@@ -506,6 +508,7 @@ public class Assertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @since 2.5.0 / 3.5.0
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
@@ -538,6 +541,7 @@ public class Assertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @since 2.5.0 / 3.5.0
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 

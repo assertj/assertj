@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * Build the Assert instance by reflection.
+ * 
+ * @since 2.5.0 / 3.5.0
  */
 //@format:off
 public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
