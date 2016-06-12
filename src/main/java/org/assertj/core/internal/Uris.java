@@ -16,6 +16,7 @@ import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
@@ -29,7 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,12 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 public class Uris {
+
+  private static final String UTF_8 = "UTF-8";
+
+  private static final String EQUAL = "=";
+
+  private static final String AND = "&";
 
   private static final Uris INSTANCE = new Uris();
 
@@ -92,23 +99,23 @@ public class Uris {
 
   @VisibleForTesting
   public static Map<String, List<String>> getParameters(String query) {
-    Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+    Map<String, List<String>> parameters = new LinkedHashMap<>();
 
     if (query != null && !query.isEmpty()) {
-      for (String pair : query.split("&")) {
-        int equalSign = pair.indexOf("=");
-        String key = equalSign == -1 ? pair : pair.substring(0, equalSign);
-        String value = equalSign == -1 ? null : pair.substring(equalSign + 1);
+      for (String pair : query.split(AND)) {
+        int equalIndex = pair.indexOf(EQUAL);
+        String key = equalIndex == -1 ? pair : pair.substring(0, equalIndex);
+        String value = equalIndex == -1 ? null : pair.substring(equalIndex + 1);
 
         try {
-          key = URLDecoder.decode(key, "UTF-8");
+          key = URLDecoder.decode(key, UTF_8);
         } catch (UnsupportedEncodingException ex) {
           // UTF-8 is missing? Allow the key to remain encoded (no reasonable alternative).
         }
 
         if (value != null) {
           try {
-            value = URLDecoder.decode(value, "UTF-8");
+            value = URLDecoder.decode(value, UTF_8);
           } catch (UnsupportedEncodingException ex) {
             // UTF-8 is missing? Allow the value to remain encoded (no reasonable alternative).
           }
@@ -129,59 +136,48 @@ public class Uris {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getQuery());
-
-    if (!parameters.containsKey(name)) {
-      throw failures.failure(info, shouldHaveParameter(actual, name));
-    }
+    if (!parameters.containsKey(name)) throw failures.failure(info, shouldHaveParameter(actual, name));
   }
 
-  public void assertHasParameter(AssertionInfo info, URI actual, String name, String value) {
+  public void assertHasParameter(AssertionInfo info, URI actual, String expectedParameterName,
+                                 String expectedParameterValue) {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getQuery());
 
-    if (!parameters.containsKey(name)) {
-      throw failures.failure(info, shouldHaveParameter(actual, name, value));
-    }
+    if (!parameters.containsKey(expectedParameterName))
+      throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue));
 
-    List<String> values = parameters.get(name);
+    List<String> values = parameters.get(expectedParameterName);
+    if (!values.contains(expectedParameterValue))
+      throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue, values));
+  }
 
-    if (!values.contains(value)) {
-      if (values.size() == 1) {
-        throw failures.failure(info, shouldHaveParameter(actual, name, value, values.get(0)));
-      }
+  public void assertHasNoParameters(AssertionInfo info, URI actual) {
+    assertNotNull(info, actual);
 
-      throw failures.failure(info, shouldHaveParameter(actual, name, value, values.toString()));
-    }
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    if (!parameters.isEmpty()) throw failures.failure(info, shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
   public void assertHasNoParameter(AssertionInfo info, URI actual, String name) {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getQuery());
-
-    if (parameters.containsKey(name)) {
-      List<String> values = parameters.get(name);
-
-      if (values.size() == 1) {
-        throw failures.failure(info, shouldHaveNoParameter(actual, name, values.get(0)));
-      }
-
-      throw failures.failure(info, shouldHaveNoParameter(actual, name, values.toString()));
-    }
+    if (parameters.containsKey(name))
+      throw failures.failure(info, shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
-  public void assertHasNoParameter(AssertionInfo info, URI actual, String name, String value) {
+  public void assertHasNoParameter(AssertionInfo info, URI actual, String name, String unwantedValue) {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getQuery());
 
     if (parameters.containsKey(name)) {
       List<String> values = parameters.get(name);
-
-      if (values.contains(value)) {
-        throw failures.failure(info, shouldHaveNoParameter(actual, name, value, values.get(0)));
-      }
+      if (values.contains(unwantedValue))
+        throw failures.failure(info, shouldHaveNoParameter(actual, name, unwantedValue, values));
     }
   }
+
 }

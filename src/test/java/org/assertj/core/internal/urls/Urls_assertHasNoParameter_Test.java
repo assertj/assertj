@@ -13,11 +13,15 @@
 package org.assertj.core.internal.urls;
 
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.Test;
@@ -33,12 +37,12 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
   public void should_fail_if_parameter_is_present_without_value() throws MalformedURLException {
     URL url = new URL("http://assertj.org/news?article");
     String name = "article";
-    String actualValue = null;
+    List<String> actualValues = newArrayList((String)null);
 
     try {
       urls.assertHasNoParameter(info, url, name);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
       return;
     }
 
@@ -49,12 +53,12 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
   public void should_fail_if_parameter_is_present_with_value() throws MalformedURLException {
     URL url = new URL("http://assertj.org/news?article=10");
     String name = "article";
-    String actualValue = "10";
+    List<String> actualValues = newArrayList("10");
 
     try {
       urls.assertHasNoParameter(info, url, name);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
       return;
     }
 
@@ -65,12 +69,12 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
   public void should_fail_if_parameter_is_present_multiple_times() throws MalformedURLException {
     URL url = new URL("http://assertj.org/news?article&article=10");
     String name = "article";
-    String actualValue = "[null, 10]";
+    List<String> actualValues = newArrayList(null, "10");
 
     try {
       urls.assertHasNoParameter(info, url, name);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
       return;
     }
 
@@ -87,12 +91,12 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article");
     String name = "article";
     String expectedValue = null;
-    String actualValue = null;
+    List<String> actualValues = newArrayList((String)null);
 
     try {
       urls.assertHasNoParameter(info, url, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValues));
       return;
     }
 
@@ -124,12 +128,45 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article=10");
     String name = "article";
     String expectedValue = "10";
-    String actualValue = "10";
+    List<String> actualValues = newArrayList("10");
 
     try {
       urls.assertHasNoParameter(info, url, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValues));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_pass_if_url_has_no_parameters() throws MalformedURLException {
+    urls.assertHasNoParameters(info, new URL("http://assertj.org/news"));
+  }
+
+  @Test
+  public void should_fail_if_url_has_some_parameters() throws MalformedURLException {
+    URL url = new URL("http://assertj.org/news?article=10&locked=false");
+
+    try {
+      urls.assertHasNoParameters(info, url);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveNoParameters(url, newLinkedHashSet("article", "locked")));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_url_has_one_parameter() throws MalformedURLException {
+    URL url = new URL("http://assertj.org/news?article=10");
+
+    try {
+      urls.assertHasNoParameters(info, url);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveNoParameters(url, newLinkedHashSet("article")));
       return;
     }
 

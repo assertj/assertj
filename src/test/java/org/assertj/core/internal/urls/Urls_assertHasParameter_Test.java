@@ -14,10 +14,12 @@ package org.assertj.core.internal.urls;
 
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.Test;
@@ -75,12 +77,12 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article=11");
     String name = "article";
     String expectedValue = null;
-    String actualValue = "11";
+    List<String> actualValues = newArrayList("11");
 
     try {
       urls.assertHasParameter(info, url, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
       return;
     }
 
@@ -92,12 +94,12 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article=11&article=12");
     String name = "article";
     String expectedValue = null;
-    String actualValue = "[11, 12]";
+    List<String> actualValues = newArrayList("11", "12");
 
     try {
       urls.assertHasParameter(info, url, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
       return;
     }
 
@@ -125,12 +127,12 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article");
     String name = "article";
     String expectedValue = "10";
-    String actualValue = null;
+    List<String> actualValues = newArrayList((String)null);
 
     try {
       urls.assertHasParameter(info, url, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
       return;
     }
 
@@ -142,12 +144,12 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article&article");
     String name = "article";
     String expectedValue = "10";
-    String actualValue = "[null, null]";
+    List<String> actualValues = newArrayList(null, null);
 
     try {
       urls.assertHasParameter(info, url, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
       return;
     }
 
@@ -159,12 +161,12 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article=11");
     String name = "article";
     String expectedValue = "10";
-    String actualValue = "11";
+    List<String> actualValues = newArrayList("11");
 
     try {
       urls.assertHasParameter(info, url, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
       return;
     }
 

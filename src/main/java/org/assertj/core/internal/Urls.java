@@ -16,6 +16,7 @@ import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
@@ -23,6 +24,7 @@ import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
 import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
+import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Objects.areEqual;
 
 import java.net.URL;
@@ -90,60 +92,49 @@ public class Urls {
   public void assertHasParameter(AssertionInfo info, URL actual, String name) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = Uris.getParameters(actual.getQuery());
-
-    if (!parameters.containsKey(name)) {
-      throw failures.failure(info, shouldHaveParameter(actual, name));
-    }
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    if (!parameters.containsKey(name)) throw failures.failure(info, shouldHaveParameter(actual, name));
   }
 
-  public void assertHasParameter(AssertionInfo info, URL actual, String name, String value) {
+  public void assertHasParameter(AssertionInfo info, URL actual, String expectedParameterName,
+                                 String expectedParameterValue) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = Uris.getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
 
-    if (!parameters.containsKey(name)) {
-      throw failures.failure(info, shouldHaveParameter(actual, name, value));
-    }
+    if (!parameters.containsKey(expectedParameterName))
+      throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue));
 
-    List<String> values = parameters.get(name);
+    List<String> values = parameters.get(expectedParameterName);
+    if (!values.contains(expectedParameterValue))
+      throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue, values));
+  }
 
-    if (!values.contains(value)) {
-      if (values.size() == 1) {
-        throw failures.failure(info, shouldHaveParameter(actual, name, value, values.get(0)));
-      }
+  public void assertHasNoParameters(AssertionInfo info, URL actual) {
+    assertNotNull(info, actual);
 
-      throw failures.failure(info, shouldHaveParameter(actual, name, value, values.toString()));
-    }
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    if (!parameters.isEmpty()) throw failures.failure(info, shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
   public void assertHasNoParameter(AssertionInfo info, URL actual, String name) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = Uris.getParameters(actual.getQuery());
-
-    if (parameters.containsKey(name)) {
-      List<String> values = parameters.get(name);
-
-      if (values.size() == 1) {
-        throw failures.failure(info, shouldHaveNoParameter(actual, name, values.get(0)));
-      }
-
-      throw failures.failure(info, shouldHaveNoParameter(actual, name, values.toString()));
-    }
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    if (parameters.containsKey(name))
+      throw failures.failure(info, shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
-  public void assertHasNoParameter(AssertionInfo info, URL actual, String name, String value) {
+  public void assertHasNoParameter(AssertionInfo info, URL actual, String name, String unwantedValue) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = Uris.getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getQuery());
 
     if (parameters.containsKey(name)) {
       List<String> values = parameters.get(name);
-
-      if (values.contains(value)) {
-        throw failures.failure(info, shouldHaveNoParameter(actual, name, value, values.get(0)));
-      }
+      if (values.contains(unwantedValue))
+        throw failures.failure(info, shouldHaveNoParameter(actual, name, unwantedValue, values));
     }
   }
+
 }

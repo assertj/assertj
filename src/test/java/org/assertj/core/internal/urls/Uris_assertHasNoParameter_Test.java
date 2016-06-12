@@ -13,11 +13,15 @@
 package org.assertj.core.internal.urls;
 
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.Test;
@@ -33,12 +37,12 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   public void should_fail_if_parameter_is_present_without_value() throws URISyntaxException {
     URI uri = new URI("http://assertj.org/news?article");
     String name = "article";
-    String actualValue = null;
+    List<String> actualValues = newArrayList((String)null);
 
     try {
       uris.assertHasNoParameter(info, uri, name);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
       return;
     }
 
@@ -49,7 +53,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   public void should_fail_if_parameter_is_present_with_value() throws URISyntaxException {
     URI uri = new URI("http://assertj.org/news?article=10");
     String name = "article";
-    String actualValue = "10";
+    List<String> actualValue = newArrayList("10");
 
     try {
       uris.assertHasNoParameter(info, uri, name);
@@ -65,12 +69,12 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   public void should_fail_if_parameter_is_present_multiple_times() throws URISyntaxException {
     URI uri = new URI("http://assertj.org/news?article&article=10");
     String name = "article";
-    String actualValue = "[null, 10]";
+    List<String> actualValues = newArrayList(null, "10");
 
     try {
       uris.assertHasNoParameter(info, uri, name);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
       return;
     }
 
@@ -87,12 +91,12 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     URI uri = new URI("http://assertj.org/news?article");
     String name = "article";
     String expectedValue = null;
-    String actualValue = null;
+    List<String> actualValues = newArrayList((String)null);
 
     try {
       uris.assertHasNoParameter(info, uri, name, expectedValue);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValue));
+      verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValues));
       return;
     }
 
@@ -124,12 +128,45 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     URI uri = new URI("http://assertj.org/news?article=10");
     String name = "article";
     String expectedValue = "10";
-    String actualValue = "10";
+    List<String> actualValue = newArrayList("10");
 
     try {
       uris.assertHasNoParameter(info, uri, name, expectedValue);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValue));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_pass_if_uri_has_no_parameters() throws URISyntaxException {
+    uris.assertHasNoParameters(info, new URI("http://assertj.org/news"));
+  }
+
+  @Test
+  public void should_fail_if_uri_has_some_parameters() throws URISyntaxException {
+    URI uri = new URI("http://assertj.org/news?article=10&locked=false");
+
+    try {
+      uris.assertHasNoParameters(info, uri);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article", "locked")));
+      return;
+    }
+
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_uri_has_one_parameter() throws URISyntaxException {
+    URI uri = new URI("http://assertj.org/news?article=10");
+
+    try {
+      uris.assertHasNoParameters(info, uri);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article")));
       return;
     }
 

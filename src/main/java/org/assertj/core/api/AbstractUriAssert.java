@@ -39,7 +39,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URI("http://helloworld.org/pages")).hasPath("/pages");
    * assertThat(new URI("http://www.helloworld.org")).hasPath("");
-   * 
+   *
    * // this assertion fails:
    * assertThat(new URI("http://helloworld.org/pickme")).hasPath("/pages");</code></pre>
    *
@@ -58,7 +58,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("mailto:java-net@java.sun.com")).hasNoPath();
-   * 
+   *
    * // this assertions fail:
    * assertThat(new URI("http://helloworld.org")).hasNoPath(); // empty path
    * assertThat(new URI("http://helloworld.org/france")).hasNoPath();</code></pre>
@@ -77,7 +77,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URI("http://helloworld.org:8080")).hasPort(8080);
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://helloworld.org:8080")).hasPort(9876);
    * assertThat(new URI("http://helloworld.org")).hasPort(8080);
@@ -98,7 +98,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URI("http://helloworld.org")).hasNoPort();
-   * 
+   *
    * // These assertion fails:
    * assertThat(new URI("http://helloworld.org:8080")).hasNoPort();</code></pre>
    *
@@ -118,7 +118,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * assertThat(new URI("http://helloworld.org")).hasAuthority("helloworld.org");
    * assertThat(new URI("http://helloworld.org/pages")).hasHost("helloworld.org");
    * assertThat(new URI("http://helloworld.org:8080")).hasHost("helloworld.org");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org")).hasHost("helloworld.org");
    * assertThat(new URI("http://www.helloworld.org:8080")).hasHost("helloworld.org");</code></pre>
@@ -139,7 +139,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URI("http://helloworld.org:8080")).hasAuthority("helloworld.org:8080");
    * assertThat(new URI("http://www.helloworld.org:8080/news")).hasAuthority("www.helloworld.org:8080");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org:8080")).hasAuthority("www.helloworld.org");
    * assertThat(new URI("http://www.helloworld.org")).hasAuthority("www.helloworld.org:8080");</code></pre>
@@ -159,7 +159,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("http://helloworld.org:8080/index.html#print")).hasFragment("print");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://helloworld.org:8080/index.html#print")).hasFragment("hello");
    * assertThat(new URI("http://helloworld.org:8080/index.html")).hasFragment("hello");</code></pre>
@@ -179,10 +179,10 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoFragment();
-   * 
+   *
    * // This assertion fail:
    * assertThat(new URI("http://helloworld.org:8080/index.html#print")).hasNoFragment();</code></pre>
-   * 
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a fragment.
    */
@@ -197,7 +197,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("http://www.helloworld.org/index.html?type=test")).hasQuery("type=test");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org/index.html?type=test")).hasQuery("type=hello");
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasQuery("type=hello");</code></pre>
@@ -217,7 +217,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoQuery();
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org/index.html?type=test")).hasNoQuery();</code></pre>
    *
@@ -235,7 +235,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("ftp://helloworld.org")).hasScheme("ftp");
-   * 
+   *
    * // These assertion fails:
    * assertThat(new URI("http://helloworld.org")).hasScheme("ftp");</code></pre>
    *
@@ -256,7 +256,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * assertThat(new URI("http://test:pass@www.helloworld.org/index.html")).hasUserInfo("test:pass");
    * assertThat(new URI("http://test@www.helloworld.org/index.html")).hasUserInfo("test");
    * assertThat(new URI("http://:pass@www.helloworld.org/index.html")).hasUserInfo(":pass");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://test:pass@www.helloworld.org/index.html")).hasUserInfo("test:fail");
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasUserInfo("test:pass");</code></pre>
@@ -276,7 +276,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoUserInfo();
-   * 
+   *
    * // This assertion fails:
    * assertThat(new URI("http://test:pass@www.helloworld.org/index.html")).hasNoUserInfo();</code></pre>
    *
@@ -297,15 +297,17 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URI("http://www.helloworld.org/index.html?happy")).hasParameter("happy");
    * assertThat(new URI("http://www.helloworld.org/index.html?happy=very")).hasParameter("happy");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasParameter("happy");
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasParameter("happy");</code></pre>
-   * 
+   *
    * @param name the name of the parameter expected to be present.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   *
+   * @since 2.5.0
    */
   public S hasParameter(String name) {
     uris.assertHasParameter(info, actual, name);
@@ -322,19 +324,43 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URI("http://www.helloworld.org/index.html?happy")).hasParameter("happy", null);
    * assertThat(new URI("http://www.helloworld.org/index.html?happy=very")).hasParameter("happy", "very");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasParameter("sad", "much");
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasParameter("sad", null);</code></pre>
-   * 
+   *
    * @param name the name of the parameter expected to be present.
    * @param value the value of the parameter expected to be present.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   *
+   * @since 2.5.0
    */
   public S hasParameter(String name, String value) {
     uris.assertHasParameter(info, actual, name, value);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code URI} does not have any parameters.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // This assertion succeeds:
+   * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoParameters();
+   *
+   * // These assertions fail:
+   * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameters();
+   * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameters();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual has a parameter.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   *
+   * @since 2.5.0
+   */
+  public S hasNoParameters() {
+    uris.assertHasNoParameters(info, actual);
     return myself;
   }
 
@@ -346,11 +372,11 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoParameter("happy");
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad");
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad");</code></pre>
-   * 
+   *
    * @param name the name of the parameter expected to be absent.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has the expected parameter.
@@ -372,11 +398,11 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoParameter("happy", "very");
    * assertThat(new URI("http://www.helloworld.org/index.html?happy")).hasNoParameter("happy", "very");
    * assertThat(new URI("http://www.helloworld.org/index.html?happy=very")).hasNoParameter("happy", null);
-   * 
+   *
    * // These assertions fail:
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad", null);
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad", "much");</code></pre>
-   * 
+   *
    * @param name the name of the parameter expected to be absent.
    * @param value the value of the parameter expected to be absent.
    * @return {@code this} assertion object.

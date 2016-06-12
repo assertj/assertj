@@ -54,9 +54,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldHaveNoNullFields;
 import org.assertj.core.internal.DeepDifference.Difference;
-import org.assertj.core.internal.Objects.ByFieldsComparison;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;

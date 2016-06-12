@@ -23,12 +23,12 @@ import static org.assertj.core.internal.Uris.getParameters;
 public class Uris_getParameters_Test {
 
   @Test
-  public void should_return_empty_for_empty_query()  {
+  public void should_return_empty_for_empty_query() {
     assertThat(getParameters("")).isEmpty();
   }
 
   @Test
-  public void should_return_empty_for_null_query()  {
+  public void should_return_empty_for_null_query() {
     assertThat(getParameters(null)).isEmpty();
   }
 
@@ -37,8 +37,8 @@ public class Uris_getParameters_Test {
     Map<String, List<String>> parameters = getParameters("foo");
 
     assertThat(parameters).containsKey("foo");
-    assertThat(parameters.get("foo")).size().isEqualTo(1);
-    assertThat(parameters.get("foo").get(0)).isNull();
+    assertThat(parameters.get("foo")).hasSize(1)
+                                     .containsNull();
   }
 
   @Test
@@ -46,8 +46,7 @@ public class Uris_getParameters_Test {
     Map<String, List<String>> parameters = getParameters("foo=bar");
 
     assertThat(parameters).containsKey("foo");
-    assertThat(parameters.get("foo")).size().isEqualTo(1);
-    assertThat(parameters.get("foo")).contains("bar");
+    assertThat(parameters.get("foo")).containsExactly("bar");
   }
 
   @Test
@@ -65,9 +64,7 @@ public class Uris_getParameters_Test {
     Map<String, List<String>> parameters = getParameters("foo&foo=bar");
 
     assertThat(parameters).containsKey("foo");
-    assertThat(parameters.get("foo")).size().isEqualTo(2);
-    assertThat(parameters.get("foo").get(0)).isNull();
-    assertThat(parameters.get("foo").get(1)).isEqualTo("bar");
+    assertThat(parameters.get("foo")).containsOnly(null, "bar");
   }
 
   @Test
@@ -75,8 +72,6 @@ public class Uris_getParameters_Test {
     Map<String, List<String>> parameters = getParameters("foo=bar&foo=bar");
 
     assertThat(parameters).containsKey("foo");
-    assertThat(parameters.get("foo")).size().isEqualTo(2);
-    assertThat(parameters.get("foo").get(0)).isEqualTo("bar");
-    assertThat(parameters.get("foo").get(1)).isEqualTo("bar");
+    assertThat(parameters.get("foo")).containsExactly("bar", "bar");
   }
 }

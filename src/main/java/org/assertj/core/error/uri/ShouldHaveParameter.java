@@ -12,130 +12,95 @@
  */
 package org.assertj.core.error.uri;
 
-import java.net.URI;
-import java.net.URL;
+import java.util.List;
+import java.util.Set;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldHaveParameter extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_PARAMETER_BUT_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nbut was absent";
-  private static final String SHOULD_HAVE_PARAMETER_NO_VALUE_BUT_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but was absent";
-  private static final String SHOULD_HAVE_PARAMETER_NO_VALUE_BUT_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but had value:%n  <%s>";
-  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut was absent";
-  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_NO_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had no value";
-  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_WRONG = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had value:%n  <%s>";
-  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_NO_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut was present with no value";
-  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut was present with value:%n  <%s>";
-  private static final String SHOULD_HAVE_NO_PARAMETER_NO_VALUE_BUT_FOUND = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith no value, but was present";
-  private static final String SHOULD_HAVE_NO_PARAMETER_VALUE_BUT_FOUND = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith value:%n  <%s>%nbut was present";
+  private static final String SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nbut was missing";
+  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_PARAMETER_WAS_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter was missing";
+  private static final String SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_PARAMETER_WAS_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut parameter was missing";
 
-  public static ErrorMessageFactory shouldHaveParameter(URI actual, String name) {
-    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_BUT_MISSING, actual, name);
+  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter had value:%n  <%s>";
+  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUES = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter had values:%n  <%s>";
+  private static final String SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_HAD_NO_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut parameter had no value";
+
+  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had value:%n  <%s>";
+  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUES = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had values:%n  <%s>";
+
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_WITHOUT_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with no value";
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with value:%n  <%s>";
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_MULTIPLE_VALUES = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with values:%n  <%s>";
+
+  private static final String SHOULD_HAVE_NO_PARAMETER_WITHOUT_VALUE_BUT_FOUND_ONE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith no value, but did";
+  private static final String SHOULD_HAVE_NO_PARAMETER_WITH_GIVEN_VALUE_BUT_FOUND_ONE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith value:%n  <%s>%nbut did";
+
+  private static final String SHOULD_HAVE_NO_PARAMETERS = "%nExpecting:%n  <%s>%nnot to have any parameters but found:%n  <%s>";
+
+  public static ErrorMessageFactory shouldHaveParameter(Object actual, String name) {
+    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING, actual, name);
   }
 
-  public static ErrorMessageFactory shouldHaveParameter(URI actual, String name, String expectedValue) {
-    if (expectedValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_NO_VALUE_BUT_MISSING, actual, name);
-    }
-
-    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_VALUE_BUT_MISSING, actual, name, expectedValue);
+  public static ErrorMessageFactory shouldHaveParameter(Object actual, String name, String expectedValue) {
+    if (expectedValue == null)
+      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_PARAMETER_WAS_MISSING, actual, name);
+    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_PARAMETER_WAS_MISSING, actual, name,
+                                   expectedValue);
   }
 
-  public static ErrorMessageFactory shouldHaveParameter(URI actual, String name, String expectedValue,
-                                                        String actualValue) {
-    if (expectedValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_NO_VALUE_BUT_VALUE, actual, name, actualValue);
-    }
+  public static ErrorMessageFactory shouldHaveParameter(Object actual, String name, String expectedValue,
+                                                        List<String> actualValues) {
+    if (expectedValue == null)
+      return new ShouldHaveParameter(multipleValues(actualValues) ? SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUES
+          : SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUE, actual, name, valueDescription(actualValues));
 
-    if (actualValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_VALUE_BUT_NO_VALUE, actual, name, expectedValue);
-    }
+    if (noValueIn(actualValues))
+      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_HAD_NO_VALUE, actual, name, expectedValue);
 
-    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_VALUE_BUT_WRONG, actual, name, expectedValue, actualValue);
+    return new ShouldHaveParameter(multipleValues(actualValues) ? SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUES
+        : SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUE, actual, name, expectedValue, valueDescription(actualValues));
   }
 
-  public static ErrorMessageFactory shouldHaveNoParameter(URI actual, String name, String actualValue) {
-    if (actualValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_BUT_NO_VALUE, actual, name);
-    }
-
-    return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_BUT_VALUE, actual, name, actualValue);
+  public static ErrorMessageFactory shouldHaveNoParameters(Object actual, Set<String> parameterNames) {
+    String parametersDescription = parameterNames.size() == 1 ? parameterNames.iterator().next()
+        : parameterNames.toString();
+    return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETERS, actual, parametersDescription);
   }
 
-  public static ErrorMessageFactory shouldHaveNoParameter(URI actual, String name, String expectedValue,
-                                                          String actualValue) {
-    if (actualValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_NO_VALUE_BUT_FOUND, actual, name);
-    }
-
-    return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_VALUE_BUT_FOUND, actual, name, expectedValue);
+  public static ErrorMessageFactory shouldHaveNoParameter(Object actual, String name, List<String> actualValues) {
+    return noValueIn(actualValues)
+        ? new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_WITHOUT_VALUE, actual, name)
+        : new ShouldHaveParameter(multipleValues(actualValues) ? SHOULD_HAVE_NO_PARAMETER_BUT_HAD_MULTIPLE_VALUES
+            : SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_VALUE, actual, name, valueDescription(actualValues));
   }
 
-  private ShouldHaveParameter(String format, URI actual, String name) {
-    super(format, actual, name);
+  public static ErrorMessageFactory shouldHaveNoParameter(Object actual, String name, String unwantedValue,
+                                                          List<String> actualValues) {
+    if (noValueIn(actualValues))
+      return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_WITHOUT_VALUE_BUT_FOUND_ONE, actual, name);
+
+    return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_WITH_GIVEN_VALUE_BUT_FOUND_ONE, actual, name,
+                                   unwantedValue);
   }
 
-  private ShouldHaveParameter(String format, URI actual, String name, String value) {
-    super(format, actual, name, value);
+  private static boolean noValueIn(List<String> actualValues) {
+    return actualValues == null || (actualValues.size() == 1 && actualValues.contains(null));
   }
 
-  private ShouldHaveParameter(String format, URI actual, String name, String expectedValue, String actualValue) {
-    super(format, actual, name, expectedValue, actualValue);
+  private static String valueDescription(List<String> actualValues) {
+    return multipleValues(actualValues) ? actualValues.toString()
+        : actualValues.get(0) == null ? null : actualValues.get(0).toString();
   }
 
-  public static ErrorMessageFactory shouldHaveParameter(URL actual, String name) {
-    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_BUT_MISSING, actual, name);
+  private static boolean multipleValues(List<String> values) {
+    return values.size() > 1;
   }
 
-  public static ErrorMessageFactory shouldHaveParameter(URL actual, String name, String expectedValue) {
-    if (expectedValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_NO_VALUE_BUT_MISSING, actual, name);
-    }
-
-    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_VALUE_BUT_MISSING, actual, name, expectedValue);
+  private ShouldHaveParameter(String format, Object... arguments) {
+    super(format, arguments);
   }
 
-  public static ErrorMessageFactory shouldHaveParameter(URL actual, String name, String expectedValue,
-                                                        String actualValue) {
-    if (expectedValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_NO_VALUE_BUT_VALUE, actual, name, actualValue);
-    }
-
-    if (actualValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_VALUE_BUT_NO_VALUE, actual, name, expectedValue);
-    }
-
-    return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_VALUE_BUT_WRONG, actual, name, expectedValue, actualValue);
-  }
-
-  public static ErrorMessageFactory shouldHaveNoParameter(URL actual, String name, String actualValue) {
-    if (actualValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_BUT_NO_VALUE, actual, name);
-    }
-
-    return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_BUT_VALUE, actual, name, actualValue);
-  }
-
-  public static ErrorMessageFactory shouldHaveNoParameter(URL actual, String name, String expectedValue,
-                                                          String actualValue) {
-    if (actualValue == null) {
-      return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_NO_VALUE_BUT_FOUND, actual, name);
-    }
-
-    return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_VALUE_BUT_FOUND, actual, name, expectedValue);
-  }
-
-  private ShouldHaveParameter(String format, URL actual, String name) {
-    super(format, actual, name);
-  }
-
-  private ShouldHaveParameter(String format, URL actual, String name, String value) {
-    super(format, actual, name, value);
-  }
-
-  private ShouldHaveParameter(String format, URL actual, String name, String expectedValue, String actualValue) {
-    super(format, actual, name, expectedValue, actualValue);
-  }
 }

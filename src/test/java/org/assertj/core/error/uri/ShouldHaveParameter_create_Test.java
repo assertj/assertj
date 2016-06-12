@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.net.URI;
 import java.net.URL;
@@ -26,284 +27,382 @@ import org.junit.Test;
 public class ShouldHaveParameter_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri_parameter_missing() throws Exception {
+  public void should_create_error_message_for_missing_uri_parameter() throws Exception {
     URI uri = new URI("http://assertj.org/news");
     String error = shouldHaveParameter(uri, "article").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "but was absent"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but was missing"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_no_value_but_missing() throws Exception {
+  public void should_create_error_message_for_uri_parameter_without_value_that_is_missing() throws Exception {
     URI uri = new URI("http://assertj.org/news");
     String error = shouldHaveParameter(uri, "article", null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with no value, but was absent"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but parameter was missing"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_value_but_missing() throws Exception {
+  public void should_create_error_message_for_missing_uri_parameter_with_an_expected_value() throws Exception {
     URI uri = new URI("http://assertj.org/news");
     String error = shouldHaveParameter(uri, "article", "10").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but was absent"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but parameter was missing"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_no_value_but_value() throws Exception {
+  public void should_create_error_message_for_uri_parameter_without_value_that_has_one() throws Exception {
     URI uri = new URI("http://assertj.org/news?article=10");
-    String error = shouldHaveParameter(uri, "article", null, "10").create(new TestDescription("TEST"));
+    String error = shouldHaveParameter(uri, "article", null, newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=10>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with no value, but had value:%n" +
-        "  <\"10\">"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but parameter had value:%n" +
+                                       "  <\"10\">"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_value_but_no_value() throws Exception {
+  public void should_create_error_message_for_uri_parameter_without_value_that_has_multiple_values() throws Exception {
+    URI uri = new URI("http://assertj.org/news?article=10");
+    String error = shouldHaveParameter(uri, "article", null,
+                                       newArrayList("10", "11")).create(new TestDescription("TEST"));
+
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but parameter had values:%n" +
+                                       "  <\"[10, 11]\">"));
+  }
+
+  @Test
+  public void should_create_error_message_for_uri_parameter_with_value_that_has_no_value() throws Exception {
     URI uri = new URI("http://assertj.org/news?article");
-    String error = shouldHaveParameter(uri, "article", "10", null).create(new TestDescription("TEST"));
+    String error = shouldHaveParameter(uri, "article", "10",
+                                       newArrayList((String) null)).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but had no value"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but parameter had no value"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_value_but_wrong() throws Exception {
+  public void should_create_error_message_for_uri_with_wrong_parameter_value() throws Exception {
     URI uri = new URI("http://assertj.org/news?article=11");
-    String error = shouldHaveParameter(uri, "article", "10", "11").create(new TestDescription("TEST"));
+    String error = shouldHaveParameter(uri, "article", "10", newArrayList("11")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=11>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but had value:%n" +
-        "  <\"11\">"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=11>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but had value:%n" +
+                                       "  <\"11\">"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_no_parameter_but_no_value() throws Exception {
+  public void should_create_error_message_for_uri_with_wrong_parameter_values() throws Exception {
+    URI uri = new URI("http://assertj.org/news?article=11");
+    String error = shouldHaveParameter(uri, "article", "10",
+                                       newArrayList("11", "12")).create(new TestDescription("TEST"));
+
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=11>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but had values:%n" +
+                                       "  <\"[11, 12]\">"));
+  }
+
+  @Test
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_even_without_value() throws Exception {
     URI uri = new URI("http://assertj.org/news?article");
     String error = shouldHaveNoParameter(uri, "article", null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "but was present with no value"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but parameter was present with no value"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_no_parameter_but_value() throws Exception {
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_value() throws Exception {
     URI uri = new URI("http://assertj.org/news?article=10");
-    String error = shouldHaveNoParameter(uri, "article", "10").create(new TestDescription("TEST"));
+    String error = shouldHaveNoParameter(uri, "article", newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=10>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "but was present with value:%n" +
-        "  <\"10\">"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but parameter was present with value:%n" +
+                                       "  <\"10\">"));
   }
 
   @Test
-  public void should_create_error_message_for_uri_no_parameter_no_value_but_found() throws Exception {
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_multiple_values() throws Exception {
+    URI uri = new URI("http://assertj.org/news?article=10");
+    String error = shouldHaveNoParameter(uri, "article", newArrayList("10", "11")).create(new TestDescription("TEST"));
+
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but parameter was present with values:%n" +
+                                       "  <\"[10, 11]\">"));
+  }
+
+  @Test
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_without_value() throws Exception {
     URI uri = new URI("http://assertj.org/news?article");
     String error = shouldHaveNoParameter(uri, "article", null, null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with no value, but was present"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but did"));
   }
 
   @Test
   public void should_create_error_message_for_uri_no_parameter_value_but_found() throws Exception {
     URI uri = new URI("http://assertj.org/news?article=10");
-    String error = shouldHaveNoParameter(uri, "article", "10", "10").create(new TestDescription("TEST"));
+    String error = shouldHaveNoParameter(uri, "article", "10", newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=10>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but was present"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but did"));
   }
 
+  // URL
+
   @Test
-  public void should_create_error_message_for_url_parameter_missing() throws Exception {
+  public void should_create_error_message_for_missing_url_parameter() throws Exception {
     URL url = new URL("http://assertj.org/news");
     String error = shouldHaveParameter(url, "article").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "but was absent"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but was missing"));
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_no_value_but_missing() throws Exception {
+  public void should_create_error_message_for_url_parameter_without_value_that_is_missing() throws Exception {
     URL url = new URL("http://assertj.org/news");
     String error = shouldHaveParameter(url, "article", null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with no value, but was absent"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but parameter was missing"));
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_value_but_missing() throws Exception {
+  public void should_create_error_message_for_missing_url_parameter_with_an_expected_value() throws Exception {
     URL url = new URL("http://assertj.org/news");
     String error = shouldHaveParameter(url, "article", "10").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but was absent"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but parameter was missing"));
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_no_value_but_value() throws Exception {
+  public void should_create_error_message_for_url_parameter_without_value_that_has_one() throws Exception {
     URL url = new URL("http://assertj.org/news?article=10");
-    String error = shouldHaveParameter(url, "article", null, "10").create(new TestDescription("TEST"));
+    String error = shouldHaveParameter(url, "article", null, newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=10>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with no value, but had value:%n" +
-        "  <\"10\">"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but parameter had value:%n" +
+                                       "  <\"10\">"));
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_value_but_no_value() throws Exception {
+  public void should_create_error_message_for_url_parameter_without_value_that_has_multiple_values() throws Exception {
+    URL url = new URL("http://assertj.org/news?article=10");
+    String error = shouldHaveParameter(url, "article", null,
+                                       newArrayList("10", "11")).create(new TestDescription("TEST"));
+
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but parameter had values:%n" +
+                                       "  <\"[10, 11]\">"));
+  }
+
+  @Test
+  public void should_create_error_message_for_url_parameter_with_value_that_has_no_value() throws Exception {
     URL url = new URL("http://assertj.org/news?article");
-    String error = shouldHaveParameter(url, "article", "10", null).create(new TestDescription("TEST"));
+    String error = shouldHaveParameter(url, "article", "10",
+                                       newArrayList((String) null)).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but had no value"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but parameter had no value"));
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_value_but_wrong() throws Exception {
+  public void should_create_error_message_for_url_with_wrong_parameter_value() throws Exception {
     URL url = new URL("http://assertj.org/news?article=11");
-    String error = shouldHaveParameter(url, "article", "10", "11").create(new TestDescription("TEST"));
+    String error = shouldHaveParameter(url, "article", "10", newArrayList("11")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=11>%n" +
-        "to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but had value:%n" +
-        "  <\"11\">"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=11>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but had value:%n" +
+                                       "  <\"11\">"));
   }
 
   @Test
-  public void should_create_error_message_for_url_no_parameter_but_no_value() throws Exception {
+  public void should_create_error_message_for_url_with_wrong_parameter_values() throws Exception {
+    URL url = new URL("http://assertj.org/news?article=11");
+    String error = shouldHaveParameter(url, "article", "10",
+                                       newArrayList("11", "12")).create(new TestDescription("TEST"));
+
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=11>%n" +
+                                       "to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but had values:%n" +
+                                       "  <\"[11, 12]\">"));
+  }
+
+  @Test
+  public void should_create_error_message_for_url_with_no_parameter_that_has_one_even_without_value() throws Exception {
     URL url = new URL("http://assertj.org/news?article");
-    String error = shouldHaveNoParameter(url, "article", null).create(new TestDescription("TEST"));
+    String error = shouldHaveNoParameter(url, "article", newArrayList((String)null)).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "but was present with no value"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but parameter was present with no value"));
   }
 
   @Test
-  public void should_create_error_message_for_url_no_parameter_but_value() throws Exception {
+  public void should_create_error_message_for_url_with_no_parameter_that_has_one_with_value() throws Exception {
     URL url = new URL("http://assertj.org/news?article=10");
-    String error = shouldHaveNoParameter(url, "article", "10").create(new TestDescription("TEST"));
+    String error = shouldHaveNoParameter(url, "article", newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=10>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "but was present with value:%n" +
-        "  <\"10\">"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but parameter was present with value:%n" +
+                                       "  <\"10\">"));
   }
 
   @Test
-  public void should_create_error_message_for_url_no_parameter_no_value_but_found() throws Exception {
+  public void should_create_error_message_for_url_with_no_parameter_that_has_one_with_multiple_values() throws Exception {
+    URL url = new URL("http://assertj.org/news?article=10");
+    String error = shouldHaveNoParameter(url, "article", newArrayList("10", "11")).create(new TestDescription("TEST"));
+
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "but parameter was present with values:%n" +
+                                       "  <\"[10, 11]\">"));
+  }
+
+  @Test
+  public void should_create_error_message_for_url_with_no_parameter_that_has_one_without_value() throws Exception {
     URL url = new URL("http://assertj.org/news?article");
     String error = shouldHaveNoParameter(url, "article", null, null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with no value, but was present"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with no value, but did"));
   }
 
   @Test
   public void should_create_error_message_for_url_no_parameter_value_but_found() throws Exception {
     URL url = new URL("http://assertj.org/news?article=10");
-    String error = shouldHaveNoParameter(url, "article", "10", "10").create(new TestDescription("TEST"));
+    String error = shouldHaveNoParameter(url, "article", "10", newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-        "Expecting:%n" +
-        "  <http://assertj.org/news?article=10>%n" +
-        "not to have parameter:%n" +
-        "  <\"article\">%n" +
-        "with value:%n" +
-        "  <\"10\">%n" +
-        "but was present"));
+                                       "Expecting:%n" +
+                                       "  <http://assertj.org/news?article=10>%n" +
+                                       "not to have parameter:%n" +
+                                       "  <\"article\">%n" +
+                                       "with value:%n" +
+                                       "  <\"10\">%n" +
+                                       "but did"));
   }
+
+
 }
