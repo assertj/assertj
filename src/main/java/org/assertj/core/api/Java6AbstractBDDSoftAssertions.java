@@ -24,6 +24,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+/**
+ * @since 2.5.0 / 3.5.0
+ */
 public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   // then* methods duplicated from BDDAssertions
 

@@ -307,7 +307,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @throws AssertionError if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    *
-   * @since 2.5.0
+   * @since 2.5.0 / 3.5.0
    */
   public S hasParameter(String name) {
     uris.assertHasParameter(info, actual, name);
@@ -335,7 +335,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @throws AssertionError if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    *
-   * @since 2.5.0
+   * @since 2.5.0 / 3.5.0
    */
   public S hasParameter(String name, String value) {
     uris.assertHasParameter(info, actual, name, value);
@@ -357,7 +357,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @throws AssertionError if the actual has a parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    *
-   * @since 2.5.0
+   * @since 2.5.0 / 3.5.0
    */
   public S hasNoParameters() {
     uris.assertHasNoParameters(info, actual);

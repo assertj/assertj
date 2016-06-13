@@ -202,6 +202,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some fields or properties of the actual object are null.
+   * 
+   * @since 2.5.0 / 3.5.0
    */
   public S hasNoNullFieldsOrProperties() {
       objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual);
@@ -230,6 +232,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @param propertiesOrFieldsToIgnore properties/fields that won't be chekecd for null.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are null.
+   * 
+   * @since 2.5.0 / 3.5.0
    */
   public S hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
     objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);

@@ -29,6 +29,8 @@ import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
  * Android-compatible BDD-style assertions duplicated from {@link BDDAssertions}.
  *
  * @see BDDAssertions
+ * 
+ * @since 2.5.0 / 3.5.0
  */
 public class Java6BDDAssertions {
   /**
