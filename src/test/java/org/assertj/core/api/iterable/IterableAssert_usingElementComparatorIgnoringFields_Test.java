@@ -12,14 +12,20 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Comparator;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.Iterables;
+import org.assertj.core.test.AlwaysEqualStringComparator;
+import org.assertj.core.test.Jedi;
 import org.junit.Before;
+import org.junit.Test;
 
 public class IterableAssert_usingElementComparatorIgnoringFields_Test extends IterableAssertBaseTest {
 
@@ -43,6 +49,39 @@ public class IterableAssert_usingElementComparatorIgnoringFields_Test extends It
 	ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
 	assertThat(strategy.getComparator()).isInstanceOf(IgnoringFieldsComparator.class);
 	assertThat(((IgnoringFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elments_when_using_element_comparator_ignoring_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithName(new AlwaysEqualStringComparator(), "name")
+                                     .usingElementComparatorIgnoringFields("lightSaberColor").contains(other);
+  }
+
+  @Test
+  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_using_element_comparator_ignoring_fields() {
+    Comparator<String> comperator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithName(new AlwaysEqualStringComparator(), "name")
+                                     .usingComparatorForElementFieldsWithType(comperator, String.class)
+                                     .usingElementComparatorIgnoringFields("lightSaberColor").contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_using_element_comparator_ignoring_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(new AlwaysEqualStringComparator(), String.class)
+                                     .usingElementComparatorIgnoringFields("name").contains(other);
   }
 
 }

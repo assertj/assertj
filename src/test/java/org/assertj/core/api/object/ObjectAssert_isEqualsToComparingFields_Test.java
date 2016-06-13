@@ -21,6 +21,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
+import org.assertj.core.test.AlwaysEqualStringComparator;
 import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
@@ -50,7 +51,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name").isEqualToComparingFieldByField(other);
+    assertThat(actual).usingComparatorForFields(new AlwaysEqualStringComparator(), "name").isEqualToComparingFieldByField(other);
   }
 
   @Test
@@ -63,7 +64,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(actual).usingComparatorForFields(new AlwaysEqual(), "name")
+    assertThat(actual).usingComparatorForFields(new AlwaysEqualStringComparator(), "name")
       .usingComparatorForType(comperator, String.class).isEqualToComparingFieldByField(other);
   }
 
@@ -72,13 +73,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(actual).usingComparatorForType(new AlwaysEqual(), String.class).isEqualToComparingFieldByField(other);
+    assertThat(actual).usingComparatorForType(new AlwaysEqualStringComparator(), String.class).isEqualToComparingFieldByField(other);
   }
 
-  private final class AlwaysEqual implements Comparator<String> {
-    @Override
-    public int compare(String o1, String o2) {
-      return 0;
-    }
-  }
 }

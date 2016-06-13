@@ -12,9 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static java.util.Collections.EMPTY_MAP;
-
 import java.util.Comparator;
+import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -27,6 +26,15 @@ public class FieldByFieldComparator implements Comparator<Object> {
 
   private static final int NOT_EQUAL = -1;
 
+  protected final Map<String, Comparator<?>> comparatorByPropertyOrField;
+  protected final Map<Class<?>, Comparator<?>> comparatorByType;
+
+  public FieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                Map<Class<?>, Comparator<?>> comparatorByType) {
+    this.comparatorByPropertyOrField = comparatorByPropertyOrField;
+    this.comparatorByType = comparatorByType;
+  }
+
   @Override
   public int compare(Object actual, Object other) {
 	if (actual == null && other == null) return 0;
@@ -35,10 +43,10 @@ public class FieldByFieldComparator implements Comparator<Object> {
 	return areEqual(actual, other) ? 0 : NOT_EQUAL;
   }
 
-  @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actual, Object other) {
     try {
-      return Objects.instance().areEqualToIgnoringGivenFields(actual, other, EMPTY_MAP, EMPTY_MAP);
+      return Objects.instance().areEqualToIgnoringGivenFields(actual, other, comparatorByPropertyOrField,
+                                                              comparatorByType);
     } catch (IntrospectionError e) {
       return false;
     }

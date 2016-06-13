@@ -24,8 +24,10 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -69,6 +71,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
+
+  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
+  private Map<Class<?>, Comparator<?>> comparatorsForElementPropertyOrFieldTypes = new HashMap<>();
 
   public AbstractObjectArrayAssert(T[] actual, Class<?> selfType) {
     super(actual, selfType);
@@ -1080,11 +1085,140 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
+   * Allows to set a comparator to compare properties or fields of elements with the given names.
+   * A typical usage is for comparing fields of numeric type at a given precision.
+   * <p>
+   * <b>Comparators specified by this method are only used if {@link #usingFieldByFieldElementComparator},
+   * {@link #usingElementComparatorOnFields}, or {@link usingElementComparatorIgnoringFields}
+   * {@link #usingRecursiveFieldByFieldElementComparator} is called after this method.</b>
+   * <p>
+   * Comparators specified by this method have precedence over comparators added by
+   * {@link #usingComparatorForElementFieldsWithType}.
+   * <p>
+   * Example:
+   * <p>
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   private String name;
+   *   private double height;
+   *   // constructor omitted
+   * }
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
+   *   double precision = 0.5;
+   *   public int compare(Double d1, Double d2) {
+   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *   }
+   * };
+   *
+   * // assertions will pass
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithName(closeEnough, &quot;height&quot;)
+   *                                           .usingFieldByFieldElementComparator()
+   *                                           .contains(tallerFrodo);
+   *
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithName(closeEnough, &quot;height&quot;)
+   *                                           .usingElementComparatorOnFields(&quot;height&quot;)
+   *                                           .contains(tallerFrodo);
+   *
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithName(closeEnough, &quot;height&quot;)
+   *                                           .usingElementComparatorIgnoringFields(&quot;name&quot;)
+   *                                           .contains(tallerFrodo);
+   *
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithName(closeEnough, &quot;height&quot;)
+   *                                           .usingRecursiveFieldByFieldElementComparator()
+   *                                           .contains(tallerFrodo);
+   *
+   * // assertion will fail
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithName(closeEnough, &quot;height&quot;)
+   *                                           .usingFieldByFieldElementComparator()
+   *                                           .containsExactly(reallyTallFrodo);</code></pre>
+   * </p>
+   * 
+   * @param comparator the {@link java.util.Comparator} to use
+   * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
+   * @return {@code this} assertions object
+   * @since 2.5.0 / 3.5.0
+   */
+  public <C> S usingComparatorForElementFieldsWithName(Comparator<C> comparator, String... elementPropertyOrFieldNames) {
+    for (String elementPropertyOrField : elementPropertyOrFieldNames) {
+      comparatorsForElementPropertyOrFieldNames.put(elementPropertyOrField, comparator);
+    }
+    return myself;
+  }
+
+  /**
+   * Allows to set a specific comparator to compare properties or fields of elements with the given type.
+   * A typical usage is for comparing fields of numeric type at a given precision.
+   * <p>
+   * <b>Comparators specified by this method are only used if {@link #usingFieldByFieldElementComparator},
+   * {@link #usingElementComparatorOnFields}, or {@link usingElementComparatorIgnoringFields}
+   * {@link #usingRecursiveFieldByFieldElementComparator} is called after this method.</b>
+   * <p>
+   * Comparators specified by {@link #usingComparatorForElementFieldsWithName} have precedence over comparators
+   * specified by this method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   private String name;
+   *   private double height;
+   *   // constructor omitted
+   * }
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
+   *   double precision = 0.5;
+   *   public int compare(Double d1, Double d2) {
+   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *   }
+   * };
+   *
+   * // assertions will pass
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
+   *                                           .usingFieldByFieldElementComparator()
+   *                                           .contains(tallerFrodo);
+   *
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
+   *                                           .usingElementComparatorOnFields(&quot;height&quot;)
+   *                                           .contains(tallerFrodo);
+   *
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
+   *                                           .usingElementComparatorIgnoringFields(&quot;name&quot;)
+   *                                           .contains(tallerFrodo);
+   *
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
+   *                                           .usingRecursiveFieldByFieldElementComparator()
+   *                                           .contains(tallerFrodo);
+   *
+   * // assertion will fail
+   * assertThat(new TolkienCharacter[] {frodo}).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
+   *                                           .usingFieldByFieldElementComparator()
+   *                                           .contains(reallyTallFrodo);</code></pre>
+   * </p>
+   * 
+   * @param comparator the {@link java.util.Comparator} to use
+   * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
+   * @return {@code this} assertions object
+   * @since 2.5.0 / 3.5.0
+   */
+  public <C> S usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
+    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
+    return myself;
+  }
+
+  /**
    * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
    * actual type A <code>equals</code> method to compare group elements for incoming assertion checks. Private fields
    * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p>
+   * You can specify a custom comparator per name or type of element field with
+   * {@link #usingComparatorForElementFieldsWithName(Comparator, String...)}
+   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
@@ -1102,7 +1236,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} assertion object.
    */
   public S usingFieldByFieldElementComparator() {
-    return usingElementComparator(new FieldByFieldComparator());
+    return usingElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames, comparatorsForElementPropertyOrFieldTypes));
   }
 
   /**
@@ -1113,7 +1247,11 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals}
    * implementation, i.e. the overriden {@code equals} method will be used instead of a field/property by field/property comparison.
    * <p>
-   * The recursive comparison handles cycle. {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
+   * You can specify a custom comparator per name or type of (nested) element field with
+   * {@link #usingComparatorForElementFieldsWithName(Comparator, String...)}
+   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
+   * <p>
+   * The recursive comparison handles cycles.
    * <p>
    * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a
    * {@code name} String field, the other object must also have one.
@@ -1145,7 +1283,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @since 2.5.0 / 3.5.0
    */
   public S usingRecursiveFieldByFieldElementComparator() {
-    return usingElementComparator(new RecursiveFieldByFieldComparator());
+    return usingElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames, comparatorsForElementPropertyOrFieldTypes));
   }
 
   /**
@@ -1155,6 +1293,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p>
+   * You can specify a custom comparator per name or type of element field with
+   * {@link #usingComparatorForElementFieldsWithName(Comparator, String...)}
+   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
@@ -1172,7 +1314,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} assertion object.
    */
   public S usingElementComparatorOnFields(String... fields) {
-    return usingElementComparator(new OnFieldsComparator(fields));
+    return usingElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames, comparatorsForElementPropertyOrFieldTypes, fields));
   }
 
   /**
@@ -1182,6 +1324,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p>
+   * You can specify a custom comparator per name or type of element field with
+   * {@link #usingComparatorForElementFieldsWithName(Comparator, String...)}
+   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
@@ -1199,7 +1345,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} assertion object.
    */
   public S usingElementComparatorIgnoringFields(String... fields) {
-    return usingElementComparator(new IgnoringFieldsComparator(fields));
+    return usingElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames, comparatorsForElementPropertyOrFieldTypes, fields));
   }
 
   /**

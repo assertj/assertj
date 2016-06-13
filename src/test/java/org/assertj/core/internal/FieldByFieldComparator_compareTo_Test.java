@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -22,8 +23,9 @@ public class FieldByFieldComparator_compareTo_Test {
   private FieldByFieldComparator fieldByFieldComparator;
 
   @Before
+  @SuppressWarnings("unchecked")
   public void setUp() {
-	fieldByFieldComparator = new FieldByFieldComparator();
+    fieldByFieldComparator = new FieldByFieldComparator(EMPTY_MAP, EMPTY_MAP);
   }
 
   @Test

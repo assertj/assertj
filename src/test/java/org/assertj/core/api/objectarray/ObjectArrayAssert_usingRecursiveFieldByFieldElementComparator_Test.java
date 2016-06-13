@@ -16,11 +16,14 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
+import java.util.Comparator;
+
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.test.AlwaysEqualStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -93,6 +96,46 @@ public class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test 
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elments_when_using_recursive_field_by_field_element_comparator() {
+    Foo actual = new Foo("1", new Bar(1));
+    Foo other = new Foo("1", new Bar(2));
+    final class AlwaysEqualIntegerComparator implements Comparator<Integer> {
+      @Override
+      public int compare(Integer o1, Integer o2) {
+        return 0;
+      }
+    }
+
+    assertThat(new Foo[] { actual }).usingComparatorForElementFieldsWithName(new AlwaysEqualIntegerComparator(),
+                                                                             "bar.id")
+                                    .usingRecursiveFieldByFieldElementComparator().contains(other);
+  }
+
+  @Test
+  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
+    Comparator<String> comperator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Foo actual = new Foo("1", new Bar(1));
+    Foo other = new Foo("2", new Bar(1));
+
+    assertThat(new Foo[] { actual }).usingComparatorForElementFieldsWithName(new AlwaysEqualStringComparator(), "id")
+                                    .usingComparatorForElementFieldsWithType(comperator, String.class)
+                                    .usingRecursiveFieldByFieldElementComparator().contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
+    Foo actual = new Foo("1", new Bar(1));
+    Foo other = new Foo("2", new Bar(1));
+
+    assertThat(new Foo[] { actual }).usingComparatorForElementFieldsWithType(new AlwaysEqualStringComparator(), String.class)
+                                    .usingRecursiveFieldByFieldElementComparator().contains(other);
   }
 
   public static class Foo {

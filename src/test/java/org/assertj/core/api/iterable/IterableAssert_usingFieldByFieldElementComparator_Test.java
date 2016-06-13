@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,6 +28,8 @@ import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
+import org.assertj.core.test.AlwaysEqualStringComparator;
+import org.assertj.core.test.Jedi;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -146,6 +149,39 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elments_when_using_field_by_field_element_comparator() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithName(new AlwaysEqualStringComparator(), "name")
+                                     .usingFieldByFieldElementComparator().contains(other);
+  }
+
+  @Test
+  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
+    Comparator<String> comperator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithName(new AlwaysEqualStringComparator(), "name")
+                                     .usingComparatorForElementFieldsWithType(comperator, String.class)
+                                     .usingFieldByFieldElementComparator().contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_field_by_field_element_comparator() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(new AlwaysEqualStringComparator(), String.class)
+                                     .usingFieldByFieldElementComparator().contains(other);
   }
 
   public static class Foo {
