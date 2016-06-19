@@ -14,8 +14,11 @@ package org.assertj.core.api.objectarray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 import org.assertj.core.api.ObjectArrayAssert;
@@ -23,6 +26,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.test.Jedi;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,11 +76,11 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   public void successful_contains_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Animal[] array1 = array(new Bird("White"), new Snake(15));
     assertThat(array1).usingFieldByFieldElementComparator()
-                     .contains(new Snake(15), new Bird("White"))
-                     .contains(new Bird("White"), new Snake(15));
+                      .contains(new Snake(15), new Bird("White"))
+                      .contains(new Bird("White"), new Snake(15));
     assertThat(array1).usingFieldByFieldElementComparator()
-                     .containsOnly(new Snake(15), new Bird("White"))
-                     .containsOnly(new Bird("White"), new Snake(15));
+                      .containsOnly(new Snake(15), new Bird("White"))
+                      .containsOnly(new Bird("White"), new Snake(15));
   }
 
   @Test
@@ -96,7 +100,8 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   public void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Snake snake = new Snake(15);
     Animal[] array1 = array(new Bird("White"), snake, snake);
-    assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15),new Bird("White"), new Snake(15));
+    assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15), new Bird("White"),
+                                                                                      new Snake(15));
   }
 
   @Test
@@ -173,6 +178,42 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_field_by_field_element_comparator() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+                             .usingFieldByFieldElementComparator()
+                             .contains(other);
+  }
+
+  @Test
+  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
+    Comparator<String> comparator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+                             .usingComparatorForElementFieldsWithType(comparator, String.class)
+                             .usingFieldByFieldElementComparator()
+                             .contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_field_by_field_element_comparator() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+                             .usingFieldByFieldElementComparator()
+                             .contains(other);
+  }
+
   public static class Foo {
     public final String id;
     public final int bar;
@@ -230,4 +271,3 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     }
   }
 }
-

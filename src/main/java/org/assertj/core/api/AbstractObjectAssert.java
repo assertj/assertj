@@ -204,6 +204,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some fields or properties of the actual object are null.
+   * 
+   * @since 2.5.0 / 3.5.0
    */
   public S hasNoNullFieldsOrProperties() {
       objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual);
@@ -232,6 +234,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @param propertiesOrFieldsToIgnore properties/fields that won't be chekecd for null.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are null.
+   * 
+   * @since 2.5.0 / 3.5.0
    */
   public S hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
     objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
@@ -318,7 +322,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    * </p>
    * @param comparator the {@link java.util.Comparator} to use
-   * @param comparator the names of the properties and/or fields the comparator should be used for
+   * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
    * @return {@code this} assertions object
    */
   public <T> S usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
@@ -369,7 +373,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    * </p>
    * @param comparator the {@link java.util.Comparator} to use
-   * @param comparator the {@link java.lang.Class} of the type the comparator should be used for
+   * @param type the {@link java.lang.Class} of the type the comparator should be used for
    * @return {@code this} assertions object
    */
   public <T> S usingComparatorForType(Comparator<T> comparator, Class<T> type) {
@@ -537,7 +541,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
    * the overriden {@code equals} method will be used instead of a field by field comparison.
    * <p>
-   * The recursive comparison handles cycle. By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
+   * The recursive comparison handles cycles. By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
    * <p>
    * You can specify a custom comparator per (nested) fields or type with respectively {@link #usingComparatorForFields(Comparator, String...) usingComparatorForFields(Comparator, String...)}
    * and {@link #usingComparatorForType(Comparator, Class)}.

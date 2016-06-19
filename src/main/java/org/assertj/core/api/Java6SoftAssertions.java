@@ -20,6 +20,8 @@ import static org.assertj.core.groups.Properties.extractProperty;
  * Soft assertions backwards compatible with Android. Duplicated from {@link SoftAssertions}.
  *
  * @see SoftAssertions
+ * 
+ * @since 2.5.0 / 3.5.0
  */
 public class Java6SoftAssertions extends Java6AbstractStandardSoftAssertions {
   /**

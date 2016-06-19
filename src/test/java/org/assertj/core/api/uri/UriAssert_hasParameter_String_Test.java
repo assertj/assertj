@@ -10,18 +10,23 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api.uri;
 
-import static java.util.Collections.EMPTY_MAP;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Test;
+import org.assertj.core.api.UriAssert;
+import org.assertj.core.api.UriAssertBaseTest;
 
-public class RecursiveFieldByFieldComparator_toString_Test {
+public class UriAssert_hasParameter_String_Test extends UriAssertBaseTest {
+  private final String name = "article";
 
-  @Test
-  @SuppressWarnings("unchecked")
-  public void should_return_description_of_RecursiveFieldByFieldComparator() {
-    assertThat(new RecursiveFieldByFieldComparator(EMPTY_MAP, EMPTY_MAP)).hasToString("recursive field/property by field/property comparator on all fields/properties");
+  @Override
+  protected UriAssert invoke_api_method() {
+    return assertions.hasParameter(name);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(uris).assertHasParameter(getInfo(assertions), getActual(assertions), name);
   }
 }

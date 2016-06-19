@@ -24,6 +24,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+/**
+ * @since 2.5.0 / 3.5.0
+ */
 public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions {
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.

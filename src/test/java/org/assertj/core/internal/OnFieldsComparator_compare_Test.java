@@ -23,7 +23,7 @@ public class OnFieldsComparator_compare_Test {
 
   @Before
   public void setUp() {
-	onFieldsComparator = new OnFieldsComparator("telling");
+    onFieldsComparator = new OnFieldsComparator("telling");
   }
 
   @Test

@@ -22,6 +22,8 @@ package org.assertj.core.api;
  * <p>
  * @param <T> the type to create assertions for.
  * @param <ASSERT> the assertions class for T.
+ * 
+ * @since 2.5.0 / 3.5.0
  */
 public interface AssertFactory<T, ASSERT> {
 

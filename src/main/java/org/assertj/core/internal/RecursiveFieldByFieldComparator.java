@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.AbstractObjectAssert.defaultTypeComparators;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
 
 import java.util.Comparator;
+import java.util.Map;
 
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -27,6 +27,19 @@ public class RecursiveFieldByFieldComparator implements Comparator<Object> {
 
   private static final int NOT_EQUAL = -1;
 
+  private final Map<String, Comparator<?>> comparatorByPropertyOrField;
+  private final Map<Class<?>, Comparator<?>> comparatorByType;
+
+  public RecursiveFieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                         Map<Class<?>, Comparator<?>> comparatorByType) {
+    this.comparatorByPropertyOrField = comparatorByPropertyOrField;
+    this.comparatorByType = isNullOrEmpty(comparatorByType) ? defaultTypeComparators() : comparatorByType;
+  }
+
+  private boolean isNullOrEmpty(Map<Class<?>, Comparator<?>> comparatorByType) {
+    return comparatorByType == null || comparatorByType.isEmpty();
+  }
+
   @Override
   public int compare(Object actual, Object other) {
     if (actual == null && other == null) return 0;
@@ -35,10 +48,9 @@ public class RecursiveFieldByFieldComparator implements Comparator<Object> {
     return areEqual(actual, other) ? 0 : NOT_EQUAL;
   }
 
-  @SuppressWarnings("unchecked")
   protected boolean areEqual(Object actual, Object other) {
     try {
-      return determineDifferences(actual, other, EMPTY_MAP, defaultTypeComparators()).isEmpty();
+      return determineDifferences(actual, other, comparatorByPropertyOrField, comparatorByType).isEmpty();
     } catch (IntrospectionError e) {
       return false;
     }

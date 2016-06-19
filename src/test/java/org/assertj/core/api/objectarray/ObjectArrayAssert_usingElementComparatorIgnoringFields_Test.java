@@ -13,13 +13,19 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.util.Arrays.array;
+
+import java.util.Comparator;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.test.Jedi;
 import org.junit.Before;
+import org.junit.Test;
 
 public class ObjectArrayAssert_usingElementComparatorIgnoringFields_Test extends ObjectArrayAssertBaseTest {
 
@@ -32,17 +38,52 @@ public class ObjectArrayAssert_usingElementComparatorIgnoringFields_Test extends
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-	return assertions.usingElementComparatorIgnoringFields("field");
+    return assertions.usingElementComparatorIgnoringFields("field");
   }
 
   @Override
   protected void verify_internal_effects() {
     ObjectArrays iterables = getArrays(assertions);
     assertThat(iterables).isNotSameAs(arraysBefore);
-	assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
-	ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
-	assertThat(strategy.getComparator()).isInstanceOf(IgnoringFieldsComparator.class);
-	assertThat(((IgnoringFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
+    assertThat(strategy.getComparator()).isInstanceOf(IgnoringFieldsComparator.class);
+    assertThat(((IgnoringFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
   }
 
+  @Test
+  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_element_comparator_ignoring_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+                             .usingElementComparatorIgnoringFields("lightSaberColor")
+                             .contains(other);
+  }
+
+  @Test
+  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_using_element_comparator_ignoring_fields() {
+    Comparator<String> comparator = new Comparator<String>() {
+      public int compare(String o1, String o2) {
+        return o1.compareTo(o2);
+      }
+    };
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "green");
+
+    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+                             .usingComparatorForElementFieldsWithType(comparator, String.class)
+                             .usingElementComparatorIgnoringFields("lightSaberColor")
+                             .contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_using_element_comparator_ignoring_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+                             .usingElementComparatorIgnoringFields("name")
+                             .contains(other);
+  }
 }
