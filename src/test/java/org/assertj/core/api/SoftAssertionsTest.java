@@ -29,6 +29,7 @@ import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
@@ -572,6 +573,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                  .containsExactlyInAnyOrder(thenMethods);
   }
 
+  @Test
+  public void should_propagate_AssertionError_from_nested_proxied_calls() {
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(asList()).first();
+    // it must be caught by softly.assertAll()
+    assertThat(softly.errorsCollected()).hasSize(1);
+  }
+
   private static Name name(String first, String last) {
     return new Name(first, last);
   }
@@ -584,6 +593,73 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     @Override
     public Collection<CartoonCharacter> extract(CartoonCharacter input) {
       return input.getChildren();
+    }
+  }
+
+  // bug #447
+
+  public class TolkienCharacter {
+    String name;
+    int age;
+  }
+
+
+  @Test
+  public void check_477_bugfix() {
+    // GIVEN
+    TolkienCharacter frodo = new TolkienCharacter();
+    TolkienCharacter samnullGamgee = null;
+    TolkienSoftAssertions softly = new TolkienSoftAssertions();
+    // WHEN
+    softly.assertThat(frodo).hasAge(10); // Expect failure - age will be 0 due to not being initialized.
+    softly.assertThat(samnullGamgee).hasAge(11); // Expect failure - argument is null.
+    // THEN
+    assertThat(softly.errorsCollected()).hasSize(2);
+  }
+
+
+  public static class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAssert, TolkienCharacter> {
+
+    public TolkienCharacterAssert(TolkienCharacter actual) {
+      super(actual, TolkienCharacterAssert.class);
+    }
+
+    public static TolkienCharacterAssert assertThat(TolkienCharacter actual) {
+      return new TolkienCharacterAssert(actual);
+    }
+
+    // 4 - a specific assertion !
+    public TolkienCharacterAssert hasName(String name) {
+      // check that actual TolkienCharacter we want to make assertions on is not null.
+      isNotNull();
+
+      // check condition
+      if (!Objects.equals(actual.name, name)) {
+        failWithMessage("Expected character's name to be <%s> but was <%s>", name, actual.name);
+      }
+
+      // return the current assertion for method chaining
+      return this;
+    }
+
+    // 4 - another specific assertion !
+    public TolkienCharacterAssert hasAge(int age) {
+      // check that actual TolkienCharacter we want to make assertions on is not null.
+      isNotNull();
+
+      // check condition
+      if (actual.age != age) {
+        failWithMessage("Expected character's age to be <%s> but was <%s>", age, actual.age);
+      }
+
+      // return the current assertion for method chaining
+      return this;
+    }
+  }
+  public static class TolkienSoftAssertions extends SoftAssertions {
+
+    public TolkienCharacterAssert assertThat(TolkienCharacter actual) {
+      return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
     }
   }
 }

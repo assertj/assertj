@@ -12,16 +12,20 @@
  */
 package org.assertj.core.api;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
 /** Collects error messages of all AssertionErrors thrown by the proxied method. */
 public class ErrorCollector implements MethodInterceptor {
+
+  private static final String INTERCEPT_METHOD_NAME = "intercept";
+
+  private static final String CLASS_NAME = ErrorCollector.class.getName();
 
   // scope : the current softassertion object
   private final List<Throwable> errors = new ArrayList<>();
@@ -30,14 +34,19 @@ public class ErrorCollector implements MethodInterceptor {
 
   @Override
   public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    Object result = obj;
     try {
-      proxy.invokeSuper(obj, args);
+      result = proxy.invokeSuper(obj, args);
       lastResult.setSuccess(true);
     } catch (AssertionError e) {
+      if (isNestedErrorCollectorProxyCall()) {
+        // let the most outer call handle the assertion error
+        throw e;
+      }
       lastResult.setSuccess(false);
       errors.add(e);
     }
-    return obj;
+    return result;
   }
 
   public List<Throwable> errors() {
@@ -46,6 +55,20 @@ public class ErrorCollector implements MethodInterceptor {
 
   public boolean wasSuccess() {
     return lastResult.wasSuccess();
+  }
+
+  private boolean isNestedErrorCollectorProxyCall() {
+    return countErrorCollectorProxyCalls() > 1;
+  }
+
+  private static int countErrorCollectorProxyCalls() {
+    int nbCalls = 0;
+    for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
+      if (CLASS_NAME.equals(stackTraceElement.getClassName())
+          && INTERCEPT_METHOD_NAME.equals(stackTraceElement.getMethodName()))
+        nbCalls++;
+    }
+    return nbCalls;
   }
 
   private static class LastResult {
@@ -68,7 +91,7 @@ public class ErrorCollector implements MethodInterceptor {
       // The overall last result success should not be true as one of the nested calls was not a success.
       errorFound |= !success;
 
-      if (resolvingOutermostNestedCall()) {
+      if (resolvingOutermostErrorCollectorProxyNestedCall()) {
         // we are resolving the last nested call (if any), we can set a relevant value for wasSuccess
         wasSuccess = !errorFound;
         // need to reset errorFound for the next soft assertion
@@ -76,12 +99,8 @@ public class ErrorCollector implements MethodInterceptor {
       }
     }
 
-    private boolean resolvingOutermostNestedCall() {
-      int nbCalls = 0;
-      for (StackTraceElement e : Thread.currentThread().getStackTrace()) {
-        if (e.getClassName().equals(ErrorCollector.class.getName())) nbCalls++;
-      }
-      return nbCalls == 1;
+    private boolean resolvingOutermostErrorCollectorProxyNestedCall() {
+      return countErrorCollectorProxyCalls() == 1;
     }
 
     @Override
