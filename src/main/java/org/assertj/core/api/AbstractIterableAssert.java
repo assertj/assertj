@@ -1768,7 +1768,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   protected abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);
 
   protected String navigationDescription(String propertyName) {
-    String text = this.descriptionText();
+    String text = descriptionText();
     if (Strings.isNullOrEmpty(text)) {
       text = removeAssert(this.getClass().getSimpleName());
     }
