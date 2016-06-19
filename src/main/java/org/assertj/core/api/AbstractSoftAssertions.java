@@ -33,7 +33,7 @@ public class AbstractSoftAssertions {
    * Returns a copy of list of soft assertions collected errors.
    * @return a copy of list of soft assertions collected errors.
    */
-  public List<Throwable> errorsCollected(){
+  public List<Throwable> errorsCollected() {
     return addLineNumberToErrorMessages(proxies.errorsCollected());
   }
 
@@ -46,10 +46,10 @@ public class AbstractSoftAssertions {
    * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
    *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
    * }</code></pre>
-   * 
+   *
    * @return true if the last assertion was a success.
    */
-  public boolean wasSuccess(){
+  public boolean wasSuccess() {
     return proxies.wasSuccess();
   }
 
@@ -91,7 +91,8 @@ public class AbstractSoftAssertions {
     for (StackTraceElement element : stacktrace) {
       String className = element.getClassName();
       if (className.startsWith("sun.reflect")
-          || className.startsWith("java.lang")
+          || className.startsWith("java.")
+          || className.startsWith("javax.")
           || className.startsWith("net.sf.cglib.proxy")
           || className.startsWith("org.assertj")) {
         continue;
