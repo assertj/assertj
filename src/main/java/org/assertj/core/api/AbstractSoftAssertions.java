@@ -93,6 +93,8 @@ public class AbstractSoftAssertions {
       if (className.startsWith("sun.reflect")
           || className.startsWith("java.")
           || className.startsWith("javax.")
+          || className.startsWith("org.junit.")
+          || className.startsWith("org.eclipse.jdt.internal.junit.")
           || className.startsWith("net.sf.cglib.proxy")
           || className.startsWith("org.assertj")) {
         continue;

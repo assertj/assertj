@@ -133,11 +133,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       assertThat(e.getMessage()).contains(String.format("%nExpecting:%n"
-                                                + " <{\"54\"=\"55\"}>%n"
-                                                + "to contain:%n"
-                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
-                                                + "but could not find:%n"
-                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
+                                                        + " <{\"54\"=\"55\"}>%n"
+                                                        + "to contain:%n"
+                                                        + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
+                                                        + "but could not find:%n"
+                                                        + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
 
     }
   }
@@ -238,8 +238,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
       softly.assertThat(Maps.mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
 
-      softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13,00));
-      softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
+      softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13, 00));
+      softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC))
+            .isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
 
       softly.assertThat(Optional.of("not empty")).isEqualTo("empty");
       softly.assertThat(OptionalInt.of(0)).isEqualTo(1);
@@ -288,11 +289,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(19)).startsWith("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
       assertThat(errors.get(20)).startsWith(format("%nInputStreams do not have same content:%n%n"
-                                                 + "Changed content at line 1:%n"
-                                                 + "expecting:%n"
-                                                 + "  [\"B\"]%n"
-                                                 + "but was:%n"
-                                                 + "  [\"A\"]%n"));
+                                                   + "Changed content at line 1:%n"
+                                                   + "expecting:%n"
+                                                   + "  [\"B\"]%n"
+                                                   + "but was:%n"
+                                                   + "  [\"A\"]%n"));
 
       assertThat(errors.get(21)).startsWith("expected:<2[1]> but was:<2[0]>");
       assertThat(errors.get(22)).startsWith("expected:<2[3]> but was:<2[2]>");
@@ -322,19 +323,19 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(35)).startsWith("expected:<5[1]> but was:<5[0]>");
       assertThat(errors.get(36)).startsWith("expected:<[5[3]]> but was:<[5[2]]>");
       assertThat(errors.get(37)).startsWith(format("%nExpecting message:%n"
-                                                 + " <\"NullPointerException message\">%n"
-                                                 + "but was:%n"
-                                                 + " <\"IllegalArgumentException message\">"));
+                                                   + " <\"NullPointerException message\">%n"
+                                                   + "but was:%n"
+                                                   + " <\"IllegalArgumentException message\">"));
       assertThat(errors.get(38)).startsWith(format("%nExpecting message:%n"
-                                                 + " <\"something was good\">%n"
-                                                 + "but was:%n"
-                                                 + " <\"something was wrong\">"));
+                                                   + " <\"something was good\">%n"
+                                                   + "but was:%n"
+                                                   + " <\"something was wrong\">"));
       assertThat(errors.get(39)).startsWith(format("%nExpecting:%n"
-                                                 + " <{\"54\"=\"55\"}>%n"
-                                                 + "to contain:%n"
-                                                 + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
-                                                 + "but could not find:%n"
-                                                 + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
+                                                   + " <{\"54\"=\"55\"}>%n"
+                                                   + "to contain:%n"
+                                                   + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
+                                                   + "but could not find:%n"
+                                                   + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
 
       assertThat(errors.get(40)).startsWith("expected:<1[3]:00> but was:<1[2]:00>");
       assertThat(errors.get(41)).startsWith("expected:<1[3]:00Z> but was:<1[2]:00Z>");
@@ -346,15 +347,15 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(46)).contains("Expecting port of");
       assertThat(errors.get(47)).contains("to have failed");
       assertThat(errors.get(48)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
-                                                        + "to accept <\"something else\"> but it did not."));
+                                                          + "to accept <\"something else\"> but it did not."));
 
       assertThat(errors.get(49)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
-                                                         + "to accept <2> but it did not."));
+                                                          + "to accept <2> but it did not."));
 
       assertThat(errors.get(50)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
-                                                         + "to accept <2L> but it did not."));
+                                                          + "to accept <2L> but it did not."));
       assertThat(errors.get(51)).startsWith(String.format("%nExpecting:%n  <given predicate>%n"
-                                                         + "to accept <2.0> but it did not."));
+                                                          + "to accept <2.0> but it did not."));
     }
   }
 
@@ -623,20 +624,33 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void bdd_soft_assertions_should_have_the_same_methods_as_in_standard_soft_assertions() {
-    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
-    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
-
-    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
-                                 .containsExactlyInAnyOrder(thenMethods);
+  public void should_work_with_predicate() {
+    Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
+    softly.assertThat(lowercasePredicate).accepts("a", "b", "c");
+    softly.assertAll();
   }
 
   @Test
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(asList()).first();
+    // nested proxied call to throwAssertionError when checking that is optional is present
+    softly.assertThat(Optional.empty()).contains("Foo");
+    // nested proxied call to isNotNull
+    softly.assertThat((Predicate<String>) null).accepts("a", "b", "c");
+    // nested proxied call to isCompleted
+    softly.assertThat(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(1);
+    assertThat(softly.errorsCollected()).hasSize(4);
+  }
+
+  @Test
+  public void bdd_soft_assertions_should_have_the_same_methods_as_in_standard_soft_assertions() {
+    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
+    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
+
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
+                                 .containsExactlyInAnyOrder(thenMethods);
   }
 
   private static Name name(String first, String last) {
