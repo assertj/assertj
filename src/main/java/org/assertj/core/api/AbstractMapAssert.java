@@ -326,6 +326,42 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
+   * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, elrond);
+   * ringBearers.put(oneRing, frodo);
+   * 
+   * Condition&lt;Boolean&gt elfBearer = new Condition&lt;TolkienCharacter&gt;(&quot;elf&quot;) {
+   *   public boolean matches(TolkienCharacter character) {
+   *     return character.getRace() == ELF;
+   *   }
+   * };
+   *
+   * // this assertion will pass
+   * assertThat(ringBearers).hasEntrySatisfying(nenya, elfBearer);
+   *
+   * // this assertion will fail
+   * assertThat(ringBearers).hasEntrySatisfying(oneRing, elfBearer);
+   * </code></pre>
+   *
+   * @param key he given key to check.
+   * @param valueCondition the given condition for check value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given {@code key}.
+   * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
+   */
+  public S hasEntrySatisfying(K key, Condition<? super V> valueCondition) {
+    maps.assertHasEntrySatisfying(info, actual, key, valueCondition);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given entries.
    * <p>
    * Example :
@@ -817,7 +853,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   public S isSameAs(Object expected) {
     return super.isSameAs(expected);
   }
-  
+
   @Override
   public S overridingErrorMessage(String newErrorMessage, Object... args) {
     return super.overridingErrorMessage(newErrorMessage, args);
@@ -837,12 +873,12 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   public S withFailMessage(String newErrorMessage, Object... args) {
     return super.withFailMessage(newErrorMessage, args);
   }
-  
+
   @Override
   public S withThreadDumpOnError() {
     return super.withThreadDumpOnError();
   }
-  
+
   /**
    * Return an {@code Assert} object that allows to perform assertions on the size of the {@link Map} under test.
    * <p>
