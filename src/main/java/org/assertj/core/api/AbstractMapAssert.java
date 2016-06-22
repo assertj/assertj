@@ -17,6 +17,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Maps;
@@ -322,6 +323,36 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    */
   public S containsEntry(K key, V value) {
     maps.assertContains(info, actual, array(entry(key, value)));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueRequirements}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>     Map&lt;String, Boolean&gt; heroesPower = new HashMap&lt;&gt;();
+   * heroesPower.put(&quot;Super man&quot;, true);
+   * heroesPower.put(&quot;Spider man&quot;, true);
+   * heroesPower.put(&quot;Iron man&quot;, false);
+   * Condition&lt;Boolean&gt hasSuperPower = new Condition&lt;Boolean&gt;(&quot;hasSuperPower&quot;) {public boolean matches(Boolean value) {return value}};
+   *
+   * // this assertions will pass
+   * assertThat(heroesPower).hasEntrySatisfying(&quot;Super man&quot;, hasSuperPower);
+   *
+   * // this assertions will fail
+   * assertThat(heroesPower).hasEntrySatisfying(&quot;Iron man&quot;, hasSuperPower);
+   * </code></pre>
+   *
+   * @param key he given key to check.
+   * @param valueRequirements the given requirements for check value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given {@code key}.
+   * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
+   */
+  public S hasEntrySatisfying(K key, Consumer<? super V> valueRequirements) {
+    maps.assertHasEntrySatisfying(info, actual, key, valueRequirements);
     return myself;
   }
 
