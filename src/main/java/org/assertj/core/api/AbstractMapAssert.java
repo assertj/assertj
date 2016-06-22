@@ -17,6 +17,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Maps;
@@ -345,8 +346,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * assertThat(ringBearers).hasEntrySatisfying(nenya, elfBearer);
    *
    * // this assertion will fail
-   * assertThat(ringBearers).hasEntrySatisfying(oneRing, elfBearer);
-   * </code></pre>
+   * assertThat(ringBearers).hasEntrySatisfying(oneRing, elfBearer);</code></pre>
    *
    * @param key he given key to check.
    * @param valueCondition the given condition for check value.
@@ -359,6 +359,40 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    */
   public S hasEntrySatisfying(K key, Condition<? super V> valueCondition) {
     maps.assertHasEntrySatisfying(info, actual, key, valueCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueRequirements}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, elrond);
+   * ringBearers.put(oneRing, frodo);
+   * 
+   * // this assertion will pass
+   * assertThat(ringBearers).hasEntrySatisfying(nenya, character -&gt; {
+   *     assertThat(character.getName()).contains("driel");
+   *     assertThat(character.getRace()).isEqualTo(ELF);
+   * });
+   *
+   * // this assertion will fail
+   * assertThat(ringBearers).hasEntrySatisfying(oneRing, character -&gt; {
+   *     assertThat(character.getRace()).isEqualTo(ELF);
+   * });</code></pre>
+   *
+   * @param key he given key to check.
+   * @param valueRequirements the given requirements for check value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given {@code key}.
+   * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
+   */
+  public S hasEntrySatisfying(K key, Consumer<? super V> valueRequirements) {
+    maps.assertHasEntrySatisfying(info, actual, key, valueRequirements);
     return myself;
   }
 

@@ -39,6 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -220,6 +221,26 @@ public class Maps {
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
     if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldHave(actual, value, valueCondition));
+  }
+
+  /**
+   * Verifies that the {@code Map} contains the value for given {@code key} that satisfy given {@code valueRequirements}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param key he given key to check.
+   * @param valueRequirements the given requirements for check value.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given {@code key}.
+   * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
+   */
+  @SuppressWarnings("unchecked")
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Consumer<? super V> valueRequirements) {
+    assertContainsKeys(info, actual, key);
+    checkNotNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
+    V value = actual.get(key);
+    valueRequirements.accept(value);
   }
 
   /**

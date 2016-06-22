@@ -38,7 +38,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Valeriy Vyrva
  */
-public class Maps_assertHasEntrySatisfying_Test extends MapsBaseTest {
+public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
 
   private static final Pattern IS_DIGITS = Pattern.compile("^\\d+$");
 
