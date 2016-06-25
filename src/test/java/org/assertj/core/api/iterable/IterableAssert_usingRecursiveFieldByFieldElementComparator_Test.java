@@ -16,7 +16,6 @@ import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import java.util.Comparator;
 import java.util.List;

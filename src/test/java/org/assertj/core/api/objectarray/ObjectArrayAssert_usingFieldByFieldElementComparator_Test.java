@@ -15,7 +15,6 @@ package org.assertj.core.api.objectarray;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
