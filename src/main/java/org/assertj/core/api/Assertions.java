@@ -1744,17 +1744,19 @@ public class Assertions {
    * }
    * 
    * Assertions.useRepresentation(new CustomRepresentation());
-   * Example example = new Example();
-   * // this assertion fails with error : "expected:<[null]> but was:<[Example]>"
-   * assertThat(example).isNull(); // example is not null !
+   * 
+   * // this assertion fails ...  
+   * assertThat(new Example()).isNull();
+   * // ... with error :
+   * // "expected:<[null]> but was:<[Example]>"
    * 
    * // this one fails ... 
    * assertThat("foo").startsWith("bar");
    * // ... with error :
-   * Expecting:
-   *  <$foo$>
-   * to start with:
-   *  <$bar$></code></pre>
+   * // Expecting:
+   * //   <$foo$>
+   * // to start with:
+   * //   <$bar$></code></pre>
    *  
    * @since 2.5.0 / 3.5.0
    */

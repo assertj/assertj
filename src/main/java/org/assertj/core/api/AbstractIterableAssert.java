@@ -1192,7 +1192,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Use a recursive field/property by field/property comparison (including inherited fields/properties)
-   * instead of relying on actual type A <code>equals</code> method to compare group elements for incoming
+   * instead of relying on actual type <code>equals</code> method to compare group elements for incoming
    * assertion checks. This can be useful if actual's {@code equals} implementation does not suit you.
    * <p>
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals}
