@@ -54,6 +54,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -77,6 +78,7 @@ public class AssertionsForClassTypes {
    *
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> actual) {
     return new CompletableFutureAssert<>(actual);
   }
@@ -89,6 +91,7 @@ public class AssertionsForClassTypes {
    *
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <T> OptionalAssert<T> assertThat(Optional<T> actual) {
     return new OptionalAssert<>(actual);
   }
@@ -100,6 +103,7 @@ public class AssertionsForClassTypes {
    *
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static OptionalDoubleAssert assertThat(OptionalDouble actual) {
     return new OptionalDoubleAssert(actual);
   }
@@ -111,6 +115,7 @@ public class AssertionsForClassTypes {
    *
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static OptionalIntAssert assertThat(OptionalInt actual) {
     return new OptionalIntAssert(actual);
   }
@@ -122,6 +127,7 @@ public class AssertionsForClassTypes {
    *
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static OptionalLongAssert assertThat(OptionalLong actual) {
     return new OptionalLongAssert(actual);
   }
@@ -132,6 +138,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return new BigDecimalAssert(actual);
   }
@@ -142,6 +149,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractUriAssert<?> assertThat(URI actual) {
     return new UriAssert(actual);
   }
@@ -152,6 +160,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractUrlAssert<?> assertThat(URL actual) {
     return new UrlAssert(actual);
   }
@@ -162,6 +171,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractBooleanAssert<?> assertThat(boolean actual) {
     return new BooleanAssert(actual);
   }
@@ -172,6 +182,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractBooleanAssert<?> assertThat(Boolean actual) {
     return new BooleanAssert(actual);
   }
@@ -182,6 +193,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractBooleanArrayAssert<?> assertThat(boolean[] actual) {
     return new BooleanArrayAssert(actual);
   }
@@ -192,6 +204,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractByteAssert<?> assertThat(byte actual) {
     return new ByteAssert(actual);
   }
@@ -202,6 +215,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractByteAssert<?> assertThat(Byte actual) {
     return new ByteAssert(actual);
   }
@@ -212,6 +226,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractByteArrayAssert<?> assertThat(byte[] actual) {
     return new ByteArrayAssert(actual);
   }
@@ -222,6 +237,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractCharacterAssert<?> assertThat(char actual) {
     return new CharacterAssert(actual);
   }
@@ -232,6 +248,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
     return new CharArrayAssert(actual);
   }
@@ -242,6 +259,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractCharacterAssert<?> assertThat(Character actual) {
     return new CharacterAssert(actual);
   }
@@ -252,6 +270,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractClassAssert<?> assertThat(Class<?> actual) {
     return new ClassAssert(actual);
   }
@@ -262,6 +281,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractDoubleAssert<?> assertThat(double actual) {
     return new DoubleAssert(actual);
   }
@@ -272,6 +292,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractDoubleAssert<?> assertThat(Double actual) {
     return new DoubleAssert(actual);
   }
@@ -282,6 +303,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractDoubleArrayAssert<?> assertThat(double[] actual) {
     return new DoubleArrayAssert(actual);
   }
@@ -292,6 +314,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractFileAssert<?> assertThat(File actual) {
     return new FileAssert(actual);
   }
@@ -302,6 +325,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractInputStreamAssert<?, ? extends InputStream> assertThat(InputStream actual) {
     return new InputStreamAssert(actual);
   }
@@ -312,6 +336,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractFloatAssert<?> assertThat(float actual) {
     return new FloatAssert(actual);
   }
@@ -322,6 +347,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractFloatAssert<?> assertThat(Float actual) {
     return new FloatAssert(actual);
   }
@@ -332,6 +358,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractFloatArrayAssert<?> assertThat(float[] actual) {
     return new FloatArrayAssert(actual);
   }
@@ -342,6 +369,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractIntegerAssert<?> assertThat(int actual) {
     return new IntegerAssert(actual);
   }
@@ -352,6 +380,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
     return new IntArrayAssert(actual);
   }
@@ -362,6 +391,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractIntegerAssert<?> assertThat(Integer actual) {
     return new IntegerAssert(actual);
   }
@@ -372,6 +402,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractLongAssert<?> assertThat(long actual) {
     return new LongAssert(actual);
   }
@@ -382,6 +413,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractLongAssert<?> assertThat(Long actual) {
     return new LongAssert(actual);
   }
@@ -392,6 +424,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractLongArrayAssert<?> assertThat(long[] actual) {
     return new LongArrayAssert(actual);
   }
@@ -402,6 +435,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <T> AbstractObjectAssert<?, T> assertThat(T actual) {
     return new ObjectAssert<>(actual);
   }
@@ -412,6 +446,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
     return new ObjectArrayAssert<>(actual);
   }
@@ -422,6 +457,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractShortAssert<?> assertThat(short actual) {
     return new ShortAssert(actual);
   }
@@ -432,6 +468,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractShortAssert<?> assertThat(Short actual) {
     return new ShortAssert(actual);
   }
@@ -442,6 +479,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
     return new ShortArrayAssert(actual);
   }
@@ -452,6 +490,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
     return new StringAssert(actual);
   }
@@ -462,6 +501,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractDateAssert<?> assertThat(Date actual) {
     return new DateAssert(actual);
   }
@@ -472,6 +512,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime date) {
     return new ZonedDateTimeAssert(date);
   }
@@ -482,6 +523,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime localDateTime) {
     return new LocalDateTimeAssert(localDateTime);
   }
@@ -492,6 +534,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractOffsetDateTimeAssert<?> assertThat(OffsetDateTime actual) {
     return new OffsetDateTimeAssert(actual);
   }
@@ -502,6 +545,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime offsetTime) {
     return new OffsetTimeAssert(offsetTime);
   }
@@ -512,6 +556,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractLocalTimeAssert<?> assertThat(LocalTime actual) {
     return new LocalTimeAssert(actual);
   }
@@ -522,6 +567,7 @@ public class AssertionsForClassTypes {
    * @param localDate the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {
     return new LocalDateAssert(localDate);
   }
@@ -532,6 +578,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
+  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
     return new ThrowableAssert(actual);
   }
@@ -554,6 +601,7 @@ public class AssertionsForClassTypes {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
+  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
@@ -572,6 +620,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created {@link ThrowableTypeAssert}.
    */
+  @CheckReturnValue
   public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
     return new ThrowableTypeAssert<>(exceptionType);
   }
