@@ -12,9 +12,17 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
+
+import java.util.AbstractList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.assertj.core.internal.Failures;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for {@link List}s.
@@ -37,6 +45,178 @@ public class ListAssert<ELEMENT> extends
   }
   
   protected ListAssert(Stream<? extends ELEMENT> actual) {
-    this(actual == null ? null : actual.collect(Collectors.toList()));
+    this(actual == null ? null : new ListFromStream<>(actual));
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isEqualTo(Object expected) {
+    if (actual instanceof ListFromStream) {
+      objects.assertEqual(info, asListFromStream().stream, expected);
+      return myself;
+    }
+    return super.isEqualTo(expected);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isInstanceOf(Class<?> type) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsInstanceOf(info, asListFromStream().stream, type);
+      return myself;
+    }
+    return super.isInstanceOf(type);
+  }
+  
+  @Override
+  public ListAssert<ELEMENT> isInstanceOfAny(Class<?>... types) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsInstanceOfAny(info, asListFromStream().stream, types);
+      return myself;
+    }
+    return super.isInstanceOfAny(types);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isOfAnyClassIn(Class<?>... types) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsOfAnyClassIn(info, asListFromStream().stream, types);
+      return myself;
+    }
+    return super.isOfAnyClassIn(types);
+  }
+  
+  @Override
+  public ListAssert<ELEMENT> isExactlyInstanceOf(Class<?> type) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsExactlyInstanceOf(info, asListFromStream().stream, type);
+      return myself;
+    }
+    return super.isExactlyInstanceOf(type);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isNotInstanceOf(Class<?> type) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsNotInstanceOf(info, asListFromStream().stream, type);
+      return myself;
+    }
+    return super.isNotInstanceOf(type);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isNotInstanceOfAny(Class<?>... types) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsNotInstanceOfAny(info, asListFromStream().stream, types);
+      return myself;
+    }
+    return super.isNotInstanceOfAny(types);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isNotOfAnyClassIn(Class<?>... types) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsNotOfAnyClassIn(info, asListFromStream().stream, types);
+      return myself;
+    }
+    return super.isNotOfAnyClassIn(types);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isNotExactlyInstanceOf(Class<?> type) {
+    if (actual instanceof ListFromStream) {
+      objects.assertIsNotExactlyInstanceOf(info, asListFromStream().stream, type);
+      return myself;
+    }
+    return super.isNotExactlyInstanceOf(type);
+  }
+  
+  @Override
+  public ListAssert<ELEMENT> isSameAs(Object expected) {
+    if (actual instanceof ListFromStream) {
+      objects.assertSame(info, asListFromStream().stream, expected);
+      return myself;
+    }
+    return super.isSameAs(expected);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> isNotSameAs(Object expected) {
+    if (actual instanceof ListFromStream) {
+      objects.assertNotSame(info, asListFromStream().stream, expected);
+      return myself;
+    }
+    return super.isNotSameAs(expected);
+  }
+
+  @Override
+  public ListAssert<ELEMENT> startsWith(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+    if (!(actual instanceof ListFromStream)) {
+      return super.startsWith(sequence);
+    }
+    objects.assertNotNull(info, actual);
+    checkIsNotNull(sequence);
+    // To handle infinite stream we use the internal iterator instead of iterator() that consumes it totally.
+    @SuppressWarnings("unchecked")
+    Iterator<? extends ELEMENT> iterator = ((ListFromStream<ELEMENT>) actual).stream.iterator();
+    if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
+    int i = 0;
+    while (iterator.hasNext()) {
+      if (i >= sequence.length) break;
+      if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
+      throw actualDoesNotStartWithSequence(info, sequence);
+    }
+    if (sequence.length > i) {
+      // sequence has more elements than actual
+      throw actualDoesNotStartWithSequence(info, sequence);
+    }
+    return myself;
+  }
+
+  private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
+    return Failures.instance().failure(info, shouldStartWith("Stream under test", sequence, iterables.getComparisonStrategy()));
+  }
+
+
+  @SuppressWarnings("rawtypes")
+  private ListFromStream asListFromStream() {
+    return (ListFromStream) actual;
+  }
+  
+  @VisibleForTesting
+  static class ListFromStream<ELEMENT> extends AbstractList<ELEMENT> {
+    private Stream<ELEMENT> stream;
+    private List<ELEMENT> list;
+
+    public ListFromStream(Stream<ELEMENT> stream) {
+      this.stream = stream;
+    }
+
+    public Stream<ELEMENT> stream() {
+      System.out.println("stream()");
+      initList();
+      return list.stream();
+    }
+
+    private List<ELEMENT> initList() {
+      if (list == null) {
+        System.out.println("initList : create list");
+        list = stream.collect(Collectors.toList());
+      }
+      return list;
+    }
+
+    @Override
+    public int size() {
+      System.out.println("size()");
+      initList();
+      return list.size();
+    }
+
+    @Override
+    public ELEMENT get(int index) {
+      System.out.println("get()");
+      initList();
+      return list.get(index);
+    }
+
   }
 }
