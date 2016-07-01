@@ -156,6 +156,37 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
   }
 
   /**
+   * Verifies that the actual number is not close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass:
+   * assertThat(8.1f).isNotCloseTo(8.2f, within(0.01f));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.1f).isNotCloseTo(8.2f, offset(0.01f));
+   *
+   * // if difference is exactly equals to 0.1, it's ok
+   * assertThat(8.1f).isNotCloseTo(8.2f, within(0.1f));
+   *
+   * // assertion will fail
+   * assertThat(8.1f).isNotCloseTo(8.2f, within(0.2f));</code></pre>
+   *
+   * Beware that java floating point number precision might have some unexpected behavior.
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  // duplicate javadoc of isNotCloseTo(Float other, Offset<Float> offset but can't define it in super class
+  public S isNotCloseTo(final float expected, final Offset<Float> offset) {
+    floats.assertIsNotCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual number is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
@@ -191,6 +222,38 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
   }
 
   /**
+   * Verifies that the actual number is not close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass:
+   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), within(0.01f));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), offset(0.01f));
+   *
+   * // if difference is exactly equals to the offset (0.1), it's ok
+   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), within(0.1f));
+   *
+   * // assertion will fail
+   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), within(0.2f));</code></pre>
+   *
+   * Beware that java floating point number precision might have some unexpected behavior.
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the other number is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  @Override
+  public S isNotCloseTo(Float expected, Offset<Float> offset) {
+    floats.assertIsNotCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual number is close to the given one within the given percentage.<br>
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
@@ -218,6 +281,33 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
   }
 
   /**
+   * Verifies that the actual number is not close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with float:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(11.0f).isNotCloseTo(new Float(10.0f), withinPercentage(5f));
+   *
+   * // if difference is exactly equals to the computed offset (1.0), it's ok
+   * assertThat(11.0f).isNotCloseTo(new Float(10.0f), withinPercentage(10f));
+   *
+   * // assertion will fail
+   * assertThat(11.0f).isNotCloseTo(new Float(10.0f), withinPercentage(20f));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  @Override
+  public S isNotCloseTo(Float expected, Percentage percentage) {
+    floats.assertIsNotCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual number is close to the given one within the given percentage.<br>
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
@@ -240,6 +330,32 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    */
   public S isCloseTo(float expected, Percentage percentage) {
     floats.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is not close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with float:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(11.0f).isNotCloseTo(10.0f, withinPercentage(5f));
+   *
+   * // if difference is exactly equals to the computed offset (1.0), it's ok
+   * assertThat(11.0f).isNotCloseTo(10.0f, withinPercentage(10f));
+   *
+   * // assertion will fail
+   * assertThat(11.0f).isNotCloseTo(10.0f, withinPercentage(20f));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  public S isNotCloseTo(float expected, Percentage percentage) {
+    floats.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 

@@ -334,6 +334,31 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
   }
 
   /**
+   * Verifies that the actual byte is not close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 1));
+   *
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 2));
+   *
+   * // assertion will fail
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 3));</code></pre>
+   *
+   * @param expected the given byte to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  public S isNotCloseTo(byte expected, Offset<Byte> offset) {
+    bytes.assertIsNotCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual Byte is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
@@ -357,6 +382,33 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
   @Override
   public S isCloseTo(Byte expected, Offset<Byte> offset) {
     bytes.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual Byte is not close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), within((byte) 1));
+   *
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), within((byte) 2));
+   *
+   * // assertion will fail
+   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), within((byte) 3));</code></pre>
+   *
+   * @param expected the given Byte to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected Byte is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  @Override
+  public S isNotCloseTo(Byte expected, Offset<Byte> offset) {
+    bytes.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
 
@@ -388,6 +440,33 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
   }
 
   /**
+   * Verifies that the actual number is not close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with byte:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat((byte) 11).isNotCloseTo(Byte.valueOf(10), withinPercentage((byte) 5));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat((byte) 11).isNotCloseTo(Byte.valueOf(10), withinPercentage((byte) 10));
+   *
+   * // assertion will fail
+   * assertThat((byte) 11).isNotCloseTo(Byte.valueOf(10), withinPercentage((byte) 20));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  @Override
+  public S isNotCloseTo(Byte expected, Percentage percentage) {
+    bytes.assertIsNotCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual number is close to the given one within the given percentage.<br>
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
@@ -410,6 +489,32 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    */
   public S isCloseTo(byte expected, Percentage percentage) {
     bytes.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is not close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with byte:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat((byte) 11).isNotCloseTo((byte) 10, withinPercentage((byte) 5));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat((byte) 11).isNotCloseTo((byte) 10, withinPercentage((byte) 10));
+   *
+   * // assertion will fail
+   * assertThat((byte) 11).isNotCloseTo((byte) 10, withinPercentage((byte) 20));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  public S isNotCloseTo(byte expected, Percentage percentage) {
+    bytes.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 

@@ -14,7 +14,9 @@ package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
+import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
 import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
@@ -167,6 +169,24 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   }
 
   /**
+   * Asserts that the actual value is not close to the offset.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param offset the given positive offset.
+   */
+  public void assertIsNotCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
+                                 final Offset<NUMBER> offset) {
+    assertNotNull(info, actual);
+    checkOffsetIsNotNull(offset);
+    checkNumberIsNotNull(expected);
+
+    if (Objects.areEqual(actual, expected)) return; // handles correctly NaN comparison
+    if (!isGreaterThan(absDiff(actual, expected), offset.value))
+      throw failures.failure(info, shouldNotBeEqual(actual, expected, offset, absDiff(actual, expected)));
+  }
+
+  /**
    * Asserts that the actual value is close to the an offset expressed as an percentage value.
    *
    * @param info contains information about the assertion.
@@ -182,6 +202,24 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     double acceptableDiff = abs(percentage.value * other.doubleValue() / 100d);
     if (absDiff(actual, other).doubleValue() > acceptableDiff)
       throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
+  }
+
+  /**
+   * Asserts that the actual value is not close to the an offset expressed as an percentage value.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the expected value.
+   * @param percentage the given positive percentage.
+   */
+  public void assertIsNotCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
+                                           final Percentage percentage) {
+    assertNotNull(info, actual);
+    checkPercentageIsNotNull(percentage);
+    checkNumberIsNotNull(other);
+    double acceptableDiff = abs(percentage.value * other.doubleValue() / 100d);
+    if (absDiff(actual, other).doubleValue() < acceptableDiff)
+      throw failures.failure(info, shouldNotBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
   }
 
   protected abstract NUMBER absDiff(final NUMBER actual, final NUMBER other);
