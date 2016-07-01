@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.util.CheckReturnValue;
+
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
@@ -82,6 +84,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
     return new CharSequenceAssert(actual);
   }
@@ -92,6 +95,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <ELEMENT> AbstractIterableAssert<?, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Iterable<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
@@ -106,6 +110,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <ELEMENT> AbstractIterableAssert<?, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Iterator<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
@@ -116,6 +121,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(List<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
@@ -130,6 +136,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
@@ -177,6 +184,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the path to test
    * @return the created assertion object
    */
+  @CheckReturnValue
   public static AbstractPathAssert<?> assertThat(Path actual) {
     return new PathAssert(actual);
   }
@@ -190,6 +198,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
     return new MapAssert<>(actual);
   }
@@ -201,6 +210,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @CheckReturnValue
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return new GenericComparableAssert<>(actual);
   }
@@ -256,6 +266,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param assertion the assertion to return.
    * @return the given assertion.
    */
+  @CheckReturnValue
   public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
     return assertion;
   }
@@ -268,6 +279,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
+  @CheckReturnValue
   public static <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
     return new PredicateAssert<>(actual);
   }
@@ -279,6 +291,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
+  @CheckReturnValue
   public static IntPredicateAssert assertThat(IntPredicate actual) {
     return new IntPredicateAssert(actual);
   }
@@ -290,6 +303,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
+  @CheckReturnValue
   public static LongPredicateAssert assertThat(LongPredicate actual) {
     return new LongPredicateAssert(actual);
   }
@@ -301,6 +315,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
+  @CheckReturnValue
   public static DoublePredicateAssert assertThat(DoublePredicate actual) {
     return new DoublePredicateAssert(actual);
   }
