@@ -246,7 +246,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(short expected, Offset<Short> offset) {
     shorts.assertIsCloseTo(info, actual, expected, offset);
@@ -296,7 +296,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Short expected, Offset<Short> offset) {
@@ -349,7 +349,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Short expected, Percentage percentage) {
@@ -403,7 +403,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(short expected, Percentage percentage) {
     shorts.assertIsCloseToPercentage(info, actual, expected, percentage);

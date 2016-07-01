@@ -251,7 +251,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual, expected, offset);
@@ -301,7 +301,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Long expected, Offset<Long> offset) {
@@ -354,7 +354,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Long expected, Percentage percentage) {
@@ -408,7 +408,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(long expected, Percentage percentage) {
     longs.assertIsCloseToPercentage(info, actual, expected, percentage);

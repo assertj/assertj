@@ -74,7 +74,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   S isCloseTo(A expected, Offset<A> offset);
 

@@ -326,7 +326,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(byte expected, Offset<Byte> offset) {
     bytes.assertIsCloseTo(info, actual, expected, offset);
@@ -377,7 +377,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected Byte is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Byte expected, Offset<Byte> offset) {
@@ -431,7 +431,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Byte expected, Percentage percentage) {
@@ -485,7 +485,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is close to the given one.
    */
   public S isCloseTo(byte expected, Percentage percentage) {
     bytes.assertIsCloseToPercentage(info, actual, expected, percentage);

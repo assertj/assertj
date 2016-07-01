@@ -278,10 +278,18 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    *
    * // but if difference is greater than given offset value assertion will fail :
    * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.01")));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
-  public S isCloseTo(final BigDecimal other, final Offset<BigDecimal> offset) {
-    bigDecimals.assertIsCloseTo(info, actual, other, offset);
+  public S isCloseTo(final BigDecimal expected, final Offset<BigDecimal> offset) {
+    bigDecimals.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
 
   /**
    * Verifies that the actual number is not close to the given one within the given offset.<br>
@@ -334,7 +342,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(BigDecimal expected, Percentage percentage) {

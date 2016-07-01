@@ -255,7 +255,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(int expected, Offset<Integer> offset) {
     integers.assertIsCloseTo(info, actual, expected, offset);
@@ -305,7 +305,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Integer expected, Offset<Integer> offset) {

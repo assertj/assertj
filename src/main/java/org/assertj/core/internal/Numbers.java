@@ -154,7 +154,6 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    *
    * @param info contains information about the assertion.
    * @param actual the actual value.
-   * @param other the expected value.
    * @param offset the given positive offset.
    */
   public void assertIsCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
