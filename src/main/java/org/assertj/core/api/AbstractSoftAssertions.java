@@ -38,7 +38,7 @@ public class AbstractSoftAssertions {
   }
 
   /**
-   * Returns the result of last soft assertion which can used to decide what the next one should be.
+   * Returns the result of last soft assertion which can be used to decide what the next one should be.
    * <p>
    * Example :
    * <pre><code class='java'> Person person = ...

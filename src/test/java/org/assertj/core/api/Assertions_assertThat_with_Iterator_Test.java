@@ -81,6 +81,12 @@ public class Assertions_assertThat_with_Iterator_Test {
   }
 
   @Test
+  public void isEqualTo_should_honor_comparing_the_same_mocked_iterator() {
+    Iterator<?> iterator = mock(Iterator.class);
+    assertThat(iterator).isEqualTo(iterator);
+  }
+  
+  @Test
   public void should_not_consume_iterator_when_asserting_non_null() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isNotNull();

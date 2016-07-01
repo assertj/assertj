@@ -55,6 +55,15 @@ public class IterableAssert<ELEMENT> extends
   }
 
   @Override
+  public IterableAssert<ELEMENT> isEqualTo(Object expected)  {
+    if (actual instanceof LazyIterable) {
+      objects.assertEqual(info, asLazyIterable().iterator, expected);
+      return myself;
+    }
+    return super.isEqualTo(expected);
+  }
+
+  @Override
   public IterableAssert<ELEMENT> isInstanceOf(Class<?> type) {
     if (actual instanceof LazyIterable) {
       objects.assertIsInstanceOf(info, asLazyIterable().iterator, type);
