@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.util.CheckReturnValue;
+
 import java.nio.file.Path;
 
 public abstract class AbstractStandardSoftAssertions extends Java6AbstractStandardSoftAssertions {
@@ -22,6 +24,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the path
    * @return the created assertion object
    */
+  @CheckReturnValue
   public PathAssert assertThat(Path actual) {
     return proxy(PathAssert.class, Path.class, actual);
   }
