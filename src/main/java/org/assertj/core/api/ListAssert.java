@@ -43,15 +43,14 @@ public class ListAssert<ELEMENT> extends
 
     super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
-  
+
   protected ListAssert(Stream<? extends ELEMENT> actual) {
     this(actual == null ? null : new ListFromStream<>(actual));
   }
 
   @Override
   public ListAssert<ELEMENT> isEqualTo(Object expected) {
-    if (actual instanceof ListFromStream) {
-      objects.assertEqual(info, asListFromStream().stream, expected);
+    if (actual instanceof ListFromStream && asListFromStream().stream == expected) {
       return myself;
     }
     return super.isEqualTo(expected);
@@ -65,7 +64,7 @@ public class ListAssert<ELEMENT> extends
     }
     return super.isInstanceOf(type);
   }
-  
+
   @Override
   public ListAssert<ELEMENT> isInstanceOfAny(Class<?>... types) {
     if (actual instanceof ListFromStream) {
@@ -83,7 +82,7 @@ public class ListAssert<ELEMENT> extends
     }
     return super.isOfAnyClassIn(types);
   }
-  
+
   @Override
   public ListAssert<ELEMENT> isExactlyInstanceOf(Class<?> type) {
     if (actual instanceof ListFromStream) {
@@ -128,7 +127,7 @@ public class ListAssert<ELEMENT> extends
     }
     return super.isNotExactlyInstanceOf(type);
   }
-  
+
   @Override
   public ListAssert<ELEMENT> isSameAs(Object expected) {
     if (actual instanceof ListFromStream) {
@@ -154,9 +153,10 @@ public class ListAssert<ELEMENT> extends
     }
     objects.assertNotNull(info, actual);
     checkIsNotNull(sequence);
-    // To handle infinite stream we use the internal iterator instead of iterator() that consumes it totally.
+    // NO SUPPORT FOR infinite streams as it prevents chaining other assertions afterward, it requires to consume the
+    // Stream partially, if you chain another assertion, the stream is already consumed.
     @SuppressWarnings("unchecked")
-    Iterator<? extends ELEMENT> iterator = ((ListFromStream<ELEMENT>) actual).stream.iterator();
+    Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
     if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
     int i = 0;
     while (iterator.hasNext()) {
@@ -172,15 +172,15 @@ public class ListAssert<ELEMENT> extends
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
-    return Failures.instance().failure(info, shouldStartWith("Stream under test", sequence, iterables.getComparisonStrategy()));
+    return Failures.instance()
+                   .failure(info, shouldStartWith("Stream under test", sequence, iterables.getComparisonStrategy()));
   }
-
 
   @SuppressWarnings("rawtypes")
   private ListFromStream asListFromStream() {
     return (ListFromStream) actual;
   }
-  
+
   @VisibleForTesting
   static class ListFromStream<ELEMENT> extends AbstractList<ELEMENT> {
     private Stream<ELEMENT> stream;
@@ -191,14 +191,12 @@ public class ListAssert<ELEMENT> extends
     }
 
     public Stream<ELEMENT> stream() {
-      System.out.println("stream()");
       initList();
       return list.stream();
     }
 
     private List<ELEMENT> initList() {
       if (list == null) {
-        System.out.println("initList : create list");
         list = stream.collect(Collectors.toList());
       }
       return list;
@@ -206,14 +204,12 @@ public class ListAssert<ELEMENT> extends
 
     @Override
     public int size() {
-      System.out.println("size()");
       initList();
       return list.size();
     }
 
     @Override
     public ELEMENT get(int index) {
-      System.out.println("get()");
       initList();
       return list.get(index);
     }
