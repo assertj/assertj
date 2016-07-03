@@ -558,7 +558,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Jedi vader = new Jedi("Vader", "Red");
    * assertThat(vader).satisfies(jediRequirements);</code></pre>
    * <p>
-   * In the following example, {@code satisfies} prevents the need of define a local variable in order to multiple assertions:
+   * In the following example, {@code satisfies} prevents the need of define a local variable in order to run multiple assertions:
    * <pre><code class='java'> // no need to define team.getPlayers().get(0).getStats() as a local variable
    * assertThat(team.getPlayers().get(0).getStats()).satisfies(stats -> {
    *   assertThat(stats.pointPerGame).isGreaterThan(25.7);

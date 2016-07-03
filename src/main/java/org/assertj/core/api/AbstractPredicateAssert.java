@@ -49,7 +49,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * assertThat(ballSportPredicate).accepts("football")
    *                               .accepts("football", "basketball", "handball");
    *
-   * // assertion fails because of curling :p
+   * // assertions fail because of curling :p
    * assertThat(ballSportPredicate).accepts("curling")
    * assertThat(ballSportPredicate).accepts("football", "basketball", "curling");</code></pre>
    *
