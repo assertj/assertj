@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
@@ -95,6 +96,29 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   public AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  protected static <T> Iterable<T> toLazyIterable(Iterator<T> actual) {
+    if (actual == null) {
+      return null;
+    }
+    return new LazyIterable<>(actual);
+  }
+
+  /**
+   * Create a friendly soft or "hard" assertions.
+   * <p>
+   * Implementation needs to redefine it in order for some methods, such as {@link #extracting(Extractor)}, to be able
+   * to build appropriate list assert (eg: {@link ListAssert} versus {@link SoftAssertionListAssert}).
+   * <p>
+   * The default implementation will assume that this concrete implementation is NOT a soft assertion.
+   * 
+   * @param newActual new value
+   * @return a new {@link AbstractListAssert}.
+   */
+  protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
+    // this might not be the best implementation (SoftAssertion needs to override this).
+    return new ListAssert<>(newActual);
   }
 
   /**
@@ -560,9 +584,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError if no field or property exists with the given name in one of the initial
    *         Iterable's element.
    */
-  public ListAssert<Object> extracting(String propertyOrField) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String propertyOrField) {
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-    return new ListAssert<>(values);
+    return newListAssertInstance(values);
   }
 
   /**
@@ -604,9 +628,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void, or method accepts arguments.
    */
-  public ListAssert<Object> extractingResultOf(String method) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-    return new ListAssert<>(values);
+    return newListAssertInstance(values);
   }
 
   /**
@@ -649,10 +673,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void or method accepts arguments.
    */
-  public <P> ListAssert<P> extractingResultOf(String method, Class<P> extractedType) {
+  public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
+                                                                                             Class<P> extractedType) {
     @SuppressWarnings("unchecked")
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-    return new ListAssert<>(values);
+    return newListAssertInstance(values);
   }
 
   /**
@@ -735,10 +760,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError if no field or property exists with the given name in one of the initial
    *         Iterable's element.
    */
-  public <P> ListAssert<P> extracting(String propertyOrField, Class<P> extractingType) {
+  public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String propertyOrField,
+                                                                                     Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-    return new ListAssert<>(values);
+    return newListAssertInstance(values);
   }
 
   /**
@@ -825,9 +851,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError if one of the given name does not match a field or property in one of the initial
    *         Iterable's element.
    */
-  public ListAssert<Tuple> extracting(String... propertiesOrFields) {
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
-    return new ListAssert<>(values);
+    return newListAssertInstance(values);
   }
 
   /**
@@ -869,9 +895,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <V> ListAssert<V> extracting(Extractor<? super ELEMENT, V> extractor) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Extractor<? super ELEMENT, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    return new ListAssert<>(values);
+    return newListAssertInstance(values);
   }
 
   /**
@@ -909,7 +935,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <V> ListAssert<V> flatExtracting(Extractor<? super ELEMENT, ? extends Collection<V>> extractor) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Extractor<? super ELEMENT, ? extends Collection<V>> extractor) {
     List<V> result = newArrayList();
     final List<? extends Collection<V>> extractedValues = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
@@ -917,7 +943,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       result.addAll(iterable);
     }
 
-    return new ListAssert<>(result);
+    return newListAssertInstance(result);
   }
 
   /**
@@ -949,7 +975,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is the list of values extracted
    * @throws IllegalArgumentException if one of the extracted property value was not an array or an iterable.
    */
-  public ListAssert<Object> flatExtracting(String fieldOrPropertyName) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String fieldOrPropertyName) {
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyName));
     for (Object group : extractedGroups) {
@@ -968,7 +994,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return new ListAssert<>(extractedValues);
+    return newListAssertInstance(extractedValues);
   }
 
   /**
@@ -994,12 +1020,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if fieldOrPropertyNames vararg is null or empty
    * @since 2.5.0
    */
-  public ListAssert<Object> flatExtracting(String... fieldOrPropertyNames) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String... fieldOrPropertyNames) {
     List<Object> extractedValues = newArrayList();
     for (Tuple tuple : FieldsOrPropertiesExtractor.extract(actual, Extractors.byName(fieldOrPropertyNames))) {
       extractedValues.addAll(tuple.toList());
     }
-    return new ListAssert<>(extractedValues);
+    return newListAssertInstance(extractedValues);
   }
 
   /**
@@ -1435,10 +1461,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the iterable elements.
    */
   @SuppressWarnings("unchecked")
-  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
+                                                                                                   Object expectedValue) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, expectedValue).get();
-    return (SELF) new ListAssert<>(newArrayList(filteredIterable));
+    return newListAssertInstance(newArrayList(filteredIterable));
   }
 
   /**
@@ -1480,7 +1507,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object with the filtered iterable under test
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the iterable elements.
    */
-  public SELF filteredOnNull(String propertyOrFieldName) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOnNull(String propertyOrFieldName) {
     // need to cast nulll to Object otherwise it calls :
     // filteredOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
     return filteredOn(propertyOrFieldName, (Object) null);
@@ -1552,12 +1579,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    */
   @SuppressWarnings("unchecked")
-  public SELF filteredOn(String propertyOrFieldName, FilterOperator<?> filterOperator) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
+                                                                                                   FilterOperator<?> filterOperator) {
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return (SELF) new ListAssert<>(newArrayList(filter.get()));
-
+    return newListAssertInstance(newArrayList(filter.get()));
   }
 
   /**
@@ -1593,10 +1620,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
   @SuppressWarnings("unchecked")
-  public SELF filteredOn(Condition<? super ELEMENT> condition) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Condition<? super ELEMENT> condition) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.being(condition).get();
-    return (SELF) new ListAssert<>(newArrayList(filteredIterable));
+    return newListAssertInstance(newArrayList(filteredIterable));
   }
 
   // navigable assertions
