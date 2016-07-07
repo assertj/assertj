@@ -188,8 +188,8 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> PredicateAssert<T> then(Predicate<T> actual) {
-    return proxy(PredicateAssert.class, Predicate.class, actual);
+  public <T> SoftAssertionPredicateAssert<T> then(Predicate<T> actual) {
+    return proxy(SoftAssertionPredicateAssert.class, Predicate.class, actual);
   }
 
   /**

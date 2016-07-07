@@ -188,8 +188,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
-    return proxy(PredicateAssert.class, Predicate.class, actual);
+  public <T> SoftAssertionPredicateAssert<T> assertThat(Predicate<T> actual) {
+    return proxy(SoftAssertionPredicateAssert.class, Predicate.class, actual);
   }
 
   /**

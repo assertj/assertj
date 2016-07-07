@@ -15,29 +15,16 @@ package org.assertj.core.api;
 import java.util.function.Predicate;
 
 /**
- * Assertions for {@link Predicate}.
- *
- * @param <T> type of the value contained in the {@link Predicate}.
- * @author Filip Hrisafov
- *
- * @since 3.5.0
+ * Concrete assertions for {@link Predicate}s without any final methods to allow proxying.
+ * 
+ * @author Gaël LHEZ
+ * @since 3.5.2
  */
-public class PredicateAssert<T> extends AbstractPredicateAssert<PredicateAssert<T>, T> {
+public class SoftAssertionPredicateAssert<T>
+    extends AbstractPredicateAssert<PredicateAssert<T>, T> {
 
-  protected PredicateAssert(Predicate<T> actual) {
-    super(actual, PredicateAssert.class);
-  }
-
-  @SafeVarargs
-  @Override
-  public final PredicateAssert<T> accepts(T... values) {
-    return super.accepts(values);
-  }
-
-  @SafeVarargs
-  @Override
-  public final PredicateAssert<T> rejects(T... values) {
-    return super.rejects(values);
+  public SoftAssertionPredicateAssert(Predicate<T> actual) {
+    super(actual, SoftAssertionPredicateAssert.class);
   }
 
 }
