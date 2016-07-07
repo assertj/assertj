@@ -374,7 +374,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> AbstractIterableAssert<?, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Iterable<? extends ELEMENT> actual) {
+  public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterable<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -389,7 +389,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> AbstractIterableAssert<?, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Iterator<? extends ELEMENT> actual) {
+  public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterator<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -400,7 +400,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(List<? extends ELEMENT> actual) {
+  public static <ELEMENT> ListAssert<ELEMENT> assertThat(List<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
 
