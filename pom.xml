@@ -140,15 +140,6 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <version>3.0.1</version>
         <extensions>true</extensions>
-        <executions>
-          <execution>
-            <id>bundle-shade</id>
-            <phase>package</phase>
-            <goals>
-              <goal>bundle</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
           <instructions>
             <Export-Package>
