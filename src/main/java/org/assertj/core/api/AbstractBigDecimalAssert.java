@@ -373,7 +373,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    */
   @Override
   public S isNotCloseTo(BigDecimal expected, Percentage percentage) {
-    bigDecimals.assertIsCloseToPercentage(info, actual, expected, percentage);
+    bigDecimals.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 }
