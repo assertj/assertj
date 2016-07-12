@@ -181,7 +181,9 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     checkNumberIsNotNull(expected);
 
     if (Objects.areEqual(actual, expected)) return; // handles correctly NaN comparison
-    if (!isGreaterThan(absDiff(actual, expected), offset.value))
+    NUMBER diff = absDiff(actual, expected);
+    if (diff.compareTo(offset.value) == 0) return;
+    if (!isGreaterThan(diff, offset.value))
       throw failures.failure(info, shouldNotBeEqual(actual, expected, offset, absDiff(actual, expected)));
   }
 
