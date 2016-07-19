@@ -27,18 +27,17 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
- * BDD style entry point for assertion methods for different data types. Each method in this class is a static factory
- * for the type-specific assertion objects. The purpose of this class is to make test code more readable.
+ * Behavior-driven development style entry point for assertion methods for different types. Each method in this class is a static factory
+ * for a type-specific assertion object.
  * <p>
- * The difference with Assertions class is that entry point methods are named <code>then</code> instead of
+ * The difference with the {@link Assertions} class is that entry point methods are named <code>then</code> instead of
  * <code>assertThat</code>.
  * <p>
  * For example:
  * <pre><code class='java'> {@literal @}Test
- * public void bdd_assertions_examples() {
- *
+ * public void bdd_assertions_example() {
  *   //given
- *   List&lt;BasketBallPlayer&gt; bulls = new ArrayList&lt;BasketBallPlayer&gt;();
+ *   List&lt;BasketBallPlayer&gt; bulls = new ArrayList&lt;&gt;();
  *
  *   //when
  *   bulls.add(rose);
@@ -712,7 +711,6 @@ public class BDDAssertions extends Assertions {
    *   public boolean isBlinking() { return this.blinking; }
    *
    *   public void setBlinking(boolean blink) { this.blinking = blink; }
-   *
    * }
    *
    * private static class MyButtonAssert implements AssertDelegateTarget {

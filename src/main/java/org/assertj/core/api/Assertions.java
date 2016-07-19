@@ -54,8 +54,8 @@ import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
- * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
- * type-specific assertion objects. The purpose of this class is to make test code more readable.
+ * Entry point for assertion methods for different types. Each method in this class is a static factory for a
+ * type-specific assertion object.
  * <p>
  * For example:
  * <pre><code class='java'> int removed = employees.removeFired();
@@ -63,7 +63,6 @@ import org.assertj.core.util.introspection.FieldSupport;
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);</code></pre>
- * <p/>
  * </p>
  *
  * @author Alex Ruiz
@@ -638,7 +637,6 @@ public class Assertions {
    *   public boolean isBlinking() { return this.blinking; }
    *
    *   public void setBlinking(boolean blink) { this.blinking = blink; }
-   *
    * }
    *
    * private static class MyButtonAssert implements AssertDelegateTarget {
@@ -1708,7 +1706,7 @@ public class Assertions {
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
    * <p>
-   * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
+   * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>.
    * <p>
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
