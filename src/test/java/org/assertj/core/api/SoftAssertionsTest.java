@@ -662,4 +662,22 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
     }
   }
+
+  @Test
+  public void should_return_failure_after_fail() {
+      softly.fail("Should not reach here");
+      assertThat(softly.wasSuccess()).isFalse();
+  }
+
+  @Test
+  public void should_return_failure_after_fail_with_throwable() {
+      softly.fail("Should not reach here", new IllegalStateException());
+      assertThat(softly.wasSuccess()).isFalse();
+  }
+
+  @Test
+  public void should_return_failure_after_shouldHaveThrown() {
+      softly.shouldHaveThrown(IllegalArgumentException.class);
+      assertThat(softly.wasSuccess()).isFalse();
+  }
 }
