@@ -23,6 +23,8 @@ import org.junit.runners.model.Statement;
 /**
  * Duplicate of {@link JUnitBDDSoftAssertions} compatible with Android.
  * 
+ * @see JUnitBDDSoftAssertions
+ * 
  * @since 2.5.0 / 3.5.0
  */
 public class Java6JUnitBDDSoftAssertions extends Java6AbstractBDDSoftAssertions

@@ -51,30 +51,9 @@ import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
- * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
- * type-specific assertion objects. The purpose of this class is to make test code more readable.
- * <p>
- * For example:
- * <pre><code class='java'> int removed = employees.removeFired();
- * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
+ * Assertions compatible with Android. Duplicated from {@link Assertions}.
  *
- * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
- * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);</code></pre>
- * <p>
- * </p>
- *
- * @author Alex Ruiz
- * @author Yvonne Wang
- * @author David DIDIER
- * @author Ted Young
- * @author Joel Costigliola
- * @author Matthieu Baechler
- * @author Mikhail Mazursky
- * @author Nicolas François
- * @author Julien Meddah
- * @author William Delanoue
- * @author Turbo87
- * @author dorzey
+ * @see Assertions
  */
 public class Java6Assertions {
 
