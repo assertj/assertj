@@ -51,7 +51,7 @@ public class Failures {
    * @return the singleton instance of this class.
    */
   public static Failures instance() {
-	return INSTANCE;
+    return INSTANCE;
   }
 
   /**
@@ -65,12 +65,11 @@ public class Failures {
    * @param removeAssertJRelatedElementsFromStackTrace flag
    */
   public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
-	this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
+    this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
   }
 
   @VisibleForTesting
-  Failures() {
-  }
+  Failures() {}
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:
@@ -86,10 +85,10 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, AssertionErrorFactory factory) {
-	AssertionError error = failureIfErrorMessageIsOverridden(info);
-	if (error != null) return error;
-	printThreadDumpIfNeeded();
-	return factory.newAssertionError(info.description(), info.representation());
+    AssertionError error = failureIfErrorMessageIsOverridden(info);
+    if (error != null) return error;
+    printThreadDumpIfNeeded();
+    return factory.newAssertionError(info.description(), info.representation());
   }
 
   /**
@@ -107,18 +106,19 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory message) {
-	AssertionError error = failureIfErrorMessageIsOverridden(info);
-	if (error != null) return error;
-	AssertionError assertionError = new AssertionError(message.create(info.description(), info.representation()));
-	removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-	printThreadDumpIfNeeded();
-	return assertionError;
+    AssertionError error = failureIfErrorMessageIsOverridden(info);
+    if (error != null) return error;
+    AssertionError assertionError = new AssertionError(message.create(info.description(), info.representation()));
+    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    printThreadDumpIfNeeded();
+    return assertionError;
   }
 
   public AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
-	String overridingErrorMessage = info.overridingErrorMessage();
-	return isNullOrEmpty(overridingErrorMessage) ? null :
-	    failure(MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage));
+    String overridingErrorMessage = info.overridingErrorMessage();
+    return isNullOrEmpty(overridingErrorMessage) ? null
+        : failure(MessageFormatter.instance().format(info.description(), info.representation(),
+                                                     overridingErrorMessage));
   }
 
   /**
@@ -131,23 +131,33 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(String message) {
-	AssertionError assertionError = new AssertionError(message);
-	removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-	printThreadDumpIfNeeded();
-	return assertionError;
+    AssertionError assertionError = new AssertionError(message);
+    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    printThreadDumpIfNeeded();
+    return assertionError;
+  }
+
+  /**
+   * Creates a <code>{@link AssertionError}</code> for a {@link Throwable} class that was expected to be thrown.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @return the created <code>{@link AssertionError}</code>.
+   * @since 2.6.0
+   */
+  public AssertionError expectedThrowableNotThrown(Class<? extends Throwable> throwableClass) {
+    return failure(format("%s should have been thrown", throwableClass.getSimpleName()));
   }
 
   private void printThreadDumpIfNeeded() {
-	if (printThreadDump) System.err.println(threadDumpDescription());
+    if (printThreadDump) System.err.println(threadDumpDescription());
   }
 
-/**
+  /**
    * If is {@link #removeAssertJRelatedElementsFromStackTrace} is true, it filters the stack trace of the given {@link AssertionError} 
    * by removing stack trace elements related to AssertJ in order to get a more readable stack trace.
    * <p>
    * See example below :
    * <pre><code class='java'> --------------- stack trace not filtered -----------------
-org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+  org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -161,8 +171,8 @@ org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
   at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:74)
   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)
   
---------------- stack trace filtered -----------------
-org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+  --------------- stack trace filtered -----------------
+  org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -173,30 +183,30 @@ org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
    * @param assertionError the {@code AssertionError} to filter stack trace if option is set.
    */
   public void removeAssertJRelatedElementsFromStackTraceIfNeeded(AssertionError assertionError) {
-	if (removeAssertJRelatedElementsFromStackTrace) {
-	  Throwables.removeAssertJRelatedElementsFromStackTrace(assertionError);
-	}
+    if (removeAssertJRelatedElementsFromStackTrace) {
+      Throwables.removeAssertJRelatedElementsFromStackTrace(assertionError);
+    }
   }
 
   /**
    * Set the flag indicating that in case of a failure a threaddump is printed out.
    */
   public void enablePrintThreadDump() {
-	printThreadDump = true;
+    printThreadDump = true;
   }
 
   private String threadDumpDescription() {
-	StringBuilder threadDumpDescription = new StringBuilder();
-	ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-	ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
-	for (ThreadInfo threadInfo : threadInfos) {
-	  threadDumpDescription.append(format("\"%s\"%n\tjava.lang.Thread.State: %s",
-		                              threadInfo.getThreadName(), threadInfo.getThreadState()));
-	  for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
-		threadDumpDescription.append(LINE_SEPARATOR + "\t\tat " + stackTraceElement);
-	  }
-	  threadDumpDescription.append(LINE_SEPARATOR + LINE_SEPARATOR);
-	}
-	return threadDumpDescription.toString();
+    StringBuilder threadDumpDescription = new StringBuilder();
+    ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+    ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
+    for (ThreadInfo threadInfo : threadInfos) {
+      threadDumpDescription.append(format("\"%s\"%n\tjava.lang.Thread.State: %s",
+                                          threadInfo.getThreadName(), threadInfo.getThreadState()));
+      for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
+        threadDumpDescription.append(LINE_SEPARATOR + "\t\tat " + stackTraceElement);
+      }
+      threadDumpDescription.append(LINE_SEPARATOR + LINE_SEPARATOR);
+    }
+    return threadDumpDescription.toString();
   }
 }

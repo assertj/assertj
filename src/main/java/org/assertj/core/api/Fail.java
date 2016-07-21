@@ -14,9 +14,6 @@ package org.assertj.core.api;
 
 import org.assertj.core.internal.Failures;
 
-import static java.lang.String.format;
-
-
 /**
  * Common failures.
  * 
@@ -76,7 +73,7 @@ public final class Fail {
    *           not been.
    */
   public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-    throw Failures.instance().failure(format("Expected %s to be thrown", throwableClass.getSimpleName()));
+    throw Failures.instance().expectedThrowableNotThrown(throwableClass);
   }
 
   /**

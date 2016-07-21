@@ -603,7 +603,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     int age;
   }
 
-
   @Test
   public void check_477_bugfix() {
     // GIVEN
@@ -616,7 +615,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     assertThat(softly.errorsCollected()).hasSize(2);
   }
-
 
   public static class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAssert, TolkienCharacter> {
 
@@ -661,5 +659,33 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     public TolkienCharacterAssert assertThat(TolkienCharacter actual) {
       return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
     }
+  }
+
+  @Test
+  public void should_return_failure_after_fail() {
+    String failureMessage = "Should not reach here";
+    softly.fail(failureMessage);
+    assertThat(softly.wasSuccess()).isFalse();
+    assertThat(softly.errorsCollected()).hasSize(1);
+    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo(failureMessage);
+  }
+
+  @Test
+  public void should_return_failure_after_fail_with_throwable() {
+    String failureMessage = "Should not reach here";
+    IllegalStateException realCause = new IllegalStateException();
+    softly.fail(failureMessage, realCause);
+    assertThat(softly.wasSuccess()).isFalse();
+    assertThat(softly.errorsCollected()).hasSize(1);
+    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo(failureMessage);
+    assertThat(softly.errorsCollected().get(0).getCause()).isEqualTo(realCause);
+  }
+
+  @Test
+  public void should_return_failure_after_shouldHaveThrown() {
+    softly.shouldHaveThrown(IllegalArgumentException.class);
+    assertThat(softly.wasSuccess()).isFalse();
+    assertThat(softly.errorsCollected()).hasSize(1);
+    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo("IllegalArgumentException should have been thrown");
   }
 }

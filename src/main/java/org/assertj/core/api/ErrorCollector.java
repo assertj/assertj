@@ -49,6 +49,11 @@ public class ErrorCollector implements MethodInterceptor {
     return result;
   }
 
+  public void addError(Throwable error) {
+    errors.add(error);
+    lastResult.recordError();
+  }
+
   public List<Throwable> errors() {
     return Collections.unmodifiableList(errors);
   }
@@ -77,6 +82,11 @@ public class ErrorCollector implements MethodInterceptor {
 
     private boolean wasSuccess() {
       return wasSuccess;
+    }
+
+    private void recordError() {
+      errorFound = true;
+      wasSuccess = false;
     }
 
     private void setSuccess(boolean success) {

@@ -33,13 +33,13 @@ public class Fail_fail_because_exception_was_not_thrown_Test {
 
   @Test
   public void should_include_message_built_with_given_exception_name() {
-    thrown.expectAssertionError("Expected NullPointerException to be thrown");
+    thrown.expectAssertionError("NullPointerException should have been thrown");
     failBecauseExceptionWasNotThrown(NullPointerException.class);
   }
 
   @Test
   public void should_include_message_built_with_given_throwable_name() {
-    thrown.expectAssertionError("Expected OutOfMemoryError to be thrown");
+    thrown.expectAssertionError("OutOfMemoryError should have been thrown");
     failBecauseExceptionWasNotThrown(OutOfMemoryError.class);
   }
 }
