@@ -3,9 +3,9 @@
 function usage() {
   echo
   echo "NAME"
-  echo "convert-junit-assertions-to-assertj-on-osx.sh - Convert most of JUnit assertions to AssertJ assertions"
+  echo "convert-junit-assertions-to-assertj-on-osx.sh - Converts most of JUnit assertions to AssertJ assertions"
   echo
-  echo "It is difficult to convert ALL JUnit assertions (e.g. the ones that are multiline) but it should be good for most of them."
+  echo "It is difficult to convert ALL JUnit assertions (e.g. the ones that are multiline) but it should work for most of them."
   echo
   echo "SYNOPSIS"
   echo "convert-junit-assertions-to-assertj-on-osx.sh [Pattern]"
@@ -32,7 +32,7 @@ FILES_PATTERN=${1:-*Test.java}
 MATCHED_FILES=`find . -name "$FILES_PATTERN"`
 
 echo ''
-echo "Converting JUnit assertions to AssertJ assertions on files matching pattern : $FILES_PATTERN"
+echo "Converting JUnit assertions to AssertJ assertions in files matching pattern : $FILES_PATTERN"
 echo ''
 echo ' 1 - Replacing : assertEquals(0, myList.size()) ................. by : assertThat(myList).isEmpty()'
 for file in ${MATCHED_FILES}; do
@@ -65,7 +65,7 @@ for file in ${MATCHED_FILES}; do
    mv "$TMP_FILE" "$file"
 done
 # must be done before assertEquals("description", expected, actual) -> assertThat(actual).as("description").isEqualTo(expected) 
-# will only replace triplet without double quote to avoid matching : assertEquals("description", expected, actual)
+# will only replace triplets without double quote to avoid matching : assertEquals("description", expected, actual)
 for file in ${MATCHED_FILES}; do
    TMP_FILE=`mktemp /tmp/convert.XXXXXXXXXX`
    sed ${SED_OPTIONS} 's/assertEquals([[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\))/assertThat(\2).isCloseTo(\1, within(\3))/g' "$file" > $TMP_FILE
@@ -169,9 +169,9 @@ for file in ${MATCHED_FILES}; do
 done
 
 echo ''
-echo '12 - Replacing JUnit static import by AssertJ ones, at this point you will probably need to :'
+echo '12 - Replacing JUnit static imports by AssertJ ones, at this point you will probably need to :'
 echo '12 --- optimize imports with your IDE to remove unused imports'
-echo '12 --- add "import static org.assertj.core.api.Assertions.within;" if you were using JUnit number assertions with delta'
+echo '12 --- add "import static org.assertj.core.api.Assertions.within;" if you were using JUnit number assertions with deltas'
 for file in ${MATCHED_FILES}; do
    TMP_FILE=`mktemp /tmp/convert.XXXXXXXXXX`
    sed ${SED_OPTIONS} 's/import static org.junit.Assert.assertEquals;/import static org.assertj.core.api.Assertions.assertThat;/g' "$file" > $TMP_FILE 
