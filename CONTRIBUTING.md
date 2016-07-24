@@ -43,8 +43,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  * <p>
  * Example:
  *
- * <pre><code class='java'>
- * String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+ * <pre><code class='java'> String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
  *
  * // this assertion succeeds ...
  * assertThat(book).containsSequence("{", "title", "A Game of Thrones", "}");
