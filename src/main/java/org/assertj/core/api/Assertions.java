@@ -2045,7 +2045,7 @@ public class Assertions {
    *
    * @since 3.5.0
    */
-  public static void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
+  public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
     StandardRepresentation.registerFormatterForType(type, formatter);
   }
 
