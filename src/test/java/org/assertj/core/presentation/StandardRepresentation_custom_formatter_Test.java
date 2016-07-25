@@ -54,17 +54,18 @@ public class StandardRepresentation_custom_formatter_Test {
   @Test
   public void should_remove_all_registered_formatters_after_resetting_to_default() {
     // GIVEN
-    StandardRepresentation.registerFormatterForType(Long.class, value -> "$" + value + "$");
-    StandardRepresentation.registerFormatterForType(Integer.class, value -> "int(" + value + ")");
-    Object longNumber = 123L;
-    Object intNumber = 123;
-    assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("int(123)");
+    StandardRepresentation.registerFormatterForType(String.class, value -> "'" + value + "'");
+    StandardRepresentation.registerFormatterForType(Integer.class, value -> "int(" + Integer.toBinaryString(value) + ")");
+    StandardRepresentation.registerFormatterForType(Integer.class, value -> "int(" + Integer.toBinaryString(value) + ")");
+    Object string = "abc";
+    Object intNumber = 8;
+    assertThat(STANDARD_REPRESENTATION.toStringOf(string)).isEqualTo("'abc'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("int(1000)");
     // WHEN
     StandardRepresentation.removeAllRegisteredFormatters();
     // THEN
-    assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("123L");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("123");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(string)).isEqualTo("\"abc\"");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("8");
   }
 
 }
