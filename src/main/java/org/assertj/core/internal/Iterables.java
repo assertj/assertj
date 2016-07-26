@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -26,6 +27,7 @@ import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHav
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
+import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -34,7 +36,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
-import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -65,6 +67,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
@@ -869,6 +872,18 @@ public class Iterables {
       return;
     }
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
+    assertNotNull(info, actual);
+    requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
+    stream(actual.spliterator(), false).forEach(e -> {
+      try {
+        requirements.accept(e);
+      } catch (AssertionError ex) {
+        throw failures.failure(info, elementsShouldSatisfy(actual, e, ex.getMessage()));
+      }
+    });
   }
 
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {

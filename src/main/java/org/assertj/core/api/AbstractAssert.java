@@ -133,7 +133,6 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     throw Failures.instance().failure(info, errorMessageFactory);
   }
 
-
   /** {@inheritDoc} */
   @Override
   public S as(String description, Object... args) {
@@ -506,8 +505,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public S matches(Predicate<? super A> predicate) {
-	// use default PredicateDescription
-	return matches(predicate, PredicateDescription.GIVEN);
+    // use default PredicateDescription
+    return matches(predicate, PredicateDescription.GIVEN);
   }
 
   /**
@@ -532,7 +531,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @throws NullPointerException if given predicateDescription is null.
    */
   public S matches(Predicate<? super A> predicate, String predicateDescription) {
-	return matches(predicate, new PredicateDescription(predicateDescription));
+    return matches(predicate, new PredicateDescription(predicateDescription));
   }
 
   /**
@@ -576,9 +575,9 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   private S matches(Predicate<? super A> predicate, PredicateDescription predicateDescription) {
-	requireNonNull(predicate, "The predicate must not be null");
-	if (predicate.test(actual)) return myself;
-	throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
+    requireNonNull(predicate, "The predicate must not be null");
+    if (predicate.test(actual)) return myself;
+    throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
   }
 
   public static void setCustomRepresentation(Representation customRepresentation) {
