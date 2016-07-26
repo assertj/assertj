@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.HashSet;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -779,5 +780,26 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if one or more elements don't satisfy the given predicate.
    */
   S allMatch(Predicate<? super T> predicate);
+
+  /**
+   * Verifies that all the elements satisfy given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to perform a group of assertions on elements.
+   * <p>
+   * Grouping assertions example:
+   * <pre><code class='java'>
+   *
+   * assertThat(myIcelanderFriends).extracting(Person::getAddress)
+   *                               .allSatisfy(p -&gt; {
+   *                                 assertThat(p.getCountry()).isEqualTo("Iceland");
+   *                                 assertThat(p.getPhoneCountryCode()).isEqualTo("+354");
+   *                               });
+   *
+   * @param requirements the given {@link Consumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if one or more elements don't satisfy given requirements.
+   */
+  S allSatisfy(Consumer<? super T> requirements);
 
 }

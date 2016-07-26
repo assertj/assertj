@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -65,10 +66,12 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ElementsShouldSatisfy;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -869,6 +872,18 @@ public class Iterables {
       return;
     }
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
+    assertNotNull(info, actual);
+    requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
+    stream(actual.spliterator(), false).forEach(e -> {
+      try {
+        requirements.accept(e);
+      } catch (AssertionError ex) {
+        throw failures.failure(info, ElementsShouldSatisfy.elementsShouldSatisfy(actual, e, ex.getMessage()));
+      }
+    });
   }
 
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {
