@@ -122,6 +122,103 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} is blank, i.e. is not {@code null} or empty and contains only whitespace characters.
+   * <p>
+   * It uses the same whitespace definition as Guava <a href="http://google.github.io/guava/releases/19.0/api/docs/com/google/common/base/CharMatcher.html#whitespace()"> CharMatcher#whitespace</a> , that is the latest Unicode standard, as illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>. This is not the same definition used by other Java APIs.
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> assertThat(" ").isBlank();
+   * assertThat("     ").isBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat("a").isBlank();
+   * assertThat(" b").isBlank();
+   * assertThat("").isBlank();
+   * String nullString = null;
+   * assertThat(nullString).isNotBlank();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not blank.
+   */
+  public S isBlank() {
+    strings.assertBlank(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is not blank, i.e. either is {@code null}, empty or
+   * contains at least one whitespace characters.
+   * <p>
+   * It uses the same whitespace definition as Guava <a href="http://google.github.io/guava/releases/19.0/api/docs/com/google/common/base/CharMatcher.html#whitespace()"> CharMatcher#whitespace</a> , that is the latest Unicode standard, as illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>. This is not the same definition used by other Java APIs.
+   * <p>
+   * These assertion will succeed:
+   * <pre><code class='java'> assertThat("a").isNotBlank();
+   * assertThat(" b").isNotBlank();
+   * assertThat(" c ").isNotBlank();
+   * assertThat("").isNotBlank();
+   * String nullString = null;
+   * assertThat(nullString).isNotBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat(" ").isNotBlank();
+   * assertThat("    ").isNotBlank();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is blank.
+   */
+  public S isNotBlank() {
+    strings.assertNotBlank(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is blank, i.e. it contains only whitespace characters 
+   * (according to {@link Character#isWhitespace(char)}).
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> assertThat(" ").isBlank();
+   * assertThat("     ").isBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat("a").isBlank();
+   * assertThat(" b").isBlank();
+   * assertThat("").isBlank(); 
+   * String nullString = null;
+   * assertThat(nullString).isBlank(); </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not blank.
+   */
+  public S isJavaBlank() {
+    strings.assertJavaBlank(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is not blank, i.e. either is {@code null}, empty or
+   * contains at least one whitespace characters (according to {@link Character#isWhitespace(char)}).
+   * <p>
+   * These assertion will succeed:
+   * <pre><code class='java'> assertThat("a").isNotBlank();
+   * assertThat(" b").isNotBlank();
+   * assertThat(" c ").isNotBlank();
+   * assertThat("").isNotBlank();
+   * String nullString = null;
+   * assertThat(nullString).isNotBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat(" ").isNotBlank();
+   * assertThat("   ").isNotBlank();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is blank.
+   */
+  public S isNotJavaBlank() {
+    strings.assertNotJavaBlank(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
    * <p>
    * This assertion will succeed:

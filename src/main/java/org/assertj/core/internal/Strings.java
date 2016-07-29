@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
+import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
@@ -29,6 +30,7 @@ import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDi
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
+import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
@@ -141,6 +143,70 @@ public class Strings {
 
   private static boolean hasContent(CharSequence s) {
     return s.length() > 0;
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains only
+   * whitespace.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is not blank.
+   */
+  public void assertBlank(AssertionInfo info, CharSequence actual) {
+    if (!isBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is not {@code Null}, not empty
+   * and contains not only whitespace.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is blank.
+   */
+  public void assertNotBlank(AssertionInfo info, CharSequence actual) {
+    if (isBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
+  }
+
+  private boolean isBlank(CharSequence actual) {
+    if (actual == null || actual.length() == 0) return false;
+    for (int i = 0; i < actual.length(); i++) {
+      if (!Whitespace.isWhitespace(actual.charAt(i))) return false;
+    }
+    return true;
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains only
+   * whitespace according to {@link Character#isWhitespace(char)}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is not blank.
+   */
+  public void assertJavaBlank(AssertionInfo info, CharSequence actual) {
+    if (!isJavaBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is not {@code Null}, 
+   * not empty or contains not only whitespace according to {@link Character#isWhitespace(char)}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is blank.
+   */
+  public void assertNotJavaBlank(AssertionInfo info, CharSequence actual) {
+    if (isJavaBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
+  }
+
+  private boolean isJavaBlank(CharSequence actual) {
+    if (actual == null || actual.length() == 0) return false;
+    for (int i = 0; i < actual.length(); i++) {
+      if (!Character.isWhitespace(actual.charAt(i))) return false;
+    }
+    return true;
   }
 
   /**
@@ -701,4 +767,18 @@ public class Strings {
     }
   }
 
+  // copied from guava and adapted
+  private static final class Whitespace {
+
+    private static final String TABLE = "\u2002\u3000\r\u0085\u200A\u2005\u2000\u3000"
+                                        + "\u2029\u000B\u3000\u2008\u2003\u205F\u3000\u1680"
+                                        + "\u0009\u0020\u2006\u2001\u202F\u00A0\u000C\u2009"
+                                        + "\u3000\u2004\u3000\u3000\u2028\n\u2007\u3000";
+    private static final int MULTIPLIER = 1682554634;
+    private static final int SHIFT = Integer.numberOfLeadingZeros(TABLE.length() - 1);
+
+    public static boolean isWhitespace(char c) {
+      return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
+    }
+  }
 }
