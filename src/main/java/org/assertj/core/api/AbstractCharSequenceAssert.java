@@ -122,6 +122,100 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} is blank, i.e. is {@code null}, has a length of 0 or
+   * contains only whitespace characters.
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> String emptyString = &quot;&quot;
+   * assertThat(emptyString).isBlank();
+   * assertThat("").isBlank();
+   * assertThat(" ").isBlank();
+   * assertThat("     ").isBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat("a").isBlank();
+   * assertThat(" b").isBlank();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is blank.
+   */
+  public S isBlank() {
+    strings.assertBlank(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is not blank, i.e., is not {@code null} and has a length of 1 or
+   * more and contains not only whitespace characters.
+   * <p>
+   * These assertion will succeed:
+   * <pre><code class='java'> assertThat("a").isNotBlank();
+   * assertThat(" b").isNotBlank();
+   * assertThat(" c ").isNotBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat(" ").isNotBlank();
+   * assertThat("").isNotBlank();
+   * String nullString = null;
+   * assertThat(nullString).isNotBlank();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is blank.
+   */
+  public S isNotBlank() {
+    strings.assertNotBlank(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is blank, i.e. is {@code null}, has a length of 0 or
+   * contains only whitespace characters (according to {@link Character#isWhitespace(char)}).
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> String emptyString = &quot;&quot;
+   * assertThat(emptyString).isBlank();
+   * assertThat("").isBlank();
+   * assertThat(" ").isBlank();
+   * assertThat("     ").isBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat("a").isBlank();
+   * assertThat(" b").isBlank();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not blank.
+   */
+  public S isJavaBlank() {
+    strings.assertJavaBlank(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is not blank, i.e., is not {@code null} and has a length of 1 or
+   * more and contains not only whitespace characters (according to {@link Character#isWhitespace(char)}).
+   * <p>
+   * These assertion will succeed:
+   * <pre><code class='java'> assertThat("a").isNotBlank();
+   * assertThat(" b").isNotBlank();
+   * assertThat(" c ").isNotBlank();</code></pre>
+   * 
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat(" ").isNotBlank();
+   * assertThat("").isNotBlank();
+   * String nullString = null;
+   * assertThat(nullString).isNotBlank();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is blank.
+   */
+  public S isNotJavaBlank() {
+    strings.assertNotJavaBlank(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
    * <p>
    * This assertion will succeed:
