@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 
@@ -241,6 +242,18 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   @CheckReturnValue
   public FileAssert assertThat(File actual) {
     return proxy(FileAssert.class, File.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FutureAssert}</code>.
+   *
+   * @param actual the actual value
+   * @return the created assertion object
+   */
+  @CheckReturnValue
+  @SuppressWarnings("unchecked")
+  public <T> FutureAssert<T> assertThat(Future<? extends T> actual) {
+    return proxy(FutureAssert.class, Future.class, actual);
   }
 
   /**
