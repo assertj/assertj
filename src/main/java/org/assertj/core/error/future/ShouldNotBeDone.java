@@ -13,6 +13,7 @@
 package org.assertj.core.error.future;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
@@ -21,11 +22,16 @@ public class ShouldNotBeDone extends BasicErrorMessageFactory {
 
   private static final String SHOULD_NOT_BE_DONE = "%nExpecting%n  <%s>%nnot to be done";
 
+  // TODO: remove in next minor release
   public static ErrorMessageFactory shouldNotBeDone(CompletableFuture<?> actual) {
     return new ShouldNotBeDone(actual);
   }
 
-  private ShouldNotBeDone(CompletableFuture<?> actual) {
+  public static ErrorMessageFactory shouldNotBeDone(Future<?> actual) {
+    return new ShouldNotBeDone(actual);
+  }
+
+  private ShouldNotBeDone(Future<?> actual) {
     super(SHOULD_NOT_BE_DONE, actual);
   }
 }
