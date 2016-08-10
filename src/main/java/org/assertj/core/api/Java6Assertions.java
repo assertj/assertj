@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -280,6 +281,19 @@ public class Java6Assertions {
   @CheckReturnValue
   public static AbstractFileAssert<?> assertThat(File actual) {
     return new FileAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.Future}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.concurrent.Future}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <T> FutureAssert<T> assertThat(Future<T> actual) {
+    return new FutureAssert<>(actual);
   }
 
   /**
