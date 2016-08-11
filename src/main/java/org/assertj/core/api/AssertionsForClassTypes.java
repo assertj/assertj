@@ -35,7 +35,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -70,19 +69,6 @@ import org.assertj.core.util.introspection.FieldSupport;
  * (see http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why).
  */
 public class AssertionsForClassTypes {
-
-  /**
-   * Create assertion for {@link java.util.concurrent.Future}.
-   *
-   * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.Future}.
-   *
-   * @return the created assertion object.
-   */
-  @CheckReturnValue
-  public static <T> FutureAssert<T> assertThat(Future<T> actual) {
-    return new FutureAssert<>(actual);
-  }
 
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.

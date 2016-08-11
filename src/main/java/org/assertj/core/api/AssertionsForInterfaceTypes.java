@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -87,6 +88,19 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
     return new CharSequenceAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.Future}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.concurrent.Future}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <T> FutureAssert<T> assertThat(Future<T> actual) {
+    return new FutureAssert<>(actual);
   }
 
   /**
