@@ -49,29 +49,5 @@ public class PathAssert_hasSameContentAs_Test extends PathAssertBaseTest {
   protected void verify_internal_effects() {
 	verify(paths).assertHasSameContentAs(getInfo(assertions), getActual(assertions), defaultCharset(), expected, defaultCharset());
   }
-  
-  @Test
-  public void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
-    Charset turkishCharset = Charset.forName("windows-1254");
-    Path actual = createDeleteOnExitTempFileWithContent("Gerçek", turkishCharset);
-    Path expected = createDeleteOnExitTempFileWithContent("Gerçek", defaultCharset());
 
-    assertThat(actual).usingCharset(turkishCharset).hasSameContentAs(expected);
-  }
-
-  @Test
-  public void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
-    Charset turkishCharset = Charset.forName("windows-1254");
-    Path actual = createDeleteOnExitTempFileWithContent("Gerçek", defaultCharset());
-    Path expected = createDeleteOnExitTempFileWithContent("Gerçek", turkishCharset);
-
-    assertThat(actual).hasSameContentAs(expected, turkishCharset);
-  }
-
-  private Path createDeleteOnExitTempFileWithContent(String content, Charset charset) throws IOException {
-    Path tempFile = Files.createTempFile("test", "test");
-    tempFile.toFile().deleteOnExit();
-    Files.write(tempFile, asList(content), charset);
-    return tempFile;
-  }
 }

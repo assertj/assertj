@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
@@ -279,16 +278,6 @@ public class Assertions {
     return new FileAssert(actual);
   }
 
-  /**
-   * Creates a new instance of {@link PathAssert}
-   *
-   * @param actual the path to test
-   * @return the created assertion object
-   */
-  @CheckReturnValue
-  public static AbstractPathAssert<?> assertThat(Path actual) {
-    return new PathAssert(actual);
-  }
 
   /**
    * Creates a new instance of <code>{@link InputStreamAssert}</code>.
