@@ -26,53 +26,50 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
+import org.assertj.core.test.IntArrays;
 import org.junit.Test;
 
 
 /**
  * Tests for <code>{@link ByteArrays#assertDoesNotContain(AssertionInfo, byte[], byte[])}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
  */
-public class ByteArrays_assertDoesNotContain_Test extends ByteArraysBaseTest {
+public class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12));
+    arrays.assertDoesNotContain(someInfo(), actual, IntArrays.arrayOf(12));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12, 12, 20));
+    arrays.assertDoesNotContain(someInfo(), actual, IntArrays.arrayOf(12, 12, 20));
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertDoesNotContain(someInfo(), actual, emptyArray());
+    arrays.assertDoesNotContain(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContain(someInfo(), actual, (byte[]) null);
+    arrays.assertDoesNotContain(someInfo(), actual, (int []) null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, arrayOf(8));
+    arrays.assertDoesNotContain(someInfo(), null, IntArrays.arrayOf(8));
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
-    byte[] expected = { 6, 8, 20 };
     try {
-      arrays.assertDoesNotContain(info, actual, expected);
+      arrays.assertDoesNotContain(info, actual, IntArrays.arrayOf(6, 8, 20));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet((byte) 6, (byte) 8)));
+      verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 6, (byte) 8)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -80,40 +77,39 @@ public class ByteArrays_assertDoesNotContain_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, IntArrays.arrayOf(12));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12, 12, 20));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, IntArrays.arrayOf(12, 12, 20));
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_empty_whatever_custom_comparison_strategy_is() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, emptyArray());
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, (byte[]) null);
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, (int[]) null);
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, IntArrays.arrayOf(-8));
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    byte[] expected = { 6, -8, 20 };
     try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
+      arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, IntArrays.arrayOf(6, -8, 20));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet((byte) 6, (byte) -8), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 6, (byte) -8), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

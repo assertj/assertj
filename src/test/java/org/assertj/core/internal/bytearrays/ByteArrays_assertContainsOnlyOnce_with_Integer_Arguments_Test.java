@@ -25,35 +25,33 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
+import org.assertj.core.test.IntArrays;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ByteArrays#assertContainsOnlyOnce(AssertionInfo, byte[], byte[])}</code>.
- * 
- * @author William Delanoue
+ * Tests for <code>{@link ByteArrays#assertContainsOnlyOnce(AssertionInfo, byte[], int[])}</code>.
  */
-public class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
+public class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnlyOnce(someInfo(), actual, arrayOf(6, 8, 10));
+    arrays.assertContainsOnlyOnce(someInfo(), actual, IntArrays.arrayOf(6, 8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order() {
-    arrays.assertContainsOnlyOnce(someInfo(), actual, arrayOf(10, 8, 6));
+    arrays.assertContainsOnlyOnce(someInfo(), actual, IntArrays.arrayOf(10, 8, 6));
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values_only_more_than_once() {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8, 6);
-    byte[] expected = { 6, -8, 20 };
     try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
+      arrays.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, -8, 20));
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8)));
+          shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -61,42 +59,41 @@ public class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
-    arrays.assertContainsOnlyOnce(someInfo(), actual, arrayOf(6, 8, 10, 6, 8, 10));
+    arrays.assertContainsOnlyOnce(someInfo(), actual, IntArrays.arrayOf(6, 8, 10, 6, 8, 10));
   }
 
   @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
-    arrays.assertContainsOnlyOnce(someInfo(), actual, emptyArray());
+    arrays.assertContainsOnlyOnce(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expect(AssertionError.class);
-    arrays.assertContainsOnlyOnce(someInfo(), actual, emptyArray());
+    arrays.assertContainsOnlyOnce(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsOnlyOnce(someInfo(), actual, (byte[]) null);
+    arrays.assertContainsOnlyOnce(someInfo(), actual, (int[]) null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf(8));
+    arrays.assertContainsOnlyOnce(someInfo(), null, IntArrays.arrayOf(8));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
-    byte[] expected = { 6, 8, 20 };
     try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
+      arrays.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, 8, 20));
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet()));
+          shouldContainsOnlyOnce(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -104,25 +101,24 @@ public class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, arrayOf(6, -8, 10));
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, IntArrays.arrayOf(6, -8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, arrayOf(10, -8, 6));
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, IntArrays.arrayOf(10, -8, 6));
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
-    byte[] expected = { 6, -8, 20 };
     try {
-      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
+      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, -8, 20));
     } catch (AssertionError e) {
       verify(failures).failure(
           info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8),
+          shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8),
               absValueComparisonStrategy));
       return;
     }
@@ -131,37 +127,36 @@ public class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, arrayOf(6, 8, 10, 6, -8, 10));
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, IntArrays.arrayOf(6, 8, 10, 6, -8, 10));
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     thrown.expect(AssertionError.class);
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, emptyArray());
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, (byte[]) null);
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, (int[]) null);
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8));
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, IntArrays.arrayOf(-8));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    byte[] expected = { 6, -8, 20 };
     try {
-      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
+      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, -8, 20));
     } catch (AssertionError e) {
       verify(failures).failure(
           info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet(),
+          shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet(),
               absValueComparisonStrategy));
       return;
     }

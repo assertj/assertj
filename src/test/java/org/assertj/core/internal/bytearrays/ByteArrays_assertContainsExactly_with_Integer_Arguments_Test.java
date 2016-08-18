@@ -28,28 +28,29 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.test.IntArrays;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ByteArrays#assertContainsExactly(AssertionInfo, byte[], byte[])}</code>.
+ * Tests for <code>{@link ByteArrays#assertContainsExactly(AssertionInfo, byte[], int[])}</code>.
  */
-public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
+public class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly() {
-	arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8, 10));
+    arrays.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(6, 8, 10));
   }
 
   @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
-	arrays.assertContainsExactly(someInfo(), emptyArray(), emptyArray());
+	arrays.assertContainsExactly(someInfo(), emptyArray(), IntArrays.emptyArray());
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
 	AssertionInfo info = someInfo();
 	try {
-	  arrays.assertContainsExactly(info, actual, arrayOf(6, 10, 8));
+	  arrays.assertContainsExactly(info, actual, IntArrays.arrayOf(6, 10, 8));
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1));
 	  return;
@@ -60,35 +61,34 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
 	thrown.expect(AssertionError.class);
-	arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8));
+	arrays.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(6, 8));
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
 	thrown.expect(AssertionError.class);
-	arrays.assertContainsExactly(someInfo(), actual, emptyArray());
+	arrays.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
 	thrown.expectNullPointerException(valuesToLookForIsNull());
-	arrays.assertContainsExactly(someInfo(), actual, (byte[]) null);
+	arrays.assertContainsExactly(someInfo(), actual, (int []) null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
 	thrown.expectAssertionError(actualIsNull());
-	arrays.assertContainsExactly(someInfo(), null, arrayOf(8));
+	arrays.assertContainsExactly(someInfo(), null, IntArrays.arrayOf(8));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
 	AssertionInfo info = someInfo();
-	byte[] expected = { 6, 8, 20 };
 	try {
-	  arrays.assertContainsExactly(info, actual, expected);
+	  arrays.assertContainsExactly(info, actual, IntArrays.arrayOf(6, 8, 20));
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected,
+	  verify(failures).failure(info, shouldContainExactly(actual, arrayOf(6, 8, 20),
                                                           newArrayList((byte) 20), newArrayList((byte) 10)));
 	  return;
 	}
@@ -98,12 +98,11 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
-    byte[] expected = { 6, 8 };
     try {
-      arrays.assertContainsExactly(info, actual, expected);
+      arrays.assertContainsExactly(info, actual, IntArrays.arrayOf(6, 8));
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldHaveSameSize(actual, expected, 3, 2, StandardComparisonStrategy.instance()));
+                               shouldHaveSameSize(actual, arrayOf(6, 8), 3, 2, StandardComparisonStrategy.instance()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -115,15 +114,14 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, arrayOf(6, -8, 10));
+	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(6, -8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
 	AssertionInfo info = someInfo();
-	byte[] expected = { -6, 10, 8 };
 	try {
-	  arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
+	  arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(-6, 10, 8));
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy));
 	  return;
@@ -134,29 +132,28 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
 	thrown.expect(AssertionError.class);
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray());
+	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
 	thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, (byte[]) null);
+	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, (int[]) null);
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
 	thrown.expectAssertionError(actualIsNull());
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8));
+	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, IntArrays.arrayOf(-8));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
 	AssertionInfo info = someInfo();
-	byte[] expected = { 6, -8, 20 };
 	try {
-	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, IntArrays.arrayOf(6, -8, 20));
 	} catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList((byte) 20),
+      verify(failures).failure(info, shouldContainExactly(actual, arrayOf(6, -8, 20), newArrayList((byte) 20),
                                                           newArrayList((byte) 10), absValueComparisonStrategy));
 	  return;
 	}
@@ -166,11 +163,10 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    byte[] expected = { 6, 8 };
     try {
-      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, IntArrays.arrayOf(6, 8));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSize(actual, expected, 3, 2, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldHaveSameSize(actual, arrayOf(6,8), 3, 2, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

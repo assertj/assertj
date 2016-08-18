@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.test.ByteArrays.*;
 import static org.assertj.core.test.ErrorMessages.*;
 import static org.assertj.core.test.TestData.someInfo;
@@ -25,16 +25,14 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
+import org.assertj.core.test.IntArrays;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ByteArrays#assertStartsWith(AssertionInfo, byte[], byte[])}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
+ * Tests for <code>{@link ByteArrays#assertContainsSequence(AssertionInfo, byte[], int[])}</code>.
  */
-public class ByteArrays_assertStartsWith_Test extends ByteArraysBaseTest {
+public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test extends ByteArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -42,142 +40,136 @@ public class ByteArrays_assertStartsWith_Test extends ByteArraysBaseTest {
   }
 
   @Test
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    arrays.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(8));
+  }
+
+  @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertStartsWith(someInfo(), actual, (byte[]) null);
+    arrays.assertContainsSequence(someInfo(), actual, (int[]) null);
   }
 
   @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
-    arrays.assertStartsWith(someInfo(), actual, emptyArray());
+    arrays.assertContainsSequence(someInfo(), actual, IntArrays.emptyArray());
   }
   
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expect(AssertionError.class);
-    arrays.assertStartsWith(someInfo(), actual, emptyArray());
-  }
-
-  @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertStartsWith(someInfo(), null, arrayOf(8));
+    arrays.assertContainsSequence(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
-    byte[] sequence = { 6, 8, 10, 12, 20, 22 };
     try {
-      arrays.assertStartsWith(info, actual, sequence);
+      arrays.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 8, 10, 12, 20, 22));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence));
+      verify(failures).failure(info, shouldContainSequence(actual, arrayOf(6, 8, 10, 12, 20, 22)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_sequence() {
+  public void should_fail_if_actual_does_not_contain_whole_sequence() {
     AssertionInfo info = someInfo();
-    byte[] sequence = { 8, 10 };
     try {
-      arrays.assertStartsWith(info, actual, sequence);
+      arrays.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence));
+      verify(failures).failure(info, shouldContainSequence(actual, arrayOf(6, 20)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
+  public void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
-    byte[] sequence = { 6, 20 };
     try {
-      arrays.assertStartsWith(info, actual, sequence);
+      arrays.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20, 22));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence));
+      verify(failures).failure(info, shouldContainSequence(actual, arrayOf(6, 20, 22)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(someInfo(), actual, arrayOf(6, 8, 10));
+  public void should_pass_if_actual_contains_sequence() {
+    arrays.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, 8));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertStartsWith(someInfo(), actual, arrayOf(6, 8, 10, 12));
-  }
-
-  @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, (byte[]) null);
-  }
-
-  @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expect(AssertionError.class);
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray());
+    arrays.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, 8, 10, 12));
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, arrayOf(-8));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(-8));
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(valuesToLookForIsNull());
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, (int[]) null);
+  }
+
+  @Test
+  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+    thrown.expect(AssertionError.class);
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    byte[] sequence = { 6, -8, 10, 12, 20, 22 };
     try {
-      arraysWithCustomComparisonStrategy.assertStartsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, IntArrays.arrayOf(6, -8, 10, 12, 20, 22));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, arrayOf(6, -8, 10, 12, 20, 22), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    byte[] sequence = { -8, 10 };
     try {
-      arraysWithCustomComparisonStrategy.assertStartsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, arrayOf(6, 20), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    byte[] sequence = { 6, 20 };
     try {
-      arraysWithCustomComparisonStrategy.assertStartsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20, 22));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, arrayOf(6, 20, 22), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_starts_with_sequence_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, arrayOf(6, -8, 10));
+  public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, -8));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, arrayOf(6, -8, 10, 12));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, -8, 10, 12));
   }
 }
