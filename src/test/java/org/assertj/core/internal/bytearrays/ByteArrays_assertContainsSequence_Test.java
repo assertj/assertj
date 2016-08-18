@@ -50,7 +50,7 @@ public class ByteArrays_assertContainsSequence_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsSequence(someInfo(), actual, null);
+    arrays.assertContainsSequence(someInfo(), actual, (byte[]) null);
   }
 
   @Test
@@ -123,7 +123,7 @@ public class ByteArrays_assertContainsSequence_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, null);
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, (byte[]) null);
   }
 
   @Test
