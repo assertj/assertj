@@ -817,6 +817,32 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new double[] { 1.0, 2.0 }).containsExactlyInAnyOrder(1.0, 2.0);
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactlyInAnyOrder(1.0, 2.0, 1.0);
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0 }).containsExactlyInAnyOrder(1.0);
+   * assertThat(new double[] { 1.0 }).containsExactlyInAnyOrder(1.0, 2.0);
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactlyInAnyOrder(1.0, 2.0);</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.6.0 / 3.6.0
+   */
+  public S containsExactlyInAnyOrder(double... values) {
+    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
    * The values may vary with a specified precision.
    * <p>
