@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ShouldBeHaveNoSuppressedExceptions.shouldHaveNoSupressedExceptions;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
@@ -253,6 +254,13 @@ public class Throwables {
 	Throwable rootCause = getRootCause(actual);
 	if (rootCause != null && type.equals(rootCause.getClass())) return;
 	throw failures.failure(info, shouldHaveRootCauseExactlyInstance(actual, type));
+  }
+
+  public void assertHasNoSuppressedExceptions(AssertionInfo info, Throwable actual) {
+    assertNotNull(info, actual);
+    Throwable[] suppressed = actual.getSuppressed();
+    if (suppressed.length == 0) return;
+    throw failures.failure(info, shouldHaveNoSupressedExceptions(suppressed));
   }
 
   private static void assertNotNull(AssertionInfo info, Throwable actual) {
