@@ -21,7 +21,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 * [Migrating from FEST Assertions](#migrating-from-fest)
 * [Contributing](#contributing)
 
-The AssertJ web site contains all projects documentation and can be **[here](http://joel-costigliola.github.io/assertj/index.html)**, it notably inlcudes [**AssertJ Core documentation**](http://joel-costigliola.github.io/assertj/assertj-core.html).
+The AssertJ web site contains the documentation for all projects and can be found **[here](http://joel-costigliola.github.io/assertj/index.html)**, it notably includes [**AssertJ Core documentation**](http://joel-costigliola.github.io/assertj/assertj-core.html).
 
 You can ask questions and make suggestions on [**AssertJ google group**](https://groups.google.com/forum/?fromgroups=#!forum/assertj).
 
@@ -64,7 +64,7 @@ It is easy to start using AssertJ, follow the [**One minute starting guide**](ht
 
 Having assertions for common types like `List` is great, but you might want some that are specific to your own types. This is possible with AssertJ because it is easily extensible so it's simple to [write assertions for your custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html).  
 
-Moreover, to ease your work, we provide assertions generator that can take a set of custom types and create specific assertions. The tools provided are: 
+Moreover, to ease your work, we provide an assertions generator that can take a set of custom types and create specific assertions. The tools provided are: 
 * A **[CLI assertions generator](http://joel-costigliola.github.io/assertj/assertj-assertions-generator.html)** 
 * A **[Maven plugin assertions generator](http://joel-costigliola.github.io/assertj/assertj-assertions-generator-maven-plugin.html)**  
 
