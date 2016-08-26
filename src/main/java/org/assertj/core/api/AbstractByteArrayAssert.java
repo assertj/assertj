@@ -422,4 +422,30 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
     return myself;
   }
 
+  /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder((byte) 1, (byte) 2);
+   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 2, (byte) 1);
+   * 
+   * // assertions will fail
+   * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder((byte) 1);
+   * assertThat(new byte[] { 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 2);
+   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 2);</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.6.0 / 3.6.0
+   */
+  public S containsExactlyInAnyOrder(byte... values) {
+    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
 }
