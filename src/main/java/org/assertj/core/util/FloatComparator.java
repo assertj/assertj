@@ -69,8 +69,6 @@ public class FloatComparator implements Comparator<Float> {
     if (obj == null) return false;
     if (!(obj instanceof FloatComparator)) return false;
     FloatComparator other = (FloatComparator) obj;
-    if (Float.floatToIntBits(epsilon) != Float.floatToIntBits(other.epsilon)) return false;
-    return true;
+    return Float.floatToIntBits(epsilon) == Float.floatToIntBits(other.epsilon);
   }
-
 }

@@ -163,7 +163,7 @@ public class Assertions {
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
-   * @param future the actual value.
+   * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
@@ -176,7 +176,7 @@ public class Assertions {
   /**
    * Create assertion for {@link java.util.Optional}.
    *
-   * @param optional the actual value.
+   * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
@@ -189,7 +189,7 @@ public class Assertions {
   /**
    * Create assertion for {@link java.util.OptionalDouble}.
    *
-   * @param optionalDouble the actual value.
+   * @param actual the actual value.
    *
    * @return the created assertion object.
    */
@@ -201,7 +201,7 @@ public class Assertions {
   /**
    * Create assertion for {@link java.util.OptionalInt}.
    *
-   * @param optionalInt the actual value.
+   * @param actual the actual value.
    *
    * @return the created assertion object.
    */
@@ -213,7 +213,7 @@ public class Assertions {
   /**
    * Create assertion for {@link java.util.OptionalInt}.
    *
-   * @param optionalLong the actual value.
+   * @param actual the actual value.
    *
    * @return the created assertion object.
    */
@@ -801,7 +801,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
    *
-   * @param localDate the actual value.
+   * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
@@ -889,7 +889,7 @@ public class Assertions {
    *           .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
-   * @param actual the actual value.
+   * @param exceptionType the exception type.
    * @return the created {@link ThrowableTypeAssert}.
    */
   @CheckReturnValue

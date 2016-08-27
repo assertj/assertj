@@ -459,7 +459,6 @@ public class Strings {
    * @throws NullPointerException if the given sequence is {@code null}.
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} starts with the given prefix.
-   * @author Michal Kordas
    */
   public void assertDoesNotStartWith(AssertionInfo info, CharSequence actual, CharSequence prefix) {
     failIfPrefixIsNull(prefix);
@@ -498,7 +497,6 @@ public class Strings {
    * @throws NullPointerException if the given sequence is {@code null}.
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} ends with the given suffix.
-   * @author Michal Kordas
    */
   public void assertDoesNotEndWith(AssertionInfo info, CharSequence actual, CharSequence suffix) {
     failIfSuffixIsNull(suffix);

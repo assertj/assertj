@@ -181,7 +181,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * jedis.add(new Jedi("Luke", "green"));
    * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
    *
-   * @return {@code this} assertion object.
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
    * @throws AssertionError if the {@link Iterable}'s unique element does not satifies the given assertions.

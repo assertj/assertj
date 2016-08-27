@@ -89,7 +89,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
    * in error message.
    * <p>
-   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overidden error message
+   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :

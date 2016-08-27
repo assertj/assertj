@@ -44,7 +44,7 @@ public enum FieldSupport {
    * @return the instance dedicated to extraction of fields.
    */
   public static FieldSupport extraction() {
-	return EXTRACTION;
+		return EXTRACTION;
   }
 
   /**
@@ -53,7 +53,7 @@ public enum FieldSupport {
    * @return the instance dedicated to comparison of fields.
    */
   public static FieldSupport comparison() {
-	return COMPARISON;
+		return COMPARISON;
   }
   
   /**

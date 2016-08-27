@@ -103,7 +103,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#allOf(Iterable<? extends Condition>)}
+   * Delegate call to {@link org.assertj.core.api.Assertions#allOf(Iterable)}
    */
   default public <T> Condition<T> allOf(final Iterable<? extends Condition<? super T>> conditions) {
     return Assertions.allOf(conditions);

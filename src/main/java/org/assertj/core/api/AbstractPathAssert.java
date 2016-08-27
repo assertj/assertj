@@ -18,7 +18,6 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.nio.charset.Charset;
 import java.nio.file.ClosedFileSystemException;
 import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -143,7 +142,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(fileUTF8Charset).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
    * 
    * @param expected the given {@code Path} to compare the actual {@code Path} to.
-   * @param expectedCharset the {@Charset} used to read the content of the expected Path.
+   * @param expectedCharset the {@link Charset} used to read the content of the expected Path.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code Path} is {@code null}.
    * @throws AssertionError if the actual or given {@code Path} is not an existing readable file.
