@@ -37,7 +37,7 @@ public class OptionalLongAssert_isNotPresent_Test extends BaseTest {
 
   @Test
   public void should_fail_if_OptionalLong_is_present() {
-    OptionalLong actual = OptionalLong.of(10l);
+    OptionalLong actual = OptionalLong.of(10L);
 
     thrown.expectAssertionError(shouldBeEmpty(actual).create());
 

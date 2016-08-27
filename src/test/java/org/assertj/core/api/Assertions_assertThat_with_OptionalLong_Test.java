@@ -33,7 +33,7 @@ public class Assertions_assertThat_with_OptionalLong_Test {
 
     @Before
     public void before(){
-        actual = OptionalLong.of(10l);
+        actual = OptionalLong.of(10L);
     }
 
     @Test

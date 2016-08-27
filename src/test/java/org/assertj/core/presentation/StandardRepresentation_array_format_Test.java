@@ -83,7 +83,7 @@ public class StandardRepresentation_array_format_Test {
 
   @Test
   public void should_format_long_array() {
-    Object array = new long[] { 160l, 98l };
+    Object array = new long[] { 160L, 98L };
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[160L, 98L]");
   }
 
@@ -100,7 +100,7 @@ public class StandardRepresentation_array_format_Test {
 
   @Test
   public void should_format_longArray() {
-    assertThat(STANDARD_REPRESENTATION.formatArray(new long[] { 6l, 8l })).isEqualTo("[6L, 8L]");
+    assertThat(STANDARD_REPRESENTATION.formatArray(new long[] { 6L, 8L })).isEqualTo("[6L, 8L]");
   }
 
   @Test

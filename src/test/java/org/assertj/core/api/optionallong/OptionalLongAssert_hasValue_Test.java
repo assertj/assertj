@@ -27,18 +27,18 @@ public class OptionalLongAssert_hasValue_Test extends BaseTest {
   public void should_fail_when_OptionalLong_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((OptionalLong) null).hasValue(10l);
+    assertThat((OptionalLong) null).hasValue(10L);
   }
 
   @Test
   public void should_pass_if_OptionalLong_has_expected_value() {
-    assertThat(OptionalLong.of(10l)).hasValue(10l);
+    assertThat(OptionalLong.of(10L)).hasValue(10L);
   }
 
   @Test
   public void should_fail_if_OptionalLong_does_not_have_expected_value() {
-    OptionalLong actual = OptionalLong.of(5l);
-    long expectedValue = 10l;
+    OptionalLong actual = OptionalLong.of(5L);
+    long expectedValue = 10L;
 
     thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
 
@@ -47,7 +47,7 @@ public class OptionalLongAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_if_OptionalLong_is_empty() {
-    long expectedValue = 10l;
+    long expectedValue = 10L;
 
     thrown.expectAssertionError(shouldContain(expectedValue).create());
 

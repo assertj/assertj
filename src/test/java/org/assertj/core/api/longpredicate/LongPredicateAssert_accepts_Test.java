@@ -36,7 +36,7 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((LongPredicate) null).accepts(1l, 2l);
+    assertThat((LongPredicate) null).accepts(1L, 2L);
   }
 
   @Test
@@ -71,7 +71,7 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
   public void should_fail_when_predicate_does_not_accept_values() {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
-    long[] matchValues = new long[] { 1l, 2l, 3l };
+    long[] matchValues = new long[] { 1L, 2L, 3L };
     thrown.expectAssertionError(elementsShouldMatch(matchValues, 3L, wrapPredicate).create());
 
     assertThat(predicate).accepts(matchValues);
@@ -81,12 +81,12 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
   public void should_pass_when_predicate_accepts_all_values() {
     LongPredicate predicate = val -> val <= 2;
 
-    assertThat(predicate).accepts(1l, 2l);
+    assertThat(predicate).accepts(1L, 2L);
   }
 
   @Override
   protected LongPredicateAssert invoke_api_method() {
-    return assertions.accepts(1l, 2l);
+    return assertions.accepts(1L, 2L);
   }
 
   @Override

@@ -25,7 +25,7 @@ public class OptionalLongAssert_isPresent_Test extends BaseTest {
 
   @Test
   public void should_pass_when_OptionalLong_is_present() {
-    assertThat(OptionalLong.of(10l)).isPresent();
+    assertThat(OptionalLong.of(10L)).isPresent();
   }
 
   @Test

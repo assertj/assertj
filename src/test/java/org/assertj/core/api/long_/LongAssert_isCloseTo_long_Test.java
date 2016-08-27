@@ -21,8 +21,8 @@ import org.assertj.core.data.Offset;
 
 public class LongAssert_isCloseTo_long_Test extends LongAssertBaseTest {
 
-  private final Offset<Long> offset = offset(5l);
-  private final Long value = 8l;
+  private final Offset<Long> offset = offset(5L);
+  private final Long value = 8L;
 
   @Override
   protected LongAssert invoke_api_method() {
