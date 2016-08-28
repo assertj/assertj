@@ -993,7 +993,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    */
   @SafeVarargs
-  public final ListAssert<Object> flatExtracting(Extractor<? super ELEMENT, ? extends Object>... extractors) {
+  public final ListAssert<Object> flatExtracting(Extractor<? super ELEMENT, ?>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))

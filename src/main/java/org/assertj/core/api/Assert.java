@@ -503,7 +503,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * @return a list assertion object
    */
-  AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList();
+  AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**
    * Verifies that the actual value is an instance of String,

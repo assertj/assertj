@@ -385,7 +385,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList() {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
     objects.assertIsInstanceOf(info, actual, List.class);
     return new ListAssert<>((List<Object>) actual);
   }
