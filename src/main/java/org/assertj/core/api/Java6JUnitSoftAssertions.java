@@ -18,8 +18,7 @@ import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
 
 /**
- * JUnitSoftAssertions rule backwards compatible compatible with Android. Duplicated from
- * {@link JUnitSoftAssertions}.
+ * JUnitSoftAssertions rule compatible with Android. Duplicated from {@link JUnitSoftAssertions}.
  *
  * @see JUnitSoftAssertions
  * 

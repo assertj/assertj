@@ -27,6 +27,10 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 /**
+ * AbstractBDDSoftAssertions compatible with Android. Duplicated from {@link AbstractBDDSoftAssertions}.
+ *
+ * @see AbstractBDDSoftAssertions
+ * 
  * @since 2.5.0 / 3.5.0
  */
 public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
