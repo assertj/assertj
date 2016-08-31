@@ -34,6 +34,7 @@ import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
+import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -77,6 +78,16 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   public AbstractObjectArrayAssert(T[] actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+  
+  @Override
+  public S as(Description description) {
+    return super.as(description);
+  }
+  
+  @Override
+  public S as(String description, Object... args) {
+    return super.as(description, args);
   }
 
   /**
