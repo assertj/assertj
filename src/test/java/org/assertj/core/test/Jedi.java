@@ -14,11 +14,14 @@ package org.assertj.core.test;
 
 /**
  * Object for test.
- * 
+ *
  * @author Nicolas François
  * @author Joel Costigliola
  */
 public class Jedi extends Person {
+
+  @SuppressWarnings("unused")
+  private static final String TEST = "TEst";
 
   public String lightSaberColor;
   private Object strangeNotReadablePrivateField;
