@@ -25,6 +25,10 @@ class SoftProxies {
 
   private final ErrorCollector collector = new ErrorCollector();
 
+  void collectError(Throwable error) {
+      collector.addError(error);
+  }
+
   List<Throwable> errorsCollected() {
     return collector.errors();
   }

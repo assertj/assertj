@@ -76,7 +76,7 @@ public final class Fail {
    *           not been.
    */
   public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-    throw Failures.instance().failure(format("Expected %s to be thrown", throwableClass.getSimpleName()));
+    throw Failures.instance().failureShouldHaveThrown(throwableClass);
   }
 
   /**

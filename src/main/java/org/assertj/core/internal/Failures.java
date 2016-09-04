@@ -137,6 +137,16 @@ public class Failures {
 	return assertionError;
   }
 
+  /**
+   * Creates a <code>{@link AssertionError}</code> for a {@link Throwable} class that was expected to be thrown.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @return the created <code>{@link AssertionError}</code>.
+   * @since 2.6.0
+   */
+  public AssertionError failureShouldHaveThrown(Class<? extends Throwable> throwableClass) {
+      return failure(format("Expected %s to be thrown", throwableClass.getSimpleName()));
+  }
+
   private void printThreadDumpIfNeeded() {
 	if (printThreadDump) System.err.println(threadDumpDescription());
   }
