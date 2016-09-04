@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.FloatComparator;
@@ -55,6 +56,16 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
     comparatorByType.put(Double.class, new DoubleComparator(DOUBLE_COMPARATOR_PRECISION));
     comparatorByType.put(Float.class, new FloatComparator(FLOAT_COMPARATOR_PRECISION));
     return comparatorByType;
+  }
+  
+  @Override
+  public S as(Description description) {
+    return super.as(description);
+  }
+  
+  @Override
+  public S as(String description, Object... args) {
+    return super.as(description, args);
   }
 
   /**
