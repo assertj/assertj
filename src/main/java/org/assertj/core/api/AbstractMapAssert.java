@@ -355,6 +355,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given {@code key}.
    * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
+   * @since 2.6.0 / 3.6.0
    */
   public S hasEntrySatisfying(K key, Condition<? super V> valueCondition) {
     maps.assertHasEntrySatisfying(info, actual, key, valueCondition);

@@ -211,6 +211,7 @@ public class Maps {
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given {@code key}.
    * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
+   * @since 2.6.0 / 3.6.0
    */
   @SuppressWarnings("unchecked")
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
