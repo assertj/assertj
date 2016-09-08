@@ -33,7 +33,7 @@ public class AbstractSoftAssertions {
   /**
    * Fails with the given message.
    * @param failureMessage error message.
-   * @since 2.6.0
+   * @since 2.6.0 / 3.6.0
    */
   public void fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
@@ -44,7 +44,7 @@ public class AbstractSoftAssertions {
    * Fails with the given message and with the {@link Throwable} that caused the failure.
    * @param failureMessage error message.
    * @param realCause cause of the error.
-   * @since 2.6.0
+   * @since 2.6.0 / 3.6.0
    */
   public void fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
@@ -58,7 +58,7 @@ public class AbstractSoftAssertions {
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
-   * @since 2.6.0
+   * @since 2.6.0 / 3.6.0
    *
    * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
@@ -72,7 +72,7 @@ public class AbstractSoftAssertions {
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
-   * @since 2.6.0
+   * @since 2.6.0 / 3.6.0
    */
   public void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
       AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
