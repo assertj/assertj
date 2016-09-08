@@ -326,6 +326,36 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
+   * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>     Map&lt;String, Boolean&gt; heroesPower = new HashMap&lt;&gt;();
+   * heroesPower.put(&quot;Super man&quot;, true);
+   * heroesPower.put(&quot;Spider man&quot;, true);
+   * heroesPower.put(&quot;Iron man&quot;, false);
+   * Condition&lt;Boolean&gt hasSuperPower = new Condition&lt;Boolean&gt;(&quot;hasSuperPower&quot;) {public boolean matches(Boolean value) {return value}};
+   *
+   * // this assertions will pass
+   * assertThat(heroesPower).hasEntrySatisfying(&quot;Super man&quot;, hasSuperPower);
+   *
+   * // this assertions will fail
+   * assertThat(heroesPower).hasEntrySatisfying(&quot;Iron man&quot;, hasSuperPower);
+   * </code></pre>
+   *
+   * @param key he given key to check.
+   * @param valueCondition the given condition for check value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given {@code key}.
+   * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
+   */
+  public S hasEntrySatisfying(K key, Condition<? super V> valueCondition) {
+    maps.assertHasEntrySatisfying(info, actual, key, valueCondition);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given entries.
    * <p>
    * Example :
