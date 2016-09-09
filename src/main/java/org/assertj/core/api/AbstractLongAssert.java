@@ -251,10 +251,35 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual long is not close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(5L).isNotCloseTo(7L, within(1L));
+   *
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat(5L).isNotCloseTo(7L, within(2L));
+   *
+   * // assertion will fail
+   * assertThat(5L).isNotCloseTo(7L, within(3L));</code></pre>
+   *
+   * @param expected the given long to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  public S isNotCloseTo(long expected, Offset<Long> offset) {
+    longs.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
 
@@ -276,11 +301,37 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual long is not close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), within(1L));
+   *
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), within(2L));
+   *
+   * // assertion will fail
+   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), within(3L));</code></pre>
+   *
+   * @param expected the given long to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  @Override
+  public S isNotCloseTo(Long expected, Offset<Long> offset) {
+    longs.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
 
@@ -303,11 +354,38 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
   public S isCloseTo(Long expected, Percentage percentage) {
     longs.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is not close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with long:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(11L).isNotCloseTo(Long.valueOf(10L), withinPercentage(5L));
+   *
+   * // if difference is exactly equals to the computed offset (1L), it's ok
+   * assertThat(11L).isNotCloseTo(Long.valueOf(10L), withinPercentage(10L));
+   *
+   * // assertion will fail
+   * assertThat(11L).isNotCloseTo(Long.valueOf(10L), withinPercentage(20L));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  @Override
+  public S isNotCloseTo(Long expected, Percentage percentage) {
+    longs.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 
@@ -330,10 +408,36 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   public S isCloseTo(long expected, Percentage percentage) {
     longs.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is not close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with long:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(11L).isNotCloseTo(10L, withinPercentage(5L));
+   *
+   * // if difference is exactly equals to the computed offset (1L), it's ok
+   * assertThat(11L).isNotCloseTo(10L, withinPercentage(10L));
+   *
+   * // assertion will fail
+   * assertThat(11L).isNotCloseTo(10L, withinPercentage(20L));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is close to the given one.
+   */
+  public S isNotCloseTo(long expected, Percentage percentage) {
+    longs.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 
