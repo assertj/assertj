@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;

@@ -21,7 +21,7 @@ import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -40,12 +40,12 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    integers.assertIsNotCloseTo(someInfo(), null, ONE, within(ONE));
+    integers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_expected_value_is_null() {
-    integers.assertIsNotCloseTo(someInfo(), ONE, null, within(ONE));
+    integers.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
   }
 
   @Test(expected = NullPointerException.class)
@@ -55,8 +55,8 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
 
   @Test
   public void should_pass_if_difference_is_more_than_given_offset() {
-    integers.assertIsNotCloseTo(someInfo(), ONE, THREE, within(ONE));
-    integers.assertIsNotCloseTo(someInfo(), ONE, TEN, within(TWO));
+    integers.assertIsNotCloseTo(someInfo(), ONE, THREE, byLessThan(ONE));
+    integers.assertIsNotCloseTo(someInfo(), ONE, TEN, byLessThan(TWO));
   }
 
   @Test
@@ -68,9 +68,9 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
   public void should_fail_if_difference_is_equal_to_given_offset(Integer actual, Integer other, Integer offset) {
     AssertionInfo info = someInfo();
     try {
-      integers.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
+      integers.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), abs(actual - other)));
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), abs(actual - other)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -80,9 +80,9 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
   public void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
     try {
-      integers.assertIsNotCloseTo(info, ONE, TWO, within(TEN));
+      integers.assertIsNotCloseTo(info, ONE, TWO, byLessThan(TEN));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, within(TEN), TWO - ONE));
+      verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, byLessThan(TEN), TWO - ONE));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
