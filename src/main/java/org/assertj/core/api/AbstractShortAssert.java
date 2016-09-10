@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
@@ -254,22 +255,23 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
   }
 
   /**
-   * Verifies that the actual short is not close to the given one within the given offset.<br>
+   * Verifies that the actual short is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((short)5).isNotCloseTo((short)7, within((short)1));
+   * assertThat((short)5).isNotCloseTo((short)7, byLessThan((short)1));
    *
    * // assertion will fail
-   * assertThat((short)5).isNotCloseTo((short)7, within((short)2));
-   * assertThat((short)5).isNotCloseTo((short)7, within((short)3));</code></pre>
+   * assertThat((short)5).isNotCloseTo((short)7, byLessThan((short)2));
+   * assertThat((short)5).isNotCloseTo((short)7, byLessThan((short)3));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Short)
    */
   public S isNotCloseTo(short expected, Offset<Short> offset) {
     shorts.assertIsNotCloseTo(info, actual, expected, offset);
@@ -303,22 +305,23 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
   }
 
   /**
-   * Verifies that the actual short is not close to the given one within the given offset.<br>
+   * Verifies that the actual short is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), within((short)1));
+   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), byLessThan((short)1));
    *
    * // assertions will fail
-   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), within((short)2));
-   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), within((short)3));</code></pre>
+   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), byLessThan((short)2));
+   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), byLessThan((short)3));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Short)
    */
   @Override
   public S isNotCloseTo(Short expected, Offset<Short> offset) {

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
@@ -259,22 +260,23 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
   }
 
   /**
-   * Verifies that the actual long is not close to the given one within the given offset.<br>
+   * Verifies that the actual long is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(5L).isNotCloseTo(7L, within(1L));
+   * assertThat(5L).isNotCloseTo(7L, byLessThan(1L));
    *
    * // assertions will fail
-   * assertThat(5L).isNotCloseTo(7L, within(2L));
-   * assertThat(5L).isNotCloseTo(7L, within(3L));</code></pre>
+   * assertThat(5L).isNotCloseTo(7L, byLessThan(2L));
+   * assertThat(5L).isNotCloseTo(7L, byLessThan(3L));</code></pre>
    *
    * @param expected the given long to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Long)
    */
   public S isNotCloseTo(long expected, Offset<Long> offset) {
     longs.assertIsNotCloseTo(info, actual, expected, offset);
@@ -308,22 +310,23 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
   }
 
   /**
-   * Verifies that the actual long is not close to the given one within the given offset.<br>
+   * Verifies that the actual long is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), within(1L));
+   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), byLessThan(1L));
    *
    * // assertions will fail
-   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), within(2L));
-   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), within(3L));</code></pre>
+   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), byLessThan(2L));
+   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), byLessThan(3L));</code></pre>
    *
    * @param expected the given long to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Long)
    */
   @Override
   public S isNotCloseTo(Long expected, Offset<Long> offset) {

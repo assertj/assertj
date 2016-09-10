@@ -1200,6 +1200,76 @@ public class Assertions {
     return withPercentage(value);
   }
 
+  /**
+   * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, byLessThan(0.1));</code></pre>
+   */
+  public static Offset<Double> byLessThan(Double value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.2f));</code></pre>
+   */
+  public static Offset<Float> byLessThan(Float value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), byLessThan(BigDecimal.ONE));</code></pre>
+   */
+  public static Offset<BigDecimal> byLessThan(BigDecimal value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, byLessThan((byte)1));</code></pre>
+   */
+  public static Offset<Byte> byLessThan(Byte value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   */
+  public static Offset<Integer> byLessThan(Integer value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   */
+  public static Offset<Short> byLessThan(Short value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(2l));</code></pre>
+   */
+  public static Offset<Long> byLessThan(Long value) {
+    return Offset.offset(value);
+  }
+  
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------

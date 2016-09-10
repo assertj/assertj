@@ -292,7 +292,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   }
 
   /**
-   * Verifies that the actual number is not close to the given one by the given offset.<br>
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
@@ -300,22 +300,23 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * final BigDecimal other =  new BigDecimal("8.0");
    *
    * // this assertion succeeds
-   * assertThat(actual).isNotCloseTo(other, within(new BigDecimal("0.01")));
+   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigDecimal("0.01")));
    *
    * // BidDecimal format has no impact on the assertion, this assertion is valid:
-   * assertThat(actual).isNotCloseTo(new BigDecimal("8.00"), within(new BigDecimal("0.100")));
+   * assertThat(actual).isNotCloseTo(new BigDecimal("8.00"), byLessThan(new BigDecimal("0.100")));
    *
    * // the assertion fails if the difference is equal to the given offset value 
-   * assertThat(actual).isNotCloseTo(other, within(new BigDecimal("0.1")));
+   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigDecimal("0.1")));
    *
    * // the assertion fails if the difference is greater than the given offset value 
-   * assertThat(actual).isNotCloseTo(other, within(new BigDecimal("0.2")));</code></pre>
+   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigDecimal("0.2")));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one within the offset value.
+   * @see Assertions#byLessThan(BigDecimal)
    */
   @Override
   public S isNotCloseTo(final BigDecimal expected, final Offset<BigDecimal> offset) {

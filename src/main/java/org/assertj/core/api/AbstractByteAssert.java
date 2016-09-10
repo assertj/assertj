@@ -334,22 +334,23 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
   }
 
   /**
-   * Verifies that the actual byte is not close to the given one within the given offset.<br>
+   * Verifies that the actual byte is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 1));
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 1));
    *
    * // assertions will fail
-   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 2));
-   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 3));</code></pre>
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 2));
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 3));</code></pre>
    *
    * @param expected the given byte to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Byte)
    */
   public S isNotCloseTo(byte expected, Offset<Byte> offset) {
     bytes.assertIsNotCloseTo(info, actual, expected, offset);
@@ -384,16 +385,16 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
   }
 
   /**
-   * Verifies that the actual Byte is not close to the given one within the given offset.<br>
+   * Verifies that the actual Byte is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), within((byte) 1));
+   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), byLessThan((byte) 1));
    *
    * // assertions will fail
-   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), within((byte) 2));
-   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), within((byte) 3));</code></pre>
+   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), byLessThan((byte) 2));
+   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), byLessThan((byte) 3));</code></pre>
    *
    * @param expected the given Byte to compare the actual value to.
    * @param offset the given positive offset.
@@ -401,6 +402,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected Byte is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Byte)
    */
   @Override
   public S isNotCloseTo(Byte expected, Offset<Byte> offset) {

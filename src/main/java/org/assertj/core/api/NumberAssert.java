@@ -213,14 +213,14 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * <p>
    * Example with double:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
    *
    * // you can use offset if you prefer
    * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
    *
    * // assertions will fail
-   * assertThat(8.1).isNotCloseTo(8.0, within(0.1));
-   * assertThat(8.1).isNotCloseTo(8.0, within(0.2));</code></pre>
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.2));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.

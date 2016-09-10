@@ -132,19 +132,19 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
   }
 
   /**
-   * Verifies that the actual number is not close to the given one within the given offset.<br>
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
    *
    * // you can use offset if you prefer
    * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
    *
    * // assertions will fail
-   * assertThat(8.1).isNotCloseTo(8.0, within(0.1));
-   * assertThat(8.1).isNotCloseTo(8.0, within(0.2));</code></pre>
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.2));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -152,6 +152,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Double)
    */
   // duplicate javadoc of isNotCloseTo(double other, Offset<Double> offset but can't define it in super class
   public S isNotCloseTo(final double expected, final Offset<Double> offset) {
@@ -190,19 +191,19 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
+   * Verifies that the actual number is close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), within(0.01));
+   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.01));
    *
    * // you can use offset if you prefer
    * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), offset(0.01));
    *
    * // assertions will fail
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), within(0.1));
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), within(0.2));</code></pre>
+   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.1));
+   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.2));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -210,6 +211,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Double)
    */
   @Override
   public S isNotCloseTo(Double expected, Offset<Double> offset) {

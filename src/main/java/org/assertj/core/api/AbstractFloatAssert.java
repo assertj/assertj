@@ -156,19 +156,19 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
   }
 
   /**
-   * Verifies that the actual number is not close to the given one within the given offset.<br>
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1f).isNotCloseTo(8.2f, within(0.01f));
+   * assertThat(8.1f).isNotCloseTo(8.2f, byLessThan(0.01f));
    *
    * // you can use offset if you prefer
    * assertThat(8.1f).isNotCloseTo(8.2f, offset(0.01f));
    *
    * // assertions will fail
-   * assertThat(8.1f).isNotCloseTo(8.2f, within(0.1f));
-   * assertThat(8.1f).isNotCloseTo(8.2f, within(0.2f));</code></pre>
+   * assertThat(8.1f).isNotCloseTo(8.2f, byLessThan(0.1f));
+   * assertThat(8.1f).isNotCloseTo(8.2f, byLessThan(0.2f));</code></pre>
    *
    * Beware that java floating point number precision might have some unexpected behavior.
    *
@@ -177,6 +177,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Float)
    */
   // duplicate javadoc of isNotCloseTo(Float other, Offset<Float> offset but can't define it in super class
   public S isNotCloseTo(final float expected, final Offset<Float> offset) {
@@ -220,7 +221,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
   }
 
   /**
-   * Verifies that the actual number is not close to the given one within the given offset.<br>
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
@@ -242,6 +243,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the other number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Float)
    */
   @Override
   public S isNotCloseTo(Float expected, Offset<Float> offset) {

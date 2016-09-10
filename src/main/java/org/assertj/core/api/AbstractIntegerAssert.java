@@ -263,22 +263,23 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
   }
 
   /**
-   * Verifies that the actual int is not close to the given one within the given offset.<br>
+   * Verifies that the actual int is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(5).isNotCloseTo(7, within(1));
+   * assertThat(5).isNotCloseTo(7, byLessThan(1));
    *
    * // assertions will fail
-   * assertThat(5).isNotCloseTo(7, within(2));
-   * assertThat(5).isNotCloseTo(7, within(3));</code></pre>
+   * assertThat(5).isNotCloseTo(7, byLessThan(2));
+   * assertThat(5).isNotCloseTo(7, byLessThan(3));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Integer)
    */
   public S isNotCloseTo(int expected, Offset<Integer> offset) {
     integers.assertIsNotCloseTo(info, actual, expected, offset);
@@ -312,22 +313,23 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
   }
 
   /**
-   * Verifies that the actual int is not close to the given one within the given offset.<br>
+   * Verifies that the actual int is not close to the given one by less than the given offset.<br>
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(5).isNotCloseTo(Integer.valueOf(7), within(1));
+   * assertThat(5).isNotCloseTo(Integer.valueOf(7), byLessThan(1));
    *
    * // assertions will fail
-   * assertThat(5).isNotCloseTo(Integer.valueOf(7), within(2));
-   * assertThat(5).isNotCloseTo(Integer.valueOf(7), within(3));</code></pre>
+   * assertThat(5).isNotCloseTo(Integer.valueOf(7), byLessThan(2));
+   * assertThat(5).isNotCloseTo(Integer.valueOf(7), byLessThan(3));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @see Assertions#byLessThan(Integer)
    */
   @Override
   public S isNotCloseTo(Integer expected, Offset<Integer> offset) {
