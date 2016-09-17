@@ -503,7 +503,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * @return a list assertion object
    */
-  AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList();
+  AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**
    * Verifies that the actual value is an instance of String,
@@ -526,7 +526,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   /**
    * @deprecated
    *             Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
-   *             <code>{@link #equals(Object)}</code> instead of <code>{@link #isEqualTo(Object)}</code>.
+   *             <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override

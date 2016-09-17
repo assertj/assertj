@@ -73,9 +73,6 @@ public class DoubleComparator implements Comparator<Double> {
     if (obj == null) return false;
     if (!(obj instanceof DoubleComparator)) return false;
     DoubleComparator other = (DoubleComparator) obj;
-    if (Double.doubleToLongBits(epsilon) != Double.doubleToLongBits(other.epsilon)) return false;
-    return true;
+    return Double.doubleToLongBits(epsilon) == Double.doubleToLongBits(other.epsilon);
   }
-
-  
 }

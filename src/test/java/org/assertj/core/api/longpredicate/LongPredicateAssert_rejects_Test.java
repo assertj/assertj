@@ -40,7 +40,7 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
   public void should_fail_when_predicate_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((LongPredicate) null).rejects(1l, 2l, 3l);
+    assertThat((LongPredicate) null).rejects(1L, 2L, 3L);
   }
 
   @Test
@@ -73,7 +73,7 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
   @Test
   public void should_fail_when_predicate_accepts_some_value() {
     LongPredicate predicate = num -> num <= 2;
-    long[] matchValues = new long[] { 1l, 2l, 3l };
+    long[] matchValues = new long[] { 1L, 2L, 3L };
     List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
     thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1L).create());
 
@@ -84,12 +84,12 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
   public void should_pass_when_predicate_accepts_no_value() {
     LongPredicate predicate = num -> num <= 2;
 
-    assertThat(predicate).rejects(3l, 4l, 5l);
+    assertThat(predicate).rejects(3L, 4L, 5L);
   }
 
   @Override
   protected LongPredicateAssert invoke_api_method() {
-    return assertions.rejects(3l, 4l);
+    return assertions.rejects(3L, 4L);
   }
 
   @Override

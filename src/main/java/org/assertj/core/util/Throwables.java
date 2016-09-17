@@ -130,8 +130,6 @@ public final class Throwables {
    * 
    * @param throwable the {@code Throwable} to get stack trace from.
    * @return the stack trace as a {@link String}.
-   * 
-   * @author Daniel Zlotin
    */
   public static String getStackTrace(Throwable throwable) {
     StringWriter sw = null;

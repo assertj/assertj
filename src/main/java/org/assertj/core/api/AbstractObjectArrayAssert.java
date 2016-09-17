@@ -305,7 +305,6 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * jedis = array(new Jedi("Yoda", "red"), new Jedi("Luke", "green"));
    * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
    *
-   * @return {@code this} assertion object.
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the array does not have a unique element.
    * @throws AssertionError if the array's unique element does not satifies the given assertions.

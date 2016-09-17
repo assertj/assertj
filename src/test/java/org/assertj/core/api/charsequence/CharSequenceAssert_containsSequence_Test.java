@@ -20,7 +20,7 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable<CharSequence>)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable)}</code>.
  * 
  * @author André Diermann
  */

@@ -32,13 +32,13 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    longs.assertIsZero(someInfo(), 0l);
+    longs.assertIsZero(someInfo(), 0L);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
     try {
-      longs.assertIsZero(someInfo(), 2l);
+      longs.assertIsZero(someInfo(), 2L);
     } catch (AssertionError e) {
       assertThat(e.getMessage()).isEqualTo("expected:<[0]L> but was:<[2]L>");
     }

@@ -181,7 +181,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * jedis.add(new Jedi("Luke", "green"));
    * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
    *
-   * @return {@code this} assertion object.
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
    * @throws AssertionError if the {@link Iterable}'s unique element does not satifies the given assertions.
@@ -994,7 +993,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    */
   @SafeVarargs
-  public final ListAssert<Object> flatExtracting(Extractor<? super ELEMENT, ? extends Object>... extractors) {
+  public final ListAssert<Object> flatExtracting(Extractor<? super ELEMENT, ?>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
