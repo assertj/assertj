@@ -15,18 +15,18 @@ package org.assertj.core.error;
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} has no suppressed exceptions failed.
  */
-public class ShouldBeHaveNoSuppressedExceptions extends BasicErrorMessageFactory {
+public class ShouldHaveNoSuppressedExceptions extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldBeHaveNoSuppressedExceptions}</code>.
+   * Creates a new <code>{@link ShouldHaveNoSuppressedExceptions}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveNoSupressedExceptions(Object actual) {
-    return new ShouldBeHaveNoSuppressedExceptions(actual);
+  public static ErrorMessageFactory shouldHaveNoSuppressedExceptions(Object actual) {
+    return new ShouldHaveNoSuppressedExceptions(actual);
   }
 
-  private ShouldBeHaveNoSuppressedExceptions(Object actual) {
+  private ShouldHaveNoSuppressedExceptions(Object actual) {
     super("%nExpecting no suppressed exceptions but found: <%s>", actual);
   }
 }

@@ -149,6 +149,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
     throwables.assertHasMessageContaining(info, actual, description);
     return myself;
   }
+
   /**
    * Verifies that the stack trace of the actual {@code Throwable} contains with the given description.
    *
@@ -228,13 +229,13 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * <p>
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable(new NullPointerException());
-	 *
-	 * // assertion will pass
-	 * assertThat(throwable).hasCauseExactlyInstanceOf(NullPointerException.class);
-	 *
-	 * // assertions will fail (even if NullPointerException is a RuntimeException since we want an exact match)
-	 * assertThat(throwable).hasCauseExactlyInstanceOf(RuntimeException.class);
-	 * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);</code></pre>
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasCauseExactlyInstanceOf(NullPointerException.class);
+   *
+   * // assertions will fail (even if NullPointerException is a RuntimeException since we want an exact match)
+   * assertThat(throwable).hasCauseExactlyInstanceOf(RuntimeException.class);
+   * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);</code></pre>
    *
    * </p>
    *
@@ -256,13 +257,13 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * <p>
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
-	 *
-	 * // assertion will pass
-	 * assertThat(throwable).hasRootCauseInstanceOf(NullPointerException.class);
-	 * assertThat(throwable).hasRootCauseInstanceOf(RuntimeException.class);
-	 *
-	 * // assertion will fail
-	 * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);</code></pre>
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseInstanceOf(NullPointerException.class);
+   * assertThat(throwable).hasRootCauseInstanceOf(RuntimeException.class);
+   *
+   * // assertion will fail
+   * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);</code></pre>
    *
    * </p>
    *
@@ -283,13 +284,13 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * <p>
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
-	 *
-	 * // assertion will pass
-	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(NullPointerException.class);
-	 *
-	 * // assertion will fail (even if NullPointerException is a RuntimeException since we want an exact match)
-	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
-	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);</code></pre>
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(NullPointerException.class);
+   *
+   * // assertion will fail (even if NullPointerException is a RuntimeException since we want an exact match)
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);</code></pre>
    *
    * </p>
    *
@@ -325,6 +326,34 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    */
   public S hasNoSuppressedExceptions() {
     throwables.assertHasNoSuppressedExceptions(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Throwable} has a suppressed exception similar to the given one, that is with same type and message
+   * (it does not use {@link Throwable#equals(Object) equals} method for comparison).
+   *
+   * Example:
+   * <pre><code class='java'> Throwable throwable = new Throwable();
+   * Throwable invalidArgException = new IllegalArgumentException("invalid argument");
+   * throwable.addSuppressed(invalidArgException);
+   * 
+   * // These assertions succeed:
+   * assertThat(throwable).hasSuppressedException(invalidArgException);
+   * assertThat(throwable).hasSuppressedException(new IllegalArgumentException("invalid argument"));
+   *
+   * // These assertions fail:
+   * assertThat(throwable).hasSuppressedException(new IllegalArgumentException("invalid parameter"));
+   * assertThat(throwable).hasCause(new NullPointerException());</code></pre>
+   *
+   * @param suppressedException the expected suppressed exception
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has not the given suppressed exception.
+   * @since 2.6.0 / 3.6.0
+   */
+  public S hasSuppressedException(Throwable suppressedException) {
+    throwables.assertHasSuppressedException(info, actual, suppressedException);
     return myself;
   }
 }
