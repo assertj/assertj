@@ -14,8 +14,17 @@ package org.assertj.core.api;
 
 import static org.assertj.core.util.Strings.formatIfArgs;
 
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.error.MessageFormatter;
@@ -358,6 +367,149 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
+  public AbstractBigDecimalAssert<?> asBigDecimal() {
+    objects.assertIsInstanceOf(info, actual, BigDecimal.class);
+    return Assertions.assertThat((BigDecimal) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractBooleanAssert<?> asBoolean() {
+    objects.assertIsInstanceOf(info, actual, Boolean.class);
+    return Assertions.assertThat((Boolean) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractBooleanArrayAssert<?> asBooleanArray() {
+    objects.assertIsInstanceOf(info, actual, boolean[].class);
+    return Assertions.assertThat((boolean[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractByteAssert<?> asByte() {
+    objects.assertIsInstanceOf(info, actual, Byte.class);
+    return Assertions.assertThat((Byte) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractByteArrayAssert<?> asByteArray() {
+    objects.assertIsInstanceOf(info, actual, byte[].class);
+    return Assertions.assertThat((byte[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractCharacterAssert<?> asCharacter() {
+    objects.assertIsInstanceOf(info, actual, Character.class);
+    return Assertions.assertThat((Character) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractCharArrayAssert<?> asCharArray() {
+    objects.assertIsInstanceOf(info, actual, char[].class);
+    return Assertions.assertThat((char[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractClassAssert<?> asClass() {
+    objects.assertIsInstanceOf(info, actual, Class.class);
+    return Assertions.assertThat((Class<?>) actual);
+  }
+
+  /** {@inheritDoc} */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Override
+  public <T extends Comparable<? super T>> AbstractComparableAssert<?, T> asComparable(Class<T> comparableClass) {
+    objects.assertIsInstanceOf(info, actual, Comparable.class);
+    return new GenericComparableAssert((Comparable<T>) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractDateAssert<?> asDate() {
+    objects.assertIsInstanceOf(info, actual, Date.class);
+    return Assertions.assertThat((Date) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractDoubleAssert<?> asDouble() {
+    objects.assertIsInstanceOf(info, actual, Double.class);
+    return Assertions.assertThat((Double) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractDoubleArrayAssert<?> asDoubleArray() {
+    objects.assertIsInstanceOf(info, actual, double[].class);
+    return Assertions.assertThat((double[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractFileAssert<?> asFile() {
+    objects.assertIsInstanceOf(info, actual, File.class);
+    return Assertions.assertThat((File) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractFloatAssert<?> asFloat() {
+    objects.assertIsInstanceOf(info, actual, Float.class);
+    return Assertions.assertThat((Float) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractFloatArrayAssert<?> asFloatArray() {
+    objects.assertIsInstanceOf(info, actual, float[].class);
+    return Assertions.assertThat((float[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractInputStreamAssert<?, ?> asInputStream() {
+    objects.assertIsInstanceOf(info, actual, InputStream.class);
+    return Assertions.assertThat((InputStream) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractIntegerAssert<?> asInteger() {
+    objects.assertIsInstanceOf(info, actual, Integer.class);
+    return Assertions.assertThat((Integer) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractIntArrayAssert<?> asIntArray() {
+    objects.assertIsInstanceOf(info, actual, int[].class);
+    return Assertions.assertThat((int[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
+  @Override
+  public AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> asIterable() {
+    objects.assertIsInstanceOf(info, actual, Iterable.class);
+    return Assertions.assertThat((Iterable<Object>) actual);
+  }
+
+  /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
+  @Override
+  public AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> asIterator() {
+    objects.assertIsInstanceOf(info, actual, Iterator.class);
+    return Assertions.assertThat((Iterator<Object>) actual);
+  }
+
+  /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList() {
@@ -367,9 +519,81 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /** {@inheritDoc} */
   @Override
+  public AbstractLongAssert<?> asLong() {
+    objects.assertIsInstanceOf(info, actual, Long.class);
+    return Assertions.assertThat((Long) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractLongArrayAssert<?> asLongArray() {
+    objects.assertIsInstanceOf(info, actual, long[].class);
+    return Assertions.assertThat((long[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
+  @Override
+  public MapAssert<Object, Object> asMap() {
+    objects.assertIsInstanceOf(info, actual, Map.class);
+    return Assertions.assertThat((Map<Object, Object>) actual);
+  }
+
+  /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T> AbstractObjectArrayAssert<?, T> asArrayOf(Class<T> elementType) {
+    objects.assertIsInstanceOf(info, actual, Object[].class);
+    return Assertions.assertThat((T[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractPathAssert<?> asPath() {
+    objects.assertIsInstanceOf(info, actual, Path.class);
+    return Assertions.assertThat((Path) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractShortAssert<?> asShort() {
+    objects.assertIsInstanceOf(info, actual, Short.class);
+    return Assertions.assertThat((Short) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractShortArrayAssert<?> asShortArray() {
+    objects.assertIsInstanceOf(info, actual, short[].class);
+    return Assertions.assertThat((short[]) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public AbstractCharSequenceAssert<?, String> asString() {
     objects.assertIsInstanceOf(info, actual, String.class);
     return Assertions.assertThat((String) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractThrowableAssert<?, ? extends Throwable> asThrowable() {
+    objects.assertIsInstanceOf(info, actual, Throwable.class);
+    return Assertions.assertThat((Throwable) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractUriAssert<?> asUri() {
+    objects.assertIsInstanceOf(info, actual, URI.class);
+    return Assertions.assertThat((URI) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractUrlAssert<?> asUrl() {
+    objects.assertIsInstanceOf(info, actual, URL.class);
+    return Assertions.assertThat((URL) actual);
   }
 
   /**
