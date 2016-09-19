@@ -39,6 +39,7 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
@@ -74,7 +75,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   ObjectArrays arrays = ObjectArrays.instance();
 
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
-  private Map<Class<?>, Comparator<?>> comparatorsForElementPropertyOrFieldTypes = new HashMap<>();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
 
   public AbstractObjectArrayAssert(T[] actual, Class<?> selfType) {
     super(actual, selfType);
@@ -1223,6 +1224,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *                    .usingFieldByFieldElementComparator()
    *                    .contains(reallyTallFrodo);</code></pre>
    * </p>
+   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance 
+   * chain to the given {@code type} is chosen in the following order:
+   * <ol>
+   * <li>The comparator for the exact given {@code type}</li>
+   * <li>The comparator of a superclass of the given {@code type}</li>
+   * <li>The comparator of an interface implemented by the given {@code type}</li>
+   * </ol>
    *
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for

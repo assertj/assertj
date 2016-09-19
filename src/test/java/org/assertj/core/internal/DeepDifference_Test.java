@@ -267,15 +267,16 @@ public class DeepDifference_Test {
     b.map = new HashMap<>();
     b.map.put(2, true);
 
-    class AlwaysEqualMapComparator implements Comparator<Map<?, ?>> {
-      public int compare(Map<?, ?> o1, Map<?, ?> o2) {
+    @SuppressWarnings("rawtypes")
+    class AlwaysEqualMapComparator implements Comparator<Map> {
+      public int compare(Map o1, Map o2) {
         return 0;
       }
     }
 
-    Map<Class<?>, Comparator<?>> customComparators = new HashMap<>();
-    customComparators.put(HashMap.class, new AlwaysEqualMapComparator());
-    assertThat(DeepDifference.determineDifferences(a, b, noFieldComparators(), customComparators)).isEmpty();
+    TypeComparators typeComparators = new TypeComparators();
+    typeComparators.put(Map.class, new AlwaysEqualMapComparator());
+    assertThat(DeepDifference.determineDifferences(a, b, noFieldComparators(), typeComparators)).isEmpty();
   }
 
   private void assertHaveNoDifferences(Object x, Object y) {

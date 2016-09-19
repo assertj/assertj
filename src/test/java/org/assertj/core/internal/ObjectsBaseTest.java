@@ -64,7 +64,7 @@ public class ObjectsBaseTest {
     return new HashMap<>();
   }
 
-  public static Map<Class<?>, Comparator<?>> defaultTypeComparators() {
+  public static TypeComparators defaultTypeComparators() {
     return AbstractObjectAssert.defaultTypeComparators();
   }
 

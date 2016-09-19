@@ -23,6 +23,8 @@ import java.util.Comparator;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
+import org.assertj.core.test.Person;
+import org.assertj.core.test.PersonCaseInsensitiveNameComparator;
 import org.junit.Test;
 
 /**
@@ -43,7 +45,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
     verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), other,
-        Collections.EMPTY_MAP, defaultTypeComparators());
+                                                       Collections.EMPTY_MAP, defaultTypeComparators());
   }
 
   @Test
@@ -65,7 +67,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi other = new Jedi("Luke", "green");
 
     assertThat(actual).usingComparatorForFields(ALWAY_EQUALS, "name")
-      .usingComparatorForType(comparator, String.class).isEqualToComparingFieldByField(other);
+                      .usingComparatorForType(comparator, String.class).isEqualToComparingFieldByField(other);
   }
 
   @Test
@@ -74,6 +76,35 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi other = new Jedi("Luke", "blue");
 
     assertThat(actual).usingComparatorForType(ALWAY_EQUALS, String.class).isEqualToComparingFieldByField(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_type_comparator_for_any_of_the_type_subclasses() {
+
+    JediMaster yoda1 = new JediMaster("Yoda", new Jedi("luke", "Green"));
+    JediMaster yoda2 = new JediMaster("Yoda", new Jedi("LUKE", null));
+
+    // Jedi is a subclass of Person
+    assertThat(yoda1).usingComparatorForType(new PersonCaseInsensitiveNameComparator(), Person.class)
+                     .isEqualToComparingFieldByField(yoda2);
+  }
+
+  static class JediMaster {
+    private Jedi padawan;
+    private String name;
+
+    JediMaster(String name, Jedi padawan) {
+      this.name = name;
+      this.padawan = padawan;
+    }
+
+    public Jedi getPadawan() {
+      return padawan;
+    }
+
+    public String getName() {
+      return name;
+    }
   }
 
 }

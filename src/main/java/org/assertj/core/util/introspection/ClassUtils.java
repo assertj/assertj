@@ -20,6 +20,26 @@ import java.util.List;
 public class ClassUtils {
 
   /**
+   * <p>Gets a {@code List} of superclasses for the given class.</p>
+   *
+   * @param cls the class to look up, may be {@code null}
+   * @return the {@code List} of superclasses in order going up from this one
+   * {@code null} if null input
+   */
+  public static List<Class<?>> getAllSuperclasses(final Class<?> cls) {
+    if (cls == null) {
+      return null;
+    }
+    final List<Class<?>> classes = new ArrayList<Class<?>>();
+    Class<?> superclass = cls.getSuperclass();
+    while (superclass != null) {
+      classes.add(superclass);
+      superclass = superclass.getSuperclass();
+    }
+    return classes;
+  }
+
+  /**
    * <p>
    * Gets a {@code List} of all interfaces implemented by the given class and its superclasses.
    * </p>
@@ -33,7 +53,7 @@ public class ClassUtils {
    * @param cls the class to look up, may be {@code null}
    * @return the {@code List} of interfaces in order, {@code null} if null input
    */
-  static List<Class<?>> getAllInterfaces(Class<?> cls) {
+  public static List<Class<?>> getAllInterfaces(Class<?> cls) {
     if (cls == null) return null;
   
     LinkedHashSet<Class<?>> interfacesFound = new LinkedHashSet<>();
