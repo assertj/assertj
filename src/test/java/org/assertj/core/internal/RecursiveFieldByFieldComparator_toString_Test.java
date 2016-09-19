@@ -22,6 +22,6 @@ public class RecursiveFieldByFieldComparator_toString_Test {
   @Test
   @SuppressWarnings("unchecked")
   public void should_return_description_of_RecursiveFieldByFieldComparator() {
-    assertThat(new RecursiveFieldByFieldComparator(EMPTY_MAP, EMPTY_MAP)).hasToString("recursive field/property by field/property comparator on all fields/properties");
+    assertThat(new RecursiveFieldByFieldComparator(EMPTY_MAP, new TypeComparators())).hasToString("recursive field/property by field/property comparator on all fields/properties");
   }
 }

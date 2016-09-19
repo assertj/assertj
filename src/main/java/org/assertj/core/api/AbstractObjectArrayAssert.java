@@ -39,6 +39,7 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
@@ -74,7 +75,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   ObjectArrays arrays = ObjectArrays.instance();
 
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
-  private Map<Class<?>, Comparator<?>> comparatorsForElementPropertyOrFieldTypes = new HashMap<>();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
 
   public AbstractObjectArrayAssert(T[] actual, Class<?> selfType) {
     super(actual, selfType);

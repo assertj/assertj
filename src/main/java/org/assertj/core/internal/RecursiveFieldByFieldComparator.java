@@ -28,15 +28,15 @@ public class RecursiveFieldByFieldComparator implements Comparator<Object> {
   private static final int NOT_EQUAL = -1;
 
   private final Map<String, Comparator<?>> comparatorByPropertyOrField;
-  private final Map<Class<?>, Comparator<?>> comparatorByType;
+  private final TypeComparators comparatorByType;
 
   public RecursiveFieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                         Map<Class<?>, Comparator<?>> comparatorByType) {
+                                         TypeComparators comparatorByType) {
     this.comparatorByPropertyOrField = comparatorByPropertyOrField;
     this.comparatorByType = isNullOrEmpty(comparatorByType) ? defaultTypeComparators() : comparatorByType;
   }
 
-  private boolean isNullOrEmpty(Map<Class<?>, Comparator<?>> comparatorByType) {
+  private boolean isNullOrEmpty(TypeComparators comparatorByType) {
     return comparatorByType == null || comparatorByType.isEmpty();
   }
 

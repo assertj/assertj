@@ -28,17 +28,17 @@ public class FieldByFieldComparator implements Comparator<Object> {
   private static final int NOT_EQUAL = -1;
 
   protected final Map<String, Comparator<?>> comparatorByPropertyOrField;
-  protected final Map<Class<?>, Comparator<?>> comparatorByType;
+  protected final TypeComparators comparatorByType;
 
   public FieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                Map<Class<?>, Comparator<?>> comparatorByType) {
+                                TypeComparators comparatorByType) {
     this.comparatorByPropertyOrField = comparatorByPropertyOrField;
     this.comparatorByType = comparatorByType;
   }
 
   public FieldByFieldComparator() {
     this.comparatorByPropertyOrField = new HashMap<>();
-    this.comparatorByType = new HashMap<>();
+    this.comparatorByType = new TypeComparators();
   }
 
   @Override

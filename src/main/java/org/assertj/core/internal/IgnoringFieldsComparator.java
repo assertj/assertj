@@ -25,7 +25,7 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   private String[] fields;
 
   public IgnoringFieldsComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                  Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+                                  TypeComparators comparatorByType, String... fields) {
     super(comparatorByPropertyOrField, comparatorByType);
     this.fields = fields;
   }

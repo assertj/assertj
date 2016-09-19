@@ -522,7 +522,7 @@ public class Objects {
    */
   public <A> void assertIsEqualToIgnoringNullFields(AssertionInfo info, A actual, A other,
                                                     Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                    Map<Class<?>, Comparator<?>> comparatorByType) {
+                                                    TypeComparators comparatorByType) {
     assertNotNull(info, actual);
     List<String> fieldsNames = new LinkedList<>();
     List<Object> rejectedValues = new LinkedList<>();
@@ -564,7 +564,7 @@ public class Objects {
    */
   public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other,
                                                           Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                          Map<Class<?>, Comparator<?>> comparatorByType,
+                                                          TypeComparators comparatorByType,
                                                           String... fields) {
     assertNotNull(info, actual);
     ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other,
@@ -580,7 +580,7 @@ public class Objects {
 
   private <A> ByFieldsComparison isEqualToComparingOnlyGivenFields(A actual, A other,
                                                                    Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                                   Map<Class<?>, Comparator<?>> comparatorByType,
+                                                                   TypeComparators comparatorByType,
                                                                    String[] fields) {
     List<String> rejectedFieldsNames = new LinkedList<>();
     List<Object> expectedValues = new LinkedList<>();
@@ -613,7 +613,7 @@ public class Objects {
    */
   public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other,
                                                      Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                     Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+                                                     TypeComparators comparatorByType, String... fields) {
     assertNotNull(info, actual);
     ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, comparatorByPropertyOrField,
                                                                          comparatorByType, fields);
@@ -626,7 +626,7 @@ public class Objects {
 
   private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other,
                                                               Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                              Map<Class<?>, Comparator<?>> comparatorByType,
+                                                              TypeComparators comparatorByType,
                                                               String[] givenIgnoredFields) {
     Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
     List<String> fieldsNames = new LinkedList<>();
@@ -655,7 +655,7 @@ public class Objects {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
                                                Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                               Map<Class<?>, Comparator<?>> comparatorByType) {
+                                               TypeComparators comparatorByType) {
     if (actualFieldValue != null && otherFieldValue != null
         && actualFieldValue.getClass() == otherFieldValue.getClass()) {
       Comparator fieldComparator = comparatorByPropertyOrField.containsKey(fieldName)
@@ -704,9 +704,9 @@ public class Objects {
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if the actual and the given object are not "deeply" equal.
    */
-  public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, A actual, A other,
+  public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, Object actual, Object other,
                                                                   Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                                  Map<Class<?>, Comparator<?>> comparatorByType) {
+                                                                  TypeComparators comparatorByType) {
     assertNotNull(info, actual);
     List<Difference> differences = determineDifferences(actual, other, comparatorByPropertyOrField, comparatorByType);
     if (!differences.isEmpty()) {
@@ -770,14 +770,14 @@ public class Objects {
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other,
                                                Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                               Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+                                               TypeComparators comparatorByType, String... fields) {
     return isEqualToIgnoringGivenFields(actual, other, comparatorByPropertyOrField, comparatorByType,
                                         fields).isFieldsNamesEmpty();
   }
 
   public boolean areEqualToComparingOnlyGivenFields(Object actual, Object other,
                                                     Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                    Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+                                                    TypeComparators comparatorByType, String... fields) {
     return isEqualToComparingOnlyGivenFields(actual, other, comparatorByPropertyOrField, comparatorByType,
                                              fields).isFieldsNamesEmpty();
   }

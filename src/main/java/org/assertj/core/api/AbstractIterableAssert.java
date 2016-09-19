@@ -41,6 +41,7 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
@@ -88,7 +89,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   private static final String ASSERT = "Assert";
 
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
-  private Map<Class<?>, Comparator<?>> comparatorsForElementPropertyOrFieldTypes = new HashMap<>();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
 
   protected Iterables iterables = Iterables.instance();
 

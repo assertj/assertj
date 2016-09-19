@@ -140,6 +140,7 @@ public class DeepDifference {
    * 
    * @param a Object one to compare
    * @param b Object two to compare
+   * @param comparatorByType
    * @return the list of differences found or an empty list if objects are equivalent.
    *         Equivalent means that all field values of both subgraphs are the same,
    *         either at the field level or via the respectively encountered overridden
@@ -147,7 +148,7 @@ public class DeepDifference {
    */
   public static List<Difference> determineDifferences(Object a, Object b,
                                                       Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                      Map<Class<?>, Comparator<?>> comparatorByType) {
+                                                      TypeComparators comparatorByType) {
     final Set<DualKey> visited = new HashSet<>();
     final Deque<DualKey> toCompare = initStack(a, b, visited);
     final List<Difference> differences = new ArrayList<>();
@@ -303,7 +304,7 @@ public class DeepDifference {
   }
 
   private static boolean hasCustomComparator(DualKey dualKey, Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                             Map<Class<?>, Comparator<?>> comparatorByType) {
+                                             TypeComparators comparatorByType) {
     if (dualKey.key1.getClass() == dualKey.key2.getClass()) {
       String fieldName = dualKey.getConcatenatedPath();
       Comparator<?> fieldComparator = comparatorByPropertyOrField.containsKey(fieldName)
