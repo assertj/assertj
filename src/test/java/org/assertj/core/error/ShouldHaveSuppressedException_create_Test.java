@@ -37,7 +37,7 @@ public class ShouldHaveSuppressedException_create_Test {
                                          "to have a suppressed exception with the following type and message:%n" +
                                          "  <\"java.lang.IllegalArgumentException\"> / <\"foo\">%n" +
                                          "but could not find any in actual's suppressed exceptions:%n" +
-                                         "  <[java.lang.IllegalArgumentException: invalid arg,\n" +
+                                         "  <[java.lang.IllegalArgumentException: invalid arg,%n" +
                                          "    java.lang.NullPointerException: null arg]>."));
   }
 }
