@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.IterablesBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 
@@ -46,7 +47,7 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
     try {
       iterables.assertAllMatch(info, actual, predicate);
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", predicate));
+      verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", PredicateDescription.GIVEN));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

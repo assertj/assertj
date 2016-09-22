@@ -71,6 +71,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -852,7 +853,8 @@ public class Iterables {
     stream(actual.spliterator(), false).filter(predicate.negate())
                                        .findFirst()
                                        .ifPresent(e -> {
-                                         throw failures.failure(info, elementsShouldMatch(actual, e, predicate));
+                                         throw failures.failure(info, elementsShouldMatch(actual, e,
+                                                                                          PredicateDescription.GIVEN));
                                        });
   }
 

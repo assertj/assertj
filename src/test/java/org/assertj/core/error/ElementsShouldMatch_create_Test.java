@@ -18,6 +18,7 @@ import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class ElementsShouldMatch_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = elementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda", s -> s.startsWith("L"));
+    ErrorMessageFactory factory = elementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda", PredicateDescription.GIVEN);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting all elements of:%n" +
@@ -33,5 +34,18 @@ public class ElementsShouldMatch_create_Test {
                                          "to match given predicate but this element did not:%n" +
                                          "  <\"Yoda\">"));
   }
+
+  @Test
+  public void should_create_error_message_with_custom_description() {
+    ErrorMessageFactory factory = elementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda",
+                                                      new PredicateDescription("custom"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting all elements of:%n" +
+                                         "  <[\"Luke\", \"Yoda\"]>%n" +
+                                         "to match 'custom' predicate but this element did not:%n" +
+                                         "  <\"Yoda\">"));
+  }
+
 
 }

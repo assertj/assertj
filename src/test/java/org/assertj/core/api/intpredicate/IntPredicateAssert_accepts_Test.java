@@ -71,7 +71,7 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int[] matchValues = new int[] { 1, 2, 3 };
-    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3, wrapPredicate).create());
+    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).accepts(matchValues);
   }
