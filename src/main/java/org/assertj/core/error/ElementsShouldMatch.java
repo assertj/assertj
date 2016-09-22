@@ -12,16 +12,16 @@
  */
 package org.assertj.core.error;
 
-import java.util.function.Predicate;
+import org.assertj.core.presentation.PredicateDescription;
 
 public class ElementsShouldMatch extends BasicErrorMessageFactory {
 
-  public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementNotMatchingPredicate, Predicate<? super T> predicate) {
-    return new ElementsShouldMatch(actual, elementNotMatchingPredicate, predicate);
+  public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementNotMatchingPredicate, PredicateDescription predicateDescription) {
+    return new ElementsShouldMatch(actual, elementNotMatchingPredicate, predicateDescription);
   }
 
-  private ElementsShouldMatch(Object actual, Object notSatisfies, Predicate<?> predicate) {
-    super("%nExpecting all elements of:%n  <%s>%nto match given predicate but this element did not:%n  <%s>", actual, notSatisfies, predicate);
+  private ElementsShouldMatch(Object actual, Object notSatisfies, PredicateDescription predicateDescription) {
+    super("%nExpecting all elements of:%n  <%s>%nto match %s predicate but this element did not:%n  <%s>", actual, predicateDescription, notSatisfies);
   }
 
 }
