@@ -12,15 +12,18 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.presentation.PredicateDescription;
+
 public class NoElementsShouldMatch extends BasicErrorMessageFactory {
 
-  public static <T> ErrorMessageFactory noElementsShouldMatch(Object actual, T elementMatchingPredicate) {
-    return new NoElementsShouldMatch(actual, elementMatchingPredicate);
+  public static <T> ErrorMessageFactory noElementsShouldMatch(Object actual, T elementMatchingPredicate,
+                                                              PredicateDescription predicateDescription) {
+    return new NoElementsShouldMatch(actual, elementMatchingPredicate, predicateDescription);
   }
 
-  private NoElementsShouldMatch(Object actual, Object satisfies) {
-    super("%nExpecting no elements of:%n  <%s>%nto match given predicate but this element did:%n  <%s>", actual,
-          satisfies);
+  private NoElementsShouldMatch(Object actual, Object satisfies, PredicateDescription predicateDescription) {
+    super("%nExpecting no elements of:%n  <%s>%nto match %s predicate but this element did:%n  <%s>", actual,
+          predicateDescription, satisfies);
   }
 
 }

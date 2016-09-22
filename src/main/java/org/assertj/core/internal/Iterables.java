@@ -889,7 +889,8 @@ public class Iterables {
     stream(actual.spliterator(), false).filter(predicate)
                                        .findFirst()
                                        .ifPresent(e -> {
-                                         throw failures.failure(info, noElementsShouldMatch(actual, e));
+                                         throw failures.failure(info, noElementsShouldMatch(actual, e,
+                                                                                            PredicateDescription.GIVEN));
                                        });
   }
 

@@ -74,7 +74,7 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = num -> num <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
     List<Integer> matchValuesList = IntStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1).create());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).rejects(matchValues);
   }
