@@ -73,7 +73,7 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
     DoublePredicate predicate = num -> num <= 2;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
     List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1D).create());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1D, PredicateDescription.GIVEN).create());
     assertThat(predicate).rejects(matchValues);
   }
 

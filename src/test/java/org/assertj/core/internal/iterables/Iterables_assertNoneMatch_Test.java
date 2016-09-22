@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.IterablesBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
@@ -48,7 +49,7 @@ public class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
     try {
       iterables.assertNoneMatch(info, actual, predicate);
     } catch (AssertionError e) {
-      verify(failures).failure(info, noElementsShouldMatch(actual, "Luke"));
+      verify(failures).failure(info, noElementsShouldMatch(actual, "Luke", PredicateDescription.GIVEN));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

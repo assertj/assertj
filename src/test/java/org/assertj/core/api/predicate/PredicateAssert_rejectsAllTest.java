@@ -22,6 +22,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.PredicateAssert;
 import org.assertj.core.api.PredicateAssertBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 /**
@@ -40,7 +41,7 @@ public class PredicateAssert_rejectsAllTest extends PredicateAssertBaseTest {
   public void should_fail_when_predicate_accepts_some_value() {
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
     thrown.expectAssertionError(noElementsShouldMatch(newArrayList("curling", "judo", "football"),
-                                                      "football").create());
+                                                      "football", PredicateDescription.GIVEN).create());
 
     assertThat(ballSportPredicate).rejectsAll(newArrayList("curling", "judo", "football"));
   }
