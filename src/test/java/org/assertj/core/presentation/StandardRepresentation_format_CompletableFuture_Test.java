@@ -47,4 +47,12 @@ public class StandardRepresentation_format_CompletableFuture_Test {
     future.cancel(true);
     assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Cancelled]");
   }
+
+  @Test
+  public void should_format_future_completed_with_future() {
+    CompletableFuture<CompletableFuture> future = new CompletableFuture<>();
+    future.complete(future);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(future))
+      .isEqualTo("CompletableFuture[Completed: " + future.toString() + "]");
+  }
 }
