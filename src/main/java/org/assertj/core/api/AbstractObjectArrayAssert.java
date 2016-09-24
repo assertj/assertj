@@ -2196,4 +2196,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return myself;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public S allMatch(Predicate<? super T> predicate, String predicateDescription) {
+    iterables.assertAllMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
 }

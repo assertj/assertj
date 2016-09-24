@@ -1960,6 +1960,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertAllMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
   // override methods to avoid compilation error when chaining an AbstractAssert method with a AbstractIterableAssert
   // one on raw types.
 

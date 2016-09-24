@@ -13,8 +13,13 @@
 package org.assertj.core.presentation;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
+import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.function.Predicate;
+
+import org.assertj.core.util.Objects;
 
 /**
  * Encapsulate a {@link Predicate} description to be able to control how it is formatted in error messages using a
@@ -43,4 +48,21 @@ public class PredicateDescription {
 	return DEFAULT.equals(description);
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    PredicateDescription description = (PredicateDescription) obj;
+    return areEqual(this.description, description.description);
+  }
+
+  @Override
+  public int hashCode() {
+    return HASH_CODE_PRIME * hashCodeFor(description);
+  }
 }
