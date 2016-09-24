@@ -55,4 +55,17 @@ public class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+  public void should_fail_with_custom_description_if_predicate_is_not_met() {
+    List<String> actual = newArrayList("Luke", "Leia", "Yoda");
+    Predicate<? super String> predicate = s -> s.startsWith("L");
+    try {
+      iterables.assertNoneMatch(info, actual, predicate, new PredicateDescription("custom"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, noElementsShouldMatch(actual, "Luke", new PredicateDescription("custom")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
 }

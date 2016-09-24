@@ -1989,6 +1989,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
+  public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertAllMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
     iterables.assertAllSatisfy(info, actual, requirements);
     return myself;
