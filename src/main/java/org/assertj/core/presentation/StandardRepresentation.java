@@ -79,7 +79,7 @@ public class StandardRepresentation implements Representation {
     checkArgument(value <= 0, "maxLengthForSingleLineDescription must be > 0 but was %s", value);
     maxLengthForSingleLineDescription = value;
   }
-  
+
   public static int getMaxLengthForSingleLineDescription() {
     return maxLengthForSingleLineDescription;
   }
@@ -199,7 +199,10 @@ public class StandardRepresentation implements Representation {
     String className = future.getClass().getSimpleName();
     if (!future.isDone()) return concat(className, "[Incomplete]");
     try {
-      return concat(className, "[Completed: ", toStringOf(future.join()), "]");
+      Object joinResult = future.join();
+      // avoid stack overflow error if future join on itself or another future that cycles back to the first
+      Object joinResultRepresentation = joinResult instanceof CompletableFuture ? joinResult : toStringOf(joinResult);
+      return concat(className, "[Completed: ", joinResultRepresentation, "]");
     } catch (CompletionException e) {
       return concat(className, "[Failed: ", toStringOf(e.getCause()), "]");
     } catch (CancellationException e) {
@@ -250,8 +253,7 @@ public class StandardRepresentation implements Representation {
    * Returns the {@code String} representation of the given array, or {@code null} if the given object is either
    * {@code null} or not an array. This method supports arrays having other arrays as elements.
    *
-   * @param representation
-   * @param array the object that is expected to be an array.
+   * @param o the object that is expected to be an array.
    * @return the {@code String} representation of the given array.
    */
   protected String formatArray(Object o) {
@@ -358,8 +360,7 @@ public class StandardRepresentation implements Representation {
    * <p>
    * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each elements
    * will be formatted on a new line with 4 space indentation.
-   * 
-   * @param representation
+   *
    * @param iterable the {@code Iterable} to format.
    * @return the {@code String} representation of the given {@code Iterable}.
    */

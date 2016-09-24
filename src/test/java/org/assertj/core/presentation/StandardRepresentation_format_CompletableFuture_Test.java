@@ -47,4 +47,21 @@ public class StandardRepresentation_format_CompletableFuture_Test {
     future.cancel(true);
     assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Cancelled]");
   }
+
+  @Test
+  public void should_not_stack_overflow_when_formatting_future_completed_with_itself() {
+    CompletableFuture<CompletableFuture<?>> future = new CompletableFuture<>();
+    future.complete(future);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Completed: " + future + "]");
+  }
+  
+  @Test
+  public void should_not_stack_overflow_when_formatting_future_with_reference_cycle() {
+    CompletableFuture<CompletableFuture<?>> future1 = new CompletableFuture<>();
+    CompletableFuture<CompletableFuture<?>> future2 = new CompletableFuture<>();
+    future1.complete(future2);
+    future2.complete(future1);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(future1)).isEqualTo("CompletableFuture[Completed: " + future2 + "]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(future2)).isEqualTo("CompletableFuture[Completed: " + future1 + "]");
+  }
 }
