@@ -60,13 +60,13 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
 
   protected SELF acceptsAllInternal(Iterable<? extends PRIMITIVE> values) {
     isNotNull();
-    iterables.assertAllMatch(info, values, primitivePredicate);
+    iterables.assertAllMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
     return myself;
   }
 
   protected SELF rejectsAllInternal(Iterable<? extends PRIMITIVE> values) {
     isNotNull();
-    iterables.assertNoneMatch(info, values, primitivePredicate);
+    iterables.assertNoneMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
     return myself;
   }
 }

@@ -19,6 +19,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Before;
 
 public class ObjectArrayAssert_allMatch_Test extends ObjectArrayAssertBaseTest {
@@ -37,6 +38,7 @@ public class ObjectArrayAssert_allMatch_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(getActual(assertions)), predicate);
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(getActual(assertions)), predicate,
+                                     PredicateDescription.GIVEN);
   }
 }

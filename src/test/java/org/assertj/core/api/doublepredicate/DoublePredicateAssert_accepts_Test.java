@@ -62,6 +62,6 @@ public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBas
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1.0D, 2.0D), wrapped);
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1.0D, 2.0D), wrapped, PredicateDescription.GIVEN);
   }
 }

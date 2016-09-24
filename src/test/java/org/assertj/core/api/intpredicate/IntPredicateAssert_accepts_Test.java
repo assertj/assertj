@@ -90,6 +90,6 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1, 2), wrapped);
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1, 2), wrapped, PredicateDescription.GIVEN);
   }
 }

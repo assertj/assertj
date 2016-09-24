@@ -91,6 +91,6 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1L, 2L), wrapped);
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1L, 2L), wrapped, PredicateDescription.GIVEN);
   }
 }

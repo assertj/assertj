@@ -93,6 +93,6 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3, 4), wrapped);
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3, 4), wrapped, PredicateDescription.GIVEN);
   }
 }
