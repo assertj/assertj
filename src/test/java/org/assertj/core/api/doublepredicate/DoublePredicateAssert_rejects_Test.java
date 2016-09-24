@@ -91,6 +91,7 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3.0D, 4.0D), wrapped);
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3.0D, 4.0D), wrapped,
+                                      PredicateDescription.GIVEN);
   }
 }

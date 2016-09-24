@@ -33,13 +33,13 @@ public class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
   @Test
   public void should_pass_if_each_element_does_not_satisfy_the_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
-    iterables.assertNoneMatch(someInfo(), actual, s -> s.length() < 3);
+    iterables.assertNoneMatch(someInfo(), actual, s -> s.length() < 3, PredicateDescription.GIVEN);
   }
 
   @Test
   public void should_throw_error_if_predicate_is_null() {
     thrown.expectNullPointerException("The predicate to evaluate should not be null");
-    iterables.assertNoneMatch(someInfo(), actual, null);
+    iterables.assertNoneMatch(someInfo(), actual, null, PredicateDescription.GIVEN);
   }
 
   @Test
@@ -47,7 +47,7 @@ public class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
     try {
-      iterables.assertNoneMatch(info, actual, predicate);
+      iterables.assertNoneMatch(info, actual, predicate, PredicateDescription.GIVEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, noElementsShouldMatch(actual, "Luke", PredicateDescription.GIVEN));
       return;

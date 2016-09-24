@@ -60,6 +60,7 @@ public class PredicateAssert_acceptsAll_Test extends PredicateAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(true, true), getActual(assertions));
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(true, true), getActual(assertions),
+                                     PredicateDescription.GIVEN);
   }
 }
