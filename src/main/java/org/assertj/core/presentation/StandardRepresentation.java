@@ -73,7 +73,7 @@ public class StandardRepresentation implements Representation {
 
   private static int maxLengthForSingleLineDescription = 80;
 
-  private static final Map<Class<?>, Function<Object, String>> customFormatterByType = new HashMap<>();
+  private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
 
   public static void setMaxLengthForSingleLineDescription(int value) {
     checkArgument(value <= 0, "maxLengthForSingleLineDescription must be > 0 but was %s", value);
@@ -87,7 +87,7 @@ public class StandardRepresentation implements Representation {
   /**
    * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.  
    */
-  public static void registerFormatterForType(Class<?> type, Function<Object, String> formatter) {
+  public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
     customFormatterByType.put(type, formatter);
   }
 
@@ -128,9 +128,10 @@ public class StandardRepresentation implements Representation {
     return object.toString();
   }
 
-  protected String customFormat(Object object) {
+  @SuppressWarnings("unchecked")
+  protected <T> String customFormat(T object) {
     if (object == null) return null;
-    return customFormatterByType.get(object.getClass()).apply(object);
+    return ((Function<T, String>) customFormatterByType.get(object.getClass())).apply(object);
   }
 
   protected boolean hasCustomFormatterFor(Object object) {
