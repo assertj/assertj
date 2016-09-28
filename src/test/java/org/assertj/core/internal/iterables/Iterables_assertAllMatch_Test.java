@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.IterablesBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 
@@ -30,13 +31,13 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
   @Test
   public void should_pass_if_each_element_satisfies_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
-    iterables.assertAllMatch(someInfo(), actual,  s -> s.length() >= 3);
+    iterables.assertAllMatch(someInfo(), actual,  s -> s.length() >= 3, PredicateDescription.GIVEN);
   }
 
   @Test
   public void should_throw_error_if_predicate_is_null() {
     thrown.expectNullPointerException("The predicate to evaluate should not be null");
-    iterables.assertAllMatch(someInfo(), actual, null);
+    iterables.assertAllMatch(someInfo(), actual, null, PredicateDescription.GIVEN);
   }
 
   @Test
@@ -44,9 +45,22 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
     try {
-      iterables.assertAllMatch(info, actual, predicate);
+      iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN);
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", predicate));
+      verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", PredicateDescription.GIVEN));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_with_custom_description_if_predicate_is_not_met() {
+    List<String> actual = newArrayList("Luke", "Leia", "Yoda");
+    Predicate<? super String> predicate = s -> s.startsWith("L");
+    try {
+      iterables.assertAllMatch(info, actual, predicate, new PredicateDescription("custom"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", new PredicateDescription("custom")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

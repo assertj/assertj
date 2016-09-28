@@ -75,7 +75,7 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
     LongPredicate predicate = num -> num <= 2;
     long[] matchValues = new long[] { 1L, 2L, 3L };
     List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1L).create());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1L, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).rejects(matchValues);
   }
@@ -94,6 +94,6 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3L, 4L), wrapped);
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3L, 4L), wrapped, PredicateDescription.GIVEN);
   }
 }

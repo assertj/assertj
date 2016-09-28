@@ -57,6 +57,7 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.RecursiveFieldByFieldComparator;
+import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.Strings;
@@ -1955,7 +1956,16 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate) {
-    iterables.assertAllMatch(info, actual, predicate);
+    iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertAllMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
     return myself;
   }
 

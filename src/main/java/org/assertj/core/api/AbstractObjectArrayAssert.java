@@ -51,6 +51,7 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.RecursiveFieldByFieldComparator;
+import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -2191,7 +2192,16 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   @Override
   public S allMatch(Predicate<? super T> condition) {
-    iterables.assertAllMatch(info, newArrayList(actual), condition);
+    iterables.assertAllMatch(info, newArrayList(actual), condition, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public S allMatch(Predicate<? super T> predicate, String predicateDescription) {
+    iterables.assertAllMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
     return myself;
   }
 

@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
@@ -28,7 +29,8 @@ public class NoElementsShouldMatch_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = noElementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda");
+    ErrorMessageFactory factory = noElementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda",
+                                                        PredicateDescription.GIVEN);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting no elements of:%n" +
@@ -36,5 +38,18 @@ public class NoElementsShouldMatch_create_Test {
                                          "to match given predicate but this element did:%n" +
                                          "  <\"Yoda\">"));
   }
+
+  @Test
+  public void should_create_error_message_with_custom_description() {
+    ErrorMessageFactory factory = noElementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda",
+                                                        new PredicateDescription("custom"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting no elements of:%n" +
+                                         "  <[\"Luke\", \"Yoda\"]>%n" +
+                                         "to match 'custom' predicate but this element did:%n" +
+                                         "  <\"Yoda\">"));
+  }
+
 
 }

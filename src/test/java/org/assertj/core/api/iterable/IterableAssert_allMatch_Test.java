@@ -18,6 +18,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Before;
 
 public class IterableAssert_allMatch_Test extends IterableAssertBaseTest {
@@ -36,6 +37,6 @@ public class IterableAssert_allMatch_Test extends IterableAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), getActual(assertions), predicate);
+    verify(iterables).assertAllMatch(getInfo(assertions), getActual(assertions), predicate, PredicateDescription.GIVEN);
   }
 }

@@ -23,6 +23,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.DoublePredicateAssert;
 import org.assertj.core.api.DoublePredicateAssertBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
 /**
@@ -42,7 +43,7 @@ public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBas
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
-    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3D, wrapPredicate).create());
+    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3D, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).accepts(matchValues);
   }
@@ -61,6 +62,6 @@ public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBas
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1.0D, 2.0D), wrapped);
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1.0D, 2.0D), wrapped, PredicateDescription.GIVEN);
   }
 }

@@ -12,9 +12,6 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
-
 import java.util.function.Predicate;
 
 import org.assertj.core.api.ObjectArrayAssert;
@@ -22,7 +19,10 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Before;
 
-public class ObjectArrayAssert_allMatch_Test extends ObjectArrayAssertBaseTest {
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
+public class ObjectArrayAssert_allMatch_with_description_Test extends ObjectArrayAssertBaseTest {
 
   private Predicate<Object> predicate;
 
@@ -33,12 +33,12 @@ public class ObjectArrayAssert_allMatch_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.allMatch(predicate);
+    return assertions.allMatch(predicate, "custom");
   }
 
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(getActual(assertions)), predicate,
-                                     PredicateDescription.GIVEN);
+                                     new PredicateDescription("custom"));
   }
 }

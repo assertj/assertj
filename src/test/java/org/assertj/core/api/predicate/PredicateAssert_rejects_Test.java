@@ -64,7 +64,7 @@ public class PredicateAssert_rejects_Test extends PredicateAssertBaseTest {
   public void should_fail_when_predicate_accepts_some_value() {
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
     thrown.expectAssertionError(noElementsShouldMatch(newArrayList("curling", "judo", "football"),
-                                                      "football").create());
+                                                      "football", PredicateDescription.GIVEN).create());
 
     assertThat(ballSportPredicate).rejects("curling", "judo", "football");
   }
@@ -83,6 +83,7 @@ public class PredicateAssert_rejects_Test extends PredicateAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(false, false), getActual(assertions));
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(false, false), getActual(assertions),
+                                      PredicateDescription.GIVEN);
   }
 }

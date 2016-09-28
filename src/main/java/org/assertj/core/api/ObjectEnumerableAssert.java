@@ -780,4 +780,33 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    */
   S allMatch(Predicate<? super T> predicate);
 
+  /**
+   * Verifies that all the elements of actual match the given {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abc  = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abc).allMatch(s -&gt; s.length() == 1, "length of 1");
+   *
+   * // assertion will fail
+   * assertThat(abcc).allMatch(s -&gt; s.length() == 1, "length of 1");</code></pre>
+   *
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting all elements of:
+   *  <["a", "b", "cc"]>
+   *  to match 'length of 1' predicate but this element did not:
+   *  <"cc"></code></pre>
+   *
+   *
+   * @param predicate the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   */
+  S allMatch(Predicate<? super T> predicate, String predicateDescription);
 }

@@ -69,6 +69,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -871,23 +872,27 @@ public class Iterables {
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
-  public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {
+  public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
+                                 PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
     stream(actual.spliterator(), false).filter(predicate.negate())
                                        .findFirst()
                                        .ifPresent(e -> {
-                                         throw failures.failure(info, elementsShouldMatch(actual, e, predicate));
+                                         throw failures.failure(info, elementsShouldMatch(actual, e,
+                                                                                          predicateDescription));
                                        });
   }
 
-  public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate) {
+  public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
+                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
     stream(actual.spliterator(), false).filter(predicate)
                                        .findFirst()
                                        .ifPresent(e -> {
-                                         throw failures.failure(info, noElementsShouldMatch(actual, e));
+                                         throw failures.failure(info, noElementsShouldMatch(actual, e,
+                                                                                            predicateDescription));
                                        });
   }
 

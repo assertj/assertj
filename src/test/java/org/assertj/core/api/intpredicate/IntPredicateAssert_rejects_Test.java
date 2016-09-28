@@ -74,7 +74,7 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = num -> num <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
     List<Integer> matchValuesList = IntStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1).create());
+    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).rejects(matchValues);
   }
@@ -93,6 +93,6 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3, 4), wrapped);
+    verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(3, 4), wrapped, PredicateDescription.GIVEN);
   }
 }

@@ -72,7 +72,7 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long[] matchValues = new long[] { 1L, 2L, 3L };
-    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3L, wrapPredicate).create());
+    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3L, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).accepts(matchValues);
   }
@@ -91,6 +91,6 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1L, 2L), wrapped);
+    verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(1L, 2L), wrapped, PredicateDescription.GIVEN);
   }
 }
