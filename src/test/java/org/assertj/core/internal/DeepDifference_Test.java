@@ -21,14 +21,15 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sin;
 import static java.lang.Math.tan;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.internal.ObjectsBaseTest.noFieldComparators;
 import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
+import static org.assertj.core.internal.ObjectsBaseTest.noFieldComparators;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,7 +45,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import org.assertj.core.internal.DeepDifference;
 import org.junit.Test;
 
 /**
@@ -253,6 +253,29 @@ public class DeepDifference_Test {
 
     assertThat(DeepDifference.hasCustomEquals(EmptyClassWithEquals.class)).isTrue();
     assertThat(DeepDifference.hasCustomHashCode(EmptyClassWithEquals.class)).isTrue();
+  }
+
+  @Test
+  public void shouldBeAbleToUseCustomComparatorForHashMap() {
+    class ObjectWithMapField {
+      Map<Integer, Boolean> map;
+    }
+    ObjectWithMapField a = new ObjectWithMapField(), b = new ObjectWithMapField();
+    a.map = new HashMap<>();
+    a.map.put(1, true);
+
+    b.map = new HashMap<>();
+    b.map.put(2, true);
+
+    class AlwaysEqualMapComparator implements Comparator<Map<?, ?>> {
+      public int compare(Map<?, ?> o1, Map<?, ?> o2) {
+        return 0;
+      }
+    }
+
+    Map<Class<?>, Comparator<?>> customComparators = new HashMap<>();
+    customComparators.put(HashMap.class, new AlwaysEqualMapComparator());
+    assertThat(DeepDifference.determineDifferences(a, b, noFieldComparators(), customComparators)).isEmpty();
   }
 
   private void assertHaveNoDifferences(Object x, Object y) {

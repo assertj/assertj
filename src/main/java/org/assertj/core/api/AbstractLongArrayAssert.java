@@ -377,4 +377,30 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
     return myself;
   }
 
+  /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new long[] { 1L, 2L }).containsExactlyInAnyOrder(1L, 2L);
+   * assertThat(new long[] { 1L, 2L, 1L }).containsExactlyInAnyOrder(1L, 2L, 1L);
+   * 
+   * // assertions will fail
+   * assertThat(new long[] { 1L, 2L }).containsExactlyInAnyOrder(1L);
+   * assertThat(new long[] { 1L }).containsExactlyInAnyOrder(1L, 2L);
+   * assertThat(new long[] { 1L, 2L, 1L }).containsExactlyInAnyOrder(1L, 2L);</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPolongerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.6.0 / 3.6.0
+   */
+  public S containsExactlyInAnyOrder(long... values) {
+    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
 }

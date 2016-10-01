@@ -12,13 +12,18 @@
  */
 package org.assertj.core.test;
 
+import java.util.Random;
+
 /**
  * Object for test.
- * 
+ *
  * @author Nicolas François
  * @author Joel Costigliola
  */
 public class Jedi extends Person {
+
+  @SuppressWarnings("unused")
+  private static final String TEST = "TEst" + new Random().nextInt();
 
   public String lightSaberColor;
   private Object strangeNotReadablePrivateField;

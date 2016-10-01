@@ -44,7 +44,7 @@ public class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertEndsWith(someInfo(), actual, null);
+    arrays.assertEndsWith(someInfo(), actual, (byte[]) null);
   }
 
   @Test
@@ -117,7 +117,7 @@ public class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, null);
+    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, (byte[]) null);
   }
 
   @Test

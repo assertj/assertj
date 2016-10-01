@@ -56,7 +56,7 @@ public class ByteArrays_assertDoesNotContain_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContain(someInfo(), actual, null);
+    arrays.assertDoesNotContain(someInfo(), actual, (byte[]) null);
   }
 
   @Test
@@ -97,7 +97,7 @@ public class ByteArrays_assertDoesNotContain_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, null);
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, (byte[]) null);
   }
 
   @Test

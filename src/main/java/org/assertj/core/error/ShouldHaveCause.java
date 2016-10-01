@@ -17,57 +17,57 @@ import static org.assertj.core.util.Objects.areEqual;
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveCause(Throwable actualCause, Throwable expectedCause) {
-	if (expectedCause == null) throw new IllegalArgumentException("expected cause should not be null");
-	// actualCause has no cause
-	if (actualCause == null) return new ShouldHaveCause(expectedCause);
-	// same message => different type
-	if (areEqual(actualCause.getMessage(), expectedCause.getMessage()))
-	  return new ShouldHaveCause(actualCause, expectedCause.getClass());
-	// same type => different message
-	if (areEqual(actualCause.getClass(), expectedCause.getClass()))
-	  return new ShouldHaveCause(actualCause, expectedCause.getMessage());
-	return new ShouldHaveCause(actualCause, expectedCause);
+    if (expectedCause == null) throw new IllegalArgumentException("expected cause should not be null");
+    // actualCause has no cause
+    if (actualCause == null) return new ShouldHaveCause(expectedCause);
+    // same message => different type
+    if (areEqual(actualCause.getMessage(), expectedCause.getMessage()))
+      return new ShouldHaveCause(actualCause, expectedCause.getClass());
+    // same type => different message
+    if (areEqual(actualCause.getClass(), expectedCause.getClass()))
+      return new ShouldHaveCause(actualCause, expectedCause.getMessage());
+    return new ShouldHaveCause(actualCause, expectedCause);
   }
 
   private ShouldHaveCause(Throwable actualCause, Throwable expectedCause) {
-	super("%n" +
-	      "Expecting a cause with type:%n" +
-	      "  <%s>%n" +
-	      "and message:%n" +
-	      "  <%s>%n" +
-	      "but type was:%n" +
-	      "  <%s>%n" +
-	      "and message was:%n" +
-	      "  <%s>.",
-	      expectedCause.getClass().getName(), expectedCause.getMessage(),
-	      actualCause.getClass().getName(), actualCause.getMessage());
+    super("%n" +
+          "Expecting a cause with type:%n" +
+          "  <%s>%n" +
+          "and message:%n" +
+          "  <%s>%n" +
+          "but type was:%n" +
+          "  <%s>%n" +
+          "and message was:%n" +
+          "  <%s>.",
+          expectedCause.getClass().getName(), expectedCause.getMessage(),
+          actualCause.getClass().getName(), actualCause.getMessage());
   }
 
   private ShouldHaveCause(Throwable expectedCause) {
-	super("%n" +
-		"Expecting a cause with type:%n" +
-		"  <%s>%n" +
-		"and message:%n" +
-		"  <%s>%n" +
-		"but actualCause had no cause.",
-		expectedCause.getClass().getName(), expectedCause.getMessage());
+    super("%n" +
+          "Expecting a cause with type:%n" +
+          "  <%s>%n" +
+          "and message:%n" +
+          "  <%s>%n" +
+          "but actualCause had no cause.",
+          expectedCause.getClass().getName(), expectedCause.getMessage());
   }
-  
+
   private ShouldHaveCause(Throwable actualCause, Class<? extends Throwable> expectedCauseClass) {
-	super("%n" +
-	      "Expecting a cause with type:%n" +
-	      "  <%s>%n" +
-	      "but type was:%n" +
-	      "  <%s>.",
-	      actualCause.getClass().getName(), expectedCauseClass.getName());
+    super("%n" +
+          "Expecting a cause with type:%n" +
+          "  <%s>%n" +
+          "but type was:%n" +
+          "  <%s>.",
+          actualCause.getClass().getName(), expectedCauseClass.getName());
   }
 
   private ShouldHaveCause(Throwable actualCause, String expectedCauseMessage) {
-	super("%n" +
-	      "Expecting a cause with message:%n" +
-	      "  <%s>%n" +
-	      "but message was:%n" +
-	      "  <%s>.",
-	      expectedCauseMessage, actualCause.getMessage());
+    super("%n" +
+          "Expecting a cause with message:%n" +
+          "  <%s>%n" +
+          "but message was:%n" +
+          "  <%s>.",
+          expectedCauseMessage, actualCause.getMessage());
   }
 }

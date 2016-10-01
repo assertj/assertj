@@ -74,9 +74,34 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close to the given one.
    */
   S isCloseTo(A expected, Offset<A> offset);
+
+  /**
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
+   * If the difference is equal to the offset value, the assertion fails.
+   * <p>
+   * Example with double:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(8.3).isNotCloseTo(new Double(8.0), byLessThan(0.2));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.3).isNotCloseTo(new Double(8.0), offset(0.2));
+   *
+   * // assertions will fail
+   * assertThat(8.1).isNotCloseTo(new Double(8.0), byLessThan(0.1));
+   * assertThat(8.1).isNotCloseTo(new Double(8.0), byLessThan(0.2));</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is equal to the given one.
+   * @see Assertions#byLessThan(Double)
+   */
+  S isNotCloseTo(A expected, Offset<A> offset);
 
   /**
    * Verifies that the actual value is equal to {@code NaN}.

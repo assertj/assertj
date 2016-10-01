@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
@@ -40,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -64,6 +66,9 @@ public class Maps {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
+
+  @VisibleForTesting
+  Conditions conditions = Conditions.instance();
 
   @VisibleForTesting
   Maps() {}
@@ -177,7 +182,8 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} is {@code null}.
    * @throws AssertionError if the given {@code Map} does not contain the given entries.
    */
-  public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual, Map.Entry<? extends K, ? extends V>[] entries) {
+  public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual,
+                                    Map.Entry<? extends K, ? extends V>[] entries) {
     failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
@@ -192,6 +198,28 @@ public class Maps {
     }
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContain(actual, entries, notFound));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains the value for given {@code key} that satisfy given {@code valueCondition}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param key he given key to check.
+   * @param valueCondition the given condition for check value.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given {@code key}.
+   * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
+   * @since 2.6.0 / 3.6.0
+   */
+  @SuppressWarnings("unchecked")
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
+                                              Condition<? super V> valueCondition) {
+    assertContainsKeys(info, actual, key);
+    conditions.assertIsNotNull(valueCondition);
+    V value = actual.get(key);
+    if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldHave(actual, value, valueCondition));
   }
 
   /**
@@ -229,7 +257,8 @@ public class Maps {
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given key.
    */
-  public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, @SuppressWarnings("unchecked") K... keys) {
+  public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual,
+                                        @SuppressWarnings("unchecked") K... keys) {
     assertNotNull(info, actual);
     Set<K> notFound = new LinkedHashSet<>();
     for (K key : keys) {

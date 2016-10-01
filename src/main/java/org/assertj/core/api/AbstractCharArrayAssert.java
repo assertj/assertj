@@ -420,6 +420,32 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
   }
 
   /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new char[] { 'a', 'b' }).containsExactlyInAnyOrder('b', 'a');
+   * assertThat(new char[] { 'a', 'b', 'a' }).containsExactlyInAnyOrder('a', 'b', 'a');
+   * 
+   * // assertions will fail
+   * assertThat(new char[] { 'a', 'b' }).containsExactlyInAnyOrder('a');
+   * assertThat(new char[] { 'a' }).containsExactlyInAnyOrder('a', 'b');
+   * assertThat(new char[] { 'a', 'b', 'a' }).containsExactlyInAnyOrder('a', 'b');</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.6.0 / 3.6.0
+   */
+  public S containsExactlyInAnyOrder(char... values) {
+    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
+  /**
    * Use unicode character representation instead of standard representation in error messages.
    * <p>
    * With standard error message:

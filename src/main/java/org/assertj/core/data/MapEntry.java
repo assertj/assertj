@@ -20,6 +20,9 @@ import java.util.Objects;
 /**
  * Understands an entry in a <code>{@link Map}</code>.
  *
+ * @param <K> the type of the key of this entry.
+ * @param <V> the type of the value of this entry.
+ *
  * @author Yvonne Wang
  */
 public class MapEntry<K, V> implements Map.Entry<K, V> {
@@ -30,6 +33,8 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
   /**
    * Creates a new {@link MapEntry}.
    *
+   * @param <K> the type of the key of this entry.
+   * @param <V> the type of the value of this entry.
    * @param key the key of the entry to create.
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.

@@ -169,6 +169,12 @@ public class DeepDifference {
         continue;
       }
 
+      if (hasCustomComparator(dualKey, comparatorByPropertyOrField, comparatorByType)) {
+        if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(),
+                                          comparatorByPropertyOrField, comparatorByType))
+          continue;
+      }
+
       if (key1 instanceof Collection) {
         if (!(key2 instanceof Collection)) {
           differences.add(new Difference(currentPath, key1, key2));
@@ -270,12 +276,6 @@ public class DeepDifference {
           continue;
         }
         continue;
-      }
-
-      if (hasCustomComparator(dualKey, comparatorByPropertyOrField, comparatorByType)) {
-        if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(),
-                                          comparatorByPropertyOrField, comparatorByType))
-          continue;
       }
 
       if (hasCustomEquals(key1.getClass())) {

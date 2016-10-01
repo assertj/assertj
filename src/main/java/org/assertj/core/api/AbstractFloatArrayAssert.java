@@ -828,6 +828,32 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
   }
 
   /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new float[] { 1.0F, 2.0F }).containsExactlyInAnyOrder(1.0F, 2.0F);
+   * assertThat(new float[] { 1.0F, 2.0F, 1.0F }).containsExactlyInAnyOrder(1.0F, 2.0F, 1.0F);
+   * 
+   * // assertions will fail
+   * assertThat(new float[] { 1.0F, 2.0F }).containsExactlyInAnyOrder(1.0F);
+   * assertThat(new float[] { 1.0F }).containsExactlyInAnyOrder(1.0F, 2.0F);
+   * assertThat(new float[] { 1.0F, 2.0F, 1.0F }).containsExactlyInAnyOrder(1.0F, 2.0F);</code></pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.6.0 / 3.6.0
+   */
+  public S containsExactlyInAnyOrder(float... values) {
+    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
+  /**
    * Create a {@link Float} comparator which compares floats at the given precision and pass it to {@link #usingElementComparator(Comparator)}. 
    * All the following assertions will use this comparator to compare float[] elements.
    *  

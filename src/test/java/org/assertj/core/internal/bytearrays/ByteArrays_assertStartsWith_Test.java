@@ -44,13 +44,13 @@ public class ByteArrays_assertStartsWith_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertStartsWith(someInfo(), actual, null);
+    arrays.assertStartsWith(someInfo(), actual, (byte[]) null);
   }
 
   @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
-    arrays.assertContains(someInfo(), actual, emptyArray());
+    arrays.assertStartsWith(someInfo(), actual, emptyArray());
   }
   
   @Test
@@ -117,7 +117,7 @@ public class ByteArrays_assertStartsWith_Test extends ByteArraysBaseTest {
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, null);
+    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, (byte[]) null);
   }
 
   @Test

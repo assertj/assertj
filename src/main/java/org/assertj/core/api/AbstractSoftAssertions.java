@@ -17,6 +17,8 @@ import static java.lang.String.format;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.assertj.core.internal.Failures;
+
 public class AbstractSoftAssertions {
 
   protected final SoftProxies proxies;
@@ -27,6 +29,55 @@ public class AbstractSoftAssertions {
 
   public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
     return proxies.create(assertClass, actualClass, actual);
+  }
+
+  /**
+   * Fails with the given message.
+   * @param failureMessage error message.
+   * @since 2.6.0 / 3.6.0
+   */
+  public void fail(String failureMessage) {
+    AssertionError error = Failures.instance().failure(failureMessage);
+    proxies.collectError(error);
+  }
+
+  /**
+   * Fails with the given message and with the {@link Throwable} that caused the failure.
+   * @param failureMessage error message.
+   * @param realCause cause of the error.
+   * @since 2.6.0 / 3.6.0
+   */
+  public void fail(String failureMessage, Throwable realCause) {
+    AssertionError error = Failures.instance().failure(failureMessage);
+    error.initCause(realCause);
+    proxies.collectError(error);
+  }
+
+  /**
+   * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
+   * @since 2.6.0 / 3.6.0
+   *
+   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
+   */
+  public void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+      shouldHaveThrown(throwableClass);
+  }
+
+  /**
+   * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
+   * @since 2.6.0 / 3.6.0
+   */
+  public void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+      AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
+      proxies.collectError(error);
   }
 
   /**
@@ -95,6 +146,8 @@ public class AbstractSoftAssertions {
           || className.startsWith("javax.")
           || className.startsWith("org.junit.")
           || className.startsWith("org.eclipse.jdt.internal.junit.")
+          || className.startsWith("org.eclipse.jdt.internal.junit4.")
+          || className.startsWith("org.apache.maven.surefire")
           || className.startsWith("net.sf.cglib.proxy")
           || className.startsWith("org.assertj")) {
         continue;
