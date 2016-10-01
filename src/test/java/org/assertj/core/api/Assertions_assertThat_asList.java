@@ -10,12 +10,10 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.abstract_;
+package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,43 +25,30 @@ import org.junit.Test;
 /**
  * Tests for Assert.asList() methods
  */
-public class AbstractAssert_asList_Test {
+public class Assertions_assertThat_asList {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
-  public void should_allow_to_perform_List_assertions_on_List_variable_declared_as_Object() {
+  public void should_pass_list_asserts_on_list_objects_with_asList() {
     Object listAsObject = Arrays.asList(1, 2, 3);
     assertThat(listAsObject).asList().isSorted();
   }
 
   @Test
-  public void should_pass_list_assertions_on_list_strings_with_asList() {
+  public void should_pass_list_asserts_on_list_strings_with_asList() {
     List<String> listAsObject = Arrays.asList("a", "b", "c");
-    assertThat(listAsObject).asList()
-                            .isSorted()
+    assertThat(listAsObject).asList().isSorted()
                             .last().isEqualTo("c");
   }
 
   @Test
-  public void should_fail_as_variable_runtime_type_is_not_List() {
-    // GIVEN
-    Object greatAuthor = "Terry Pratchett";
-    // WHEN
-    try {
-      assertThat(greatAuthor).asList().contains(1, 2);
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessageContaining(format("Expecting:%n" +
-                                                " <\"Terry Pratchett\">%n" +
-                                                "to be an instance of:%n" +
-                                                " <java.util.List>%n" +
-                                                "but was instance of:%n" +
-                                                " <java.lang.String>"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+  public void should_fail_list_asserts_on_non_list_objects_even_with_asList() {
+    Object nonList = new Object();
+
+    thrown.expectAssertionError("an instance of:%n <java.util.List>%nbut was instance of:%n <java.lang.Object>");
+    assertThat(nonList).asList().isSorted();
   }
 
 }
