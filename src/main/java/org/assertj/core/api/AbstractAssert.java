@@ -321,6 +321,16 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T> S isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
+    objects.assertIsInstanceOf(info, actual, type);
+    requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
+    requirements.accept((T) actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
   @Override
   public S isInstanceOfAny(Class<?>... types) {
     objects.assertIsInstanceOfAny(info, actual, types);
@@ -789,8 +799,10 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    *   assertThat(stats.reboundsPerGame).isBetween(9, 12);
    * };</code></pre>
    *
-   * @param requirements to assert on the actual object.
+   * @param requirements to assert on the actual object - must not be null.
    * @return this assertion object.
+   * 
+   * @throws NullPointerException if given Consumer is null 
    */
   public S satisfies(Consumer<A> requirements) {
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");

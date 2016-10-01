@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -280,6 +281,40 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    */
   S isInstanceOf(Class<?> type);
 
+  /**
+   * Verifies that the actual value is an instance of the given type satisfying the given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to perform a group of assertions on a single object after checking its runtime type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // second constructor parameter is the light saber color
+   * Object yoda = new Jedi("Yoda", "Green");
+   * Object luke = new Jedi("Luke Skywalker", "Green");
+   *
+   * Consumer&lt;Jedi&gt; jediRequirements = jedi -> {
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   *   assertThat(jedi.getName()).doesNotContain("Dark");
+   * };
+   *
+   * // assertions succeed:
+   * assertThat(yoda).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+   * assertThat(luke).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+   *
+   * // assertions fail:
+   * Jedi vader = new Jedi("Vader", "Red");
+   * assertThat(vader).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+   * // not a Jedi !
+   * assertThat("foo").isInstanceOfSatisfying(Jedi.class, jediRequirements);</code></pre>
+   * 
+   * @param type the type to check the actual value against.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws NullPointerException if the given Consumer is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not an instance of the given type.
+   */
+  <T> S isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements);
+  
   /**
    * Verifies that the actual value is an instance of any of the given types.
    * <p>
