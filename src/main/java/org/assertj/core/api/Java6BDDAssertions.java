@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
@@ -377,6 +378,17 @@ public class Java6BDDAssertions {
    */
   @CheckReturnValue
   public static AbstractFileAssert<?> then(File actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.FutureAssert}</code>.
+   *
+   * @param actual the future to test
+   * @return the created assertion object
+   */
+  @CheckReturnValue
+  public static <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> then(Future<T> actual) {
     return assertThat(actual);
   }
 
