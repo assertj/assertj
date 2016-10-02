@@ -180,8 +180,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> IterableAssert<T> then(Iterable<? extends T> actual) {
-    return proxy(IterableAssert.class, Iterable.class, actual);
+  public <T> SoftAssertionIterableAssert<T> then(Iterable<? extends T> actual) {
+    return proxy(SoftAssertionIterableAssert.class, Iterable.class, actual);
   }
 
   /**
@@ -194,8 +194,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> IterableAssert<T> then(Iterator<T> actual) {
-    return proxy(IterableAssert.class, Iterator.class, actual);
+  public <T> SoftAssertionIterableAssert<T> then(Iterator<T> actual) {
+    return proxy(SoftAssertionIterableAssert.class, Iterator.class, actual);
   }
 
   /**
@@ -327,8 +327,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> ListAssert<T> then(List<? extends T> actual) {
-    return proxy(ListAssert.class, List.class, actual);
+  public <T> SoftAssertionListAssert<T> then(List<? extends T> actual) {
+    return proxy(SoftAssertionListAssert.class, List.class, actual);
   }
 
   /**

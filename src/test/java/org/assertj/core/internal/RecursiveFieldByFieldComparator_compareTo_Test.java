@@ -21,7 +21,7 @@ public class RecursiveFieldByFieldComparator_compareTo_Test {
 
   @SuppressWarnings("unchecked")
   private static final RecursiveFieldByFieldComparator RECURSIVE_FIELD_BY_FIELD_COMPARATOR = new RecursiveFieldByFieldComparator(EMPTY_MAP,
-                                                                                                                                 EMPTY_MAP);
+                                                                                                                                 new TypeComparators());
 
   @Test
   public void should_return_true_if_Objects_are_equal() {

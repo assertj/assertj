@@ -28,7 +28,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   private String[] fields;
 
   public OnFieldsComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
-                            Map<Class<?>, Comparator<?>> comparatorByType, String... fields) {
+                            TypeComparators comparatorByType, String... fields) {
     super(comparatorByPropertyOrField, comparatorByType);
     if (isNullOrEmpty(fields)) throw new IllegalArgumentException("No fields/properties specified");
     for (String field : fields) {
@@ -40,7 +40,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   }
 
   public OnFieldsComparator(String... fields) {
-    this(new HashMap<String, Comparator<?>>(), new HashMap<Class<?>, Comparator<?>>(), fields);
+    this(new HashMap<String, Comparator<?>>(), new TypeComparators(), fields);
   }
 
   @VisibleForTesting

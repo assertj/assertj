@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.FloatComparator;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -47,24 +48,24 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
 
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
-  private Map<Class<?>, Comparator<?>> comparatorByType = defaultTypeComparators();
+  private TypeComparators comparatorByType = defaultTypeComparators();
 
   public AbstractObjectAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
-  public static Map<Class<?>, Comparator<?>> defaultTypeComparators() {
-    Map<Class<?>, Comparator<?>> comparatorByType = new HashMap<>();
+  public static TypeComparators defaultTypeComparators() {
+    TypeComparators comparatorByType = new TypeComparators();
     comparatorByType.put(Double.class, new DoubleComparator(DOUBLE_COMPARATOR_PRECISION));
     comparatorByType.put(Float.class, new FloatComparator(FLOAT_COMPARATOR_PRECISION));
     return comparatorByType;
   }
-  
+
   @Override
   public S as(Description description) {
     return super.as(description);
   }
-  
+
   @Override
   public S as(String description, Object... args) {
     return super.as(description, args);
@@ -219,8 +220,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @since 2.5.0 / 3.5.0
    */
   public S hasNoNullFieldsOrProperties() {
-      objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual);
-      return myself;
+    objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual);
+    return myself;
   }
 
   /**
@@ -297,6 +298,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <p>
    * Comparators specified by this method have precedence over comparators added by {@link #usingComparatorForType}.
    * <p>
+   * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
+   * <p>
    * Example:
    * <p>
    * <pre><code class='java'> public class TolkienCharacter {
@@ -349,6 +352,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <p>
    * Comparators specified by {@link #usingComparatorForFields} have precedence over comparators specified by this method.
    * <p>
+   * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
+   * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
@@ -383,6 +388,14 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    * </p>
+   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance 
+   * chain to the given {@code type} is chosen in the following order:
+   * <ol>
+   * <li>The comparator for the exact given {@code type}</li>
+   * <li>The comparator of a superclass of the given {@code type}</li>
+   * <li>The comparator of an interface implemented by the given {@code type}</li>
+   * </ol>
+   * <p>
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type the comparator should be used for
    * @return {@code this} assertions object

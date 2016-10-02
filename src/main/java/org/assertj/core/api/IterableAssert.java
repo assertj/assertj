@@ -27,6 +27,7 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Iterable)}</code>.
  * </p>
+ * 
  * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
@@ -47,15 +48,8 @@ public class IterableAssert<ELEMENT> extends
     this(toLazyIterable(actual));
   }
 
-  private static <T> Iterable<T> toLazyIterable(Iterator<T> actual) {
-    if (actual == null) {
-      return null;
-    }
-    return new LazyIterable<>(actual);
-  }
-
   @Override
-  public IterableAssert<ELEMENT> isEqualTo(Object expected)  {
+  public IterableAssert<ELEMENT> isEqualTo(Object expected) {
     if (actual instanceof LazyIterable) {
       objects.assertEqual(info, asLazyIterable().iterator, expected);
       return myself;
@@ -154,7 +148,8 @@ public class IterableAssert<ELEMENT> extends
   }
 
   @Override
-  public IterableAssert<ELEMENT> startsWith(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> startsWith(ELEMENT... sequence) {
     if (!(actual instanceof LazyIterable)) {
       return super.startsWith(sequence);
     }
@@ -223,6 +218,54 @@ public class IterableAssert<ELEMENT> extends
       list.add(iterator.next());
     }
     return list;
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> containsOnly(ELEMENT... values) {
+    return super.containsOnly(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> containsOnlyOnce(ELEMENT... values) {
+    return super.containsOnlyOnce(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> containsExactly(ELEMENT... values) {
+    return super.containsExactly(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> containsExactlyInAnyOrder(ELEMENT... values) {
+    return super.containsExactlyInAnyOrder(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> isSubsetOf(ELEMENT... values) {
+    return super.isSubsetOf(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> containsSequence(ELEMENT... sequence) {
+    return super.containsSequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> containsSubsequence(ELEMENT... sequence) {
+    return super.containsSubsequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> endsWith(ELEMENT... sequence) {
+    return super.endsWith(sequence);
   }
 
 }

@@ -29,6 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(List)}</code>.
  * <p>
+ * 
  * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
@@ -40,7 +41,6 @@ public class ListAssert<ELEMENT> extends
     FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public ListAssert(List<? extends ELEMENT> actual) {
-
     super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
 
@@ -147,7 +147,8 @@ public class ListAssert<ELEMENT> extends
   }
 
   @Override
-  public ListAssert<ELEMENT> startsWith(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+  @SafeVarargs
+  public final ListAssert<ELEMENT> startsWith(ELEMENT... sequence) {
     if (!(actual instanceof ListFromStream)) {
       return super.startsWith(sequence);
     }
@@ -215,4 +216,59 @@ public class ListAssert<ELEMENT> extends
     }
 
   }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> contains(ELEMENT... values) {
+    return super.contains(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> containsOnlyOnce(ELEMENT... values) {
+    return super.containsOnlyOnce(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> containsExactly(ELEMENT... values) {
+    return super.containsExactly(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> containsExactlyInAnyOrder(ELEMENT... values) {
+    return super.containsExactlyInAnyOrder(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> isSubsetOf(ELEMENT... values) {
+    return super.isSubsetOf(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> containsSequence(ELEMENT... sequence) {
+    return super.containsSequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> containsSubsequence(ELEMENT... sequence) {
+    return super.containsSubsequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> doesNotContain(ELEMENT... values) {
+    return super.doesNotContain(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> endsWith(ELEMENT... sequence) {
+    return super.endsWith(sequence);
+  }
+
 }
