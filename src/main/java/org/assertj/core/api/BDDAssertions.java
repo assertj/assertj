@@ -314,7 +314,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> then(Iterable<? extends T> actual) {
+  public static <T> IterableAssert<T> then(Iterable<? extends T> actual) {
     return assertThat(actual);
   }
 
@@ -328,7 +328,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> then(Iterator<? extends T> actual) {
+  public static <T> IterableAssert<T> then(Iterator<? extends T> actual) {
     return assertThat(actual);
   }
 
@@ -614,7 +614,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> then(List<? extends T> actual){
+  public static <T> ListAssert<T> then(List<? extends T> actual){
     return assertThat(actual);
   }
 
