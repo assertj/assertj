@@ -125,6 +125,14 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
+  public void should_format_Object_array_on_new_line_smart() {
+    StandardRepresentation.setMaxLengthForSingleLineDescription(11);
+    assertThat(STANDARD_REPRESENTATION.formatArray(new Object[] { "Hello",
+      new Person("Anakin") })).isEqualTo(format("[\"Hello\",%n"
+                                                + "    'Anakin']"));
+  }
+
+  @Test
   public void should_format_Object_array_that_has_primitive_array_as_element() {
     boolean booleans[] = { true, false };
     Object[] array = { "Hello", booleans };
@@ -137,6 +145,18 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     Object[] array2 = { array1 };
     array1[1] = array2;
     assertThat(STANDARD_REPRESENTATION.formatArray(array2)).isEqualTo("[[\"Hello\", (this array)]]");
+  }
+
+  @Test
+  public void should_format_Object_array_having_empty_primitive_array() {
+    Object[] array = { "Hello", new int[] {} };
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"Hello\", []]");
+  }
+
+  @Test
+  public void should_format_Object_array_having_null_element() {
+    Object[] array = { "Hello", null };
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"Hello\", null]");
   }
 
   @Test
@@ -156,7 +176,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
                                                        "  <[\"1234567890\",%n" +
                                                        "    \"1234567890\",%n" +
                                                        "    \"1234567890\",%n" +
-                                                       "    \"1234567890\"]"));
+                                                       "    \"1234567890\"]>"));
   }
 
   @Test
@@ -171,7 +191,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
                                                        "    \"1234567890\",%n" +
                                                        "    \"1234567890\",%n" +
                                                        "    \"1234567890\",%n" +
-                                                       "    ...]"));
+                                                       "    ...]>"));
   }
 
   private static class Person {
