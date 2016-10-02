@@ -172,28 +172,31 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
 
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * <p>
+   * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
-    return proxy(IterableAssert.class, Iterable.class, actual);
+  public <T> SoftAssertionIterableAssert<T> assertThat(Iterable<? extends T> actual) {
+    return proxy(SoftAssertionIterableAssert.class, Iterable.class, actual);
   }
 
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first
-   * converted
-   * into an <code>{@link Iterable}</code>
+   * converted into an <code>{@link Iterable}</code>
+   * <p>
+   * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> IterableAssert<T> assertThat(Iterator<T> actual) {
-    return proxy(IterableAssert.class, Iterator.class, actual);
+  public <T> SoftAssertionIterableAssert<T> assertThat(Iterator<T> actual) {
+    return proxy(SoftAssertionIterableAssert.class, Iterator.class, actual);
   }
 
   /**
@@ -239,7 +242,6 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   public FileAssert assertThat(File actual) {
     return proxy(FileAssert.class, File.class, actual);
   }
-
 
   /**
    * Creates a new instance of <code>{@link InputStreamAssert}</code>.
@@ -320,14 +322,16 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
 
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
-   *
+   * <p>
+   * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
+   * 
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> ListAssert<T> assertThat(List<? extends T> actual) {
-    return proxy(ListAssert.class, List.class, actual);
+  public <T> SoftAssertionListAssert<T> assertThat(List<? extends T> actual) {
+    return proxy(SoftAssertionListAssert.class, List.class, actual);
   }
 
   /**
