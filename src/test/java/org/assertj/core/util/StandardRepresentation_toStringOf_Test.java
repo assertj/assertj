@@ -30,6 +30,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.presentation.AbstractBaseRepresentationTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
@@ -37,7 +39,7 @@ import org.junit.Test;
  *
  * @author Joel Costigliola
  */
-public class StandardRepresentation_toStringOf_Test {
+public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationTest {
 
   @Test
   public void should_return_null_if_object_is_null() {
@@ -87,11 +89,29 @@ public class StandardRepresentation_toStringOf_Test {
   }
 
   @Test
+  public void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
+    List<Boolean[]> collection = newArrayList(array(true, false), array(true, false, true), array(true, true));
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true, false], [true, false, ...], ...]");
+  }
+
+  @Test
   public void should_return_toString_of_Collection_of_Collections() {
     Collection<List<String>> collection = new ArrayList<>();
     collection.add(newArrayList("s1", "s2"));
     collection.add(newArrayList("s3", "s4", "s5"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+  }
+
+  @Test
+  public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
+    Collection<List<String>> collection = new ArrayList<>();
+    collection.add(newArrayList("s1", "s2"));
+    collection.add(newArrayList("s3", "s4", "s5"));
+    collection.add(newArrayList("s6", "s7"));
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
+      .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
   }
 
   @Test
@@ -111,6 +131,13 @@ public class StandardRepresentation_toStringOf_Test {
   public void should_return_toString_of_array_of_arrays() {
     String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+  }
+
+  @Test
+  public void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
+    String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"), array("s6", "s7"));
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
   }
 
   @Test
@@ -192,6 +219,12 @@ public class StandardRepresentation_toStringOf_Test {
   @Test
   public void should_format_tuples() {
     assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, 3)");
+  }
+
+  @Test
+  public void should_format_tuples_up_to_the_maximum_allowed_elements() {
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, ...)");
   }
 
   private String toStringOf(Object o) {
