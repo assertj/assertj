@@ -315,23 +315,6 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Chain assertion on the value of the {@link Optional}.
-   * <p>
-   * Example:
-   * <p>
-   * <pre><code class='java'>
-   *     assertThat(Optional.of("42")).extractingValue().asString().hasSize(2);
-   * </code></pre>
-   *
-   * @return a new {@link AbstractObjectAssert} for assertions chaining on the value of the Optional.
-   * @throws AssertionError if the actual {@link Optional} is null or empty.
-   */
-  public AbstractObjectAssert<?, T> extractingValue() {
-    isPresent();
-    return assertThat(actual.get());
-  }
-
-  /**
    * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the flatMap call.
    * <p>
    * Examples:
