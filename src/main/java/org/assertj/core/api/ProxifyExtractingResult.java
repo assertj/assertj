@@ -16,6 +16,8 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Optional;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -41,6 +43,9 @@ class ProxifyExtractingResult implements MethodInterceptor {
     if (result instanceof ObjectArrayAssert) {
       return Array.newInstance(Object.class, 0).getClass();
     }
+    if (result instanceof OptionalAssert) {
+      return Optional.class;
+    }
 
     // Trying to create a proxy with cglib will only match exact constructor argument types.
     // To initialize one for ListAssert for example we can't use an ArrayList, we have to use a List.
@@ -53,6 +58,9 @@ class ProxifyExtractingResult implements MethodInterceptor {
     Type actualType = ((ParameterizedType) result.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     if (actualType instanceof ParameterizedType) {
       return (Class<?>) ((ParameterizedType) actualType).getRawType();
+    }
+    if (actualType instanceof TypeVariable) {
+      return (Class<?>) ((TypeVariable) actualType).getGenericDeclaration();
     }
 
     return (Class<?>) actualType;

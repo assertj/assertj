@@ -631,6 +631,78 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  public void should_work_with_optional() {
+    // GIVEN
+    Optional<String> optional = Optional.of("Gandalf");
+
+    // WHEN
+    softly.assertThat(optional).contains("Gandalf");
+
+    // THEN
+    softly.assertAll();
+  }
+
+  @Test
+  public void should_work_with_optional_chained_with_map() {
+    // GIVEN
+    Optional<String> optional = Optional.of("Gandalf");
+
+    // WHEN
+    softly.assertThat(optional)
+          .contains("Gandalf")
+          .map(String::length)
+          .contains(7);
+
+    // THEN
+    softly.assertAll();
+  }
+
+  @Test
+  public void should_collect_all_errors_when_using_map() {
+    // GIVEN
+    Optional<String> optional = Optional.of("Gandalf");
+
+    // WHEN
+    softly.assertThat(optional)
+          .contains("Sauron");
+
+    softly.assertThat(optional)
+          .contains("Gandalf")
+          .map(String::length)
+          .contains(1);
+
+    // THEN
+    try {
+      softly.assertAll();
+      shouldHaveThrown(SoftAssertionError.class);
+    } catch (SoftAssertionError e) {
+      assertThat(e.getErrors()).hasSize(2);
+    }
+  }
+
+  @Test
+  public void should_collect_all_errors_when_using_flatMap() {
+    // GIVEN
+    Optional<String> optional = Optional.of("Gandalf");
+
+    // WHEN
+    softly.assertThat(optional)
+          .contains("Sauron");
+
+    softly.assertThat(optional)
+          .flatMap(s -> Optional.of(s.length()))
+          .contains(1);
+
+    // THEN
+    try {
+      softly.assertAll();
+      shouldHaveThrown(SoftAssertionError.class);
+    } catch (SoftAssertionError e) {
+      assertThat(e.getErrors()).hasSize(2);
+    }
+  }
+
+  @Test
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(asList()).first();
@@ -758,6 +830,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.shouldHaveThrown(IllegalArgumentException.class);
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo("IllegalArgumentException should have been thrown");
+    assertThat(softly.errorsCollected().get(0)
+                     .getMessage()).isEqualTo("IllegalArgumentException should have been thrown");
   }
 }
