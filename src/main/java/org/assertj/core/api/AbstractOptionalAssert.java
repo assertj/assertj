@@ -55,7 +55,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * <pre><code class='java'> assertThat(Optional.of("something")).isPresent();</code></pre>
    *
    * Assertion will fail :
-   * <pre><code class='java'> assertThat(Optional.empty()).isPresent();</code></pre>
+   * <pre><code class='java'> assertThat(Optional.empty()).isPresent();</code></pre> 
    *
    * @return this assertion object.
    */
@@ -332,15 +332,29 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Chain assertion on the {@link Optional#flatMap(Function)}.
+   * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the flatMap call.
    * <p>
    * Examples:
-   * <p>
-   * <pre><code class='java'>
-   *     assertThat(Optional.&lt;String&gt;empty()).flatMap(UPPER_CASE_OPTIONAL_STRING).isEmpty();
-   *     assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING).contains("SOMETHING");
-   * </code></pre>
+   * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING = s -> {
+   *   if (s == null) {
+   *     return Optional.empty();
+   *   }
+   *   return Optional.of(s.toUpperCase());
+   * }; 
+   * 
+   * // assertions succeed
+   * assertThat(Optional.of("something")).contains("something")
+   *                                     .flatMap(UPPER_CASE_OPTIONAL_STRING)
+   *                                     .contains("SOMETHING");
+   *                                     
+   * assertThat(Optional.&lt;String&gt;empty()).flatMap(UPPER_CASE_OPTIONAL_STRING)
+   *                                     .isEmpty();
+   *                                     
+   * // assertion fails
+   * assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING)
+   *                                     .contains("something");</code></pre>
    *
+   * @param mapper the {@link Function} to use in the {@link Optional#flatMap(Function) flatMap} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the flatMap of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
    */
@@ -350,15 +364,22 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Chain assertion on the {@link Optional#map(Function)}.
+   * Call {@link Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the map call.
    * <p>
    * Examples:
-   * <p>
-   * <pre><code class='java'>
-   *     assertThat(Optional.&lt;String&gt;empty()).map(String::length).isEmpty();
-   *     assertThat(Optional.of("42")).map(String::length).extractingValue().isEqualTo(2);
-   * </code></pre>
+   * <pre><code class='java'> // assertions succeed 
+   * assertThat(Optional.&lt;String&gt;empty()).map(String::length)
+   *                                     .isEmpty();
+   * 
+   * assertThat(Optional.of("42")).contains("42")
+   *                              .map(String::length)
+   *                              .contains(2);
+   *                              
+   * // assertion fails
+   * assertThat(Optional.of("42")).map(String::length)
+   *                              .contains(3);</code></pre>
    *
+   * @param mapper the {@link Function} to use in the {@link Optional#map(Function) map} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the map of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
    */

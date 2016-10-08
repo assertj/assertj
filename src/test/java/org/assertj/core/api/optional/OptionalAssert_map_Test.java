@@ -31,12 +31,13 @@ public class OptionalAssert_map_Test extends BaseTest {
 
   @Test
   public void should_pass_when_optional_is_empty() {
-    assertThat(Optional.<String>empty()).map(String::length).isEmpty();
+    assertThat(Optional.<String> empty()).map(String::length).isEmpty();
   }
 
   @Test
   public void should_pass_when_optional_contains_a_value() {
-    assertThat(Optional.of("42")).map(String::length).extractingValue().isEqualTo(2);
+    assertThat(Optional.of("42")).map(String::length).contains(2);
+    assertThat(Optional.of("42")).map(s -> null).isEmpty();
   }
 
 }

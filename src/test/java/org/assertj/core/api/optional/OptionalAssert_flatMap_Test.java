@@ -23,8 +23,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalAssert_flatMap_Test extends BaseTest {
 
-  private static final Function<String, Optional<String>> UPPER_CASE_OPTIONAL_STRING =
-    s -> (s == null) ? Optional.empty() : Optional.of(s.toUpperCase());
+  private static final Function<String, Optional<String>> UPPER_CASE_OPTIONAL_STRING = s -> (s == null)
+      ? Optional.empty() : Optional.of(s.toUpperCase());
 
   @Test
   public void should_fail_when_optional_is_null() {
@@ -35,12 +35,14 @@ public class OptionalAssert_flatMap_Test extends BaseTest {
 
   @Test
   public void should_pass_when_optional_is_empty() {
-    assertThat(Optional.<String>empty()).flatMap(UPPER_CASE_OPTIONAL_STRING).isEmpty();
+    assertThat(Optional.<String> empty()).flatMap(UPPER_CASE_OPTIONAL_STRING).isEmpty();
   }
 
   @Test
   public void should_pass_when_optional_contains_a_value() {
-    assertThat(Optional.of("present")).flatMap(UPPER_CASE_OPTIONAL_STRING).contains("PRESENT");
+    assertThat(Optional.of("present")).contains("present")
+                                      .flatMap(UPPER_CASE_OPTIONAL_STRING)
+                                      .contains("PRESENT");
   }
 
 }
