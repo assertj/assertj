@@ -21,11 +21,11 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAssert<S>>
-  extends AbstractArrayAssert<S, double[], Double> {
+    extends AbstractArrayAssert<S, double[], Double> {
 
   @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
-  
+
   private final ComparatorFactory doubleComparator = ComparatorFactory.INSTANCE;
 
   public AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {
@@ -117,7 +117,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return myself;
   }
 
- /**
+  /**
    * Verifies that the actual array contains the given values, in any order, 
    * the comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
    * <p>
@@ -158,7 +158,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *                   .containsOnly(2.0, 3.0, 1.0)
    *                   .usingComparatorWithPrecision(0.5)
    *                   .containsOnly(1.1, 3.1, 2.1);
-
+  
    * // assertions will fail
    * assertThat(values).containsOnly(1.0, 4.0, 2.0, 3.0);
    * assertThat(values).containsOnly(4.0, 7.0);
@@ -244,28 +244,28 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return myself;
   }
 
-   /**
-   * Verifies that the actual array contains the given values only once.
-   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
-   * <p>
-   * Examples :
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(new double[] {1.1, 2.0}, withPrecision(0.2));
-   *
-   * // assertions will fail
-   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsOnlyOnce(new double[] {1.05}, withPrecision(0.1));
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(new double[] {4.0}, withPrecision(0.1));
-   * assertThat(new double[] { 1.0, 2.0, 3.0, 3.0 }).containsOnlyOnce(new double[] {0.1, 0.9, 2.0, 3.11, 4.0, 5.0}, withPrecision(0.2));</code></pre>
-   *
-   * @param values the given values.
-   * @param precision the precision under which the value may vary
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more than once these values.
-   */
+  /**
+  * Verifies that the actual array contains the given values only once.
+  * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Double)}.
+  * <p>
+  * Examples :
+  * <pre><code class='java'> // assertion will pass
+  * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(new double[] {1.1, 2.0}, withPrecision(0.2));
+  *
+  * // assertions will fail
+  * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsOnlyOnce(new double[] {1.05}, withPrecision(0.1));
+  * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(new double[] {4.0}, withPrecision(0.1));
+  * assertThat(new double[] { 1.0, 2.0, 3.0, 3.0 }).containsOnlyOnce(new double[] {0.1, 0.9, 2.0, 3.11, 4.0, 5.0}, withPrecision(0.2));</code></pre>
+  *
+  * @param values the given values.
+  * @param precision the precision under which the value may vary
+  * @return {@code this} assertion object.
+  * @throws NullPointerException if the given argument is {@code null}.
+  * @throws IllegalArgumentException if the given argument is an empty array.
+  * @throws AssertionError if the actual array is {@code null}.
+  * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+  *           or none of the given values, or the actual group contains more than once these values.
+  */
   public S containsOnlyOnce(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsOnlyOnce(values);
@@ -303,7 +303,6 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
-
 
   /**
    * Verifies that the actual array contains the given sequence, without any other values between them.
@@ -490,7 +489,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public S doesNotContain(double... values) {
-      arrays.assertDoesNotContain(info, actual, values);
+    arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
 
@@ -631,7 +630,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     usingComparatorWithPrecision(precision.value);
     return doesNotHaveDuplicates();
   }
-  
+
   /**
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the first element in the
@@ -695,7 +694,6 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return startsWith(values);
   }
 
-  
   /**
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the last element in the
@@ -812,7 +810,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           or values are the same but the order is not.
    */
   public S containsExactly(double... values) {
-	arrays.assertContainsExactly(info, actual, values);
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 

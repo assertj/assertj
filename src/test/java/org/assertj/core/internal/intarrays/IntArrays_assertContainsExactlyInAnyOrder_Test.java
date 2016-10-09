@@ -36,6 +36,12 @@ public class IntArrays_assertContainsExactlyInAnyOrder_Test extends IntArraysBas
   }
 
   @Test
+  public void should_pass_if_actual_contains_given_values_exactly_in_any_order_with_duplicates() {
+    actual = arrayOf(6, 8, 8, 10);
+    arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6, 8, 8,10));
+  }
+  
+  @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), emptyArray(), emptyArray());
   }

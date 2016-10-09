@@ -57,6 +57,7 @@ import static org.assertj.core.internal.CommonErrors.iterableToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
 import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
@@ -96,21 +97,21 @@ public class Arrays {
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   static Arrays instance() {
-	return INSTANCE;
+    return INSTANCE;
   }
 
   public Arrays() {
-	this(StandardComparisonStrategy.instance());
+    this(StandardComparisonStrategy.instance());
   }
 
   public Arrays(ComparisonStrategy comparisonStrategy) {
-	this.comparisonStrategy = comparisonStrategy;
+    this.comparisonStrategy = comparisonStrategy;
   }
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-	if (!(comparisonStrategy instanceof ComparatorBasedComparisonStrategy)) return null;
-	return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    if (!(comparisonStrategy instanceof ComparatorBasedComparisonStrategy)) return null;
+    return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
   }
 
   @VisibleForTesting
@@ -119,94 +120,94 @@ public class Arrays {
   }
 
   public static void assertIsArray(AssertionInfo info, Object array) {
-	if (!isArray(array)) throw Failures.instance().failure(info, shouldBeAnArray(array));
+    if (!isArray(array)) throw Failures.instance().failure(info, shouldBeAnArray(array));
   }
 
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
-	if (array != null && !isArrayEmpty(array)) throw failures.failure(info, shouldBeNullOrEmpty(array));
+    if (array != null && !isArrayEmpty(array)) throw failures.failure(info, shouldBeNullOrEmpty(array));
   }
 
   void assertEmpty(AssertionInfo info, Failures failures, Object array) {
-	assertNotNull(info, array);
-	if (!isArrayEmpty(array)) throw failures.failure(info, shouldBeEmpty(array));
+    assertNotNull(info, array);
+    if (!isArrayEmpty(array)) throw failures.failure(info, shouldBeEmpty(array));
   }
 
   void assertHasSize(AssertionInfo info, Failures failures, Object array, int expectedSize) {
-	assertNotNull(info, array);
-	int sizeOfActual = sizeOf(array);
-	if (sizeOfActual != expectedSize) throw failures.failure(info, shouldHaveSize(array, sizeOfActual, expectedSize));
+    assertNotNull(info, array);
+    int sizeOfActual = sizeOf(array);
+    if (sizeOfActual != expectedSize) throw failures.failure(info, shouldHaveSize(array, sizeOfActual, expectedSize));
   }
 
   void assertHasSameSizeAs(AssertionInfo info, Object array, Iterable<?> other) {
-	assertNotNull(info, array);
-	hasSameSizeAsCheck(info, array, other, sizeOf(array));
+    assertNotNull(info, array);
+    hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
   public void assertHasSameSizeAs(AssertionInfo info, Object array, Object other) {
-	assertNotNull(info, array);
-	assertIsArray(info, array);
-	assertIsArray(info, other);
-	hasSameSizeAsCheck(info, array, other, sizeOf(array));
+    assertNotNull(info, array);
+    assertIsArray(info, array);
+    assertIsArray(info, other);
+    hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
-	if (commonChecks(info, actual, values)) return;
-	Set<Object> notFound = new LinkedHashSet<>();
-	int valueCount = sizeOf(values);
-	for (int i = 0; i < valueCount; i++) {
-	  Object value = Array.get(values, i);
-	  if (!arrayContains(actual, value)) notFound.add(value);
-	}
-	if (!notFound.isEmpty())
-	  throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+    if (commonChecks(info, actual, values)) return;
+    Set<Object> notFound = new LinkedHashSet<>();
+    int valueCount = sizeOf(values);
+    for (int i = 0; i < valueCount; i++) {
+      Object value = Array.get(values, i);
+      if (!arrayContains(actual, value)) notFound.add(value);
+    }
+    if (!notFound.isEmpty())
+      throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
   }
 
   void assertcontainsAll(AssertionInfo info, Failures failures, Object array, Iterable<?> iterable) {
-	if (iterable == null) throw iterableToLookForIsNull();
-	assertNotNull(info, array);
-	Object[] values = newArrayList(iterable).toArray();
-	Set<Object> notFound = new LinkedHashSet<>();
-	for (Object value : values) {
-	  if (!arrayContains(array, value)) notFound.add(value);
-	}
-	if (!notFound.isEmpty())
-	  throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
+    if (iterable == null) throw iterableToLookForIsNull();
+    assertNotNull(info, array);
+    Object[] values = newArrayList(iterable).toArray();
+    Set<Object> notFound = new LinkedHashSet<>();
+    for (Object value : values) {
+      if (!arrayContains(array, value)) notFound.add(value);
+    }
+    if (!notFound.isEmpty())
+      throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
-	assertNotNull(info, array);
-	assertNotEmpty(info, failures, array);
-	checkIndexValueIsValid(index, sizeOf(array) - 1);
-	Object actualElement = Array.get(array, index.value);
-	if (!areEqual(actualElement, value))
-	  throw failures.failure(info, shouldContainAtIndex(array, value, index, Array.get(array, index.value),
-	                                                    comparisonStrategy));
+    assertNotNull(info, array);
+    assertNotEmpty(info, failures, array);
+    checkIndexValueIsValid(index, sizeOf(array) - 1);
+    Object actualElement = Array.get(array, index.value);
+    if (!areEqual(actualElement, value))
+      throw failures.failure(info, shouldContainAtIndex(array, value, index, Array.get(array, index.value),
+                                                        comparisonStrategy));
   }
 
   void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
-	assertNotNull(info, array);
-	if (isArrayEmpty(array)) throw failures.failure(info, shouldNotBeEmpty());
+    assertNotNull(info, array);
+    if (isArrayEmpty(array)) throw failures.failure(info, shouldNotBeEmpty());
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
-	assertNotNull(info, array);
-	checkIndexValueIsValid(index, Integer.MAX_VALUE);
-	if (index.value >= sizeOf(array)) return;
-	if (areEqual(Array.get(array, index.value), value))
-	  throw failures.failure(info, shouldNotContainAtIndex(array, value, index, comparisonStrategy));
+    assertNotNull(info, array);
+    checkIndexValueIsValid(index, Integer.MAX_VALUE);
+    if (index.value >= sizeOf(array)) return;
+    if (areEqual(Array.get(array, index.value), value))
+      throw failures.failure(info, shouldNotContainAtIndex(array, value, index, comparisonStrategy));
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object actual, Object values) {
-	if (commonChecks(info, actual, values)) return;
-    List<Object> notExpected = asListWithoutDuplicatesAccordingToComparisonStrategy(actual);
-    List<Object> notFound = containsOnly(notExpected, values);
-	if (notExpected.isEmpty() && notFound.isEmpty()) return;
-	throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
+    if (commonChecks(info, actual, values)) return;
+    IterableDiff diff = diff(asList(actual), asList(values), comparisonStrategy);
+    if (diff.differencesFound())
+      throw failures.failure(info, shouldContainOnly(actual, values,
+                                                     diff.missing, diff.unexpected,
+                                                     comparisonStrategy));
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
-	if (commonChecks(info, actual, values)) return;
-    assertNotNull(info, actual);
+    if (commonChecks(info, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
     int actualSize = sizeOf(actual);
@@ -214,102 +215,64 @@ public class Arrays {
     if (actualSize != expectedSize)
       throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
 
-    List<Object> actualWithoutDuplicates = asListWithoutDuplicatesAccordingToComparisonStrategy(actual);
-    List<Object> notFound = containsOnly(actualWithoutDuplicates, values);
-	if (actualWithoutDuplicates.isEmpty() && notFound.isEmpty()) {
-	  // actual and values have the same elements but are they in the same order ?
-	  int arrayLength = sizeOf(actual);
-	  for (int i = 0; i < arrayLength; i++) {
-		Object actualElement = Array.get(actual, i);
-		Object expectedElement = Array.get(values, i);
-		if (!areEqual(actualElement, expectedElement)) {
-		  throw failures.failure(info, elementsDifferAtIndex(actualElement, expectedElement, i, comparisonStrategy));
-		}
-	  }
-	  return;
-	}
-	throw failures.failure(info,
-	                       shouldContainExactly(actual, values, notFound, actualWithoutDuplicates, comparisonStrategy));
+    List<Object> actualAsList = asList(actual);
+    IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
+    if (!diff.differencesFound()) {
+      // actual and values have the same elements but are they in the same order ?
+      int arrayLength = sizeOf(actual);
+      for (int i = 0; i < arrayLength; i++) {
+        Object actualElement = Array.get(actual, i);
+        Object expectedElement = Array.get(values, i);
+        if (!areEqual(actualElement, expectedElement))
+          throw failures.failure(info, elementsDifferAtIndex(actualElement, expectedElement, i, comparisonStrategy));
+      }
+      return;
+    }
+    throw failures.failure(info,
+                           shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
   }
 
-	void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
-		if (commonChecks(info, actual, values)) return;
-		List<Object> notExpected = asList(actual);
-		List<Object> notFound = asList(values);
+  void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
+    if (commonChecks(info, actual, values)) return;
+    List<Object> notExpected = asList(actual);
+    List<Object> notFound = asList(values);
 
     for (Object value : asList(values)) {
-      if(iterableContains(notExpected, value)) {
-
+      if (iterableContains(notExpected, value)) {
         iterablesRemoveFirst(notExpected, value);
         iterablesRemoveFirst(notFound, value);
       }
     }
 
-    if(notExpected.isEmpty() && notFound.isEmpty()) {
-      return;
-    }
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
 
-    throw failures.failure(info, shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
-	}
+    throw failures.failure(info,
+                           shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+  }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
-	if (commonChecks(info, actual, values))
-	  return;
-	Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(asList(actual));
-	Set<Object> notFound = new LinkedHashSet<>();
-	Set<Object> notOnlyOnce = new LinkedHashSet<>();
-	for (Object expectedElement : asList(values)) {
-	  if (!arrayContains(actual, expectedElement)) {
-		notFound.add(expectedElement);
-	  } else if (iterableContains(actualDuplicates, expectedElement)) {
-		notOnlyOnce.add(expectedElement);
-	  }
-	}
-	if (!notFound.isEmpty() || !notOnlyOnce.isEmpty())
-	  throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
-	// assertion succeeded
-  }
-
-  private List<Object> containsOnly(Collection<Object> actual, Object values) {
-    List<Object> notFound = new ArrayList<>();
-	for (Object o : asListWithoutDuplicatesAccordingToComparisonStrategy(values)) {
-	  if (iterableContains(actual, o)) {
-		iterableRemoves(actual, o);
-	  } else {
-		notFound.add(o);
-	  }
-	}
-	return notFound;
-  }
-
-  /**
-   * build a Set with that avoid duplicates <b>according to given comparison strategy</b>
-   * 
-   * @param array to feed the Set we want to build
-   * @return a Set without duplicates <b>according to given comparison strategy</b>
-   */
-  private List<Object> asListWithoutDuplicatesAccordingToComparisonStrategy(Object array) {
-    List<Object> list = new ArrayList<>();
-	int size = sizeOf(array);
-	for (int i = 0; i < size; i++) {
-	  Object element = Array.get(array, i);
-	  if (!iterableContains(list, element)) list.add(element);
-	}
-	return list;
+    if (commonChecks(info, actual, values))
+      return;
+    Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(asList(actual));
+    Set<Object> notFound = new LinkedHashSet<>();
+    Set<Object> notOnlyOnce = new LinkedHashSet<>();
+    for (Object expectedElement : asList(values)) {
+      if (!arrayContains(actual, expectedElement)) {
+        notFound.add(expectedElement);
+      } else if (iterableContains(actualDuplicates, expectedElement)) {
+        notOnlyOnce.add(expectedElement);
+      }
+    }
+    if (!notFound.isEmpty() || !notOnlyOnce.isEmpty())
+      throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
+    // assertion succeeded
   }
 
   /**
    * Delegates to {@link ComparisonStrategy#iterableContains(Iterable, Object)}
    */
   private boolean iterableContains(Iterable<?> actual, Object value) {
-	return comparisonStrategy.iterableContains(actual, value);
-  }
-
-  /**
-   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
-   */
-  private void iterableRemoves(Collection<?> actual, Object value) {
-	comparisonStrategy.iterableRemoves(actual, value);
+    return comparisonStrategy.iterableContains(actual, value);
   }
 
   private void iterablesRemoveFirst(Collection<?> actual, Object value) {
@@ -317,13 +280,13 @@ public class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-	if (commonChecks(info, actual, sequence)) return;
-	// look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
-	int lastIndexWhereSequeceCanBeFound = sizeOf(actual) - sizeOf(sequence);
-	for (int actualIndex = 0; actualIndex <= lastIndexWhereSequeceCanBeFound; actualIndex++) {
-	  if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) return;
-	}
-	throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+    if (commonChecks(info, actual, sequence)) return;
+    // look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
+    int lastIndexWhereSequeceCanBeFound = sizeOf(actual) - sizeOf(sequence);
+    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequeceCanBeFound; actualIndex++) {
+      if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) return;
+    }
+    throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
   /**
@@ -336,346 +299,346 @@ public class Arrays {
    * @return true if actualArray contains exactly the given sequence at given starting index, false otherwise.
    */
   private boolean containsSequenceAtGivenIndex(int actualStartIndex, Object actualArray, Object sequence) {
-	int sequenceSize = sizeOf(sequence);
-	for (int i = 0; i < sequenceSize; i++) {
-	  if (areEqual(Array.get(sequence, i), Array.get(actualArray, i + actualStartIndex)))
-		continue;
-	  return false;
-	}
-	return true;
+    int sequenceSize = sizeOf(sequence);
+    for (int i = 0; i < sequenceSize; i++) {
+      if (areEqual(Array.get(sequence, i), Array.get(actualArray, i + actualStartIndex)))
+        continue;
+      return false;
+    }
+    return true;
   }
 
   void assertContainsSubsequence(AssertionInfo info, Failures failures, Object actual, Object subsequence) {
-	if (commonChecks(info, actual, subsequence)) return;
+    if (commonChecks(info, actual, subsequence)) return;
 
-	int sizeOfActual = sizeOf(actual);
-	int sizeOfSubsequence = sizeOf(subsequence);
-	// look for given subsequence, stop check when there is not enough elements remaining in actual to contain
-	// subsequence
-	int lastIndexWhereEndOfSubsequeceCanBeFound = sizeOfActual - sizeOfSubsequence;
+    int sizeOfActual = sizeOf(actual);
+    int sizeOfSubsequence = sizeOf(subsequence);
+    // look for given subsequence, stop check when there is not enough elements remaining in actual to contain
+    // subsequence
+    int lastIndexWhereEndOfSubsequeceCanBeFound = sizeOfActual - sizeOfSubsequence;
 
-	int actualIndex = 0;
-	int subsequenceIndex = 0;
-	while (actualIndex <= lastIndexWhereEndOfSubsequeceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
-	  if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
-		subsequenceIndex++;
-		lastIndexWhereEndOfSubsequeceCanBeFound++;
-	  }
-	  actualIndex++;
-	}
-	if (subsequenceIndex < sizeOfSubsequence)
-	  throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+    int actualIndex = 0;
+    int subsequenceIndex = 0;
+    while (actualIndex <= lastIndexWhereEndOfSubsequeceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
+      if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
+        subsequenceIndex++;
+        lastIndexWhereEndOfSubsequeceCanBeFound++;
+      }
+      actualIndex++;
+    }
+    if (subsequenceIndex < sizeOfSubsequence)
+      throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
   }
 
   /**
    * Delegates to {@link ComparisonStrategy#areEqual(Object, Object)}
    */
   private boolean areEqual(Object actual, Object other) {
-	return comparisonStrategy.areEqual(actual, other);
+    return comparisonStrategy.areEqual(actual, other);
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
-	checkIsNotNullAndNotEmpty(values);
-	assertNotNull(info, array);
-	Set<Object> found = new LinkedHashSet<>();
-	int valuesSize = sizeOf(values);
-	for (int i = 0; i < valuesSize; i++) {
-	  Object value = Array.get(values, i);
-	  if (arrayContains(array, value)) found.add(value);
-	}
-	if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(array, values, found, comparisonStrategy));
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, array);
+    Set<Object> found = new LinkedHashSet<>();
+    int valuesSize = sizeOf(values);
+    for (int i = 0; i < valuesSize; i++) {
+      Object value = Array.get(values, i);
+      if (arrayContains(array, value)) found.add(value);
+    }
+    if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(array, values, found, comparisonStrategy));
   }
 
   /**
    * Delegates to {@link ComparisonStrategy#arrayContains(Object, Object)}
    */
   private boolean arrayContains(Object array, Object value) {
-	return comparisonStrategy.arrayContains(array, value);
+    return comparisonStrategy.arrayContains(array, value);
   }
 
   void assertDoesNotHaveDuplicates(AssertionInfo info, Failures failures, Object array) {
-	assertNotNull(info, array);
-	ArrayWrapperList wrapped = wrap(array);
-	Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
-	if (!isNullOrEmpty(duplicates))
-	  throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates, comparisonStrategy));
+    assertNotNull(info, array);
+    ArrayWrapperList wrapped = wrap(array);
+    Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
+    if (!isNullOrEmpty(duplicates))
+      throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates, comparisonStrategy));
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-	if (commonChecks(info, actual, sequence))
-	  return;
-	int sequenceSize = sizeOf(sequence);
-	int arraySize = sizeOf(actual);
-	if (arraySize < sequenceSize) throw arrayDoesNotStartWithSequence(info, failures, actual, sequence);
-	for (int i = 0; i < sequenceSize; i++) {
-	  if (!areEqual(Array.get(sequence, i), Array.get(actual, i)))
-		throw arrayDoesNotStartWithSequence(info, failures, actual, sequence);
-	}
+    if (commonChecks(info, actual, sequence))
+      return;
+    int sequenceSize = sizeOf(sequence);
+    int arraySize = sizeOf(actual);
+    if (arraySize < sequenceSize) throw arrayDoesNotStartWithSequence(info, failures, actual, sequence);
+    for (int i = 0; i < sequenceSize; i++) {
+      if (!areEqual(Array.get(sequence, i), Array.get(actual, i)))
+        throw arrayDoesNotStartWithSequence(info, failures, actual, sequence);
+    }
   }
 
   private static boolean commonChecks(AssertionInfo info, Object actual, Object sequence) {
-	checkIsNotNull(sequence);
-	assertNotNull(info, actual);
-	// if both actual and values are empty arrays, then assertion passes.
-	if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return true;
-	failIfEmptySinceActualIsNotEmpty(sequence);
-	return false;
+    checkIsNotNull(sequence);
+    assertNotNull(info, actual);
+    // if both actual and values are empty arrays, then assertion passes.
+    if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return true;
+    failIfEmptySinceActualIsNotEmpty(sequence);
+    return false;
   }
 
   private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
-	                                                   Object sequence) {
-	return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
+                                                       Object sequence) {
+    return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-	if (commonChecks(info, actual, sequence)) return;
-	int sequenceSize = sizeOf(sequence);
-	int arraySize = sizeOf(actual);
-	if (arraySize < sequenceSize) throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);
-	for (int i = 0; i < sequenceSize; i++) {
-	  int sequenceIndex = sequenceSize - (i + 1);
-	  int arrayIndex = arraySize - (i + 1);
-	  if (!areEqual(Array.get(sequence, sequenceIndex), Array.get(actual, arrayIndex)))
-		throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);
-	}
+    if (commonChecks(info, actual, sequence)) return;
+    int sequenceSize = sizeOf(sequence);
+    int arraySize = sizeOf(actual);
+    if (arraySize < sequenceSize) throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);
+    for (int i = 0; i < sequenceSize; i++) {
+      int sequenceIndex = sequenceSize - (i + 1);
+      int arrayIndex = arraySize - (i + 1);
+      if (!areEqual(Array.get(sequence, sequenceIndex), Array.get(actual, arrayIndex)))
+        throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);
+    }
   }
 
   public void assertIsSubsetOf(AssertionInfo info, Failures failures, Object actual, Iterable<?> values) {
-	assertNotNull(info, actual);
-	checkIterableIsNotNull(info, values);
-	List<Object> extra = newArrayList();
-	int sizeOfActual = sizeOf(actual);
-	for (int i = 0; i < sizeOfActual; i++) {
-	  Object actualElement = Array.get(actual, i);
-	  if (!iterableContains(values, actualElement)) {
-		extra.add(actualElement);
-	  }
-	}
-	if (extra.size() > 0) {
-	  throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
-	}
+    assertNotNull(info, actual);
+    checkIterableIsNotNull(info, values);
+    List<Object> extra = newArrayList();
+    int sizeOfActual = sizeOf(actual);
+    for (int i = 0; i < sizeOfActual; i++) {
+      Object actualElement = Array.get(actual, i);
+      if (!iterableContains(values, actualElement)) {
+        extra.add(actualElement);
+      }
+    }
+    if (extra.size() > 0) {
+      throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
+    }
   }
 
   void assertContainsNull(AssertionInfo info, Failures failures, Object array) {
-	assertNotNull(info, array);
-	if (!arrayContains(array, null)) throw failures.failure(info, shouldContainNull(array));
+    assertNotNull(info, array);
+    if (!arrayContains(array, null)) throw failures.failure(info, shouldContainNull(array));
   }
 
   void assertDoesNotContainNull(AssertionInfo info, Failures failures, Object array) {
-	assertNotNull(info, array);
-	if (arrayContains(array, null)) throw failures.failure(info, shouldNotContainNull(array));
+    assertNotNull(info, array);
+    if (arrayContains(array, null)) throw failures.failure(info, shouldNotContainNull(array));
   }
 
   public <E> void assertAre(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                        Condition<E> condition) {
-	List<E> notMatchingCondition = getElementsNotMatchingCondition(info, failures, conditions, array, condition);
-	if (!notMatchingCondition.isEmpty())
-	  throw failures.failure(info, elementsShouldBe(array, notMatchingCondition, condition));
+                            Condition<E> condition) {
+    List<E> notMatchingCondition = getElementsNotMatchingCondition(info, failures, conditions, array, condition);
+    if (!notMatchingCondition.isEmpty())
+      throw failures.failure(info, elementsShouldBe(array, notMatchingCondition, condition));
   }
 
   public <E> void assertAreNot(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                           Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (!matchingElements.isEmpty())
-	  throw failures.failure(info, elementsShouldNotBe(array, matchingElements, condition));
+                               Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (!matchingElements.isEmpty())
+      throw failures.failure(info, elementsShouldNotBe(array, matchingElements, condition));
   }
 
   public <E> void assertHave(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                         Condition<E> condition) {
-	List<E> notMatchingCondition = getElementsNotMatchingCondition(info, failures, conditions, array, condition);
-	if (!notMatchingCondition.isEmpty())
-	  throw failures.failure(info, elementsShouldHave(array, notMatchingCondition, condition));
+                             Condition<E> condition) {
+    List<E> notMatchingCondition = getElementsNotMatchingCondition(info, failures, conditions, array, condition);
+    if (!notMatchingCondition.isEmpty())
+      throw failures.failure(info, elementsShouldHave(array, notMatchingCondition, condition));
   }
 
   public <E> void assertHaveNot(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                            Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (!matchingElements.isEmpty())
-	  throw failures.failure(info, elementsShouldNotHave(array, matchingElements, condition));
+                                Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (!matchingElements.isEmpty())
+      throw failures.failure(info, elementsShouldNotHave(array, matchingElements, condition));
   }
 
   public <E> void assertAreAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                               int times, Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() < times)
-	  throw failures.failure(info, elementsShouldBeAtLeast(array, times, condition));
+                                   int times, Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (matchingElements.size() < times)
+      throw failures.failure(info, elementsShouldBeAtLeast(array, times, condition));
   }
 
   public <E> void assertAreAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                              int times, Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() > times) throw failures.failure(info, elementsShouldBeAtMost(array, times, condition));
+                                  int times, Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (matchingElements.size() > times) throw failures.failure(info, elementsShouldBeAtMost(array, times, condition));
   }
 
   public <E> void assertAreExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                               int times, Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() != times)
-	  throw failures.failure(info, elementsShouldBeExactly(array, times, condition));
+                                   int times, Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (matchingElements.size() != times)
+      throw failures.failure(info, elementsShouldBeExactly(array, times, condition));
   }
 
   public <E> void assertHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                                int times, Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() < times)
-	  throw failures.failure(info, elementsShouldHaveAtLeast(array, times, condition));
+                                    int times, Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (matchingElements.size() < times)
+      throw failures.failure(info, elementsShouldHaveAtLeast(array, times, condition));
 
   }
 
   public <E> void assertHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                               int times, Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() > times)
-	  throw failures.failure(info, elementsShouldHaveAtMost(array, times, condition));
+                                   int times, Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (matchingElements.size() > times)
+      throw failures.failure(info, elementsShouldHaveAtMost(array, times, condition));
 
   }
 
   public <E> void assertHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                                int times, Condition<E> condition) {
-	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() != times)
-	  throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
+                                    int times, Condition<E> condition) {
+    List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
+    if (matchingElements.size() != times)
+      throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
   }
 
   private <E> List<E> getElementsMatchingCondition(AssertionInfo info, Failures failures, Conditions conditions,
-	                                               Object array, Condition<E> condition) {
-	return filterElements(info, failures, conditions, array, condition, false);
+                                                   Object array, Condition<E> condition) {
+    return filterElements(info, failures, conditions, array, condition, false);
   }
 
   private <E> List<E> getElementsNotMatchingCondition(AssertionInfo info, Failures failures, Conditions conditions,
-	                                                  Object array, Condition<E> condition) {
-	return filterElements(info, failures, conditions, array, condition, true);
+                                                      Object array, Condition<E> condition) {
+    return filterElements(info, failures, conditions, array, condition, true);
   }
 
   @SuppressWarnings("unchecked")
   private <E> List<E> filterElements(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-	                                 Condition<E> condition, boolean negateCondition) throws AssertionError {
-	assertNotNull(info, array);
-	conditions.assertIsNotNull(condition);
-	try {
-	  List<E> filteredElements = new LinkedList<>();
-	  int arraySize = sizeOf(array);
-	  for (int i = 0; i < arraySize; i++) {
-		E element = (E) Array.get(array, i);
-		if (negateCondition ? !condition.matches(element) : condition.matches(element)) filteredElements.add(element);
-	  }
-	  return filteredElements;
-	} catch (ClassCastException e) {
-	  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
-	}
+                                     Condition<E> condition, boolean negateCondition) throws AssertionError {
+    assertNotNull(info, array);
+    conditions.assertIsNotNull(condition);
+    try {
+      List<E> filteredElements = new LinkedList<>();
+      int arraySize = sizeOf(array);
+      for (int i = 0; i < arraySize; i++) {
+        E element = (E) Array.get(array, i);
+        if (negateCondition ? !condition.matches(element) : condition.matches(element)) filteredElements.add(element);
+      }
+      return filteredElements;
+    } catch (ClassCastException e) {
+      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
+    }
   }
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
-	assertNotNull(info, array);
-	if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-	  // instead of comparing array elements with their natural comparator, use the one set by client.
-	  Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
-	  assertIsSortedAccordingToComparator(info, failures, array, comparator);
-	  return;
-	}
-	// empty arrays are considered sorted even if component type is not sortable.
-	if (sizeOf(array) == 0) return;
-	assertThatArrayComponentTypeIsSortable(info, failures, array);
-	try {
-	  // sorted assertion is only relevant if array elements are Comparable
-	  // => we should be able to build a Comparable array
-	  Comparable<Object>[] comparableArray = arrayOfComparableItems(array);
-	  // array with 0 or 1 element are considered sorted.
-	  if (comparableArray.length <= 1) return;
-	  for (int i = 0; i < comparableArray.length - 1; i++) {
-		// array is sorted in ascending order iif element i is less or equal than element i+1
-		if (comparableArray[i].compareTo(comparableArray[i + 1]) > 0)
-		  throw failures.failure(info, shouldBeSorted(i, array));
-	  }
-	} catch (ClassCastException e) {
-	  // elements are either not Comparable or not mutually Comparable (e.g. array with String and Integer)
-	  throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
-	}
+    assertNotNull(info, array);
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      // instead of comparing array elements with their natural comparator, use the one set by client.
+      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+      assertIsSortedAccordingToComparator(info, failures, array, comparator);
+      return;
+    }
+    // empty arrays are considered sorted even if component type is not sortable.
+    if (sizeOf(array) == 0) return;
+    assertThatArrayComponentTypeIsSortable(info, failures, array);
+    try {
+      // sorted assertion is only relevant if array elements are Comparable
+      // => we should be able to build a Comparable array
+      Comparable<Object>[] comparableArray = arrayOfComparableItems(array);
+      // array with 0 or 1 element are considered sorted.
+      if (comparableArray.length <= 1) return;
+      for (int i = 0; i < comparableArray.length - 1; i++) {
+        // array is sorted in ascending order iif element i is less or equal than element i+1
+        if (comparableArray[i].compareTo(comparableArray[i + 1]) > 0)
+          throw failures.failure(info, shouldBeSorted(i, array));
+      }
+    } catch (ClassCastException e) {
+      // elements are either not Comparable or not mutually Comparable (e.g. array with String and Integer)
+      throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
+    }
   }
 
   // is static to avoid "generify" Arrays
   static <T> void assertIsSortedAccordingToComparator(AssertionInfo info, Failures failures, Object array,
-	                                                  Comparator<T> comparator) {
-	assertNotNull(info, array);
-	checkNotNull(comparator, "The given comparator should not be null");
-	try {
-	  List<T> arrayAsList = asList(array);
-	  // empty arrays are considered sorted even if comparator can't be applied to <T>.
-	  if (arrayAsList.size() == 0) return;
-	  if (arrayAsList.size() == 1) {
-		// call compare to see if unique element is compatible with comparator.
-		comparator.compare(arrayAsList.get(0), arrayAsList.get(0));
-		return;
-	  }
-	  for (int i = 0; i < arrayAsList.size() - 1; i++) {
-		// array is sorted in comparator defined order iif element i is less or equal than element i+1
-		if (comparator.compare(arrayAsList.get(i), arrayAsList.get(i + 1)) > 0)
-		  throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, array, comparator));
-	  }
-	} catch (ClassCastException e) {
-	  throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(array, comparator));
-	}
+                                                      Comparator<T> comparator) {
+    assertNotNull(info, array);
+    checkNotNull(comparator, "The given comparator should not be null");
+    try {
+      List<T> arrayAsList = asList(array);
+      // empty arrays are considered sorted even if comparator can't be applied to <T>.
+      if (arrayAsList.size() == 0) return;
+      if (arrayAsList.size() == 1) {
+        // call compare to see if unique element is compatible with comparator.
+        comparator.compare(arrayAsList.get(0), arrayAsList.get(0));
+        return;
+      }
+      for (int i = 0; i < arrayAsList.size() - 1; i++) {
+        // array is sorted in comparator defined order iif element i is less or equal than element i+1
+        if (comparator.compare(arrayAsList.get(i), arrayAsList.get(i + 1)) > 0)
+          throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, array, comparator));
+      }
+    } catch (ClassCastException e) {
+      throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(array, comparator));
+    }
   }
 
   @SuppressWarnings("unchecked")
   private static <T> List<T> asList(Object array) {
-	if (array == null) return null;
-	if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
-	int length = getLength(array);
-	List<T> list = new ArrayList<>(length);
-	for (int i = 0; i < length; i++) {
-	  list.add((T) Array.get(array, i));
-	}
-	return list;
+    if (array == null) return null;
+    if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
+    int length = getLength(array);
+    List<T> list = new ArrayList<>(length);
+    for (int i = 0; i < length; i++) {
+      list.add((T) Array.get(array, i));
+    }
+    return list;
   }
 
   @SuppressWarnings("unchecked")
   private static Comparable<Object>[] arrayOfComparableItems(Object array) {
-	ArrayWrapperList arrayWrapperList = wrap(array);
-	Comparable<Object>[] arrayOfComparableItems = new Comparable[arrayWrapperList.size()];
-	for (int i = 0; i < arrayWrapperList.size(); i++) {
-	  arrayOfComparableItems[i] = (Comparable<Object>) arrayWrapperList.get(i);
-	}
-	return arrayOfComparableItems;
+    ArrayWrapperList arrayWrapperList = wrap(array);
+    Comparable<Object>[] arrayOfComparableItems = new Comparable[arrayWrapperList.size()];
+    for (int i = 0; i < arrayWrapperList.size(); i++) {
+      arrayOfComparableItems[i] = (Comparable<Object>) arrayWrapperList.get(i);
+    }
+    return arrayOfComparableItems;
   }
 
   private static void assertThatArrayComponentTypeIsSortable(AssertionInfo info, Failures failures, Object array) {
-	ArrayWrapperList arrayAsList = wrap(array);
-	Class<?> arrayComponentType = arrayAsList.getComponentType();
-	if (arrayComponentType.isPrimitive()) return;
-	if (!Comparable.class.isAssignableFrom(arrayComponentType))
-	  throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
+    ArrayWrapperList arrayAsList = wrap(array);
+    Class<?> arrayComponentType = arrayAsList.getComponentType();
+    if (arrayComponentType.isPrimitive()) return;
+    if (!Comparable.class.isAssignableFrom(arrayComponentType))
+      throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
   }
 
   private static void checkIsNotNullAndNotEmpty(Object values) {
-	checkIsNotNull(values);
-	if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
+    checkIsNotNull(values);
+    if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
   }
 
   private static void checkIsNotNull(Object values) {
-	if (values == null) throw arrayOfValuesToLookForIsNull();
+    if (values == null) throw arrayOfValuesToLookForIsNull();
   }
 
   private static boolean isArrayEmpty(Object array) {
-	return sizeOf(array) == 0;
+    return sizeOf(array) == 0;
   }
 
   private AssertionError arrayDoesNotEndWithSequence(AssertionInfo info, Failures failures, Object array,
-	                                                 Object sequence) {
-	return failures.failure(info, shouldEndWith(array, sequence, comparisonStrategy));
+                                                     Object sequence) {
+    return failures.failure(info, shouldEndWith(array, sequence, comparisonStrategy));
   }
 
   private static void assertNotNull(AssertionInfo info, Object array) {
-	Objects.instance().assertNotNull(info, array);
+    Objects.instance().assertNotNull(info, array);
   }
 
   private static int sizeOf(Object array) {
-	if (array instanceof Object[]) return ((Object[]) array).length;
-	return Array.getLength(array);
+    if (array instanceof Object[]) return ((Object[]) array).length;
+    return Array.getLength(array);
   }
 
   private static void failIfEmptySinceActualIsNotEmpty(Object values) {
-	if (isArrayEmpty(values)) throw new AssertionError("actual is not empty while group of values to look for is.");
+    if (isArrayEmpty(values)) throw new AssertionError("actual is not empty while group of values to look for is.");
   }
 
 }

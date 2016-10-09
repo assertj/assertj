@@ -14,6 +14,7 @@ package org.assertj.core.api.doublearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.withPrecision;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
@@ -44,15 +45,24 @@ public class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBas
     double[] actual = arrayOf(1.0, 2.0);
     // THEN
     assertThat(actual).containsExactly(arrayOf(1.01, 2.0), withPrecision(0.1));
+    assertThat(actual).containsExactly(arrayOf(1.01, 2.0), withPrecision(0.1));
   }
-
+  
+  @Test
+  public void should_pass_when_multiple_expected_values_are_the_same_according_to_the_given_precision() {
+    // GIVEN
+    double[] actual = arrayOf(-1.71, -1.51, -1.51);
+    // THEN
+    assertThat(actual).containsExactly(arrayOf(-1.7, -1.6, -1.4101), within(0.1));
+  }
+  
   @Test
   public void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
-    double[] actual = arrayOf(1.0, 2.0);
+    double[] actual = arrayOf(1.0, 2.0, 2.0, 2.09);
     // THEN
     assertThat(actual).usingComparatorWithPrecision(0.1)
-                      .containsExactly(1.01, 2.0);
+                      .containsExactly(1.01, 2.0, 2.0, 2.0);
   }
 
 }

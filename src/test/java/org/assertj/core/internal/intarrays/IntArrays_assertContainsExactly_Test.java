@@ -37,61 +37,67 @@ public class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly() {
-	arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8, 10));
+    arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
   @Test
+  public void should_pass_if_actual_contains_given_values_exactly_with_duplicate_elements() {
+    actual = arrayOf(6, 8, 8);
+    arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8, 8));
+  }
+  
+  @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
-	arrays.assertContainsExactly(someInfo(), emptyArray(), emptyArray());
+    arrays.assertContainsExactly(someInfo(), emptyArray(), emptyArray());
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
-	AssertionInfo info = someInfo();
-	try {
-	  arrays.assertContainsExactly(info, actual, arrayOf(6, 10, 8));
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, elementsDifferAtIndex(8, 10, 1));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    try {
+      arrays.assertContainsExactly(info, actual, arrayOf(6, 10, 8));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, elementsDifferAtIndex(8, 10, 1));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-	thrown.expect(AssertionError.class);
-	arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8));
+    thrown.expect(AssertionError.class);
+    arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8));
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-	thrown.expect(AssertionError.class);
-	arrays.assertContainsExactly(someInfo(), actual, emptyArray());
+    thrown.expect(AssertionError.class);
+    arrays.assertContainsExactly(someInfo(), actual, emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-	thrown.expectNullPointerException(valuesToLookForIsNull());
-	arrays.assertContainsExactly(someInfo(), actual, null);
+    thrown.expectNullPointerException(valuesToLookForIsNull());
+    arrays.assertContainsExactly(someInfo(), actual, null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	arrays.assertContainsExactly(someInfo(), null, arrayOf(8));
+    thrown.expectAssertionError(actualIsNull());
+    arrays.assertContainsExactly(someInfo(), null, arrayOf(8));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
-	AssertionInfo info = someInfo();
-	int[] expected = { 6, 8, 20 };
-	try {
-	  arrays.assertContainsExactly(info, actual, expected);
-	} catch (AssertionError e) {
+    AssertionInfo info = someInfo();
+    int[] expected = { 6, 8, 20 };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList(20), newArrayList(10)));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -114,53 +120,53 @@ public class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, arrayOf(6, -8, 10));
+    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
-	AssertionInfo info = someInfo();
-	int[] expected = { -6, 10, 8 };
-	try {
-	  arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, elementsDifferAtIndex(8, 10, 1, absValueComparisonStrategy));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    int[] expected = { -6, 10, 8 };
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, elementsDifferAtIndex(8, 10, 1, absValueComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-	thrown.expect(AssertionError.class);
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray());
+    thrown.expect(AssertionError.class);
+    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-	thrown.expectNullPointerException(valuesToLookForIsNull());
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, null);
+    thrown.expectNullPointerException(valuesToLookForIsNull());
+    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, null);
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-	thrown.expectAssertionError(actualIsNull());
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8));
+    thrown.expectAssertionError(actualIsNull());
+    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
-	AssertionInfo info = someInfo();
-	int[] expected = { 6, -8, 20 };
-	try {
-	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
-	} catch (AssertionError e) {
+    AssertionInfo info = someInfo();
+    int[] expected = { 6, -8, 20 };
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
       verify(failures).failure(info,
                                shouldContainExactly(actual, expected, newArrayList(20), newArrayList(10),
                                                     absValueComparisonStrategy));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

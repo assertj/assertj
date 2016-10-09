@@ -14,6 +14,7 @@ package org.assertj.core.api.doublearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.withPrecision;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
 
 import org.assertj.core.api.DoubleArrayAssert;
@@ -43,7 +44,7 @@ public class DoubleArrayAssert_containsOnly_Test extends DoubleArrayAssertBaseTe
   public void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
-    // THEN 
+    // THEN
     assertThat(actual).containsOnly(arrayOf(1.01, 2.0), withPrecision(0.1));
   }
 
@@ -54,6 +55,31 @@ public class DoubleArrayAssert_containsOnly_Test extends DoubleArrayAssertBaseTe
     // THEN
     assertThat(actual).usingComparatorWithPrecision(0.1)
                       .containsOnly(1.01, 2.0);
+  }
+
+  @Test
+  public void should_pass_when_multiple_expected_values_are_the_same_according_to_the_given_precision() {
+    // GIVEN
+    double[] actual = arrayOf(-1.71, -1.51, -1.51);
+    // THEN
+    assertThat(actual).containsOnly(arrayOf(-1.7, -1.6), within(0.1));
+  }
+
+  @Test
+  public void should_pass_even_if_multiple_expected_values_are_the_same_according_to_the_given_precision() {
+    // GIVEN
+    double[] actual = arrayOf(-1.71, -1.51);
+    // THEN
+    assertThat(actual).containsOnly(arrayOf(-1.7, -1.6), within(0.1));
+  }
+
+  @Test
+  public void should_pass_when_multiple_expected_values_are_the_same() {
+    // GIVEN
+    double[] actual = arrayOf(-1.71, -1.71);
+    // THEN
+    assertThat(actual).containsOnly(arrayOf(-1.71, -1.71));
+    assertThat(actual).containsOnly(arrayOf(-1.71));
   }
 
 }
