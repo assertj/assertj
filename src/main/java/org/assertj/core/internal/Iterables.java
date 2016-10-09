@@ -55,12 +55,11 @@ import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -245,13 +244,6 @@ public class Iterables {
   }
 
   /**
-   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
-   */
-  private void iterableRemoves(Iterable<?> actual, Object value) {
-    comparisonStrategy.iterableRemoves(actual, value);
-  }
-
-  /**
    * Delegates to {@link ComparisonStrategy#iterablesRemoveFirst(Iterable, Object)}
    */
   private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
@@ -271,47 +263,13 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
-      return;
-    // check for elements in values that are missing in actual.
-    List<Object> notExpected = asListWithoutDuplicatesAccordingToComparisonStrategy(actual);
-    List<Object> notFound = containsOnly(notExpected, values);
-    if (!notExpected.isEmpty() || !notFound.isEmpty())
-      throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
-  }
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
 
-  private List<Object> containsOnly(Collection<Object> actual, Object[] values) {
-    List<Object> list = new ArrayList<>();
-    for (Object o : listWithoutDuplicates(values)) {
-      if (iterableContains(actual, o)) {
-        iterableRemoves(actual, o);
-      } else {
-        list.add(o);
-      }
-    }
-    return list;
-  }
-
-  private List<Object> listWithoutDuplicates(Object... elements) {
-    return elements == null ? null : asListWithoutDuplicatesAccordingToComparisonStrategy(asList(elements));
-  }
-
-  /**
-   * build a Set with that avoid duplicates <b>according to given comparison strategy</b>
-   *
-   * @param iterable to feed the Set we want to build
-   * @return a Set without duplicates <b>according to given comparison strategy</b>
-   */
-  private List<Object> asListWithoutDuplicatesAccordingToComparisonStrategy(Iterable<?> iterable) {
-    if (iterable == null) return null;
-    List<Object> list = new ArrayList<>();
-    for (Object e : iterable) {
-      // only add is not already there
-      if (!iterableContains(list, e)) {
-        list.add(e);
-      }
-    }
-    return list;
+    IterableDiff diff = diff(newArrayList(actual), asList(values), comparisonStrategy);
+    if (diff.differencesFound())
+      throw failures.failure(info, shouldContainOnly(actual, values,
+                                                     diff.missing, diff.unexpected,
+                                                     comparisonStrategy));
   }
 
   /**
@@ -858,10 +816,11 @@ public class Iterables {
     if (values.length != actualSize)
       throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, values.length, comparisonStrategy));
     assertHasSameSizeAs(info, actual, values); // include check that actual is not null
-    List<Object> notExpected = asListWithoutDuplicatesAccordingToComparisonStrategy(actual);
-    List<Object> notFound = containsOnly(notExpected, values);
-    if (notExpected.isEmpty() && notFound.isEmpty()) {
-      // actual and values have the same elements but are they in the same order.
+
+    List<Object> actualAsList = newArrayList(actual);
+    IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
+    if (!diff.differencesFound()) {
+      // actual and values have the same elements but are they in the same order ?
       int i = 0;
       for (Object elementFromActual : actual) {
         if (!areEqual(elementFromActual, values[i])) {
@@ -871,7 +830,8 @@ public class Iterables {
       }
       return;
     }
-    throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
+    throw failures.failure(info,
+                           shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
   }
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {

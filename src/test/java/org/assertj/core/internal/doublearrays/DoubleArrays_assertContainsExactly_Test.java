@@ -41,6 +41,12 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   }
 
   @Test
+  public void should_pass_if_actual_contains_given_values_exactly_with_duplicates() {
+    actual = arrayOf(6d, 8d, 8d);
+    arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 8d, 8d));
+  }
+  
+  @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactly(someInfo(), emptyArray(), emptyArray());
   }
@@ -114,7 +120,8 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, arrayOf(6d, -8d, 10d));
+    actual = arrayOf(6, -8, 8);
+    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, arrayOf(6d, -8d, 8d));
   }
 
   @Test

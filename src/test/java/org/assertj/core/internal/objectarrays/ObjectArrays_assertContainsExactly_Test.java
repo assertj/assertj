@@ -38,83 +38,89 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
 
   @Test
   public void should_pass_if_actual_contains_exactly_given_values() {
-	arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
+    arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
-	actual = array("Luke", "Yoda", "Leia", null);
-	arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia", null));
+    actual = array("Luke", "Yoda", "Leia", null);
+    arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia", null));
   }
 
   @Test
+  public void should_pass_if_actual_contains_given_values_exactly_with_duplicate_elements() {
+    actual = array("Luke", "Yoda", "Yoda");
+    arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Yoda"));
+  }
+  
+  @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
-	arrays.assertContainsExactly(someInfo(), array(), array());
+    arrays.assertContainsExactly(someInfo(), array(), array());
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-	thrown.expect(AssertionError.class);
-	arrays.assertContainsExactly(someInfo(), actual, array());
+    thrown.expect(AssertionError.class);
+    arrays.assertContainsExactly(someInfo(), actual, array());
   }
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-	thrown.expect(AssertionError.class);
-	arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda"));
+    thrown.expect(AssertionError.class);
+    arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda"));
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-	thrown.expectNullPointerException(valuesToLookForIsNull());
-	arrays.assertContainsExactly(someInfo(), actual, null);
+    thrown.expectNullPointerException(valuesToLookForIsNull());
+    arrays.assertContainsExactly(someInfo(), actual, null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	arrays.assertContainsExactly(someInfo(), null, array("Yoda"));
+    thrown.expectAssertionError(actualIsNull());
+    arrays.assertContainsExactly(someInfo(), null, array("Yoda"));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
-	AssertionInfo info = someInfo();
-	Object[] expected = { "Luke", "Yoda", "Han" };
-	try {
-	  arrays.assertContainsExactly(info, actual, expected);
-	} catch (AssertionError e) {
+    AssertionInfo info = someInfo();
+    Object[] expected = { "Luke", "Yoda", "Han" };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_in_different_order() {
-	AssertionInfo info = someInfo();
-	Object[] expected = { "Luke", "Leia", "Yoda" };
-	try {
-	  arrays.assertContainsExactly(info, actual, expected);
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    Object[] expected = { "Luke", "Leia", "Yoda" };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
-	AssertionInfo info = someInfo();
-	actual = array("Luke", "Leia", "Luke");
-	Object[] expected = { "Luke", "Leia" };
-	try {
-	  arrays.assertContainsExactly(info, actual, expected);
-	} catch (AssertionError e) {
+    AssertionInfo info = someInfo();
+    actual = array("Luke", "Leia", "Luke");
+    Object[] expected = { "Luke", "Leia" };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
       verify(failures).failure(info,
                                shouldHaveSameSize(actual, expected, 3, 2, StandardComparisonStrategy.instance()));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -123,35 +129,35 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
-	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
-	                                                         array("LUKE", "YODA", "Leia"));
+    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
+                                                             array("LUKE", "YODA", "Leia"));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
-	AssertionInfo info = someInfo();
-	Object[] expected = { "Luke", "Yoda", "Han" };
-	try {
-	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
-	} catch (AssertionError e) {
+    AssertionInfo info = someInfo();
+    Object[] expected = { "Luke", "Yoda", "Han" };
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-		                                                  caseInsensitiveStringComparisonStrategy));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+                                                          caseInsensitiveStringComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
-	AssertionInfo info = someInfo();
-	Object[] expected = { "Luke", "Leia", "Yoda" };
-	try {
-	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1, caseInsensitiveStringComparisonStrategy));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    Object[] expected = { "Luke", "Leia", "Yoda" };
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1, caseInsensitiveStringComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
