@@ -929,6 +929,32 @@ public class Assertions {
     StandardRepresentation.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
   }
 
+  /**
+   * In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the
+   * in the description.
+   *
+   * E.q. When this method is called with a value of {@code 3}.
+   * <p>
+   * The following array will be formatted entirely as it's length is <= 3:
+   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
+   *
+   * // formatted as:
+   *
+   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
+   *
+   * whereas this array is formatted only with it's first 3 elements, followed by {@code ...}:
+   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!");
+   *
+   * // formatted as:
+   *
+   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", ...]</code></pre>
+   *
+   * @param maxElementsForPrinting the maximum elements that would be printed from one iterable/array/map
+   */
+  public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
+    StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
+  }
+
   // ------------------------------------------------------------------------------------------------------
   // properties methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------

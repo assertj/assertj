@@ -58,6 +58,8 @@ public class StandardRepresentation implements Representation {
   private static final String DEFAULT_START = "[";
   private static final String DEFAULT_END = "]";
 
+  private static final String DEFAULT_MAX_ELEMENTS_EXCEEDED = "...";
+
   // 4 spaces indentation : 2 space indentation after new line + '<' + '['
   static final String INDENTATION_AFTER_NEWLINE = "    ";
   // used when formatting iterable to a single line
@@ -68,9 +70,30 @@ public class StandardRepresentation implements Representation {
 
   static int maxLengthForSingleLineDescription = 80;
 
+  private static int maxElementsForPrinting = 1000;
+
+  /**
+   * It resets the static defaults for the standard representation.
+   *
+   * The following defaults will be reapplied:
+   * <ul>
+   *     <li> {@code maxLengthForSingleLineDescription = 80}</li>
+   *     <li> {@code maxElementsForPrinting = 1000}</li>
+   * </ul>
+   */
+  public static void resetDefaults() {
+    maxLengthForSingleLineDescription = 80;
+    maxElementsForPrinting = 1000;
+  }
+
   public static void setMaxLengthForSingleLineDescription(int value) {
     checkArgument(value <= 0, "maxLengthForSingleLineDescription must be > 0 but was %s", value);
     maxLengthForSingleLineDescription = value;
+  }
+
+  public static void setMaxElementsForPrinting(int value) {
+    checkArgument(value >= 1, "maxElementsForPrinting must be >= 1, but was %s", value);
+    maxElementsForPrinting = value;
   }
 
   /**
@@ -165,9 +188,15 @@ public class StandardRepresentation implements Representation {
     Iterator<?> entriesIterator = sortedMap.entrySet().iterator();
     if (!entriesIterator.hasNext()) return "{}";
     StringBuilder builder = new StringBuilder("{");
+    int printedElements = 0;
     for (;;) {
       Entry<?, ?> entry = (Entry<?, ?>) entriesIterator.next();
+      if (printedElements == maxElementsForPrinting) {
+        builder.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
+        return builder.append("}").toString();
+      }
       builder.append(format(map, entry.getKey())).append('=').append(format(map, entry.getValue()));
+      printedElements++;
       if (!entriesIterator.hasNext()) return builder.append("}").toString();
       builder.append(", ");
     }
@@ -234,6 +263,11 @@ public class StandardRepresentation implements Representation {
       Object element = array[i];
       // do not indent first element
       if (i != 0) desc.append(indentation);
+      if (i == maxElementsForPrinting) {
+        desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
+        alreadyFormatted.remove(array);
+        return desc.append(DEFAULT_END).toString();
+      }
       // add element representation
       if (!isArray(element)) desc.append(element == null ? NULL : toStringOf(element));
       else if (isArrayTypePrimitive(element)) desc.append(formatPrimitiveArray(element));
@@ -260,8 +294,13 @@ public class StandardRepresentation implements Representation {
     buffer.append(toStringOf(Array.get(o, 0)));
     for (int i = 1; i < size; i++) {
       buffer.append(ELEMENT_SEPARATOR)
-            .append(INDENTATION_FOR_SINGLE_LINE)
-            .append(toStringOf(Array.get(o, i)));
+            .append(INDENTATION_FOR_SINGLE_LINE);
+      if (i == maxElementsForPrinting) {
+        buffer.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
+        break;
+      }
+
+      buffer.append(toStringOf(Array.get(o, i)));
     }
     buffer.append(DEFAULT_END);
     return buffer.toString();
@@ -274,13 +313,19 @@ public class StandardRepresentation implements Representation {
     // iterable has some elements
     StringBuilder desc = new StringBuilder(start);
     boolean firstElement = true;
+    int printedElements = 0;
     while (true) {
       Object element = iterator.next();
       // do not indent first element
       if (firstElement) firstElement = false;
       else desc.append(indentation);
       // add element representation
+      if (printedElements == maxElementsForPrinting) {
+        desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
+        return desc.append(end).toString();
+      }
       desc.append(element == iterable ? "(this Collection)" : toStringOf(element));
+      printedElements++;
       // manage end description
       if (!iterator.hasNext()) return desc.append(end).toString();
       // there are still elements to be describe

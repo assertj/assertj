@@ -30,7 +30,7 @@ import org.junit.Test;
  * @author Alex Ruiz
  * @author gabga
  */
-public class StandardRepresentation_map_format_Test {
+public class StandardRepresentation_map_format_Test extends AbstractBaseRepresentationTest {
 
   @Test
   public void should_return_null_if_Map_is_null() {
@@ -49,6 +49,16 @@ public class StandardRepresentation_map_format_Test {
     map.put("One", String.class);
     map.put("Two", File.class);
     assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
+  }
+
+  @Test
+  public void should_format_Map_up_to_the_maximum_allowed_elements() {
+    Map<Character, Integer> map = new HashMap<>();
+    map.put('C', 3);
+    map.put('B', 2);
+    map.put('A', 1);
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{'A'=1, 'B'=2, ...}");
   }
 
   @Test

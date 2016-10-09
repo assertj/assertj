@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Strings.quote;
 
-import org.assertj.core.presentation.HexadecimalRepresentation;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class StandardRepresentation_array_format_Test {
+public class StandardRepresentation_array_format_Test extends AbstractBaseRepresentationTest {
 
   @Test
   public void should_return_null_if_array_is_null() {
@@ -82,6 +82,13 @@ public class StandardRepresentation_array_format_Test {
   }
 
   @Test
+  public void should_format_primitive_array_up_to_the_maximum_allowed_elements() {
+    Object array = new int[] { 1, 2, 3, 4 };
+    StandardRepresentation.setMaxElementsForPrinting(3);
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[1, 2, 3, ...]");
+  }
+
+  @Test
   public void should_format_long_array() {
     Object array = new long[] { 160l, 98l };
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[160L, 98L]");
@@ -133,6 +140,13 @@ public class StandardRepresentation_array_format_Test {
     Object[] array2 = { array1 };
     array1[1] = array2;
     assertThat(STANDARD_REPRESENTATION.formatArray(array2)).isEqualTo("[[\"Hello\", (this array)]]");
+  }
+
+  @Test
+  public void should_format_array_up_to_the_maximum_allowed_elements() {
+    StandardRepresentation.setMaxElementsForPrinting(3);
+    Object[] array = { "First", "Second", "Third", "Fourth" };
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"First\", \"Second\", \"Third\", ...]");
   }
 
   private static class Person {
