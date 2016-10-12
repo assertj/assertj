@@ -16,6 +16,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -450,6 +452,14 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_assertThat_file_Test() {
     assertThat(new File(".")).isNotNull();
+  }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThat_path_Test() {
+    assertThat(Paths.get(".")).isNotNull();
   }
 
   /**
