@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -332,6 +333,13 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(File)}
    */
   default AbstractFileAssert<?> assertThat(final File actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Path)}
+   */
+  default AbstractPathAssert<?> assertThat(final Path actual) {
     return Assertions.assertThat(actual);
   }
 
