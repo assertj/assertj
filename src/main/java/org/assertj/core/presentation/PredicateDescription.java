@@ -19,8 +19,6 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.function.Predicate;
 
-import org.assertj.core.util.Objects;
-
 /**
  * Encapsulate a {@link Predicate} description to be able to control how it is formatted in error messages using a
  * {@link Representation}.

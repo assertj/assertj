@@ -19,7 +19,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.DoublePredicate;
-import java.util.function.Predicate;
 
 import org.assertj.core.api.DoublePredicateAssert;
 import org.assertj.core.api.DoublePredicateAssertBaseTest;
@@ -41,7 +40,6 @@ public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBas
   @Test
   public void should_fail_when_predicate_does_not_accept_all_values() {
     DoublePredicate predicate = val -> val <= 2;
-    Predicate<Double> wrapPredicate = predicate::test;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
     thrown.expectAssertionError(elementsShouldMatch(matchValues, 3D, PredicateDescription.GIVEN).create());
 

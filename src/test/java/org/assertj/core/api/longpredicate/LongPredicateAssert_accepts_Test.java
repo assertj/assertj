@@ -70,7 +70,6 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
   @Test
   public void should_fail_when_predicate_does_not_accept_values() {
     LongPredicate predicate = val -> val <= 2;
-    Predicate<Long> wrapPredicate = predicate::test;
     long[] matchValues = new long[] { 1L, 2L, 3L };
     thrown.expectAssertionError(elementsShouldMatch(matchValues, 3L, PredicateDescription.GIVEN).create());
 
