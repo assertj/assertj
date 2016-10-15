@@ -15,7 +15,12 @@ package org.assertj.core.api;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -33,6 +38,11 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
+import java.util.function.DoublePredicate;
+import java.util.function.Function;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -212,6 +222,22 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
+  public void withAssertions_assertThat_list_assert_class_Test() {
+    assertThat(Arrays.asList(ITEMS), ObjectAssert.class).first().isEqualTo(ITEMS[0]);
+  }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThat_list_assert_factory_Test() {
+    assertThat(Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
+  }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
   public void withAssertions_assertThat_stream_Test() {
     assertThat(Stream.of("")).hasSize(1);
   }
@@ -344,6 +370,22 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_assertThat_iterable_Test() {
     assertThat((Iterable<TestItem>) Arrays.asList(ITEMS)).contains(ITEMS[0]);
+  }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThat_iterable_assert_class_Test() {
+    assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), ObjectAssert.class).first().isEqualTo(ITEMS[0]);
+  }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThat_iterable_assert_factory_Test() {
+    assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
   }
 
   /**
@@ -718,4 +760,46 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     });
     assertThat(t).hasMessage("message");
   }
+
+  @Test
+  public void withAssertions_assertThat_predicate_Test() {
+    Predicate<Boolean> predicate = b -> b;
+    assertThat(predicate).accepts(true);
+  }
+
+  @Test
+  public void withAssertions_assertThat_intPredicate_Test() {
+    IntPredicate predicate = i -> i == 0;
+    assertThat(predicate).accepts(0);
+  }
+
+  @Test
+  public void withAssertions_assertThat_longPredicate_Test() {
+    LongPredicate predicate = l -> l == 0;
+    assertThat(predicate).accepts(0l);
+  }
+
+  @Test
+  public void withAssertions_assertThat_doublePredicate_Test() {
+    DoublePredicate predicate = d -> d > 0;
+    assertThat(predicate).accepts(1.0);
+  }
+
+  @Test
+  public void withAssertions_assertThat_url_Test() throws MalformedURLException {
+    assertThat(new URL("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
+  }
+
+  @Test
+  public void withAssertions_assertThat_uri_Test() throws URISyntaxException {
+    assertThat(new URI("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
+  }
+
+  @Test
+  public void withAssertions_assertThat_assertProvider_Test() throws URISyntaxException {
+    Predicate<Boolean> predicate = b -> b;
+    AssertProvider<Predicate> assertProvider = () -> predicate;
+    assertThat(new URI("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
+  }
 }
+
