@@ -13,17 +13,30 @@
 package org.assertj.core.api.comparable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 import java.math.BigInteger;
 
+import org.assertj.core.api.AbstractComparableAssertBaseTest;
+import org.assertj.core.api.ConcreteComparableAssert;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class AbstractComparableAssert_isBetween_Test {
+public class AbstractComparableAssert_isBetween_Test extends AbstractComparableAssertBaseTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
+
+  @Override
+  protected ConcreteComparableAssert invoke_api_method() {
+    return assertions.isBetween(6, 9);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), 6, 9, true, true);
+  }
 
   @Test
   public void succeds_if_actual_is_between_start_and_end() {
