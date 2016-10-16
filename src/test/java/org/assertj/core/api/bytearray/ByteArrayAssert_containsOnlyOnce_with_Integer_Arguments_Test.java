@@ -12,34 +12,26 @@
  */
 package org.assertj.core.api.bytearray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ByteArrays.arrayOf;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
-import org.assertj.core.test.IntArrays;
-import org.junit.Test;
+
+import static org.assertj.core.test.IntArrays.arrayOf;
+import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ByteArrayAssert#containsExactly(int...)}</code>.
+ * Tests for <code>{@link ByteArrayAssert#containsOnlyOnce(int...)}</code>.
+ * 
+ * @author Filip Hrisafov
  */
-public class ByteArrayAssert_containsExactly_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
-
-  @Test
-  public void invoke_api_like_user() {
-    assertThat(new byte[] { 1, 2, 3 }).containsExactly(1, 2, 3);
-  }
+public class ByteArrayAssert_containsOnlyOnce_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    when(arrays.toByteArray(IntArrays.arrayOf(1, 2))).thenReturn(arrayOf(1, 2));
-    return assertions.containsExactly(1, 2);
+    return assertions.containsOnlyOnce(6, 8);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
+    verify(arrays).assertContainsOnlyOnce(getInfo(assertions), getActual(assertions), arrayOf(6, 8));
   }
 }
