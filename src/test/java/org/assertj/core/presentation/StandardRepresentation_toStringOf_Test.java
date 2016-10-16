@@ -14,12 +14,14 @@ package org.assertj.core.presentation;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -30,6 +32,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.presentation.AbstractBaseRepresentationTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
@@ -37,7 +42,7 @@ import org.junit.Test;
  *
  * @author Joel Costigliola
  */
-public class StandardRepresentation_toStringOf_Test {
+public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationTest {
 
   @Test
   public void should_return_null_if_object_is_null() {
@@ -87,11 +92,29 @@ public class StandardRepresentation_toStringOf_Test {
   }
 
   @Test
+  public void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
+    List<Boolean[]> collection = newArrayList(array(true, false), array(true, false, true), array(true, true));
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true, false], [true, false, ...], ...]");
+  }
+
+  @Test
   public void should_return_toString_of_Collection_of_Collections() {
     Collection<List<String>> collection = new ArrayList<>();
     collection.add(newArrayList("s1", "s2"));
     collection.add(newArrayList("s3", "s4", "s5"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+  }
+
+  @Test
+  public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
+    Collection<List<String>> collection = new ArrayList<>();
+    collection.add(newArrayList("s1", "s2"));
+    collection.add(newArrayList("s3", "s4", "s5"));
+    collection.add(newArrayList("s6", "s7"));
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
+      .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
   }
 
   @Test
@@ -111,6 +134,13 @@ public class StandardRepresentation_toStringOf_Test {
   public void should_return_toString_of_array_of_arrays() {
     String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+  }
+
+  @Test
+  public void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
+    String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"), array("s6", "s7"));
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
   }
 
   @Test
@@ -167,6 +197,11 @@ public class StandardRepresentation_toStringOf_Test {
   public void toString_with_comparator_overriding_toString() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("'other String comparator'");
   }
+
+  @Test
+  public void toString_with_comparator_overriding_toString_and_having_at() {
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparatorWithAt())).isEqualTo("'other String comparator with @'");
+  }
   
   @Test
   public void should_format_longs_and_integers() {
@@ -192,6 +227,24 @@ public class StandardRepresentation_toStringOf_Test {
   @Test
   public void should_format_tuples() {
     assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, 3)");
+  }
+
+  @Test
+  public void should_format_tuples_up_to_the_maximum_allowed_elements() {
+    StandardRepresentation.setMaxElementsForPrinting(2);
+    assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, ...)");
+  }
+
+  @Test
+  public void should_format_simple_date_format() {
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+    assertThat(toStringOf(sdf)).isEqualTo("ddMMyyyy");
+  }
+
+  @Test
+  public void should_format_assertj_map_entry() {
+    MapEntry<String, Integer> entry = entry("A", 1);
+    assertThat(toStringOf(entry)).isEqualTo("MapEntry[key=\"A\", value=1]");
   }
 
   private String toStringOf(Object o) {

@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class StandardRepresentation_iterable_format_Test {
+public class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresentationTest {
 
   @Test
   public void should_return_null_if_iterable_is_null() {
@@ -57,7 +57,7 @@ public class StandardRepresentation_iterable_format_Test {
   }
 
   @Test
-  public void should_format_iterable_with_an_element_per_line() {
+  public void should_format_iterable_with_one_element_per_line() {
     String formatted = STANDARD_REPRESENTATION.multiLineFormat(asList("First", 3, "foo", "bar"));
     String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
@@ -65,6 +65,26 @@ public class StandardRepresentation_iterable_format_Test {
                                                        "    3,%n" +
                                                        "    \"foo\",%n" +
                                                        "    \"bar\"]>"));
+  }
+
+  @Test
+  public void should_format_iterable_up_to_the_maximum_allowed_elements_multi_line() {
+    StandardRepresentation.setMaxElementsForPrinting(3);
+    StandardRepresentation.setMaxLengthForSingleLineDescription(10);
+    String formatted = STANDARD_REPRESENTATION.smartFormat(asList("First", 3, "foo", "bar"));
+    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
+                                                       "  <[\"First\",%n" +
+                                                       "    3,%n" +
+                                                       "    \"foo\",%n" +
+                                                       "    ...]>"));
+  }
+
+  @Test
+  public void should_format_iterable_up_to_the_maximum_allowed_elements_single_line() {
+    StandardRepresentation.setMaxElementsForPrinting(3);
+    String formatted = STANDARD_REPRESENTATION.smartFormat(asList("First", 3, "foo", "bar"));
+    assertThat(formatted).isEqualTo("[\"First\", 3, \"foo\", ...]");
   }
 
   @Test

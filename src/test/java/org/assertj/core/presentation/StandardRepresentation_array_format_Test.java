@@ -12,20 +12,17 @@
  */
 package org.assertj.core.presentation;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Strings.quote;
 
-import org.assertj.core.presentation.HexadecimalRepresentation;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
  * Tests for <code>{@link StandardRepresentation#formatArray(org.assertj.core.presentation.Representation, Object)}</code>.
- * 
- * @author Alex Ruiz
  */
-public class StandardRepresentation_array_format_Test {
+public class StandardRepresentation_array_format_Test extends AbstractBaseRepresentationTest {
 
   @Test
   public void should_return_null_if_array_is_null() {
@@ -82,6 +79,13 @@ public class StandardRepresentation_array_format_Test {
   }
 
   @Test
+  public void should_format_primitive_array_up_to_the_maximum_allowed_elements() {
+    Object array = new int[] { 1, 2, 3, 4 };
+    StandardRepresentation.setMaxElementsForPrinting(3);
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[1, 2, 3, ...]");
+  }
+
+  @Test
   public void should_format_long_array() {
     Object array = new long[] { 160L, 98L };
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[160L, 98L]");
@@ -121,6 +125,14 @@ public class StandardRepresentation_array_format_Test {
   }
 
   @Test
+  public void should_format_Object_array_on_new_line_smart() {
+    StandardRepresentation.setMaxLengthForSingleLineDescription(11);
+    assertThat(STANDARD_REPRESENTATION.formatArray(new Object[] { "Hello",
+      new Person("Anakin") })).isEqualTo(format("[\"Hello\",%n"
+                                                + "    'Anakin']"));
+  }
+
+  @Test
   public void should_format_Object_array_that_has_primitive_array_as_element() {
     boolean booleans[] = { true, false };
     Object[] array = { "Hello", booleans };
@@ -133,6 +145,53 @@ public class StandardRepresentation_array_format_Test {
     Object[] array2 = { array1 };
     array1[1] = array2;
     assertThat(STANDARD_REPRESENTATION.formatArray(array2)).isEqualTo("[[\"Hello\", (this array)]]");
+  }
+
+  @Test
+  public void should_format_Object_array_having_empty_primitive_array() {
+    Object[] array = { "Hello", new int[] {} };
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"Hello\", []]");
+  }
+
+  @Test
+  public void should_format_Object_array_having_null_element() {
+    Object[] array = { "Hello", null };
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"Hello\", null]");
+  }
+
+  @Test
+  public void should_format_array_up_to_the_maximum_allowed_elements() {
+    StandardRepresentation.setMaxElementsForPrinting(3);
+    Object[] array = { "First", "Second", "Third", "Fourth" };
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"First\", \"Second\", \"Third\", ...]");
+  }
+
+  @Test
+  public void should_format_array_with_one_element_per_line() {
+    StandardRepresentation.setMaxLengthForSingleLineDescription(25);
+    Object[] array = { "1234567890", "1234567890", "1234567890", "1234567890" };
+    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
+                                                       "  <[\"1234567890\",%n" +
+                                                       "    \"1234567890\",%n" +
+                                                       "    \"1234567890\",%n" +
+                                                       "    \"1234567890\"]>"));
+  }
+
+  @Test
+  public void should_format_array_up_to_the_maximum_allowed_elements_and_max_line_length() {
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    StandardRepresentation.setMaxLengthForSingleLineDescription(25);
+    Object[] array = { "1234567890", "1234567890", "1234567890", "1234567890", "1234567890" };
+    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
+                                                       "  <[\"1234567890\",%n" +
+                                                       "    \"1234567890\",%n" +
+                                                       "    \"1234567890\",%n" +
+                                                       "    \"1234567890\",%n" +
+                                                       "    ...]>"));
   }
 
   private static class Person {
