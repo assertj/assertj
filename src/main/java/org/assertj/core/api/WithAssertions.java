@@ -15,7 +15,10 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,6 +35,10 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.DoublePredicate;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -133,7 +140,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Map)}
    */
-  default <K, V> AbstractMapAssert<?, ? extends Map<K, V>, K, V> assertThat(final Map<K, V> actual) {
+  default <K, V> MapAssert<K, V> assertThat(final Map<K, V> actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -259,17 +266,33 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable)}
    */
-  default <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(
-      final Iterable<? extends T> actual) {
+  default <T> IterableAssert<T> assertThat(final Iterable<? extends T> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable, AssertFactory)}
+   */
+  default <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+  FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
+                                                                                     AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return Assertions.assertThat(actual, assertFactory);
   }
 
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterator)}
    */
-  default <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(
-      final Iterator<? extends T> actual) {
+  default <T> IterableAssert<T> assertThat(final Iterator<? extends T> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable, Class)}
+   */
+  default <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+  ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
+                                                                                   Class<ELEMENT_ASSERT> assertClass) {
+    return Assertions.assertThat(actual, assertClass);
   }
 
   /**
@@ -336,6 +359,13 @@ public interface WithAssertions {
   }
 
   /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Path)}
+   */
+  default AbstractPathAssert<?> assertThat(final Path actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(int[])}
    */
   default AbstractIntArrayAssert<?> assertThat(final int[] actual) {
@@ -387,9 +417,27 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
-  default <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> assertThat(final List<? extends T> actual) {
+  default <T> ListAssert<? extends T> assertThat(final List<? extends T> actual) {
     return Assertions.assertThat(actual);
-  } 
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List, Class)} )}
+   */
+  default <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+  ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
+                                                                               Class<ELEMENT_ASSERT> assertClass) {
+    return Assertions.assertThat(actual, assertClass);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List, AssertFactory)} )}
+   */
+  default <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+  FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
+                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return Assertions.assertThat(actual, assertFactory);
+  }
 
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
@@ -666,6 +714,55 @@ public interface WithAssertions {
    */
   default <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
       return Assertions.assertThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Predicate)}
+   */
+  default <T> PredicateAssert<T> assertThat(final Predicate<T> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(IntPredicate)}
+   */
+  default IntPredicateAssert assertThat(final IntPredicate actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LongPredicate)}
+   */
+  default LongPredicateAssert assertThat(final LongPredicate actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(DoublePredicate)}
+   */
+  default DoublePredicateAssert assertThat(final DoublePredicate actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(URL)}
+   */
+  default AbstractUrlAssert assertThat(final URL actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(URI)}
+   */
+  default AbstractUriAssert assertThat(final URI actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(AssertProvider)}
+   */
+  default <T> T assertThat(final AssertProvider<T> component) {
+    return Assertions.assertThat(component);
   }
 
   // --------------------------------------------------------------------------------------------------

@@ -44,4 +44,14 @@ public class AssertionsTest extends BaseAssertionsTest {
                                      .containsExactlyInAnyOrder(assertThatMethods);
 
   }
+
+  @Test
+  public void with_assertions_should_have_the_same_methods_as_in_assertions() {
+    Method[] withAssertionsMethods = findMethodsWithName(WithAssertions.class, "assertThat");
+    Method[] assertionsMethods = findMethodsWithName(Assertions.class, "assertThat");
+
+    assertThat(withAssertionsMethods)
+      .usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
+      .containsExactlyInAnyOrder(assertionsMethods);
+  }
 }
