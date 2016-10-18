@@ -10,33 +10,28 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.byte_;
+package org.assertj.core.api.objectarray;
 
-import org.assertj.core.api.ByteAssert;
-import org.assertj.core.api.ByteAssertBaseTest;
-import org.assertj.core.data.Offset;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
-import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
-
 /**
- * Tests for <code>{@link ByteAssert#isNotCloseTo(Byte, Offset)}</code>.
- *
- * @author Chris Arnott
+ * Tests for <code>{@link ObjectArrayAssert#containsSubsequence(Object[])}</code>.
+ * 
+ * @author Filip Hrisfaov
  */
-public class ByteAssert_isNotCloseTo_byte_Test extends ByteAssertBaseTest {
-
-  private final Offset<Byte> offset = offset((byte)5);
-  private final Byte value = (byte)8;
+public class ObjectArrayAssert_containsSubSequence_Test extends ObjectArrayAssertBaseTest {
 
   @Override
-  protected ByteAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
+  protected ObjectArrayAssert<Object> invoke_api_method() {
+    return assertions.containsSubsequence("Luke", "Yoda");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(bytes).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(arrays).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
   }
 }

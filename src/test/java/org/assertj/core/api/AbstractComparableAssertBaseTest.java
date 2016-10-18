@@ -36,4 +36,8 @@ public abstract class AbstractComparableAssertBaseTest extends BaseTestTemplate<
     comparables = mock(Comparables.class);
     assertions.comparables = comparables;
   }
+
+  protected Comparables getComparables(ConcreteComparableAssert someAssertions) {
+    return someAssertions.comparables;
+  }
 }
