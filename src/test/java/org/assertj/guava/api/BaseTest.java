@@ -36,7 +36,8 @@ public class BaseTest {
 
   protected void expectException(Class<? extends Throwable> type, String message) {
     thrown.expect(type);
-    thrown.expectMessage(format(message));
+    String msg = format(message);
+    thrown.expectMessage(msg);
   }
 
 }

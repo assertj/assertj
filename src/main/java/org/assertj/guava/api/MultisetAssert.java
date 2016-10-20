@@ -18,6 +18,7 @@ import static org.assertj.guava.error.MultisetShouldContainAtMostTimes.shouldCon
 import static org.assertj.guava.error.MultisetShouldContainTimes.shouldContainTimes;
 
 import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
@@ -34,8 +35,9 @@ import com.google.common.collect.Multiset;
  * @param <T> the type of elements contained in the tested Multiset value
  *
  * @author Max Daniline
+ * ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>
  */
-public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>, Multiset<? extends T>, T> {
+public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>, Multiset<? extends T>, T, ObjectAssert<T>> {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
@@ -142,5 +144,10 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
       throw failures.failure(info, shouldContainAtMostTimes(actual, expected, maximumCount, actualCount));
     }
     return myself;
+  }
+
+  @Override
+  protected ObjectAssert<T> toAssert(T value, String description) {
+    return null;
   }
 }
