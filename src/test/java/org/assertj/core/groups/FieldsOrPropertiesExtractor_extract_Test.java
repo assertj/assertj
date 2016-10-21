@@ -111,16 +111,15 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   @Test
   public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() throws Exception {
 
-    List<Employee> employees = Arrays.<Employee>asList(employeeWithBrokenName("Name"));
+    List<Employee> employees = Arrays.<Employee>asList(new EmployeeWithBrokenName("Name"));
     List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(new Name("Name"));
   }
 
-
   @Test
   public void should_prefer_properties_over_fields() throws Exception {
     
-    List<Employee> employees = Arrays.<Employee>asList(employeeWithOverriddenName("Overridden Name"));
+    List<Employee> employees = Arrays.<Employee>asList(new EmployeeWithOverridenName("Overridden Name"));
     List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(new Name("Overridden Name"));
   }
@@ -130,39 +129,42 @@ public class FieldsOrPropertiesExtractor_extract_Test {
     
     thrown.expect(IntrospectionError.class);
     
-    List<Employee> employees = Arrays.<Employee>asList(brokenEmployee());
+    List<Employee> employees = Arrays.<Employee>asList(new BrokenEmployee());
     extract(employees, byName("adult"));
   }
 
-  // --
-  
-  private Employee employeeWithBrokenName(String name) {
-    return new Employee(1L, new Name(name), 0){
-      
-      @Override
-      public Name getName() {
-        throw new IllegalStateException();
-      }
-    };
-  }
-  
-  private Employee employeeWithOverriddenName(final String overriddenName) {
-    return new Employee(1L, new Name("Name"), 0){
-      
-      @Override
-      public Name getName() {
-        return new Name(overriddenName);
-      }
-    };
+  public static class EmployeeWithBrokenName extends Employee {
+
+    public EmployeeWithBrokenName(String name) {
+      super(1L, new Name(name), 0);
+    }
+
+    @Override
+    public Name getName() {
+      throw new IllegalStateException();
+    }
   }
 
-  private Employee brokenEmployee() {
-    return new Employee(){
-      
-      @Override
-      public boolean isAdult() {
-        throw new IllegalStateException();
-      }
-    };
+  public static class EmployeeWithOverridenName extends Employee {
+
+    private String overridenName;
+
+    public EmployeeWithOverridenName(final String overridenName) {
+      super(1L, new Name("Name"), 0);
+      this.overridenName = overridenName;
+    }
+
+    @Override
+    public Name getName() {
+      return new Name(overridenName);
+    }
+  }
+
+  public static class BrokenEmployee extends Employee {
+
+    @Override
+    public boolean isAdult() {
+      throw new IllegalStateException();
+    }
   }
 }
