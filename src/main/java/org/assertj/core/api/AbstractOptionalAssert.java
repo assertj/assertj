@@ -60,8 +60,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return this assertion object.
    */
   public S isPresent() {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    assertValueIsPresent();
     return myself;
   }
 
@@ -163,9 +162,23 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return this assertion object.
    */
   public S hasValueSatisfying(Consumer<T> requirement) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    assertValueIsPresent();
     requirement.accept(actual.get());
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link Optional} contains a value which satisfies the given {@link Condition}.
+   *
+   * @param condition the given condition.
+   * @return this assertion object.
+   * @throws AssertionError       if the actual {@link Optional} is null or empty.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError       if the actual value does not satisfy the given condition.
+   */
+  public S hasValueSatisfying(Condition<? super T> condition) {
+    assertValueIsPresent();
+    conditions.assertIs(info, actual.get(), condition);
     return myself;
   }
 
@@ -205,8 +218,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return this assertion object.
    */
   public S containsInstanceOf(Class<?> clazz) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    assertValueIsPresent();
     if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
   }
@@ -373,6 +385,11 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
 
   private void checkNotNull(T expectedValue) {
     if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
+  }
+
+  private void assertValueIsPresent() {
+    isNotNull();
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
   }
 
 }
