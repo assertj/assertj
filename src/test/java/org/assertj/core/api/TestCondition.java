@@ -29,6 +29,10 @@ public class TestCondition<T> extends Condition<T> {
     super();
   }
 
+  public TestCondition(boolean matches) {
+    this.matches = matches;
+  }
+
   public TestCondition(String description) {
     super(description);
   }
