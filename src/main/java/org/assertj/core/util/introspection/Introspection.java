@@ -18,7 +18,6 @@ import static java.util.Locale.ENGLISH;
 import static org.assertj.core.util.Preconditions.*;
 import static org.assertj.core.util.Strings.quote;
 
-import java.beans.*;
 import java.lang.reflect.Method;
 
 
@@ -29,33 +28,29 @@ import java.lang.reflect.Method;
  * @author Alex Ruiz
  */
 public final class Introspection {
+
   /**
-   * Returns a {@link PropertyDescriptor} for a property matching the given name in the given object.
+   * Returns the getter {@link Method} for a property matching the given name in the given object.
    * 
    * @param propertyName the given property name.
    * @param target the given object.
-   * @return a {@code PropertyDescriptor} for a property matching the given name in the given object.
+   * @return the getter {@code Method} for a property matching the given name in the given object.
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
    * @throws NullPointerException if the given object is {@code null}.
-   * @throws IntrospectionError if a matching property cannot be found or accessed.
+   * @throws IntrospectionError if the getter for the matching property cannot be found or accessed.
    */
-  public static PropertyDescriptor getProperty(String propertyName, Object target) {
+  public static Method getPropertyGetter(String propertyName, Object target) {
     checkNotNullOrEmpty(propertyName);
     checkNotNull(target);
-    BeanInfo beanInfo = null;
-    Class<?> type = target.getClass();
+    Method getter;
     try {
-      beanInfo = Introspector.getBeanInfo(type);
+      getter = findGetter(propertyName, target);
+      getter.invoke(target);
     } catch (Exception t) {
-      throw new IntrospectionError(format("Unable to get BeanInfo for type %s", type.getName()), t);
+      throw new IntrospectionError(propertyNotFoundErrorMessage(propertyName, target));
     }
-    for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
-      if (propertyName.equals(descriptor.getName())) {
-        return descriptor;
-      }
-    }
-    throw new IntrospectionError(propertyNotFoundErrorMessage(propertyName, target));
+    return getter;
   }
 
   private static String propertyNotFoundErrorMessage(String propertyName, Object target) {

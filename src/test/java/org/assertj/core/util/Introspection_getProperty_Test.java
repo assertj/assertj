@@ -14,9 +14,9 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.util.introspection.Introspection.getProperty;
+import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
-import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
@@ -32,15 +32,14 @@ public class Introspection_getProperty_Test {
 
   @Test
   public void get_descriptor_for_property() {
-    PropertyDescriptor propertyDescriptor = getProperty("age", judy);
-    assertThat(propertyDescriptor).isNotNull();
-    assertThat(propertyDescriptor.getName()).isEqualTo("age");
+    Method getter = getPropertyGetter("age", judy);
+    assertThat(getter).isNotNull();
   }
 
   @Test
   public void should_raise_an_error_because_of_missing_getter() {
     try {
-      getProperty("salary", judy);
+      getPropertyGetter("salary", judy);
       fail("IntrospectionError expected");
     } catch (IntrospectionError error) {
       assertThat(error).hasMessage("No getter for property 'salary' in org.assertj.core.util.Employee");
@@ -50,13 +49,13 @@ public class Introspection_getProperty_Test {
   @Test
   public void should_raise_an_error_because_of_non_public_getter() {
     try {
-      getProperty("company", judy);
+      getPropertyGetter("company", judy);
       fail("IntrospectionError expected");
     } catch (IntrospectionError error) {
       assertThat(error).hasMessage("No public getter for property 'company' in org.assertj.core.util.Employee");
     }
     try {
-      getProperty("firstJob", judy);
+      getPropertyGetter("firstJob", judy);
       fail("IntrospectionError expected");
     } catch (IntrospectionError error) {
       assertThat(error).hasMessage("No public getter for property 'firstJob' in org.assertj.core.util.Employee");
@@ -66,7 +65,7 @@ public class Introspection_getProperty_Test {
   @Test
   public void should_raise_an_error_because_of_non_public_getter_when_getter_is_in_superclass() {
     try {
-      getProperty("name", new Example());
+      getPropertyGetter("name", new Example());
       fail("IntrospectionError expected");
     } catch (IntrospectionError error) {
       assertThat(error).hasMessage("No public getter for property 'name' in org.assertj.core.util.Introspection_getProperty_Test$Example");

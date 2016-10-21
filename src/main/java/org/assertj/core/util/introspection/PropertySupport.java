@@ -16,9 +16,9 @@ import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
-import static org.assertj.core.util.introspection.Introspection.getProperty;
+import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
-import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +46,6 @@ public class PropertySupport {
   public static PropertySupport instance() {
     return INSTANCE;
   }
-
-  @VisibleForTesting
-  JavaBeanDescriptor javaBeanDescriptor = new JavaBeanDescriptor();
 
   @VisibleForTesting
   PropertySupport() {
@@ -145,10 +142,11 @@ public class PropertySupport {
    * @return a the values of the given property name
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
+  @SuppressWarnings("unchecked")
   public <T> T propertyValue(String propertyName, Class<T> clazz, Object target) {
-    PropertyDescriptor descriptor = getProperty(propertyName, target);
+    Method getter = getPropertyGetter(propertyName, target);
     try {
-      return clazz.cast(javaBeanDescriptor.invokeReadMethod(descriptor, target));
+      return (T) getter.invoke(target);
     } catch (ClassCastException e) {
       String msg = format("Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>",
                           propertyName, target, clazz);
@@ -196,7 +194,7 @@ public class PropertySupport {
 
   public boolean publicGetterExistsFor(String fieldName, Object actual) {
 	try {
-	  getProperty(fieldName, actual);
+	  getPropertyGetter(fieldName, actual);
     } catch (IntrospectionError e) {
       return false;
     }
