@@ -12,22 +12,22 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.FieldByFieldComparator;
-import org.assertj.core.internal.StandardComparisonStrategy;
-
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.FieldByFieldComparator;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Assertions for {@link java.util.Optional}.
@@ -60,8 +60,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return this assertion object.
    */
   public S isPresent() {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    assertValueIsPresent();
     return myself;
   }
 
@@ -163,9 +162,35 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return this assertion object.
    */
   public S hasValueSatisfying(Consumer<T> requirement) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    assertValueIsPresent();
     requirement.accept(actual.get());
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link Optional} contains a value which satisfies the given {@link Condition}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Condition&lt;TolkienCharacter&gt isAnElf = new Condition&lt;&gt;(character -> character.getRace() == ELF, "an elf"); 
+   * 
+   * TolkienCharacter legolas = new TolkienCharacter("Legolas", 1000, ELF);
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * 
+   * // assertion succeeds
+   * assertThat(Optional.of(legolas)).hasValueSatisfying(isAnElf);
+   *                                     
+   * // assertion fails
+   * assertThat(Optional.of(frodo)).hasValueSatisfying(isAnElf);</code></pre>
+   *
+   * @param condition the given condition.
+   * @return this assertion object.
+   * @throws AssertionError       if the actual {@link Optional} is null or empty.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError       if the actual value does not satisfy the given condition.
+   */
+  public S hasValueSatisfying(Condition<? super T> condition) {
+    assertValueIsPresent();
+    conditions.assertIs(info, actual.get(), condition);
     return myself;
   }
 
@@ -205,8 +230,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return this assertion object.
    */
   public S containsInstanceOf(Class<?> clazz) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    assertValueIsPresent();
     if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
   }
@@ -373,6 +397,11 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
 
   private void checkNotNull(T expectedValue) {
     if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
+  }
+
+  private void assertValueIsPresent() {
+    isNotNull();
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
   }
 
 }

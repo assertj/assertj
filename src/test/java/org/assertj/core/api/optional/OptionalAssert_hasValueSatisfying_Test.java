@@ -23,6 +23,7 @@ import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
 public class OptionalAssert_hasValueSatisfying_Test extends BaseTest {
+
   @Test
   public void should_fail_when_optional_is_null() {
     thrown.expectAssertionError(actualIsNull());
