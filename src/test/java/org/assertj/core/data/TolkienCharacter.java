@@ -16,15 +16,11 @@ public class TolkienCharacter {
 
   public static TolkienCharacter of(String name, Integer age, Race race) {
 
-	return new TolkienCharacter(name, age, race);
+    return new TolkienCharacter(name, age, race);
   }
 
   public static enum Race {
-	HOBBIT,
-	MAIA,
-	ELF,
-	DWARF,
-	MAN
+    HOBBIT, MAIA, ELF, DWARF, MAN
   }
 
   public final String name;
@@ -33,23 +29,23 @@ public class TolkienCharacter {
 
   private TolkienCharacter(String name, Integer age, Race race) {
 
-	this.name = name;
-	this.age = age;
-	this.race = race;
+    this.name = name;
+    this.age = age;
+    this.race = race;
   }
 
   public String getName() {
 
-	return name;
+    return name;
   }
 
   public Integer getAge() {
 
-	return age;
+    return age;
   }
 
   public Race getRace() {
 
-	return race;
+    return race;
   }
 }
