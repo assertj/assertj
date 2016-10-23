@@ -52,14 +52,14 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * Example :
    *
    * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();   
-   * actual.add("test", 2);
+   * actual.add("shoes", 2);
    *             
    * // assertion succeeds
-   * assertThat(actual).contains(2, "test");
+   * assertThat(actual).contains(2, "shoes");
    * 
    * // assertions fail
-   * assertThat(actual).containsAtLeast(1, "test");
-   * assertThat(actual).containsAtLeast(3, "test");</code></pre>
+   * assertThat(actual).contains(1, "shoes");
+   * assertThat(actual).contains(3, "shoes");</code></pre>
    *
    * @param expectedCount the exact number of times the given value should appear in the set
    * @param expected the value which to expect
@@ -85,14 +85,14 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * Example :
    *
    * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();   
-   * actual.add("test", 2);
+   * actual.add("shoes", 2);
    *             
    * // assertions succeed
-   * assertThat(actual).containsAtLeast(1, "test");
-   * assertThat(actual).containsAtLeast(2, "test");
+   * assertThat(actual).containsAtLeast(1, "shoes");
+   * assertThat(actual).containsAtLeast(2, "shoes");
    *             
    * // assertion fails
-   * assertThat(actual).containsAtLeast(3, "test");</code></pre>
+   * assertThat(actual).containsAtLeast(3, "shoes");</code></pre>
    *
    * @param minimumCount the minimum number of times the given value should appear in the set
    * @param expected the value which to expect
@@ -118,14 +118,14 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * Example :
    *
    * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();   
-   * actual.add("test", 2);
+   * actual.add("shoes", 2);
    *             
    * // assertions succeed
-   * assertThat(actual).containsAtMost(3, "test");
-   * assertThat(actual).containsAtMost(2, "test");
+   * assertThat(actual).containsAtMost(3, "shoes");
+   * assertThat(actual).containsAtMost(2, "shoes");
    *             
    * // assertion fails
-   * assertThat(actual).containsAtMost(1, "test");</code></pre>
+   * assertThat(actual).containsAtMost(1, "shoes");</code></pre>
    *
    *
    * @param maximumCount the maximum number of times the given value should appear in the set
