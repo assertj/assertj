@@ -71,11 +71,7 @@ public class MultisetAssert_containsAtMost_Test extends BaseTest {
                                           "  <[\"test\", \"test\"]>%n" +
                                           "to contain:%n" +
                                           "  <\"test\">%n" +
-                                          "at most:%n" +
-                                          "  <1>%n" +
-                                          "times, but was found:%n" +
-                                          "  <2>%n" +
-                                          "times.%n");
+                                          "at most 1 times but was found 2 times.");
     // when
     assertThat(actual).containsAtMost(1, "test");
   }

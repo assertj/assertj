@@ -51,11 +51,7 @@ public class MultisetAssert_contains_Test extends BaseTest {
                                           "  <[\"test\", \"test\"]>%n" +
                                           "to contain:%n" +
                                           "  <\"test\">%n" +
-                                          "exactly:%n" +
-                                          "  <3>%n" +
-                                          "times, but was found:%n" +
-                                          "  <2>%n" +
-                                          "times.%n");
+                                          "exactly 3 times but was found 2 times.");
     // when
     assertThat(actual).contains(3, "test");
   }
@@ -80,11 +76,7 @@ public class MultisetAssert_contains_Test extends BaseTest {
                                           "  <[\"test\", \"test\"]>%n" +
                                           "to contain:%n" +
                                           "  <\"test\">%n" +
-                                          "exactly:%n" +
-                                          "  <1>%n" +
-                                          "times, but was found:%n" +
-                                          "  <2>%n" +
-                                          "times.%n");
+                                          "exactly 1 times but was found 2 times.");
     // when
     assertThat(actual).contains(1, "test");
   }

@@ -30,11 +30,8 @@ public class MultisetShouldContainAtLeastTimes extends BasicErrorMessageFactory 
                                                  "  <%s>%n" +
                                                  "to contain:%n" +
                                                  "  <%s>%n" +
-                                                 "at least:%n" +
-                                                 "  <%s>%n" +
-                                                 "times, but was found:%n" +
-                                                 "  <%s>%n" +
-                                                 "times.%n", actual, expected, expectedTimes, actualTimes);
+                                                 "at least %s times but was found %s times.", 
+                                                 actual, expected, expectedTimes, actualTimes);
   }
 
   private MultisetShouldContainAtLeastTimes(String format, Object... arguments) {

@@ -54,11 +54,7 @@ public class MultisetAssert_containsAtLeast_Test extends BaseTest {
                                           "  <[\"test\", \"test\"]>%n" +
                                           "to contain:%n" +
                                           "  <\"test\">%n" +
-                                          "at least:%n" +
-                                          "  <3>%n" +
-                                          "times, but was found:%n" +
-                                          "  <2>%n" +
-                                          "times.%n");
+                                          "at least 3 times but was found 2 times.");
     // when
     assertThat(actual).containsAtLeast(3, "test");
   }

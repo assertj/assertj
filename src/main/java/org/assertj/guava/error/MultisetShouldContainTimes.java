@@ -30,11 +30,8 @@ public class MultisetShouldContainTimes extends BasicErrorMessageFactory {
                                           "  <%s>%n" +
                                           "to contain:%n" +
                                           "  <%s>%n" +
-                                          "exactly:%n" +
-                                          "  <%s>%n" +
-                                          "times, but was found:%n" +
-                                          "  <%s>%n" +
-                                          "times.%n", actual, expected, expectedTimes, actualTimes);
+                                          "exactly %s times but was found %s times.", 
+                                          actual, expected, expectedTimes, actualTimes);
   }
 
   private MultisetShouldContainTimes(String format, Object... arguments) {
