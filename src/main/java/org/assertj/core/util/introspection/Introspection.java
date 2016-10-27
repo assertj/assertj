@@ -19,7 +19,7 @@ import static org.assertj.core.util.Preconditions.*;
 import static org.assertj.core.util.Strings.quote;
 
 import java.lang.reflect.Method;
-
+import java.lang.reflect.Modifier;
 
 /**
  * Utility methods related to <a
@@ -46,6 +46,10 @@ public final class Introspection {
     Method getter;
     try {
       getter = findGetter(propertyName, target);
+      if (Modifier.isPublic(getter.getModifiers())) {
+        // force access for static class with public getter
+        getter.setAccessible(true);
+      }
       getter.invoke(target);
     } catch (Exception t) {
       throw new IntrospectionError(propertyNotFoundErrorMessage(propertyName, target));
@@ -82,8 +86,7 @@ public final class Introspection {
     while (clazz != null) {
       try {
         return clazz.getDeclaredMethod(name);
-      } catch (NoSuchMethodException | SecurityException ignored) {
-      }
+      } catch (NoSuchMethodException | SecurityException ignored) {}
       clazz = clazz.getSuperclass();
     }
     return null;
