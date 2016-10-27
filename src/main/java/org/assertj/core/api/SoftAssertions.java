@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.extractProperty;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * <p>
@@ -66,6 +67,7 @@ import java.util.List;
  *   softly.assertAll();
  * }</code></pre>
  *
+ *
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
  * <pre><code class='java'> org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
@@ -78,6 +80,22 @@ import java.util.List;
  * Aha! It appears that perhaps the Professor used the candlestick to perform the nefarious deed in the library. We
  * should let the police take it from here.
  * </p>
+ *
+ * <p>You can also use the static method assertSoftly. the assertAll method will be called automatically after the lambda function completes.</p>
+ * <pre><code class='java'> &#064;Test
+ * public void host_dinner_party_where_nobody_dies() {
+ *   Mansion mansion = new Mansion();
+ *   mansion.hostPotentiallyMurderousDinnerParty();
+ *   SoftAssertions.assertSoftly(softly -> {
+ *     softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
+ *     softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
+ *     softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
+ *     softly.assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
+ *     softly.assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
+ *     softly.assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
+ *     softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
+ *   });
+ * }</code></pre>
  *
  * <p>
  * SoftAssertions works by providing you with proxies of the AssertJ assertion objects (those created by
@@ -117,4 +135,30 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
     }
   }
 
+ /**
+  * Use this to avoid having to call assertAll manually.
+  *
+  * <pre><code class='java'> &#064;Test
+  * public void host_dinner_party_where_nobody_dies() {
+  *   Mansion mansion = new Mansion();
+  *   mansion.hostPotentiallyMurderousDinnerParty();
+  *   SoftAssertions.assertSoftly(softly -> {
+  *     softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
+  *     softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
+  *     softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
+  *     softly.assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
+  *     softly.assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
+  *     softly.assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
+  *     softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
+  *   });
+  * }</code></pre>
+  *
+  * @param softly the SoftAssertions instance that you can call your own assertions on.
+  * @throws SoftAssertionError if any proxied assertion objects threw
+  */
+public static void assertSoftly(Consumer<SoftAssertions> softly) {
+      SoftAssertions assertions = new SoftAssertions();
+      softly.accept(assertions);
+      assertions.assertAll();
+  }
 }

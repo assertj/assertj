@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.tuple;
@@ -832,5 +833,19 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0)
                      .getMessage()).isEqualTo("IllegalArgumentException should have been thrown");
+  }
+
+  @Test
+  public void should_assert_using_assertSoftly() {
+      assertThatThrownBy(() -> {
+          SoftAssertions.assertSoftly(assertions -> {
+              assertions.assertThat(true).isFalse();
+              assertions.assertThat(42).isEqualTo("meaning of life");
+              assertions.assertThat("red").isEqualTo("blue");
+          });
+      }).as("it should call assertAll() and fail with multiple validation errors")
+          .hasBeenThrown()
+          .hasMessageContaining("meaning of life")
+          .hasMessageContaining("blue");
   }
 }
