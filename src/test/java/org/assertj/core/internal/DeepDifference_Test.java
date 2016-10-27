@@ -26,6 +26,7 @@ import static org.assertj.core.internal.ObjectsBaseTest.noFieldComparators;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -68,6 +69,13 @@ public class DeepDifference_Test {
     Date date1 = new Date();
     assertHaveDifferences(null, date1);
     assertHaveDifferences(date1, null);
+  }
+
+  @Test
+  public void testBigDecimals() {
+    BigDecimal bigDecimal1 = new BigDecimal("42.5");
+    BigDecimal bigDecimal2 = new BigDecimal("42.5");
+    assertHaveNoDifferences(bigDecimal1, bigDecimal2);
   }
 
   @Test

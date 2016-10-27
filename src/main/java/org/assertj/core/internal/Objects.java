@@ -762,8 +762,7 @@ public class Objects {
     final Set<Field> fields = newLinkedHashSet(clazz.getDeclaredFields());
     for (Iterator<Field> iterator = fields.iterator(); iterator.hasNext();) {
       final Field next = iterator.next();
-      if (next.isSynthetic()) iterator.remove();
-      if (Modifier.isStatic(next.getModifiers())) iterator.remove();
+      if (next.isSynthetic() || Modifier.isStatic(next.getModifiers())) iterator.remove();
     }
     return fields;
   }
