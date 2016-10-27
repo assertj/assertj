@@ -10,33 +10,32 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.byte_;
+package org.assertj.core.api.long_;
 
-import org.assertj.core.api.ByteAssert;
-import org.assertj.core.api.ByteAssertBaseTest;
+import org.assertj.core.api.LongAssert;
+import org.assertj.core.api.LongAssertBaseTest;
 import org.assertj.core.data.Offset;
 
 import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
-
 /**
- * Tests for <code>{@link ByteAssert#isNotCloseTo(Byte, Offset)}</code>.
+ * Tests for <code>{@link LongAssert#isNotCloseTo(Long, Offset)}</code>.
  *
- * @author Chris Arnott
+ * @author Filip Hrisafov
  */
-public class ByteAssert_isNotCloseTo_byte_Test extends ByteAssertBaseTest {
+public class LongAssert_isNotCloseTo_primitive_long_Test extends LongAssertBaseTest {
 
-  private final Offset<Byte> offset = offset((byte)5);
-  private final Byte value = (byte)8;
+  private final Offset<Long> offset = offset(5l);
+  private final long value = 8l;
 
   @Override
-  protected ByteAssert invoke_api_method() {
+  protected LongAssert invoke_api_method() {
     return assertions.isNotCloseTo(value, offset);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(bytes).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(longs).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
   }
 }

@@ -10,22 +10,28 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.util.introspection;
+package org.assertj.core.api.charsequence;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.Test;
+
+import static org.mockito.Mockito.verify;
 
 /**
- * Wrapper for <code>{@link PropertyDescriptor}</code>.
+ * Tests for <code>{@link CharSequenceAssert#isBlank()}</code>.
  * 
- * @author Alex Ruiz
+ * @author Filip Hrisafov
  */
-class JavaBeanDescriptor {
+public class CharSequenceAssert_isBlank_Test extends CharSequenceAssertBaseTest {
 
-  Object invokeReadMethod(PropertyDescriptor d, Object o) throws IllegalAccessException, InvocationTargetException {
-    Method readMethod = d.getReadMethod();
-    readMethod.setAccessible(true);
-    return readMethod.invoke(o);
+  @Override
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.isBlank();
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(strings).assertBlank(getInfo(assertions), getActual(assertions));
   }
 }

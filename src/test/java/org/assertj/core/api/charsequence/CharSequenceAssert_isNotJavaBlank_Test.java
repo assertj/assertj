@@ -10,33 +10,27 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.byte_;
+package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.ByteAssert;
-import org.assertj.core.api.ByteAssertBaseTest;
-import org.assertj.core.data.Offset;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
-import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
-
 /**
- * Tests for <code>{@link ByteAssert#isNotCloseTo(Byte, Offset)}</code>.
- *
- * @author Chris Arnott
+ * Tests for <code>{@link CharSequenceAssert#isNotJavaBlank()}</code>.
+ * 
+ * @author Filip Hrisafov
  */
-public class ByteAssert_isNotCloseTo_byte_Test extends ByteAssertBaseTest {
-
-  private final Offset<Byte> offset = offset((byte)5);
-  private final Byte value = (byte)8;
+public class CharSequenceAssert_isNotJavaBlank_Test extends CharSequenceAssertBaseTest {
 
   @Override
-  protected ByteAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.isNotJavaBlank();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(bytes).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(strings).assertNotJavaBlank(getInfo(assertions), getActual(assertions));
   }
 }

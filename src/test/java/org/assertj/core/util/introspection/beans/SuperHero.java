@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.util.introspection;
+package org.assertj.core.util.introspection.beans;
 
 import org.assertj.core.test.Person;
 

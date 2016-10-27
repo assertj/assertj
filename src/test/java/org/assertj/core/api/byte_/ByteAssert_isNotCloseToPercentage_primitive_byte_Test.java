@@ -14,29 +14,28 @@ package org.assertj.core.api.byte_;
 
 import org.assertj.core.api.ByteAssert;
 import org.assertj.core.api.ByteAssertBaseTest;
-import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 
-import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-
 /**
- * Tests for <code>{@link ByteAssert#isNotCloseTo(Byte, Offset)}</code>.
+ * Tests for <code>{@link ByteAssert#isNotCloseTo(byte, Percentage)}</code>.
  *
- * @author Chris Arnott
+ * @author Filip Hrisafov
  */
-public class ByteAssert_isNotCloseTo_byte_Test extends ByteAssertBaseTest {
+public class ByteAssert_isNotCloseToPercentage_primitive_byte_Test extends ByteAssertBaseTest {
 
-  private final Offset<Byte> offset = offset((byte)5);
-  private final Byte value = (byte)8;
+    private final Percentage percentage = withPercentage((byte) 5);
+    private final byte value = 10;
 
-  @Override
-  protected ByteAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
-  }
+    @Override
+    protected ByteAssert invoke_api_method() {
+        return assertions.isNotCloseTo(value, percentage);
+    }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(bytes).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
-  }
+    @Override
+    protected void verify_internal_effects() {
+        verify(bytes).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+    }
 }

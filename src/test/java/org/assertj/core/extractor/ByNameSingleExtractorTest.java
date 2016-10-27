@@ -77,14 +77,14 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
-	Object extractedValue = nameExtractor().extract(employeeWithBrokenName("Name"));
+	Object extractedValue = nameExtractor().extract(new EmployeeWithBrokenName("Name"));
 
 	assertThat(extractedValue).isEqualTo(new Name("Name"));
   }
 
   @Test
   public void should_prefer_properties_over_fields() {
-    Object extractedValue = nameExtractor().extract(employeeWithOverridenName("Overriden Name"));
+    Object extractedValue = nameExtractor().extract(new EmployeeWithOverridenName("Overriden Name"));
 
     assertThat(extractedValue).isEqualTo(new Name("Overriden Name"));
   }
@@ -93,7 +93,7 @@ public class ByNameSingleExtractorTest {
   public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
 	thrown.expect(IntrospectionError.class);
 
-	Employee employee = brokenEmployee();
+	Employee employee = new BrokenEmployee();
 	adultExtractor().extract(employee);
   }
 
@@ -136,31 +136,39 @@ public class ByNameSingleExtractorTest {
     assertThat(extracted).isEqualTo("Young Padawan");
   }
 
-  private Employee employeeWithBrokenName(String name) {
-	return new Employee(1L, new Name(name), 0) {
-	  @Override
-	  public Name getName() {
-		throw new IllegalStateException();
-	  }
-	};
+  public static class EmployeeWithBrokenName extends Employee {
+
+    public EmployeeWithBrokenName(String name) {
+      super(1L, new Name(name), 0);
+    }
+
+    @Override
+    public Name getName() {
+      throw new IllegalStateException();
+    }
   }
 
-  private Employee employeeWithOverridenName(final String overridenName) {
-	return new Employee(1L, new Name("Name"), 0) {
-	  @Override
-	  public Name getName() {
-		return new Name(overridenName);
-	  }
-	};
+  public static class EmployeeWithOverridenName extends Employee {
+
+    private String overridenName;
+
+    public EmployeeWithOverridenName(final String overridenName) {
+      super(1L, new Name("Name"), 0);
+      this.overridenName = overridenName;
+    }
+
+    @Override
+    public Name getName() {
+      return new Name(overridenName);
+    }
   }
 
-  private Employee brokenEmployee() {
-	return new Employee() {
-	  @Override
-	  public boolean isAdult() {
-		throw new IllegalStateException();
-	  }
-	};
+  public static class BrokenEmployee extends Employee {
+
+    @Override
+    public boolean isAdult() {
+      throw new IllegalStateException();
+    }
   }
 
   private ByNameSingleExtractor<Employee> idExtractor() {

@@ -17,7 +17,7 @@ import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Person;
-
+import org.assertj.core.util.introspection.beans.SuperHero;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

@@ -21,7 +21,7 @@ import org.assertj.core.data.Offset;
 
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ByteAssert#isCloseTo(byte, org.assertj.core.data.Offset)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.ByteAssert#isCloseTo(Byte, org.assertj.core.data.Offset)}</code>.
  *
  * @author Joel Costigliola
  */
