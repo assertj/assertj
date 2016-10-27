@@ -31,7 +31,7 @@ public class Introspection_getProperty_Test {
   }
 
   @Test
-  public void get_descriptor_for_property() {
+  public void get_getter_for_property() {
     Method getter = getPropertyGetter("age", judy);
     assertThat(getter).isNotNull();
   }
