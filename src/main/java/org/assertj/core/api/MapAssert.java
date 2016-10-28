@@ -44,6 +44,12 @@ public class MapAssert<K, V> extends AbstractMapAssert<MapAssert<K, V>, Map<K, V
 
   @SafeVarargs
   @Override
+  public final MapAssert<K, V> containsAnyOf(Map.Entry<? extends K, ? extends V>... entries) {
+    return super.containsAnyOf(entries);
+  }
+  
+  @SafeVarargs
+  @Override
   public final MapAssert<K, V> containsOnly(Map.Entry<? extends K, ? extends V>... entries) {
     return super.containsOnly(entries);
   }
