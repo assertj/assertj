@@ -820,7 +820,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new double[] { 1.0, 2.0 }).containsExactlyInAnyOrder(1.0, 2.0);
-   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactlyInAnyOrder(1.0, 2.0, 1.0);
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactlyInAnyOrder(1.0, 1.0, 2.0);
    * 
    * // assertions will fail
    * assertThat(new double[] { 1.0, 2.0 }).containsExactlyInAnyOrder(1.0);

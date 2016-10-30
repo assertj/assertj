@@ -383,7 +383,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new int[] { 1, 2 }).containsExactlyInAnyOrder(1, 2);
-   * assertThat(new int[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 2, 1);
+   * assertThat(new int[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 1, 2);
    * 
    * // assertions will fail
    * assertThat(new int[] { 1, 2 }).containsExactlyInAnyOrder(1);

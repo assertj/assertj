@@ -383,7 +383,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new long[] { 1L, 2L }).containsExactlyInAnyOrder(1L, 2L);
-   * assertThat(new long[] { 1L, 2L, 1L }).containsExactlyInAnyOrder(1L, 2L, 1L);
+   * assertThat(new long[] { 1L, 2L, 1L }).containsExactlyInAnyOrder(1L, 1L, 2L);
    * 
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L }).containsExactlyInAnyOrder(1L);
