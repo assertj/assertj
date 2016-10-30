@@ -28,6 +28,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -758,6 +761,42 @@ public class Assertions {
   @CheckReturnValue
   public static AbstractDateAssert<?> assertThat(Date actual) {
     return new DateAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicBoolean}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicBooleanAssert assertThat(AtomicBoolean actual) {
+    return new AtomicBooleanAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicInteger}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
+    return new AtomicIntegerAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicLongAssert assertThat(AtomicLong actual) {
+    return new AtomicLongAssert(actual);
   }
 
   /**

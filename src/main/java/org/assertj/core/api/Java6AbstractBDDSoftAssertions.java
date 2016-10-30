@@ -23,6 +23,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 
@@ -466,6 +469,42 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   @CheckReturnValue
   public DateAssert then(Date actual) {
     return proxy(DateAssert.class, Date.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicBoolean}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicBooleanAssert then(AtomicBoolean actual) {
+    return proxy(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicInteger}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicIntegerAssert then(AtomicInteger actual) {
+    return proxy(AtomicIntegerAssert.class, AtomicInteger.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicLongAssert then(AtomicLong actual) {
+    return proxy(AtomicLongAssert.class, AtomicLong.class, actual);
   }
 
   /**

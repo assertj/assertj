@@ -22,6 +22,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
@@ -633,6 +636,42 @@ public class BDDAssertions extends Assertions {
    */
   @CheckReturnValue
   public static AbstractDateAssert<?> then(Date actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicBoolean}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicBooleanAssert then(AtomicBoolean actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicInteger}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicIntegerAssert then(AtomicInteger actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicLongAssert then(AtomicLong actual) {
     return assertThat(actual);
   }
 
