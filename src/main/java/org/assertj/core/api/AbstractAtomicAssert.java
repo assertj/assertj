@@ -18,30 +18,31 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 import static org.assertj.core.error.AtomicShouldContain.shouldContain;
 
 
-public abstract class AbstractAtomicAssert<S extends AbstractAtomicAssert<S,T,U>,T,U> extends AbstractAssert<S, U> {
+public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
+  extends AbstractAssert<SELF, ATOMIC> {
 
-  private ComparisonStrategy abstractAtomicValueComparisonStrategy;
+  private ComparisonStrategy atomicValueComparisonStrategy;
 
-  public AbstractAtomicAssert(U actual, Class<?> selfType) {
+  public AbstractAtomicAssert(ATOMIC actual, Class<?> selfType) {
     super(actual, selfType);
-    this.abstractAtomicValueComparisonStrategy = StandardComparisonStrategy.instance();
+    this.atomicValueComparisonStrategy = StandardComparisonStrategy.instance();
   }
 
-  public S hasValue(T expectedValue) {
+  public SELF hasValue(VALUE expectedValue) {
     return contains(expectedValue);
   }
 
-  protected abstract T getActualValue();
+  protected abstract VALUE getActualValue();
 
-  private S contains(T expectedValue) {
+  private SELF contains(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
-    if (!abstractAtomicValueComparisonStrategy.areEqual(getActualValue(), expectedValue))
+    if (!atomicValueComparisonStrategy.areEqual(getActualValue(), expectedValue))
       throwAssertionError(shouldContain(getActualValue(), expectedValue));
     return myself;
   }
 
-  private void checkNotNull(T expectedValue) {
+  private void checkNotNull(VALUE expectedValue) {
     if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
   }
 

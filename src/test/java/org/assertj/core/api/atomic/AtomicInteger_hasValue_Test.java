@@ -12,7 +12,8 @@
  */
 package org.assertj.core.api.atomic;
 
-import org.assertj.core.api.BaseTest;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,10 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.AtomicShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class AtomicInteger_hasValue_Test extends BaseTest {
+
+public class AtomicInteger_hasValue_Test {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Test
-  public void should_fail_when_optional_is_null() throws Exception {
+  public void should_fail_when_atomicInteger_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
     assertThat((AtomicInteger)null).hasValue(1234);

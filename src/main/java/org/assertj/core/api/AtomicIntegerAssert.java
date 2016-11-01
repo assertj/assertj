@@ -25,5 +25,4 @@ public class AtomicIntegerAssert extends AbstractAtomicAssert<AtomicIntegerAsser
   protected Integer getActualValue() {
     return actual.get();
   }
-
 }
