@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 
@@ -505,6 +506,18 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   @CheckReturnValue
   public AtomicLongAssert then(AtomicLong actual) {
     return proxy(AtomicLongAssert.class, AtomicLong.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicReference}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
+    return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
   }
 
   /**

@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -797,6 +798,19 @@ public class Assertions {
   @CheckReturnValue
   public static AtomicLongAssert assertThat(AtomicLong actual) {
     return new AtomicLongAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link java.util.concurrent.atomic.AtomicReference}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
+    return new AtomicReferenceAssert<>(actual);
   }
 
   /**

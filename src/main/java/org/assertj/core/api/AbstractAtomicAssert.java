@@ -17,7 +17,14 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 
 import static org.assertj.core.error.AtomicShouldContain.shouldContain;
 
-
+/**
+ * Base class for all atomic assertions.
+ *
+ * @param <SELF> the "self" type of this assertion class.
+ * @param <VALUE> the type of the "actual" value.
+ * @param <ATOMIC> the type of the "actual" atomic.
+ * @author epeee
+ */
 public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
   extends AbstractAssert<SELF, ATOMIC> {
 

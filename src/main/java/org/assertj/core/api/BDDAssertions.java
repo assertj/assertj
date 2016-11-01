@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
@@ -672,6 +673,18 @@ public class BDDAssertions extends Assertions {
    */
   @CheckReturnValue
   public static AtomicLongAssert then(AtomicLong actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.AtomicReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link java.util.concurrent.atomic.AtomicReference}.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
     return assertThat(actual);
   }
 
