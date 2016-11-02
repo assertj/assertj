@@ -24,8 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
@@ -641,7 +644,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicBoolean}.
+   * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
    *
@@ -653,7 +656,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicInteger}.
+   * Create assertion for {@link AtomicInteger}.
    *
    * @param actual the actual value.
    *
@@ -665,7 +668,19 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicLong}.
+   * Create assertion for {@link AtomicIntegerArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
    *
@@ -677,14 +692,38 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicReference}.
+   * Create assertion for {@link AtomicLongArray}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link java.util.concurrent.atomic.AtomicReference}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicLongArrayAssert then(AtomicLongArray actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
    * @return the created assertion object.
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceArray}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicReferenceArrayAssert<VALUE> then(AtomicReferenceArray<VALUE> actual) {
     return assertThat(actual);
   }
 

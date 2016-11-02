@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class AtomicLongAssert extends AbstractAtomicAssert<AtomicLongAssert, Long, AtomicLong> {
 
   public AtomicLongAssert(AtomicLong actual) {
-    super(actual, AtomicLongAssert.class);
+    super(actual, AtomicLongAssert.class, false);
   }
 
   @Override

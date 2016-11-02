@@ -13,30 +13,30 @@
 package org.assertj.core.api;
 
 /**
- * Base class for atomic assertions.
+ * Base class for all array-based atomic assertions.
  *
  * @param <SELF> the "self" type of this assertion class.
  * @param <VALUE> the type of the "actual" value.
  * @param <ATOMIC> the type of the "actual" atomic.
  * @author epeee
  */
-public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
+public abstract class AbstractAtomicArrayAssert<SELF extends AbstractAtomicArrayAssert<SELF,VALUE,ATOMIC>,VALUE,ATOMIC>
   extends AbstractAtomicBaseAssert<SELF,VALUE,ATOMIC> {
 
-  public AbstractAtomicAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
+  public AbstractAtomicArrayAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
     super(actual, selfType, expectedNullAllowed);
   }
 
-  public SELF hasValue(VALUE expectedValue) {
+  public SELF hasValue(VALUE expectedValue, final int index) {
     return contains(expectedValue, new Resolver<VALUE>() {
       @Override
       public VALUE resolve() {
-        return getActualValue();
+        return getActualValue(index);
       }
     });
   }
 
-  protected abstract VALUE getActualValue();
+  protected abstract VALUE getActualValue(int index);
 
 }
 

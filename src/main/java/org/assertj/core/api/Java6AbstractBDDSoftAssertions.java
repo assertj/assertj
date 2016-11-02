@@ -25,8 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 
@@ -473,7 +476,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicBoolean}.
+   * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
    *
@@ -485,7 +488,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicInteger}.
+   * Create assertion for {@link AtomicInteger}.
    *
    * @param actual the actual value.
    *
@@ -497,7 +500,19 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicLong}.
+   * Create assertion for {@link AtomicIntegerArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
+    return proxy(AtomicIntegerArrayAssert.class, AtomicIntegerArray.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
    *
@@ -509,7 +524,19 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.atomic.AtomicReference}.
+   * Create assertion for {@link AtomicLongArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicLongArrayAssert then(AtomicLongArray actual) {
+    return proxy(AtomicLongArrayAssert.class, AtomicLongArray.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReference}.
    *
    * @param actual the actual value.
    *
@@ -518,6 +545,18 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   @CheckReturnValue
   public <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
     return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public <VALUE> AtomicReferenceArrayAssert<VALUE> then(AtomicReferenceArray<VALUE> actual) {
+    return proxy(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
   }
 
   /**

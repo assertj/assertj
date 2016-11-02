@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AtomicIntegerAssert extends AbstractAtomicAssert<AtomicIntegerAssert, Integer, AtomicInteger> {
 
   public AtomicIntegerAssert(AtomicInteger actual) {
-    super(actual, AtomicIntegerAssert.class);
+    super(actual, AtomicIntegerAssert.class, false);
   }
 
   @Override

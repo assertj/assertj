@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AtomicReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicReferenceAssert<VALUE>, VALUE, AtomicReference<VALUE>> {
 
   public AtomicReferenceAssert(AtomicReference<VALUE> actual) {
-    super(actual, AtomicReferenceAssert.class);
+    super(actual, AtomicReferenceAssert.class, true);
   }
 
   @Override

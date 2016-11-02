@@ -13,16 +13,16 @@
 package org.assertj.core.api;
 
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLongArray;
 
-public class AtomicBooleanAssert extends AbstractAtomicAssert<AtomicBooleanAssert, Boolean, AtomicBoolean> {
+public class AtomicLongArrayAssert extends AbstractAtomicArrayAssert<AtomicLongArrayAssert, Long, AtomicLongArray> {
 
-  public AtomicBooleanAssert(AtomicBoolean actual) {
-    super(actual, AtomicBooleanAssert.class, false);
+  public AtomicLongArrayAssert(AtomicLongArray actual) {
+    super(actual, AtomicLongArrayAssert.class, false);
   }
 
   @Override
-  protected Boolean getActualValue() {
-    return actual.get();
+  protected Long getActualValue(int index) {
+    return actual.get(index);
   }
 }

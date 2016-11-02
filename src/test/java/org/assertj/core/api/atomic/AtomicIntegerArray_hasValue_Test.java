@@ -17,46 +17,45 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.AtomicShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class AtomicReference_hasValue_Test {
+public class AtomicIntegerArray_hasValue_Test {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
-  private String expectedValue = "expectedValue";
-
   @Test
-  public void should_fail_when_atomicReference_is_null() throws Exception {
+  public void should_fail_when_atomicIntegerArray_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((AtomicReference<String>) null).hasValue(expectedValue);
+    assertThat((AtomicIntegerArray)null).hasValue(1234, 1);
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null_and_does_not_contains_expected_value() throws Exception {
-    AtomicReference<String> actual = new AtomicReference<>("actual");
-    thrown.expectAssertionError(shouldContain(actual.get(), null).create());
+  public void should_fail_if_expected_value_is_null() throws Exception {
+    thrown.expectIllegalArgumentException("The expected value should not be <null>.");
 
-    assertThat(new AtomicReference<>("actual")).hasValue(null);
+    assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(null,1);
   }
 
   @Test
-  public void should_fail_if_atomicReference_does_not_contain_expected_value() throws Exception {
-    AtomicReference<String> actual = new AtomicReference<>("actual");
+  public void should_fail_if_atomicIntegerArray_does_not_contain_expected_value() throws Exception {
+    AtomicIntegerArray actual = new AtomicIntegerArray(new int[] {1,2,3,4});
+    int expectedValue = 5;
 
-    thrown.expectAssertionError(shouldContain(actual.get(), expectedValue).create());
+    thrown.expectAssertionError(shouldContain(actual.get(3), expectedValue).create());
 
-    assertThat(actual).hasValue(expectedValue);
+    assertThat(actual).hasValue(expectedValue, 3);
   }
 
   @Test
-  public void should_pass_if_atomicReference_contains_expected_value() throws Exception {
-    assertThat(new AtomicReference<>(expectedValue)).hasValue(expectedValue);
+  public void should_pass_if_atomicInteger_contains_expected_value() throws Exception {
+    assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(3, 2);
   }
 
 }
+
