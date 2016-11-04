@@ -383,7 +383,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new short[] { 1, 2 }).containsExactlyInAnyOrder((short) 1, (short) 2);
-   * assertThat(new short[] { 1, 2, 1 }).containsExactlyInAnyOrder((short) 1, (short) 2, (short) 1);
+   * assertThat(new short[] { 1, 2, 1 }).containsExactlyInAnyOrder((short) 1, (short) 1, (short) 2);
    * 
    * // assertions will fail
    * assertThat(new short[] { 1, 2 }).containsExactlyInAnyOrder((short) 1);

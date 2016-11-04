@@ -43,6 +43,7 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ShouldContainAnyOf;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -188,17 +189,27 @@ public class Maps {
     failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (actual.isEmpty() && entries.length == 0)
-      return;
+    if (actual.isEmpty() && entries.length == 0) return;
     failIfEmptySinceActualIsNotEmpty(entries);
     Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     for (Map.Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) {
-        notFound.add(entry);
-      }
+      if (!containsEntry(actual, entry)) notFound.add(entry); 
     }
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContain(actual, entries, notFound));
+  }
+
+  public <K, V> void assertContainsAnyOf(AssertionInfo info, Map<K, V> actual,
+                                         Map.Entry<? extends K, ? extends V>[] entries) {
+    failIfNull(entries);
+    assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (actual.isEmpty() && entries.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(entries);
+    for (Map.Entry<? extends K, ? extends V> entry : entries) {
+      if (containsEntry(actual, entry)) return; 
+    }
+    throw failures.failure(info, ShouldContainAnyOf.shouldContainAnyOf(actual, entries));
   }
 
   /**
@@ -567,4 +578,5 @@ public class Maps {
   private static <K, V> void failIfEmptySinceActualIsNotEmpty(Map.Entry<? extends K, ? extends V>[] values) {
     if (values.length == 0) throw new AssertionError("actual is not empty");
   }
+
 }

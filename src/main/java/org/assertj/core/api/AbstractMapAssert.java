@@ -231,7 +231,9 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Verifies that the actual map contains the given entries, in any order.
+   * Verifies that the actual map contains the given entries, in any order. 
+   * <p>
+   * This assertion succeeds if both actual map and given entries are empty.
    * <p>
    * Example :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
@@ -240,8 +242,9 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
    * 
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
+   * assertThat(emptyMap).contains();
    * 
    * // assertions will fail
    * assertThat(ringBearers).contains(entry(oneRing, sauron));
@@ -251,7 +254,6 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @param entries the given entries.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws NullPointerException if any of the entries in the given array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
@@ -261,6 +263,36 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
     return myself;
   }
 
+  /**
+   * Verifies that the actual map contains at least one of the given entries.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, elrond);
+   * ringBearers.put(oneRing, frodo);
+   * 
+   * // assertions will pass
+   * assertThat(ringBearers).containsAnyOf(entry(oneRing, frodo), entry(oneRing, sauron));
+   * assertThat(emptyMap).containsAnyOf();
+   * 
+   * // assertions will fail
+   * assertThat(ringBearers).containsAnyOf(entry(oneRing, gandalf), entry(oneRing, aragorn));</code></pre>
+   *
+   * @param entries the given entries.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain any of the given entries.
+   */
+  public S containsAnyOf(@SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+    maps.assertContainsAnyOf(info, actual, entries);
+    return myself;
+  }
+  
   /**
    * Verifies that the actual map contains all entries of the given map, in any order.
    * <p>
