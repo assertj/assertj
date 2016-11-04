@@ -12,11 +12,10 @@
  */
 package org.assertj.core.api.charsequence;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.Test;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#isBlank()}</code>.
