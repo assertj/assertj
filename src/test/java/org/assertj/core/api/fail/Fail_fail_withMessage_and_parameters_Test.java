@@ -18,21 +18,14 @@ import org.assertj.core.api.Fail;
 import org.assertj.core.test.ExpectedException;
 import org.junit.*;
 
-/**
- * Tests for <code>{@link Fail#fail(String)}</code>.
- * 
- * @author Yvonne Wang
- * @author Alex Ruiz
- */
-public class Fail_fail_withMessage_Test {
+public class Fail_fail_withMessage_and_parameters_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
-  public void shouldIncludeMessageWhenFailing() {
-    String message = "Failed :(";
-    thrown.expectAssertionError(message);
-    Fail.fail(message);
+  public void should_include_message_when_failing() {
+    thrown.expectAssertionError("Failed :(");
+    Fail.fail("Failed %s", ":(");
   }
 }

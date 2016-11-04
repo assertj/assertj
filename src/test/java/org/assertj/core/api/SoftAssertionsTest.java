@@ -671,6 +671,15 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  public void should_return_failure_after_fail_with_parameters() {
+    String failureMessage = "Should not reach %s or %s";
+    softly.fail(failureMessage, "here", "here");
+    assertThat(softly.wasSuccess()).isFalse();
+    assertThat(softly.errorsCollected()).hasSize(1);
+    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo("Should not reach here or here");
+  }
+  
+  @Test
   public void should_return_failure_after_fail_with_throwable() {
     String failureMessage = "Should not reach here";
     IllegalStateException realCause = new IllegalStateException();
