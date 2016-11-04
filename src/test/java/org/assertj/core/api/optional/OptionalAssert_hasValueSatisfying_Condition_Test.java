@@ -44,7 +44,7 @@ public class OptionalAssert_hasValueSatisfying_Condition_Test extends BaseTest {
   @Test
   public void should_fail_when_condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    assertThat(Optional.of("something")).hasValueSatisfying((Condition) null);
+    assertThat(Optional.of("something")).hasValueSatisfying((Condition<String>) null);
   }
 
   @Test
