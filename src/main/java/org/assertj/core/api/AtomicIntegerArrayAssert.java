@@ -14,7 +14,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
-
+/**
+ * Assertion methods for {@link AtomicIntegerArray}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicIntegerArray)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicIntegerArrayAssert extends AbstractAtomicArrayAssert<AtomicIntegerArrayAssert, Integer, AtomicIntegerArray> {
 
   public AtomicIntegerArrayAssert(AtomicIntegerArray actual) {

@@ -15,6 +15,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Assertion methods for {@link AtomicBoolean}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicBoolean)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicBooleanAssert extends AbstractAtomicAssert<AtomicBooleanAssert, Boolean, AtomicBoolean> {
 
   public AtomicBooleanAssert(AtomicBoolean actual) {

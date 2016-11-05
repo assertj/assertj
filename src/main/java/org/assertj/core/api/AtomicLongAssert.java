@@ -15,6 +15,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Assertion methods for {@link AtomicLong}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicLong)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicLongAssert extends AbstractAtomicAssert<AtomicLongAssert, Long, AtomicLong> {
 
   public AtomicLongAssert(AtomicLong actual) {

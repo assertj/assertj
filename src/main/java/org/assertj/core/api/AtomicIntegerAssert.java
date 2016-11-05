@@ -14,7 +14,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+/**
+ * Assertion methods for {@link AtomicInteger}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicInteger)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicIntegerAssert extends AbstractAtomicAssert<AtomicIntegerAssert, Integer, AtomicInteger> {
 
   public AtomicIntegerAssert(AtomicInteger actual) {

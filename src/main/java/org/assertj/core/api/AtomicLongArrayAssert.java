@@ -15,6 +15,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicLongArray;
 
+/**
+ * Assertion methods for {@link AtomicLongArray}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicLongArray)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicLongArrayAssert extends AbstractAtomicArrayAssert<AtomicLongArrayAssert, Long, AtomicLongArray> {
 
   public AtomicLongArrayAssert(AtomicLongArray actual) {

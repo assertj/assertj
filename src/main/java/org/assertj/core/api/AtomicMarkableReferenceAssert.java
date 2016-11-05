@@ -15,6 +15,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
+/**
+ * Assertion methods for {@link AtomicMarkableReference}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicMarkableReference)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicMarkableReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
 
   public AtomicMarkableReferenceAssert(AtomicMarkableReference<VALUE> actual) {
@@ -26,6 +34,12 @@ public class AtomicMarkableReferenceAssert<VALUE> extends AbstractAtomicAssert<A
     return actual.getReference();
   }
 
+  /**
+   * Verifies that the actual {@link AtomicMarkableReference} contains the given marked value.
+   *
+   * @param expected the expected marked inside the {@link AtomicMarkableReference}.
+   * @return this assertion object.
+   */
   public AtomicMarkableReferenceAssert<VALUE> isMarked(boolean expected) {
     boolean marked = actual.isMarked();
     doAssert(marked, expected);

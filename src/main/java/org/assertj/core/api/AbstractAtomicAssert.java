@@ -27,6 +27,12 @@ public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SEL
     super(actual, selfType, expectedNullAllowed);
   }
 
+  /**
+   * Verifies that the actual {@link SELF} contains the given value.
+   *
+   * @param expectedValue the expected value inside the {@link SELF}.
+   * @return this assertion object.
+   */
   public SELF hasValue(VALUE expectedValue) {
     return contains(expectedValue, new Resolver<VALUE>() {
       @Override

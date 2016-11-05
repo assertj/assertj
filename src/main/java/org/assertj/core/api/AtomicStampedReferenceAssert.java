@@ -15,6 +15,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicStampedReference;
 
+/**
+ * Assertion methods for {@link AtomicStampedReference}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicStampedReference)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
 
   public AtomicStampedReferenceAssert(AtomicStampedReference<VALUE> actual) {
@@ -26,6 +34,12 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicAssert<At
     return actual.getReference();
   }
 
+  /**
+   * Verifies that the actual {@link AtomicStampedReference} contains the given stamp.
+   *
+   * @param expectedStamp the expected stamp inside the {@link AtomicStampedReference}.
+   * @return this assertion object.
+   */
   public AtomicStampedReferenceAssert<VALUE> hasStamp(int expectedStamp){
     int timestamp = actual.getStamp();
     doAssert(timestamp, expectedStamp);

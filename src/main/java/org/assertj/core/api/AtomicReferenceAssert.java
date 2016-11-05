@@ -15,6 +15,14 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Assertion methods for {@link AtomicReference}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicReference)}</code>.
+ * </p>
+ *
+ * @author epeee
+ */
 public class AtomicReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicReferenceAssert<VALUE>, VALUE, AtomicReference<VALUE>> {
 
   public AtomicReferenceAssert(AtomicReference<VALUE> actual) {

@@ -27,6 +27,13 @@ public abstract class AbstractAtomicArrayAssert<SELF extends AbstractAtomicArray
     super(actual, selfType, expectedNullAllowed);
   }
 
+  /**
+   * Verifies that the actual {@link SELF} contains the given value at the given index.
+   *
+   * @param expectedValue the expected value inside the {@link SELF}.
+   * @param index the index where the value should be stored.
+   * @return this assertion object.
+   */
   public SELF hasValue(VALUE expectedValue, final int index) {
     return contains(expectedValue, new Resolver<VALUE>() {
       @Override
