@@ -32,14 +32,14 @@ public class AtomicReferenceArray_hasValue_Test {
   private String expectedValue = "expectedValue";
 
   @Test
-  public void should_fail_when_atomicReference_is_null() throws Exception {
+  public void should_fail_when_atomicReferenceArray_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
     assertThat((AtomicReferenceArray<String>) null).hasValue(expectedValue, 1);
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null_and_does_not_contains_expected_value() throws Exception {
+  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
     AtomicReferenceArray<String> actual = new AtomicReferenceArray<>(new String[] {"actual"});
     thrown.expectAssertionError(shouldContain(actual.get(0), null).create());
 

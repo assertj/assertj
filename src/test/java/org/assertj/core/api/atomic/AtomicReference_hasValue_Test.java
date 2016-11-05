@@ -38,7 +38,7 @@ public class AtomicReference_hasValue_Test {
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null_and_does_not_contains_expected_value() throws Exception {
+  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
     AtomicReference<String> actual = new AtomicReference<>("actual");
     thrown.expectAssertionError(shouldContain(actual.get(), null).create());
 

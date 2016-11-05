@@ -42,10 +42,14 @@ public abstract class AbstractAtomicBaseAssert<SELF extends AbstractAtomicBaseAs
     validate(expectedValue);
 
     VALUE resolvedValue = valueResolver.resolve();
-    if (!atomicValueComparisonStrategy.areEqual(resolvedValue, expectedValue)) {
-      throwAssertionError(shouldContain(resolvedValue, expectedValue));
-    }
+    doAssert(resolvedValue, expectedValue);
     return myself;
+  }
+
+  protected final <T> void doAssert(T actual, T expected) {
+    if (!atomicValueComparisonStrategy.areEqual(actual, expected)) {
+      throwAssertionError(shouldContain(actual, expected));
+    }
   }
 
   private void validate(VALUE expectedValue) {
