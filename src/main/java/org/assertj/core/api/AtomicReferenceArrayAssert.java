@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicReferenceArray)}</code>.
  * </p>
  *
+ * @param <VALUE> the type of object referred to by the {@link AtomicReferenceArray}.
  * @author epeee
  */
 public class AtomicReferenceArrayAssert<VALUE> extends AbstractAtomicArrayAssert<AtomicReferenceArrayAssert<VALUE>, VALUE , AtomicReferenceArray<VALUE>> {

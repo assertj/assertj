@@ -31,11 +31,14 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -806,6 +809,19 @@ public class Assertions {
   }
 
   /**
+   * Create assertion for {@link AtomicIntegerFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return new AtomicIntegerFieldUpdaterAssert(actual);
+  }
+
+  /**
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
@@ -827,6 +843,19 @@ public class Assertions {
   @CheckReturnValue
   public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
     return new AtomicLongArrayAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
+    return new AtomicLongFieldUpdaterAssert(actual);
   }
 
   /**
@@ -853,6 +882,20 @@ public class Assertions {
   @CheckReturnValue
   public static <VALUE> AtomicReferenceArrayAssert<VALUE> assertThat(AtomicReferenceArray<VALUE> actual) {
     return new AtomicReferenceArrayAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceFieldUpdater}.
+   *
+   * @param actual the actual value.
+   * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+    return new AtomicReferenceFieldUpdaterAssert<>(actual);
   }
 
   /**

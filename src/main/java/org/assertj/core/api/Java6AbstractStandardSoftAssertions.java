@@ -26,11 +26,14 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -517,6 +520,19 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   }
 
   /**
+   * Create assertion for {@link AtomicIntegerFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+  }
+
+  /**
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
@@ -541,10 +557,24 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   }
 
   /**
+   * Create assertion for {@link AtomicLongFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
+    return proxy(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
+  }
+
+  /**
    * Create assertion for {@link AtomicReference}.
    *
    * @param actual the actual value.
    *
+   * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
    * @return the created assertion object.
    */
   @CheckReturnValue
@@ -557,11 +587,26 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    *
    * @param actual the actual value.
    *
+   * @param <VALUE> the type of object referred to by the {@link AtomicReferenceArray}.
    * @return the created assertion object.
    */
   @CheckReturnValue
   public <VALUE> AtomicReferenceArrayAssert<VALUE> assertThat(AtomicReferenceArray<VALUE> actual) {
     return proxy(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+    return proxy(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
   }
 
   /**

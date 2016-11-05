@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.atomic;
 
-
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,6 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.AtomicShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+
 
 public class AtomicReference_hasValue_Test {
 

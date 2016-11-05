@@ -13,25 +13,25 @@
 package org.assertj.core.api;
 
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 /**
- * Assertion methods for {@link AtomicReference}s.
+ * Assertion methods for {@link AtomicLongFieldUpdater}s.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicReference)}</code>.
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicLongFieldUpdater)}</code>.
  * </p>
  *
- * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
+ * @param <OBJECT> the type of the object holding the updatable field.
  * @author epeee
  */
-public class AtomicReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicReferenceAssert<VALUE>, VALUE, AtomicReference<VALUE>> {
+public class AtomicLongFieldUpdaterAssert<OBJECT> extends AbstractAtomicFieldUpdaterAssert<AtomicLongFieldUpdaterAssert<OBJECT>, Long, AtomicLongFieldUpdater<OBJECT>, OBJECT> {
 
-  public AtomicReferenceAssert(AtomicReference<VALUE> actual) {
-    super(actual, AtomicReferenceAssert.class, true);
+  public AtomicLongFieldUpdaterAssert(AtomicLongFieldUpdater<OBJECT> actual) {
+    super(actual, AtomicLongFieldUpdaterAssert.class, false);
   }
 
   @Override
-  protected VALUE getActualValue() {
-    return actual.get();
+  protected Long getActualValue(OBJECT obj) {
+    return actual.get(obj);
   }
 }
