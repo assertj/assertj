@@ -30,6 +30,13 @@ public abstract class AbstractAtomicArrayAssert<SELF extends AbstractAtomicArray
   /**
    * Verifies that the actual {@link SELF} contains the given value at the given index.
    *
+   * Examples:
+   * <pre><code class='java'> // this assertion succeeds:
+   * assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(3, 2);
+   *
+   * // this assertion fails:
+   * assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(4, 1);</code></pre>
+   *
    * @param expectedValue the expected value inside the {@link SELF}.
    * @param index the index where the value should be stored.
    * @return this assertion object.

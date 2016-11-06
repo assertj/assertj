@@ -37,6 +37,13 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicAssert<At
   /**
    * Verifies that the actual {@link AtomicStampedReference} contains the given stamp.
    *
+   * Examples:
+   * <pre><code class='java'> // this assertion succeeds:
+   * assertThat(new AtomicStampedReference<>("actual", 1234)).hasStamp(1234);
+   *
+   * // this assertion fails:
+   * assertThat(new AtomicStampedReference<>("actual", 1234)).hasStamp(5678);</code></pre>
+   *
    * @param expectedStamp the expected stamp inside the {@link AtomicStampedReference}.
    * @return this assertion object.
    */

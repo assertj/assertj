@@ -30,6 +30,13 @@ public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SEL
   /**
    * Verifies that the actual {@link SELF} contains the given value.
    *
+   * Examples:
+   * <pre><code class='java'> // this assertion succeeds:
+   * assertThat(new AtomicInteger(1234)).hasValue(1234);
+   *
+   * // this assertion fails:
+   * assertThat(new AtomicInteger(1234)).hasValue(5678);</code></pre>
+   *
    * @param expectedValue the expected value inside the {@link SELF}.
    * @return this assertion object.
    */

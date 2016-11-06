@@ -35,7 +35,14 @@ public class AtomicMarkableReferenceAssert<VALUE> extends AbstractAtomicAssert<A
   }
 
   /**
-   * Verifies that the actual {@link AtomicMarkableReference} contains the given marked value.
+   * Verifies the mark of the actual {@link AtomicMarkableReference}.
+   *
+   * Examples:
+   * <pre><code class='java'> // this assertion succeeds:
+   * assertThat(new AtomicMarkableReference<>("actual", true)).isMarked(true);
+   *
+   * // this assertion fails:
+   * assertThat(new AtomicMarkableReference<>("actual", true)).isMarked(false);</code></pre>
    *
    * @param expected the expected marked inside the {@link AtomicMarkableReference}.
    * @return this assertion object.

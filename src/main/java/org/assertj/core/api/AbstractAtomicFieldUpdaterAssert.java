@@ -31,6 +31,19 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
   /**
    * Verifies that the actual {@link SELF} contains the given value at the given object.
    *
+   * Examples:
+   * <pre><code class='java'> // person is an instance of a Person class holding a non-private volatile int field (age).
+   *
+   * // this assertion succeeds:
+   * AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
+   * fieldUpdater.set(person, 25);
+   * assertThat(fieldUpdater).hasValue(25, person);
+   *
+   * // this assertion fails:
+   * AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
+   * fieldUpdater.set(person, 28);
+   * assertThat(fieldUpdater).hasValue(25, person);</code></pre>
+   *
    * @param expectedValue the expected value inside the {@link SELF}.
    * @param obj the object holding the updatable field.
    * @return this assertion object.
