@@ -263,7 +263,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(5L).isNotCloseTo(7L, byLessThan(1L));
    *
    * // assertions will fail
@@ -313,7 +313,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(5L).isNotCloseTo(Long.valueOf(7L), byLessThan(1L));
    *
    * // assertions will fail
@@ -365,7 +365,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with long:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11L).isNotCloseTo(Long.valueOf(10L), withinPercentage(5L));
    *
    * // assertions will fail
@@ -416,7 +416,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with long:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11L).isNotCloseTo(10L, withinPercentage(5L));
    *
    * // assertions will fail

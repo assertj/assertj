@@ -283,7 +283,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with float:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11.0f).isNotCloseTo(new Float(10.0f), withinPercentage(5f));
    *
    * // assertions will fail
@@ -334,7 +334,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with float:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11.0f).isNotCloseTo(10.0f, withinPercentage(5f));
    *
    * // assertions will fail
