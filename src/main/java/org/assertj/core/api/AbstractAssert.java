@@ -116,11 +116,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <p>
    * Instead of writing ...
    *
-   * <pre><code class='java'>
-   * throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());
-   * </code></pre>
+   * <pre><code class='java'>throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());</code></pre>
    * ... you can simply write :
-   * 
    * <pre><code class='java'> throwAssertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
    *
    * @param errorMessageFactory used to define the error message.

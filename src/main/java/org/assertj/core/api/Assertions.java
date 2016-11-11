@@ -812,7 +812,7 @@ public class Assertions {
   }
 
   /**
-   * Create assertion for {@link AtomicIntegerArray}.
+   * Create int[] assertion for {@link AtomicIntegerArray}.
    *
    * @param actual the actual value.
    *
@@ -833,7 +833,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
-    return new AtomicIntegerFieldUpdaterAssert(actual);
+    return new AtomicIntegerFieldUpdaterAssert<OBJECT>(actual);
   }
 
   /**
@@ -870,7 +870,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
-    return new AtomicLongFieldUpdaterAssert(actual);
+    return new AtomicLongFieldUpdaterAssert<OBJECT>(actual);
   }
 
   /**
@@ -883,7 +883,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
-    return new AtomicReferenceAssert<>(actual);
+    return new AtomicReferenceAssert<VALUE>(actual);
   }
 
   /**
@@ -895,7 +895,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <VALUE> AtomicReferenceArrayAssert<VALUE> assertThat(AtomicReferenceArray<VALUE> actual) {
+  public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
     return new AtomicReferenceArrayAssert<>(actual);
   }
 

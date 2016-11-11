@@ -31,6 +31,30 @@ public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends AbstractAt
     super(actual, AtomicReferenceFieldUpdaterAssert.class, true);
   }
 
+  /**
+   * Verifies that the actual atomic field updater contains the given value at the given object.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // person is an instance of a Person class holding a non-private volatile String field (name).
+   * AtomicReferenceFieldUpdater&lt;Person,String&gt; fieldUpdater 
+   *       = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
+   * 
+   * // this assertion succeeds:
+   * ageUpdater.set(person, "Superman");
+   * assertThat(ageUpdater).hasValue("Superman", person);
+   *
+   * // this assertion fails:
+   * fieldUpdater.set(person, "Batman");
+   * assertThat(fieldUpdater).hasValue("Superman", person);</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link SELF}.
+   * @param obj the object holding the updatable field.
+   * @return this assertion object.
+   */
+  public AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> hasValue(FIELD expectedValue, OBJECT obj) {
+    return super.hasValue(expectedValue, obj);
+  }
+  
   @Override
   protected FIELD getActualValue(OBJECT obj) {
     return actual.get(obj);

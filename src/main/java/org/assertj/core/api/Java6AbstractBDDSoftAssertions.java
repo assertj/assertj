@@ -537,6 +537,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
@@ -573,6 +574,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> then(AtomicLongFieldUpdater<OBJECT> actual) {
     return proxy(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
@@ -585,6 +587,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
     return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
@@ -595,10 +598,12 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @param actual the actual value.
    *
+   * @param <ELEMENT> the type of object referred to by the {@link AtomicReferenceArray}.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <VALUE> AtomicReferenceArrayAssert<VALUE> then(AtomicReferenceArray<VALUE> actual) {
+  public <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(AtomicReferenceArray<ELEMENT> actual) {
     return proxy(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
   }
 
@@ -609,6 +614,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> then(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return proxy(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
@@ -621,6 +627,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <VALUE> AtomicMarkableReferenceAssert<VALUE> then(AtomicMarkableReference<VALUE> actual) {
     return proxy(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
@@ -633,6 +640,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <VALUE> AtomicStampedReferenceAssert<VALUE> then(AtomicStampedReference<VALUE> actual) {
     return proxy(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);

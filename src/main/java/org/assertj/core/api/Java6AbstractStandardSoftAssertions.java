@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * AbstractStandardSoftAssertions compatible with Android. Duplicated from {@link AbstractStandardSoftAssertions}.
@@ -540,6 +540,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
@@ -577,6 +578,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
     return proxy(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
@@ -590,6 +592,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
     return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
@@ -600,11 +603,12 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    *
    * @param actual the actual value.
    *
-   * @param <VALUE> the type of object referred to by the {@link AtomicReferenceArray}.
+   * @param <ELEMENT> the type of object referred to by the {@link AtomicReferenceArray}.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <VALUE> AtomicReferenceArrayAssert<VALUE> assertThat(AtomicReferenceArray<VALUE> actual) {
+  public <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
     return proxy(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
   }
 
@@ -617,6 +621,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return proxy(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
@@ -629,6 +634,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
     return proxy(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
@@ -641,6 +647,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
     return proxy(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);

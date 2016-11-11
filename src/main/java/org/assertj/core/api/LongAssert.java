@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Assertion methods for {@link Long}s.
@@ -35,4 +35,8 @@ public class LongAssert extends AbstractLongAssert<LongAssert> {
     super(actual, LongAssert.class);
   }
 
+  public LongAssert(AtomicLong actual) {
+    this(actual == null ? null: actual.get());
+  }
+  
 }

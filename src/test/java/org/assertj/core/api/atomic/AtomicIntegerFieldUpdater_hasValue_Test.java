@@ -12,19 +12,20 @@
  */
 package org.assertj.core.api.atomic;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.AtomicShouldContain.shouldContain;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 
 public class AtomicIntegerFieldUpdater_hasValue_Test {
 
+  @SuppressWarnings("unused")
   private static class Person {
     private String name;
     volatile int age;
@@ -54,7 +55,7 @@ public class AtomicIntegerFieldUpdater_hasValue_Test {
   public void should_fail_if_atomicIntegerFieldUpdater_does_not_contain_expected_value() throws Exception {
     AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
 
-    thrown.expectAssertionError(shouldContain(fieldUpdater.get(person), 25).create());
+    thrown.expectAssertionError(shouldHaveValue(fieldUpdater, person.age, 25, person).create());
 
     assertThat(fieldUpdater).hasValue(25, person);
   }

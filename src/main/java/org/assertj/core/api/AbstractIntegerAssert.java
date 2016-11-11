@@ -411,7 +411,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   public S isCloseTo(int expected, Percentage percentage) {
     integers.assertIsCloseToPercentage(info, actual, expected, percentage);
@@ -433,7 +433,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the given {@link Percentage} is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @since 2.6.0 / 3.6.0

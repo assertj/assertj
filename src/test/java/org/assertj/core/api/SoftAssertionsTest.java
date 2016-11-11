@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
@@ -30,6 +31,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
@@ -697,4 +705,19 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0)).hasMessage("IllegalArgumentException should have been thrown");
   }
+
+  @Test
+  public void should_work_with_atomic() throws Exception {
+    // simple atomic value
+    softly.assertThat(new AtomicBoolean(true)).isTrue();
+    softly.assertThat(new AtomicInteger(1)).hasValueGreaterThan(0);
+    softly.assertThat(new AtomicLong(1l)).hasValueGreaterThan(0l);
+    softly.assertThat(new AtomicReference<String>("abc")).hasValue("abc");
+    // atomic array value
+    softly.assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3);
+    softly.assertThat(new AtomicLongArray(new long[] { 1l, 2l, 3l })).containsExactly(1l, 2l, 3l);
+    softly.assertThat(new AtomicReferenceArray<>(array("a", "b", "c"))).containsExactly("a", "b", "c");
+    softly.assertAll();
+  }
+  
 }

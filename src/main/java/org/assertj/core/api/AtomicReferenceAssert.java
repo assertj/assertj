@@ -12,26 +12,65 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Assertion methods for {@link AtomicReference}s.
- * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicReference)}</code>.
- * </p>
- *
- * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
- * @author epeee
- */
-public class AtomicReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicReferenceAssert<VALUE>, VALUE, AtomicReference<VALUE>> {
+public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAssert<V>, AtomicReference<V>> {
 
-  public AtomicReferenceAssert(AtomicReference<VALUE> actual) {
-    super(actual, AtomicReferenceAssert.class, true);
+  public AtomicReferenceAssert(AtomicReference<V> actual) {
+    super(actual, AtomicReferenceAssert.class);
   }
 
-  @Override
-  protected VALUE getActualValue() {
-    return actual.get();
+  /**
+   * Verifies that the actual atomic has the given value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new AtomicReference("foo")).hasValue("foo");
+   *
+   * // assertion will fail
+   * assertThat(new AtomicReference("foo")).hasValue("bar");</code></pre>
+   * 
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual atomic is {@code null}.
+   * @throws AssertionError if the actual atomic does not have the given value.
+   * 
+   * @since 2.7.0 / 3.7.0
+   */
+  public AtomicReferenceAssert<V> hasValue(V expectedValue) {
+    isNotNull();
+    V actualValue = actual.get();
+    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+      throwAssertionError(shouldHaveValue(actual, expectedValue));
+    }
+    return myself;
   }
+
+  /**
+   * Verifies that the actual atomic has not the given value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new AtomicReference("foo")).doesNotHaveValue("bar");
+   *
+   * // assertion will fail
+   * assertThat(new AtomicReference("foo")).doesNotHaveValue("foo");</code></pre>
+   * 
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual atomic is {@code null}.
+   * @throws AssertionError if the actual atomic has the given value.
+   * 
+   * @since 2.7.0 / 3.7.0
+   */
+  public AtomicReferenceAssert<V> doesNotHaveValue(V expectedValue) {
+    isNotNull();
+    V actualValue = actual.get();
+    if (objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+      throwAssertionError(shouldNotContainValue(actual, expectedValue));
+    }
+    return myself;
+  }
+
 }

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+
 /**
  * Base class for all fieldupdater assertions.
  *
@@ -21,42 +23,38 @@ package org.assertj.core.api;
  * @param <OBJECT> the type of the object holding the updatable field.
  * @author epeee
  */
-public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF,VALUE,ATOMIC, OBJECT>,VALUE,ATOMIC, OBJECT>
-  extends AbstractAtomicBaseAssert<SELF,VALUE,ATOMIC> {
+public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF, VALUE, ATOMIC, OBJECT>, VALUE, ATOMIC, OBJECT>
+    extends AbstractObjectAssert<SELF, ATOMIC> {
+
+  private final boolean expectedNullAllowed;
 
   public AbstractAtomicFieldUpdaterAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
-    super(actual, selfType, expectedNullAllowed);
+    super(actual, selfType);
+    this.expectedNullAllowed = expectedNullAllowed;
   }
 
-  /**
-   * Verifies that the actual {@link SELF} contains the given value at the given object.
-   *
-   * Examples:
-   * <pre><code class='java'> // person is an instance of a Person class holding a non-private volatile int field (age).
-   *
-   * // this assertion succeeds:
-   * AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
-   * fieldUpdater.set(person, 25);
-   * assertThat(fieldUpdater).hasValue(25, person);
-   *
-   * // this assertion fails:
-   * AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
-   * fieldUpdater.set(person, 28);
-   * assertThat(fieldUpdater).hasValue(25, person);</code></pre>
-   *
-   * @param expectedValue the expected value inside the {@link SELF}.
-   * @param obj the object holding the updatable field.
-   * @return this assertion object.
-   */
   public SELF hasValue(VALUE expectedValue, final OBJECT obj) {
-    return contains(expectedValue, new Resolver<VALUE>() {
-      @Override
-      public VALUE resolve() {
-        return getActualValue(obj);
-      }
-    });
+    validate(expectedValue);
+    VALUE actualValue = getActualValue(obj);
+    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+      throwAssertionError(shouldHaveValue(actual, actualValue, expectedValue, obj));
+    }
+    return myself;
   }
 
   protected abstract VALUE getActualValue(OBJECT obj);
+
+  protected void validate(VALUE expectedValue) {
+    isNotNull();
+    if (!expectedNullAllowed) {
+      checkNotNull(expectedValue);
+    }
+  }
+
+  private void checkNotNull(VALUE expectedValue) {
+    if (expectedValue == null) {
+      throw new IllegalArgumentException("The expected value should not be <null>.");
+    }
+  }
 
 }

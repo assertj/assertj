@@ -12,6 +12,10 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Arrays.array;
+
+import java.util.concurrent.atomic.AtomicIntegerArray;
+
 /**
  * Assertion methods for arrays of {@code int}s.
  * <p>
@@ -29,4 +33,9 @@ public class IntArrayAssert extends AbstractIntArrayAssert<IntArrayAssert> {
   public IntArrayAssert(int[] actual) {
     super(actual, IntArrayAssert.class);
   }
+  
+  public IntArrayAssert(AtomicIntegerArray actual) {
+    this(array(actual));
+  }
+
 }

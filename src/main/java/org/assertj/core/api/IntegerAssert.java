@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Assertion methods for {@link Integer}s.
@@ -32,5 +33,9 @@ public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
 
   public IntegerAssert(Integer actual) {
     super(actual, IntegerAssert.class);
+  }
+
+  public IntegerAssert(AtomicInteger actual) {
+    this(actual == null ? null : actual.get());
   }
 }

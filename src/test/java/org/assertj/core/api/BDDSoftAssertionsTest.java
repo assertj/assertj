@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
@@ -23,6 +24,13 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
@@ -219,7 +227,6 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                          + "but was:%n"
                                                          + " <\"something was wrong\">"));
       assertThat(errors.get(39)).contains(String.format("%nExpecting port of"));
-
     }
   }
 
@@ -231,6 +238,20 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.assertAll();
   }
 
+  @Test
+  public void should_work_with_atomic() throws Exception {
+    // simple atomic value
+    softly.then(new AtomicBoolean(true)).isTrue();
+    softly.then(new AtomicInteger(1)).hasValueGreaterThan(0);
+    softly.then(new AtomicLong(1l)).hasValueGreaterThan(0l);
+    softly.then(new AtomicReference<String>("abc")).hasValue("abc");
+    // atomic array value
+    softly.then(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3);
+    softly.then(new AtomicLongArray(new long[] { 1l, 2l, 3l })).containsExactly(1l, 2l, 3l);
+    softly.then(new AtomicReferenceArray<>(array("a", "b", "c"))).containsExactly("a", "b", "c");
+    softly.assertAll();
+  }
+  
   @Test
   public void should_have_the_same_methods_as_in_standard_soft_assertions() {
     Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");

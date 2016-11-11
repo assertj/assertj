@@ -40,7 +40,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "%nExpecting:%n <%s>%nto be equal to:%n " +
-	                                                                      "<%s>%n%s but was not.";
+                                                                          "<%s>%n%s but was not.";
   private static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
   protected final Object actual;
   protected final Object expected;
@@ -61,7 +61,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @return the created {@code AssertionErrorFactory}.
    */
   public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected, Representation representation) {
-	return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation);
+    return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation);
   }
 
   /**
@@ -73,16 +73,17 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @return the created {@code AssertionErrorFactory}.
    */
   public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected,
-	                                                ComparisonStrategy comparisonStrategy, Representation representation) {
-	return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
+                                                    ComparisonStrategy comparisonStrategy,
+                                                    Representation representation) {
+    return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
   }
 
   @VisibleForTesting
   ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation) {
-	this.actual = actual;
-	this.expected = expected;
-	this.comparisonStrategy = comparisonStrategy;
-	this.representation = representation;
+    this.actual = actual;
+    this.expected = expected;
+    this.comparisonStrategy = comparisonStrategy;
+    this.representation = representation;
   }
 
   /**
@@ -104,29 +105,29 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    */
   @Override
   public AssertionError newAssertionError(Description description, Representation representation) {
-	if (actualAndExpectedHaveSameStringRepresentation()) {
-	  // Example : actual = 42f and expected = 42d gives actual : "42" and expected : "42" and
-	  // JUnit 4 manages this case even worst, it will output something like :
-	  // "java.lang.String expected:java.lang.String<42.0> but was: java.lang.String<42.0>"
-	  // which does not solve the problem and makes things even more confusing since we lost the fact that 42 was a
-	  // float or a double, it is then better to built our own description, with the drawback of not using a
-	  // ComparisonFailure (which looks nice in eclipse)
-	  return Failures.instance().failure(defaultDetailedErrorMessage(description, representation));
-	}
-	// only use JUnit error message if comparison strategy was standard, otherwise we need to mention it in the
-	// assertion error message to make it clear to the user it was used.
-	if (comparisonStrategy.isStandard()) {
-	  // comparison strategy is standard -> try to build a JUnit ComparisonFailure that is nicely dispayed in IDE.
-	  AssertionError error = comparisonFailure(description);
-	  // error ==null means that JUnit was not in the classpath
-	  if (error != null) return error;
-	}
-	// No JUnit in the classpath => fall back to default error message
-	return Failures.instance().failure(defaultErrorMessage(description, representation));
+    if (actualAndExpectedHaveSameStringRepresentation()) {
+      // Example : actual = 42f and expected = 42d gives actual : "42" and expected : "42" and
+      // JUnit 4 manages this case even worst, it will output something like :
+      // "java.lang.String expected:java.lang.String<42.0> but was: java.lang.String<42.0>"
+      // which does not solve the problem and makes things even more confusing since we lost the fact that 42 was a
+      // float or a double, it is then better to built our own description, with the drawback of not using a
+      // ComparisonFailure (which looks nice in eclipse)
+      return Failures.instance().failure(defaultDetailedErrorMessage(description, representation));
+    }
+    // only use JUnit error message if comparison strategy was standard, otherwise we need to mention it in the
+    // assertion error message to make it clear to the user it was used.
+    if (comparisonStrategy.isStandard()) {
+      // comparison strategy is standard -> try to build a JUnit ComparisonFailure that is nicely dispayed in IDE.
+      AssertionError error = comparisonFailure(description);
+      // error ==null means that JUnit was not in the classpath
+      if (error != null) return error;
+    }
+    // No JUnit in the classpath => fall back to default error message
+    return Failures.instance().failure(defaultErrorMessage(description, representation));
   }
 
   private boolean actualAndExpectedHaveSameStringRepresentation() {
-	return areEqual(representation.toStringOf(actual), representation.toStringOf(expected));
+    return areEqual(representation.toStringOf(actual), representation.toStringOf(expected));
   }
 
   /**
@@ -139,10 +140,10 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @return the error message from description using {@link #expected} and {@link #actual} basic representation.
    */
   private String defaultErrorMessage(Description description, Representation representation) {
-	return comparisonStrategy.isStandard() ?
-	    messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, actual, expected) :
-	    messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-	                            actual, expected, comparisonStrategy);
+    return comparisonStrategy.isStandard()
+        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, actual, expected)
+        : messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
+                                  actual, expected, comparisonStrategy);
   }
 
   /**
@@ -156,62 +157,62 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    *         <b>detailed</b> representation.
    */
   private String defaultDetailedErrorMessage(Description description, Representation representation) {
-	if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
-	  return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-	                                 detailedActual(),
-	                                 detailedExpected(), comparisonStrategy);
-	return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedActual(),
-	                               detailedExpected());
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
+      return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
+                                     detailedActual(),
+                                     detailedExpected(), comparisonStrategy);
+    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedActual(),
+                                   detailedExpected());
   }
 
   private AssertionError comparisonFailure(Description description) {
-	try {
-	  AssertionError comparisonFailure = newComparisonFailure(descriptionFormatter.format(description).trim());
-	  Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(comparisonFailure);
-	  return comparisonFailure;
-	} catch (Throwable e) {
-	  return null;
-	}
+    try {
+      AssertionError comparisonFailure = newComparisonFailure(descriptionFormatter.format(description).trim());
+      Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(comparisonFailure);
+      return comparisonFailure;
+    } catch (Throwable e) {
+      return null;
+    }
   }
 
   private AssertionError newComparisonFailure(String description) throws Exception {
-	Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, msgArgs(description));
-	if (o instanceof AssertionError) return (AssertionError) o;
-	return null;
+    Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, msgArgs(description));
+    if (o instanceof AssertionError) return (AssertionError) o;
+    return null;
   }
 
   private Object[] msgArgs(String description) {
-	return array(description, representation.toStringOf(expected), representation.toStringOf(actual));
+    return array(description, representation.toStringOf(expected), representation.toStringOf(actual));
   }
 
   private String detailedToStringOf(Object obj) {
-	return representation.toStringOf(obj) + " (" + obj.getClass().getSimpleName() + "@" + toHexString(obj.hashCode())
-	       + ")";
+    return representation.toStringOf(obj) + " (" + obj.getClass().getSimpleName() + "@" + toHexString(obj.hashCode())
+           + ")";
   }
 
   private String detailedActual() {
-	return detailedToStringOf(actual);
+    return detailedToStringOf(actual);
   }
 
   private String detailedExpected() {
-	return detailedToStringOf(expected);
+    return detailedToStringOf(expected);
   }
 
   @Override
   public boolean equals(Object o) {
-	if (this == o) return true;
-	if (o == null) return false;
-	if (getClass() != o.getClass()) return false;
-	ShouldBeEqual other = (ShouldBeEqual) o;
-	if (!areEqual(actual, other.actual)) return false;
-	return areEqual(expected, other.expected);
+    if (this == o) return true;
+    if (o == null) return false;
+    if (getClass() != o.getClass()) return false;
+    ShouldBeEqual other = (ShouldBeEqual) o;
+    if (!areEqual(actual, other.actual)) return false;
+    return areEqual(expected, other.expected);
   }
 
   @Override
   public int hashCode() {
-	int result = 1;
-	result = HASH_CODE_PRIME * result + hashCodeFor(actual);
-	result = HASH_CODE_PRIME * result + hashCodeFor(expected);
-	return result;
+    int result = 1;
+    result = HASH_CODE_PRIME * result + hashCodeFor(actual);
+    result = HASH_CODE_PRIME * result + hashCodeFor(expected);
+    return result;
   }
 }

@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Arrays.array;
+
+import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
  * Assertion methods for arrays of {@code long}s.
@@ -25,9 +28,14 @@ package org.assertj.core.api;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class LongArrayAssert extends AbstractLongArrayAssert<LongArrayAssert>  {
+public class LongArrayAssert extends AbstractLongArrayAssert<LongArrayAssert> {
 
   public LongArrayAssert(long[] actual) {
     super(actual, LongArrayAssert.class);
   }
+
+  public LongArrayAssert(AtomicLongArray actual) {
+    this(array(actual));
+  }
+
 }

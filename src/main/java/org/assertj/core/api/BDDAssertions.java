@@ -763,11 +763,11 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link AtomicReferenceArray}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
+   * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <VALUE> AtomicReferenceArrayAssert<VALUE> then(AtomicReferenceArray<VALUE> actual) {
+  public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(AtomicReferenceArray<ELEMENT> actual) {
     return assertThat(actual);
   }
 
