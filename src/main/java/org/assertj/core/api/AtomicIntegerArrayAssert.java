@@ -29,7 +29,12 @@ public class AtomicIntegerArrayAssert extends AbstractAtomicArrayAssert<AtomicIn
   }
 
   @Override
-  protected Integer getActualValue(int index) {
-    return actual.get(index);
+  protected Integer[] actualAsArray() {
+    Integer[] array = new Integer[actual.length()];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = actual.get(i);
+    }
+    return array;
   }
+
 }

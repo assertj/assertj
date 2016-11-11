@@ -12,49 +12,55 @@
  */
 package org.assertj.core.api.atomic;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.atIndex;
+import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.util.concurrent.atomic.AtomicReferenceArray;
+
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.concurrent.atomic.AtomicReferenceArray;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.AtomicShouldContain.shouldContain;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 public class AtomicReferenceArray_hasValue_Test {
+
+  private static final String ACTUAL = "actual";
+  private static final String EXPECTED = "expectedValue";
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
-  private String expectedValue = "expectedValue";
 
   @Test
   public void should_fail_when_atomicReferenceArray_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((AtomicReferenceArray<String>) null).hasValue(expectedValue, 1);
+    assertThat((AtomicReferenceArray<String>) null).hasValue(EXPECTED, atIndex(1));
   }
 
   @Test
   public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
-    AtomicReferenceArray<String> actual = new AtomicReferenceArray<>(new String[] {"actual"});
-    thrown.expectAssertionError(shouldContain(actual.get(0), null).create());
+    String[] array = array(ACTUAL);
+    AtomicReferenceArray<String> actual = new AtomicReferenceArray<>(array);
+    thrown.expectAssertionError(shouldContainAtIndex(array, null, atIndex(0), ACTUAL).create());
 
-    assertThat(actual).hasValue(null, 0);
+    assertThat(actual).hasValue(null, atIndex(0));
   }
 
   @Test
   public void should_fail_if_atomicReferenceArray_does_not_contain_expected_value() throws Exception {
-    AtomicReferenceArray<String> actual = new AtomicReferenceArray<>(new String[] {"actual"});
+    String[] array = array(ACTUAL);
+    AtomicReferenceArray<String> actual = new AtomicReferenceArray<>(array);
+    thrown.expectAssertionError(shouldContainAtIndex(array, EXPECTED, atIndex(0), ACTUAL).create());
 
-    thrown.expectAssertionError(shouldContain(actual.get(0), expectedValue).create());
-
-    assertThat(actual).hasValue(expectedValue,0);
+    assertThat(actual).hasValue(EXPECTED, atIndex(0));
   }
 
   @Test
   public void should_pass_if_atomicReferenceArray_contains_expected_value() throws Exception {
-    assertThat(new AtomicReferenceArray<>(new String[] {"actual", expectedValue})).hasValue(expectedValue, 1);
+    AtomicReferenceArray<String> actual = new AtomicReferenceArray<>(array(ACTUAL, EXPECTED));
+    assertThat(actual).hasValue(EXPECTED, atIndex(1));
   }
 }

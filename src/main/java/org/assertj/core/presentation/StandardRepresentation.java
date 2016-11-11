@@ -33,6 +33,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
@@ -119,6 +121,8 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
+    if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
+    if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
     return object == null ? null : object.toString();
   }
 
@@ -210,10 +214,19 @@ public class StandardRepresentation implements Representation {
     }
   }
 
-  private Object format(Map<?, ?> map, Object o) {
+  private String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
   }
 
+  protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
+    return String.format("AtomicMarkableReference[marked=%s, reference=%s]", atomicMarkableReference.isMarked(),
+                         toStringOf(atomicMarkableReference.getReference()));
+  }
+
+  protected String toStringOf(AtomicReference<?> atomicReference) {
+    return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
+  }
+  
   @Override
   public String toString() {
     return this.getClass().getSimpleName();
@@ -233,8 +246,7 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String multiLineFormat(Representation representation, Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(iterable, StandardRepresentation.ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE,
-                  alreadyFormatted);
+    return format(iterable, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyFormatted);
   }
 
   protected String singleLineFormat(Representation representation, Object[] iterable, String start, String end,

@@ -19,6 +19,7 @@ import org.junit.Test;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.atIndex;
 import static org.assertj.core.error.AtomicShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -32,14 +33,14 @@ public class AtomicLongArray_hasValue_Test {
   public void should_fail_when_atomicLongArray_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((AtomicLongArray) null).hasValue(1234L, 1);
+    assertThat((AtomicLongArray) null).hasValue(1234L, atIndex(1));
   }
 
   @Test
   public void should_fail_if_expected_value_is_null() throws Exception {
     thrown.expectIllegalArgumentException("The expected value should not be <null>.");
 
-    assertThat(new AtomicLongArray(new long[] {1234L})).hasValue(null, 0);
+    assertThat(new AtomicLongArray(new long[] {1234L})).hasValue(null, atIndex(0));
   }
 
   @Test
@@ -49,11 +50,11 @@ public class AtomicLongArray_hasValue_Test {
 
     thrown.expectAssertionError(shouldContain(actual.get(1), expectedValue).create());
 
-    assertThat(actual).hasValue(expectedValue, 1);
+    assertThat(actual).hasValue(expectedValue, atIndex(1));
   }
 
   @Test
   public void should_pass_if_atomicLongArray_contains_expected_value() throws Exception {
-    assertThat(new AtomicLongArray(new long[] {1234L, 5678L, 3456L})).hasValue(5678L, 1);
+    assertThat(new AtomicLongArray(new long[] {1234L, 5678L, 3456L})).hasValue(5678L, atIndex(1));
   }
 }

@@ -21,7 +21,7 @@ package org.assertj.core.api;
  * @author epeee
  */
 public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
-  extends AbstractAtomicBaseAssert<SELF,VALUE,ATOMIC> {
+    extends AbstractAtomicBaseAssert<SELF, VALUE, ATOMIC> {
 
   public AbstractAtomicAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
     super(actual, selfType, expectedNullAllowed);
@@ -41,9 +41,9 @@ public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SEL
    * @return this assertion object.
    */
   public SELF hasValue(VALUE expectedValue) {
-    return contains(expectedValue, new Resolver<VALUE>() {
+    return contains(expectedValue, new Supplier<VALUE>() {
       @Override
-      public VALUE resolve() {
+      public VALUE get() {
         return getActualValue();
       }
     });
@@ -52,4 +52,3 @@ public abstract class AbstractAtomicAssert<SELF extends AbstractAtomicAssert<SEL
   protected abstract VALUE getActualValue();
 
 }
-

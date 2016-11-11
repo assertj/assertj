@@ -30,8 +30,14 @@ public class AtomicReferenceArrayAssert<VALUE> extends AbstractAtomicArrayAssert
     super(actual, AtomicReferenceArrayAssert.class, true);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  protected VALUE getActualValue(int index) {
-    return actual.get(index);
+  protected VALUE[] actualAsArray() {
+    Object[] array = new Object[actual.length()];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = actual.get(i);
+    }
+    return (VALUE[]) array;
   }
-}
+
+  }

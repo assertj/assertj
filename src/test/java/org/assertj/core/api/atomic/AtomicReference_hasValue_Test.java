@@ -57,6 +57,8 @@ public class AtomicReference_hasValue_Test {
   @Test
   public void should_pass_if_atomicReference_contains_expected_value() throws Exception {
     assertThat(new AtomicReference<>(expectedValue)).hasValue(expectedValue);
+    System.out.println(new AtomicReference<>(expectedValue));
+    assertThat(new AtomicReference<>(expectedValue)).hasValue("foo");
   }
 
 }

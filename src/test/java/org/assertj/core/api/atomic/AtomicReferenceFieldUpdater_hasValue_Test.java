@@ -25,6 +25,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class AtomicReferenceFieldUpdater_hasValue_Test {
 
+  @SuppressWarnings("unused")
   private static class Person {
     volatile String name;
     volatile long age;

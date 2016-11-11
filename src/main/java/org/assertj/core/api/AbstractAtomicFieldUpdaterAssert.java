@@ -21,26 +21,25 @@ package org.assertj.core.api;
  * @param <OBJECT> the type of the object holding the updatable field.
  * @author epeee
  */
-public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF,VALUE,ATOMIC, OBJECT>,VALUE,ATOMIC, OBJECT>
-  extends AbstractAtomicBaseAssert<SELF,VALUE,ATOMIC> {
+public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF, VALUE, ATOMIC, OBJECT>, VALUE, ATOMIC, OBJECT>
+    extends AbstractAtomicBaseAssert<SELF, VALUE, ATOMIC> {
 
   public AbstractAtomicFieldUpdaterAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
     super(actual, selfType, expectedNullAllowed);
   }
 
   /**
-   * Verifies that the actual {@link SELF} contains the given value at the given object.
-   *
-   * Examples:
+   * Verifies that the actual atomic field updater contains the given value at the given object.
+   * <p>
+   * Example with {@code AtomicIntegerFieldUpdater}:
    * <pre><code class='java'> // person is an instance of a Person class holding a non-private volatile int field (age).
-   *
+   * AtomicIntegerFieldUpdater&lt;Person&gt; ageUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
+   * 
    * // this assertion succeeds:
-   * AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
-   * fieldUpdater.set(person, 25);
-   * assertThat(fieldUpdater).hasValue(25, person);
+   * ageUpdater.set(person, 25);
+   * assertThat(ageUpdater).hasValue(25, person);
    *
    * // this assertion fails:
-   * AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
    * fieldUpdater.set(person, 28);
    * assertThat(fieldUpdater).hasValue(25, person);</code></pre>
    *
@@ -49,9 +48,9 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
    * @return this assertion object.
    */
   public SELF hasValue(VALUE expectedValue, final OBJECT obj) {
-    return contains(expectedValue, new Resolver<VALUE>() {
+    return contains(expectedValue, new Supplier<VALUE>() {
       @Override
-      public VALUE resolve() {
+      public VALUE get() {
         return getActualValue(obj);
       }
     });

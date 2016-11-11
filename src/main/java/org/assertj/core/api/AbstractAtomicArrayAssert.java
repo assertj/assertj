@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.data.Index;
+import org.assertj.core.internal.ObjectArrays;
+
 /**
  * Base class for all array-based atomic assertions.
  *
@@ -20,37 +23,37 @@ package org.assertj.core.api;
  * @param <ATOMIC> the type of the "actual" atomic.
  * @author epeee
  */
-public abstract class AbstractAtomicArrayAssert<SELF extends AbstractAtomicArrayAssert<SELF,VALUE,ATOMIC>,VALUE,ATOMIC>
-  extends AbstractAtomicBaseAssert<SELF,VALUE,ATOMIC> {
+public abstract class AbstractAtomicArrayAssert<SELF extends AbstractAtomicArrayAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
+    extends AbstractAtomicBaseAssert<SELF, VALUE, ATOMIC> {
 
   public AbstractAtomicArrayAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
     super(actual, selfType, expectedNullAllowed);
   }
 
   /**
-   * Verifies that the actual {@link SELF} contains the given value at the given index.
+   * Verifies that the actual atomic array contains the given value at the given index.
+   * <p>
+   * Example with {@code AtomicIntegerArray}:
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.atIndex;
    *
-   * Examples:
-   * <pre><code class='java'> // this assertion succeeds:
-   * assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(3, 2);
+   * AtomicIntegerArray atomicArray = new AtomicIntegerArray(new int[] {1,2,3,4});
+   *
+   * // this assertion succeeds:
+   * assertThat(atomicArray).hasValue(3, atIndex(2));
    *
    * // this assertion fails:
-   * assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(4, 1);</code></pre>
+   * assertThat(atomicArray).hasValue(4, atIndex(2));</code></pre>
    *
-   * @param expectedValue the expected value inside the {@link SELF}.
+   * @param expectedValue the expected value inside the atomic array.
    * @param index the index where the value should be stored.
    * @return this assertion object.
    */
-  public SELF hasValue(VALUE expectedValue, final int index) {
-    return contains(expectedValue, new Resolver<VALUE>() {
-      @Override
-      public VALUE resolve() {
-        return getActualValue(index);
-      }
-    });
+  public SELF hasValue(VALUE expectedValue, final Index index) {
+    validate(expectedValue);
+    ObjectArrays.instance().assertContains(info, actualAsArray(), expectedValue, index);
+    return myself;
   }
 
-  protected abstract VALUE getActualValue(int index);
+  protected abstract VALUE[] actualAsArray();
 
 }
-

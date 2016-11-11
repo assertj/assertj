@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api.atomic;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.atIndex;
+import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.AtomicShouldContain.shouldContain;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
+import org.junit.Test;
 
 public class AtomicIntegerArray_hasValue_Test {
 
@@ -32,30 +32,29 @@ public class AtomicIntegerArray_hasValue_Test {
   public void should_fail_when_atomicIntegerArray_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((AtomicIntegerArray)null).hasValue(1234, 1);
+    assertThat((AtomicIntegerArray) null).hasValue(1234, atIndex(1));
   }
 
   @Test
   public void should_fail_if_expected_value_is_null() throws Exception {
     thrown.expectIllegalArgumentException("The expected value should not be <null>.");
 
-    assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(null,1);
+    assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3, 4 })).hasValue(null, atIndex(1));
   }
 
   @Test
   public void should_fail_if_atomicIntegerArray_does_not_contain_expected_value() throws Exception {
-    AtomicIntegerArray actual = new AtomicIntegerArray(new int[] {1,2,3,4});
+    AtomicIntegerArray actual = new AtomicIntegerArray(new int[] { 1, 2, 3, 4 });
     int expectedValue = 5;
 
-    thrown.expectAssertionError(shouldContain(actual.get(3), expectedValue).create());
+    thrown.expectAssertionError(shouldContainAtIndex(actual, expectedValue, atIndex(3), 4).create());
 
-    assertThat(actual).hasValue(expectedValue, 3);
+    assertThat(actual).hasValue(expectedValue, atIndex(3));
   }
 
   @Test
   public void should_pass_if_atomicInteger_contains_expected_value() throws Exception {
-    assertThat(new AtomicIntegerArray(new int[] {1,2,3,4})).hasValue(3, 2);
+    assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3, 4 })).hasValue(3, atIndex(2));
   }
 
 }
-

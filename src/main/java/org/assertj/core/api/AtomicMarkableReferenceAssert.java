@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeMarked.shouldBeMarked;
+import static org.assertj.core.error.ShouldBeMarked.shouldNotBeMarked;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
@@ -23,7 +25,8 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
  *
  * @author epeee
  */
-public class AtomicMarkableReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
+public class AtomicMarkableReferenceAssert<VALUE>
+    extends AbstractAtomicAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
 
   public AtomicMarkableReferenceAssert(AtomicMarkableReference<VALUE> actual) {
     super(actual, AtomicMarkableReferenceAssert.class, true);
@@ -35,21 +38,40 @@ public class AtomicMarkableReferenceAssert<VALUE> extends AbstractAtomicAssert<A
   }
 
   /**
-   * Verifies the mark of the actual {@link AtomicMarkableReference}.
-   *
+   * Verifies that the actual {@link AtomicMarkableReference} is marked.
+   * <p>
    * Examples:
    * <pre><code class='java'> // this assertion succeeds:
-   * assertThat(new AtomicMarkableReference<>("actual", true)).isMarked(true);
+   * assertThat(new AtomicMarkableReference&lt;&gt;("actual", true)).isMarked();
    *
    * // this assertion fails:
-   * assertThat(new AtomicMarkableReference<>("actual", true)).isMarked(false);</code></pre>
+   * assertThat(new AtomicMarkableReference&lt;&gt;("actual", false)).isMarked();</code></pre>
    *
    * @param expected the expected marked inside the {@link AtomicMarkableReference}.
    * @return this assertion object.
    */
-  public AtomicMarkableReferenceAssert<VALUE> isMarked(boolean expected) {
+  public AtomicMarkableReferenceAssert<VALUE> isMarked() {
     boolean marked = actual.isMarked();
-    doAssert(marked, expected);
+    if (!marked) throwAssertionError(shouldBeMarked(actual));
+    return this;
+  }
+
+  /**
+   * Verifies that the actual {@link AtomicMarkableReference} is <b>not</b> marked.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // this assertion succeeds:
+   * assertThat(new AtomicMarkableReference&lt;&gt;("actual", false)).isNotMarked();
+   *
+   * // this assertion fails:
+   * assertThat(new AtomicMarkableReference&lt;&gt;("actual", true)).isNotMarked();</code></pre>
+   *
+   * @param expected the expected marked inside the {@link AtomicMarkableReference}.
+   * @return this assertion object.
+   */
+  public AtomicMarkableReferenceAssert<VALUE> isNotMarked() {
+    boolean marked = actual.isMarked();
+    if (marked) throwAssertionError(shouldNotBeMarked(actual));
     return this;
   }
 }

@@ -28,6 +28,19 @@ public class AtomicIntegerAssert extends AbstractAtomicAssert<AtomicIntegerAsser
     super(actual, AtomicIntegerAssert.class, false);
   }
 
+  /**
+   * Verifies that the actual {@link AtomicInteger} contains the given value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds:
+   * assertThat(new AtomicInteger(1234)).hasValue(1234);
+   *
+   * // this assertion fails:
+   * assertThat(new AtomicInteger(1234)).hasValue(5678);</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link AtomicInteger}.
+   * @return this assertion object.
+   */
   @Override
   protected Integer getActualValue() {
     return actual.get();

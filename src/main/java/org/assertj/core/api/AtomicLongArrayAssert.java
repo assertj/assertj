@@ -30,7 +30,11 @@ public class AtomicLongArrayAssert extends AbstractAtomicArrayAssert<AtomicLongA
   }
 
   @Override
-  protected Long getActualValue(int index) {
-    return actual.get(index);
+  protected Long[] actualAsArray() {
+    Long[] array = new Long[actual.length()];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = actual.get(i);
+    }
+    return array;
   }
 }

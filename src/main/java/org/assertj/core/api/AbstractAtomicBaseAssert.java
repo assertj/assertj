@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
@@ -27,7 +26,7 @@ import static org.assertj.core.error.AtomicShouldContain.shouldContain;
  * @author epeee
  */
 public abstract class AbstractAtomicBaseAssert<SELF extends AbstractAtomicBaseAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
-  extends AbstractAssert<SELF, ATOMIC> {
+    extends AbstractAssert<SELF, ATOMIC> {
 
   private final ComparisonStrategy atomicValueComparisonStrategy;
   private final boolean expectedNullAllowed;
@@ -38,21 +37,20 @@ public abstract class AbstractAtomicBaseAssert<SELF extends AbstractAtomicBaseAs
     this.expectedNullAllowed = expectedNullAllowed;
   }
 
-  protected final SELF contains(VALUE expectedValue, Resolver<VALUE> valueResolver) {
+  protected final SELF contains(VALUE expectedValue, Supplier<VALUE> actualValueResolver) {
     validate(expectedValue);
-
-    VALUE resolvedValue = valueResolver.resolve();
-    doAssert(resolvedValue, expectedValue);
+    VALUE actualValue = actualValueResolver.get();
+    doAssert(actualValue, expectedValue);
     return myself;
   }
 
-  protected final <T> void doAssert(T actual, T expected) {
-    if (!atomicValueComparisonStrategy.areEqual(actual, expected)) {
-      throwAssertionError(shouldContain(actual, expected));
+  protected final <T> void doAssert(T actualValue, T expectedValue) {
+    if (!atomicValueComparisonStrategy.areEqual(actualValue, expectedValue)) {
+      throwAssertionError(shouldContain(actual, expectedValue));
     }
   }
 
-  private void validate(VALUE expectedValue) {
+  protected void validate(VALUE expectedValue) {
     isNotNull();
     if (!expectedNullAllowed) {
       checkNotNull(expectedValue);
@@ -65,8 +63,8 @@ public abstract class AbstractAtomicBaseAssert<SELF extends AbstractAtomicBaseAs
     }
   }
 
-  interface Resolver<VALUE> {
-    VALUE resolve();
+  interface Supplier<VALUE> {
+    VALUE get();
   }
 
 }
