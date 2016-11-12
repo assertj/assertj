@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Assertion methods for {@link Object}s.
  * <p>
@@ -29,4 +31,9 @@ public class ObjectAssert<A> extends AbstractObjectAssert<ObjectAssert<A>, A> {
   public ObjectAssert(A actual) {
     super(actual, ObjectAssert.class);
   }
+  
+  public ObjectAssert(AtomicReference<A> actual) {
+    this(actual == null ? null: actual.get());
+  }
+
 }

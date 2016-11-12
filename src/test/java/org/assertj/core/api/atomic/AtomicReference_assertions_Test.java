@@ -10,28 +10,30 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.atomic;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Assertion methods for {@link AtomicReference}s.
- * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicReference)}</code>.
- * </p>
- *
- * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
- * @author epeee
- */
-public class AtomicReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicReferenceAssert<VALUE>, VALUE, AtomicReference<VALUE>> {
+import org.junit.Test;
 
-  public AtomicReferenceAssert(AtomicReference<VALUE> actual) {
-    super(actual, AtomicReferenceAssert.class, true);
+
+public class AtomicReference_assertions_Test {
+
+  @Test
+  public void should_accept_null_atomicLong() {
+    AtomicReference<String> actual = null;
+    assertThat(actual).isNull();
+    then(actual).isNull();
   }
 
-  @Override
-  protected VALUE getActualValue() {
-    return actual.get();
+  @Test
+  public void should_be_able_to_use_any_long_assertions() {
+    AtomicReference<String> actual = new AtomicReference<>("abc");
+    assertThat(actual).isEqualTo("abc");
+    then(actual).isNotEqualTo("abcd");
   }
+
 }

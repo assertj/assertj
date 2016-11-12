@@ -23,6 +23,10 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
@@ -231,6 +235,15 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.assertAll();
   }
 
+  @Test
+  public void should_work_with_atomic() throws Exception {
+    softly.then(new AtomicBoolean(true)).isTrue();
+    softly.then(new AtomicInteger(1)).isGreaterThan(0);
+    softly.then(new AtomicLong(1l)).isGreaterThan(0l);
+    softly.then(new AtomicReference<String>("abc")).isEqualTo("abc");
+    softly.assertAll();
+  }
+  
   @Test
   public void should_have_the_same_methods_as_in_standard_soft_assertions() {
     Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");

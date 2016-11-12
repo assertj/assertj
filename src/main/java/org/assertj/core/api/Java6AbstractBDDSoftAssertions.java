@@ -488,8 +488,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public AtomicBooleanAssert then(AtomicBoolean actual) {
-    return proxy(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
+  public BooleanAssert then(AtomicBoolean actual) {
+    return proxy(BooleanAssert.class, AtomicBoolean.class, actual);
   }
 
   /**
@@ -500,8 +500,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public AtomicIntegerAssert then(AtomicInteger actual) {
-    return proxy(AtomicIntegerAssert.class, AtomicInteger.class, actual);
+  public IntegerAssert then(AtomicInteger actual) {
+    return proxy(IntegerAssert.class, AtomicInteger.class, actual);
   }
 
   /**
@@ -537,8 +537,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public AtomicLongAssert then(AtomicLong actual) {
-    return proxy(AtomicLongAssert.class, AtomicLong.class, actual);
+  public LongAssert then(AtomicLong actual) {
+    return proxy(LongAssert.class, AtomicLong.class, actual);
   }
 
   /**
@@ -575,8 +575,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
-    return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
+  public <VALUE> ObjectAssert<VALUE> then(AtomicReference<VALUE> actual) {
+    return proxy(ObjectAssert.class, AtomicReference.class, actual);
   }
 
   /**

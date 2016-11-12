@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Assertion methods for {@link Boolean}s.
  * <p>
@@ -29,5 +31,9 @@ public class BooleanAssert extends AbstractBooleanAssert<BooleanAssert> {
 
   public BooleanAssert(Boolean actual) {
     super(actual, BooleanAssert.class);
+  }
+
+  public BooleanAssert(AtomicBoolean actual) {
+    this(actual == null ? null : actual.get());
   }
 }

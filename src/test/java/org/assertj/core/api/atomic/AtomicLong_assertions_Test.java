@@ -10,27 +10,32 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.atomic;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * Assertion methods for {@link AtomicLong}s.
- * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicLong)}</code>.
- * </p>
- *
- * @author epeee
- */
-public class AtomicLongAssert extends AbstractAtomicAssert<AtomicLongAssert, Long, AtomicLong> {
+import org.junit.Test;
 
-  public AtomicLongAssert(AtomicLong actual) {
-    super(actual, AtomicLongAssert.class, false);
+
+public class AtomicLong_assertions_Test {
+
+  @Test
+  public void should_accept_null_atomicLong() {
+    AtomicLong actual = null;
+    assertThat(actual).isNull();
+    then(actual).isNull();
   }
 
-  @Override
-  protected Long getActualValue() {
-    return actual.get();
+  @Test
+  public void should_be_able_to_use_any_long_assertions() {
+    AtomicLong actual = new AtomicLong(123l);
+    assertThat(actual).isLessThan(1234l)
+                      .isGreaterThan(12l)
+                      .isEqualTo(123l);
+    then(actual).isNotEqualTo(1234L);
   }
+
 }

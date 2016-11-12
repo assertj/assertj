@@ -656,7 +656,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AtomicBooleanAssert then(AtomicBoolean actual) {
+  public static AbstractBooleanAssert<?> then(AtomicBoolean actual) {
     return assertThat(actual);
   }
 
@@ -668,7 +668,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AtomicIntegerAssert then(AtomicInteger actual) {
+  public static AbstractIntegerAssert<?> then(AtomicInteger actual) {
     return assertThat(actual);
   }
 
@@ -705,7 +705,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AtomicLongAssert then(AtomicLong actual) {
+  public static AbstractLongAssert<?> then(AtomicLong actual) {
     return assertThat(actual);
   }
 
@@ -742,7 +742,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
+  public static <VALUE> AbstractObjectAssert<?,VALUE> then(AtomicReference<VALUE> actual) {
     return assertThat(actual);
   }
 

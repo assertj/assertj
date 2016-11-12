@@ -10,27 +10,29 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.atomic;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Assertion methods for {@link AtomicBoolean}s.
- * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicBoolean)}</code>.
- * </p>
- *
- * @author epeee
- */
-public class AtomicBooleanAssert extends AbstractAtomicAssert<AtomicBooleanAssert, Boolean, AtomicBoolean> {
+import org.junit.Test;
 
-  public AtomicBooleanAssert(AtomicBoolean actual) {
-    super(actual, AtomicBooleanAssert.class, false);
+public class AtomicBoolean_assertions_Test {
+
+  @Test
+  public void should_accept_null_AtomicBoolean() {
+    AtomicBoolean actual = null;
+    assertThat(actual).isNull();
+    then(actual).isNull();
   }
 
-  @Override
-  protected Boolean getActualValue() {
-    return actual.get();
+  @Test
+  public void should_be_able_to_use_any_boolean_assertions() {
+    AtomicBoolean actual = new AtomicBoolean(true);
+    assertThat(actual).isNotNull()
+                      .isTrue();
+    then(actual).isTrue();
   }
 }
