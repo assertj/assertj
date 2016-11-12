@@ -58,6 +58,7 @@ public class AtomicMarkableReferenceAssert_hasValue_Test {
   @Test
   public void should_pass_if_atomicMarkableReference_contains_expected_value() throws Exception {
     assertThat(new AtomicMarkableReference<>(expectedValue, true)).hasValue(expectedValue);
+    assertThat(new AtomicMarkableReference<>(expectedValue, true)).hasValue(expectedValue);
   }
 
   @Test

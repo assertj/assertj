@@ -32,6 +32,26 @@ public class AtomicMarkableReferenceAssert<VALUE>
     super(actual, AtomicMarkableReferenceAssert.class, true);
   }
 
+  /**
+   * Verifies that the actual {@link AtomicMarkableReference} contains the given value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicMarkableReference&lt;String&gt; ref = new AtomicMarkableReference&lt;&gt;("foo", true);
+   * 
+   * // this assertion succeeds:
+   * assertThat(ref).hasValue("foo");
+   *
+   * // this assertion fails:
+   * assertThat(ref).hasValue("bar");</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link AtomicMarkableReference}.
+   * @return this assertion object.
+   */
+  @Override
+  public AtomicMarkableReferenceAssert<VALUE> hasValue(VALUE expectedValue) {
+    return super.hasValue(expectedValue);
+  }
+  
   @Override
   protected VALUE getActualValue() {
     return actual.getReference();
