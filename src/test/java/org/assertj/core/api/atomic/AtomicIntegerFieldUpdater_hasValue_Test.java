@@ -64,6 +64,6 @@ public class AtomicIntegerFieldUpdater_hasValue_Test {
   public void should_pass_if_atomicIntegerFieldUpdater_contains_expected_value() throws Exception {
     AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
     fieldUpdater.set(person, 25);
-    assertThat(fieldUpdater).hasValue(25, person);
+    assertThat(fieldUpdater).hasValue(24, person);
   }
 }

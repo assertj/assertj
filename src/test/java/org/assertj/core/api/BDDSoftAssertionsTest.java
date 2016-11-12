@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
@@ -25,8 +26,11 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
@@ -237,10 +241,15 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_work_with_atomic() throws Exception {
+    // simple atomic value
     softly.then(new AtomicBoolean(true)).isTrue();
     softly.then(new AtomicInteger(1)).isGreaterThan(0);
     softly.then(new AtomicLong(1l)).isGreaterThan(0l);
     softly.then(new AtomicReference<String>("abc")).isEqualTo("abc");
+    // atomic array value
+    softly.then(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3);
+    softly.then(new AtomicLongArray(new long[] { 1l, 2l, 3l })).containsExactly(1l, 2l, 3l);
+    softly.then(new AtomicReferenceArray<>(array("a", "b", "c"))).containsExactly("a", "b", "c");
     softly.assertAll();
   }
   

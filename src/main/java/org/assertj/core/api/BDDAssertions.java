@@ -680,7 +680,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
+  public static IntArrayAssert then(AtomicIntegerArray actual) {
     return assertThat(actual);
   }
 
@@ -717,7 +717,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AtomicLongArrayAssert then(AtomicLongArray actual) {
+  public static LongArrayAssert then(AtomicLongArray actual) {
     return assertThat(actual);
   }
 
@@ -750,11 +750,11 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link AtomicReferenceArray}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
+   * @param <T> the type of the value contained in the {@link AtomicReferenceArray}.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <VALUE> AtomicReferenceArrayAssert<VALUE> then(AtomicReferenceArray<VALUE> actual) {
+  public static <T> AbstractObjectArrayAssert<?,T> then(AtomicReferenceArray<T> actual) {
     return assertThat(actual);
   }
 

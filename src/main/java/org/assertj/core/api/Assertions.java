@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
 import java.io.InputStream;
@@ -797,15 +798,15 @@ public class Assertions {
   }
 
   /**
-   * Create assertion for {@link AtomicIntegerArray}.
+   * Create int[] assertion for {@link AtomicIntegerArray}.
    *
    * @param actual the actual value.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
-    return new AtomicIntegerArrayAssert(actual);
+  public static IntArrayAssert assertThat(AtomicIntegerArray actual) {
+    return new IntArrayAssert(array(actual));
   }
 
   /**
@@ -841,8 +842,8 @@ public class Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
-    return new AtomicLongArrayAssert(actual);
+  public static LongArrayAssert assertThat(AtomicLongArray actual) {
+    return new LongArrayAssert(array(actual));
   }
 
   /**
@@ -877,11 +878,12 @@ public class Assertions {
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
    *
-   * @return the created assertion object.
+   * @return the created assertion object.  <T>   public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
+
    */
   @CheckReturnValue
-  public static <VALUE> AtomicReferenceArrayAssert<VALUE> assertThat(AtomicReferenceArray<VALUE> actual) {
-    return new AtomicReferenceArrayAssert<>(actual);
+  public static <T> AbstractObjectArrayAssert<?, T> assertThat(AtomicReferenceArray<T> actual) {
+    return assertThat(array(actual));
   }
 
   /**
