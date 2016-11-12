@@ -29,6 +29,26 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicAssert<At
     super(actual, AtomicStampedReferenceAssert.class, true);
   }
 
+  /**
+   * Verifies that the actual {@link AtomicStampedReference} contains the given value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicStampedReferenceAssert&lt;String&gt; ref = new AtomicStampedReferenceAssert&lt;&gt;("foo", 123);
+   * 
+   * // this assertion succeeds:
+   * assertThat(ref).hasValue("foo");
+   *
+   * // this assertion fails:
+   * assertThat(ref).hasValue("bar");</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link AtomicStampedReference}.
+   * @return this assertion object.
+   */
+  @Override
+  public AtomicStampedReferenceAssert<VALUE> hasValue(VALUE expectedValue) {
+    return super.hasValue(expectedValue);
+  }
+  
   @Override
   protected VALUE getActualValue() {
     return actual.getReference();

@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -166,15 +167,21 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   }
 
   @Test
+  public void should_return_toString_of_AtomicReference() {
+    AtomicReference<String> atomicReference = new AtomicReference<>("actual");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicReference)).isEqualTo("AtomicReference[\"actual\"]");
+  }
+  
+  @Test
   public void should_return_toString_of_AtomicMarkableReference() {
     AtomicMarkableReference<String> atomicMarkableReference = new AtomicMarkableReference<>("actual", true);
     assertThat(STANDARD_REPRESENTATION.toStringOf(atomicMarkableReference)).isEqualTo("AtomicMarkableReference[marked=true, reference=\"actual\"]");
   }
 
   @Test
-  public void should_return_toString_of_AtomicReference() {
-    AtomicReference<String> atomicReference = new AtomicReference<>("actual");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicReference)).isEqualTo("AtomicReference[\"actual\"]");
+  public void should_return_toString_of_atomicStampedReference() {
+    AtomicStampedReference<String> tomicStampedReference = new AtomicStampedReference<>("actual", 123);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(tomicStampedReference)).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"]");
   }
   
   @Test

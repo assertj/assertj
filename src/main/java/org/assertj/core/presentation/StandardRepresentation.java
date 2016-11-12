@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
@@ -218,13 +219,18 @@ public class StandardRepresentation implements Representation {
     return o == map ? "(this Map)" : toStringOf(o);
   }
 
+  protected String toStringOf(AtomicReference<?> atomicReference) {
+    return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
+  }
+  
   protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
     return String.format("AtomicMarkableReference[marked=%s, reference=%s]", atomicMarkableReference.isMarked(),
                          toStringOf(atomicMarkableReference.getReference()));
   }
-
-  protected String toStringOf(AtomicReference<?> atomicReference) {
-    return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
+  
+  protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
+    return String.format("AtomicStampedReference[stamp=%s, reference=%s]", atomicStampedReference.getStamp(),
+                         toStringOf(atomicStampedReference.getReference()));
   }
   
   @Override

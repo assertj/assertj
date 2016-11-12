@@ -57,7 +57,7 @@ public class AtomicStampedReferenceAssert_hasValue_Test {
 
   @Test
   public void should_pass_if_atomicStampedReference_contains_expected_value() throws Exception {
-    assertThat(new AtomicStampedReference<>(expectedValue, 1234)).hasValue(expectedValue);
+    assertThat(new AtomicStampedReference<>(expectedValue, 1234)).hasValue(expectedValue + "ddd");
   }
 
   @Test
