@@ -13,6 +13,8 @@
 package org.assertj.core.api;
 
 
+import static org.assertj.core.error.ShouldHaveStamp.shouldHaveStamp;
+
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 /**
@@ -23,7 +25,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
  *
  * @author epeee
  */
-public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
+public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
 
   public AtomicStampedReferenceAssert(AtomicStampedReference<VALUE> actual) {
     super(actual, AtomicStampedReferenceAssert.class, true);
@@ -45,17 +47,17 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicAssert<At
    * @return this assertion object.
    */
   @Override
-  public AtomicStampedReferenceAssert<VALUE> hasValue(VALUE expectedValue) {
-    return super.hasValue(expectedValue);
+  public AtomicStampedReferenceAssert<VALUE> hasReference(VALUE expectedValue) {
+    return super.hasReference(expectedValue);
   }
   
   @Override
-  protected VALUE getActualValue() {
+  protected VALUE getReference() {
     return actual.getReference();
   }
 
   /**
-   * Verifies that the actual {@link AtomicStampedReference} contains the given stamp.
+   * Verifies that the actual {@link AtomicStampedReference} has the given stamp.
    *
    * Examples:
    * <pre><code class='java'> // this assertion succeeds:
@@ -69,7 +71,7 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicAssert<At
    */
   public AtomicStampedReferenceAssert<VALUE> hasStamp(int expectedStamp){
     int timestamp = actual.getStamp();
-    doAssert(timestamp, expectedStamp);
+    if (timestamp != expectedStamp) throwAssertionError(shouldHaveStamp(actual, expectedStamp));
     return this;
   }
 }

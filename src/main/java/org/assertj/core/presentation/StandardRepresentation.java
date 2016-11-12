@@ -123,6 +123,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
     if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
+    if (object instanceof AtomicStampedReference) return toStringOf((AtomicStampedReference<?>) object);
     if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
     return object == null ? null : object.toString();
   }

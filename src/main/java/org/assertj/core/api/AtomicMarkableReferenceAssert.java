@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
  * @author epeee
  */
 public class AtomicMarkableReferenceAssert<VALUE>
-    extends AbstractAtomicAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
+    extends AbstractAtomicReferenceAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
 
   public AtomicMarkableReferenceAssert(AtomicMarkableReference<VALUE> actual) {
     super(actual, AtomicMarkableReferenceAssert.class, true);
@@ -48,12 +48,12 @@ public class AtomicMarkableReferenceAssert<VALUE>
    * @return this assertion object.
    */
   @Override
-  public AtomicMarkableReferenceAssert<VALUE> hasValue(VALUE expectedValue) {
-    return super.hasValue(expectedValue);
+  public AtomicMarkableReferenceAssert<VALUE> hasReference(VALUE expectedValue) {
+    return super.hasReference(expectedValue);
   }
   
   @Override
-  protected VALUE getActualValue() {
+  protected VALUE getReference() {
     return actual.getReference();
   }
 

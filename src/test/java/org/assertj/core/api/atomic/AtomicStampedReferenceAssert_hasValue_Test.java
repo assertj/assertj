@@ -12,15 +12,16 @@
  */
 package org.assertj.core.api.atomic;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
+import static org.assertj.core.error.ShouldHaveStamp.shouldHaveStamp;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.AtomicShouldContain.shouldContain;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
+import org.junit.Test;
 
 
 public class AtomicStampedReferenceAssert_hasValue_Test {
@@ -30,40 +31,39 @@ public class AtomicStampedReferenceAssert_hasValue_Test {
 
   private String expectedValue = "expectedValue";
 
-
   @Test
   public void should_fail_when_atomicStampedReference_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
-    assertThat((AtomicStampedReference<String>) null).hasValue(expectedValue);
+    assertThat((AtomicStampedReference<String>) null).hasReference(expectedValue);
   }
 
   @Test
   public void should_fail_if_expected_value_is_null_and_does_not_contains_expected_value() throws Exception {
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("actual", 1234);
-    thrown.expectAssertionError(shouldContain(actual, null).create());
+    thrown.expectAssertionError(shouldHaveReference(actual, actual.getReference(), null).create());
 
-    assertThat(actual).hasValue(null);
+    assertThat(actual).hasReference(null);
   }
 
   @Test
   public void should_fail_if_atomicStampedReference_does_not_contain_expected_value() throws Exception {
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("actual", 1234);
 
-    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
+    thrown.expectAssertionError(shouldHaveReference(actual, actual.getReference(), expectedValue).create());
 
-    assertThat(actual).hasValue(expectedValue);
+    assertThat(actual).hasReference(expectedValue);
   }
 
   @Test
   public void should_pass_if_atomicStampedReference_contains_expected_value() throws Exception {
-    assertThat(new AtomicStampedReference<>(expectedValue, 1234)).hasValue(expectedValue + "ddd");
+    assertThat(new AtomicStampedReference<>(expectedValue, 1234)).hasReference(expectedValue);
   }
 
   @Test
   public void should_pass_if_atomicStampedReference_contains_expected_value_and_has_expected_stamp() throws Exception {
     int stamp = 1234;
-    assertThat(new AtomicStampedReference<>(expectedValue, stamp)).hasValue(expectedValue).hasStamp(stamp);
+    assertThat(new AtomicStampedReference<>(expectedValue, stamp)).hasReference(expectedValue).hasStamp(1234);
   }
 
   @Test
@@ -71,7 +71,7 @@ public class AtomicStampedReferenceAssert_hasValue_Test {
     int actualStamp = 1234;
     int expectedStamp = 5678;
     AtomicStampedReference<String> actual = new AtomicStampedReference<>(expectedValue, actualStamp);
-    thrown.expectAssertionError(shouldContain(actual, expectedStamp).create());
-    assertThat(actual).hasValue(expectedValue).hasStamp(expectedStamp);
+    thrown.expectAssertionError(shouldHaveStamp(actual, expectedStamp).create());
+    assertThat(actual).hasReference(expectedValue).hasStamp(expectedStamp);
   }
 }

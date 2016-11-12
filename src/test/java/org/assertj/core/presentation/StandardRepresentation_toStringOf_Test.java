@@ -179,7 +179,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   }
 
   @Test
-  public void should_return_toString_of_atomicStampedReference() {
+  public void should_return_toString_of_AtomicStampedReference() {
     AtomicStampedReference<String> tomicStampedReference = new AtomicStampedReference<>("actual", 123);
     assertThat(STANDARD_REPRESENTATION.toStringOf(tomicStampedReference)).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"]");
   }
