@@ -27,6 +27,8 @@ import java.util.TreeSet;
  */
 public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrategy {
 
+  static int NOT_EQUAL = -1;
+
   // A raw type is necessary because we can't make assumptions on object to be compared.
   @SuppressWarnings("rawtypes")
   private final Comparator comparator;

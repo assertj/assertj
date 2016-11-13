@@ -38,6 +38,7 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypeComparator;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
@@ -1077,6 +1078,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return myself;
   }
 
+  private S usingExtendedByTypeElementComparator(Comparator<Object> elementComparator) {
+    return usingElementComparator(new ExtendedByTypeComparator(elementComparator, comparatorsForElementPropertyOrFieldTypes));
+  }
+
   /** {@inheritDoc} */
   @Override
   public S usingDefaultElementComparator() {
@@ -1219,6 +1224,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @since 2.5.0 / 3.5.0
    */
   public <C> S usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
+    if (arrays.getComparator() == null) {
+      usingElementComparator(new ExtendedByTypeComparator(comparatorsForElementPropertyOrFieldTypes));
+    }
     comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
     return myself;
   }
@@ -1250,7 +1258,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} assertion object.
    */
   public S usingFieldByFieldElementComparator() {
-    return usingElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                              comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1298,7 +1306,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @since 2.5.0 / 3.5.0
    */
   public S usingRecursiveFieldByFieldElementComparator() {
-    return usingElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                                       comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1330,7 +1338,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} assertion object.
    */
   public S usingElementComparatorOnFields(String... fields) {
-    return usingElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                          comparatorsForElementPropertyOrFieldTypes, fields));
   }
 
@@ -1362,7 +1370,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @return {@code this} assertion object.
    */
   public S usingElementComparatorIgnoringFields(String... fields) {
-    return usingElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                                comparatorsForElementPropertyOrFieldTypes, fields));
   }
 

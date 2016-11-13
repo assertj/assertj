@@ -42,6 +42,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypeComparator;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
@@ -466,6 +467,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     // elements with elementComparator parameter
     objects = new Objects(new IterableElementComparisonStrategy<>(elementComparator));
     return myself;
+  }
+
+  private SELF usingExtendedByTypeElementComparator(Comparator<Object> elementComparator) {
+    return usingElementComparator(new ExtendedByTypeComparator(elementComparator, comparatorsForElementPropertyOrFieldTypes));
   }
 
   /**
@@ -1155,6 +1160,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 2.5.0 / 3.5.0
    */
   public <T> SELF usingComparatorForElementFieldsWithType(Comparator<T> comparator, Class<T> type) {
+    if (iterables.getComparator() == null) {
+      usingElementComparator(new ExtendedByTypeComparator(comparatorsForElementPropertyOrFieldTypes));
+    }
     comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
     return myself;
   }
@@ -1186,7 +1194,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return {@code this} assertion object.
    */
   public SELF usingFieldByFieldElementComparator() {
-    return usingElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                              comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1235,7 +1243,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 2.5.0 / 3.5.0
    */
   public SELF usingRecursiveFieldByFieldElementComparator() {
-    return usingElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                                       comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1267,7 +1275,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return {@code this} assertion object.
    */
   public SELF usingElementComparatorOnFields(String... fields) {
-    return usingElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                          comparatorsForElementPropertyOrFieldTypes, fields));
   }
 
@@ -1304,7 +1312,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return {@code this} assertion object.
    */
   public SELF usingElementComparatorIgnoringFields(String... fields) {
-    return usingElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypeElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                                comparatorsForElementPropertyOrFieldTypes, fields));
   }
 

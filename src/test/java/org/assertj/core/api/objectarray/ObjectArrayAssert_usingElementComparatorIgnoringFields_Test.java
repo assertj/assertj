@@ -21,6 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypeComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Jedi;
@@ -47,8 +48,9 @@ public class ObjectArrayAssert_usingElementComparatorIgnoringFields_Test extends
     assertThat(iterables).isNotSameAs(arraysBefore);
     assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
-    assertThat(strategy.getComparator()).isInstanceOf(IgnoringFieldsComparator.class);
-    assertThat(((IgnoringFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypeComparator.class);
+    assertThat(((IgnoringFieldsComparator) ((ExtendedByTypeComparator) strategy.getComparator())
+      .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test
@@ -85,5 +87,15 @@ public class ObjectArrayAssert_usingElementComparatorIgnoringFields_Test extends
     assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
                              .usingElementComparatorIgnoringFields("name")
                              .contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_elements_and_fields_with_specified_type_using_element_comparator_ignoring_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(array(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+      .usingElementComparatorIgnoringFields("name")
+      .contains(other, "any");
   }
 }

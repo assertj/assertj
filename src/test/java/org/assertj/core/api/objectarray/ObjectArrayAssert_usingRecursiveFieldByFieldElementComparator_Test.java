@@ -75,7 +75,7 @@ public class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test 
                                       " <[Foo(id=id, bar=Bar [id=1])]>%n" +
                                       "to be equal to:%n" +
                                       " <[Foo(id=id, bar=Bar [id=2])]>%n" +
-                                      "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties' but was not."));
+                                      "when comparing elements using 'extended recursive field/property by field/property comparator on all fields/properties for types []' but was not."));
       // @format:on
       return;
     }
@@ -93,7 +93,7 @@ public class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test 
                                              " <[Foo(id=id, bar=Bar [id=1])]>%n" +
                                              "to be in:%n" +
                                              " <[[Foo(id=id, bar=Bar [id=2])]]>%n" +
-                                             "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties'"));
+                                             "when comparing elements using 'extended recursive field/property by field/property comparator on all fields/properties for types []'"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -139,6 +139,16 @@ public class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test 
     assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
                              .usingRecursiveFieldByFieldElementComparator()
                              .contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_elements_and_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
+    Foo actual = new Foo("1", new Bar(1));
+    Foo other = new Foo("2", new Bar(1));
+
+    assertThat(array(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+      .usingRecursiveFieldByFieldElementComparator()
+      .contains(other, "any");
   }
 
   public static class Foo {

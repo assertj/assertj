@@ -21,6 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypeComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.test.Jedi;
@@ -47,8 +48,9 @@ public class ObjectArrayAssert_usingElementComparatorOnFields_Test extends Objec
     assertThat(arrays).isNotSameAs(arraysBefore);
     assertThat(arrays.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) arrays.getComparisonStrategy();
-    assertThat(strategy.getComparator()).isInstanceOf(OnFieldsComparator.class);
-    assertThat(((OnFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypeComparator.class);
+    assertThat(((OnFieldsComparator) ((ExtendedByTypeComparator) strategy.getComparator())
+      .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test
@@ -87,4 +89,13 @@ public class ObjectArrayAssert_usingElementComparatorOnFields_Test extends Objec
                              .contains(other);
   }
 
+  @Test
+  public void should_be_able_to_use_a_comparator_for_elements_and_fields_with_specified_type_using_element_comparator_on_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(array(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+      .usingElementComparatorOnFields("name", "lightSaberColor")
+      .contains(other, "any");
+  }
 }

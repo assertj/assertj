@@ -17,7 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.BigDecimalComparator;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 /**
  * Tests for <code>{@link ObjectAssert#extracting(String[])}</code>.
@@ -31,4 +34,29 @@ public class ObjectAssert_extracting_Test {
     assertThat(luke).extracting("id", "name").doesNotContainNull();
     assertThat(luke).extracting("name.first", "name.last").containsExactly("Luke", "Skywalker");
   }
+
+  @Test
+  public void should_allow_to_specify_type_comparator_after_using_extracting_on_object() {
+    Person obiwan = new Person("Obi-Wan");
+    obiwan.setHeight(new BigDecimal("1.820"));
+
+    assertThat(obiwan).extracting("name", "height")
+      .usingComparatorForElementFieldsWithType(new BigDecimalComparator(), BigDecimal.class)
+      .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+  }
+
+  private static class Person {
+
+    private final String name;
+    private BigDecimal height;
+
+    public Person(String name) {
+      this.name = name;
+    }
+
+    public void setHeight(BigDecimal height) {
+      this.height = height;
+    }
+  }
+
 }

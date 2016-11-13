@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
@@ -21,6 +22,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypeComparator;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.test.Jedi;
@@ -47,8 +49,9 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
     assertThat(iterables).isNotSameAs(iterablesBefore);
     assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
-    assertThat(strategy.getComparator()).isInstanceOf(OnFieldsComparator.class);
-    assertThat(((OnFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypeComparator.class);
+    assertThat(((OnFieldsComparator) ((ExtendedByTypeComparator) strategy.getComparator())
+      .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test
@@ -87,4 +90,13 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
                                      .contains(other);
   }
 
+  @Test
+  public void should_be_able_to_use_a_comparator_for_elements_and_fields_with_specified_type_using_element_comparator_on_fields() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(asList(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+      .usingElementComparatorOnFields("name", "lightSaberColor")
+      .contains(other, "any");
+  }
 }

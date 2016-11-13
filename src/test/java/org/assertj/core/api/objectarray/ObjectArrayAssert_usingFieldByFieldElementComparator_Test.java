@@ -154,7 +154,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
                                       " <[Foo(id=id, bar=1)]>%n" +
                                       "to be equal to:%n" +
                                       " <[Foo(id=id, bar=2)]>%n" +
-                                      "when comparing elements using 'field/property by field/property comparator on all fields/properties' but was not."));
+                                      "when comparing elements using 'extended field/property by field/property comparator on all fields/properties for types []' but was not."));
       // @format:on
       return;
     }
@@ -172,7 +172,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
                                              " <[Foo(id=id, bar=1)]>%n" +
                                              "to be in:%n" +
                                              " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n" +
-                                             "when comparing elements using 'field/property by field/property comparator on all fields/properties'"));
+                                             "when comparing elements using 'extended field/property by field/property comparator on all fields/properties for types []'"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -212,6 +212,16 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
                              .usingFieldByFieldElementComparator()
                              .contains(other);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_comparator_for_elements_and_fields_with_specified_type_when_using_field_by_field_element_comparator() {
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi other = new Jedi("Luke", "blue");
+
+    assertThat(array(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+      .usingFieldByFieldElementComparator()
+      .contains(other, "any");
   }
 
   public static class Foo {
