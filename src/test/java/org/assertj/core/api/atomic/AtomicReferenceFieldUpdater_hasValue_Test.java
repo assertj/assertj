@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.atomic;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.AtomicShouldContain.shouldContain;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
+import org.junit.Test;
 
 
 public class AtomicReferenceFieldUpdater_hasValue_Test {
@@ -47,7 +47,7 @@ public class AtomicReferenceFieldUpdater_hasValue_Test {
   public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
     AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
     fieldUpdater.set(person, "Frodo");
-    thrown.expectAssertionError(shouldContain(fieldUpdater.get(person), null).create());
+    thrown.expectAssertionError(shouldHaveValue(fieldUpdater, person.name, null, person).create());
 
     assertThat(fieldUpdater).hasValue(null, person);
   }
@@ -56,7 +56,7 @@ public class AtomicReferenceFieldUpdater_hasValue_Test {
   public void should_fail_if_atomicReferenceFieldUpdater_does_not_contain_expected_value() throws Exception {
     AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
 
-    thrown.expectAssertionError(shouldContain(fieldUpdater.get(person), "Frodo").create());
+    thrown.expectAssertionError(shouldHaveValue(fieldUpdater, person.name, "Frodo", person).create());
 
     assertThat(fieldUpdater).hasValue("Frodo", person);
   }

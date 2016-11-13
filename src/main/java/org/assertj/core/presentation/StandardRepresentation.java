@@ -33,8 +33,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.data.MapEntry;
@@ -125,6 +128,9 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
     if (object instanceof AtomicStampedReference) return toStringOf((AtomicStampedReference<?>) object);
     if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
+    if (object instanceof AtomicIntegerFieldUpdater) return AtomicIntegerFieldUpdater.class.getSimpleName();
+    if (object instanceof AtomicLongFieldUpdater) return AtomicLongFieldUpdater.class.getSimpleName();
+    if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
     return object == null ? null : object.toString();
   }
 

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+
 /**
  * Base class for all fieldupdater assertions.
  *
@@ -22,40 +24,37 @@ package org.assertj.core.api;
  * @author epeee
  */
 public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF, VALUE, ATOMIC, OBJECT>, VALUE, ATOMIC, OBJECT>
-    extends AbstractAtomicBaseAssert<SELF, VALUE, ATOMIC> {
+    extends AbstractObjectAssert<SELF, ATOMIC> {
+
+  private final boolean expectedNullAllowed;
 
   public AbstractAtomicFieldUpdaterAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
-    super(actual, selfType, expectedNullAllowed);
+    super(actual, selfType);
+    this.expectedNullAllowed = expectedNullAllowed;
   }
 
-  /**
-   * Verifies that the actual atomic field updater contains the given value at the given object.
-   * <p>
-   * Example with {@code AtomicIntegerFieldUpdater}:
-   * <pre><code class='java'> // person is an instance of a Person class holding a non-private volatile int field (age).
-   * AtomicIntegerFieldUpdater&lt;Person&gt; ageUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
-   * 
-   * // this assertion succeeds:
-   * ageUpdater.set(person, 25);
-   * assertThat(ageUpdater).hasValue(25, person);
-   *
-   * // this assertion fails:
-   * fieldUpdater.set(person, 28);
-   * assertThat(fieldUpdater).hasValue(25, person);</code></pre>
-   *
-   * @param expectedValue the expected value inside the {@link SELF}.
-   * @param obj the object holding the updatable field.
-   * @return this assertion object.
-   */
   public SELF hasValue(VALUE expectedValue, final OBJECT obj) {
-    return contains(expectedValue, new Supplier<VALUE>() {
-      @Override
-      public VALUE get() {
-        return getActualValue(obj);
-      }
-    });
+    validate(expectedValue);
+    VALUE actualValue = getActualValue(obj);
+    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+      throwAssertionError(shouldHaveValue(actual, actualValue, expectedValue, obj));
+    }
+    return myself;
   }
 
   protected abstract VALUE getActualValue(OBJECT obj);
+
+  protected void validate(VALUE expectedValue) {
+    isNotNull();
+    if (!expectedNullAllowed) {
+      checkNotNull(expectedValue);
+    }
+  }
+
+  private void checkNotNull(VALUE expectedValue) {
+    if (expectedValue == null) {
+      throw new IllegalArgumentException("The expected value should not be <null>.");
+    }
+  }
 
 }
