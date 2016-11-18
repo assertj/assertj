@@ -338,7 +338,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example :
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 1));
    *
    * // assertions will fail
@@ -389,7 +389,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example :
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((byte) 5).isNotCloseTo(new Byte("7"), byLessThan((byte) 1));
    *
    * // assertions will fail
@@ -442,7 +442,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with byte:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((byte) 11).isNotCloseTo(Byte.valueOf(10), withinPercentage((byte) 5));
    *
    * // assertions will fail
@@ -491,7 +491,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with byte:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((byte) 11).isNotCloseTo((byte) 10, withinPercentage((byte) 5));
    *
    * // assertions will fail

@@ -252,7 +252,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11.0).isNotCloseTo(Double.valueOf(10.0), withinPercentage(5d));
    *
    * // assertions will fail
@@ -303,7 +303,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11.0).isNotCloseTo(10.0, withinPercentage(5d));
    *
    * // assertions will fail

@@ -358,7 +358,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * Example with BigDecimal:
    * <pre><code class='java'> BigDecimal eleven = BigDecimal.valueOf(11.0);
    *  
-   * // assertions will pass:
+   * // assertion will pass:
    * assertThat(eleven).isNotCloseTo(BigDecimal.TEN, withinPercentage(new BigDecimal("5")));
    *
    * // assertion will fail as the difference is exactly equals to the computed offset (1.0) 

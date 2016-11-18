@@ -41,7 +41,7 @@ public class ShouldNotBeEqualWithinOffset extends BasicErrorMessageFactory {
           "not to be close to:%n" +
           "  <%s>%n" +
           "by more than <%s> but difference was <%s>.%n" +
-          "(a difference of exactly <%s> being considered valid)",
+          "(a difference of exactly <%s> being considered incorrect)",
           actual, expected, offset.value, difference, offset.value);
   }
 }

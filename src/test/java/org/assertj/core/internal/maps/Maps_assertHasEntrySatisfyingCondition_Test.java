@@ -12,19 +12,9 @@
  */
 package org.assertj.core.internal.maps;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.internal.Maps;
-import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import static org.assertj.core.condition.Not.not;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
+import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -32,6 +22,16 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
+
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.internal.Maps;
+import org.assertj.core.internal.MapsBaseTest;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Maps#assertHasEntrySatisfying(AssertionInfo, Map, Object, Condition)}</code>.
@@ -94,7 +94,7 @@ public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
     try {
       maps.assertHasEntrySatisfying(info, actual, key, isDigits);
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldHave(actual, actual.get(key), isDigits));
+      verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), isDigits));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -107,7 +107,7 @@ public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
     try {
       maps.assertHasEntrySatisfying(info, actual, key, nonNull);
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldHave(actual, actual.get(key), nonNull));
+      verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), nonNull));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

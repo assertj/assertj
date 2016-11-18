@@ -277,7 +277,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * assertThat(ringBearers).containsAnyOf(entry(oneRing, frodo), entry(oneRing, sauron));
    * assertThat(emptyMap).containsAnyOf();
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(ringBearers).containsAnyOf(entry(oneRing, gandalf), entry(oneRing, aragorn));</code></pre>
    *
    * @param entries the given entries.
@@ -339,10 +339,10 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * ringBearers.put(oneRing, frodo);
    * 
    * // assertions will pass
-   * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);</code></pre>
+   * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);
    * 
    * // assertion will fail
-   * assertThat(ringBearers).containsEntry(oneRing, sauron);
+   * assertThat(ringBearers).containsEntry(oneRing, sauron);</code></pre>
    * 
    * @param key the given key to check.
    * @param value the given value to check.
@@ -359,7 +359,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueCondition}.
+   * Verifies that the actual map contains a value for the given {@code key} that satisfies the given {@code valueCondition}.
    * <p>
    * Example:
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
@@ -368,7 +368,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
    * 
-   * Condition&lt;Boolean&gt elfBearer = new Condition&lt;TolkienCharacter&gt;(&quot;elf&quot;) {
+   * Condition&lt;TolkienCharacter&gt elfBearer = new Condition&lt;&gt;(&quot;an elf bearer&quot;) {
    *   public boolean matches(TolkienCharacter character) {
    *     return character.getRace() == ELF;
    *   }

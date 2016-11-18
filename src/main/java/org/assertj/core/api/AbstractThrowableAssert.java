@@ -308,7 +308,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
-   * Verifies the actual {@code Throwable} has no suppressed exceptions.
+   * Verifies that the actual {@code Throwable} has no suppressed exceptions.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -344,7 +344,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    *
    * // These assertions fail:
    * assertThat(throwable).hasSuppressedException(new IllegalArgumentException("invalid parameter"));
-   * assertThat(throwable).hasCause(new NullPointerException());</code></pre>
+   * assertThat(throwable).hasSuppressedException(new NullPointerException());</code></pre>
    *
    * @param suppressedException the expected suppressed exception
    * @return this assertion object.

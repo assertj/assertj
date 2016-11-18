@@ -124,7 +124,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} is blank, i.e. is not {@code null} or empty and contains only whitespace characters.
    * <p>
-   * It uses the same whitespace definition as Guava <a href="http://google.github.io/guava/releases/19.0/api/docs/com/google/common/base/CharMatcher.html#whitespace()"> CharMatcher#whitespace</a> , that is the latest Unicode standard, as illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>. This is not the same definition used by other Java APIs.
+   * The whitespace definition used in this assertion follows the latest Unicode standard (which is not the same as Java whitespace definition) 
+   * and is based on Guava <a href="http://google.github.io/guava/releases/19.0/api/docs/com/google/common/base/CharMatcher.html#whitespace()"> CharMatcher#whitespace</a>.
+   * If you want to stick with Java whitespace definition, use {@link #isJavaBlank()}.
    * <p>
    * These assertions will succeed:
    * <pre><code class='java'> assertThat(" ").isBlank();
@@ -149,7 +151,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} is not blank, i.e. either is {@code null}, empty or
    * contains at least one whitespace characters.
    * <p>
-   * It uses the same whitespace definition as Guava <a href="http://google.github.io/guava/releases/19.0/api/docs/com/google/common/base/CharMatcher.html#whitespace()"> CharMatcher#whitespace</a> , that is the latest Unicode standard, as illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>. This is not the same definition used by other Java APIs.
+   * It uses the same whitespace definition as in {@link #isBlank()} assertion.
    * <p>
    * These assertion will succeed:
    * <pre><code class='java'> assertThat("a").isNotBlank();
@@ -175,6 +177,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} is blank, i.e. it contains only whitespace characters 
    * (according to {@link Character#isWhitespace(char)}).
    * <p>
+   * If you want to use the latest Unicode standard whitespace definition (as in Guava), use {@link #isBlank()}, 
+   * see Guava <a href="http://google.github.io/guava/releases/19.0/api/docs/com/google/common/base/CharMatcher.html#whitespace()">explanation</a> for more details.
+   * <p>
    * These assertions will succeed:
    * <pre><code class='java'> assertThat(" ").isBlank();
    * assertThat("     ").isBlank();</code></pre>
@@ -197,6 +202,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} is not blank, i.e. either is {@code null}, empty or
    * contains at least one whitespace characters (according to {@link Character#isWhitespace(char)}).
+   * <p>
+   * It uses the same whitespace definition as in {@link #isJavaBlank()} assertion.
    * <p>
    * These assertion will succeed:
    * <pre><code class='java'> assertThat("a").isNotBlank();
