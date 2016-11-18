@@ -1973,10 +1973,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Return an {@code Assert} object that allows to perform assertions on the size of the {@link Iterable} under test.
+   * Returns an {@code Assert} object that allows performing assertions on the size of the {@link Iterable} under test.
    * <p>
-   * Once this method is called, the object under test is no more the initial {@link Iterable} but its size,
-   * to perform assertions on the initial {@link Iterable}, call {@link AbstractIterableSizeAssert#returnToIterable()}.
+   * Once this method is called, the object under test is no longer the {@link Iterable} but its size,
+   * to perform assertions on the {@link Iterable}, call {@link AbstractIterableSizeAssert#returnToIterable()}.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
