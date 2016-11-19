@@ -12,14 +12,20 @@
  */
 package org.assertj.core.api.atomic;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
+import org.assertj.core.error.ShouldHaveValue;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
+import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 public class AtomicInteger_assertions_Test {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void should_accept_null_atomicInteger() {
@@ -33,8 +39,40 @@ public class AtomicInteger_assertions_Test {
     AtomicInteger actual = new AtomicInteger(123);
     assertThat(actual).isLessThan(1234)
                       .isGreaterThan(12)
-                      .isEqualTo(123);
+                      .isNotEqualTo(123);
     then(actual).isNotEqualTo(1234);
+  }
+
+  @Test
+  public void should_be_able_to_use_EqualTo_AtomicInteger() {
+    AtomicInteger actual = new AtomicInteger(123);
+    assertThat(actual).isEqualTo(actual);
+  }
+
+  @Test
+  public void should_fail_if_atomicInteger_does_not_contain_expected_value() {
+    AtomicInteger actual = new AtomicInteger(123);
+    int expectedValue = 1234;
+    thrown.expectAssertionError(ShouldHaveValue.shouldHaveValue(actual, expectedValue).create());
+    assertThat(actual).hasValue(1234);
+  }
+
+  @Test
+  public void should_be_able_to_use_isPositive() {
+    AtomicInteger actual = new AtomicInteger(123);
+    assertThat(actual).isPositive();
+  }
+
+  @Test
+  public void should_be_able_to_use_isNegative() {
+    AtomicInteger actual = new AtomicInteger(-123);
+    assertThat(actual).isNegative();
+  }
+
+  @Test
+  public void should_be_able_to_use_isBetween() {
+    AtomicInteger actual = new AtomicInteger(123);
+    assertThat(actual).isBetween(99, 149);
   }
 
 }
