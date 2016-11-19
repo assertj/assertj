@@ -13,7 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
+import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
@@ -230,7 +230,7 @@ public class Maps {
     assertContainsKeys(info, actual, key);
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
-    if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldHave(actual, value, valueCondition));
+    if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldBe(actual, value, valueCondition));
   }
 
   /**

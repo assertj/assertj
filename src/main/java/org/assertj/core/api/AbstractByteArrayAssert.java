@@ -730,7 +730,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder((byte) 1, (byte) 2);
-   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 2, (byte) 1);
+   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 1, (byte) 2);
    * 
    * // assertions will fail
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder((byte) 1);
@@ -756,7 +756,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(1, 2);
-   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 2, 1);
+   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 1, 2);
    * 
    * // assertions will fail
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(1);

@@ -32,6 +32,7 @@ public class AbstractSoftAssertions {
 
   /**
    * Fails with the given message.
+   * 
    * @param failureMessage error message.
    * @since 2.6.0 / 3.6.0
    */
@@ -41,7 +42,19 @@ public class AbstractSoftAssertions {
   }
 
   /**
+   * Fails with the given message built like {@link String#format(String, Object...)}.
+   * 
+   * @param failureMessage error message.
+   * @since 2.6.0 / 3.6.0
+   */
+  public void fail(String failureMessage, Object... args) {
+    AssertionError error = Failures.instance().failure(String.format(failureMessage, args));
+    proxies.collectError(error);
+  }
+  
+  /**
    * Fails with the given message and with the {@link Throwable} that caused the failure.
+   * 
    * @param failureMessage error message.
    * @param realCause cause of the error.
    * @since 2.6.0 / 3.6.0
@@ -55,6 +68,7 @@ public class AbstractSoftAssertions {
   /**
    * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * 
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
@@ -69,6 +83,7 @@ public class AbstractSoftAssertions {
   /**
    * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * 
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.

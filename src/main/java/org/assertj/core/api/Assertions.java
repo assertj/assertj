@@ -1025,42 +1025,66 @@ public class Assertions {
   // -------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Fail#setRemoveAssertJRelatedElementsFromStackTrace(boolean)} so that Assertions offers a
-   * full feature entry point to all AssertJ Assert features (but you can use {@link Fail} if you prefer).
+   * Sets whether we remove elements related to AssertJ from assertion error stack trace.
+   * 
+   * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   /**
-   * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Assertj
-   * Assert features (but you can use Fail if you prefer).
+   * Throws an {@link AssertionError} with the given message.
+   * 
+   * @param failureMessage error message.
+   * @throws AssertionError with the given message.
    */
   public static void fail(String failureMessage) {
     Fail.fail(failureMessage);
   }
 
   /**
-   * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
-   * AssertJ features (but you can use Fail if you prefer).
+   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
+   * 
+   * @param failureMessage error message.
+   * @param args Arguments referenced by the format specifiers in the format string.
+   * @throws AssertionError with the given built message.
+   */
+  public static void fail(String failureMessage, Object... args) {
+    Fail.fail(failureMessage, args);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
+   * @param failureMessage the description of the failed assertion. It can be {@code null}.
+   * @param realCause cause of the error.
+   * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   public static void fail(String failureMessage, Throwable realCause) {
     Fail.fail(failureMessage, realCause);
   }
 
   /**
-   * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
-   * entry point to all AssertJ features (but you can use Fail if you prefer).
-   *
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * <p>
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
+   * <p>
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
+   *
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
     Fail.shouldHaveThrown(exceptionClass);
   }
 
   /**
-   * Only delegate to {@link Fail#shouldHaveThrown(Class)} so that Assertions offers a full feature
-   * entry point to all AssertJ features (but you can use Fail if you prefer).
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
    */
   public static void shouldHaveThrown(Class<? extends Throwable> exceptionClass) {
     Fail.shouldHaveThrown(exceptionClass);
@@ -1399,7 +1423,7 @@ public class Assertions {
   public static Offset<Double> byLessThan(Double value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p>
@@ -1409,7 +1433,7 @@ public class Assertions {
   public static Offset<Float> byLessThan(Float value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1419,7 +1443,7 @@ public class Assertions {
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1429,7 +1453,7 @@ public class Assertions {
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1439,7 +1463,7 @@ public class Assertions {
   public static Offset<Integer> byLessThan(Integer value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1449,7 +1473,7 @@ public class Assertions {
   public static Offset<Short> byLessThan(Short value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1459,7 +1483,7 @@ public class Assertions {
   public static Offset<Long> byLessThan(Long value) {
     return Offset.offset(value);
   }
-  
+
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------

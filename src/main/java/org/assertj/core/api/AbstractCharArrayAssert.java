@@ -425,7 +425,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new char[] { 'a', 'b' }).containsExactlyInAnyOrder('b', 'a');
-   * assertThat(new char[] { 'a', 'b', 'a' }).containsExactlyInAnyOrder('a', 'b', 'a');
+   * assertThat(new char[] { 'a', 'b', 'a' }).containsExactlyInAnyOrder('a', 'a', 'b');
    * 
    * // assertions will fail
    * assertThat(new char[] { 'a', 'b' }).containsExactlyInAnyOrder('a');

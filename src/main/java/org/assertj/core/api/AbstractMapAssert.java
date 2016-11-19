@@ -138,7 +138,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Verifies that the actual map has the same size as given array.
+   * Verifies that the actual map has the same size as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
    * <p>
@@ -276,7 +276,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * assertThat(ringBearers).containsAnyOf(entry(oneRing, frodo), entry(oneRing, sauron));
    * assertThat(emptyMap).containsAnyOf();
    * 
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(ringBearers).containsAnyOf(entry(oneRing, gandalf), entry(oneRing, aragorn));</code></pre>
    *
    * @param entries the given entries.
@@ -338,10 +338,10 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * ringBearers.put(oneRing, frodo);
    * 
    * // assertions will pass
-   * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);</code></pre>
+   * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);
    * 
    * // assertion will fail
-   * assertThat(ringBearers).containsEntry(oneRing, sauron);
+   * assertThat(ringBearers).containsEntry(oneRing, sauron);</code></pre>
    * 
    * @param key the given key to check.
    * @param value the given value to check.
@@ -358,7 +358,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueCondition}.
+   * Verifies that the actual map contains a value for the given {@code key} that satisfies the given {@code valueCondition}.
    * <p>
    * Example:
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
@@ -367,7 +367,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
    * 
-   * Condition&lt;Boolean&gt elfBearer = new Condition&lt;TolkienCharacter&gt;(&quot;elf&quot;) {
+   * Condition&lt;TolkienCharacter&gt elfBearer = new Condition&lt;&gt;(&quot;an elf bearer&quot;) {
    *   public boolean matches(TolkienCharacter character) {
    *     return character.getRace() == ELF;
    *   }
@@ -377,8 +377,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * assertThat(ringBearers).hasEntrySatisfying(nenya, elfBearer);
    *
    * // this assertion will fail
-   * assertThat(ringBearers).hasEntrySatisfying(oneRing, elfBearer);
-   * </code></pre>
+   * assertThat(ringBearers).hasEntrySatisfying(oneRing, elfBearer);</code></pre>
    *
    * @param key he given key to check.
    * @param valueCondition the given condition for check value.
@@ -689,7 +688,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map contains only the given entries and nothing else, <b>in order</b>.<br>
-   * This assertion should only be used with map that have a consistent iteration order (i.e. don't use it with
+   * This assertion should only be used with maps that have a consistent iteration order (i.e. don't use it with
    * {@link java.util.HashMap}, prefer {@link #containsOnly(org.assertj.core.data.MapEntry...)} in that case).
    * <p>
    * Example :
@@ -913,13 +912,13 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Return an {@code Assert} object that allows to perform assertions on the size of the {@link Map} under test.
+   * Returns an {@code Assert} object that allows performing assertions on the size of the {@link Map} under test.
    * <p>
-   * Once this method is called, the object under test is no more the initial {@link Map} but its size, 
-   * to perform assertions on the initial {@link Map}, call {@link AbstractMapSizeAssert#returnToMap()}. 
+   * Once this method is called, the object under test is no longer the {@link Map} but its size,
+   * to perform assertions on the {@link Map}, call {@link AbstractMapSizeAssert#returnToMap()}. 
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newHashMap(entry(oneRing, frodo),   
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newHashMap(entry(oneRing, frodo),
    *                                                      entry(nenya, galadriel), 
    *                                                      entry(narya, gandalf));  
    * 

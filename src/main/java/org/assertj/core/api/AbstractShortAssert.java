@@ -258,7 +258,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((short)5).isNotCloseTo((short)7, byLessThan((short)1));
    *
    * // assertion will fail
@@ -308,7 +308,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((short)5).isNotCloseTo(Short.valueOf(7), byLessThan((short)1));
    *
    * // assertions will fail
@@ -360,7 +360,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with short:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((short)11).isNotCloseTo(Short.valueOf(10), withinPercentage((short)5));
    *
    * // assertions will fail
@@ -411,7 +411,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with short:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat((short)11).isNotCloseTo((short)10, withinPercentage((short)5));
    *
    * // assertions will fail

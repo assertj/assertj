@@ -12,15 +12,14 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
-import org.junit.Before;
-
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link MapAssert#hasEntrySatisfying(Object, Condition)}</code>.

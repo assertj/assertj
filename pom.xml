@@ -40,6 +40,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <version>2.2.9</version>
     </dependency>
     <dependency>
       <groupId>cglib</groupId>
@@ -67,7 +68,7 @@
     <dependency>
       <groupId>com.tngtech.java</groupId>
       <artifactId>junit-dataprovider</artifactId>
-      <version>1.11.0</version>
+      <version>1.12.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -25,6 +25,7 @@ public final class Fail {
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
+   * 
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
@@ -32,7 +33,8 @@ public final class Fail {
   }
 
   /**
-   * Fails with the given message.
+   * Throws an {@link AssertionError} with the given message.
+   * 
    * @param failureMessage error message.
    * @throws AssertionError with the given message.
    */
@@ -41,7 +43,19 @@ public final class Fail {
   }
 
   /**
+   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
+   * 
+   * @param failureMessage error message.
+   * @param args Arguments referenced by the format specifiers in the format string.
+   * @throws AssertionError with the given built message.
+   */
+  public static void fail(String failureMessage, Object... args) {
+    fail(String.format(failureMessage, args));
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
+   * 
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
@@ -55,6 +69,7 @@ public final class Fail {
   /**
    * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * 
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
@@ -68,6 +83,7 @@ public final class Fail {
   /**
    * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * 
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.

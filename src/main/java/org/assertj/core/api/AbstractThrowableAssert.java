@@ -61,7 +61,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 
   /**
    * Verifies that the message of the actual (@code Throwable) is equal to the given one, after being formatted using
-   * the default String.format method
+   * the {@link String#format} method.
    * <p>
    * Example:
    * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("foo is not a valid input");
@@ -88,8 +88,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
-   * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with same type and message
-   * (it does not use {@link Throwable#equals(Object) equals} method for comparison).
+   * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with the same type and message
+   * (it does not use the {@link Throwable#equals(Object) equals} method for comparison).
    *
    * Example:
    * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
@@ -138,7 +138,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
-   * Verifies that the message of the actual {@code Throwable} contains with the given description.
+   * Verifies that the message of the actual {@code Throwable} contains the given description.
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s message.
    * @return this assertion object.
@@ -151,7 +151,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
-   * Verifies that the stack trace of the actual {@code Throwable} contains with the given description.
+   * Verifies that the stack trace of the actual {@code Throwable} contains the given description.
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
    * @return this assertion object.
@@ -164,7 +164,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
-   * Verifies that the message of the actual {@code Throwable} matches with the given regular expression.
+   * Verifies that the message of the actual {@code Throwable} matches the given regular expression.
    * <p>
    * Examples:
    * <pre><code class='java'> Throwable throwable = new IllegalArgumentException("wrong amount 123");
@@ -205,7 +205,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable(new NullPointerException());
    *
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(throwable).hasCauseInstanceOf(NullPointerException.class);
    * assertThat(throwable).hasCauseInstanceOf(RuntimeException.class);
    *
@@ -258,7 +258,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
    *
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(throwable).hasRootCauseInstanceOf(NullPointerException.class);
    * assertThat(throwable).hasRootCauseInstanceOf(RuntimeException.class);
    *
@@ -288,7 +288,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * // assertion will pass
    * assertThat(throwable).hasRootCauseExactlyInstanceOf(NullPointerException.class);
    *
-   * // assertion will fail (even if NullPointerException is a RuntimeException since we want an exact match)
+   * // assertions will fail (even if NullPointerException is a RuntimeException since we want an exact match)
    * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
    * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);</code></pre>
    *
@@ -308,7 +308,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
-   * Verifies the actual {@code Throwable} has no suppressed exceptions.
+   * Verifies that the actual {@code Throwable} has no suppressed exceptions.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -330,8 +330,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
-   * Verifies that the actual {@code Throwable} has a suppressed exception similar to the given one, that is with same type and message
-   * (it does not use {@link Throwable#equals(Object) equals} method for comparison).
+   * Verifies that the actual {@code Throwable} has a suppressed exception similar to the given one, that is with the same type and message
+   * (it does not use the {@link Throwable#equals(Object) equals} method for comparison).
    *
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable();
@@ -344,12 +344,12 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    *
    * // These assertions fail:
    * assertThat(throwable).hasSuppressedException(new IllegalArgumentException("invalid parameter"));
-   * assertThat(throwable).hasCause(new NullPointerException());</code></pre>
+   * assertThat(throwable).hasSuppressedException(new NullPointerException());</code></pre>
    *
    * @param suppressedException the expected suppressed exception
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} has not the given suppressed exception.
+   * @throws AssertionError if the actual {@code Throwable} does not have the given suppressed exception.
    * @since 2.6.0 / 3.6.0
    */
   public S hasSuppressedException(Throwable suppressedException) {

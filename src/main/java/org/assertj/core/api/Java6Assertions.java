@@ -822,42 +822,57 @@ public class Java6Assertions {
   // -------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Fail#setRemoveAssertJRelatedElementsFromStackTrace(boolean)} so that Assertions offers a
-   * full feature entry point to all AssertJ Assert features (but you can use {@link Fail} if you prefer).
-   */
-  public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
-    Fail.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
-  }
-
-  /**
-   * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Assertj
-   * Assert features (but you can use Fail if you prefer).
+   * Throws an {@link AssertionError} with the given message.
+   * 
+   * @param failureMessage error message.
+   * @throws AssertionError with the given message.
    */
   public static void fail(String failureMessage) {
     Fail.fail(failureMessage);
   }
 
   /**
-   * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
-   * AssertJ features (but you can use Fail if you prefer).
+   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
+   * 
+   * @param failureMessage error message.
+   * @param args Arguments referenced by the format specifiers in the format string.
+   * @throws AssertionError with the given built message.
+   */
+  public static void fail(String failureMessage, Object... args) {
+    Fail.fail(failureMessage, args);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
+   * @param failureMessage the description of the failed assertion. It can be {@code null}.
+   * @param realCause cause of the error.
+   * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   public static void fail(String failureMessage, Throwable realCause) {
     Fail.fail(failureMessage, realCause);
   }
 
   /**
-   * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
-   * entry point to all AssertJ features (but you can use Fail if you prefer).
-   *
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * <p>
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
+   * <p>
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
+   *
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
     Fail.shouldHaveThrown(exceptionClass);
   }
 
   /**
-   * Only delegate to {@link Fail#shouldHaveThrown(Class)} so that Assertions offers a full feature
-   * entry point to all AssertJ features (but you can use Fail if you prefer).
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
    */
   public static void shouldHaveThrown(Class<? extends Throwable> exceptionClass) {
     Fail.shouldHaveThrown(exceptionClass);

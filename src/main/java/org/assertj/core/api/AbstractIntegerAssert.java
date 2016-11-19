@@ -267,7 +267,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(5).isNotCloseTo(7, byLessThan(1));
    *
    * // assertions will fail
@@ -317,7 +317,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(5).isNotCloseTo(Integer.valueOf(7), byLessThan(1));
    *
    * // assertions will fail
@@ -369,7 +369,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with integer:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11).isNotCloseTo(Integer.valueOf(10), withinPercentage(5));
    *
    * // assertions will fail
@@ -420,7 +420,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with integer:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(11).isNotCloseTo(10, withinPercentage(5));
    *
    * // assertions will fail

@@ -833,7 +833,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new float[] { 1.0F, 2.0F }).containsExactlyInAnyOrder(1.0F, 2.0F);
-   * assertThat(new float[] { 1.0F, 2.0F, 1.0F }).containsExactlyInAnyOrder(1.0F, 2.0F, 1.0F);
+   * assertThat(new float[] { 1.0F, 2.0F, 1.0F }).containsExactlyInAnyOrder(1.0F, 1.0F, 2.0F);
    * 
    * // assertions will fail
    * assertThat(new float[] { 1.0F, 2.0F }).containsExactlyInAnyOrder(1.0F);
