@@ -668,7 +668,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractIntegerAssert<?> then(AtomicInteger actual) {
+  public static AtomicIntegerAssert then(AtomicInteger actual) {
     return assertThat(actual);
   }
 

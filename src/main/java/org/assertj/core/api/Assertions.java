@@ -793,8 +793,8 @@ public class Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractIntegerAssert<?> assertThat(AtomicInteger actual) {
-    return new IntegerAssert(actual);
+  public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
+    return new AtomicIntegerAssert(actual);
   }
 
   /**
