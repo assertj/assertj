@@ -342,12 +342,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the flatMap call.
    * <p>
    * Examples:
-   * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING = s -> {
-   *   if (s == null) {
-   *     return Optional.empty();
-   *   }
-   *   return Optional.of(s.toUpperCase());
-   * }; 
+   * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING = 
+   *       s -&gt; s == null ? Optional.empty() : Optional.of(s.toUpperCase());
    * 
    * // assertions succeed
    * assertThat(Optional.of("something")).contains("something")
@@ -356,6 +352,9 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *                                     
    * assertThat(Optional.&lt;String&gt;empty()).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .isEmpty();
+   *                                     
+   * assertThat(Optional.&lt;String&gt;ofNullable(null)).flatMap(UPPER_CASE_OPTIONAL_STRING)
+   *                                              .isEmpty();
    *                                     
    * // assertion fails
    * assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING)

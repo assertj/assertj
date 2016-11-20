@@ -817,13 +817,11 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * This is useful to perform a group of assertions on elements.
    * <p>
    * Grouping assertions example:
-   * <pre><code class='java'>
-   *
-   * assertThat(myIcelanderFriends).extracting(Person::getAddress)
+   * <pre><code class='java'> assertThat(myIcelanderFriends).extracting(Person::getAddress)
    *                               .allSatisfy(p -&gt; {
    *                                 assertThat(p.getCountry()).isEqualTo("Iceland");
    *                                 assertThat(p.getPhoneCountryCode()).isEqualTo("+354");
-   *                               });
+   *                               });</code></pre>
    *
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
