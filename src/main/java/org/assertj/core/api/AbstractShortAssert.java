@@ -271,6 +271,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Short)
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(short expected, Offset<Short> offset) {
     shorts.assertIsNotCloseTo(info, actual, expected, offset);
@@ -321,6 +322,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Short)
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Short expected, Offset<Short> offset) {
@@ -373,6 +375,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Short expected, Percentage percentage) {
@@ -424,6 +427,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(short expected, Percentage percentage) {
     shorts.assertIsNotCloseToPercentage(info, actual, expected, percentage);

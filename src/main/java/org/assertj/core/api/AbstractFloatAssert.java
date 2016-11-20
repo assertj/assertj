@@ -178,6 +178,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Float)
+   * @since 2.6.0 / 3.6.0
    */
   // duplicate javadoc of isNotCloseTo(Float other, Offset<Float> offset but can't define it in super class
   public S isNotCloseTo(final float expected, final Offset<Float> offset) {
@@ -244,6 +245,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws NullPointerException if the other number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Float)
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Float expected, Offset<Float> offset) {
@@ -296,6 +298,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Float expected, Percentage percentage) {
@@ -347,6 +350,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(float expected, Percentage percentage) {
     floats.assertIsNotCloseToPercentage(info, actual, expected, percentage);
