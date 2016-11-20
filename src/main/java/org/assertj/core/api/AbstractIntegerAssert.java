@@ -280,6 +280,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Integer)
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(int expected, Offset<Integer> offset) {
     integers.assertIsNotCloseTo(info, actual, expected, offset);
@@ -330,6 +331,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Integer)
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Integer expected, Offset<Integer> offset) {
@@ -382,6 +384,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Integer expected, Percentage percentage) {
@@ -433,6 +436,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(int expected, Percentage percentage) {
     integers.assertIsNotCloseToPercentage(info, actual, expected, percentage);

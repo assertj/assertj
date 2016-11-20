@@ -926,6 +926,7 @@ public class Java6Assertions {
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", ...]</code></pre>
    *
    * @param maxElementsForPrinting the maximum elements that would be printed from one iterable/array/map
+   * @since 2.6.0 / 3.6.0
    */
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);

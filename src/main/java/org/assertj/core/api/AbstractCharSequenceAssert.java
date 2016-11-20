@@ -141,6 +141,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
+   * @since 2.6.0 / 3.6.0
    */
   public S isBlank() {
     strings.assertBlank(info, actual);
@@ -167,6 +168,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is blank.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotBlank() {
     strings.assertNotBlank(info, actual);
@@ -193,6 +195,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
+   * @since 2.6.0 / 3.6.0
    */
   public S isJavaBlank() {
     strings.assertJavaBlank(info, actual);
@@ -219,6 +222,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is blank.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotJavaBlank() {
     strings.assertNotJavaBlank(info, actual);

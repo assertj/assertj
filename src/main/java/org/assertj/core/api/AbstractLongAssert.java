@@ -276,6 +276,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Long)
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(long expected, Offset<Long> offset) {
     longs.assertIsNotCloseTo(info, actual, expected, offset);
@@ -326,6 +327,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Long)
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Long expected, Offset<Long> offset) {
@@ -378,6 +380,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Long expected, Percentage percentage) {
@@ -429,6 +432,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(long expected, Percentage percentage) {
     longs.assertIsNotCloseToPercentage(info, actual, expected, percentage);

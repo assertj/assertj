@@ -317,6 +317,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one within the offset value.
    * @see Assertions#byLessThan(BigDecimal)
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(final BigDecimal expected, final Offset<BigDecimal> offset) {
