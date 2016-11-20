@@ -39,7 +39,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("ftp://helloworld.org")).hasProtocol("ftp");
    *
-   * // These assertion fails:
+   * // This assertion fails:
    * assertThat(new URL("http://helloworld.org")).hasProtocol("ftp");</code></pre>
    *
    * @param expected the expected protocol of the actual {@code URL}.
@@ -347,11 +347,11 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * <p>
    * Examples:
    * <pre><code class='java'> // This assertion succeeds:
-   * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoParameters();
+   * assertThat(new URL("http://www.helloworld.org/index.html")).hasNoParameters();
    *
    * // These assertions fail:
-   * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameters();
-   * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameters();</code></pre>
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad")).hasNoParameters();
+   * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasNoParameters();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a parameter.

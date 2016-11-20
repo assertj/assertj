@@ -103,7 +103,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   /**
-   * Verifies that the actual list is sorted into ascending order according to the natural ordering of its elements.
+   * Verifies that the actual list is sorted in ascending order according to the natural ordering of its elements.
    * <p>
    * All list elements must implement the {@link Comparable} interface and must be mutually comparable (that is, e1.compareTo(e2)
    * must not throw a ClassCastException for any elements e1 and e2 in the list), examples :
@@ -116,7 +116,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    *
    * @return {@code this} assertion object.
    *
-   * @throws AssertionError if the actual list is not sorted into ascending order according to the natural ordering of its
+   * @throws AssertionError if the actual list is not sorted in ascending order according to the natural ordering of its
    *           elements.
    * @throws AssertionError if the actual list is <code>null</code>.
    * @throws AssertionError if the actual list element type does not implement {@link Comparable}.
@@ -129,7 +129,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   /**
    * Verifies that the actual list is sorted according to the given comparator.</br> Empty lists are considered sorted whatever
-   * the comparator is.</br> One element lists are considered sorted if element is compatible with comparator.
+   * the comparator is.</br> One element lists are considered sorted if the element is compatible with comparator.
    *
    * @param comparator the {@link Comparator} used to compare list elements
    *
