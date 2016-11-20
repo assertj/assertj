@@ -139,7 +139,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Verifies that the actual map has the same size as given array.
+   * Verifies that the actual map has the same size as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
    * <p>
@@ -723,7 +723,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map contains only the given entries and nothing else, <b>in order</b>.<br>
-   * This assertion should only be used with map that have a consistent iteration order (i.e. don't use it with
+   * This assertion should only be used with maps that have a consistent iteration order (i.e. don't use it with
    * {@link java.util.HashMap}, prefer {@link #containsOnly(org.assertj.core.data.MapEntry...)} in that case).
    * <p>
    * Example :
@@ -947,13 +947,13 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
-   * Return an {@code Assert} object that allows to perform assertions on the size of the {@link Map} under test.
+   * Returns an {@code Assert} object that allows performing assertions on the size of the {@link Map} under test.
    * <p>
-   * Once this method is called, the object under test is no more the initial {@link Map} but its size, 
-   * to perform assertions on the initial {@link Map}, call {@link AbstractMapSizeAssert#returnToMap()}. 
+   * Once this method is called, the object under test is no longer the {@link Map} but its size,
+   * to perform assertions on the {@link Map}, call {@link AbstractMapSizeAssert#returnToMap()}. 
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newHashMap(entry(oneRing, frodo),   
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newHashMap(entry(oneRing, frodo),
    *                                                      entry(nenya, galadriel), 
    *                                                      entry(narya, gandalf));  
    * 
