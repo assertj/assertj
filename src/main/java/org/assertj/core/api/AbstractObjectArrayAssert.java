@@ -1389,8 +1389,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the values of given field or property from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
-   * It allows you to test a field/property of the array's elements instead of testing the elements themselves, it can
-   * be sometimes much less work !
+   * It allows you to test a field/property of the array's elements instead of testing the elements themselves, which can
+   * be much less work !
    * <p>
    * Let's take an example to make things clearer :
    * <pre><code class='java'> // Build a array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
@@ -1436,8 +1436,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the values of given field or property from the array's elements under test into a new array, this new array
    * becoming the array under test with type.
    * <p>
-   * It allows you to test a field/property of the array's elements instead of testing the elements themselves, it can
-   * be sometimes much less work !
+   * It allows you to test a field/property of the array's elements instead of testing the elements themselves, which can
+   * be much less work !
    * <p>
    * Let's take an example to make things clearer :
    * <pre><code class='java'> // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
@@ -1687,10 +1687,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the result of given method invocation from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
-   * It allows you to test a method results of the array's elements instead of testing the elements themselves, it can be
-   * sometimes much less work!
+   * It allows you to test a method results of the array's elements instead of testing the elements themselves, which can be
+   * much less work!
    * <p>
-   * It is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * It is especially useful for classes that does not conform to the Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
@@ -1729,10 +1729,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the result of given method invocation from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
-   * It allows you to test a method results of the array's elements instead of testing the elements themselves, it can be
-   * sometimes much less work!
+   * It allows you to test a method results of the array's elements instead of testing the elements themselves, which can be
+   * much less work!
    * <p>
-   * It is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * It is especially useful for classes that do not conform to the Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
