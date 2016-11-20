@@ -155,6 +155,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   *
   * @param softly the SoftAssertions instance that you can call your own assertions on.
   * @throws SoftAssertionError if any proxied assertion objects threw
+  * @since 3.6.0
   */
 public static void assertSoftly(Consumer<SoftAssertions> softly) {
       SoftAssertions assertions = new SoftAssertions();

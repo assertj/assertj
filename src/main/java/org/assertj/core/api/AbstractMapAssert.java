@@ -287,6 +287,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws NullPointerException if any of the entries in the given array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain any of the given entries.
+   * @since 3.6.0
    */
   public S containsAnyOf(@SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
     maps.assertContainsAnyOf(info, actual, entries);
@@ -422,6 +423,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given {@code key}.
    * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
+   * @since 3.6.0
    */
   public S hasEntrySatisfying(K key, Consumer<? super V> valueRequirements) {
     maps.assertHasEntrySatisfying(info, actual, key, valueRequirements);
