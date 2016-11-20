@@ -808,6 +808,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given predicate is {@code null}.
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   * @since 3.6.0
    */
   S allMatch(Predicate<? super T> predicate, String predicateDescription);
 
@@ -827,6 +828,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
    * @throws AssertionError if one or more elements don't satisfy given requirements.
+   * @since 3.6.0
    */
   S allSatisfy(Consumer<? super T> requirements);
 

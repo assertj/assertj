@@ -187,6 +187,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @throws AssertionError       if the actual {@link Optional} is null or empty.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError       if the actual value does not satisfy the given condition.
+   * @since 3.6.0
    */
   public S hasValueSatisfying(Condition<? super T> condition) {
     assertValueIsPresent();
@@ -363,6 +364,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param mapper the {@link Function} to use in the {@link Optional#flatMap(Function) flatMap} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the flatMap of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
+   * @since 3.6.0
    */
   public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super T, Optional<U>> mapper) {
     isNotNull();
@@ -388,6 +390,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param mapper the {@link Function} to use in the {@link Optional#map(Function) map} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the map of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
+   * @since 3.6.0
    */
   public <U> AbstractOptionalAssert<?, U> map(Function<? super T, ? extends U> mapper) {
     isNotNull();
