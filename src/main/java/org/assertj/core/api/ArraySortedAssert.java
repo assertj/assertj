@@ -33,7 +33,7 @@ import java.util.Comparator;
 public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
 
   /**
-   * Verifies that the actual array is sorted into ascending order according to the natural ordering of its elements.
+   * Verifies that the actual array is sorted in ascending order according to the natural ordering of its elements.
    * <p>
    * All array elements must be primitive or implement the {@link Comparable} interface and must be mutually comparable (that is,
    * e1.compareTo(e2) must not throw a ClassCastException for any elements e1 and e2 in the array), examples :
@@ -48,7 +48,7 @@ public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
    * 
    * @return {@code this} assertion object.
    * 
-   * @throws AssertionError if the actual array is not sorted into ascending order according to the natural ordering of its
+   * @throws AssertionError if the actual array is not sorted in ascending order according to the natural ordering of its
    *           elements.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array element type does not implement {@link Comparable}.
@@ -58,7 +58,7 @@ public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
 
   /**
    * Verifies that the actual array is sorted according to the given comparator.<br> Empty arrays are considered sorted whatever
-   * the comparator is.<br> One element arrays are considered sorted if element is compatible with comparator, otherwise an
+   * the comparator is.<br> One element arrays are considered sorted if the element is compatible with comparator, otherwise an
    * AssertionError is thrown.
    * 
    * @param comparator the {@link Comparator} used to compare array elements

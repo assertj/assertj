@@ -59,7 +59,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("mailto:java-net@java.sun.com")).hasNoPath();
    *
-   * // this assertions fail:
+   * // these assertions fail:
    * assertThat(new URI("http://helloworld.org")).hasNoPath(); // empty path
    * assertThat(new URI("http://helloworld.org/france")).hasNoPath();</code></pre>
    *
@@ -99,7 +99,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URI("http://helloworld.org")).hasNoPort();
    *
-   * // These assertion fails:
+   * // This assertion fails:
    * assertThat(new URI("http://helloworld.org:8080")).hasNoPort();</code></pre>
    *
    * @return {@code this} assertion object.
@@ -180,7 +180,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoFragment();
    *
-   * // This assertion fail:
+   * // This assertion fails:
    * assertThat(new URI("http://helloworld.org:8080/index.html#print")).hasNoFragment();</code></pre>
    *
    * @return {@code this} assertion object.
