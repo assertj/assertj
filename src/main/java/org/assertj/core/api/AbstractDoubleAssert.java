@@ -153,6 +153,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Double)
+   * @since 2.6.0 / 3.6.0
    */
   // duplicate javadoc of isNotCloseTo(double other, Offset<Double> offset but can't define it in super class
   public S isNotCloseTo(final double expected, final Offset<Double> offset) {
@@ -212,6 +213,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Double)
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Double expected, Offset<Double> offset) {
@@ -265,6 +267,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Double expected, Percentage percentage) {
@@ -316,6 +319,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(double expected, Percentage percentage) {
     doubles.assertIsNotCloseToPercentage(info, actual, expected, percentage);

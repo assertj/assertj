@@ -114,10 +114,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Create a friendly soft or "hard" assertions.
+   * Create a friendly soft or "hard" assertion.
    * <p>
-   * Implementation needs to redefine it in order for some methods, such as {@link #extracting(Extractor)}, to be able
-   * to build appropriate list assert (eg: {@link ListAssert} versus {@link SoftAssertionListAssert}).
+   * Implementations need to redefine it so that some methods, such as {@link #extracting(Extractor)}, are able
+   * to build the appropriate list assert (eg: {@link ListAssert} versus {@link SoftAssertionListAssert}).
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
    * 
@@ -478,7 +478,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that at least one element in the actual {@code Iterable} belong to the specified type (matching includes
+   * Verifies that at least one element in the actual {@code Iterable} has the specified type (matching includes
    * subclasses of the given type).
    * <p>
    * Example:
@@ -500,13 +500,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF hasAtLeastOneElementOfType(Class<?> expectedType) {
     // reuse code from object arrays as the logic is the same
-    // (ok since this assertion don't rely on comparison strategy)
+    // (ok since this assertion doesn't rely on a comparison strategy)
     ObjectArrays.instance().assertHasAtLeastOneElementOfType(info, toArray(actual), expectedType);
     return myself;
   }
 
   /**
-   * Verifies that all the elements in the actual {@code Iterable} belong to the specified type (matching includes
+   * Verifies that all elements in the actual {@code Iterable} have the specified type (matching includes
    * subclasses of the given type).
    * <p>
    * Example:
@@ -515,7 +515,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * numbers.add(2);
    * numbers.add(3);
    *
-   * // successful assertion:
+   * // successful assertions:
    * assertThat(numbers).hasOnlyElementsOfType(Number.class);
    * assertThat(numbers).hasOnlyElementsOfType(Integer.class);
    *
@@ -530,7 +530,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF hasOnlyElementsOfType(Class<?> expectedType) {
     // reuse code from object arrays as the logic is the same
-    // (ok since this assertion don't rely on comparison strategy)
+    // (ok since this assertion doesn't rely on a comparison strategy)
     ObjectArrays.instance().assertHasOnlyElementsOfType(info, toArray(actual), expectedType);
     return myself;
   }
@@ -567,14 +567,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Extract the values of given field or property from the Iterable's elements under test into a new Iterable, this new
+   * Extract the values of the given field or property from the Iterable's elements under test into a new Iterable, this new
    * Iterable becoming the Iterable under test.
    * <p>
-   * It allows you to test a property/field of the the Iterable's elements instead of testing the elements themselves,
-   * it can be sometimes much less work !
+   * It allows you to test a property/field of the the Iterable's elements instead of testing the elements themselves, which
+   * can be be much less work !
    * <p>
-   * Let's take an example to make things clearer :
-   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * Let's take a look at an example to make things clearer :
+   * <pre><code class='java'> // build a list of TolkienCharacters: a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
    *
@@ -587,21 +587,21 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
-   * // let's verify the names of TolkienCharacter in fellowshipOfTheRing :
+   * // let's verify the names of the TolkienCharacters in fellowshipOfTheRing :
    *
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;)
    *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;)
    *           .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
    *
-   * // you can extract nested property/field like the name of Race :
+   * // you can extract nested properties/fields like the name of the race :
    *
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
    * <p>
-   * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
-   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but
-   * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
+   * A property with the given name is searched for first. If it doesn't exist a field with the given name is looked
+   * for. If the field does not exist an {@link IntrospectionError} is thrown. By default private fields are read but
+   * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}. Trying to read a private field
    * when it's not allowed leads to an {@link IntrospectionError}.
    * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
@@ -609,7 +609,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * order.
    * <hr>
    * <p>
-   * Extracting also support maps, that is, instead of extracting values from an Object, it extract maps values
+   * Extracting also support maps, that is, instead of extracting values from an Object, it extracts maps values
    * corresponding to the given keys.
    * <p>
    * Example:
@@ -629,7 +629,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // instead of a list of objects, we have a list of maps
    * List&lt;Map&lt;String, Employee&gt;&gt; maps = asList(map1, map2);
    *
-   * // extracting a property in that case = get values from maps using property as a key
+   * // extracting a property in that case = get values from maps using the property as a key
    * assertThat(maps).extracting("key2").containsExactly(luke, han);
    * assertThat(maps).extracting("key1").containsExactly(yoda, yoda);
    *
@@ -656,11 +656,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Extract the result of given method invocation on the Iterable's elements under test into a new Iterable, this new
    * Iterable becoming the Iterable under test.
    * <p>
-   * It allows you to test the method results of the Iterable's elements instead of testing the elements themselves, it
-   * is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * It allows you to test the method results of the Iterable's elements instead of testing the elements themselves. This
+   * is especially useful for classes that do not conform to the Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
-   * Let's take an example to make things clearer :
+   * Let's take a look at an example to make things clearer :
    * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    *
    * List&lt;WesterosHouse&gt; greatHouses = new ArrayList&lt;WesterosHouse&gt;();
@@ -701,7 +701,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * class, this new List becoming the object under test.
    * <p>
    * It allows you to test the method results of the Iterable's elements instead of testing the elements themselves, it
-   * is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * is especially useful for classes that do not conform to the Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
@@ -748,7 +748,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Iterable becoming the Iterable under test.
    * <p>
    * It allows you to test a property/field of the the Iterable's elements instead of testing the elements themselves,
-   * it can be sometimes much less work !
+   * which can be much less work !
    * <p>
    * Let's take an example to make things clearer :
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
@@ -831,11 +831,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Extract the values of given fields/properties from the Iterable's elements under test into a new Iterable composed
-   * of Tuple (a simple data structure), this new Iterable becoming the Iterable under test.
+   * Extract the values of the given fields/properties from the Iterable's elements under test into a new Iterable composed
+   * of Tuples (a simple data structure), this new Iterable becoming the Iterable under test.
    * <p>
    * It allows you to test fields/properties of the the Iterable's elements instead of testing the elements themselves,
-   * it can be sometimes much less work!
+   * which can be much less work!
    * <p>
    * The Tuple data corresponds to the extracted values of the given fields/properties, for instance if you ask to
    * extract "id", "name" and "email" then each Tuple data will be composed of id, name and email extracted from the

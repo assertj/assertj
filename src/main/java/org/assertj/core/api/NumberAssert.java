@@ -228,6 +228,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   S isNotCloseTo(A expected, Offset<A> offset);
 
@@ -272,6 +273,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   S isNotCloseTo(A expected, Percentage percentage);
 }

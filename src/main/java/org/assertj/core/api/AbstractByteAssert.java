@@ -351,6 +351,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Byte)
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(byte expected, Offset<Byte> offset) {
     bytes.assertIsNotCloseTo(info, actual, expected, offset);
@@ -403,6 +404,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws NullPointerException if the expected Byte is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Byte)
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Byte expected, Offset<Byte> offset) {
@@ -455,6 +457,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   @Override
   public S isNotCloseTo(Byte expected, Percentage percentage) {
@@ -504,6 +507,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
+   * @since 2.6.0 / 3.6.0
    */
   public S isNotCloseTo(byte expected, Percentage percentage) {
     bytes.assertIsNotCloseToPercentage(info, actual, expected, percentage);
