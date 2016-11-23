@@ -418,7 +418,7 @@ public class ObjectArrays {
   }
 
   /**
-   * Assert that there is <b>at least</b> <i>n</i> array elements satisfying the given condition.
+   * Assert that there are <b>at least</b> <i>n</i> array elements satisfying the given condition.
    * 
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -432,7 +432,7 @@ public class ObjectArrays {
   }
 
   /**
-   * Assert that there is <b>at most</b> <i>n</i> array elements satisfying the given condition.
+   * Assert that there are <b>at most</b> <i>n</i> array elements satisfying the given condition.
    * 
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -446,7 +446,7 @@ public class ObjectArrays {
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> array elements satisfying the given condition.
+   * Verifies that there are <b>exactly</b> <i>n</i> array elements satisfying the given condition.
    * 
    * @param info contains information about the assertion.
    * @param actual the given array.
