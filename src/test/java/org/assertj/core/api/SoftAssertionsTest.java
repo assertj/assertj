@@ -20,6 +20,8 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -53,6 +55,7 @@ import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Maps;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -594,8 +597,26 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_collect_all_errors_when_using_filtering() throws Exception {
 
-    softly.assertThat(asList(homer, fred))
+    softly.assertThat(newLinkedHashSet(homer, fred))
           .filteredOn("name", "Homer Simpson")
+          .hasSize(10)
+          .isEmpty();
+
+    try {
+      softly.assertAll();
+      shouldHaveThrown(SoftAssertionError.class);
+    } catch (SoftAssertionError e) {
+      List<String> errors = e.getErrors();
+      assertThat(errors.get(0)).startsWith(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"));
+      assertThat(errors.get(1)).startsWith(format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
+    }
+  }
+
+  @Test
+  public void should_collect_all_errors_when_using_predicate_filtering() throws Exception {
+
+    softly.assertThat(newLinkedHashSet(homer, fred))
+          .filteredOn(c -> c.getName().equals("Homer Simpson"))
           .hasSize(10)
           .isEmpty();
 
@@ -823,7 +844,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo("Should not reach here or here");
   }
-  
+
   @Test
   public void should_return_failure_after_fail_with_throwable() {
     String failureMessage = "Should not reach here";
@@ -846,15 +867,15 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_assert_using_assertSoftly() {
-      assertThatThrownBy(() -> {
-          SoftAssertions.assertSoftly(assertions -> {
-              assertions.assertThat(true).isFalse();
-              assertions.assertThat(42).isEqualTo("meaning of life");
-              assertions.assertThat("red").isEqualTo("blue");
-          });
-      }).as("it should call assertAll() and fail with multiple validation errors")
-          .hasBeenThrown()
-          .hasMessageContaining("meaning of life")
-          .hasMessageContaining("blue");
+    assertThatThrownBy(() -> {
+      SoftAssertions.assertSoftly(assertions -> {
+        assertions.assertThat(true).isFalse();
+        assertions.assertThat(42).isEqualTo("meaning of life");
+        assertions.assertThat("red").isEqualTo("blue");
+      });
+    }).as("it should call assertAll() and fail with multiple validation errors")
+      .hasBeenThrown()
+      .hasMessageContaining("meaning of life")
+      .hasMessageContaining("blue");
   }
 }

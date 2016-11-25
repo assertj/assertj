@@ -1970,10 +1970,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object with the filtered iterable under test
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    */
-  @SuppressWarnings("unchecked")
-  public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Predicate<? super ELEMENT> predicate) {
     if (predicate == null) throw new IllegalArgumentException("The filter predicate should not be null");
-    return (SELF) new ListAssert<>(stream(actual.spliterator(), false).filter(predicate).collect(toList()));
+    return new ListAssert<>(stream(actual.spliterator(), false).filter(predicate).collect(toList()));
   }
 
   /**

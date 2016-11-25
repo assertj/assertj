@@ -26,6 +26,7 @@ package org.assertj.core.api.iterable;
  */
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.function.Predicate;
 
@@ -37,6 +38,7 @@ public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_fil
   @Test
   public void should_filter_iterable_under_test_on_predicate() {
     assertThat(employees).filteredOn(employee -> employee.getAge() > 100).containsOnly(yoda, obiwan);
+    assertThat(newHashSet(employees)).filteredOn(employee -> employee.getAge() > 100).containsOnly(yoda, obiwan);
   }
 
   @Test
