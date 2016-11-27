@@ -18,19 +18,19 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isEqualToIgnoringWhitespace(CharSequence)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isEqualToNormalizingWhitespace(CharSequence)}</code>.
  *
  * @author Alexander Bischof
  */
-public class CharSequenceAssert_isEqualToIgnoringWhitespace_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_isEqualToNormalizingWhitespace_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.isEqualToIgnoringWhitespace(" my foo bar ");
+    return assertions.isEqualToNormalizingWhitespace(" my foo bar ");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertEqualsIgnoringWhitespace(getInfo(assertions), getActual(assertions), " my foo bar ");
+    verify(strings).assertEqualsNormalizingWhitespace(getInfo(assertions), getActual(assertions), " my foo bar ");
   }
 }

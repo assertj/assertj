@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -22,18 +22,18 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * <code>{@link org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
  *
  * @author Dan Corder
  */
-public class ShouldNotBeEqualIgnoringWhitespace_create_Test {
+public class ShouldNotBeEqualNormalizingWhitespace_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Before
   public void setUp() {
-    factory = shouldNotBeEqualIgnoringWhitespace(" my\tfoo bar ", " my  foo bar ");
+    factory = shouldNotBeEqualNormalizingWhitespace(" my\tfoo bar ", " my  foo bar ");
   }
 
   @Test
@@ -44,6 +44,6 @@ public class ShouldNotBeEqualIgnoringWhitespace_create_Test {
                                                 "  <\" my\tfoo bar \">%n" +
                                                 "not to be equal to:%n" +
                                                 "  <\" my  foo bar \">%n" +
-                                                "ignoring whitespace differences"));
+                                                "after whitespace differences are normalized"));
   }
 }
