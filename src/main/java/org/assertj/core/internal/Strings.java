@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
@@ -32,6 +33,7 @@ import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
@@ -409,6 +411,51 @@ public class Strings {
     if (actual == null) return expected == null;
     if (expected == null) return false;
     return actual.toString().equalsIgnoreCase(expected.toString());
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are equal, ignoring any differences in whitespace.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   */
+  public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (!areEqualIgnoringWhitespace(actual, expected))
+      throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are not equal, ignoring any differences in whitespace.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are equal.
+   */
+  public void assertNotEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (areEqualIgnoringWhitespace(actual, expected))
+      throw failures.failure(info, shouldNotBeEqualIgnoringWhitespace(actual, expected));
+  }
+
+  private boolean areEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
+    if (actual == null) return expected == null;
+    checkCharSequenceIsNotNull(expected);
+    return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
+  }
+
+  private String removeAllWhitespaces(CharSequence toBeStripped) {
+    final StringBuilder result = new StringBuilder();
+    for (int i = 0; i < toBeStripped.length(); i++) {
+      char c = toBeStripped.charAt(i);
+      if (isWhitespace(c)) {
+        continue;
+      } else {
+        result.append(c);
+      }
+    }
+    return result.toString().trim();
   }
 
   /**
