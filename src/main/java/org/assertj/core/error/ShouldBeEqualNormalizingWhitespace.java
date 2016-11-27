@@ -13,24 +13,24 @@
 package org.assertj.core.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are not equal,
- * ignoring whitespace differences, failed.
- *
- * @author Dan Corder
+ * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal, 
+ * after the whitespace of both strings has been normalized, failed.
+ * 
+ * @author Alexander Bischof
  */
-public class ShouldNotBeEqualIgnoringWhitespace extends BasicErrorMessageFactory {
+public class ShouldBeEqualNormalizingWhitespace extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldBeEqualNormalizingWhitespace}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
-    return new ShouldNotBeEqualIgnoringWhitespace(actual, expected);
+  public static ErrorMessageFactory shouldBeEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
+    return new ShouldBeEqualNormalizingWhitespace(actual, expected);
   }
 
-  private ShouldNotBeEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
-    super("%nExpecting:%n  <%s>%nnot to be equal to:%n  <%s>%nignoring whitespace differences", actual, expected);
+  private ShouldBeEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
+    super("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%nafter whitespace differences are normalized", actual, expected);
   }
 }

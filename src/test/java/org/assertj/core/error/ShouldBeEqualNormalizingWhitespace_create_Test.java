@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -22,28 +22,30 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * <code>{@link org.assertj.core.error.ShouldBeEqualNormalizingWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
  *
- * @author Dan Corder
+ * @author Alex Ruiz
+ * @author Joel Costigliola
+ * @author Alexander Bischof
  */
-public class ShouldNotBeEqualIgnoringWhitespace_create_Test {
+public class ShouldBeEqualNormalizingWhitespace_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Before
   public void setUp() {
-    factory = shouldNotBeEqualIgnoringWhitespace(" my\tfoo bar ", " my  foo bar ");
+    factory = shouldBeEqualNormalizingWhitespace(" my\tfoo bar ", " myfoo bar ");
   }
 
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                                "Expecting:%n" +
-                                                "  <\" my\tfoo bar \">%n" +
-                                                "not to be equal to:%n" +
-                                                "  <\" my  foo bar \">%n" +
-                                                "ignoring whitespace differences"));
+                                  "Expecting:%n" +
+                                  "  <\" my\tfoo bar \">%n" +
+                                  "to be equal to:%n" +
+                                  "  <\" myfoo bar \">%n" +
+                                  "after whitespace differences are normalized"));
   }
 }
