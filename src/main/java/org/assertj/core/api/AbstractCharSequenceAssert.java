@@ -936,6 +936,57 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+ /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring whitespace differences
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;my foo bar&quot;).isEqualToIgnoringWhitespace(&quot;myfoobar&quot;);
+   * assertThat(&quot;my      foo bar&quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot;  my foo bar  &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my     foo bar &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foo bar&quot;);
+   * assertThat(&quot;my foo bar&quot;).isEqualToIgnoringWhitespace(&quot;   my foo bar   &quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot;myfoobar&quot;).isEqualToIgnoringWhitespace(&quot;myfoo&quot;);</code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal ignoring whitespace differences to the given
+   *           one.
+   */
+  public SELF isEqualToIgnoringWhitespace(CharSequence expected) {
+    strings.assertEqualsIgnoringWhitespace(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring whitespace differences.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot; my\tfoo bar &quot;).isNotEqualToIgnoringWhitespace(&quot;myfoo&quot;);
+   * assertThat(&quot; my\tfoo&quot;).isNotEqualToIgnoringWhitespace(&quot; my bar&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;my      foo bar&quot;).isNotEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot;  my foo bar  &quot;).isNotEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my     foo bar &quot;).isNotEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my\tfoo bar &quot;).isNotEqualToIgnoringWhitespace(&quot; my foo bar&quot;);
+   * assertThat(&quot;my foo bar&quot;).isNotEqualToIgnoringWhitespace(&quot;   my foo bar   &quot;);
+   * </code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is equal ignoring whitespace differences to the given
+   *           one.
+   */
+  public SELF isNotEqualToIgnoringWhitespace(CharSequence expected) {
+    strings.assertNotEqualsIgnoringWhitespace(info, actual, expected);
+    return myself;
+  }
+
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one, after the whitespace
    * of both strings has been normalized.<br/>
