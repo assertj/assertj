@@ -25,6 +25,8 @@ public class OptionalShouldContainInstanceOf_create_Test {
   @Test
   public void should_create_error_message_with_expected_type() {
     String errorMessage = shouldContainInstanceOf(Optional.empty(), Object.class).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value of type java.lang.Object."));
+    assertThat(errorMessage).isEqualTo(format("%nExpecting:%n <Optional>%n" +
+      "to contain a value that is an instance of:%n <java.lang.Object>%n" +
+      "but was empty"));
   }
 }
