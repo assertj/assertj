@@ -75,5 +75,5 @@ Check our migration guide, it covers [migrating from Fest 1.4](http://joel-costi
 
 ## <a name="contributing"/>Want to contribute?
 
-You are encouraged to contribute any missing, useful assertions. To do so, please read the [contributors section](http://joel-costigliola.github.io/assertj/assertj-core.html#contributing).
+You are encouraged to contribute any missing, useful assertions. To do so, please read the [contributing section](https://github.com/joel-costigliola/assertj-core/blob/master/CONTRIBUTING.md).
 
