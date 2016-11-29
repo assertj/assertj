@@ -4,11 +4,8 @@ Build status:
 
 * master: [![Build Status (master)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=master)](https://travis-ci.org/joel-costigliola/assertj-core)
 * 2.x: [![Build Status (2.x)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=2.x)](https://travis-ci.org/joel-costigliola/assertj-core/branches)
-* 1.x: [![Build Status (1.x)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=1.x)](https://travis-ci.org/joel-costigliola/assertj-core/branches)
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
-
-[![Coverage Status](https://coveralls.io/repos/joel-costigliola/assertj-core/badge.svg?branch=2.x&service=github)](https://coveralls.io/github/joel-costigliola/assertj-core?branch=2.x)
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (either with JUnit or TestNG).
 
@@ -21,7 +18,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 * [Migrating from FEST Assertions](#migrating-from-fest)
 * [Contributing](#contributing)
 
-The AssertJ web site contains all projects documentation and can be **[here](http://joel-costigliola.github.io/assertj/index.html)**, it notably inlcudes [**AssertJ Core documentation**](http://joel-costigliola.github.io/assertj/assertj-core.html).
+The AssertJ web site contains all projects documentation and can be found **[here](http://joel-costigliola.github.io/assertj/index.html)**, it notably includes [**AssertJ Core documentation**](http://joel-costigliola.github.io/assertj/assertj-core.html).
 
 You can ask questions and make suggestions on [**AssertJ google group**](https://groups.google.com/forum/?fromgroups=#!forum/assertj).
 
@@ -78,5 +75,5 @@ Check our migration guide, it covers [migrating from Fest 1.4](http://joel-costi
 
 ## <a name="contributing"/>Want to contribute?
 
-You are encouraged to contribute any missing, useful assertions. To do so, please read the [contributors section](http://joel-costigliola.github.io/assertj/assertj-core.html#contributing).
+You are encouraged to contribute any missing, useful assertions. To do so, please read the [contributing section](https://github.com/joel-costigliola/assertj-core/blob/master/CONTRIBUTING.md).
 
