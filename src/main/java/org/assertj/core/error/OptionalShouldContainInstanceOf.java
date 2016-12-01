@@ -37,7 +37,7 @@ public class OptionalShouldContainInstanceOf extends BasicErrorMessageFactory {
   public static OptionalShouldContainInstanceOf shouldContainInstanceOf(Object value, Class<?> clazz) {
     Optional optional = (Optional) value;
     if (optional.isPresent()) {
-      return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut did contain instance of:%n <%s>",
+      return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut did contain an instance of:%n <%s>",
         optional.getClass().getSimpleName(), clazz.getName(), optional.get().getClass().getName()));
     } else {
       return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut was empty",
