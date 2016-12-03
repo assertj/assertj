@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import java.util.Optional;
+
 import static java.lang.String.format;
 
 /**
@@ -21,18 +23,25 @@ import static java.lang.String.format;
  */
 public class OptionalShouldContainInstanceOf extends BasicErrorMessageFactory {
 
-  private OptionalShouldContainInstanceOf(Object optional, Class<?> clazz) {
-    super(format("%nExpecting %s to contain a value of type %s.", optional.getClass().getSimpleName(), clazz.getName()));
+  private OptionalShouldContainInstanceOf(String message) {
+    super(message);
   }
 
   /**
    * Indicates that a value should be present in an empty {@link java.util.Optional}.
    *
-   * @param optional Optional to be checked.
+   * @param value Optional to be checked.
    * @return an error message factory.
    * @throws java.lang.NullPointerException if optional is null.
    */
-  public static OptionalShouldContainInstanceOf shouldContainInstanceOf(Object optional, Class<?> clazz) {
-    return new OptionalShouldContainInstanceOf(optional, clazz);
+  public static OptionalShouldContainInstanceOf shouldContainInstanceOf(Object value, Class<?> clazz) {
+    Optional optional = (Optional) value;
+    if (optional.isPresent()) {
+      return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut did contain an instance of:%n <%s>",
+        optional.getClass().getSimpleName(), clazz.getName(), optional.get().getClass().getName()));
+    } else {
+      return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut was empty",
+        optional.getClass().getSimpleName(), clazz.getName()));
+    }
   }
 }

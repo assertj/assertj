@@ -23,8 +23,18 @@ import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldConta
 public class OptionalShouldContainInstanceOf_create_Test {
 
   @Test
-  public void should_create_error_message_with_expected_type() {
+  public void should_create_error_message_with_empty() {
     String errorMessage = shouldContainInstanceOf(Optional.empty(), Object.class).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value of type java.lang.Object."));
+    assertThat(errorMessage).isEqualTo(format("%nExpecting:%n <Optional>%n" +
+      "to contain a value that is an instance of:%n <java.lang.Object>%n" +
+      "but was empty"));
+  }
+
+  @Test
+  public void should_create_error_message_with_expected_type() {
+    String errorMessage = shouldContainInstanceOf(Optional.of(Integer.MIN_VALUE), String.class).create();
+    assertThat(errorMessage).isEqualTo(format("%nExpecting:%n <Optional>%n" +
+      "to contain a value that is an instance of:%n <java.lang.String>%n" +
+      "but did contain an instance of:%n <java.lang.Integer>"));
   }
 }
