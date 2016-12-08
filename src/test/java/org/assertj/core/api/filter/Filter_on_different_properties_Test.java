@@ -20,7 +20,7 @@ import org.assertj.core.test.Player;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
-public class Filter_on_differents_properties_Test extends AbstractTest_filter {
+public class Filter_on_different_properties_Test extends AbstractTest_filter {
 
   @Test
   public void should_filter_iterable_elements_on_different_properties() {

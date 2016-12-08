@@ -92,7 +92,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * {@link #expected} description in case their string representation are the same (like 42 float and 42 double).
    * <p>
    * If JUnit 4 is in the classpath and the description is standard (no comparator was used and {@link #actual} and
-   * {@link #expected} string representation were differents), this method will instead create a
+   * {@link #expected} string representation were different), this method will instead create a
    * org.junit.ComparisonFailure that highlights the difference(s) between the expected and actual objects.
    * </p>
    * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
