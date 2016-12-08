@@ -31,6 +31,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -75,6 +76,9 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.data.TemporalOffset;
+import org.assertj.core.data.TemporalUnitLessThanOffset;
+import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.BinaryRepresentation;
@@ -549,8 +553,8 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   //@format:off
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual, 
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return AssertionsForInterfaceTypes.assertThat(actual, assertFactory);
   }
@@ -1131,7 +1135,7 @@ public class Assertions {
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
-   * 
+   *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
@@ -1140,7 +1144,7 @@ public class Assertions {
 
   /**
    * Throws an {@link AssertionError} with the given message.
-   * 
+   *
    * @param failureMessage error message.
    * @throws AssertionError with the given message.
    */
@@ -1150,7 +1154,7 @@ public class Assertions {
 
   /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
-   * 
+   *
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
    * @throws AssertionError with the given built message.
@@ -1498,6 +1502,18 @@ public class Assertions {
   }
 
   /**
+   * Assertions entry point for {@link TemporalOffset} with  with less than or equal condition
+   * to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'>assertThat(_07_10).isCloseTo(_07_12, within(5, MINUTES));</code></pre>
+   * @since 3.7.0
+   */
+  public static TemporalOffset within(long value, TemporalUnit unit) {
+    return new TemporalUnitWithinOffset(value, unit);
+  }
+
+  /**
    * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
    * percentages.
    * <p>
@@ -1601,6 +1617,18 @@ public class Assertions {
    */
   public static Offset<Long> byLessThan(Long value) {
     return Offset.offset(value);
+  }
+
+  /**
+   * Assertions entry point for {@link TemporalOffset} with strict less than condition
+   * to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'>assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, MINUTES));</code></pre>
+   * @since 3.7.0
+   */
+  public static TemporalOffset byLessThan(long value, TemporalUnit unit) {
+    return new TemporalUnitLessThanOffset(value, unit);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -2342,20 +2370,20 @@ public class Assertions {
    * }
    *
    * Assertions.useRepresentation(new CustomRepresentation());
-   * 
-   * // this assertion fails ...  
+   *
+   * // this assertion fails ...
    * assertThat(new Example()).isNull();
    * // ... with error :
    * // "expected:<[null]> but was:<[Example]>"
-   * 
-   * // this one fails ... 
+   *
+   * // this one fails ...
    * assertThat("foo").startsWith("bar");
    * // ... with error :
    * // Expecting:
    * //   <$foo$>
    * // to start with:
    * //   <$bar$></code></pre>
-   *  
+   *
    * @since 2.5.0 / 3.5.0
    */
   public static void useRepresentation(Representation customRepresentation) {

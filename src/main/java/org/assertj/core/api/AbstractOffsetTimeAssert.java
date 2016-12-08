@@ -33,7 +33,7 @@ import org.assertj.core.internal.Objects;
  * @author Alexander Bischof
  */
 public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAssert<S>>
-    extends AbstractAssert<S, OffsetTime> {
+    extends AbstractTemporalAssert<S, OffsetTime> {
 
   public static final String NULL_OFFSET_TIME_PARAMETER_MESSAGE = "The OffsetTime to compare actual with should not be null";
 
@@ -45,11 +45,6 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    */
   protected AbstractOffsetTimeAssert(OffsetTime actual, Class<?> selfType) {
     super(actual, selfType);
-  }
-
-  // visible for test
-  protected OffsetTime getActual() {
-    return actual;
   }
 
   /**
@@ -98,7 +93,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    */
   public S isBefore(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
-    return isBefore(OffsetTime.parse(offsetTimeAsString));
+    return isBefore(parse(offsetTimeAsString));
   }
 
   /**
@@ -148,7 +143,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    */
   public S isBeforeOrEqualTo(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
-    return isBeforeOrEqualTo(OffsetTime.parse(offsetTimeAsString));
+    return isBeforeOrEqualTo(parse(offsetTimeAsString));
   }
 
   /**
@@ -199,7 +194,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    */
   public S isAfterOrEqualTo(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
-    return isAfterOrEqualTo(OffsetTime.parse(offsetTimeAsString));
+    return isAfterOrEqualTo(parse(offsetTimeAsString));
   }
 
   /**
@@ -247,7 +242,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    */
   public S isAfter(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
-    return isAfter(OffsetTime.parse(offsetTimeAsString));
+    return isAfter(parse(offsetTimeAsString));
   }
 
   /**
@@ -272,7 +267,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    */
   public S isEqualTo(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
-    return isEqualTo(OffsetTime.parse(offsetTimeAsString));
+    return isEqualTo(parse(offsetTimeAsString));
   }
 
   /**
@@ -297,7 +292,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    */
   public S isNotEqualTo(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
-    return isNotEqualTo(OffsetTime.parse(offsetTimeAsString));
+    return isNotEqualTo(parse(offsetTimeAsString));
   }
 
   /**
@@ -533,6 +528,14 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
       throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
     }
     return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected OffsetTime parse(String offsetTimeAsString) {
+    return OffsetTime.parse(offsetTimeAsString);
   }
 
   /**

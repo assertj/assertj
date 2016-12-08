@@ -29,7 +29,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
 public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTimeAssert<S>> extends
-    AbstractAssert<S, ZonedDateTime> {
+    AbstractTemporalAssert<S, ZonedDateTime> {
 
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
 
@@ -42,10 +42,6 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   private static void assertDateTimeParameterIsNotNull(ZonedDateTime dateTime) {
     checkArgument(dateTime != null, NULL_DATE_TIME_PARAMETER_MESSAGE);
-  }
-
-  protected ZonedDateTime getActual() {
-    return actual;
   }
 
   /**
@@ -93,7 +89,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isBefore(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isBefore(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isBefore(parse(dateTimeAsString));
   }
 
   /**
@@ -143,7 +139,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isBeforeOrEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isBeforeOrEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isBeforeOrEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -193,7 +189,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isAfterOrEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isAfterOrEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isAfterOrEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -241,7 +237,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isAfter(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isAfter(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isAfter(parse(dateTimeAsString));
   }
 
   /**
@@ -451,7 +447,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return super.isEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -491,7 +487,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isNotEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isNotEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return super.isNotEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -584,7 +580,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
     ZonedDateTime[] dates = new ZonedDateTime[dateTimesAsString.length];
     for (int i = 0; i < dateTimesAsString.length; i++) {
       // building the ZonedDateTime in actual's ZoneId
-      dates[i] = parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimesAsString[i]);
+      dates[i] = parse(dateTimesAsString[i]);
     }
     return dates;
   }
@@ -602,7 +598,15 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
     checkArgument(values.length > 0, "The given ZonedDateTime array should not be empty");
   }
 
-  private ZonedDateTime parseStringAsIsoDateTimeAndMoveToActualTimeZone(String dateTimeAsString) {
+  /**
+   * Obtains an instance of {@link ZonedDateTime} from a string representation in ISO date format.
+   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
+   * actual {@link ZonedDateTime}.
+   * @param dateTimeAsString the string to parse
+   * @return the parsed {@link ZonedDateTime}
+   */
+  @Override
+  protected ZonedDateTime parse(String dateTimeAsString) {
     ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
     return sameInstantInActualTimeZone(zonedDateTime);
   }
