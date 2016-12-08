@@ -30,14 +30,14 @@ import org.junit.Test;
 public class Throwables_getStackTrace_Test {
 
   @Test
-  public void calls_printStackTrace_with_temp_PrintWriter() throws Exception {
+  public void calls_printStackTrace_with_temp_PrintWriter() {
     final Throwable mock = mock(Throwable.class);
     Throwables.getStackTrace(mock);
     verify(mock, times(1)).printStackTrace(isA(PrintWriter.class));
   }
 
   @Test
-  public void should_return_stacktrace_as_String() throws Exception {
+  public void should_return_stacktrace_as_String() {
     final Throwable throwable = new Throwable("some message");
     assertThat(Throwables.getStackTrace(throwable)).isInstanceOf(String.class)
                                                    .contains("java.lang.Throwable: some message")

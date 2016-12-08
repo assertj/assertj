@@ -49,18 +49,18 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable() throws Exception {
+  public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
     assertThat(employees).extracting("age").containsOnly(800, 26);
   }
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined()
-      throws Exception {
+       {
     assertThat(employees).extracting("name", Name.class).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test
-  public void should_allow_assertions_on_field_values_extracted_from_given_iterable() throws Exception {
+  public void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
     // basic types
     assertThat(employees).extracting("id").containsOnly(1L, 2L);
     // object
@@ -70,24 +70,24 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() throws Exception {
+  public void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
     thrown.expect(IntrospectionError.class);
     assertThat(employees).extracting("unknown");
   }
 
   @Test
-  public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() throws Exception {
+  public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
     assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
   @Test
-  public void should_throw_error_if_one_property_or_field_can_not_be_extracted() throws Exception {
+  public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
     thrown.expect(IntrospectionError.class);
     assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
   @Test
-  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() throws Exception {
+  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
     assertThat(employees).extracting(new Extractor<Employee, String>() {
       @Override
       public String extract(Employee input) {

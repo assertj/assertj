@@ -24,18 +24,18 @@ import org.junit.Test;
 public class Throwables_getRootCause_Test {
 
   @Test
-  public void should_return_null_if_throwable_has_no_cause() throws Exception {
+  public void should_return_null_if_throwable_has_no_cause() {
     assertThat(Throwables.getRootCause(new Throwable())).isNull();
   }
 
   @Test
-  public void should_return_cause_when_throwable_has_cause() throws Exception {
+  public void should_return_cause_when_throwable_has_cause() {
     IllegalArgumentException expectedCause = new IllegalArgumentException();
     assertThat(Throwables.getRootCause(new Throwable(expectedCause))).isSameAs(expectedCause);
   }
 
   @Test
-  public void should_return_root_cause_when_throwable_has_cause_which_has_cause() throws Exception {
+  public void should_return_root_cause_when_throwable_has_cause_which_has_cause() {
     NullPointerException expectedCause = new NullPointerException();
     Throwable error = new Throwable(new IllegalArgumentException(expectedCause));
 

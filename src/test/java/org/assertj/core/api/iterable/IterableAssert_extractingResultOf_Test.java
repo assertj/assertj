@@ -50,7 +50,7 @@ public class IterableAssert_extractingResultOf_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() throws Exception {
+  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() {
     
     // extract method result
     assertThat(jedis).extractingResultOf("age").containsOnly(800, 50);
@@ -63,13 +63,13 @@ public class IterableAssert_extractingResultOf_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable_with_enforcing_return_type() throws Exception {
+  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable_with_enforcing_return_type() {
     
     assertThat(jedis).extractingResultOf("name", Name.class).containsOnly(new Name("Yoda"), new Name("Darth Vader"));
   }
 
   @Test
-  public void should_throw_error_if_no_method_with_given_name_can_be_extracted() throws Exception {
+  public void should_throw_error_if_no_method_with_given_name_can_be_extracted() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
     assertThat(jedis).extractingResultOf("unknown");

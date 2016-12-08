@@ -33,7 +33,7 @@ public class ShouldHaveName_create_Test {
   private File actual = new FakeFile("somewhere/actual-file".replace("/", File.separator));
 
   @Test
-  public void should_create_error_message() throws Exception {
+  public void should_create_error_message() {
     assertThat(createMessage()).isEqualTo(String.format("[TEST] %n" +
                                                         "Expecting%n" +
                                                         "  <" + actual + ">%n" +
