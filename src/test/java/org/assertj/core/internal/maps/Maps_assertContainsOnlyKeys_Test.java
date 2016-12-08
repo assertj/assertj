@@ -41,35 +41,35 @@ import org.junit.Test;
 public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() throws Exception {
+  public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     maps.assertContainsOnlyKeys(someInfo(), null, "name");
   }
 
   @Test
-  public void should_fail_if_given_keys_array_is_null() throws Exception {
+  public void should_fail_if_given_keys_array_is_null() {
     thrown.expectNullPointerException(keysToLookForIsNull());
     maps.assertContainsOnlyKeys(someInfo(), actual, (String[]) null);
   }
 
   @Test
-  public void should_fail_if_given_keys_array_is_empty() throws Exception {
+  public void should_fail_if_given_keys_array_is_empty() {
     thrown.expectIllegalArgumentException(keysToLookForIsEmpty());
     maps.assertContainsOnlyKeys(someInfo(), actual, emptyKeys());
   }
 
   @Test
-  public void should_pass_if_actual_and_entries_are_empty() throws Exception {
+  public void should_pass_if_actual_and_entries_are_empty() {
     maps.assertContainsOnlyKeys(someInfo(), emptyMap(), (Object[]) emptyKeys());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_expected_entries() throws Exception {
+  public void should_pass_if_actual_contains_only_expected_entries() {
     maps.assertContainsOnlyKeys(someInfo(), actual, "color", "name");
   }
 
   @Test
-  public void should_fail_if_actual_contains_unexpected_entry() throws Exception {
+  public void should_fail_if_actual_contains_unexpected_entry() {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name" };
     try {
@@ -82,7 +82,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries() throws Exception {
+  public void should_fail_if_actual_does_not_contains_every_expected_entries() {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };
     Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"));
@@ -97,7 +97,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one()
-      throws Exception {
+       {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };
     Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi"));

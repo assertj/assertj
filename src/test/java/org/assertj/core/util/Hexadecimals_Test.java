@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Hexadecimals_Test {
 
   @Test
-  public void should_return_hexadecimal_representation_of_byte() throws Exception {
+  public void should_return_hexadecimal_representation_of_byte() {
     assertThat(Hexadecimals.byteToHexString((byte) 0x00)).isEqualTo("00");
     assertThat(Hexadecimals.byteToHexString((byte) 0xFF)).isEqualTo("FF");
     assertThat(Hexadecimals.byteToHexString((byte) 0xa2)).isEqualTo("A2");

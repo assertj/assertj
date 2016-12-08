@@ -59,12 +59,12 @@ public class ObjectArrayAssert_flatExtracting_with_String_parameter_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists() throws Exception {
+  public void should_allow_assertions_on_empty_result_lists() {
     assertThat(new CartoonCharacter[] { bart, lisa, maggie }).flatExtracting("children").isEmpty();
   }
 
   @Test
-  public void should_throw_illegal_argument_exception_when_extracting_from_null() throws Exception {
+  public void should_throw_illegal_argument_exception_when_extracting_from_null() {
     thrown.expect(IllegalArgumentException.class);
     assertThat(new CartoonCharacter[] { homer, null }).flatExtracting("children");
   }
