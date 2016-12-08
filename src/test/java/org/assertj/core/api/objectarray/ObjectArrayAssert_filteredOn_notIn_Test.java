@@ -26,7 +26,6 @@ package org.assertj.core.api.objectarray;
  */
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.api.Assertions.notIn;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
@@ -62,12 +61,10 @@ public class ObjectArrayAssert_filteredOn_notIn_Test extends ObjectArrayAssert_f
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
+    thrown.expect(IntrospectionError.class);
     setAllowExtractingPrivateFields(false);
     try {
       assertThat(employees).filteredOn("city", notIn("New York")).isEmpty();
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      // expected
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -99,12 +96,8 @@ public class ObjectArrayAssert_filteredOn_notIn_Test extends ObjectArrayAssert_f
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    try {
-      assertThat(employees).filteredOn("secret", notIn("???"));
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      assertThat(e).hasMessageContaining("Can't find any field or property with name 'secret'");
-    }
+    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
+    assertThat(employees).filteredOn("secret", notIn("???"));
   }
 
 }

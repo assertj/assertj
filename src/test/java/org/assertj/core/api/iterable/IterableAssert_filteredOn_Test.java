@@ -71,12 +71,10 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
+    thrown.expect(IntrospectionError.class);
     setAllowExtractingPrivateFields(false);
     try {
       assertThat(employees).filteredOn("city", "New York").isEmpty();
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      // expected
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -112,23 +110,16 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_given_expected_value_is_null() {
-    try {
-      assertThat(employees).filteredOn("name", null);
-      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage(format("The expected value should not be null.%n"
-                                      + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
-    }
+    thrown.expectWithMessageContaining(IllegalArgumentException.class,
+                                       format("The expected value should not be null.%n"
+                                           + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
+    assertThat(employees).filteredOn("name", null);
   }
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    try {
-      assertThat(employees).filteredOn("secret", "???");
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      assertThat(e).hasMessageContaining("Can't find any field or property with name 'secret'");
-    }
+    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
+    assertThat(employees).filteredOn("secret", "???");
   }
 
   @Test

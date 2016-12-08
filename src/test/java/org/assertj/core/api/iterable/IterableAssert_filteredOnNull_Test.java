@@ -26,9 +26,7 @@ package org.assertj.core.api.iterable;
  */
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTest {
@@ -45,12 +43,8 @@ public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    try {
-      assertThat(employees).filteredOnNull("secret");
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      assertThat(e).hasMessageContaining("Can't find any field or property with name 'secret'");
-    }
+    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
+    assertThat(employees).filteredOnNull("secret");
   }
 
 }

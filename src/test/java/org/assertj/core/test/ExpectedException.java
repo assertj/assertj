@@ -12,6 +12,13 @@
  */
 package org.assertj.core.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.assertj.core.util.introspection.IntrospectionError;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.AllOf;
+import org.hamcrest.core.StringContains;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -39,6 +46,10 @@ public class ExpectedException implements TestRule {
     expect(AssertionError.class, message);
   }
 
+  public void expectAssertionErrorWithMessageContaining(String... parts) {
+    expectWithMessageContaining(AssertionError.class, parts);
+  }
+
   public void expectNullPointerException(String message) {
     expect(NullPointerException.class, message);
   }
@@ -55,9 +66,18 @@ public class ExpectedException implements TestRule {
     expect(UnsupportedOperationException.class, message);
   }
 
+  public void expectIntrospectionErrorWithMessageContaining(String... parts) {
+    expectWithMessageContaining(IntrospectionError.class, parts);
+  }
+
   public void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);
+  }
+
+  public void expectWithMessageContaining(Class<? extends Throwable> type, String... parts) {
+    expect(type);
+    expectMessageContaining(parts);
   }
 
   public void expect(Throwable error) {
@@ -72,4 +92,13 @@ public class ExpectedException implements TestRule {
   public void expectMessage(String message) {
     delegate.expectMessage(String.format(message));
   }
+
+  private void expectMessageContaining(String... parts) {
+    List<Matcher<? super String>> matchers = new ArrayList<>();
+    for (String part : parts) {
+      matchers.add(StringContains.containsString(part));
+    }
+    delegate.expectMessage(AllOf.allOf(matchers));
+  }
+
 }
