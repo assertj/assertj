@@ -29,7 +29,7 @@ import org.assertj.core.internal.Objects;
  * Assertions for {@link LocalTime} type from new Date &amp; Time API introduced in Java 8.
  */
 public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<S>>
-    extends AbstractAssert<S, LocalTime> {
+    extends AbstractTemporalAssert<S, LocalTime> {
 
   public static final String NULL_LOCAL_TIME_PARAMETER_MESSAGE = "The LocalTime to compare actual with should not be null";
 
@@ -41,11 +41,6 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    */
   protected AbstractLocalTimeAssert(LocalTime actual, Class<?> selfType) {
 	super(actual, selfType);
-  }
-
-  // visible for test
-  protected LocalTime getActual() {
-	return actual;
   }
 
   /**
@@ -88,7 +83,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    */
   public S isBefore(String localTimeAsString) {
 	assertLocalTimeAsStringParameterIsNotNull(localTimeAsString);
-	return isBefore(LocalTime.parse(localTimeAsString));
+	return isBefore(parse(localTimeAsString));
   }
 
   /**
@@ -133,7 +128,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    */
   public S isBeforeOrEqualTo(String localTimeAsString) {
 	assertLocalTimeAsStringParameterIsNotNull(localTimeAsString);
-	return isBeforeOrEqualTo(LocalTime.parse(localTimeAsString));
+	return isBeforeOrEqualTo(parse(localTimeAsString));
   }
 
   /**
@@ -178,7 +173,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    */
   public S isAfterOrEqualTo(String localTimeAsString) {
 	assertLocalTimeAsStringParameterIsNotNull(localTimeAsString);
-	return isAfterOrEqualTo(LocalTime.parse(localTimeAsString));
+	return isAfterOrEqualTo(parse(localTimeAsString));
   }
 
   /**
@@ -221,7 +216,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    */
   public S isAfter(String localTimeAsString) {
 	assertLocalTimeAsStringParameterIsNotNull(localTimeAsString);
-	return isAfter(LocalTime.parse(localTimeAsString));
+	return isAfter(parse(localTimeAsString));
   }
 
   /**
@@ -243,7 +238,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    */
   public S isEqualTo(String localTimeAsString) {
 	assertLocalTimeAsStringParameterIsNotNull(localTimeAsString);
-	return isEqualTo(LocalTime.parse(localTimeAsString));
+	return isEqualTo(parse(localTimeAsString));
   }
 
   /**
@@ -265,7 +260,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    */
   public S isNotEqualTo(String localTimeAsString) {
 	assertLocalTimeAsStringParameterIsNotNull(localTimeAsString);
-	return isNotEqualTo(LocalTime.parse(localTimeAsString));
+	return isNotEqualTo(parse(localTimeAsString));
   }
 
   /**
@@ -457,6 +452,14 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
 	  throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
 	}
 	return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected LocalTime parse(String localTimeAsString) {
+    return LocalTime.parse(localTimeAsString);
   }
 
   /**

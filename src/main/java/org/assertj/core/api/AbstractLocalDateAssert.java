@@ -27,7 +27,7 @@ import org.assertj.core.internal.Objects;
  * Assertions for {@link LocalDate} type from new Date &amp; Time API introduced in Java 8.
  */
 public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<S>>
-    extends AbstractAssert<S, LocalDate> {
+    extends AbstractTemporalAssert<S, LocalDate> {
 
   public static final String NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE = "The LocalDate to compare actual with should not be null";
 
@@ -39,11 +39,6 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    */
   protected AbstractLocalDateAssert(LocalDate actual, Class<?> selfType) {
     super(actual, selfType);
-  }
-
-  // visible for test
-  protected LocalDate getActual() {
-    return actual;
   }
 
   /**
@@ -84,7 +79,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    */
   public S isBefore(String localDateTimeAsString) {
     assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isBefore(LocalDate.parse(localDateTimeAsString));
+    return isBefore(parse(localDateTimeAsString));
   }
 
   /**
@@ -129,7 +124,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    */
   public S isBeforeOrEqualTo(String localDateTimeAsString) {
     assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isBeforeOrEqualTo(LocalDate.parse(localDateTimeAsString));
+    return isBeforeOrEqualTo(parse(localDateTimeAsString));
   }
 
   /**
@@ -174,7 +169,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    */
   public S isAfterOrEqualTo(String localDateTimeAsString) {
     assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isAfterOrEqualTo(LocalDate.parse(localDateTimeAsString));
+    return isAfterOrEqualTo(parse(localDateTimeAsString));
   }
 
   /**
@@ -217,7 +212,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    */
   public S isAfter(String localDateTimeAsString) {
     assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isAfter(LocalDate.parse(localDateTimeAsString));
+    return isAfter(parse(localDateTimeAsString));
   }
 
   /**
@@ -239,7 +234,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    */
   public S isEqualTo(String dateTimeAsString) {
     assertLocalDateAsStringParameterIsNotNull(dateTimeAsString);
-    return isEqualTo(LocalDate.parse(dateTimeAsString));
+    return isEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -261,7 +256,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    */
   public S isNotEqualTo(String dateTimeAsString) {
     assertLocalDateAsStringParameterIsNotNull(dateTimeAsString);
-    return isNotEqualTo(LocalDate.parse(dateTimeAsString));
+    return isNotEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -328,6 +323,14 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
     return myself;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected LocalDate parse(String localDateTimeAsString) {
+    return LocalDate.parse(localDateTimeAsString);
+  }
+
   private static Object[] convertToLocalDateArray(String... dateTimesAsString) {
     LocalDate[] dates = new LocalDate[dateTimesAsString.length];
     for (int i = 0; i < dateTimesAsString.length; i++) {
@@ -362,7 +365,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * @throws IllegalArgumentException with an explicit message if the given {@link LocalDate} is null
    */
   private static void assertLocalDateParameterIsNotNull(LocalDate other) {
-    if (other == null) throw new IllegalArgumentException("The LocalDate to compare actual with should not be null");
+    if (other == null) throw new IllegalArgumentException(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
   }
 
 }
