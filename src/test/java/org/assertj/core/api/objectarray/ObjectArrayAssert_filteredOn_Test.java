@@ -97,23 +97,15 @@ public class ObjectArrayAssert_filteredOn_Test extends ObjectArrayAssert_filtere
 
   @Test
   public void should_fail_if_given_expected_value_is_null() {
-    try {
-      assertThat(employees).filteredOn("name", null);
-      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage(format("The expected value should not be null.%n"
-                                      + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
-    }
+    thrown.expectIllegalArgumentException(format("The expected value should not be null.%n"
+                                                 + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
+    assertThat(employees).filteredOn("name", null);
   }
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    try {
-      assertThat(employees).filteredOn("secret", "???");
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      assertThat(e).hasMessageContaining("Can't find any field or property with name 'secret'");
-    }
+    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
+    assertThat(employees).filteredOn("secret", "???");
   }
 
   @Test

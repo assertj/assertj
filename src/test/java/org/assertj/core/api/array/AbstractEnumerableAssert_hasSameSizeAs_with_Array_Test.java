@@ -15,7 +15,6 @@ package org.assertj.core.api.array;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.junit.Rule;
@@ -75,13 +74,8 @@ public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
   public void should_fail_if_size_of_actual_has_same_as_other_array() {
     final byte[] actual = new byte[]{1, 2};
     final byte[] other = new byte[]{1, 2, 3};
-    try {
-      assertThat(actual).hasSameSizeAs(other);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
+    assertThat(actual).hasSameSizeAs(other);
   }
 
 }

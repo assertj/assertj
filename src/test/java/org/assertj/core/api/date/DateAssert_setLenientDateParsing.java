@@ -13,7 +13,6 @@
 package org.assertj.core.api.date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.api.Assertions.setLenientDateParsing;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.DateUtil.parseDatetime;
@@ -81,13 +80,10 @@ public class DateAssert_setLenientDateParsing extends DateAssertBaseTest {
   @Test
   public void should_fail_if_date_can_be_parsed_leniently_but_lenient_mode_is_disabled() {
     final Date date = parse("2001-02-03");
-
     setLenientDateParsing(false);
+    thrown.expectAssertionErrorWithMessageContaining("Failed to parse");
     try {
       assertThat(date).isEqualTo("2001-01-34");
-      failBecauseExceptionWasNotThrown(AssertionError.class);
-    } catch (AssertionError error) {
-      assertThat(error).hasMessageContaining("Failed to parse");
     } finally {
       setLenientDateParsing(true);
     }
