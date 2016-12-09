@@ -53,7 +53,7 @@ public class Files_newFile_Test extends Files_TestCase {
     File f = null;
     try {
       f = Files.newFile("file");
-      assertThat(f.isFile()).isTrue();
+      assertThat(f).isFile();
     } finally {
       if (f != null) f.delete();
     }
