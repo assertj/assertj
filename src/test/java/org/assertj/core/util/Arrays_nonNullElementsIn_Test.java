@@ -28,19 +28,19 @@ import org.junit.Test;
 public class Arrays_nonNullElementsIn_Test {
   @Test
   public void should_return_empty_Collection_if_given_array_is_null() {
-    assertThat(Arrays.nonNullElementsIn(null).isEmpty()).isTrue();
+    assertThat(Arrays.nonNullElementsIn(null)).isEmpty();
   }
 
   @Test
   public void should_return_an_empty_Collection_if_given_array_has_only_null_elements() {
     String[] array = new String[] { null };
-    assertThat(Arrays.nonNullElementsIn(array).isEmpty()).isTrue();
+    assertThat(Arrays.nonNullElementsIn(array)).isEmpty();
   }
 
   @Test
   public void should_return_an_empty_Collection_if_given_array_is_empty() {
     String[] array = new String[0];
-    assertThat(Arrays.nonNullElementsIn(array).isEmpty()).isTrue();
+    assertThat(Arrays.nonNullElementsIn(array)).isEmpty();
   }
 
   @Test

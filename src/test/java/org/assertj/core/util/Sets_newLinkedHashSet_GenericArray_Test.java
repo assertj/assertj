@@ -41,6 +41,6 @@ public class Sets_newLinkedHashSet_GenericArray_Test {
   @Test
   public void should_return_empty_Set_if_array_is_empty() {
     LinkedHashSet<Object> set = Sets.newLinkedHashSet(new Object[0]);
-    assertThat(set.isEmpty()).isTrue();
+    assertThat(set).isEmpty();
   }
 }
