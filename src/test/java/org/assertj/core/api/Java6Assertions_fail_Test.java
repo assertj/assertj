@@ -20,7 +20,7 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class Java6Assertions_fail_Test2 {
+public class Java6Assertions_fail_Test {
 
   @Rule
   public ExpectedException thrown = none();
