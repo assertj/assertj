@@ -27,7 +27,6 @@ package org.assertj.core.api.iterable;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
@@ -124,11 +123,7 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_filter_operators_are_combined() {
-    try {
-      assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
-      failBecauseExceptionWasNotThrown(UnsupportedOperationException.class);
-    } catch (UnsupportedOperationException e) {
-      assertThat(e).hasMessageStartingWith("Combining operator is not supported");
-    }
+    thrown.expectWithMessageStartingWith(UnsupportedOperationException.class, "Combining operator is not supported");
+    assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
   }
 }

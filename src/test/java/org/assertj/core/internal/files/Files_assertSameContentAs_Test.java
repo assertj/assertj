@@ -131,18 +131,11 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() {
-    Throwable throwable = catchThrowable(new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        unMockedFiles.assertSameContentAs(someInfo(),
-                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
-                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8);
-      }
-    });
-
-    assertThat(throwable).isInstanceOf(RuntimeIOException.class)
-                         .hasMessageStartingWith("Unable to compare contents of files");
+  public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() throws IOException {
+    thrown.expectWithMessageStartingWith(RuntimeIOException.class, "Unable to compare contents of files");
+    unMockedFiles.assertSameContentAs(someInfo(),
+                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
+                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8);
   }
 
   @Test
