@@ -43,8 +43,8 @@ public class Assertions_useRepresentation_Test {
       } catch (AssertionError e2) {
         assertThat(e2).hasMessageContaining("\"foo\"")
                       .hasMessageContaining("\"bar\"");
+        return;
       }
-      return;
     }
     fail("AssertionError expected");
   }
