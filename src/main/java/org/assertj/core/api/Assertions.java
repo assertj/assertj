@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -288,6 +289,20 @@ public class Assertions {
   @CheckReturnValue
   public static AbstractPathAssert<?> assertThat(Path actual) {
     return new PathAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.Future}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.concurrent.Future}.
+   *
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> assertThat(Future<T> actual) {
+    return new FutureAssert<>(actual);
   }
 
   /**

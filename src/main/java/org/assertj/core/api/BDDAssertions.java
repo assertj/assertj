@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
@@ -413,6 +414,18 @@ public class BDDAssertions extends Assertions {
    */
   @CheckReturnValue
   public static AbstractPathAssert<?> then(Path actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link FutureAssert}
+   *
+   * @param actual the future to test
+   * @return the created assertion object
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> then(Future<T> actual) {
     return assertThat(actual);
   }
 
