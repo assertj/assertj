@@ -21,7 +21,7 @@ import org.junit.Test;
 /**
  * @author Filip Hrisafov
  */
-public class BddAssertionsTest extends BaseAssertionsTest {
+public class BDDAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_have_the_same_methods_as_in_assertions() {
