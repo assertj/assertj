@@ -70,7 +70,7 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
     for (String fileName : actualFiles) {
       assertThat(expectedFiles.remove(pathNameFor(fileName))).isTrue();
     }
-    assertThat(expectedFiles.isEmpty()).isTrue();
+    assertThat(expectedFiles).isEmpty();
   }
 
   private String pathNameFor(String fileName) {
