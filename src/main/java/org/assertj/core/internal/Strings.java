@@ -413,6 +413,24 @@ public class Strings {
   }
 
   /**
+   * Verifies that two {@code CharSequence}s are not equal, normalizing newlines.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence} (newlines will be normalized).
+   * @param expected the expected {@code CharSequence} (newlines will be normalized)..
+   * @throws AssertionError if the given {@code CharSequence}s are equal after normalizing newlines.
+   */
+  public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    String actualNormalized = normalizeNewlines(actual);
+    String expectedNormalized = normalizeNewlines(expected);
+    if (!actualNormalized.equals(expectedNormalized)) throw failures.failure(info, shouldBeEqual(actual, expected));
+  }
+
+  private static String normalizeNewlines(CharSequence actual) {
+    return actual.toString().replace("\r\n", "\n");
+  }
+
+  /**
    * Verifies that two {@code CharSequence}s are equal, ignoring any changes in whitespace.
    *
    * @param info contains information about the assertion.
@@ -685,7 +703,7 @@ public class Strings {
       int indexOfCurrentSequenceValue = indexOf(strActual, sequence[i - 1].toString());
       int indexOfNextSequenceValue = indexOf(strActual, sequence[i].toString());
       if (indexOfCurrentSequenceValue > indexOfNextSequenceValue) {
-        throw failures.failure(info, shouldContainSequence(actual, sequence, i-1, comparisonStrategy));
+        throw failures.failure(info, shouldContainSequence(actual, sequence, i - 1, comparisonStrategy));
       }
       // get rid of the start of String to properly handle duplicate sequence values
       // ex: "a-b-c" and sequence "a", "-", "b", "-", "c" would fail as the second "-" would be found before "b"
@@ -780,4 +798,5 @@ public class Strings {
       return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
     }
   }
+
 }
