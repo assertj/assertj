@@ -19,6 +19,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 import org.hamcrest.core.StringContains;
+import org.hamcrest.core.StringEndsWith;
+import org.hamcrest.core.StringStartsWith;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -80,6 +82,16 @@ public class ExpectedException implements TestRule {
     expectMessageContaining(parts);
   }
 
+  public void expectWithMessageStartingWith(Class<? extends Throwable> type, String start) {
+    expect(type);
+    expectMessageStartingWith(start);
+  }
+
+  public void expectWithMessageEndingWith(Class<? extends Throwable> type, String end) {
+    expect(type);
+    expectMessageEndingWith(end);
+  }
+
   public void expect(Throwable error) {
     expect(error.getClass());
     expectMessage(error.getMessage());
@@ -101,4 +113,11 @@ public class ExpectedException implements TestRule {
     delegate.expectMessage(AllOf.allOf(matchers));
   }
 
+  private void expectMessageStartingWith(String start) {
+    delegate.expectMessage(StringStartsWith.startsWith(start));
+  }
+
+  private void expectMessageEndingWith(String end) {
+    delegate.expectMessage(StringEndsWith.endsWith(end));
+  }
 }

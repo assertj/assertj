@@ -27,7 +27,6 @@ package org.assertj.core.api.objectarray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
@@ -61,12 +60,10 @@ public class ObjectArrayAssert_filteredOn_Test extends ObjectArrayAssert_filtere
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
+    thrown.expect(IntrospectionError.class);
     setAllowExtractingPrivateFields(false);
     try {
       assertThat(employees).filteredOn("city", "New York").isEmpty();
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      // expected
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -110,11 +107,7 @@ public class ObjectArrayAssert_filteredOn_Test extends ObjectArrayAssert_filtere
 
   @Test
   public void should_fail_if_filter_operators_are_combined() {
-    try {
-      assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
-      failBecauseExceptionWasNotThrown(UnsupportedOperationException.class);
-    } catch (UnsupportedOperationException e) {
-      assertThat(e).hasMessageStartingWith("Combining operator is not supported");
-    }
+    thrown.expectWithMessageStartingWith(UnsupportedOperationException.class, "Combining operator is not supported");
+    assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
   }
 }
