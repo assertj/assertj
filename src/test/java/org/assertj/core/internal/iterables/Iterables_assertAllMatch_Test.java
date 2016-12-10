@@ -25,13 +25,12 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
-
 public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_each_element_satisfies_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
-    iterables.assertAllMatch(someInfo(), actual,  s -> s.length() >= 3, PredicateDescription.GIVEN);
+    iterables.assertAllMatch(someInfo(), actual, s -> s.length() >= 3, PredicateDescription.GIVEN);
   }
 
   @Test
@@ -61,6 +60,20 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
       iterables.assertAllMatch(info, actual, predicate, new PredicateDescription("custom"));
     } catch (AssertionError e) {
       verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", new PredicateDescription("custom")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_report_all_items_that_do_not_match() {
+    List<String> actual = newArrayList("123", "1234", "12345");
+
+    try {
+      iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3, PredicateDescription.GIVEN);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               elementsShouldMatch(actual, newArrayList("1234", "12345"), PredicateDescription.GIVEN));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -68,6 +68,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -851,12 +852,14 @@ public class Iterables {
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
-    stream(actual.spliterator(), false).filter(predicate.negate())
-                                       .findFirst()
-                                       .ifPresent(e -> {
-                                         throw failures.failure(info, elementsShouldMatch(actual, e,
-                                                                                          predicateDescription));
-                                       });
+    List<? extends E> nonMatches = stream(actual.spliterator(), false).filter(predicate.negate())
+                                                                      .collect(Collectors.toList());
+
+    if (!nonMatches.isEmpty()) {
+      throw failures.failure(info, elementsShouldMatch(actual,
+                                                       nonMatches.size() == 1 ? nonMatches.get(0) : nonMatches,
+                                                       predicateDescription));
+    }
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,

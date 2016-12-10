@@ -25,7 +25,7 @@ import org.junit.Test;
 public class ElementsShouldMatch_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  public void should_create_error_message_with_one_non_matching_element() {
     ErrorMessageFactory factory = elementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda", PredicateDescription.GIVEN);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -33,6 +33,19 @@ public class ElementsShouldMatch_create_Test {
                                          "  <[\"Luke\", \"Yoda\"]>%n" +
                                          "to match given predicate but this element did not:%n" +
                                          "  <\"Yoda\">"));
+  }
+
+  @Test
+  public void should_create_error_message_with_multiple_non_matching_elements() {
+    ErrorMessageFactory factory = elementsShouldMatch(newArrayList("Luke", "Yoda"),
+                                                      newArrayList("Luke", "Yoda"),
+                                                      PredicateDescription.GIVEN);
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting all elements of:%n" +
+                                         "  <[\"Luke\", \"Yoda\"]>%n" +
+                                         "to match given predicate but these elements did not:%n" +
+                                         "  <[\"Luke\", \"Yoda\"]>"));
   }
 
   @Test
@@ -46,6 +59,5 @@ public class ElementsShouldMatch_create_Test {
                                          "to match 'custom' predicate but this element did not:%n" +
                                          "  <\"Yoda\">"));
   }
-
 
 }
