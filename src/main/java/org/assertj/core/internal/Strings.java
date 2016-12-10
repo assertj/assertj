@@ -412,6 +412,21 @@ public class Strings {
   }
 
   /**
+   * Verifies that two {@code CharSequence}s are not equal, normalizing newlines.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence} (newlines will be normalized).
+   * @param expected the expected {@code CharSequence} (newlines will be normalized)..
+   * @throws AssertionError if the given {@code CharSequence}s are equal after normalizing newlines.
+   */
+  public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    String actualNormalized = actual.toString().replaceAll("\\r\\n", "\n");
+    String expectedNormalized = expected.toString().replaceAll("\\r\\n", "\n");
+    if(!actualNormalized.equals(expectedNormalized))
+      throw failures.failure(info, shouldBeEqual(actual, expected));
+  }
+  
+  /**
    * Verifies that two {@code CharSequence}s are equal, ignoring any changes in whitespace.
    *
    * @param info contains information about the assertion.
@@ -781,4 +796,5 @@ public class Strings {
       return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
     }
   }
+
 }

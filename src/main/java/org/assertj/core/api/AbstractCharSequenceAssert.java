@@ -1010,4 +1010,26 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     strings.assertContainsPattern(info, actual, pattern);
     return myself;
   }
+  
+  /**
+   * Verifies that the actual {@code CharSequence} is equals to another
+   * {@code CharSequence} after normalizing new line characters
+   * (e.g. '\r\n' == '\n').
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;Lord of the Rings\r\n&quot;;
+   * assertThat(bookName).isEqualToNormalizingNewlines(&quot;Lord of the Rings\n&quot;);</code></pre>
+   * 
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String singleLine = &quot;\n&quot;;
+   * assertThat(singleLine).isEqualToNormalizingNewlines(&quot;&quot;);</code></pre>
+   *
+   * @param expectedLineCount the expected line count of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual line count is not equal to the expected one.
+   */
+  public S isEqualToNormalizingNewlines(CharSequence expected) {
+    strings.assertIsEqualToNormalizingNewlines(info, actual, expected);
+    return myself;
+  }
 }
