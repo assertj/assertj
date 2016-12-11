@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -42,17 +41,12 @@ public class LocalTimeAssert_isIn_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void test_isIn_assertion_error_message() {
-	try {
-	  assertThat(LocalTime.of(3, 0, 5)).isIn("03:03:03");
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                              "Expecting:%n" +
-		                              " <03:00:05>%n" +
-		                              "to be in:%n" +
-		                              " <[03:03:03]>%n"));
-	  return;
-	}
-	fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                " <03:00:05>%n" +
+                                "to be in:%n" +
+                                " <[03:03:03]>%n");
+    assertThat(LocalTime.of(3, 0, 5)).isIn("03:03:03");
   }
 
   @Test

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -46,17 +45,12 @@ public class LocalDateTimeAssert_isAfterOrEqualTo_Test extends LocalDateTimeAsse
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-	try {
-	  assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isAfterOrEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                       "Expecting:%n" +
-		                       "  <2000-01-05T03:00:05>%n" +
-		                       "to be after or equals to:%n" +
-		                       "  <2012-01-01T03:03:03>"));
-	  return;
-	}
-	fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <2000-01-05T03:00:05>%n" +
+                                "to be after or equals to:%n" +
+                                "  <2012-01-01T03:03:03>");
+    assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isAfterOrEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3));
   }
 
   @Test

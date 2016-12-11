@@ -39,13 +39,8 @@ public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void test_isEqualTo_assertion_error_message() {
-    try {
-      assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isEqualTo("03:03:03Z");
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage("expected:<03:0[3:03]Z> but was:<03:0[0:05]Z>");
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("expected:<03:0[3:03]Z> but was:<03:0[0:05]Z>");
+    assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isEqualTo("03:03:03Z");
   }
 
   @Test

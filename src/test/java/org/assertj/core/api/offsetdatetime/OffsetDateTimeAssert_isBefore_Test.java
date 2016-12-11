@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,16 +48,11 @@ public class OffsetDateTimeAssert_isBefore_Test extends OffsetDateTimeAssertBase
 
   @Test
   public void test_isBefore_assertion_error_message() {
-    try {
-      assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isBefore(of(1998, 1, 1, 3, 3, 3, 0, UTC));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n" +
-                                      "  <2000-01-05T03:00:05Z>%n" +
-                                      "to be strictly before:%n" +
-                                      "  <1998-01-01T03:03:03Z>"));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%nExpecting:%n" +
+                                "  <2000-01-05T03:00:05Z>%n" +
+                                "to be strictly before:%n" +
+                                "  <1998-01-01T03:03:03Z>");
+    assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isBefore(of(1998, 1, 1, 3, 3, 3, 0, UTC));
   }
 
   @Test

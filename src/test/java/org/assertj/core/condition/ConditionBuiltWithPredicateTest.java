@@ -12,9 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static java.lang.String.format;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Set;
@@ -62,18 +60,13 @@ public class ConditionBuiltWithPredicateTest implements WithAssertions {
   public void doesNotHave_condition_should_be_met() {
 	assertThat("Vader").doesNotHave(jediPower);
   }
-  
+
   @Test
   public void should_fail_if_condition_is_not_met() {
-	try {
-	  assertThat("Vader").is(jedi);
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                       "Expecting:%n" +
-		                       " <\"Vader\">%n" +
-		                       "to be <a jedi>"));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                " <\"Vader\">%n" +
+                                "to be <a jedi>");
+    assertThat("Vader").is(jedi);
   }
 }

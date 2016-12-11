@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -46,17 +45,12 @@ public class LocalTimeAssert_isAfterOrEqualTo_Test extends LocalTimeAssertBaseTe
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-	try {
-	  assertThat(LocalTime.of(3, 0, 5)).isAfterOrEqualTo(LocalTime.of(3, 3, 3));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                       "Expecting:%n" +
-		                       "  <03:00:05>%n" +
-		                       "to be after or equals to:%n" +
-		                       "  <03:03:03>"));
-	  return;
-	}
-	fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <03:00:05>%n" +
+                                "to be after or equals to:%n" +
+                                "  <03:03:03>");
+    assertThat(LocalTime.of(3, 0, 5)).isAfterOrEqualTo(LocalTime.of(3, 3, 3));
   }
 
   @Test

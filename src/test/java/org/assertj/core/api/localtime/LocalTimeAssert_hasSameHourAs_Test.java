@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalTimeAssert.NULL_LOCAL_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -33,34 +32,24 @@ public class LocalTimeAssert_hasSameHourAs_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_minute_ignored() {
-	try {
-	  assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusMinutes(1));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                              "Expecting:%n" +
-		                              "  <23:00>%n" +
-		                              "to have same hour as:%n" +
-		                              "  <22:59>%n" +
-		                              "but had not."));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <23:00>%n" +
+                                "to have same hour as:%n" +
+                                "  <22:59>%n" +
+                                "but had not.");
+    assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusMinutes(1));
   }
 
   @Test
   public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
-	try {
-	  assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusNanos(1));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                              "Expecting:%n" +
-		                              "  <23:00>%n" +
-		                              "to have same hour as:%n" +
-		                              "  <22:59:59.999999999>%n" +
-		                              "but had not."));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <23:00>%n" +
+                                "to have same hour as:%n" +
+                                "  <22:59:59.999999999>%n" +
+                                "but had not.");
+    assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusNanos(1));
   }
 
   @Test

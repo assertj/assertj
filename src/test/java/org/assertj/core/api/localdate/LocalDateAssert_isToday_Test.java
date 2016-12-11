@@ -12,18 +12,17 @@
  */
 package org.assertj.core.api.localdate;
 
-import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
-
-import java.time.LocalDate;
-
-import static java.lang.String.format;
 import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.time.LocalDate;
+
+import org.junit.Test;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
 public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
@@ -41,16 +40,11 @@ public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isToday_assertion_error_message() {
-    try {
-      assertThat(parse("2000-01-01")).isToday();
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%n" +
-                                      "Expecting:%n" +
-                                      " <2000-01-01>%n" +
-                                      "to be today but was not."));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                " <2000-01-01>%n" +
+                                "to be today but was not.");
+    assertThat(parse("2000-01-01")).isToday();
   }
 
   @Test
