@@ -47,7 +47,7 @@ public class Failures_failure_with_ErrorMessage_Test {
   public void should_create_use_overriding_error_message_if_it_is_specified() {
     info.overridingErrorMessage("my message");
     AssertionError failure = failures.failure(info, errorMessage);
-    assertThat(failure.getMessage()).isEqualTo("my message");
+    assertThat(failure).hasMessage("my message");
   }
 
   @Test
@@ -56,6 +56,6 @@ public class Failures_failure_with_ErrorMessage_Test {
     info.description(description);
     when(errorMessage.create(description, info.representation())).thenReturn("[description] my message");
     AssertionError failure = failures.failure(info, errorMessage);
-    assertThat(failure.getMessage()).isEqualTo("[description] my message");
+    assertThat(failure).hasMessage("[description] my message");
   }
 }

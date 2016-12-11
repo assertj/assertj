@@ -56,7 +56,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
 	AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-	assertThat(error.getMessage()).isEqualTo("[my test] expected:<42.0[]> but was:<42.0[f]>");
+	assertThat(error).hasMessage("[my test] expected:<42.0[]> but was:<42.0[f]>");
   }
 
   @Test
@@ -69,7 +69,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
 	AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-	assertThat(error.getMessage()).isEqualTo(String.format(
+	assertThat(error).hasMessage(String.format(
 	                                         "[my test] %nExpecting:%n <\"Person[name=Jake] (Person@"
 	                                             + toHexString(actual.hashCode())
 	                                             + ")\">%nto be equal to:%n <\"Person[name=Jake] (Person@"
@@ -90,7 +90,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
 	AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-	assertThat(error.getMessage()).isEqualTo(String.format("[my test] %n"
+	assertThat(error).hasMessage(String.format("[my test] %n"
 	                                         + "Expecting:%n"
 	                                         + " <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode())
 	                                         + ")\">%n"
