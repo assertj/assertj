@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -37,7 +38,7 @@ public class Assertions_assertThat_asString {
   public void should_fail_string_asserts_on_non_string_objects_even_with_asString() {
 	Object nonString = new Object();
 
-	thrown.expectAssertionError("an instance of:%n <java.lang.String>%nbut was instance of:%n <java.lang.Object>");
+	thrown.expectAssertionErrorWithMessageContaining(format("an instance of:%n <java.lang.String>%nbut was instance of:%n <java.lang.Object>"));
 	assertThat(nonString).asString().contains("hello");
   }
 

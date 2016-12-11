@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -47,7 +48,7 @@ public class Assertions_assertThat_asList {
   public void should_fail_list_asserts_on_non_list_objects_even_with_asList() {
     Object nonList = new Object();
 
-    thrown.expectAssertionError("an instance of:%n <java.util.List>%nbut was instance of:%n <java.lang.Object>");
+    thrown.expectAssertionErrorWithMessageContaining(format("an instance of:%n <java.util.List>%nbut was instance of:%n <java.lang.Object>"));
     assertThat(nonList).asList().isSorted();
   }
 

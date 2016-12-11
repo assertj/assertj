@@ -173,8 +173,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
   public void should_fail_when_selected_field_is_not_accessible_and_private_field_use_is_forbidden() {
     boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
     Assertions.setAllowComparingPrivateFields(false);
-    thrown.expect(IntrospectionError.class,
-                  "Can't find any field or property with name 'strangeNotReadablePrivateField'.");
+    thrown.expectIntrospectionErrorWithMessageContaining(
+            "Can't find any field or property with name 'strangeNotReadablePrivateField'.");
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(),

@@ -18,6 +18,7 @@ import java.util.List;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
+import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.StringContains;
 import org.hamcrest.core.StringEndsWith;
 import org.hamcrest.core.StringStartsWith;
@@ -102,7 +103,7 @@ public class ExpectedException implements TestRule {
   }
 
   public void expectMessage(String message) {
-    delegate.expectMessage(String.format(message));
+    delegate.expectMessage(IsEqual.equalTo(String.format(message)));
   }
 
   private void expectMessageContaining(String... parts) {
