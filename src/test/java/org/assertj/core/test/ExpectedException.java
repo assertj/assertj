@@ -93,11 +93,6 @@ public class ExpectedException implements TestRule {
     expectMessageEndingWith(end);
   }
 
-  public void expect(Throwable error) {
-    expect(error.getClass());
-    expectMessage(error.getMessage());
-  }
-
   public void expect(Class<? extends Throwable> type) {
     delegate.expect(type);
   }
