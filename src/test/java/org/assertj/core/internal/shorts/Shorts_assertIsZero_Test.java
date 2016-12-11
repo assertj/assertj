@@ -12,9 +12,8 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static java.lang.String.format;
 import static org.assertj.core.test.TestData.someInfo;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
@@ -37,11 +36,8 @@ public class Shorts_assertIsZero_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    try {
-      shorts.assertIsZero(someInfo(), (short) 2);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[2]>");
-    }
+    thrown.expectAssertionError("expected:<[0]> but was:<[2]>");
+    shorts.assertIsZero(someInfo(), (short) 2);
   }
 
   @Test
@@ -51,11 +47,8 @@ public class Shorts_assertIsZero_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
-    }
+    thrown.expectAssertionError(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+    shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0);
   }
 
 }

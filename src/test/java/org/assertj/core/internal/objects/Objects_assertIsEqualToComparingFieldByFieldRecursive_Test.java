@@ -15,7 +15,6 @@ package org.assertj.core.internal.objects;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -192,20 +191,17 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
 
-    try {
-      assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
-      failBecauseExceptionWasNotThrown(AssertionError.class);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                               format("when recursively comparing field by field, but found the following difference(s):%n%n")
-                               +
-                               format("Path to difference:  <home.address.number>%n") +
-                               format("- expected: <2>%n") +
-                               format("- actual  : <1>%n%n") +
-                               format("Path to difference:  <name>%n") +
-                               format("- expected: <John>%n") +
-                               format("- actual  : <Jack>"));
-    }
+    thrown.expectAssertionError(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
+                                format("when recursively comparing field by field, but found the following difference(s):%n%n")
+                                +
+                                format("Path to difference:  <home.address.number>%n") +
+                                format("- expected: <2>%n") +
+                                format("- actual  : <1>%n%n") +
+                                format("Path to difference:  <name>%n") +
+                                format("- expected: <John>%n") +
+                                format("- actual  : <Jack>"));
+
+    assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }
 
   @Test
@@ -220,17 +216,14 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     friendOfOther.home.address.number = 10;
     other.friends = Arrays.asList(friendOfOther);
 
-    try {
-      assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
-      failBecauseExceptionWasNotThrown(AssertionError.class);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                               format("when recursively comparing field by field, but found the following difference(s):%n%n")
-                               +
-                               format("Path to difference:  <friends.home.address.number>%n") +
-                               format("- expected: <10>%n") +
-                               format("- actual  : <99>"));
-    }
+    thrown.expectAssertionError(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
+                                format("when recursively comparing field by field, but found the following difference(s):%n%n")
+                                +
+                                format("Path to difference:  <friends.home.address.number>%n") +
+                                format("- expected: <10>%n") +
+                                format("- actual  : <99>"));
+
+    assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }
 
   @Test

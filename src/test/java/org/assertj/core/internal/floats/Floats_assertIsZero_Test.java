@@ -14,8 +14,6 @@ package org.assertj.core.internal.floats;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
@@ -37,11 +35,8 @@ public class Floats_assertIsZero_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    try {
-      floats.assertIsZero(someInfo(), 2.0f);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[0].0f> but was:<[2].0f>");
-    }
+    thrown.expectAssertionError("expected:<[0].0f> but was:<[2].0f>");
+    floats.assertIsZero(someInfo(), 2.0f);
   }
 
   @Test
@@ -51,11 +46,8 @@ public class Floats_assertIsZero_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      floatsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0f);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[0].0f> but was:<[2].0f>");
-    }
+    thrown.expectAssertionError("expected:<[0].0f> but was:<[2].0f>");
+    floatsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0f);
   }
 
 }

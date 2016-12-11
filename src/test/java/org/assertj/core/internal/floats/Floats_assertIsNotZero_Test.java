@@ -12,9 +12,8 @@
  */
 package org.assertj.core.internal.floats;
 
+import static java.lang.String.format;
 import static org.assertj.core.test.TestData.someInfo;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
@@ -37,11 +36,8 @@ public class Floats_assertIsNotZero_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    try {
-      floats.assertIsNotZero(someInfo(), 0.0f);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
-    }
+    thrown.expectAssertionError(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
+    floats.assertIsNotZero(someInfo(), 0.0f);
   }
 
   @Test
@@ -51,11 +47,8 @@ public class Floats_assertIsNotZero_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
-    }
+    thrown.expectAssertionError(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
+    floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f);
   }
 
 }

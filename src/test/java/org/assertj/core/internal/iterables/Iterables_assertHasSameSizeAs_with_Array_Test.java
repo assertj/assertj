@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -57,14 +55,11 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");
-    try {
-      iterables.assertHasSameSizeAs(info, actual, other);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.length)
-          .create(null, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.size(), other.length)
+                                .create(null, info.representation()));
+
+    iterables.assertHasSameSizeAs(info, actual, other);
   }
 
   @Test
@@ -90,13 +85,10 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info, actual, other);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.length)
-          .create(null, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.size(), other.length)
+                                .create(null, info.representation()));
+
+    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info, actual, other);
   }
 }

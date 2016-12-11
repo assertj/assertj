@@ -12,10 +12,9 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static java.lang.String.format;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -60,20 +59,14 @@ public class Bytes_assertIsNotZero_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 0);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
-    }
+    thrown.expectAssertionError(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+    bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 0);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is_in_hex_representation() {
-    try {
-      bytesWithAbsValueComparisonStrategy.assertIsNotZero(someHexInfo(), (byte) 0x00);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0x00>%nnot to be equal to:%n <0x00>%n"));
-    }
+    thrown.expectAssertionError(format("%nExpecting:%n <0x00>%nnot to be equal to:%n <0x00>%n"));
+    bytesWithAbsValueComparisonStrategy.assertIsNotZero(someHexInfo(), (byte) 0x00);
   }
 
 }

@@ -15,8 +15,6 @@ package org.assertj.core.api.filter;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 
-import static org.assertj.core.api.Assertions.fail;
-
 import java.util.List;
 
 import org.assertj.core.api.filter.Filters;
@@ -41,22 +39,14 @@ public class Filter_create_Test extends AbstractTest_filter {
 
   @Test
   public void should_fail_if_constructor_iterable_parameter_is_null() {
-    try {
-      filter((List<Player>) null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      assertThat(e).hasMessage("The iterable to filter should not be null");
-    }
+    thrown.expectNullPointerException("The iterable to filter should not be null");
+    filter((List<Player>) null);
   }
 
   @Test
   public void should_fail_if_constructor_array_parameter_is_null() {
-    try {
-      filter((Player[]) null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      assertThat(e).hasMessage("The array to filter should not be null");
-    }
+    thrown.expectNullPointerException("The array to filter should not be null");
+    filter((Player[]) null);
   }
 
 }

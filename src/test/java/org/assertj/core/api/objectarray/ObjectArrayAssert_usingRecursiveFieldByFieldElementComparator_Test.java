@@ -15,7 +15,6 @@ package org.assertj.core.api.objectarray;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
@@ -67,36 +66,28 @@ public class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test 
   public void failed_isEqualTo_assertion_using_recursive_field_by_field_element_comparator() {
     Foo[] array1 = { new Foo("id", new Bar(1)) };
     Foo[] array2 = { new Foo("id", new Bar(2)) };
-    try {
-      assertThat(array1).usingRecursiveFieldByFieldElementComparator().isEqualTo(array2);
-    } catch (AssertionError e) {
-      // @format:off
-      assertThat(e).hasMessage(format("%nExpecting:%n" +
-                                      " <[Foo(id=id, bar=Bar [id=1])]>%n" +
-                                      "to be equal to:%n" +
-                                      " <[Foo(id=id, bar=Bar [id=2])]>%n" +
-                                      "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties' but was not."));
-      // @format:on
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(format("%nExpecting:%n" +
+                                       " <[Foo(id=id, bar=Bar [id=1])]>%n" +
+                                       "to be equal to:%n" +
+                                       " <[Foo(id=id, bar=Bar [id=2])]>%n" +
+                                       "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties' but was not."));
+
+    assertThat(array1).usingRecursiveFieldByFieldElementComparator().isEqualTo(array2);
   }
 
   @Test
   public void failed_isIn_assertion_using_recursive_field_by_field_element_comparator() {
     Foo[] array1 = { new Foo("id", new Bar(1)) };
     Foo[] arry2 = { new Foo("id", new Bar(2)) };
-    try {
-      assertThat(array1).usingRecursiveFieldByFieldElementComparator().isIn(new Object[] { arry2 });
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(String.format("%nExpecting:%n" +
-                                             " <[Foo(id=id, bar=Bar [id=1])]>%n" +
-                                             "to be in:%n" +
-                                             " <[[Foo(id=id, bar=Bar [id=2])]]>%n" +
-                                             "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties'"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(format("%nExpecting:%n" +
+                                       " <[Foo(id=id, bar=Bar [id=1])]>%n" +
+                                       "to be in:%n" +
+                                       " <[[Foo(id=id, bar=Bar [id=2])]]>%n" +
+                                       "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties'"));
+
+    assertThat(array1).usingRecursiveFieldByFieldElementComparator().isIn(new Object[] { arry2 });
   }
 
   @Test
