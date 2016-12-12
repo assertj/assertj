@@ -28,7 +28,7 @@ import org.assertj.core.internal.Objects;
 
 /**
  * Assertions for {@link LocalDateTime} type from new Date &amp; Time API introduced in Java 8.
- * 
+ *
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
@@ -40,12 +40,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractLocalDateTimeAssert}</code>.
-   * 
+   *
    * @param selfType the "self type"
    * @param actual the actual value to verify
    */
   protected AbstractLocalDateTimeAssert(LocalDateTime actual, Class<?> selfType) {
-	super(actual, selfType);
+    super(actual, selfType);
   }
 
   /**
@@ -53,7 +53,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59")).isBefore(parse("2000-01-02T00:00:00"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -61,12 +61,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * @throws AssertionError if the actual {@code LocalDateTime} is not strictly before the given one.
    */
   public S isBefore(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (!actual.isBefore(other)) {
-	  throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (!actual.isBefore(other)) {
+      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -78,7 +78,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T23:59:59")).isBefore("2000-01-02T00:00:00");</code></pre>
-   * 
+   *
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -87,8 +87,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           from given String.
    */
   public S isBefore(String localDateTimeAsString) {
-	assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
-	return isBefore(parse(localDateTimeAsString));
+    assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
+    return isBefore(parse(localDateTimeAsString));
   }
 
   /**
@@ -97,7 +97,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59"))
    *                                         .isBeforeOrEqualTo(parse("2000-01-02T00:00:00"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -105,12 +105,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * @throws AssertionError if the actual {@code LocalDateTime} is not before or equals to the given one.
    */
   public S isBeforeOrEqualTo(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (actual.isAfter(other)) {
-	  throw Failures.instance().failure(info, shouldBeBeforeOrEqualsTo(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (actual.isAfter(other)) {
+      throw Failures.instance().failure(info, shouldBeBeforeOrEqualsTo(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -123,7 +123,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01T23:59:59")).isBeforeOrEqualTo("2000-01-01T23:59:59")
    *                                         .isBeforeOrEqualTo("2000-01-02T00:00:00");</code></pre>
-   * 
+   *
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -132,8 +132,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           built from given String.
    */
   public S isBeforeOrEqualTo(String localDateTimeAsString) {
-	assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
-	return isBeforeOrEqualTo(parse(localDateTimeAsString));
+    assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
+    return isBeforeOrEqualTo(parse(localDateTimeAsString));
   }
 
   /**
@@ -142,7 +142,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfterOrEqualTo(parse("2000-01-01T00:00:00"))
    *                                         .isAfterOrEqualTo(parse("1999-12-31T23:59:59"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -150,12 +150,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * @throws AssertionError if the actual {@code LocalDateTime} is not after or equals to the given one.
    */
   public S isAfterOrEqualTo(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (actual.isBefore(other)) {
-	  throw Failures.instance().failure(info, shouldBeAfterOrEqualsTo(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (actual.isBefore(other)) {
+      throw Failures.instance().failure(info, shouldBeAfterOrEqualsTo(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -168,7 +168,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01T00:00:00")).isAfterOrEqualTo("2000-01-01T00:00:00")
    *                                         .isAfterOrEqualTo("1999-12-31T23:59:59");</code></pre>
-   * 
+   *
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -177,8 +177,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           built from given String.
    */
   public S isAfterOrEqualTo(String localDateTimeAsString) {
-	assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
-	return isAfterOrEqualTo(parse(localDateTimeAsString));
+    assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
+    return isAfterOrEqualTo(parse(localDateTimeAsString));
   }
 
   /**
@@ -186,7 +186,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfter(parse("1999-12-31T23:59:59"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -194,12 +194,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * @throws AssertionError if the actual {@code LocalDateTime} is not strictly after the given one.
    */
   public S isAfter(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (!actual.isAfter(other)) {
-	  throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (!actual.isAfter(other)) {
+      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -211,7 +211,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01T00:00:00")).isAfter("1999-12-31T23:59:59");</code></pre>
-   * 
+   *
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -220,8 +220,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           from given String.
    */
   public S isAfter(String localDateTimeAsString) {
-	assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
-	return isAfter(parse(localDateTimeAsString));
+    assertLocalDateTimeAsStringParameterIsNotNull(localDateTimeAsString);
+    return isAfter(parse(localDateTimeAsString));
   }
 
   /**
@@ -233,7 +233,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00")).isEqualTo("2000-01-01T00:00:00");</code></pre>
-   * 
+   *
    * @param dateTimeAsString String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -242,8 +242,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           given String.
    */
   public S isEqualTo(String dateTimeAsString) {
-	assertLocalDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-	return isEqualTo(parse(dateTimeAsString));
+    assertLocalDateTimeAsStringParameterIsNotNull(dateTimeAsString);
+    return isEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -255,7 +255,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00")).isNotEqualTo("2000-01-15T00:00:00");</code></pre>
-   * 
+   *
    * @param dateTimeAsString String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -264,8 +264,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           String.
    */
   public S isNotEqualTo(String dateTimeAsString) {
-	assertLocalDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-	return isNotEqualTo(parse(dateTimeAsString));
+    assertLocalDateTimeAsStringParameterIsNotNull(dateTimeAsString);
+    return isNotEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -277,7 +277,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> // use String based representation of LocalDateTime
    * assertThat(parse("2000-01-01T00:00:00")).isIn("1999-12-31T00:00:00", "2000-01-01T00:00:00");</code></pre>
-   * 
+   *
    * @param dateTimesAsString String array representing {@link LocalDateTime}s.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -286,8 +286,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           Strings.
    */
   public S isIn(String... dateTimesAsString) {
-	checkIsNotNullAndNotEmpty(dateTimesAsString);
-	return isIn(convertToLocalDateTimeArray(dateTimesAsString));
+    checkIsNotNullAndNotEmpty(dateTimesAsString);
+    return isIn(convertToLocalDateTimeArray(dateTimesAsString));
   }
 
   /**
@@ -299,7 +299,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * <pre><code class='java'> // use String based representation of LocalDateTime
    * assertThat(parse("2000-01-01T00:00:00")).isNotIn("1999-12-31T00:00:00", "2000-01-02T00:00:00");</code></pre>
-   * 
+   *
    * @param dateTimesAsString Array of String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -308,52 +308,52 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           Strings.
    */
   public S isNotIn(String... dateTimesAsString) {
-	checkIsNotNullAndNotEmpty(dateTimesAsString);
-	return isNotIn(convertToLocalDateTimeArray(dateTimesAsString));
+    checkIsNotNullAndNotEmpty(dateTimesAsString);
+    return isNotIn(convertToLocalDateTimeArray(dateTimesAsString));
   }
 
   private static Object[] convertToLocalDateTimeArray(String... dateTimesAsString) {
-	LocalDateTime[] dates = new LocalDateTime[dateTimesAsString.length];
-	for (int i = 0; i < dateTimesAsString.length; i++) {
-	  dates[i] = LocalDateTime.parse(dateTimesAsString[i]);
-	}
-	return dates;
+    LocalDateTime[] dates = new LocalDateTime[dateTimesAsString.length];
+    for (int i = 0; i < dateTimesAsString.length; i++) {
+      dates[i] = LocalDateTime.parse(dateTimesAsString[i]);
+    }
+    return dates;
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-	if (values == null) {
-	  throw new IllegalArgumentException("The given LocalDateTime array should not be null");
-	}
-	if (values.length == 0) {
-	  throw new IllegalArgumentException("The given LocalDateTime array should not be empty");
-	}
+    if (values == null) {
+      throw new IllegalArgumentException("The given LocalDateTime array should not be null");
+    }
+    if (values.length == 0) {
+      throw new IllegalArgumentException("The given LocalDateTime array should not be empty");
+    }
   }
 
   /**
    * Check that the {@link LocalDateTime} string representation to compare actual {@link LocalDateTime} to is not null,
    * otherwise throws a {@link IllegalArgumentException} with an explicit message
-   * 
+   *
    * @param localDateTimeAsString String representing the {@link LocalDateTime} to compare actual with
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
   private static void assertLocalDateTimeAsStringParameterIsNotNull(String localDateTimeAsString) {
-	if (localDateTimeAsString == null) {
-	  throw new IllegalArgumentException(
-		                                 "The String representing the LocalDateTime to compare actual with should not be null");
-	}
+    if (localDateTimeAsString == null) {
+      throw new IllegalArgumentException(
+        "The String representing the LocalDateTime to compare actual with should not be null");
+    }
   }
 
   /**
    * Check that the {@link LocalDateTime} to compare actual {@link LocalDateTime} to is not null, in that case throws a
    * {@link IllegalArgumentException} with an explicit message
-   * 
+   *
    * @param other the {@link LocalDateTime} to check
    * @throws IllegalArgumentException with an explicit message if the given {@link LocalDateTime} is null
    */
   private static void assertLocalDateTimeParameterIsNotNull(LocalDateTime other) {
-	if (other == null) {
-	  throw new IllegalArgumentException("The LocalDateTime to compare actual with should not be null");
-	}
+    if (other == null) {
+      throw new IllegalArgumentException("The LocalDateTime to compare actual with should not be null");
+    }
   }
 
   /**
@@ -371,12 +371,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 0);
    * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 456);
    * assertThat(localDateTime1).isEqualToIgnoringNanos(localDateTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ms)
    * LocalDateTime localDateTimeA = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 0);
    * LocalDateTime localDateTimeB = LocalDateTime.of(2000, 1, 1, 0, 0, 0, 999999999);
    * assertThat(localDateTimeA).isEqualToIgnoringNanos(localDateTimeB);</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -384,12 +384,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * @throws AssertionError if the actual {@code LocalDateTime} is are not equal with nanoseconds ignored.
    */
   public S isEqualToIgnoringNanos(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (!areEqualIgnoringNanos(actual, other)) {
-	  throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (!areEqualIgnoringNanos(actual, other)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -407,12 +407,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 23, 50, 0, 0);
    * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 23, 50, 10, 456);
    * assertThat(localDateTime1).isEqualToIgnoringSeconds(localDateTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ms)
    * LocalDateTime localDateTimeA = LocalDateTime.of(2000, 1, 1, 23, 50, 00, 000);
    * LocalDateTime localDateTimeB = LocalDateTime.of(2000, 1, 1, 23, 49, 59, 999);
    * assertThat(localDateTimeA).isEqualToIgnoringSeconds(localDateTimeB);</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -421,12 +421,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           ignored.
    */
   public S isEqualToIgnoringSeconds(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (!areEqualIgnoringSeconds(actual, other)) {
-	  throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (!areEqualIgnoringSeconds(actual, other)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -444,12 +444,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 23, 50, 0, 0);
    * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 23, 00, 2, 7);
    * assertThat(localDateTime1).isEqualToIgnoringMinutes(localDateTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ms)
    * LocalDateTime localDateTimeA = LocalDateTime.of(2000, 1, 1, 01, 00, 00, 000);
    * LocalDateTime localDateTimeB = LocalDateTime.of(2000, 1, 1, 00, 59, 59, 999);
    * assertThat(localDateTimeA).isEqualToIgnoringMinutes(localDateTimeB);</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -458,12 +458,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           fields.
    */
   public S isEqualToIgnoringMinutes(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (!areEqualIgnoringMinutes(actual, other)) {
-	  throw Failures.instance().failure(info, shouldBeEqualIgnoringMinutes(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (!areEqualIgnoringMinutes(actual, other)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringMinutes(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -481,12 +481,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 23, 59, 59, 999);
    * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 00, 00, 00, 000);
    * assertThat(localDateTime1).isEqualToIgnoringHours(localDateTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ms)
    * LocalDateTime localDateTimeA = LocalDateTime.of(2000, 1, 2, 00, 00, 00, 000);
    * LocalDateTime localDateTimeB = LocalDateTime.of(2000, 1, 1, 23, 59, 59, 999);
    * assertThat(localDateTimeA).isEqualToIgnoringHours(localDateTimeB);</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
@@ -495,12 +495,12 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    *           ignored.
    */
   public S isEqualToIgnoringHours(LocalDateTime other) {
-	Objects.instance().assertNotNull(info, actual);
-	assertLocalDateTimeParameterIsNotNull(other);
-	if (!haveSameYearMonthAndDayOfMonth(actual, other)) {
-	  throw Failures.instance().failure(info, shouldBeEqualIgnoringHours(actual, other));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    assertLocalDateTimeParameterIsNotNull(other);
+    if (!haveSameYearMonthAndDayOfMonth(actual, other)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringHours(actual, other));
+    }
+    return myself;
   }
 
   /**
@@ -514,68 +514,68 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
   /**
    * Returns true if both datetime are in the same year, month and day of month, hour, minute and second, false
    * otherwise.
-   * 
+   *
    * @param actual the actual datetime. expected not be null
    * @param other the other datetime. expected not be null
    * @return true if both datetime are in the same year, month and day of month, hour, minute and second, false
    *         otherwise.
    */
   private static boolean areEqualIgnoringNanos(LocalDateTime actual, LocalDateTime other) {
-	return areEqualIgnoringSeconds(actual, other) && actual.getSecond() == other.getSecond();
+    return areEqualIgnoringSeconds(actual, other) && actual.getSecond() == other.getSecond();
   }
 
   /**
    * Returns true if both datetime are in the same year, month, day of month, hour and minute, false otherwise.
-   * 
+   *
    * @param actual the actual datetime. expected not be null
    * @param other the other datetime. expected not be null
    * @return true if both datetime are in the same year, month, day of month, hour and minute, false otherwise.
    */
   private static boolean areEqualIgnoringSeconds(LocalDateTime actual, LocalDateTime other) {
-	return areEqualIgnoringMinutes(actual, other) && actual.getMinute() == other.getMinute();
+    return areEqualIgnoringMinutes(actual, other) && actual.getMinute() == other.getMinute();
   }
 
   /**
    * Returns true if both datetime are in the same year, month, day of month and hour, false otherwise.
-   * 
+   *
    * @param actual the actual datetime. expected not be null
    * @param other the other datetime. expected not be null
    * @return true if both datetime are in the same year, month, day of month and hour, false otherwise.
    */
   private static boolean areEqualIgnoringMinutes(LocalDateTime actual, LocalDateTime other) {
-	return haveSameYearMonthAndDayOfMonth(actual, other) && actual.getHour() == other.getHour();
+    return haveSameYearMonthAndDayOfMonth(actual, other) && actual.getHour() == other.getHour();
   }
 
   /**
    * Returns true if both datetime are in the same year, month and day of month, false otherwise.
-   * 
+   *
    * @param actual the actual datetime. expected not be null
    * @param other the other datetime. expected not be null
    * @return true if both datetime are in the same year, month and day of month, false otherwise
    */
   private static boolean haveSameYearMonthAndDayOfMonth(LocalDateTime actual, LocalDateTime other) {
-	return haveSameYearAndMonth(actual, other) && actual.getDayOfMonth() == other.getDayOfMonth();
+    return haveSameYearAndMonth(actual, other) && actual.getDayOfMonth() == other.getDayOfMonth();
   }
 
   /**
    * Returns true if both datetime are in the same year and month, false otherwise.
-   * 
+   *
    * @param actual the actual datetime. expected not be null
    * @param other the other datetime. expected not be null
    * @return true if both datetime are in the same year and month, false otherwise
    */
   private static boolean haveSameYearAndMonth(LocalDateTime actual, LocalDateTime other) {
-	return haveSameYear(actual, other) && actual.getMonth() == other.getMonth();
+    return haveSameYear(actual, other) && actual.getMonth() == other.getMonth();
   }
 
   /**
    * Returns true if both datetime are in the same year, false otherwise.
-   * 
+   *
    * @param actual the actual datetime. expected not be null
    * @param other the other datetime. expected not be null
    * @return true if both datetime are in the same year, false otherwise
    */
   private static boolean haveSameYear(LocalDateTime actual, LocalDateTime other) {
-	return actual.getYear() == other.getYear();
+    return actual.getYear() == other.getYear();
   }
 }

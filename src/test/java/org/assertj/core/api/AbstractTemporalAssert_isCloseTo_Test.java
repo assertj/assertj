@@ -10,10 +10,8 @@
  *
  * Copyright 2012-2016 the original author or authors.
  */
-package org.assertj.core.api.localdate;
+package org.assertj.core.api;
 
-import org.assertj.core.api.AbstractTemporalAssert;
-import org.assertj.core.api.BaseTest;
 import org.assertj.core.data.TemporalOffset;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
