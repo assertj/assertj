@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.paths;
 
-import static junit.framework.TestCase.fail;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -40,13 +38,9 @@ public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
 	final IOException exception = new IOException();
 	when(actual.toRealPath()).thenThrow(exception);
 
-	try {
-	  paths.assertHasNoParent(info, actual);
-	  fail("was expecting a PathsException");
-	} catch (PathsException e) {
-	  assertThat(e).hasMessage("failed to resolve actual real path");
-	  assertThat(e.getCause()).isSameAs(exception);
-	}
+    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", exception);
+
+    paths.assertHasNoParent(info, actual);
   }
 
   @Test

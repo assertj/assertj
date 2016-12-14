@@ -18,6 +18,7 @@ import java.util.List;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
+import org.hamcrest.core.IsSame;
 import org.hamcrest.core.StringContains;
 import org.hamcrest.core.StringEndsWith;
 import org.hamcrest.core.StringStartsWith;
@@ -101,6 +102,17 @@ public class ExpectedException implements TestRule {
     delegate.expect(type);
   }
 
+  public void expectWithCause(Class<? extends Throwable> type, Throwable cause) {
+    expect(type);
+    expectCause(cause);
+  }
+
+  public void expectWithCause(Class<? extends Throwable> type, String message, Throwable cause) {
+    expect(type);
+    expectMessage(message);
+    expectCause(cause);
+  }
+
   public void expectMessage(String message) {
     delegate.expectMessage(String.format(message));
   }
@@ -119,5 +131,9 @@ public class ExpectedException implements TestRule {
 
   private void expectMessageEndingWith(String end) {
     delegate.expectMessage(StringEndsWith.endsWith(end));
+  }
+
+  private void expectCause(Throwable cause) {
+    delegate.expectCause(IsSame.sameInstance(cause));
   }
 }

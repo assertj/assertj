@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.inputstreams;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -65,12 +63,10 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
     IOException cause = new IOException();
     when(diff.diff(actual, expected)).thenThrow(cause);
-    try {
-      inputStreams.assertSameContentAs(someInfo(), actual, expected);
-      fail("Expected a InputStreamsException to be thrown");
-    } catch (InputStreamsException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
+
+    thrown.expectWithCause(InputStreamsException.class, cause);
+
+    inputStreams.assertSameContentAs(someInfo(), actual, expected);
   }
 
   @Test
