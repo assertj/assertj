@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -87,12 +85,10 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
-    try {
-      files.assertHasBinaryContent(someInfo(), actual, expected);
-      fail("Expected a RuntimeIOException to be thrown");
-    } catch (RuntimeIOException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
+
+    thrown.expectWithCause(RuntimeIOException.class, cause);
+
+    files.assertHasBinaryContent(someInfo(), actual, expected);
   }
 
   @Test

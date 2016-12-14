@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
@@ -41,12 +39,7 @@ public class Java6Assertions_fail_Test {
   public void should_include_message_with_cause_when_failing() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
-    try {
-      Java6Assertions.fail(message, cause);
-      fail("AssertionError should have been thrown");
-    } catch (AssertionError e) {
-      assertThat(message).isEqualTo(e.getMessage());
-      assertThat(cause).isSameAs(e.getCause());
-    }
+    thrown.expectWithCause(AssertionError.class, message, cause);
+    Java6Assertions.fail(message, cause);
   }
 }

@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
@@ -112,12 +110,10 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 	when(binaryDiff.diff(path, expected)).thenThrow(cause);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-	try {
-	  paths.assertHasBinaryContent(someInfo(), path, expected);
-	  failBecauseExceptionWasNotThrown(RuntimeIOException.class);
-	} catch (RuntimeIOException e) {
-	  assertThat(e.getCause()).isSameAs(cause);
-	}
+
+    thrown.expectWithCause(RuntimeIOException.class, cause);
+
+    paths.assertHasBinaryContent(someInfo(), path, expected);
   }
 
   @Test
