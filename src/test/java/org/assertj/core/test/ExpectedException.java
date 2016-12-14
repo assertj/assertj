@@ -12,6 +12,8 @@
  */
 package org.assertj.core.test;
 
+import static java.lang.String.format;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,22 +100,22 @@ public class ExpectedException implements TestRule {
   }
 
   public void expectMessage(String message) {
-    delegate.expectMessage(IsEqual.equalTo(String.format(message)));
+    delegate.expectMessage(IsEqual.equalTo(format(message)));
   }
 
   private void expectMessageContaining(String... parts) {
     List<Matcher<? super String>> matchers = new ArrayList<>();
     for (String part : parts) {
-      matchers.add(StringContains.containsString(part));
+      matchers.add(StringContains.containsString(format(part)));
     }
     delegate.expectMessage(AllOf.allOf(matchers));
   }
 
   private void expectMessageStartingWith(String start) {
-    delegate.expectMessage(StringStartsWith.startsWith(start));
+    delegate.expectMessage(StringStartsWith.startsWith(format(start)));
   }
 
   private void expectMessageEndingWith(String end) {
-    delegate.expectMessage(StringEndsWith.endsWith(end));
+    delegate.expectMessage(StringEndsWith.endsWith(format(end)));
   }
 }

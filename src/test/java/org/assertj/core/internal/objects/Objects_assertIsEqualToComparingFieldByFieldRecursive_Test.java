@@ -192,14 +192,13 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.home.address.number = 2;
 
     thrown.expectAssertionError(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                                format("when recursively comparing field by field, but found the following difference(s):%n%n")
-                                +
-                                format("Path to difference:  <home.address.number>%n") +
-                                format("- expected: <2>%n") +
-                                format("- actual  : <1>%n%n") +
-                                format("Path to difference:  <name>%n") +
-                                format("- expected: <John>%n") +
-                                format("- actual  : <Jack>"));
+                                "when recursively comparing field by field, but found the following difference(s):%n%n" +
+                                "Path to difference:  <home.address.number>%n" +
+                                "- expected: <2>%n" +
+                                "- actual  : <1>%n%n" +
+                                "Path to difference:  <name>%n" +
+                                "- expected: <John>%n" +
+                                "- actual  : <Jack>");
 
     assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }
@@ -217,11 +216,10 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.friends = Arrays.asList(friendOfOther);
 
     thrown.expectAssertionError(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                                format("when recursively comparing field by field, but found the following difference(s):%n%n")
-                                +
-                                format("Path to difference:  <friends.home.address.number>%n") +
-                                format("- expected: <10>%n") +
-                                format("- actual  : <99>"));
+                                "when recursively comparing field by field, but found the following difference(s):%n%n" +
+                                "Path to difference:  <friends.home.address.number>%n" +
+                                "- expected: <10>%n" +
+                                "- actual  : <99>");
 
     assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }

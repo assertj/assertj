@@ -13,7 +13,6 @@
 package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.test.TestData.someInfo;
-import static java.lang.String.format;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
@@ -36,7 +35,7 @@ public class Doubles_assertIsNotNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_equal_to_NaN() {
-    thrown.expectAssertionError(format("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n");
     doubles.assertIsNotNaN(someInfo(), Double.NaN);
   }
 
@@ -47,7 +46,7 @@ public class Doubles_assertIsNotNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(format("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n");
     doublesWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), Double.NaN);
   }
 }

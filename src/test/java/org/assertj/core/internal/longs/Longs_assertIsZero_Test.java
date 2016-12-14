@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.longs;
 
-import static java.lang.String.format;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -47,7 +46,7 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(format("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n");
     longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
   }
 

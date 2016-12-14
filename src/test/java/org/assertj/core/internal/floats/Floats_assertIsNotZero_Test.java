@@ -12,14 +12,12 @@
  */
 package org.assertj.core.internal.floats;
 
-import static java.lang.String.format;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Floats#assertIsNegative(AssertionInfo, Float)}</code>.
@@ -36,7 +34,7 @@ public class Floats_assertIsNotZero_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n");
     floats.assertIsNotZero(someInfo(), 0.0f);
   }
 
@@ -47,7 +45,7 @@ public class Floats_assertIsNotZero_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n");
     floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f);
   }
 

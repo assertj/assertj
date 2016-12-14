@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.object;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -45,11 +44,11 @@ public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertB
   public void should_fail_if_a_public_field_is_null() {
     Jedi jedi = new Jedi("Yoda", null);
 
-    thrown.expectAssertionError(format("%n"
-                                      + "Expecting%n"
-                                      + "  <Yoda the Jedi>%n"
-                                      + "not to have any null property or field, but <\"lightSaberColor\"> was null.%n"
-                                      + "Check was performed on all fields/properties except: <[\"name\", \"strangeNotReadablePrivateField\"]>"));
+    thrown.expectAssertionError("%n"
+                                + "Expecting%n"
+                                + "  <Yoda the Jedi>%n"
+                                + "not to have any null property or field, but <\"lightSaberColor\"> was null.%n"
+                                + "Check was performed on all fields/properties except: <[\"name\", \"strangeNotReadablePrivateField\"]>");
 
     assertThat(jedi).hasNoNullFieldsOrPropertiesExcept("name", "strangeNotReadablePrivateField");
   }
@@ -58,11 +57,11 @@ public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertB
   public void should_fail_if_a_private_field_is_null() {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
-    thrown.expectAssertionError(format("%n"
-                                       + "Expecting%n"
-                                       + "  <Yoda the Jedi>%n"
-                                       + "not to have any null property or field, but <\"strangeNotReadablePrivateField\"> was null.%n"
-                                       + "Check was performed on all fields/properties"));
+    thrown.expectAssertionError("%n"
+                                + "Expecting%n"
+                                + "  <Yoda the Jedi>%n"
+                                + "not to have any null property or field, but <\"strangeNotReadablePrivateField\"> was null.%n"
+                                + "Check was performed on all fields/properties");
 
     assertThat(jedi).hasNoNullFieldsOrProperties();
   }
@@ -71,11 +70,11 @@ public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertB
   public void should_fail_if_a_property_is_null() {
     Person nobody = new Person(null);
 
-    thrown.expectAssertionError(format("%n"
-                                      + "Expecting%n"
-                                      + "  <Person[name='null']>%n"
-                                      + "not to have any null property or field, but <\"name\"> was null.%n"
-                                      + "Check was performed on all fields/properties"));
+    thrown.expectAssertionError("%n"
+                                + "Expecting%n"
+                                + "  <Person[name='null']>%n"
+                                + "not to have any null property or field, but <\"name\"> was null.%n"
+                                + "Check was performed on all fields/properties");
 
     assertThat(nobody).hasNoNullFieldsOrProperties();
   }

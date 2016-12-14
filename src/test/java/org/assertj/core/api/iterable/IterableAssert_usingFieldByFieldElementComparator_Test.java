@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.iterable;
 
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -120,11 +119,11 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
     List<Foo> list1 = singletonList(new Foo("id", 1));
     List<Foo> list2 = singletonList(new Foo("id", 2));
 
-    thrown.expectAssertionError(format("%nExpecting:%n" +
-                                      " <[Foo(id=id, bar=1)]>%n" +
-                                      "to be equal to:%n" +
-                                      " <[Foo(id=id, bar=2)]>%n" +
-                                      "when comparing elements using 'field/property by field/property comparator on all fields/properties' but was not."));
+    thrown.expectAssertionError("%nExpecting:%n" +
+                                " <[Foo(id=id, bar=1)]>%n" +
+                                "to be equal to:%n" +
+                                " <[Foo(id=id, bar=2)]>%n" +
+                                "when comparing elements using 'field/property by field/property comparator on all fields/properties' but was not.");
 
     assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
 
@@ -135,11 +134,11 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
     List<Foo> list1 = singletonList(new Foo("id", 1));
     List<Foo> list2 = singletonList(new Foo("id", 2));
 
-    thrown.expectAssertionError(format("%nExpecting:%n" +
-                                        " <[Foo(id=id, bar=1)]>%n" +
-                                        "to be in:%n" +
-                                        " <[[Foo(id=id, bar=2)]]>%n" +
-                                        "when comparing elements using 'field/property by field/property comparator on all fields/properties'"));
+    thrown.expectAssertionError("%nExpecting:%n" +
+                                " <[Foo(id=id, bar=1)]>%n" +
+                                "to be in:%n" +
+                                " <[[Foo(id=id, bar=2)]]>%n" +
+                                "when comparing elements using 'field/property by field/property comparator on all fields/properties'");
 
     assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
   }

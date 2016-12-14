@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static java.lang.String.format;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -59,13 +58,13 @@ public class Bytes_assertIsNotZero_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
     bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 0);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is_in_hex_representation() {
-    thrown.expectAssertionError(format("%nExpecting:%n <0x00>%nnot to be equal to:%n <0x00>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <0x00>%nnot to be equal to:%n <0x00>%n");
     bytesWithAbsValueComparisonStrategy.assertIsNotZero(someHexInfo(), (byte) 0x00);
   }
 

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.throwables;
 
-import static java.lang.String.format;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.ThrowablesBaseTest;
@@ -27,7 +26,7 @@ public class Throwables_assertHasNoSuppressedExceptions_Test extends ThrowablesB
 
   @Test
   public void should_fail_if_throwable_has_suppressed_exceptions() {
-    thrown.expectAssertionError(format("%nExpecting no suppressed exceptions but found: <[java.lang.IllegalArgumentException: Suppressed Message]>"));
+    thrown.expectAssertionError("%nExpecting no suppressed exceptions but found: <[java.lang.IllegalArgumentException: Suppressed Message]>");
     Throwable actual = new Throwable();
     actual.addSuppressed(new IllegalArgumentException("Suppressed Message"));
     throwables.assertHasNoSuppressedExceptions(someInfo(), actual);

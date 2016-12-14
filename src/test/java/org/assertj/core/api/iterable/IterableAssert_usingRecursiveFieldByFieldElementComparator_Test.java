@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.iterable;
 
-import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
@@ -68,11 +67,11 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    thrown.expectAssertionError(format("%nExpecting:%n" +
-                                       " <[Foo(id=id, bar=Bar [id=1])]>%n" +
-                                       "to be equal to:%n" +
-                                       " <[Foo(id=id, bar=Bar [id=2])]>%n" +
-                                       "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties' but was not."));
+    thrown.expectAssertionError("%nExpecting:%n" +
+                                " <[Foo(id=id, bar=Bar [id=1])]>%n" +
+                                "to be equal to:%n" +
+                                " <[Foo(id=id, bar=Bar [id=2])]>%n" +
+                                "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties' but was not.");
 
     assertThat(list1).usingRecursiveFieldByFieldElementComparator().isEqualTo(list2);
   }
@@ -82,11 +81,11 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    thrown.expectAssertionError(format("%nExpecting:%n" +
-                                       " <[Foo(id=id, bar=Bar [id=1])]>%n" +
-                                       "to be in:%n" +
-                                       " <[[Foo(id=id, bar=Bar [id=2])]]>%n" +
-                                       "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties'"));
+    thrown.expectAssertionError("%nExpecting:%n" +
+                                " <[Foo(id=id, bar=Bar [id=1])]>%n" +
+                                "to be in:%n" +
+                                " <[[Foo(id=id, bar=Bar [id=2])]]>%n" +
+                                "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties'");
 
     assertThat(list1).usingRecursiveFieldByFieldElementComparator().isIn(singletonList(list2));
   }

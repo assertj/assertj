@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
@@ -80,8 +79,8 @@ public class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_fil
 
   @Test
   public void should_fail_if_given_expected_value_is_null() {
-    thrown.expectIllegalArgumentException(format("The expected value should not be null.%n"
-                                               + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
+    thrown.expectIllegalArgumentException("The expected value should not be null.%n" +
+                                          "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
     assertThat(employees).filteredOn("name", null);
   }
 

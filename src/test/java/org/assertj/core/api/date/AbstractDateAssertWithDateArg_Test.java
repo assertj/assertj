@@ -85,12 +85,12 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
 
   @Test
   public void should_fail_because_date_string_representation_does_not_follow_expected_format() {
-    thrown.expectAssertionError(String.format("Failed to parse " + dateAsStringWithBadFormat
-                                              + " with any of these date formats:%n" +
-                                              "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                              "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                              "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                              "    yyyy-MM-dd]"));
+    thrown.expectAssertionError("Failed to parse " + dateAsStringWithBadFormat +
+                                " with any of these date formats:%n" +
+                                "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                "    yyyy-MM-dd]");
     assertionInvocationWithStringArg(dateAsStringWithBadFormat);
   }
 

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.files;
 
-import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -139,10 +138,10 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   @Test
   public void should_fail_if_files_are_not_binary_identical() throws IOException {
     thrown.expectWithMessageEndingWith(AssertionError.class,
-                                       format("does not have expected binary content at offset <0>, expecting:%n" +
-                                              " <\"EOF\">%n" +
-                                              "but was:%n" +
-                                              " <\"0x0\">"));
+                                       "does not have expected binary content at offset <0>, expecting:%n" +
+                                       " <\"EOF\">%n" +
+                                       "but was:%n" +
+                                       " <\"0x0\">");
     unMockedFiles.assertSameContentAs(someInfo(),
                                       createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
                                       expected, StandardCharsets.UTF_8);

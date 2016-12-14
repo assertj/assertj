@@ -53,7 +53,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
 
   @Test
   public void should_fail_with_overridden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
-    // % has to be escaped as %% because otherwise junit/hamcrest fails with an UnknownFormatConversionException
+    // % has to be escaped as %% because expectAssertionError used String.format on the message
     thrown.expectAssertionError("new error message with special character like (%%)");
     assertions.overridingErrorMessage("new error message with special character like (%)").isEqualTo(8L);
   }

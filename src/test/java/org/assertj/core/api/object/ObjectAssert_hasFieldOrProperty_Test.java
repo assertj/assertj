@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.object;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -42,7 +41,7 @@ public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
 
   @Test
   public void shoud_fail_if_field_or_property_does_not_exists() {
-    thrown.expectAssertionError(format("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"not_exists_in_jedi_object\">"));
+    thrown.expectAssertionError("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"not_exists_in_jedi_object\">");
 
     Jedi jedi = new Jedi("Yoda", "Blue");
 
