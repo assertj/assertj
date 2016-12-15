@@ -15,15 +15,11 @@ package org.assertj.core.api;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
-import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
-import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
 import static org.assertj.core.error.future.ShouldHaveFailed.shouldHaveFailed;
-import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeCompleted.shouldNotBeCompleted;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
-import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
 import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 
 import java.util.Objects;
@@ -40,7 +36,7 @@ import org.assertj.core.presentation.PredicateDescription;
  * @param <T> type of the value contained in the {@link CompletableFuture}.
  */
 public abstract class AbstractCompletableFutureAssert<S extends AbstractCompletableFutureAssert<S, T>, T> extends
-    AbstractAssert<S, CompletableFuture<T>> {
+    AbstractFutureAssert<S, CompletableFuture<T>, T> {
 
   protected AbstractCompletableFutureAssert(CompletableFuture<T> actual, Class<?> selfType) {
     super(actual, selfType);
@@ -59,10 +55,9 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isDone()
    */
+  //TODO: remove in next minor release
   public S isDone() {
-    isNotNull();
-    if (!actual.isDone()) throwAssertionError(shouldBeDone(actual));
-    return myself;
+    return super.isDone();
   }
 
   /**
@@ -78,10 +73,9 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isDone()
    */
+  //TODO: remove in next minor release
   public S isNotDone() {
-    isNotNull();
-    if (actual.isDone()) throwAssertionError(shouldNotBeDone(actual));
-    return myself;
+    return super.isNotDone();
   }
 
   /**
@@ -144,10 +138,9 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCancelled()
    */
+  //TODO: remove in next minor release
   public S isCancelled() {
-    isNotNull();
-    if (!actual.isCancelled()) throwAssertionError(shouldBeCancelled(actual));
-    return myself;
+    return super.isCancelled();
   }
 
   /**
@@ -165,10 +158,9 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCancelled()
    */
+  //TODO: remove in next minor release
   public S isNotCancelled() {
-    isNotNull();
-    if (actual.isCancelled()) throwAssertionError(shouldNotBeCancelled(actual));
-    return myself;
+    return super.isNotCancelled();
   }
 
   /**
