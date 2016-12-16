@@ -420,9 +420,8 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are equal after normalizing newlines.
    */
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    Pattern pattern = Pattern.compile("\\r\\n");
-    String actualNormalized = pattern.matcher(actual.toString()).replaceAll("\n");
-    String expectedNormalized = pattern.matcher(expected.toString()).replaceAll("\n");
+    String actualNormalized = actual.toString().replace("\r\n", "\n");
+    String expectedNormalized = expected.toString().replace("\r\n", "\n");
     if(!actualNormalized.equals(expectedNormalized))
       throw failures.failure(info, shouldBeEqual(actual, expected));
   }
