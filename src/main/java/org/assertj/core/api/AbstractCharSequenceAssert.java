@@ -1027,6 +1027,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @param expectedLineCount the expected line count of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual line count is not equal to the expected one.
+   * 
+   * @since 2.7.0 / 3.7.0
    */
   public S isEqualToNormalizingNewlines(CharSequence expected) {
     strings.assertIsEqualToNormalizingNewlines(info, actual, expected);
