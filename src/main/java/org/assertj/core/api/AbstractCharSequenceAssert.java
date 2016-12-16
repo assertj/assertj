@@ -1014,7 +1014,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} is equals to another
    * {@code CharSequence} after normalizing new line characters
-   * (e.g. '\r\n' == '\n').
+   * (i.e. '\r\n' == '\n').
    * <p>
    * This assertion will succeed:
    * <pre><code class='java'> String bookName = &quot;Lord of the Rings\r\n&quot;;
