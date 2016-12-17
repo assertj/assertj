@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.awt.Rectangle;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.Employee;
 import org.junit.Test;
 
 /**

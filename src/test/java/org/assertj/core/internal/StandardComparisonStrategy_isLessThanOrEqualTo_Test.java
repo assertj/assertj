@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.Rectangle;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.Employee;
 import org.junit.Test;
 
 /**

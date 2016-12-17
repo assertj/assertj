@@ -13,8 +13,6 @@
 package org.assertj.core.util;
 
 /**
- * Class used for testing <code>{@link Introspection}</code>.
- * 
  * @author Joel Costigliola
  */
 public class Employee implements Comparable<Employee> {
