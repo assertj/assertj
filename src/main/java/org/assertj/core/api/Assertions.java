@@ -1279,6 +1279,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'>assertThat(_07_10).isCloseTo(_07_12, within(5, MINUTES));</code></pre>
+   * @since 3.7.0
    */
   public static TemporalOffset within(long value, TemporalUnit unit) {
     return new TemporalUnitWithinOffset(value, unit);
@@ -1396,6 +1397,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'>assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, MINUTES));</code></pre>
+   * @since 3.7.0
    */
   public static TemporalOffset byLessThan(long value, TemporalUnit unit) {
     return new TemporalUnitLessThanOffset(value, unit);

@@ -17,6 +17,7 @@ import java.time.temporal.TemporalUnit;
 
 /**
  * {@link TemporalUnitOffset} with less than or equal condition.
+ * @since 3.7.0
  */
 public class TemporalUnitWithinOffset extends TemporalUnitOffset {
 

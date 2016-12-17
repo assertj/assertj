@@ -17,6 +17,7 @@ import java.time.temporal.TemporalUnit;
 
 /**
  * {@link TemporalUnitOffset} with strict less than condition.
+ * @since 3.7.0
  */
 public class TemporalUnitLessThanOffset extends TemporalUnitOffset {
 
@@ -27,7 +28,7 @@ public class TemporalUnitLessThanOffset extends TemporalUnitOffset {
   /**
    * Checks if difference between temporal values is less then offset.
    * @param temporal1 first temporal value to be validated against second temporal value.
-   * @param other second temporal value.
+   * @param temporal2 second temporal value.
    * @return true if difference between temporal values is more or equal to offset value.
    */
   @Override

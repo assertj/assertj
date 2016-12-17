@@ -24,6 +24,7 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * Base class for all implementations of assertions for {@link Temporal}s.
+ * @since 3.7.0
  */
 public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert<SELF, TEMPORAL>, TEMPORAL extends Temporal>
   extends AbstractAssert<SELF, TEMPORAL> {

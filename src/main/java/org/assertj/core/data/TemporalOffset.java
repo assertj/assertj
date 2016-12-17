@@ -17,13 +17,14 @@ import java.time.temporal.Temporal;
 /**
  * {@link Temporal} offset.
  * @param <T> the type of the {@code Temporal} values to be checked against offset.
+ * @since 3.7.0
  */
 public interface TemporalOffset<T extends Temporal> {
 
   /**
    * Checks if difference between temporal values is beyond offset.
    * @param temporal1 first temporal value to be validated against second temporal value.
-   * @param other second temporal value.
+   * @param temporal2 second temporal value.
    * @return true if difference between temporal values is beyond offset.
    */
   boolean isBeyondOffset(T temporal1, T temporal2);

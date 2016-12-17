@@ -45,6 +45,7 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param differenceDescription detailed difference description message.
    * @return the created {@code ErrorMessageFactory}.
+   * @since 3.7.0
    */
   public static ErrorMessageFactory shouldBeCloseTo(Temporal actual, Temporal other, String differenceDescription) {
     return new ShouldBeCloseTo(actual, other, differenceDescription);

@@ -19,6 +19,7 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * Base class for {@link TemporalOffset} on basis of {@link TemporalUnit}.
+ * @since 3.7.0
  */
 public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
 
