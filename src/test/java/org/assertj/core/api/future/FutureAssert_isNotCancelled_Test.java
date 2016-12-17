@@ -14,8 +14,14 @@ package org.assertj.core.api.future;
 
 import org.assertj.core.api.FutureAssert;
 import org.assertj.core.api.FutureAssertBaseTest;
+import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.concurrent.Future;
 
 public class FutureAssert_isNotCancelled_Test extends FutureAssertBaseTest {
 
@@ -27,5 +33,15 @@ public class FutureAssert_isNotCancelled_Test extends FutureAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(futures).assertIsNotCancelled(getInfo(assertions), getActual(assertions));
+  }
+
+  @Test
+  public void should_fail_if_actual_is_cancelled() {
+    Future<?> actual = mock(Future.class);
+    when(actual.isCancelled()).thenReturn(true);
+
+    thrown.expectAssertionErrorWithMessageContaining("not to be cancelled");
+
+    assertThat(actual).isNotCancelled();
   }
 }
