@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import org.assertj.core.data.TemporalOffset;
 import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
@@ -46,17 +45,12 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.WEEKS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.byLessThan;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 @SuppressWarnings("WeakerAccess")
 @RunWith(Parameterized.class)
 public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
-
-  @DataPoints
-  public static Class[] classes = new Class[]{LocalDateTime.class, LocalDate.class,
-    LocalTime.class, OffsetDateTime.class, ZonedDateTime.class};
 
   private static AbstractTemporalAssert<?, ?>[] nullAsserts = {
     assertThat((LocalDateTime) null),
@@ -98,7 +92,7 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
   private static final LocalDate _2017_Mar_08 = LocalDate.of(2017, Month.MARCH, 8);
   private static final LocalDateTime _2017_Mar_12_07_23 = LocalDateTime.of(_2017_Mar_12, _07_23);
   private static final LocalDateTime _2017_Mar_08_07_10 = LocalDateTime.of(_2017_Mar_08, _07_10);
-  private static Temporal[] farTemporals = new Temporal[]{
+  private static Temporal[] farTemporals = new Temporal[] {
     _2017_Mar_08_07_10,
     _2017_Mar_27,
     _07_23,
@@ -233,25 +227,15 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
   @Test
   @SuppressWarnings("unchecked")
   public void should_fail_outside_offset() {
-    try {
-      temporalAssert.isCloseTo(farTemporal, offset);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(differenceMessage);
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError(differenceMessage);
+    temporalAssert.isCloseTo(farTemporal, offset);
   }
 
   @Test
   @SuppressWarnings("unchecked")
   public void should_fail_when_temporal_passed_as_string_is_outside_offset() {
-    try {
-      temporalAssert.isCloseTo(farTemporalAsString, offset);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(differenceMessage);
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError(differenceMessage);
+    temporalAssert.isCloseTo(farTemporalAsString, offset);
   }
 
 }
