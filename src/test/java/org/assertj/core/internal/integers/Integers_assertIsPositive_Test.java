@@ -34,7 +34,7 @@ public class Integers_assertIsPositive_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <-6>%nto be greater than:%n <0>");
+    thrown.expectAssertionError("%nExpecting:%n <-6>%nto be greater than:%n <0> ");
     integers.assertIsPositive(someInfo(), -6);
   }
 

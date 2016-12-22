@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -93,12 +91,10 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
-    try {
-      files.assertHasContent(someInfo(), actual, expected, charset);
-      fail("Expected a RuntimeIOException to be thrown");
-    } catch (RuntimeIOException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
+
+    thrown.expectWithCause(RuntimeIOException.class, cause);
+
+    files.assertHasContent(someInfo(), actual, expected, charset);
   }
 
   @Test

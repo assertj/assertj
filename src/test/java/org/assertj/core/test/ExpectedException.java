@@ -12,12 +12,16 @@
  */
 package org.assertj.core.test;
 
+import static java.lang.String.format;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsSame;
 import org.hamcrest.core.StringContains;
 import org.hamcrest.core.StringEndsWith;
 import org.hamcrest.core.StringStartsWith;
@@ -92,32 +96,42 @@ public class ExpectedException implements TestRule {
     expectMessageEndingWith(end);
   }
 
-  public void expect(Throwable error) {
-    expect(error.getClass());
-    expectMessage(error.getMessage());
-  }
-
   public void expect(Class<? extends Throwable> type) {
     delegate.expect(type);
   }
 
+  public void expectWithCause(Class<? extends Throwable> type, Throwable cause) {
+    expect(type);
+    expectCause(cause);
+  }
+
+  public void expectWithCause(Class<? extends Throwable> type, String message, Throwable cause) {
+    expect(type);
+    expectMessage(message);
+    expectCause(cause);
+  }
+
   public void expectMessage(String message) {
-    delegate.expectMessage(String.format(message));
+    delegate.expectMessage(IsEqual.equalTo(format(message)));
   }
 
   private void expectMessageContaining(String... parts) {
     List<Matcher<? super String>> matchers = new ArrayList<>();
     for (String part : parts) {
-      matchers.add(StringContains.containsString(part));
+      matchers.add(StringContains.containsString(format(part)));
     }
     delegate.expectMessage(AllOf.allOf(matchers));
   }
 
   private void expectMessageStartingWith(String start) {
-    delegate.expectMessage(StringStartsWith.startsWith(start));
+    delegate.expectMessage(StringStartsWith.startsWith(format(start)));
   }
 
   private void expectMessageEndingWith(String end) {
-    delegate.expectMessage(StringEndsWith.endsWith(end));
+    delegate.expectMessage(StringEndsWith.endsWith(format(end)));
+  }
+
+  private void expectCause(Throwable cause) {
+    delegate.expectCause(IsSame.sameInstance(cause));
   }
 }

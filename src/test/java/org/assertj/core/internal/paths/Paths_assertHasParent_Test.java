@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -50,12 +48,8 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_given_parent_is_null() {
-	try {
-	  paths.assertHasParent(info, actual, null);
-	  fail("expected a NullPointerException here");
-	} catch (NullPointerException e) {
-	  assertThat(e).hasMessage("expected parent path should not be null");
-	}
+    thrown.expectNullPointerException("expected parent path should not be null");
+    paths.assertHasParent(info, actual, null);
   }
 
   @Test
@@ -63,13 +57,9 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 	final IOException exception = new IOException();
 	when(actual.toRealPath()).thenThrow(exception);
 
-	try {
-	  paths.assertHasParent(info, actual, expected);
-	  fail("expected a PathsException here");
-	} catch (PathsException e) {
-	  assertThat(e).hasMessage("failed to resolve actual real path");
-	  assertThat(e.getCause()).isSameAs(exception);
-	}
+    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", exception);
+
+    paths.assertHasParent(info, actual, expected);
   }
 
   @Test
@@ -79,13 +69,9 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 	when(actual.toRealPath()).thenReturn(canonicalActual);
 	when(expected.toRealPath()).thenThrow(exception);
 
-	try {
-	  paths.assertHasParent(info, actual, expected);
-	  fail("expected a PathsException here");
-	} catch (PathsException e) {
-	  assertThat(e).hasMessage("failed to resolve argument real path");
-	  assertThat(e.getCause()).isSameAs(exception);
-	}
+    thrown.expectWithCause(PathsException.class, "failed to resolve argument real path", exception);
+
+    paths.assertHasParent(info, actual, expected);
   }
 
   @Test

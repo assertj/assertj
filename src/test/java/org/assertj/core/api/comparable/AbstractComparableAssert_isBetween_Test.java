@@ -55,13 +55,13 @@ public class AbstractComparableAssert_isBetween_Test extends AbstractComparableA
 
   @Test
   public void fails_if_actual_is_less_than_start() {
-    thrown.expectAssertionError("Expecting:%n <'a'>%nto be between:%n ['b', 'c']");
+    thrown.expectAssertionError("%nExpecting:%n <'a'>%nto be between:%n ['b', 'c']");
     assertThat('a').isBetween('b', 'c');
   }
 
   @Test
   public void fails_if_actual_is_greater_than_end() {
-    thrown.expectAssertionError("Expecting:%n <'c'>%nto be between:%n ['a', 'b']");
+    thrown.expectAssertionError("%nExpecting:%n <'c'>%nto be between:%n ['a', 'b']");
     assertThat('c').isBetween('a', 'b');
   }
 }

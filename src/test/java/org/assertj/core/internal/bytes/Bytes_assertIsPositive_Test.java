@@ -35,13 +35,13 @@ public class Bytes_assertIsPositive_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <-1>%nto be greater than:%n <0>");
+    thrown.expectAssertionError("%nExpecting:%n <-1>%nto be greater than:%n <0> ");
     bytes.assertIsPositive(someInfo(), (byte) -1);
   }
 
   @Test
   public void should_fail_since_actual_is_not_positive_in_hex_representation() {
-    thrown.expectAssertionError("%nExpecting:%n <0xFA>%nto be greater than:%n <0x00>");
+    thrown.expectAssertionError("%nExpecting:%n <0xFA>%nto be greater than:%n <0x00> ");
     bytes.assertIsPositive(someHexInfo(), (byte) 0xFA);
   }
 

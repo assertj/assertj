@@ -13,7 +13,6 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
@@ -105,13 +104,10 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   public void should_fail_if_actual_and_expected_entries_have_different_size() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
-    try {
-      maps.assertContainsExactly(info, linkedActual, expected);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+
+    thrown.expectAssertionError(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
+
+    maps.assertContainsExactly(info, linkedActual, expected);
   }
 
   @Test

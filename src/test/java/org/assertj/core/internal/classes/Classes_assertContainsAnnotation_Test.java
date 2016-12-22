@@ -56,7 +56,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_expected_has_null_value() {
     actual = AssertionInfo.class;
-    thrown.expectNullPointerException("");
+    thrown.expectNullPointerException("The class to compare actual with should not be null");
     classes.assertContainsAnnotations(someInfo(), actual, Override.class, null, Deprecated.class);
   }
 

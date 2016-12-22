@@ -43,7 +43,7 @@ public class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    thrown.expectAssertionError(String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
     bigDecimals.assertIsNotZero(someInfo(), BigDecimal.ZERO);
   }
 
@@ -54,7 +54,7 @@ public class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+    thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
     bigDecimalsWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigDecimal.ZERO);
   }
 
