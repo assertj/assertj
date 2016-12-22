@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.offsettime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -43,17 +42,12 @@ public class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
-    try {
-      assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isNotEqualTo("03:00:05Z");
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%n" +
-                                      "Expecting:%n" +
-                                      " <03:00:05Z>%n" +
-                                      "not to be equal to:%n" +
-                                      " <03:00:05Z>%n"));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                " <03:00:05Z>%n" +
+                                "not to be equal to:%n" +
+                                " <03:00:05Z>%n");
+    assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isNotEqualTo("03:00:05Z");
   }
 
   @Test

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalDateTimeAssert.NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -35,28 +34,16 @@ public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseT
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_localdatetime_with_nanoseconds_ignored() {
-    try {
-      assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.plusSeconds(1));
-    } catch (AssertionError e) {
-      assertThat(e.getMessage())
-          .isEqualTo(format(
-              "%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(
+        "%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02>%nbut had not.");
+    assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.plusSeconds(1));
   }
 
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
-    try {
-      assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.minusNanos(1));
-    } catch (AssertionError e) {
-      assertThat(e.getMessage())
-          .isEqualTo(format(
-              "%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(
+        "%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999>%nbut had not.");
+    assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.minusNanos(1));
   }
 
   @Test

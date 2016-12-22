@@ -41,13 +41,8 @@ public class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isEqualTo_assertion_error_message() {
-    try {
-      assertThat(LocalDate.of(2000, 1, 5)).isEqualTo(LocalDate.of(2012, 1, 1).toString());
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage("expected:<20[12-01-01]> but was:<20[00-01-05]>");
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("expected:<20[12-01-01]> but was:<20[00-01-05]>");
+    assertThat(LocalDate.of(2000, 1, 5)).isEqualTo(LocalDate.of(2012, 1, 1).toString());
   }
 
   @Test

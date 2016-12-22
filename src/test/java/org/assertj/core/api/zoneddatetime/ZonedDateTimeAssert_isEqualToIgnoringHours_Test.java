@@ -53,26 +53,15 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_datetime_with_hours_ignored() {
-    try {
-      assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:00Z>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:00Z>%nbut had not.");
+    assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1));
   }
 
   @Test
   public void should_fail_as_hours_fields_are_different_even_if_time_difference_is_less_than_a_hour() {
-    try {
-      assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1));
-    } catch (AssertionError e) {
-      assertThat(e.getMessage())
-                                .isEqualTo(format(
-                                           "%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:59:59.999999999Z>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(
+        "%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:59:59.999999999Z>%nbut had not.");
+    assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1));
   }
 
   @Test

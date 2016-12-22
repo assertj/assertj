@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.offsettime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -48,17 +47,12 @@ public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void test_isBefore_assertion_error_message() {
-    try {
-      assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isBefore(OffsetTime.of(3, 0, 4, 0, ZoneOffset.UTC));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%n" +
-                                      "Expecting:%n" +
-                                      "  <03:00:05Z>%n" +
-                                      "to be strictly before:%n" +
-                                      "  <03:00:04Z>"));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <03:00:05Z>%n" +
+                                "to be strictly before:%n" +
+                                "  <03:00:04Z>");
+    assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isBefore(OffsetTime.of(3, 0, 4, 0, ZoneOffset.UTC));
   }
 
   @Test

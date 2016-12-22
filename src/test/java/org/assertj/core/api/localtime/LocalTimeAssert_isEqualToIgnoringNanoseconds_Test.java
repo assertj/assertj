@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalTimeAssert.NULL_LOCAL_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -34,32 +33,22 @@ public class LocalTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest 
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_nanoseconds_ignored() {
-	try {
-	  assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.plusSeconds(1));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%nExpecting:%n  " +
-		                              "<00:00:01>%n" +
-		                              "to have same hour, minute and second as:%n" +
-		                              "  <00:00:02>%n" +
-		                              "but had not."));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%nExpecting:%n  " +
+                                "<00:00:01>%n" +
+                                "to have same hour, minute and second as:%n" +
+                                "  <00:00:02>%n" +
+                                "but had not.");
+    assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.plusSeconds(1));
   }
 
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
-	try {
-	  assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.minusNanos(1));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%nExpecting:%n" +
-		                              "  <00:00:01>%n" +
-		                              "to have same hour, minute and second as:%n" +
-		                              "  <00:00:00.999999999>%n" +
-		                              "but had not."));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%nExpecting:%n" +
+                                "  <00:00:01>%n" +
+                                "to have same hour, minute and second as:%n" +
+                                "  <00:00:00.999999999>%n" +
+                                "but had not.");
+    assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.minusNanos(1));
   }
 
   @Test

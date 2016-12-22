@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -47,17 +46,12 @@ public class OffsetDateTimeAssert_isNotEqualTo_Test extends OffsetDateTimeAssert
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
-    try {
-      String offsetDateTimeAsString = OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString();
-      assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotEqualTo(offsetDateTimeAsString);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n"
-                                      + " <2000-01-05T03:00:05Z>%n"
-                                      + "not to be equal to:%n"
-                                      + " <2000-01-05T03:00:05Z>%n"));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%nExpecting:%n" +
+                                " <2000-01-05T03:00:05Z>%n" +
+                                "not to be equal to:%n" +
+                                " <2000-01-05T03:00:05Z>%n");
+    String offsetDateTimeAsString = OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString();
+    assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotEqualTo(offsetDateTimeAsString);
   }
 
   @Test
