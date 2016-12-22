@@ -50,6 +50,7 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  *
@@ -126,6 +127,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(T[])}
    */
+  @CheckReturnValue
   default <T> AbstractObjectArrayAssert<?, T> assertThat(final T[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -133,6 +135,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(AssertDelegateTarget)}
    */
+  @CheckReturnValue
   default <T extends AssertDelegateTarget> T assertThat(final T assertion) {
     return Assertions.assertThat(assertion);
   }
@@ -140,6 +143,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Map)}
    */
+  @CheckReturnValue
   default <K, V> MapAssert<K, V> assertThat(final Map<K, V> actual) {
     return Assertions.assertThat(actual);
   }
@@ -147,6 +151,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(short)}
    */
+  @CheckReturnValue
   default AbstractShortAssert<?> assertThat(final short actual) {
     return Assertions.assertThat(actual);
   }
@@ -154,6 +159,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(long)}
    */
+  @CheckReturnValue
   default AbstractLongAssert<?> assertThat(final long actual) {
     return Assertions.assertThat(actual);
   }
@@ -161,6 +167,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Long)}
    */
+  @CheckReturnValue
   default AbstractLongAssert<?> assertThat(final Long actual) {
     return Assertions.assertThat(actual);
   }
@@ -168,6 +175,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(long[])}
    */
+  @CheckReturnValue
   default AbstractLongArrayAssert<?> assertThat(final long[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -175,6 +183,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(T)}
    */
+  @CheckReturnValue
   default <T> AbstractObjectAssert<?, T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
@@ -182,6 +191,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(String)}
    */
+  @CheckReturnValue
   default AbstractCharSequenceAssert<?, String> assertThat(final String actual) {
     return Assertions.assertThat(actual);
   }
@@ -189,6 +199,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Date)}
    */
+  @CheckReturnValue
   default AbstractDateAssert<?> assertThat(final Date actual) {
     return Assertions.assertThat(actual);
   }
@@ -196,6 +207,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Throwable)}
    */
+  @CheckReturnValue
   default AbstractThrowableAssert<?, ? extends Throwable> assertThat(final Throwable actual) {
     return Assertions.assertThat(actual);
   }
@@ -203,6 +215,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(BigDecimal)}
    */
+  @CheckReturnValue
   default AbstractBigDecimalAssert<?> assertThat(final BigDecimal actual) {
     return Assertions.assertThat(actual);
   }
@@ -210,6 +223,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CharSequence)}
    */
+  @CheckReturnValue
   default AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(final CharSequence actual) {
     return Assertions.assertThat(actual);
   }
@@ -217,6 +231,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(short[])}
    */
+  @CheckReturnValue
   default AbstractShortArrayAssert<?> assertThat(final short[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -224,6 +239,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Short)}
    */
+  @CheckReturnValue
   default AbstractShortAssert<?> assertThat(final Short actual) {
     return Assertions.assertThat(actual);
   }
@@ -231,6 +247,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Class)}
    */
+  @CheckReturnValue
   default AbstractClassAssert<?> assertThat(final Class<?> actual) {
     return Assertions.assertThat(actual);
   }
@@ -238,6 +255,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Character)}
    */
+  @CheckReturnValue
   default AbstractCharacterAssert<?> assertThat(final Character actual) {
     return Assertions.assertThat(actual);
   }
@@ -245,6 +263,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(char[])}
    */
+  @CheckReturnValue
   default AbstractCharArrayAssert<?> assertThat(final char[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -252,6 +271,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(char)}
    */
+  @CheckReturnValue
   default AbstractCharacterAssert<?> assertThat(final char actual) {
     return Assertions.assertThat(actual);
   }
@@ -259,6 +279,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Comparable)}
    */
+  @CheckReturnValue
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
@@ -266,6 +287,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable)}
    */
+  @CheckReturnValue
   default <T> IterableAssert<T> assertThat(final Iterable<? extends T> actual) {
     return Assertions.assertThat(actual);
   }
@@ -273,6 +295,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable, AssertFactory)}
    */
+  @CheckReturnValue
   default <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
   FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
                                                                                      AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -282,6 +305,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterator)}
    */
+  @CheckReturnValue
   default <T> IterableAssert<T> assertThat(final Iterator<? extends T> actual) {
     return Assertions.assertThat(actual);
   }
@@ -289,6 +313,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable, Class)}
    */
+  @CheckReturnValue
   default <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
   ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
                                                                                    Class<ELEMENT_ASSERT> assertClass) {
@@ -298,6 +323,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Boolean)}
    */
+  @CheckReturnValue
   default AbstractBooleanAssert<?> assertThat(final Boolean actual) {
     return Assertions.assertThat(actual);
   }
@@ -305,6 +331,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(boolean)}
    */
+  @CheckReturnValue
   default AbstractBooleanArrayAssert<?> assertThat(final boolean[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -312,6 +339,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(byte)}
    */
+  @CheckReturnValue
   default AbstractByteAssert<?> assertThat(final byte actual) {
     return Assertions.assertThat(actual);
   }
@@ -319,6 +347,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Byte)}
    */
+  @CheckReturnValue
   default AbstractByteAssert<?> assertThat(final Byte actual) {
     return Assertions.assertThat(actual);
   }
@@ -326,6 +355,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(byte[])}
    */
+  @CheckReturnValue
   default AbstractByteArrayAssert<?> assertThat(final byte[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -333,6 +363,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(boolean)}
    */
+  @CheckReturnValue
   default AbstractBooleanAssert<?> assertThat(final boolean actual) {
     return Assertions.assertThat(actual);
   }
@@ -340,6 +371,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(float)}
    */
+  @CheckReturnValue
   default AbstractFloatAssert<?> assertThat(final float actual) {
     return Assertions.assertThat(actual);
   }
@@ -347,6 +379,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(InputStream)}
    */
+  @CheckReturnValue
   default AbstractInputStreamAssert<?, ? extends InputStream> assertThat(final InputStream actual) {
     return Assertions.assertThat(actual);
   }
@@ -354,6 +387,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(File)}
    */
+  @CheckReturnValue
   default AbstractFileAssert<?> assertThat(final File actual) {
     return Assertions.assertThat(actual);
   }
@@ -361,6 +395,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Path)}
    */
+  @CheckReturnValue
   default AbstractPathAssert<?> assertThat(final Path actual) {
     return Assertions.assertThat(actual);
   }
@@ -368,6 +403,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(int[])}
    */
+  @CheckReturnValue
   default AbstractIntArrayAssert<?> assertThat(final int[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -375,6 +411,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Float)}
    */
+  @CheckReturnValue
   default AbstractFloatAssert<?> assertThat(final Float actual) {
     return Assertions.assertThat(actual);
   }
@@ -382,6 +419,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(int)}
    */
+  @CheckReturnValue
   default AbstractIntegerAssert<?> assertThat(final int actual) {
     return Assertions.assertThat(actual);
   }
@@ -389,6 +427,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(float[])}
    */
+  @CheckReturnValue
   default AbstractFloatArrayAssert<?> assertThat(final float[] actual) {
     return Assertions.assertThat(actual);
   }
@@ -396,6 +435,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Integer)}
    */
+  @CheckReturnValue
   default AbstractIntegerAssert<?> assertThat(final Integer actual) {
     return Assertions.assertThat(actual);
   }
@@ -403,6 +443,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(double)}
    */
+  @CheckReturnValue
   default AbstractDoubleAssert<?> assertThat(final double actual) {
     return Assertions.assertThat(actual);
   }
@@ -410,6 +451,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Double)}
    */
+  @CheckReturnValue
   default AbstractDoubleAssert<?> assertThat(final Double actual) {
     return Assertions.assertThat(actual);
   }
@@ -417,6 +459,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
+  @CheckReturnValue
   default <T> ListAssert<? extends T> assertThat(final List<? extends T> actual) {
     return Assertions.assertThat(actual);
   }
@@ -424,6 +467,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List, Class)} )}
    */
+  @CheckReturnValue
   default <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
   ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                Class<ELEMENT_ASSERT> assertClass) {
@@ -433,6 +477,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List, AssertFactory)} )}
    */
+  @CheckReturnValue
   default <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
   FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -442,6 +487,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
+  @CheckReturnValue
   default <T> AbstractListAssert<?, ? extends List<? extends T>, T, ObjectAssert<T>> assertThat(
       final Stream<? extends T> actual) {
     return Assertions.assertThat(actual);
@@ -450,6 +496,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(double[])}
    */
+  @CheckReturnValue
   default AbstractDoubleArrayAssert<?> assertThat(final double[] actual) {
     return Assertions.assertThat(actual);
   }
