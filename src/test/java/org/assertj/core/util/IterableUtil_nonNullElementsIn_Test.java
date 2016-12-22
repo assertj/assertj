@@ -29,20 +29,20 @@ public class IterableUtil_nonNullElementsIn_Test {
   @Test
   public void should_return_empty_List_if_given_Iterable_is_null() {
     Collection<?> c = null;
-    assertThat(IterableUtil.nonNullElementsIn(c).isEmpty()).isTrue();
+    assertThat(IterableUtil.nonNullElementsIn(c)).isEmpty();
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_has_only_null_elements() {
     Collection<String> c = new ArrayList<>();
     c.add(null);
-    assertThat(IterableUtil.nonNullElementsIn(c).isEmpty()).isTrue();
+    assertThat(IterableUtil.nonNullElementsIn(c)).isEmpty();
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_empty() {
     Collection<String> c = new ArrayList<>();
-    assertThat(IterableUtil.nonNullElementsIn(c).isEmpty()).isTrue();
+    assertThat(IterableUtil.nonNullElementsIn(c)).isEmpty();
   }
 
   @Test

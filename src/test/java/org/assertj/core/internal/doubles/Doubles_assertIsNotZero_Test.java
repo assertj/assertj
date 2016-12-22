@@ -14,8 +14,6 @@ package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
@@ -37,11 +35,8 @@ public class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    try {
-      doubles.assertIsNotZero(someInfo(), 0.0);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
-    }
+    thrown.expectAssertionError("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n");
+    doubles.assertIsNotZero(someInfo(), 0.0);
   }
 
   @Test
@@ -51,11 +46,8 @@ public class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0d);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
-    }
+    thrown.expectAssertionError("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n");
+    doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0d);
   }
 
 }

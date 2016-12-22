@@ -833,7 +833,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.fail(failureMessage);
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo(failureMessage);
+    assertThat(softly.errorsCollected().get(0)).hasMessage(failureMessage);
   }
 
   @Test
@@ -842,7 +842,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.fail(failureMessage, "here", "here");
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo("Should not reach here or here");
+    assertThat(softly.errorsCollected().get(0)).hasMessage("Should not reach here or here");
   }
 
   @Test
@@ -852,7 +852,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.fail(failureMessage, realCause);
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo(failureMessage);
+    assertThat(softly.errorsCollected().get(0)).hasMessage(failureMessage);
     assertThat(softly.errorsCollected().get(0).getCause()).isEqualTo(realCause);
   }
 
@@ -861,8 +861,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.shouldHaveThrown(IllegalArgumentException.class);
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)
-                     .getMessage()).isEqualTo("IllegalArgumentException should have been thrown");
+    assertThat(softly.errorsCollected().get(0)).hasMessage("IllegalArgumentException should have been thrown");
   }
 
   @Test

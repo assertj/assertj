@@ -15,12 +15,17 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Fail.shouldHaveThrown;
+import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class Assertions_assertThat_with_Throwable_Test {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   @Test
   public void should_build_ThrowableAssert_with_runtime_exception_thrown() {
@@ -40,20 +45,12 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_fail_if_no_throwable_was_thrown() {
-    try {
-      assertThatThrownBy(() -> {}).hasMessage("yo");
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage("Expecting code to raise a throwable.");
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    thrown.expectAssertionError("Expecting code to raise a throwable.");
+    assertThatThrownBy(() -> {}).hasMessage("yo");
   }
 
   @Test
   public void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
-    // given
-    // some preconditions
-
     // when
     Throwable boom = catchThrowable(raisingException("boom!!!!"));
 
@@ -64,16 +61,11 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void fail_with_good_message_when_assertion_is_failing() {
-    try {
-      assertThatThrownBy(raisingException("boom")).hasMessage("yo");
-    } catch (AssertionError ae) {
-      assertThat(ae).hasMessageContaining("Expecting message:")
-                    .hasMessageContaining("<\"yo\">")
-                    .hasMessageContaining("but was:")
-                    .hasMessageContaining("<\"boom\">");
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    thrown.expectAssertionErrorWithMessageContaining("Expecting message:",
+                                                     "<\"yo\">",
+                                                     "but was:",
+                                                     "<\"boom\">");
+    assertThatThrownBy(raisingException("boom")).hasMessage("yo");
   }
 
   private ThrowingCallable raisingException(final String reason) {

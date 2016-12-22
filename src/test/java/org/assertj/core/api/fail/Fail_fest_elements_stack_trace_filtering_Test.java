@@ -13,6 +13,7 @@
 package org.assertj.core.api.fail;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
 
@@ -34,7 +35,9 @@ public class Fail_fest_elements_stack_trace_filtering_Test {
       assertThat(5).isLessThan(0);
     } catch (AssertionError assertionError) {
       assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isFalse();
+      return;
     }
+    failBecauseExceptionWasNotThrown(AssertionError.class);
   }
 
   @Test
@@ -44,7 +47,9 @@ public class Fail_fest_elements_stack_trace_filtering_Test {
       assertThat(5).isLessThan(0);
     } catch (AssertionError assertionError) {
       assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isTrue();
+      return;
     }
+    failBecauseExceptionWasNotThrown(AssertionError.class);
   }
 
 }

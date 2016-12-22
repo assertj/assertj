@@ -12,11 +12,14 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 
 
 /**
@@ -25,6 +28,9 @@ import org.assertj.core.internal.ObjectArrays;
  * @author Olivier Michallat
  */
 public abstract class ObjectArrayAssertBaseTest extends BaseTestTemplate<ObjectArrayAssert<Object>, Object[]> {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   protected ObjectArrays arrays;
   protected Iterables iterables;

@@ -12,15 +12,16 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
+import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -32,6 +33,9 @@ import org.junit.Test;
  */
 public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
+  @Rule
+  public ExpectedException thrown = none();
+
   @Test
   public void should_succeed_since_actual_is_zero() {
     bigDecimals.assertIsZero(someInfo(), BigDecimal.ZERO);
@@ -39,11 +43,8 @@ public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    try {
-      bigDecimals.assertIsZero(someInfo(), BigDecimal.ONE);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[1]>");
-    }
+    thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
+    bigDecimals.assertIsZero(someInfo(), BigDecimal.ONE);
   }
 
   @Test
@@ -53,11 +54,8 @@ public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[1]>");
-    }
+    thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
+    bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
   }
 
 }

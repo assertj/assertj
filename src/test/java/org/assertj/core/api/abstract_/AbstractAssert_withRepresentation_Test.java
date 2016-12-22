@@ -13,7 +13,6 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.presentation.StandardRepresentation;
@@ -41,15 +40,9 @@ public class AbstractAssert_withRepresentation_Test {
 
   @Test
   public void should_be_able_to_override_an_existing_representation() {
-    try {
-      assertThat("foo").withRepresentation(new CustomRepresentation())
+    thrown.expectAssertionErrorWithMessageContaining("$foo$", "$bar$");
+    assertThat("foo").withRepresentation(new CustomRepresentation())
                        .startsWith("bar");
-    } catch (AssertionError e) {
-      assertThat(e).hasMessageContaining("$foo$")
-                   .hasMessageContaining("$bar$");
-      return;
-    }
-    fail("AssertionError expected");
   }
 
   private class Example {

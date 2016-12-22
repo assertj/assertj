@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.registerCustomDateFormat;
 import static org.assertj.core.api.Assertions.useDefaultDateFormatsOnly;
 import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
@@ -93,12 +94,12 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   @Test
   public void should_fail_if_given_date_string_representation_cant_be_parsed_with_any_custom_date_formats() {
     thrown.expectAssertionError("Failed to parse 2003 04 26 with any of these date formats:%n" +
-                                       "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
-                                       "    yyyy/MM/dd,%n" +
-                                       "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                       "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                       "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                       "    yyyy-MM-dd]");
+                                "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
+                                "    yyyy/MM/dd,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                "    yyyy-MM-dd]");
     final Date date = DateUtil.parse("2003-04-26");
     registerCustomDateFormat("yyyy/MM/dd'T'HH:mm:ss");
     // registering again has no effect
@@ -126,6 +127,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
     try {
       // fail : the registered format does not match the given date
       assertThat(date).isEqualTo("2003/04/26");
+      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError e) {
       assertThat(e).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
                                       "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
@@ -158,6 +160,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
     try {
       // date with a custom format : failure since the default formats don't match.
       assertThat(date).isEqualTo("2003/04/26");
+      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError e) {
       assertThat(e).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
                                       "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
@@ -176,6 +179,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
     try {
       // but if not format at all matches, it fails.
       assertThat(date).isEqualTo("2003 04 26");
+      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError e) {
       assertThat(e).hasMessage(format("Failed to parse 2003 04 26 with any of these date formats:%n" +
                                       "   [yyyy/MM/dd,%n" +

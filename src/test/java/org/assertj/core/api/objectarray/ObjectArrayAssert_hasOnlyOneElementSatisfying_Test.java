@@ -43,14 +43,14 @@ public class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
   public void fails_if_arry_has_only_one_element_and_that_element_does_not_statisfy_the_given_assertion() {
-    thrown.expectAssertionError("Expecting:%n <\"Yoda\">%nto start with:%n <\"L\">");
+    thrown.expectAssertionError("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n");
     Jedi[] jedis = { new Jedi("Yoda", "red") };
     assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
   }
 
   @Test
   public void fails_if_iterable_has_only_one_element_and_that_element_does_not_statisfy_one_of_the_given_assertion() {
-    thrown.expectAssertionError("Expecting:%n <\"Yoda\">%nto start with:%n <\"L\">");
+    thrown.expectAssertionError("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n");
     Jedi[] jedis = { new Jedi("Yoda", "red") };
     assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
       assertThat(yoda.getName()).startsWith("Y");
@@ -78,7 +78,7 @@ public class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
   
   @Test
   public void fails_if_arry_has_more_than_one_element() {
-    thrown.expectAssertionError("Expected size:<1> but was:<2>");
+    thrown.expectAssertionErrorWithMessageContaining("Expected size:<1> but was:<2>");
     Jedi[] jedis = { new Jedi("Yoda", "red"), new Jedi("Luke", "green") };
     assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
   }

@@ -644,7 +644,7 @@ public class Iterables {
   }
 
   /**
-   * Assert that there is <b>at least</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
+   * Assert that there are <b>at least</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
    * @param info contains information about the assertion.
@@ -674,7 +674,7 @@ public class Iterables {
   }
 
   /**
-   * Assert that there is <b>at most</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
+   * Assert that there are <b>at most</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
    * @param info contains information about the assertion.
@@ -704,7 +704,7 @@ public class Iterables {
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
+   * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
    * @param info contains information about the assertion.

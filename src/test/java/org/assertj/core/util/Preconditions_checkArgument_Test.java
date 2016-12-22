@@ -12,21 +12,21 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.test.ExpectedException.none;
 
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class Preconditions_checkArgument_Test {
 
+  @Rule
+  public ExpectedException thrown = none();
+
   @Test
   public void should_throw_nullpointerexception_if_object_is_null() {
-    try {
-      Preconditions.checkArgument(false, "Invalid parameter %s", "foo");
-      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage("Invalid parameter foo");
-    }
+    thrown.expectIllegalArgumentException("Invalid parameter foo");
+    Preconditions.checkArgument(false, "Invalid parameter %s", "foo");
   }
 
   @Test

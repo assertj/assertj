@@ -23,7 +23,7 @@ import org.junit.Test;
 public class ShouldBeFinal_create_Test {
 
   @Test
-  public void should_create_error_message_for_is_final() throws Exception {
+  public void should_create_error_message_for_is_final() {
     String error = shouldBeFinal(Object.class).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -33,7 +33,7 @@ public class ShouldBeFinal_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_is_not_final() throws Exception {
+  public void should_create_error_message_for_is_not_final() {
     String error = shouldNotBeFinal(String.class).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +

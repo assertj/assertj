@@ -56,7 +56,7 @@ public class PredicateAssert_rejects_Test extends PredicateAssertBaseTest {
   public void should_fail_when_predicate_accepts_value_with_given_string_description() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something";
-    thrown.expectAssertionError(shouldNotAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
+    thrown.expectAssertionError("[test] " + shouldNotAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
     assertThat(predicate).as("test").rejects("something");
   }
 

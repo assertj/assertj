@@ -45,25 +45,25 @@ public class AbstractComparableAssert_isStrictlyBetween_Test extends AbstractCom
 
   @Test
   public void fails_if_actual_is_equal_to_start() {
-    thrown.expectAssertionError("Expecting:%n <'a'>%nto be between:%n ]'a', 'b'[");
+    thrown.expectAssertionError("%nExpecting:%n <'a'>%nto be between:%n ]'a', 'b'[");
     assertThat('a').isStrictlyBetween('a', 'b');
   }
 
   @Test
   public void fails_if_actual_is_equal_to_end() {
-    thrown.expectAssertionError("Expecting:%n <'b'>%nto be between:%n ]'a', 'b'[");
+    thrown.expectAssertionError("%nExpecting:%n <'b'>%nto be between:%n ]'a', 'b'[");
     assertThat('b').isStrictlyBetween('a', 'b');
   }
 
   @Test
   public void fails_if_actual_is_less_than_start() {
-    thrown.expectAssertionError("Expecting:%n <'a'>%nto be between:%n ]'b', 'c'[");
+    thrown.expectAssertionError("%nExpecting:%n <'a'>%nto be between:%n ]'b', 'c'[");
     assertThat('a').isStrictlyBetween('b', 'c');
   }
 
   @Test
   public void fails_if_actual_is_greater_than_end() {
-    thrown.expectAssertionError("Expecting:%n <'c'>%nto be between:%n ]'a', 'b'[");
+    thrown.expectAssertionError("%nExpecting:%n <'c'>%nto be between:%n ]'a', 'b'[");
     assertThat('c').isStrictlyBetween('a', 'b');
   }
 }

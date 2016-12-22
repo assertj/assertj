@@ -68,12 +68,12 @@ public class IterableAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists() throws Exception {
+  public void should_allow_assertions_on_empty_result_lists() {
     assertThat(newArrayList(bart, lisa, maggie)).flatExtracting(children).isEmpty();
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null() throws Exception {
+  public void should_throw_null_pointer_exception_when_extracting_from_null() {
     thrown.expect(NullPointerException.class);
     assertThat(newArrayList(homer, null)).flatExtracting(children);
   }

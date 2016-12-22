@@ -12,16 +12,22 @@
  */
 package org.assertj.core.api.filter;
 
+import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
+import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.Player;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 
 
 public class AbstractTest_filter {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   protected static Player rose;
   protected static Player james;

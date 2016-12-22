@@ -23,7 +23,7 @@ import org.junit.Test;
 public class ShouldHaveToString_create_Test {
 
   @Test
-  public void should_create_error_message() throws Exception {
+  public void should_create_error_message() {
     String actual = "c++";
     String expectedToString = "java";
     String errorMessage = shouldHaveToString(actual, expectedToString).create(new TestDescription("TEST"),

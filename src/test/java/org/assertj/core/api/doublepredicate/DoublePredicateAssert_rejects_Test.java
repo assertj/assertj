@@ -63,7 +63,7 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2.0;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+    thrown.expectAssertionError("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).as("test").rejects(expectedValue);
   }

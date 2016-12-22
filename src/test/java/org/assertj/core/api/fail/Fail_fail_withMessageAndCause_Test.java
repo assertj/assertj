@@ -12,9 +12,11 @@
  */
 package org.assertj.core.api.fail;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.Fail;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -26,16 +28,14 @@ import org.junit.Test;
  */
 public class Fail_fail_withMessageAndCause_Test {
 
+  @Rule
+  public ExpectedException thrown = none();
+
   @Test
   public void shouldThrowErrorWithGivenMessageAndCause() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
-    try {
-      Fail.fail(message, cause);
-      fail("AssertionError should have been thrown");
-    } catch (AssertionError e) {
-      assertThat(message).isEqualTo(e.getMessage());
-      assertThat(cause).isSameAs(e.getCause());
-    }
+    thrown.expectWithCause(AssertionError.class, message, cause);
+    Fail.fail(message, cause);
   }
 }

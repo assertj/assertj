@@ -14,8 +14,6 @@ package org.assertj.core.internal.shorts;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
@@ -48,11 +46,8 @@ public class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
-    }
+    thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
+    shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0);
   }
 
 }

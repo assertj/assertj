@@ -13,9 +13,12 @@
 package org.assertj.core.api;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Iterables;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 
 
 /**
@@ -24,6 +27,9 @@ import org.assertj.core.internal.Iterables;
  * @author Joel Costigliola
  */
 public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIterableAssert<Object>, Iterable<Object>>{
+
+  @Rule
+  public ExpectedException thrown = none();
 
   protected Iterables iterables;
 

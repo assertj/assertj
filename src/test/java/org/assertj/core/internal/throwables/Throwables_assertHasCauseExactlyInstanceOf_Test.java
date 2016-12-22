@@ -34,7 +34,7 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
   private Throwable throwableWithCause = new Throwable(new IllegalArgumentException());
 
   @Test
-  public void should_pass_if_cause_is_exactly_instance_of_expected_type() throws Exception {
+  public void should_pass_if_cause_is_exactly_instance_of_expected_type() {
     throwables.assertHasCauseExactlyInstanceOf(someInfo(), throwableWithCause, IllegalArgumentException.class);
   }
 
@@ -45,13 +45,13 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
   }
 
   @Test
-  public void should_throw_NullPointerException_if_given_type_is_null() throws Exception {
+  public void should_throw_NullPointerException_if_given_type_is_null() {
     thrown.expectNullPointerException("The given type should not be null");
     throwables.assertHasCauseExactlyInstanceOf(someInfo(), throwableWithCause, null);
   }
 
   @Test
-  public void should_fail_if_actual_has_no_cause() throws Exception {
+  public void should_fail_if_actual_has_no_cause() {
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     try {
@@ -64,7 +64,7 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
   }  
 
   @Test
-  public void should_fail_if_cause_is_not_instance_of_expected_type() throws Exception {
+  public void should_fail_if_cause_is_not_instance_of_expected_type() {
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     try {
@@ -77,7 +77,7 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
   }
 
   @Test
-  public void should_fail_if_cause_is_not_exactly_instance_of_expected_type() throws Exception {
+  public void should_fail_if_cause_is_not_exactly_instance_of_expected_type() {
     AssertionInfo info = someInfo();
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
     try {

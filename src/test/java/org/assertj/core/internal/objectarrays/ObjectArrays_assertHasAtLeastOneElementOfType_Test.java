@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal.objectarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.ObjectArraysBaseTest;
@@ -46,13 +44,8 @@ public class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectAr
 
   @Test
   public void should_fail_if_no_elements_in_actual_belongs_to_the_expected_type() {
-	try {
-	  arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Float.class);
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(shouldHaveAtLeastOneElementOfType(array, Float.class).create());
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveAtLeastOneElementOfType(array, Float.class).create());
+    arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Float.class);
   }
 
 }

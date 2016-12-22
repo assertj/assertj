@@ -33,6 +33,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -527,6 +528,18 @@ public class BDDAssertions extends Assertions {
    */
   @CheckReturnValue
   public static AbstractPathAssert<?> then(Path actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link FutureAssert}
+   *
+   * @param actual the future to test
+   * @return the created assertion object
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> then(Future<T> actual) {
     return assertThat(actual);
   }
 

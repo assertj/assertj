@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error.future;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
@@ -21,11 +21,11 @@ public class ShouldBeCancelled extends BasicErrorMessageFactory {
 
   private static final String SHOULD_BE_CANCELLED = "%nExpecting%n  <%s>%nto be cancelled";
 
-  public static ErrorMessageFactory shouldBeCancelled(CompletableFuture<?> actual) {
+  public static ErrorMessageFactory shouldBeCancelled(Future<?> actual) {
     return new ShouldBeCancelled(actual);
   }
 
-  private ShouldBeCancelled(CompletableFuture<?> actual) {
+  private ShouldBeCancelled(Future<?> actual) {
     super(SHOULD_BE_CANCELLED, actual);
   }
 }

@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal.objectarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -55,14 +53,11 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
     AssertionInfo info = someInfo();
     String[] actual = array("Yoda");
     List<String> other = newArrayList("Solo", "Leia");
-    try {
-      arrays.assertHasSameSizeAs(info, actual, other);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size())
-          .create(null, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.size())
+                                .create(null, info.representation()));
+
+    arrays.assertHasSameSizeAs(info, actual, other);
   }
 
   @Test

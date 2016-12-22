@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
@@ -120,12 +118,10 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 	when(diff.diff(path, expected, charset)).thenThrow(cause);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-	try {
-	  paths.assertHasContent(someInfo(), path, expected, charset);
-	  failBecauseExceptionWasNotThrown(RuntimeIOException.class);
-	} catch (RuntimeIOException e) {
-	  assertThat(e.getCause()).isSameAs(cause);
-	}
+
+    thrown.expectWithCause(RuntimeIOException.class, cause);
+
+    paths.assertHasContent(someInfo(), path, expected, charset);
   }
 
   @Test

@@ -12,9 +12,21 @@
  */
 package org.assertj.core.api;
 
+import java.util.concurrent.Future;
+
 /**
- * @author Mikhail Mazursky
+ * Assertion methods for {@link Future}.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Future)}</code>.
+ * </p>
+ * @param <T> the type contained within the Future
+ *
+ * @author Ruben Dijkstra
  */
-public interface GenericInterface<X> {
+public class FutureAssert<T> extends AbstractFutureAssert<FutureAssert<T>, Future<T>, T> {
+
+  protected FutureAssert(Future<T> actual) {
+    super(actual, FutureAssert.class);
+  }
 
 }

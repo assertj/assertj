@@ -28,13 +28,13 @@ public class SoftAssertionsErrorsCollectedTest {
   private final TestCollector softly = new TestCollector();
 
   @Test
-  public void return_empty_list_of_errors() throws Exception {
+  public void return_empty_list_of_errors() {
     softly.assertThat(objectForTesting).isNull(); // No errors to collect
     assertThat(softly.getErrors()).isEmpty();
   }
 
   @Test
-  public void returns_nonempty_list_of_errors() throws Exception {
+  public void returns_nonempty_list_of_errors() {
     softly.assertThat(objectForTesting).isNotNull(); // This should allow something to be collected
     assertThat(softly.getErrors()).hasAtLeastOneElementOfType(Throwable.class);
   }

@@ -14,8 +14,6 @@ package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
@@ -37,11 +35,8 @@ public class Doubles_assertIsNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN() {
-    try {
-      doubles.assertIsNaN(someInfo(), 6d);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[NaN]> but was:<[6.0]>");
-    }
+    thrown.expectAssertionError("expected:<[NaN]> but was:<[6.0]>");
+    doubles.assertIsNaN(someInfo(), 6d);
   }
 
   @Test
@@ -51,10 +46,7 @@ public class Doubles_assertIsNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
-    try {
-      doublesWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6d);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[NaN]> but was:<[6.0]>");
-    }
+    thrown.expectAssertionError("expected:<[NaN]> but was:<[6.0]>");
+    doublesWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6d);
   }
 }

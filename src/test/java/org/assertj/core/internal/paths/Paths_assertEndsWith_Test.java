@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.paths;
 
-import static junit.framework.TestCase.fail;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -31,18 +29,14 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertEndsWith(info, null, other);
+    thrown.expectAssertionError(actualIsNull());
+    paths.assertEndsWith(info, null, other);
   }
 
   @Test
   public void should_fail_if_other_is_null() {
-	try {
-	  paths.assertEndsWith(info, actual, null);
-	  fail("expected a NullPointerException here");
-	} catch (NullPointerException e) {
-	  assertThat(e).hasMessage("the expected end path should not be null");
-	}
+    thrown.expectNullPointerException("the expected end path should not be null");
+    paths.assertEndsWith(info, actual, null);
   }
 
   @Test
@@ -50,13 +44,9 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 	final IOException causeException = new IOException();
 	when(actual.toRealPath()).thenThrow(causeException);
 
-	try {
-	  paths.assertEndsWith(info, actual, other);
-	  fail("expected a PathsException here");
-	} catch (PathsException e) {
-	  assertThat(e).hasMessage("failed to resolve actual real path");
-	  assertThat(e.getCause()).isSameAs(causeException);
-	}
+    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", causeException);
+
+    paths.assertEndsWith(info, actual, other);
   }
 
   @Test

@@ -14,8 +14,6 @@ package org.assertj.core.internal.integers;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.internal.IntegersBaseTest;
@@ -37,11 +35,8 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    try {
-      integers.assertIsZero(someInfo(), 2);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[2]>");
-    }
+    thrown.expectAssertionError("expected:<[0]> but was:<[2]>");
+    integers.assertIsZero(someInfo(), 2);
   }
 
   @Test
@@ -51,11 +46,8 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    try {
-      integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 1);
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[1]>");
-    }
+    thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
+    integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 1);
   }
 
 }

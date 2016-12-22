@@ -96,24 +96,10 @@ public abstract class Delta<T> {
   }
 
   /**
-   * @param original The Chunk describing the original text to set.
-   */
-  public void setOriginal(Chunk<T> original) {
-    this.original = original;
-  }
-
-  /**
    * @return The Chunk describing the revised text.
    */
   public Chunk<T> getRevised() {
     return revised;
-  }
-
-  /**
-   * @param revised The Chunk describing the revised text to set.
-   */
-  public void setRevised(Chunk<T> revised) {
-    this.revised = revised;
   }
 
   @Override

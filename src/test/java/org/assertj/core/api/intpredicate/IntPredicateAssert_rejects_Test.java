@@ -64,7 +64,7 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+    thrown.expectAssertionError("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).as("test").rejects(expectedValue);
   }
