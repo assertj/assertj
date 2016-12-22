@@ -35,6 +35,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -50,6 +51,7 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  *
@@ -355,6 +357,16 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(File)}
    */
   default AbstractFileAssert<?> assertThat(final File actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Future)}
+   * 
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  default <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> assertThat(Future<T> actual) {
     return Assertions.assertThat(actual);
   }
 
