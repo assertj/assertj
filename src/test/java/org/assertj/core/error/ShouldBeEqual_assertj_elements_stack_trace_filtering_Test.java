@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
 
@@ -35,7 +36,9 @@ public class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
       assertThat("Xavi").isEqualTo("Xabi");
     } catch (AssertionError assertionError) {
       assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isFalse();
+      return;
     }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -45,7 +48,9 @@ public class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
       assertThat("Messi").isEqualTo("Ronaldo");
     } catch (AssertionError assertionError) {
       assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isTrue();
+      return;
     }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
 }

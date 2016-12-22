@@ -14,6 +14,17 @@ package org.assertj.core.test;
 
 import static java.lang.String.format;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.assertj.core.util.introspection.IntrospectionError;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.AllOf;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsSame;
+import org.hamcrest.core.StringContains;
+import org.hamcrest.core.StringEndsWith;
+import org.hamcrest.core.StringStartsWith;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -41,6 +52,10 @@ public class ExpectedException implements TestRule {
     expect(AssertionError.class, message);
   }
 
+  public void expectAssertionErrorWithMessageContaining(String... parts) {
+    expectWithMessageContaining(AssertionError.class, parts);
+  }
+
   public void expectNullPointerException(String message) {
     expect(NullPointerException.class, message);
   }
@@ -57,21 +72,66 @@ public class ExpectedException implements TestRule {
     expect(UnsupportedOperationException.class, message);
   }
 
+  public void expectIntrospectionErrorWithMessageContaining(String... parts) {
+    expectWithMessageContaining(IntrospectionError.class, parts);
+  }
+
   public void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);
   }
 
-  public void expect(Throwable error) {
-    expect(error.getClass());
-    expectMessage(error.getMessage());
+  public void expectWithMessageContaining(Class<? extends Throwable> type, String... parts) {
+    expect(type);
+    expectMessageContaining(parts);
+  }
+
+  public void expectWithMessageStartingWith(Class<? extends Throwable> type, String start) {
+    expect(type);
+    expectMessageStartingWith(start);
+  }
+
+  public void expectWithMessageEndingWith(Class<? extends Throwable> type, String end) {
+    expect(type);
+    expectMessageEndingWith(end);
   }
 
   public void expect(Class<? extends Throwable> type) {
     delegate.expect(type);
   }
 
+  public void expectWithCause(Class<? extends Throwable> type, Throwable cause) {
+    expect(type);
+    expectCause(cause);
+  }
+
+  public void expectWithCause(Class<? extends Throwable> type, String message, Throwable cause) {
+    expect(type);
+    expectMessage(message);
+    expectCause(cause);
+  }
+
   public void expectMessage(String message) {
-    delegate.expectMessage(format(message));
+    delegate.expectMessage(IsEqual.equalTo(format(message)));
+  }
+
+  private void expectMessageContaining(String... parts) {
+    List<Matcher<? super String>> matchers = new ArrayList<>();
+    for (String part : parts) {
+      matchers.add(StringContains.containsString(format(part)));
+    }
+    delegate.expectMessage(AllOf.allOf(matchers));
+  }
+
+  private void expectMessageStartingWith(String start) {
+    delegate.expectMessage(StringStartsWith.startsWith(format(start)));
+  }
+
+  private void expectMessageEndingWith(String end) {
+    delegate.expectMessage(StringEndsWith.endsWith(format(end)));
+  }
+
+  private void expectCause(Throwable cause) {
+    delegate.expectCause(IsSame.sameInstance(cause));
   }
 }

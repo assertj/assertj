@@ -12,12 +12,12 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -28,15 +28,13 @@ import org.junit.Test;
  */
 public class AbstractAssert_get_writable_info_Test {
 
+  @Rule
+  public ExpectedException thrown = none();
+
   @Test
   public void should_keep_specific_error_message_and_description_set_by_user() {
-    try {
-      new ConcreteAssert(6L).as("user description").checkNull();
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo("[user description] specific error message");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("[user description] specific error message");
+    new ConcreteAssert(6L).as("user description").checkNull();
   }
 
 }

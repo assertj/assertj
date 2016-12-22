@@ -31,7 +31,7 @@ public class Files_newTemporaryFolder_Test extends Files_TestCase {
     File f = null;
     try {
       f = Files.newTemporaryFolder();
-      assertThat(f.isDirectory()).isTrue();
+      assertThat(f).isDirectory();
     } finally {
       if (f != null) f.delete();
     }

@@ -109,7 +109,7 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   }
   
   @Test
-  public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() throws Exception {
+  public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
 
     List<Employee> employees = Arrays.<Employee>asList(new EmployeeWithBrokenName("Name"));
     List<Object> extractedValues = extract(employees, byName("name"));
@@ -117,7 +117,7 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   }
 
   @Test
-  public void should_prefer_properties_over_fields() throws Exception {
+  public void should_prefer_properties_over_fields() {
     
     List<Employee> employees = Arrays.<Employee>asList(new EmployeeWithOverridenName("Overridden Name"));
     List<Object> extractedValues = extract(employees, byName("name"));
@@ -125,7 +125,7 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   }
 
   @Test
-  public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() throws Exception {
+  public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
     
     thrown.expect(IntrospectionError.class);
     

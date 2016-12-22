@@ -12,22 +12,7 @@
  */
 package org.assertj.core.api.objectarray;
 
-/**
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
- * Copyright 2012-2015 the original author or authors.
- */
-
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
@@ -60,12 +45,10 @@ public class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_fil
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
+    thrown.expect(IntrospectionError.class);
     setAllowExtractingPrivateFields(false);
     try {
       assertThat(employees).filteredOn("city", not("New York"));
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      // expected
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -96,22 +79,14 @@ public class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_fil
 
   @Test
   public void should_fail_if_given_expected_value_is_null() {
-    try {
-      assertThat(employees).filteredOn("name", null);
-      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage(format("The expected value should not be null.%n"
-                                      + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
-    }
+    thrown.expectIllegalArgumentException("The expected value should not be null.%n" +
+                                          "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
+    assertThat(employees).filteredOn("name", null);
   }
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    try {
-      assertThat(employees).filteredOn("secret", not("???"));
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError e) {
-      assertThat(e).hasMessageContaining("Can't find any field or property with name 'secret'");
-    }
+    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
+    assertThat(employees).filteredOn("secret", not("???"));
   }
 }

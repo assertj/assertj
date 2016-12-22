@@ -12,7 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.test.ExpectedException.none;
+
+import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
+import org.junit.Rule;
 
 
 /**
@@ -21,6 +25,9 @@ import org.assertj.core.test.Jedi;
  * @author Olivier Michallat
  */
 public abstract class ObjectAssertBaseTest extends BaseTestTemplate<ObjectAssert<Jedi>, Jedi> {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   @Override
   protected ObjectAssert<Jedi> create_assertions() {

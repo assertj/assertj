@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util.diff;
 
-import org.assertj.core.util.diff.myers.Equalizer;
 import org.assertj.core.util.diff.myers.MyersDiff;
 
 import java.util.ArrayList;
@@ -43,30 +42,6 @@ public class DiffUtils {
    *         revised sequences. Never {@code null}.
    */
   public static <T> Patch<T> diff(List<T> original, List<T> revised) {
-    return DiffUtils.diff(original, revised, new MyersDiff<T>());
-  }
-
-  /**
-   * Computes the difference between the original and revised list of elements
-   * with default diff algorithm
-   *
-   * @param original
-   *            The original text. Must not be {@code null}.
-   * @param revised
-   *            The revised text. Must not be {@code null}.
-   *
-   * @param equalizer
-   *            the equalizer object to replace the default compare algorithm
-   *            (Object.equals). If {@code null} the default equalizer of the
-   *            default algorithm is used..
-   * @return The patch describing the difference between the original and
-   *         revised sequences. Never {@code null}.
-   */
-  public static <T> Patch<T> diff(List<T> original, List<T> revised,
-                                  Equalizer<T> equalizer) {
-    if (equalizer != null) {
-      return DiffUtils.diff(original, revised, new MyersDiff<>(equalizer));
-    }
     return DiffUtils.diff(original, revised, new MyersDiff<T>());
   }
 

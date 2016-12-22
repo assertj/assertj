@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -50,13 +48,10 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
-    try {
-      iterables.assertHasSize(info, actual, 8);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSize(actual, actual.size(), 8).create());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(shouldHaveSize(actual, actual.size(), 8).create());
+
+    iterables.assertHasSize(info, actual, 8);
   }
 
   @Test
@@ -74,12 +69,9 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSize(actual, actual.size(), 8).create());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(shouldHaveSize(actual, actual.size(), 8).create());
+
+    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8);
   }
 }

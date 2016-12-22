@@ -25,13 +25,13 @@ public class StandardRepresentation_static_setters_Test extends AbstractBaseRepr
   public ExpectedException thrown = ExpectedException.none();
 
   @Test
-  public void should_fail_on_invalid_maxElementsForPrinting() throws Exception {
+  public void should_fail_on_invalid_maxElementsForPrinting() {
     thrown.expectIllegalArgumentException("maxElementsForPrinting must be >= 1, but was 0");
     StandardRepresentation.setMaxElementsForPrinting(0);
   }
 
   @Test
-  public void should_fail_on_invalid_maxLengthForSingleLineDescription() throws Exception {
+  public void should_fail_on_invalid_maxLengthForSingleLineDescription() {
     thrown.expectIllegalArgumentException("maxLengthForSingleLineDescription must be > 0 but was 0");
     StandardRepresentation.setMaxLengthForSingleLineDescription(0);
   }

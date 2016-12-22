@@ -27,20 +27,19 @@ public class Iterable_generics_with_varargs_Test {
   
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
-  public void testWithoutGenerics() throws Exception {
+  public void testWithoutGenerics() {
 	List strings = asList("a", "b", "c");
 	assertThat(strings).contains("a", "b");
   }
 
   @Test
-  public void testConcreteType() throws Exception {
+  public void testConcreteType() {
 	List<String> strings = asList("a", "b", "c");
 	assertThat(strings).contains("a", "b");
   }
 
   @Test
-  @Ignore
-  public void testListAssertWithGenerics() throws Exception {
+  public void testListAssertWithGenerics() {
     // List<? extends String> strings = asList("a", "b", "c");
     // does not compile as Java 8 is stricter with generics ...
     // assertThat(strings).contains("a", "b");

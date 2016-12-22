@@ -149,9 +149,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * int[] fourFiveSix = {4, 5, 6};
+   * int[] sevenEight = {7, 8};
    *
-   * // assertions will pass
-   * assertThat(oneTwoThree).hasSameSizeAs(fourFiveSix);</code></pre>
+   * // assertion will pass
+   * assertThat(oneTwoThree).hasSameSizeAs(fourFiveSix);
+   *
+   * // assertion will fail
+   * assertThat(oneTwoThree).hasSameSizeAs(sevenEight);</code></pre>
    *
    * @param array the array to compare size with actual group.
    * @return {@code this} assertion object.
@@ -173,8 +177,11 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
-   * // assertions will pass
-   * assertThat(oneTwoThree).hasSameSizeAs(elvesRings);</code></pre>
+   * // assertion will pass
+   * assertThat(oneTwoThree).hasSameSizeAs(elvesRings);
+   * 
+   * // assertion will fail
+   * assertThat(oneTwoThree).hasSameSizeAs(Arrays.asList("a", "b"));</code></pre>
    *
    * @param other the {@code Iterable} to compare size with actual group.
    * @return {@code this} assertion object.
@@ -198,8 +205,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(abc).contains("b", "a");
    * assertThat(abc).contains("b", "a", "b");
    *
-   * // assertion will fail
-   * assertThat(abc).contains("d");</code></pre>
+   * // assertions will fail
+   * assertThat(abc).contains("d");
+   * assertThat(abc).contains("c", "d");</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -220,8 +228,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"};
    *
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(abc).containsOnly("c", "b", "a");
+   * assertThat(abc).containsOnly("a", "a", "b", "c", "c");
    *
    * // assertion will fail because "c" is missing
    * assertThat(abc).containsOnly("a", "b");</code></pre>
@@ -247,7 +256,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Example :
    * <pre><code class='java'> Ring[] rings = {nenya, vilya};
    *
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya));
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
    *
@@ -349,7 +358,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Verifies that the actual group contains the given values only once.
    * <p>
    * Examples :
-   * <pre><code class='java'> // array if a factory method to create arrays.
+   * <pre><code class='java'> // array is a factory method to create arrays.
    *
    * // assertions will pass
    * assertThat(array(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;winter&quot;);
@@ -427,7 +436,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
+   * Same as {@link #containsExactly(Object...)} but handles the {@link Iterable} to array conversion : verifies that
    * actual contains all elements of the given {@code Iterable} and nothing else <b>in the same order</b>.
    * <p>
    * Example :
@@ -537,14 +546,14 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
    *
    * // assertions will pass
-   * assertThat(elvesRings).contains(vilya, atIndex(1));
-   * assertThat(elvesRings).contains(nenya, atIndex(2));
-   * assertThat(elvesRings).contains(narya, atIndex(0));
+   * assertThat(elvesRings).doesNotContain(vilya, atIndex(1));
+   * assertThat(elvesRings).doesNotContain(nenya, atIndex(2));
+   * assertThat(elvesRings).doesNotContain(narya, atIndex(0));
    *
    * // assertions will fail
-   * assertThat(elvesRings).contains(vilya, atIndex(0));
-   * assertThat(elvesRings).contains(nenya, atIndex(1));
-   * assertThat(elvesRings).contains(narya, atIndex(2));</code></pre>
+   * assertThat(elvesRings).doesNotContain(vilya, atIndex(0));
+   * assertThat(elvesRings).doesNotContain(nenya, atIndex(1));
+   * assertThat(elvesRings).doesNotContain(narya, atIndex(2));</code></pre>
    *
    * @param value the object to look for.
    * @param index the index where the object should not be stored in the actual group.
@@ -897,7 +906,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -941,7 +950,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -969,7 +978,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1015,7 +1024,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that there is <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1037,7 +1046,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1060,7 +1069,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1118,7 +1127,11 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * String[] bc = {"b", "c"};
    *
    * // assertion will pass
-   * assertThat(abc).containsAll(bc);</code></pre>
+   * assertThat(abc).containsAll(bc);
+   * 
+   * // assertions will fail
+   * assertThat(abc).containsAll(Arrays.asList("d"));
+   * assertThat(abc).containsAll(Arrays.asList("a", "b", "c", "d"));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
@@ -1134,8 +1147,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group
-   * elements for
-   * incoming assertion checks.
+   * elements for incoming assertion checks.
    * <p>
    * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
    * comparison strategy.

@@ -24,7 +24,7 @@ public class ToStringExtractorTest {
   private ToStringExtractor toStringExtractor = new ToStringExtractor();
   
   @Test
-  public void should_extract_toString() throws Exception {
+  public void should_extract_toString() {
     Employee someEmloyee = new Employee(1, new Name("John Doe"), 28);
     
     String result = toStringExtractor.extract(someEmloyee);

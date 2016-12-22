@@ -41,6 +41,6 @@ public class Lists_newArrayList_withVarArgs_Test {
   @Test
   public void should_return_empty_List_if_array_is_empty() {
     ArrayList<Object> list = Lists.newArrayList(new Object[0]);
-    assertThat(list.isEmpty()).isTrue();
+    assertThat(list).isEmpty();
   }
 }

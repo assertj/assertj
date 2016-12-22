@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.awt.Rectangle;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.Employee;
 import org.junit.Test;
 
 /**

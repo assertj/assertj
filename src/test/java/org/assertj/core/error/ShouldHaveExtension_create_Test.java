@@ -33,7 +33,7 @@ public class ShouldHaveExtension_create_Test {
   private File actual = new FakeFile("actual-file.png");
 
   @Test
-  public void should_create_error_message() throws Exception {
+  public void should_create_error_message() {
     assertThat(createMessage("png")).isEqualTo(String.format("[TEST] %n" +
                                                              "Expecting%n" +
                                                              "  <" + actual + ">%n" +
@@ -44,7 +44,7 @@ public class ShouldHaveExtension_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_actual_does_not_have_extension() throws Exception {
+  public void should_create_error_message_when_actual_does_not_have_extension() {
     assertThat(createMessage(null)).isEqualTo(String.format("[TEST] %n" +
                                                             "Expecting%n" +
                                                             "  <" + actual + ">%n" +

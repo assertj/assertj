@@ -56,7 +56,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
 	AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-	assertThat(error.getMessage()).isEqualTo("[my test] expected:<42.0[]> but was:<42.0[f]>");
+	assertThat(error).hasMessage("[my test] expected:<42.0[]> but was:<42.0[f]>");
   }
 
   @Test
@@ -69,13 +69,12 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
 	AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-	assertThat(error.getMessage()).isEqualTo(String.format(
-	                                         "[my test] %nExpecting:%n <\"Person[name=Jake] (Person@"
-	                                             + toHexString(actual.hashCode())
-	                                             + ")\">%nto be equal to:%n <\"Person[name=Jake] (Person@"
-	                                             + toHexString(expected.hashCode())
-	                                             + ")\">%nbut was not.")
-	                              );
+    assertThat(error).hasMessage("[my test] %n" +
+                                 "Expecting:%n" +
+                                 " <\"Person[name=Jake] (Person@%s)\">%n" +
+                                 "to be equal to:%n" +
+                                 " <\"Person[name=Jake] (Person@%s)\">%n"
+                                 + "but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
   }
 
   @Test
@@ -90,13 +89,13 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
 	AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-	assertThat(error.getMessage()).isEqualTo(String.format("[my test] %n"
-	                                         + "Expecting:%n"
-	                                         + " <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode())
-	                                         + ")\">%n"
-	                                         + "to be equal to:%n <\"Person[name=Jake] (Person@"
-	                                         + toHexString(expected.hashCode()) + ")\">%n"
-	                                         + "when comparing values using 'PersonComparator' but was not."));
+    assertThat(error).hasMessage("[my test] %n" +
+                                 "Expecting:%n" +
+                                 " <\"Person[name=Jake] (Person@%s)\">%n" +
+                                 "to be equal to:%n" +
+                                 " <\"Person[name=Jake] (Person@%s)\">%n" +
+                                 "when comparing values using 'PersonComparator'" +
+                                 " but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
   }
 
   private static class Person {

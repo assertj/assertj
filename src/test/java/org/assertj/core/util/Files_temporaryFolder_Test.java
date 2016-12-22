@@ -31,7 +31,7 @@ public class Files_temporaryFolder_Test extends Files_TestCase {
   @Test
   public void should_find_temporary_folder() {
     File temporaryFolder = Files.temporaryFolder();
-    assertThat(temporaryFolder.isDirectory()).isTrue();
+    assertThat(temporaryFolder).isDirectory();
     String a = append(separator).to(temporaryFolder.getAbsolutePath());
     String e = append(separator).to(systemTemporaryFolder());
     assertThat(a).isEqualTo(e);

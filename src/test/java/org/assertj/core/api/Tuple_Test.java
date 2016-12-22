@@ -69,7 +69,7 @@ public class Tuple_Test {
   }
 
   @Test
-  public void test_for_issue_448() throws Exception {
+  public void test_for_issue_448() {
     SinteticClass item1 = new SinteticClass("1".getBytes(), "Foo");
     SinteticClass item2 = new SinteticClass("2".getBytes(), "Bar");
     SinteticClass item3 = new SinteticClass("3".getBytes(), "Baz");

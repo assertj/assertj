@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal.chararrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -23,7 +21,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link CharArrays#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, char[], Object[])}</code>.
@@ -43,13 +40,11 @@ public class CharArrays_assertHasSameSizeAs_with_Array_Test extends CharArraysBa
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     String[] other = array("Solo", "Leia");
-    try {
-      arrays.assertHasSameSizeAs(info, actual, other);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length,
+                                                     other.length).create(null, info.representation()));
+
+    arrays.assertHasSameSizeAs(info, actual, other);
   }
 
   @Test

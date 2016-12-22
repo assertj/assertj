@@ -13,7 +13,6 @@
 package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.test.CartoonCharacter;
@@ -77,11 +76,7 @@ public class IterableAssert_flatExtracting_with_String_parameter_Test {
 
   @Test
   public void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
-    try {
-      assertThat(newArrayList(homer, fred)).flatExtracting("name");
-      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
-    }
+    thrown.expectIllegalArgumentException("Flat extracting expects extracted values to be Iterables or arrays but was a String");
+    assertThat(newArrayList(homer, fred)).flatExtracting("name");
   }
 }

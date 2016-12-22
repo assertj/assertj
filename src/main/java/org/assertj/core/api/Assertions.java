@@ -38,6 +38,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.Future;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
@@ -407,6 +408,20 @@ public class Assertions {
   @CheckReturnValue
   public static AbstractFileAssert<?> assertThat(File actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.Future}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.concurrent.Future}.
+   *
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> assertThat(Future<T> actual) {
+    return new FutureAssert<>(actual);
   }
 
   /**

@@ -44,39 +44,39 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_actual_is_null() throws Exception {
+  public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     maps.assertContainsOnly(someInfo(), null, entry("name", "Yoda"));
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_null() throws Exception {
+  public void should_fail_if_given_entries_array_is_null() {
     thrown.expectNullPointerException(entriesToLookForIsNull());
     maps.assertContainsOnly(someInfo(), actual, (MapEntry[])null);
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_empty() throws Exception {
+  public void should_fail_if_given_entries_array_is_empty() {
     thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
     maps.assertContainsOnly(someInfo(), actual, emptyEntries());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_and_entries_are_empty() throws Exception {
+  public void should_pass_if_actual_and_entries_are_empty() {
     maps.assertContainsOnly(someInfo(), emptyMap(), emptyEntries());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_contains_only_expected_entries() throws Exception {
+  public void should_pass_if_actual_contains_only_expected_entries() {
     maps.assertContainsOnly(someInfo(), actual, entry("name", "Yoda"), entry("color", "green"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_unexpected_entry() throws Exception {
+  public void should_fail_if_actual_contains_unexpected_entry() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
     try {
@@ -90,7 +90,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries() throws Exception {
+  public void should_fail_if_actual_does_not_contains_every_expected_entries() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
     Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"));
@@ -106,7 +106,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one()
-      throws Exception {
+       {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
     Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
@@ -124,7 +124,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_entry_key_with_different_value() throws Exception {
+  public void should_fail_if_actual_contains_entry_key_with_different_value() {
 
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expectedEntries = array(entry("name", "Yoda"), entry("color", "yellow"));

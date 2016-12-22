@@ -31,7 +31,7 @@ public class Files_newTemporaryFile_Test extends Files_TestCase {
     File f = null;
     try {
       f = Files.newTemporaryFile();
-      assertThat(f.isFile()).isTrue();
+      assertThat(f).isFile();
     } finally {
       if (f != null) f.delete();
     }

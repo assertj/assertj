@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util.diff;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,19 +49,6 @@ public class Chunk<T> {
   }
 
   /**
-   * Creates a chunk and saves a copy of affected lines
-   * 
-   * @param position
-   *            the start position
-   * @param lines
-   *            the affected lines
-   */
-  public Chunk(int position, T[] lines) {
-    this.position = position;
-    this.lines = Arrays.asList(lines);
-  }
-
-  /**
    * Verifies that this chunk's saved text matches the corresponding text in
    * the given sequence.
    * 
@@ -85,10 +71,6 @@ public class Chunk<T> {
    */
   public int getPosition() {
     return position;
-  }
-
-  public void setLines(List<T> lines) {
-    this.lines = lines;
   }
 
   /**

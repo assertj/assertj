@@ -12,12 +12,10 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -52,14 +50,11 @@ public class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     String[] other = array("Solo", "Leia", "Yoda");
-    try {
-      maps.assertHasSameSizeAs(info, actual, other);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.length)
-          .create(null, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.size(), other.length)
+                                .create(null, info.representation()));
+
+    maps.assertHasSameSizeAs(info, actual, other);
   }
 
   @Test
