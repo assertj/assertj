@@ -13,7 +13,6 @@
 package org.assertj.core.util.diff.myers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.diff.ChangeDelta;
@@ -54,26 +53,6 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
       }
 
     };
-  }
-
-  /**
-   * Constructs an instance of the Myers differencing algorithm.
-   * @param equalizer Must not be {@code null}.
-   */
-  public MyersDiff(final Equalizer<T> equalizer) {
-    if (equalizer == null) {
-      throw new IllegalArgumentException("equalizer must not be null");
-    }
-    this.equalizer = equalizer;
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @return Returns an empty diff if get the error while procession the difference.
-   */
-  public Patch<T> diff(final T[] original, final T[] revised) {
-    return diff(Arrays.asList(original), Arrays.asList(revised));
   }
 
   /**
