@@ -65,7 +65,7 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+    thrown.expectAssertionError("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
 
     assertThat(predicate).as(new TextDescription("test")).rejects(expectedValue);
   }
