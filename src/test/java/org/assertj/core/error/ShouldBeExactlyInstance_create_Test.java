@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
 
@@ -42,6 +43,18 @@ public class ShouldBeExactlyInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"Yoda\">%nto be exactly an instance of:%n <java.io.File>%nbut was an instance of:%n <java.lang.String>"
+    ));
+  }
+
+  @Test
+  public void should_create_error_message_with_stack_trace_for_throwable() {
+    IllegalArgumentException throwable = new IllegalArgumentException("Not a Nullpointer");
+    String message = shouldBeExactlyInstance(throwable, NullPointerException.class).create();
+
+    assertThat(message).isEqualTo(String.format(
+      "%nExpecting:%n <java.lang.IllegalArgumentException: Not a Nullpointer>%n"
+      + "to be exactly an instance of:%n <java.lang.NullPointerException>%n"
+      + "but was:%n <\"" + getStackTrace(throwable)+ "\">"
     ));
   }
 }

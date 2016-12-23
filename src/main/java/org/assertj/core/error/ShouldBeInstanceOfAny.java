@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that an object is an instance of one or more
  * types failed.
@@ -29,11 +31,17 @@ public class ShouldBeInstanceOfAny extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeInstanceOfAny(Object actual, Class<?>[] types) {
-    return new ShouldBeInstanceOfAny(actual, types);
+    return actual instanceof Throwable ?
+      new ShouldBeInstanceOfAny((Throwable) actual, types) : new ShouldBeInstanceOfAny(actual, types);
   }
 
   private ShouldBeInstanceOfAny(Object actual, Class<?>[] types) {
     super("%nExpecting:%n <%s>%nto be an instance of any of:%n <%s>%nbut was instance of:%n <%s>", actual, types,
-        actual.getClass());
+          actual.getClass());
+  }
+
+  private ShouldBeInstanceOfAny(Throwable throwable, Class<?>[] types) {
+    super("%nExpecting:%n <%s>%nto be an instance of any of:%n <%s>%nbut was:%n <%s>", throwable, types,
+          getStackTrace(throwable));
   }
 }

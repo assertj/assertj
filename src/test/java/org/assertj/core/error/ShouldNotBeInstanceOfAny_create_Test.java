@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
-
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -41,6 +41,18 @@ public class ShouldNotBeInstanceOfAny_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"Yoda\">%nnot to be an instance of any of these types:%n <[java.lang.String, java.lang.Object]>"
+    ));
+  }
+
+  @Test
+  public void should_create_error_message_with_stack_trace_for_throwable() {
+    IllegalArgumentException throwable = new IllegalArgumentException();
+    Class[] types = { NullPointerException.class, IllegalArgumentException.class };
+    String message = shouldNotBeInstanceOfAny(throwable, types).create();
+
+    assertThat(message).isEqualTo(String.format(
+      "%nExpecting:%n <\"" + getStackTrace(throwable) + "\">%n"
+      + "not to be an instance of any of these types:%n <[java.lang.NullPointerException, java.lang.IllegalArgumentException]>"
     ));
   }
 }
