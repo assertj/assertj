@@ -72,16 +72,8 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
 
   @Test
   public void should_fail_according_to_requirements() {
-    Jedi vader = new Jedi("Vader", "Red");
-    try {
-      assertThat(vader).isInstanceOfSatisfying(Jedi.class, jediRequirements);
-    } catch (AssertionError e) {
-    // @format:off
-	  assertThat(e).hasMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
-	  //@format:on
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
+    assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements);
   }
 
   @Test

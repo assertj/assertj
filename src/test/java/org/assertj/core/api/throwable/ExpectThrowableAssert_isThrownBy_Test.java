@@ -12,15 +12,19 @@
  */
 package org.assertj.core.api.throwable;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Fail.shouldHaveThrown;
+import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.NoSuchElementException;
 
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class ExpectThrowableAssert_isThrownBy_Test {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   @Test
   public void should_build_ExpectThrowableAssert_with_exception_thrown_by_lambda() {
@@ -47,15 +51,10 @@ public class ExpectThrowableAssert_isThrownBy_Test {
                                                      .withCauseInstanceOf(IllegalArgumentException.class);
     // @format:on
   }
-  
+
   @Test
   public void should_fail_if_nothing_is_thrown_by_lambda() {
-    try {
-      assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {});
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage("Expecting code to raise a throwable.");
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    thrown.expectAssertionError("Expecting code to raise a throwable.");
+    assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {});
   }
 }
