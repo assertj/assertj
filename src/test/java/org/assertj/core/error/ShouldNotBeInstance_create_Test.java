@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeInstance.shouldNotBeInstance;
-
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -40,6 +40,16 @@ public class ShouldNotBeInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"Yoda\">%nnot to be an instance of:<java.lang.String>"
+    ));
+  }
+
+  @Test
+  public void should_create_error_message_with_stack_trace_for_throwable() {
+    IllegalArgumentException throwable = new IllegalArgumentException();
+    String message = shouldNotBeInstance(throwable, IllegalArgumentException.class).create();
+
+    assertThat(message).isEqualTo(String.format("%nExpecting:%n <\"" + getStackTrace(throwable) + "\">%n"
+                                                + "not to be an instance of:<java.lang.IllegalArgumentException>"
     ));
   }
 }

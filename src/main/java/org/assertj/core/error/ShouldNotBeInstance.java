@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that an object is not an instance of some type failed.
  * 
@@ -26,10 +28,15 @@ public class ShouldNotBeInstance extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeInstance(Object actual, Class<?> type) {
-    return new ShouldNotBeInstance(actual, type);
+    return actual instanceof Throwable ?
+      new ShouldNotBeInstance((Throwable) actual, type) : new ShouldNotBeInstance(actual, type);
   }
 
   private ShouldNotBeInstance(Object actual, Class<?> type) {
     super("%nExpecting:%n <%s>%nnot to be an instance of:<%s>", actual, type);
+  }
+
+  private ShouldNotBeInstance(Throwable throwable, Class<?> type) {
+    super("%nExpecting:%n <%s>%nnot to be an instance of:<%s>", getStackTrace(throwable), type);
   }
 }

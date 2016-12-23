@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
 
@@ -44,6 +45,17 @@ public class ShouldBeInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"Yoda\">%nto be an instance of:%n <java.io.File>%nbut was instance of:%n <java.lang.String>"
+    ));
+  }
+
+  @Test
+  public void should_create_error_message_with_stack_trace_for_throwable() {
+    IllegalArgumentException throwable = new IllegalArgumentException("Not a file");
+    String message = shouldBeInstance(throwable, File.class).create();
+
+    assertThat(message).isEqualTo(String.format(
+      "%nExpecting:%n <java.lang.IllegalArgumentException: Not a file>%n"
+      + "to be an instance of:%n <java.io.File>%nbut was:%n <\"" + getStackTrace(throwable) + "\">"
     ));
   }
 

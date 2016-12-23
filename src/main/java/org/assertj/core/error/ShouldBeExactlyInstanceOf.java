@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that an object is exactly an instance of some
  * type failed.
@@ -28,11 +30,17 @@ public class ShouldBeExactlyInstanceOf extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeExactlyInstance(Object actual, Class<?> type) {
-    return new ShouldBeExactlyInstanceOf(actual, type);
+    return actual instanceof Throwable
+      ? new ShouldBeExactlyInstanceOf((Throwable) actual, type) : new ShouldBeExactlyInstanceOf(actual, type);
   }
 
   private ShouldBeExactlyInstanceOf(Object actual, Class<?> type) {
     super("%nExpecting:%n <%s>%nto be exactly an instance of:%n <%s>%nbut was an instance of:%n <%s>", actual, type, actual
         .getClass());
+  }
+
+  private ShouldBeExactlyInstanceOf(Throwable throwable, Class<?> type) {
+    super("%nExpecting:%n <%s>%nto be exactly an instance of:%n <%s>%nbut was:%n <%s>",
+          throwable, type, getStackTrace(throwable));
   }
 }
