@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
 import static org.assertj.core.util.Throwables.getStackTrace;
@@ -39,9 +40,11 @@ public class ShouldNotBeExactlyInstance_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting%n <\"Yoda\">%nnot to be of exact type:%n <java.lang.String>"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting%n" +
+                                         " <\"Yoda\">%n" +
+                                         "not to be of exact type:%n" +
+                                         " <java.lang.String>"));
   }
 
   @Test
@@ -49,8 +52,9 @@ public class ShouldNotBeExactlyInstance_create_Test {
     IllegalArgumentException throwable = new IllegalArgumentException();
     String message = shouldNotBeExactlyInstance(throwable, IllegalArgumentException.class).create();
 
-    assertThat(message).isEqualTo(String.format("%nExpecting%n <\"" + getStackTrace(throwable) + "\">%n"
-                                                + "not to be of exact type:%n <java.lang.IllegalArgumentException>"
-    ));
+    assertThat(message).isEqualTo(format("%nExpecting%n" +
+                                         " <\"" + getStackTrace(throwable) + "\">%n" +
+                                         "not to be of exact type:%n" +
+                                         " <java.lang.IllegalArgumentException>"));
   }
 }

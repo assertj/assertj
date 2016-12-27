@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.util.Throwables.getStackTrace;
@@ -42,21 +43,25 @@ public class ShouldBeInstanceOfAny_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nto be an instance of any of:%n <[java.io.File, java.util.regex.Pattern]>%nbut was instance of:%n <java.lang.String>"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <\"Yoda\">%n" +
+                                         "to be an instance of any of:%n" +
+                                         " <[java.io.File, java.util.regex.Pattern]>%n" +
+                                         "but was instance of:%n" +
+                                         " <java.lang.String>"));
   }
 
   @Test
   public void should_create_error_message_with_stack_trace_for_throwable() {
     IllegalArgumentException throwable = new IllegalArgumentException("Not in a list");
-    Class[] types = { NullPointerException.class, IllegalStateException.class };
+    Class<?>[] types = { NullPointerException.class, IllegalStateException.class };
     String message = shouldBeInstanceOfAny(throwable, types).create();
 
-    assertThat(message).isEqualTo(String.format(
-      "%nExpecting:%n <java.lang.IllegalArgumentException: Not in a list>%n"
-      + "to be an instance of any of:%n <[java.lang.NullPointerException, java.lang.IllegalStateException]>%n"
-      + "but was:%n <\"" + getStackTrace(throwable) + "\">"
-    ));
+    assertThat(message).isEqualTo(format("%nExpecting:%n" +
+                                         " <java.lang.IllegalArgumentException: Not in a list>%n" +
+                                         "to be an instance of any of:%n" +
+                                         " <[java.lang.NullPointerException, java.lang.IllegalStateException]>%n" +
+                                         "but was:%n <\"%s\">", getStackTrace(throwable)));
   }
 }

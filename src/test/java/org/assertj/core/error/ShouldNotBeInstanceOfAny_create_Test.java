@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.assertj.core.util.Throwables.getStackTrace;
@@ -39,20 +40,22 @@ public class ShouldNotBeInstanceOfAny_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nnot to be an instance of any of these types:%n <[java.lang.String, java.lang.Object]>"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <\"Yoda\">%n" +
+                                         "not to be an instance of any of these types:%n" +
+                                         " <[java.lang.String, java.lang.Object]>"));
   }
 
   @Test
   public void should_create_error_message_with_stack_trace_for_throwable() {
     IllegalArgumentException throwable = new IllegalArgumentException();
-    Class[] types = { NullPointerException.class, IllegalArgumentException.class };
+    Class<?>[] types = { NullPointerException.class, IllegalArgumentException.class };
     String message = shouldNotBeInstanceOfAny(throwable, types).create();
 
-    assertThat(message).isEqualTo(String.format(
-      "%nExpecting:%n <\"" + getStackTrace(throwable) + "\">%n"
-      + "not to be an instance of any of these types:%n <[java.lang.NullPointerException, java.lang.IllegalArgumentException]>"
-    ));
+    assertThat(message).isEqualTo(format("%nExpecting:%n" +
+                                         " <\"" + getStackTrace(throwable) + "\">%n" +
+                                         "not to be an instance of any of these types:%n" +
+                                         " <[java.lang.NullPointerException, java.lang.IllegalArgumentException]>"));
   }
 }
