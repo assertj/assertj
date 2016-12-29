@@ -501,7 +501,7 @@ public class Objects {
 
   private boolean isActualIn(Object actual, Iterable<?> values) {
     for (Object value : values) {
-      if (areEqual(value, actual)) {
+      if (areEqual(actual, value)) {
         return true;
       }
     }
