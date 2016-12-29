@@ -720,7 +720,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @since 2.6.0 / 3.6.0
    */
   public S containsExactly(int... values) {
-    objects.assertEqual(info, actual, arrays.toByteArray(values));
+    arrays.assertContainsExactly(info, actual, arrays.toByteArray(values));
     return myself;
   }
 

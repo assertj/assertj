@@ -12,11 +12,14 @@
  */
 package org.assertj.core.api.longarray;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.LongArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
+import org.assertj.core.util.AbsValueComparator;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.LongArrayAssert#containsExactly(long...)}</code>.
@@ -32,6 +35,13 @@ public class LongArrayAssert_containsExactly_Test extends LongArrayAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), arrayOf(1L, 2L));
+    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), arrayOf(1L, 2L));
   }
+
+  @Test
+  public void should_honor_the_given_element_comparator() {
+    long[] actual = new long[] { 1, 2, 3, 4 };
+    assertThat(actual).usingElementComparator(new AbsValueComparator<Long>()).containsExactly(-1, 2, 3, -4);
+  }
+  
 }

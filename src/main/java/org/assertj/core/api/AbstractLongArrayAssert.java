@@ -373,7 +373,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    *           or values are the same but the order is not.
    */
   public S containsExactly(long... values) {
-    objects.assertEqual(info, actual, values);
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 

@@ -415,7 +415,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *           or values are the same but the order is not.
    */
   public S containsExactly(char... values) {
-    objects.assertEqual(info, actual, values);
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 
