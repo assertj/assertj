@@ -14,7 +14,6 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import java.util.function.Consumer;
 
@@ -55,18 +54,9 @@ public class AbstractAssert_satisfies_Test {
 
   @Test
   public void should_fail_according_to_requirements() {
-    Jedi vader = new Jedi("Vader", "Red");
-	try {
-	  assertThat(vader).satisfies(jediRequirements);
-	} catch (AssertionError e) {
-	  // @format:off
-	  assertThat(e).hasMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
-	  //@format:on
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
+    assertThat(new Jedi("Vader", "Red")).satisfies(jediRequirements);
   }
-
 
   @Test
   public void should_fail_if_consumer_is_null() {
