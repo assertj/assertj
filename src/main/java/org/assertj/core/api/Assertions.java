@@ -912,41 +912,49 @@ public class Assertions {
   public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
     return AssertionsForClassTypes.assertThatExceptionOfType(exceptionType);
   }
-  
+
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
    * 
    * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
    */
   @CheckReturnValue
   public static ThrowableTypeAssert<NullPointerException> assertThatNullPointerException() {
     return assertThatExceptionOfType(NullPointerException.class);
   }
-  
+
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
    * 
    * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
    */
   @CheckReturnValue
   public static ThrowableTypeAssert<IllegalArgumentException> assertThatIllegalArgumentException() {
     return assertThatExceptionOfType(IllegalArgumentException.class);
   }
-  
+
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IOException}.
    * 
    * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
    */
   @CheckReturnValue
   public static ThrowableTypeAssert<IOException> assertThatIOException() {
     return assertThatExceptionOfType(IOException.class);
   }  
-  
+
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
    * 
    * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
    */
   @CheckReturnValue
   public static ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
