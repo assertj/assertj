@@ -16,6 +16,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
@@ -911,6 +912,46 @@ public class Assertions {
   public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
     return AssertionsForClassTypes.assertThatExceptionOfType(exceptionType);
   }
+  
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<NullPointerException> assertThatNullPointerException() {
+    return assertThatExceptionOfType(NullPointerException.class);
+  }
+  
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<IllegalArgumentException> assertThatIllegalArgumentException() {
+    return assertThatExceptionOfType(IllegalArgumentException.class);
+  }
+  
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IOException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<IOException> assertThatIOException() {
+    return assertThatExceptionOfType(IOException.class);
+  }  
+  
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
+    return assertThatExceptionOfType(IllegalStateException.class);
+  }  
 
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
