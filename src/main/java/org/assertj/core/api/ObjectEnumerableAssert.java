@@ -620,11 +620,15 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.
    * <p>
    * Example :
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
-   * Iterable&lt;String&gt; cb = newArrayList("c", "b");
-   *
-   * // assertion will pass
-   * assertThat(abc).containsAll(cb);</code></pre>
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = Arrays.asList("a", "b", "c");
+   * 
+   * // assertions will pass
+   * assertThat(abc).containsAll(Arrays.asList("b", "c"));
+   * assertThat(abc).containsAll(Arrays.asList("a", "b", "c"));
+   * 
+   * // assertions will fail
+   * assertThat(abc).containsAll(Arrays.asList("d"));
+   * assertThat(abc).containsAll(Arrays.asList("a", "b", "c", "d"));</code></pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
