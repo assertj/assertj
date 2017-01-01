@@ -17,6 +17,7 @@ import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqua
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
 
@@ -337,8 +338,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) throw new IllegalArgumentException("The given LocalDate array should not be null");
-    if (values.length == 0) throw new IllegalArgumentException("The given LocalDate array should not be empty");
+    checkArgument(values != null, "The given LocalDate array should not be null");
+    checkArgument(values.length > 0, "The given LocalDate array should not be empty");
   }
 
   /**
@@ -349,9 +350,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
   private static void assertLocalDateAsStringParameterIsNotNull(String localDateTimeAsString) {
-    // @format:off
-	if (localDateTimeAsString == null) throw new IllegalArgumentException("The String representing the LocalDate to compare actual with should not be null");
-	// @format:on
+    checkArgument(localDateTimeAsString != null,
+                  "The String representing the LocalDate to compare actual with should not be null");
   }
 
   /**
@@ -362,7 +362,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * @throws IllegalArgumentException with an explicit message if the given {@link LocalDate} is null
    */
   private static void assertLocalDateParameterIsNotNull(LocalDate other) {
-    if (other == null) throw new IllegalArgumentException("The LocalDate to compare actual with should not be null");
+    checkArgument(other != null, "The LocalDate to compare actual with should not be null");
   }
 
 }

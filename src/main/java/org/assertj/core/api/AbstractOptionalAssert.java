@@ -18,6 +18,7 @@ import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -397,8 +398,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     return assertThat(actual.map(mapper));
   }
 
-  private void checkNotNull(T expectedValue) {
-    if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
+  private void checkNotNull(Object expectedValue) {
+    checkArgument(expectedValue != null, "The expected value should not be <null>.");
   }
 
   private void assertValueIsPresent() {

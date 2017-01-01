@@ -19,6 +19,7 @@ import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
@@ -2184,7 +2185,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   @SuppressWarnings("unchecked")
   public S filteredOn(Predicate<? super T> predicate) {
-    if (predicate == null) throw new IllegalArgumentException("The filter predicate should not be null");
+    checkArgument(predicate != null, "The filter predicate should not be null");
     return (S) new ObjectArrayAssert<>(stream(actual).filter(predicate).toArray());
   }
 

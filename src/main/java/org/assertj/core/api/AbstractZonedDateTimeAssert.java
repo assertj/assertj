@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,9 +41,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException with an explicit message if the given {@link ZonedDateTime} is null
    */
   private static void assertDateTimeParameterIsNotNull(ZonedDateTime dateTime) {
-    if (dateTime == null) {
-      throw new IllegalArgumentException(NULL_DATE_TIME_PARAMETER_MESSAGE);
-    }
+    checkArgument(dateTime != null, NULL_DATE_TIME_PARAMETER_MESSAGE);
   }
 
   protected ZonedDateTime getActual() {
@@ -599,12 +598,8 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) {
-      throw new IllegalArgumentException("The given ZonedDateTime array should not be null");
-    }
-    if (values.length == 0) {
-      throw new IllegalArgumentException("The given ZonedDateTime array should not be empty");
-    }
+    checkArgument(values != null, "The given ZonedDateTime array should not be null");
+    checkArgument(values.length > 0, "The given ZonedDateTime array should not be empty");
   }
 
   private ZonedDateTime parseStringAsIsoDateTimeAndMoveToActualTimeZone(String dateTimeAsString) {
@@ -624,11 +619,8 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
   private static void assertDateTimeAsStringParameterIsNotNull(String dateTimeAsString) {
-    if (dateTimeAsString == null) {
-      // @format:off
-      throw new IllegalArgumentException("The String representing the ZonedDateTime to compare actual with should not be null");
-      // @format:on
-    }
+    checkArgument(dateTimeAsString != null,
+                  "The String representing the ZonedDateTime to compare actual with should not be null");
   }
 
   /**

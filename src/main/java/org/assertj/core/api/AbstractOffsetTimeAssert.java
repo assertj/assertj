@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldBeEqualIgnoringTimezone.shouldBeEqualIgnoringTimezone;
 import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.OffsetTime;
 
@@ -358,8 +359,8 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) throw new IllegalArgumentException("The given OffsetTime array should not be null");
-    if (values.length == 0) throw new IllegalArgumentException("The given OffsetTime array should not be empty");
+    checkArgument(values != null, "The given OffsetTime array should not be null");
+    checkArgument(values.length > 0, "The given OffsetTime array should not be empty");
   }
 
   /**
@@ -371,9 +372,8 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
   private static void assertOffsetTimeAsStringParameterIsNotNull(String OffsetTimeAsString) {
-    // @format:off
-	if (OffsetTimeAsString == null) throw new IllegalArgumentException("The String representing the OffsetTime to compare actual with should not be null");
-	// @format:on
+    checkArgument(OffsetTimeAsString != null,
+                  "The String representing the OffsetTime to compare actual with should not be null");
   }
 
   /**
@@ -384,8 +384,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * @throws IllegalArgumentException with an explicit message if the given {@link java.time.OffsetTime} is null
    */
   private static void assertOffsetTimeParameterIsNotNull(OffsetTime other) {
-    if (other == null)
-      throw new IllegalArgumentException("The OffsetTime to compare actual with should not be null");
+    checkArgument(other != null, "The OffsetTime to compare actual with should not be null");
   }
 
   /**
