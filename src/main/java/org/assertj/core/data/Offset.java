@@ -43,7 +43,7 @@ public class Offset<T extends Number> {
   }
 
   private static IllegalArgumentException valueNotPositive() {
-    return new IllegalArgumentException("The value of the offset should be greater than zero");
+    return new IllegalArgumentException("The value of the offset should be greater than or equal to zero");
   }
 
   private Offset(T value) {

@@ -43,7 +43,7 @@ public class Percentage {
 
   private static void checkBoundaries(double value) {
     if (value < 0)
-      throw new IllegalArgumentException(format("The percentage value <%s> should be > 0.", value));
+      throw new IllegalArgumentException(format("The percentage value <%s> should be greater than or equal to zero", value));
   }
 
   private Percentage(double value) {
