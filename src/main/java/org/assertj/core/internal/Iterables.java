@@ -874,8 +874,4 @@ public class Iterables {
     return new NullPointerException("The iterable to look for should not be null");
   }
 
-  static public IllegalArgumentException iterableToLookForIsEmpty() {
-    return new IllegalArgumentException("The iterable to look for should not be empty");
-  }
-
 }
