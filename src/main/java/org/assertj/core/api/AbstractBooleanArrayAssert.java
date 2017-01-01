@@ -416,7 +416,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    *           or values are the same but the order is not.
    */
   public S containsExactly(boolean... values) {
-    objects.assertEqual(info, actual, values);
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 

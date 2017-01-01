@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Arrays.array;
 
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Assertion methods for arrays of objects.
@@ -32,6 +34,10 @@ public class ObjectArrayAssert<T> extends AbstractObjectArrayAssert<ObjectArrayA
 
   public ObjectArrayAssert(T[] actual) {
     super(actual, ObjectArrayAssert.class);
+  }
+
+  public ObjectArrayAssert(AtomicReferenceArray<T> actual) {
+    this(array(actual));
   }
 
 }

@@ -32,6 +32,7 @@ public class BooleanArrayAssert_containsExactly_Test extends BooleanArrayAssertB
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), arrayOf(true, false));
+    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), arrayOf(true, false));
   }
+
 }

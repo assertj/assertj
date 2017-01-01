@@ -38,7 +38,7 @@ public class Iterable_generics_with_varargs_Test {
 	assertThat(strings).contains("a", "b");
   }
 
-  @Test
+  @Test @Ignore
   public void testListAssertWithGenerics() {
     // List<? extends String> strings = asList("a", "b", "c");
     // does not compile as Java 8 is stricter with generics ...

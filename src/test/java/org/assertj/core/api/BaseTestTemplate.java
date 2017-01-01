@@ -94,6 +94,10 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extend
   protected AssertionInfo getInfo(S someAssertions) {
     return someAssertions.info;
   }
+  
+  protected AssertionInfo info() {
+    return getInfo(assertions);
+  }
 
   protected A getActual(S someAssertions) {
     return someAssertions.actual;

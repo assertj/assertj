@@ -36,6 +36,18 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -221,6 +233,146 @@ public interface WithAssertions {
     return Assertions.assertThat(actual);
   }
 
+  /**
+   * Create assertion for {@link AtomicBoolean}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default AtomicBooleanAssert assertThat(AtomicBoolean actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicInteger}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default AtomicIntegerAssert assertThat(AtomicInteger actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create int[] assertion for {@link AtomicIntegerArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicIntegerFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default AtomicLongAssert assertThat(AtomicLong actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
+   *
+   * @return the created assertion object.
+   */
+  default <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceArray}.
+   *
+   * @param actual the actual value.
+   * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
+   *
+   * @return the created assertion object.
+   */
+  default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceFieldUpdater}.
+   *
+   * @param actual the actual value.
+   * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   *
+   * @return the created assertion object.
+   */
+  default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicMarkableReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
+   *
+   * @return the created assertion object.
+   */
+  default <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicStampedReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
+   *
+   * @return the created assertion object.
+   */
+  default <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
+    return Assertions.assertThat(actual);
+  }
+  
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CharSequence)}
    */

@@ -13,6 +13,7 @@
 package org.assertj.core.presentation;
 
 import static java.lang.String.format;
+import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
@@ -31,10 +32,17 @@ import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.presentation.AbstractBaseRepresentationTest;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.OtherStringTestComparator;
+import org.assertj.core.util.OtherStringTestComparatorWithAt;
+import org.assertj.core.util.StringTestComparator;
 import org.junit.Test;
 
 /**
@@ -46,7 +54,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_null_if_object_is_null() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf((Object)null)).isNull();
+    assertThat(STANDARD_REPRESENTATION.toStringOf((Object) null)).isNull();
   }
 
   @Test
@@ -81,7 +89,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   public void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = newArrayList("s1", "s2");
     // assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\",%n" +
-    // "    \"s2\"]"));
+    // " \"s2\"]"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"]"));
   }
 
@@ -114,7 +122,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
     collection.add(newArrayList("s6", "s7"));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
-      .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
+                                                              .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
   }
 
   @Test
@@ -162,6 +170,42 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   }
 
   @Test
+  public void should_return_toString_of_AtomicReference() {
+    AtomicReference<String> atomicReference = new AtomicReference<>("actual");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicReference)).isEqualTo("AtomicReference[\"actual\"]");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicMarkableReference() {
+    AtomicMarkableReference<String> atomicMarkableReference = new AtomicMarkableReference<>("actual", true);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicMarkableReference)).isEqualTo("AtomicMarkableReference[marked=true, reference=\"actual\"]");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicStampedReference() {
+    AtomicStampedReference<String> tomicStampedReference = new AtomicStampedReference<>("actual", 123);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(tomicStampedReference)).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"]");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicIntegerFieldUpdater() {
+    AtomicIntegerFieldUpdater<Person> updater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicIntegerFieldUpdater");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicLongFieldUpdater() {
+    AtomicLongFieldUpdater<Person> updater = AtomicLongFieldUpdater.newUpdater(Person.class, "account");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicLongFieldUpdater");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicReferenceFieldUpdater() {
+    AtomicReferenceFieldUpdater<Person, String> updater = newUpdater(Person.class, String.class, "name");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicReferenceFieldUpdater");
+  }
+
+  @Test
   public void toString_with_anonymous_comparator() {
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
@@ -179,7 +223,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
       public int compare(String s1, String s2) {
         return s1.length() - s2.length();
       }
-      
+
       @Override
       public String toString() {
         return "foo";
@@ -187,12 +231,12 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
     };
     assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("'foo'");
   }
-  
+
   @Test
   public void toString_with_comparator_not_overriding_toString() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(new StringTestComparator())).isEqualTo("'StringTestComparator'");
   }
-  
+
   @Test
   public void toString_with_comparator_overriding_toString() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("'other String comparator'");
@@ -202,7 +246,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   public void toString_with_comparator_overriding_toString_and_having_at() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparatorWithAt())).isEqualTo("'other String comparator with @'");
   }
-  
+
   @Test
   public void should_format_longs_and_integers() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(20L).equals(toStringOf(20))).isFalse();
@@ -250,4 +294,16 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   private String toStringOf(Object o) {
     return STANDARD_REPRESENTATION.toStringOf(o);
   }
+
+  private static class Person {
+    volatile String name;
+    volatile int age;
+    volatile long account;
+
+    @Override
+    public String toString() {
+      return format("Person [name=%s, age=%s, account=%s]", name, age, account);
+    }
+  }
+
 }

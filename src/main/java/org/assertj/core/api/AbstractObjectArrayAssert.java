@@ -1124,10 +1124,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"};
-   * String[] bc = {"b", "c"};
    *
    * // assertion will pass
-   * assertThat(abc).containsAll(bc);
+   * assertThat(abc).containsAll(Arrays.asList("b", "c"));
    * 
    * // assertions will fail
    * assertThat(abc).containsAll(Arrays.asList("d"));

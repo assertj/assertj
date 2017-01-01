@@ -35,13 +35,13 @@ public class OptionalShouldContainInstanceOf extends BasicErrorMessageFactory {
    * @throws java.lang.NullPointerException if optional is null.
    */
   public static OptionalShouldContainInstanceOf shouldContainInstanceOf(Object value, Class<?> clazz) {
-    Optional optional = (Optional) value;
+    Optional<?> optional = (Optional<?>) value;
     if (optional.isPresent()) {
       return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut did contain an instance of:%n <%s>",
-        optional.getClass().getSimpleName(), clazz.getName(), optional.get().getClass().getName()));
-    } else {
-      return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut was empty",
-        optional.getClass().getSimpleName(), clazz.getName()));
+                                                        optional.getClass().getSimpleName(), clazz.getName(),
+                                                        optional.get().getClass().getName()));
     }
+    return new OptionalShouldContainInstanceOf(format("%nExpecting:%n <%s>%nto contain a value that is an instance of:%n <%s>%nbut was empty",
+                                                      optional.getClass().getSimpleName(), clazz.getName()));
   }
 }

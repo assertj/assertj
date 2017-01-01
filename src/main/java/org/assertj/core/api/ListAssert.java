@@ -29,9 +29,9 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(List)}</code>.
  * <p>
- * 
+ *
  * @param <ELEMENT> the type of elements of the "actual" value.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -221,6 +221,12 @@ public class ListAssert<ELEMENT> extends
   @SafeVarargs
   public final ListAssert<ELEMENT> contains(ELEMENT... values) {
     return super.contains(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> containsOnly(ELEMENT... values) {
+    return super.containsOnly(values);
   }
 
   @Override

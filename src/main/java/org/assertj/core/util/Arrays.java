@@ -13,10 +13,15 @@
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Utility methods related to arrays.
@@ -57,6 +62,54 @@ public class Arrays {
   @SafeVarargs
   public static <T> T[] array(T... values) {
     return values;
+  }
+
+  /** 
+   * Returns an int[] from the {@link AtomicIntegerArray}, null if the given atomic array is null.
+   * 
+   * @param atomicIntegerArray the {@link AtomicIntegerArray} to convert to int[].
+   * @return an int[].
+   */
+  public static int[] array(AtomicIntegerArray atomicIntegerArray) {
+    if (atomicIntegerArray == null) return null;
+    int[] array = new int[atomicIntegerArray.length()];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = atomicIntegerArray.get(i);
+    }
+    return array;
+  }
+
+  /** 
+   * Returns an long[] from the {@link AtomicLongArray}, null if the given atomic array is null.
+   * 
+   * @param atomicLongArray the {@link AtomicLongArray} to convert to long[].
+   * @return an long[].
+   */
+  public static long[] array(AtomicLongArray atomicLongArray) {
+    if (atomicLongArray == null) return null;
+    long[] array = new long[atomicLongArray.length()];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = atomicLongArray.get(i);
+    }
+    return array;
+  }
+
+  /** 
+   * Returns an T[] from the {@link AtomicReferenceArray}, null if the given atomic array is null.
+   * 
+   * @param atomicReferenceArray the {@link AtomicReferenceArray} to convert to T[].
+   * @return an T[].
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T[] array(AtomicReferenceArray<T> atomicReferenceArray) {
+    if (atomicReferenceArray == null) return null;
+    int length = atomicReferenceArray.length();
+    if (length == 0) return array();
+    List<T> list = newArrayList();
+    for (int i = 0; i < length; i++) {
+      list.add(atomicReferenceArray.get(i));
+    }
+    return list.toArray((T[]) Array.newInstance(Object.class, length));
   }
 
   /**

@@ -14,12 +14,14 @@ package org.assertj.core.util.xml;
 
 import static java.util.Locale.ENGLISH;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.util.Locale;
 
+import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXParseException;
 
@@ -29,7 +31,10 @@ import org.xml.sax.SAXParseException;
  * @author Joel Costigliola
  */
 public class XmlStringPrettyFormatter_prettyFormat_Test {
-	
+
+  @Rule
+  public ExpectedException thrown = none();
+
   @Before
   public void before() {
 	// Set locale to be able to check exception message in English.
@@ -62,13 +67,8 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
 
   @Test
   public void should_throw_error_when_xml_string_is_null() {
-    try {
-      xmlPrettyFormat(null);
-      shouldHaveThrown(IllegalArgumentException.class);
-    } catch (Exception e) {
-      assertThat(e).isInstanceOf(IllegalArgumentException.class).hasMessageStartingWith(
-          "Expecting XML String not to be null");
-    }
+    thrown.expectWithMessageStartingWith(IllegalArgumentException.class, "Expecting XML String not to be null");
+    xmlPrettyFormat(null);
   }
 
   @Test

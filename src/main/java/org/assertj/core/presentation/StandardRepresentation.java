@@ -34,6 +34,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -50,7 +59,7 @@ import org.assertj.core.util.DateUtil;
  * 
  * @author Mariusz Smykula
  */
-public class StandardRepresentation implements Representation {
+public class StandardRepresentation implements Representation { // TODO : add unit tests
 
   // can be shared this at StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
@@ -135,6 +144,15 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
+    if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean)object);
+    if (object instanceof AtomicInteger) return toStringOf((AtomicInteger)object);
+    if (object instanceof AtomicLong) return toStringOf((AtomicLong)object);
+    if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
+    if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
+    if (object instanceof AtomicStampedReference) return toStringOf((AtomicStampedReference<?>) object);
+    if (object instanceof AtomicIntegerFieldUpdater) return AtomicIntegerFieldUpdater.class.getSimpleName();
+    if (object instanceof AtomicLongFieldUpdater) return AtomicLongFieldUpdater.class.getSimpleName();
+    if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
     if (object instanceof Number) return toStringOf((Number) object);
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof String) return toStringOf((String) object);
@@ -169,6 +187,18 @@ public class StandardRepresentation implements Representation {
     return number.toString();
   }
 
+  protected String toStringOf(AtomicBoolean atomicBoolean) {
+    return String.format("AtomicBoolean(%s)", atomicBoolean.get());
+  }
+
+  protected String toStringOf(AtomicInteger atomicInteger) {
+    return String.format("AtomicInteger(%s)", atomicInteger.get());
+  }
+  
+  protected String toStringOf(AtomicLong atomicLong) {
+    return String.format("AtomicLong(%s)", atomicLong.get());
+  }
+  
   protected String toStringOf(Comparator<?> comparator) {
     if (!comparator.toString().contains("@")) return quote(comparator.toString());
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
@@ -270,10 +300,24 @@ public class StandardRepresentation implements Representation {
     }
   }
 
-  private Object format(Map<?, ?> map, Object o) {
+  private String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
   }
 
+  protected String toStringOf(AtomicReference<?> atomicReference) {
+    return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
+  }
+  
+  protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
+    return String.format("AtomicMarkableReference[marked=%s, reference=%s]", atomicMarkableReference.isMarked(),
+                         toStringOf(atomicMarkableReference.getReference()));
+  }
+  
+  protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
+    return String.format("AtomicStampedReference[stamp=%s, reference=%s]", atomicStampedReference.getStamp(),
+                         toStringOf(atomicStampedReference.getReference()));
+  }
+  
   @Override
   public String toString() {
     return this.getClass().getSimpleName();
@@ -292,8 +336,7 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String multiLineFormat(Representation representation, Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(iterable, StandardRepresentation.ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE,
-                  alreadyFormatted);
+    return format(iterable, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyFormatted);
   }
 
   protected String singleLineFormat(Representation representation, Object[] iterable, String start, String end,

@@ -12,11 +12,15 @@
  */
 package org.assertj.core.api.shortarray;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.LongArrays.arrayOf;
 import static org.assertj.core.test.ShortArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
+import org.assertj.core.util.AbsValueComparator;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.ShortArrayAssert#containsExactly(short...)}</code>.
@@ -32,6 +36,13 @@ public class ShortArrayAssert_containsExactly_Test extends ShortArrayAssertBaseT
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
+    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
+  }
+
+  @Test
+  public void should_honor_the_given_element_comparator() {
+    short[] actual = new short[] { (short) 1, (short) 2, (short) 3 };
+    assertThat(actual).usingElementComparator(new AbsValueComparator<Short>())
+                      .containsExactly((short) -1, (short) 2, (short) 3);
   }
 }

@@ -12,11 +12,14 @@
  */
 package org.assertj.core.api.chararray;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
+import org.assertj.core.util.CaseInsensitiveCharacterComparator;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.CharArrayAssert#containsExactly(char...)}</code>.
@@ -32,6 +35,12 @@ public class CharArrayAssert_containsExactly_Test extends CharArrayAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), arrayOf('a', 'b'));
+    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), arrayOf('a', 'b'));
   }
-}
+
+  @Test
+  public void should_honor_the_given_element_comparator() {
+    char[] actual = arrayOf('a', 'b');
+    assertThat(actual).usingElementComparator(CaseInsensitiveCharacterComparator.instance)
+                      .containsExactly('a', 'B');
+  }}

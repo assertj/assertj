@@ -373,7 +373,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    *           or values are the same but the order is not.
    */
   public S containsExactly(short... values) {
-    objects.assertEqual(info, actual, values);
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 

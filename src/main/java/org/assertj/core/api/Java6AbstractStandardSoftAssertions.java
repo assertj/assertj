@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -24,8 +24,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * AbstractStandardSoftAssertions compatible with Android. Duplicated from {@link AbstractStandardSoftAssertions}.
@@ -482,6 +494,163 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   @CheckReturnValue
   public DateAssert assertThat(Date actual) {
     return proxy(DateAssert.class, Date.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicBoolean}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicBooleanAssert assertThat(AtomicBoolean actual) {
+    return proxy(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicInteger}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicIntegerAssert assertThat(AtomicInteger actual) {
+    return proxy(AtomicIntegerAssert.class, AtomicInteger.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicIntegerArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
+    return proxy(AtomicIntegerArrayAssert.class, AtomicIntegerArray.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicIntegerFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicLongAssert assertThat(AtomicLong actual) {
+    return proxy(AtomicLongAssert.class, AtomicLong.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
+    return proxy(AtomicLongArrayAssert.class, AtomicLongArray.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
+    return proxy(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReference}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
+    return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <ELEMENT> the type of object referred to by the {@link AtomicReferenceArray}.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
+    return proxy(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+    return proxy(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicMarkableReference}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
+    return proxy(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicStampedReference}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
+    return proxy(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);
   }
 
   /**

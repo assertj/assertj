@@ -12,7 +12,8 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
 import java.io.File;
 import java.io.InputStream;
@@ -24,9 +25,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Android-compatible BDD-style assertions duplicated from {@link BDDAssertions}.
@@ -36,6 +48,160 @@ import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
  * @since 2.5.0 / 3.5.0
  */
 public class Java6BDDAssertions {
+
+  /**
+   * Create assertion for {@link AtomicBoolean}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicBooleanAssert then(AtomicBoolean actual) {
+    return new AtomicBooleanAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicInteger}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicIntegerAssert then(AtomicInteger actual) {
+    return new AtomicIntegerAssert(actual);
+  }
+
+  /**
+   * Create int[] assertion for {@link AtomicIntegerArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
+    return new AtomicIntegerArrayAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicIntegerFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return new AtomicIntegerFieldUpdaterAssert<OBJECT>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicLongAssert then(AtomicLong actual) {
+    return new AtomicLongAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongArray}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AtomicLongArrayAssert then(AtomicLongArray actual) {
+    return new AtomicLongArrayAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongFieldUpdater}.
+   *
+   * @param actual the actual value.
+   *
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> then(AtomicLongFieldUpdater<OBJECT> actual) {
+    return new AtomicLongFieldUpdaterAssert<OBJECT>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
+    return new AtomicReferenceAssert<VALUE>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceArray}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
+   *
+   * @return the created assertion object.  <T>   public static <T> AbstractObjectArrayAssert<?, T> then(T[] actual) {
+  
+   */
+  @CheckReturnValue
+  public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(AtomicReferenceArray<ELEMENT> actual) {
+    return new AtomicReferenceArrayAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceFieldUpdater}.
+   *
+   * @param actual the actual value.
+   * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> then(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+    return new AtomicReferenceFieldUpdaterAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicMarkableReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicMarkableReferenceAssert<VALUE> then(AtomicMarkableReference<VALUE> actual) {
+    return new AtomicMarkableReferenceAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicStampedReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicStampedReferenceAssert<VALUE> then(AtomicStampedReference<VALUE> actual) {
+    return new AtomicStampedReferenceAssert<>(actual);
+  }
+
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.BigDecimalAssert}</code>.
    *

@@ -14,13 +14,19 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.Introspection_getProperty_Test.Example;
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class Assertions_useRepresentation_Test {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   private CustomRepresentation customRepresentation = new CustomRepresentation();
 
@@ -32,21 +38,8 @@ public class Assertions_useRepresentation_Test {
   @Test
   public void should_use_given_representation_in_assertion_error_messages() {
     Assertions.useRepresentation(customRepresentation);
-    try {
-      assertThat("foo").startsWith("bar");
-    } catch (AssertionError e) {
-      assertThat(e).hasMessageContaining("$foo$")
-                   .hasMessageContaining("$bar$");
-      Assertions.useDefaultRepresentation();
-      try {
-        assertThat("foo").startsWith("bar");
-      } catch (AssertionError e2) {
-        assertThat(e2).hasMessageContaining("\"foo\"")
-                      .hasMessageContaining("\"bar\"");
-        return;
-      }
-    }
-    fail("AssertionError expected");
+    thrown.expectAssertionErrorWithMessageContaining("$foo$", "$bar$");
+    assertThat("foo").startsWith("bar");
   }
 
   @Test

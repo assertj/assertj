@@ -199,13 +199,13 @@ public class IntArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, int[] actual, int[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, int[] actual, int[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -251,6 +251,7 @@ public class IntArrays {
   public void assertContainsSubsequence(AssertionInfo info, int[] actual, int[] subsequence) {
     arrays.assertContainsSubsequence(info, failures, actual, subsequence);
   }
+
   /**
    * Asserts that the given array does not contain the given values.
    * 
@@ -332,7 +333,7 @@ public class IntArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, int[] actual,
-      Comparator<? super Integer> comparator) {
+                                                  Comparator<? super Integer> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
