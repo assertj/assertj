@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -166,19 +166,19 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   @Override
   @SuppressWarnings("unchecked")
   public boolean isGreaterThan(Object actual, Object other) {
-    if (!(actual instanceof Comparable)) {
-      throw new IllegalArgumentException(format("argument '%s' should be Comparable but is not", actual));
-    }
+    checkArgumentIsComparable(actual);
     return Comparable.class.cast(actual).compareTo(other) > 0;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public boolean isLessThan(Object actual, Object other) {
-    if (!(actual instanceof Comparable)) {
-      throw new IllegalArgumentException(format("argument '%s' should be Comparable but is not", actual));
-    }
+    checkArgumentIsComparable(actual);
     return Comparable.class.cast(actual).compareTo(other) < 0;
+  }
+
+  private void checkArgumentIsComparable(Object actual) {
+    checkArgument(actual instanceof Comparable, "argument '%s' should be Comparable but is not", actual);
   }
 
   @Override

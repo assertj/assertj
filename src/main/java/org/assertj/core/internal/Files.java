@@ -30,6 +30,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
@@ -166,8 +167,7 @@ public class Files {
 
   private void verifyIsFile(File expected) {
     checkNotNull(expected, "The file to compare to should not be null");
-    if (expected.isFile()) return;
-    throw new IllegalArgumentException(String.format("Expected file:<'%s'> should be an existing file", expected));
+    checkArgument(expected.isFile(), "Expected file:<'%s'> should be an existing file", expected);
   }
 
   /**

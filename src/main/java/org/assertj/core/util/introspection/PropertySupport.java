@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
 import java.lang.reflect.Method;
@@ -171,7 +172,7 @@ public class PropertySupport {
    * @throws IllegalArgumentException if propertyName is null.
    */
   public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
-    if (propertyName == null) throw new IllegalArgumentException("the property name should not be null.");
+    checkArgument(propertyName != null, "the property name should not be null.");
     // returns null if target is null as we can't extract a property from a null object
     // but don't want to raise an exception if we were looking at a nested property
     if (target == null) return null;

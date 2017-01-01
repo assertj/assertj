@@ -62,6 +62,7 @@ import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
@@ -583,7 +584,7 @@ public class Arrays {
   @SuppressWarnings("unchecked")
   private static <T> List<T> asList(Object array) {
     if (array == null) return null;
-    if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
+    checkArgument(isArray(array), "The object should be an array");
     int length = getLength(array);
     List<T> list = new ArrayList<>(length);
     for (int i = 0; i < length; i++) {

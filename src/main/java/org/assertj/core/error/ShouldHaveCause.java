@@ -13,11 +13,12 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveCause(Throwable actualCause, Throwable expectedCause) {
-    if (expectedCause == null) throw new IllegalArgumentException("expected cause should not be null");
+    checkArgument(expectedCause != null, "expected cause should not be null");
     // actualCause has no cause
     if (actualCause == null) return new ShouldHaveCause(expectedCause);
     // same message => different type

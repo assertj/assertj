@@ -17,6 +17,7 @@ import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -290,7 +291,7 @@ public class DateUtil {
    * @throws IllegalArgumentException if one a the given Date is null.
    */
   public static long timeDifference(Date date1, Date date2) {
-    if (date1 == null || date2 == null) throw new IllegalArgumentException("Expecting date parameter not to be null");
+    checkArgument(date1 != null && date2 != null, "Expecting date parameter not to be null");
     return Math.abs(date1.getTime() - date2.getTime());
   }
 
