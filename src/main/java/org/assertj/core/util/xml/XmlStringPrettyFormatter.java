@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util.xml;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -38,8 +40,7 @@ public class XmlStringPrettyFormatter {
   private static final String FORMAT_ERROR = "Unable to format XML string";
 
   public static String xmlPrettyFormat(String xmlStringToFormat) {
-    if (xmlStringToFormat == null)
-      throw new IllegalArgumentException("Expecting XML String not to be null");
+    checkArgument(xmlStringToFormat != null, "Expecting XML String not to be null");
     // convert String to an XML Document and then back to String but prettily formatted.
     return prettyFormat(toXmlDocument(xmlStringToFormat), xmlStringToFormat.startsWith("<?xml"));
   }

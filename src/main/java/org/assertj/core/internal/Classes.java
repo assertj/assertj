@@ -23,6 +23,7 @@ import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.annotation.Annotation;
@@ -32,6 +33,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.Arrays;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -67,8 +69,7 @@ public class Classes {
    */
   public void assertIsAssignableFrom(AssertionInfo info, Class<?> actual, Class<?>... others) {
     assertNotNull(info, actual);
-    if (others == null || others.length == 0)
-      throw new IllegalArgumentException("Expecting at least one Class to be specified");
+    checkArgument(!Arrays.isNullOrEmpty(others), "Expecting at least one Class to be specified");
 
     Set<Class<?>> expected = newLinkedHashSet(others);
     Set<Class<?>> missing = new LinkedHashSet<>();

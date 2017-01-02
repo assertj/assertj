@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util.introspection;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -40,12 +42,8 @@ public class FieldUtils {
    * @throws IllegalAccessException if field exists but is not public
    */
   static Field getField(final Class<?> cls, String fieldName, boolean forceAccess) throws IllegalAccessException {
-    if (cls == null) {
-      throw new IllegalArgumentException("The class must not be null");
-    }
-    if (fieldName == null) {
-      throw new IllegalArgumentException("The field name must not be null");
-    }
+    checkArgument(cls != null, "The class must not be null");
+    checkArgument(fieldName != null, "The field name must not be null");
     // Sun Java 1.3 has a bugged implementation of getField hence we write the
     // code ourselves
 
@@ -83,10 +81,8 @@ public class FieldUtils {
     for (Class<?> class1 : ClassUtils.getAllInterfaces(cls)) {
       try {
         Field test = class1.getField(fieldName);
-        if (match != null) {
-          throw new IllegalArgumentException("Reference to field " + fieldName + " is ambiguous relative to " + cls
+        checkArgument(match == null, "Reference to field " + fieldName + " is ambiguous relative to " + cls
               + "; a matching field exists on two or more implemented interfaces.");
-        }
         match = test;
       } catch (NoSuchFieldException ex) { // NOPMD
         // ignore
@@ -119,9 +115,7 @@ public class FieldUtils {
    * @throws IllegalAccessException if the field is not made accessible
    */
   private static Object readField(Field field, Object target, boolean forceAccess) throws IllegalAccessException {
-    if (field == null) {
-      throw new IllegalArgumentException("The field must not be null");
-    }
+    checkArgument(field != null, "The field must not be null");
     if (forceAccess && !field.isAccessible()) {
       field.setAccessible(true);
     } else {
@@ -142,14 +136,10 @@ public class FieldUtils {
    * @throws IllegalAccessException if the named field is not made accessible
    */
   static Object readField(Object target, String fieldName, boolean forceAccess) throws IllegalAccessException {
-    if (target == null) {
-      throw new IllegalArgumentException("target object must not be null");
-    }
+    checkArgument(target != null, "target object must not be null");
     Class<?> cls = target.getClass();
     Field field = getField(cls, fieldName, forceAccess);
-    if (field == null) {
-      throw new IllegalArgumentException("Cannot locate field " + fieldName + " on " + cls);
-    }
+    checkArgument(field != null, "Cannot locate field " + fieldName + " on " + cls);
     // already forced access above, don't repeat it here:
     return readField(field, target);
   }

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util.diff.myers;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,12 +63,8 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * Return empty diff if get the error while procession the difference.
    */
   public Patch<T> diff(final List<T> original, final List<T> revised) {
-    if (original == null) {
-      throw new IllegalArgumentException("original list must not be null");
-    }
-    if (revised == null) {
-      throw new IllegalArgumentException("revised list must not be null");
-    }
+    checkArgument(original != null, "original list must not be null");
+    checkArgument(revised != null, "revised list must not be null");
     PathNode path;
     try {
       path = buildPath(original, revised);
@@ -88,10 +86,8 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * @throws DifferentiationFailedException if a diff path could not be found.
    */
   public PathNode buildPath(final List<T> orig, final List<T> rev) {
-    if (orig == null)
-      throw new IllegalArgumentException("original sequence is null");
-    if (rev == null)
-      throw new IllegalArgumentException("revised sequence is null");
+    checkArgument(orig != null, "original sequence is null");
+    checkArgument(rev != null, "revised sequence is null");
 
     // these are local constants
     final int N = orig.size();
@@ -158,9 +154,9 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * @return A {@link Patch} script corresponding to the path.
    */
   public Patch<T> buildRevision(PathNode path, List<T> orig, List<T> rev) {
-    if (path == null) throw new IllegalArgumentException("path is null");
-    if (orig == null) throw new IllegalArgumentException("original sequence is null");
-    if (rev == null) throw new IllegalArgumentException("revised sequence is null");
+    checkArgument(path != null, "path is null");
+    checkArgument(orig != null, "original sequence is null");
+    checkArgument(rev != null, "revised sequence is null");
 
     Patch<T> patch = new Patch<>();
     if (path.isSnake())

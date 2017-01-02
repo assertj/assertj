@@ -14,6 +14,8 @@ package org.assertj.core.util.diff;
 
 import org.assertj.core.util.diff.myers.MyersDiff;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -60,15 +62,9 @@ public class DiffUtils {
    */
   public static <T> Patch<T> diff(List<T> original, List<T> revised,
                                   DiffAlgorithm<T> algorithm) {
-    if (original == null) {
-      throw new IllegalArgumentException("original must not be null");
-    }
-    if (revised == null) {
-      throw new IllegalArgumentException("revised must not be null");
-    }
-    if (algorithm == null) {
-      throw new IllegalArgumentException("algorithm must not be null");
-    }
+    checkArgument(original != null, "original must not be null");
+    checkArgument(revised != null, "revised must not be null");
+    checkArgument(algorithm != null, "algorithm must not be null");
     return algorithm.diff(original, revised);
   }
 
