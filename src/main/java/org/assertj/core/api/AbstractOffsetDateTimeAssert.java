@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualI
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldBeEqualIgnoringTimezone.shouldBeEqualIgnoringTimezone;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.OffsetDateTime;
 
@@ -649,8 +650,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) throw new IllegalArgumentException("The given OffsetDateTime array should not be null");
-    if (values.length == 0) throw new IllegalArgumentException("The given OffsetDateTime array should not be empty");
+    checkArgument(values != null, "The given OffsetDateTime array should not be null");
+    checkArgument(values.length > 0, "The given OffsetDateTime array should not be empty");
   }
 
   /**
@@ -662,11 +663,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
   private static void assertOffsetDateTimeAsStringParameterIsNotNull(String offsetDateTimeAsString) {
-    if (offsetDateTimeAsString == null) {
-      // @format:off
-      throw new IllegalArgumentException("The String representing the OffsetDateTime to compare actual with should not be null");
-      // @format:on
-    }
+    checkArgument(offsetDateTimeAsString != null,
+                  "The String representing the OffsetDateTime to compare actual with should not be null");
   }
 
   /**
@@ -677,9 +675,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException with an explicit message if the given {@link java.time.OffsetDateTime} is null
    */
   private static void assertOffsetDateTimeParameterIsNotNull(OffsetDateTime other) {
-    if (other == null) {
-      throw new IllegalArgumentException("The OffsetDateTime to compare actual with should not be null");
-    }
+    checkArgument(other != null, "The OffsetDateTime to compare actual with should not be null");
   }
 
 }

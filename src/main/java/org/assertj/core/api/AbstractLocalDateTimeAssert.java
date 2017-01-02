@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDateTime;
 
@@ -326,12 +327,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-	if (values == null) {
-	  throw new IllegalArgumentException("The given LocalDateTime array should not be null");
-	}
-	if (values.length == 0) {
-	  throw new IllegalArgumentException("The given LocalDateTime array should not be empty");
-	}
+    checkArgument(values != null, "The given LocalDateTime array should not be null");
+    checkArgument(values.length > 0, "The given LocalDateTime array should not be empty");
   }
 
   /**
@@ -342,10 +339,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
   private static void assertLocalDateTimeAsStringParameterIsNotNull(String localDateTimeAsString) {
-	if (localDateTimeAsString == null) {
-	  throw new IllegalArgumentException(
-		                                 "The String representing the LocalDateTime to compare actual with should not be null");
-	}
+    checkArgument(localDateTimeAsString != null,
+                  "The String representing the LocalDateTime to compare actual with should not be null");
   }
 
   /**
@@ -356,9 +351,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * @throws IllegalArgumentException with an explicit message if the given {@link LocalDateTime} is null
    */
   private static void assertLocalDateTimeParameterIsNotNull(LocalDateTime other) {
-	if (other == null) {
-	  throw new IllegalArgumentException("The LocalDateTime to compare actual with should not be null");
-	}
+    checkArgument(other != null, "The LocalDateTime to compare actual with should not be null");
   }
 
   /**

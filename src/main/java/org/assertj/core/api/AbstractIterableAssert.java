@@ -21,6 +21,7 @@ import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
@@ -1971,7 +1972,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    */
   public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Predicate<? super ELEMENT> predicate) {
-    if (predicate == null) throw new IllegalArgumentException("The filter predicate should not be null");
+    checkArgument(predicate != null, "The filter predicate should not be null");
     return new ListAssert<>(stream(actual.spliterator(), false).filter(predicate).collect(toList()));
   }
 
