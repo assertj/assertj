@@ -78,6 +78,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
+import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
@@ -1115,7 +1116,7 @@ public class Assertions {
   @CheckReturnValue
   public static ThrowableTypeAssert<IOException> assertThatIOException() {
     return assertThatExceptionOfType(IOException.class);
-  }  
+  }
 
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
@@ -1127,7 +1128,7 @@ public class Assertions {
   @CheckReturnValue
   public static ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
     return assertThatExceptionOfType(IllegalStateException.class);
-  }  
+  }
 
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
@@ -1502,14 +1503,16 @@ public class Assertions {
   }
 
   /**
-   * Assertions entry point for {@link TemporalOffset} with  with less than or equal condition
+   * Assertions entry point for {@link TemporalUnitOffset} with  with less than or equal condition
    * to use with isCloseTo temporal assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'>assertThat(_07_10).isCloseTo(_07_12, within(5, MINUTES));</code></pre>
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * assertThat(_07_10).isCloseTo(_07_12, within(5, ChronoUnit.MINUTES));</code></pre>
    * @since 3.7.0
    */
-  public static TemporalOffset within(long value, TemporalUnit unit) {
+  public static TemporalUnitOffset within(long value, TemporalUnit unit) {
     return new TemporalUnitWithinOffset(value, unit);
   }
 
@@ -1620,14 +1623,16 @@ public class Assertions {
   }
 
   /**
-   * Assertions entry point for {@link TemporalOffset} with strict less than condition
-   * to use with isCloseTo temporal assertions.
+   * Assertions entry point for {@link TemporalUnitOffset} with strict less than condition
+   * to use with {@code isCloseTo} temporal assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'>assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, MINUTES));</code></pre>
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, ChronoUnit.MINUTES));</code></pre>
    * @since 3.7.0
    */
-  public static TemporalOffset byLessThan(long value, TemporalUnit unit) {
+  public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return new TemporalUnitLessThanOffset(value, unit);
   }
 

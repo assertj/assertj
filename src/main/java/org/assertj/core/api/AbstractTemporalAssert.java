@@ -12,22 +12,23 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.data.TemporalOffset;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
+import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
-import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import org.assertj.core.data.TemporalOffset;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Objects;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Temporal}s.
  * @since 3.7.0
  */
 public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert<SELF, TEMPORAL>, TEMPORAL extends Temporal>
-  extends AbstractAssert<SELF, TEMPORAL> {
+    extends AbstractAssert<SELF, TEMPORAL> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractTemporalAssert}</code>.
@@ -38,29 +39,27 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
     super(actual, selfType);
   }
 
-  // visible for test
+  @VisibleForTesting
   protected TEMPORAL getActual() {
     return actual;
   }
 
   /**
-   * Verifies that the actual {@link Temporal} is close to the other according to {@link TemporalOffset}.
+   * Verifies that the actual {@link Temporal} is close to the other according to the given {@link TemporalOffset}.
    * <p>
-   * For offset parameter there could be used on of predefined offset implementations: {@link Assertions#within(long, TemporalUnit)}
-   * or {@link Assertions#byLessThan(long, TemporalUnit)}.
+   * You can build the offset parameter using {@link Assertions#within(long, TemporalUnit)} or {@link Assertions#byLessThan(long, TemporalUnit)}.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * LocalTime _07_10 = LocalTime.of(7, 10);
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
    * LocalTime _07_42 = LocalTime.of(7, 42);
    *
-   * // assertion will pass
-   * assertThat(_07_10).isCloseTo(_07_42, within(1, HOURS));
-   * assertThat(_07_10).isCloseTo(_07_42, within(32, MINUTES));
+   * // assertions will pass
+   * assertThat(_07_10).isCloseTo(_07_42, within(1, ChronoUnit.HOURS));
+   * assertThat(_07_10).isCloseTo(_07_42, within(32, ChronoUnit.MINUTES));
    *
-   * // assertion will fail
-   * assertThat(_07_10).isCloseTo(_07_42, byLessThan(32, MINUTES));
-   * assertThat(_07_10).isCloseTo(_07_42, within(10, SECONDS));</code></pre>
+   * // assertions will fail
+   * assertThat(_07_10).isCloseTo(_07_42, byLessThan(32, ChronoUnit.MINUTES));
+   * assertThat(_07_10).isCloseTo(_07_42, within(10, ChronoUnit.SECONDS));</code></pre>
    * @param other the temporal to compare actual to
    * @param offset the offset used for comparison
    * @return this assertion object
@@ -68,13 +67,14 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * @throws AssertionError if the actual {@code Temporal} is {@code null}.
    * @throws AssertionError if the actual {@code Temporal} is not close to the given for a provided offset.
    */
-  public SELF isCloseTo(TEMPORAL other, TemporalOffset<TEMPORAL> offset) {
+  public SELF isCloseTo(TEMPORAL other, TemporalOffset<? super TEMPORAL> offset) {
     Objects.instance().assertNotNull(info, actual);
     checkNotNull(other, "The temporal object to compare actual with should not be null");
     checkNotNull(offset, "The offset should not be null");
     if (offset.isBeyondOffset(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeCloseTo(actual, other,
-        offset.getBeyondOffsetDifferenceDescription(actual, other)));
+      throw Failures.instance().failure(info,
+                                        shouldBeCloseTo(actual, other,
+                                                        offset.getBeyondOffsetDifferenceDescription(actual, other)));
     }
 
     return myself;
@@ -87,16 +87,17 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * >Predefined Formatters</a> to allow calling {@link #parse(String)})} method.
    * <p>
    * Example :
-   * <pre><code class='java'>assertThat(parse("07:10:30")).isCloseTo("07:12:11", within(5, MINUTES));</code></pre>
+   * <pre><code class='java'> assertThat(LocalTime.parse("07:10:30")).isCloseTo("07:12:11", within(5, ChronoUnit.MINUTES));</code></pre>
    * @param otherAsString String representing a {@code TEMPORAL}.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code Temporal} is {@code null}.
    * @throws NullPointerException if temporal string representation or {@code TemporalOffset} parameter is {@code null}.
    * @throws AssertionError if the actual {@code Temporal} is {@code null}.
    * @throws AssertionError if the actual {@code Temporal} is not close to the given for a provided offset.
    */
-  public SELF isCloseTo(String otherAsString, TemporalOffset<TEMPORAL> offset) {
-    checkNotNull(otherAsString, "The String representing of the temporal object to compare actual with should not be null");
+  public SELF isCloseTo(String otherAsString, TemporalOffset<? super TEMPORAL> offset) {
+    checkNotNull(otherAsString,
+                 "The String representing of the temporal object to compare actual with should not be null");
     return isCloseTo(parse(otherAsString), offset);
   }
 

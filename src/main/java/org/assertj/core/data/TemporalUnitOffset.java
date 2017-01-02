@@ -15,6 +15,9 @@ package org.assertj.core.data;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
+import static java.lang.Math.abs;
+import static java.lang.String.format;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
@@ -41,9 +44,7 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
   }
 
   private void checkThatValueIsPositive(long value) {
-    if (value < 0) {
-      throw new IllegalArgumentException("The value of the offset should be greater than zero");
-    }
+    checkArgument(value >= 0, "The value of the offset should be greater than zero");
   }
 
   /**
@@ -51,15 +52,22 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
    */
   @Override
   public String getBeyondOffsetDifferenceDescription(Temporal temporal1, Temporal temporal2) {
-    return String.format("%s %s but difference was %s %s", value, unit,
-                         getDifference(temporal1, temporal2), unit);
+    return format("%s %s but difference was %s %s", value, unit, getDifference(temporal1, temporal2), unit);
   }
 
   /**
    * Returns absolute value of the difference according to time unit.
    */
   protected long getDifference(Temporal temporal1, Temporal temporal2) {
-    return Math.abs(unit.between(temporal1, temporal2));
+    return abs(unit.between(temporal1, temporal2));
+  }
+
+  public TemporalUnit getUnit() {
+    return unit;
+  }
+
+  public long getValue() {
+    return value;
   }
 
 }
