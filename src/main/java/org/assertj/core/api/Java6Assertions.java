@@ -173,9 +173,9 @@ public class Java6Assertions {
    * Create assertion for {@link AtomicReferenceArray}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
+   * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
    *
-   * @return the created assertion object.  <T>   public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
+   * @return the created assertion object.
 
    */
   @CheckReturnValue
@@ -1043,8 +1043,8 @@ public class Java6Assertions {
    *           not been.
    *
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
@@ -1054,8 +1054,8 @@ public class Java6Assertions {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
-  public static void shouldHaveThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**

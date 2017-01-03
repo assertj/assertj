@@ -67,7 +67,6 @@ public class AtomicMarkableReferenceAssert<VALUE>
    * // this assertion fails:
    * assertThat(new AtomicMarkableReference&lt;&gt;("actual", false)).isMarked();</code></pre>
    *
-   * @param expected the expected marked inside the {@link AtomicMarkableReference}.
    * @return this assertion object.
    */
   public AtomicMarkableReferenceAssert<VALUE> isMarked() {
@@ -86,7 +85,6 @@ public class AtomicMarkableReferenceAssert<VALUE>
    * // this assertion fails:
    * assertThat(new AtomicMarkableReference&lt;&gt;("actual", true)).isNotMarked();</code></pre>
    *
-   * @param expected the expected marked inside the {@link AtomicMarkableReference}.
    * @return this assertion object.
    */
   public AtomicMarkableReferenceAssert<VALUE> isNotMarked() {
