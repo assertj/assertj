@@ -150,7 +150,7 @@ public class Comparables {
    */
   public <T extends Comparable<? super T>> void assertNotEqualByComparison(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
-    // we don't delagate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
+    // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(other) != 0)
       return;
     throw failures.failure(info, shouldNotBeEqual(actual, other));

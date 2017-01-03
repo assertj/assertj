@@ -19,7 +19,7 @@ package org.assertj.core.test;
  */
 public class Name {
 
-  // intentionnaly public to test field retrieval
+  // intentionally public to test field retrieval
   // getter have been created to test property retrieval
   public String first;
   // keep private to test we are able to read property but not field

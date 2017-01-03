@@ -890,7 +890,7 @@ public class Assertions {
    * Create assertion for {@link AtomicReferenceArray}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
+   * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
    *
    * @return the created assertion object.
    */
@@ -1090,8 +1090,8 @@ public class Assertions {
    *           not been.
    *
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
@@ -1101,8 +1101,8 @@ public class Assertions {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
-  public static void shouldHaveThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
