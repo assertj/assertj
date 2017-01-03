@@ -30,8 +30,8 @@ public class ShouldNotBeBetween extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of date period.
    * @param end the lower boundary of date period.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -45,8 +45,8 @@ public class ShouldNotBeBetween extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of date period.
    * @param end the lower boundary of date period.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeBetween(Date actual, Date start, Date end, boolean inclusiveStart,

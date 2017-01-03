@@ -31,7 +31,7 @@ public class Strings_join_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_throw_error_if_delimeter_is_null() {
+  public void should_throw_error_if_delimiter_is_null() {
     thrown.expect(IllegalArgumentException.class);
     Strings.join(null, "Uno", "Dos").with(null);
   }
@@ -42,17 +42,17 @@ public class Strings_join_Test {
   }
 
   @Test
-  public void should_join_using_delimeter() {
+  public void should_join_using_delimiter() {
     assertThat(Strings.join("Luke", "Leia", "Han").with("|")).isEqualTo("Luke|Leia|Han");
   }
 
   @Test
-  public void should_join_using_delimeter_and_escape() {
+  public void should_join_using_delimiter_and_escape() {
     assertThat(Strings.join("Luke", "Leia", "Han").with("|", "'")).isEqualTo("'Luke'|'Leia'|'Han'");
   }
 
   @Test
-  public void should_join_using_iterable_delimeter_and_escape() {
+  public void should_join_using_iterable_delimiter_and_escape() {
     assertThat(Strings.join(newArrayList("Luke", "Leia", "Han")).with("|", "'")).isEqualTo("'Luke'|'Leia'|'Han'");
   }
 }

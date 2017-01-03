@@ -1079,7 +1079,7 @@ public class Java6Assertions {
    *  "Assassin's Apprentice",
    *  "Guards! Guards! (Discworld)"]</code></pre>
    *
-   * @param maxLengthForSingleLineDescription the maximum lenght for an iterable/array to be displayed on one line
+   * @param maxLengthForSingleLineDescription the maximum length for an iterable/array to be displayed on one line
    */
   public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
     StandardRepresentation.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);

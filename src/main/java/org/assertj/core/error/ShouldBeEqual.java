@@ -117,7 +117,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     // only use JUnit error message if comparison strategy was standard, otherwise we need to mention it in the
     // assertion error message to make it clear to the user it was used.
     if (comparisonStrategy.isStandard()) {
-      // comparison strategy is standard -> try to build a JUnit ComparisonFailure that is nicely dispayed in IDE.
+      // comparison strategy is standard -> try to build a JUnit ComparisonFailure that is nicely displayed in IDE.
       AssertionError error = comparisonFailure(description);
       // error ==null means that JUnit was not in the classpath
       if (error != null) return error;

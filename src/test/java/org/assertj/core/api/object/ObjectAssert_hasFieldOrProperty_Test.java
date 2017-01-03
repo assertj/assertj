@@ -40,7 +40,7 @@ public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
   }
 
   @Test
-  public void shoud_fail_if_field_or_property_does_not_exists() {
+  public void should_fail_if_field_or_property_does_not_exists() {
     thrown.expectAssertionError("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"not_exists_in_jedi_object\">");
 
     Jedi jedi = new Jedi("Yoda", "Blue");
@@ -49,7 +49,7 @@ public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
   }
 
   @Test
-  public void shoud_fail_if_given_field_or_property_name_is_null() {
+  public void should_fail_if_given_field_or_property_name_is_null() {
     thrown.expectIllegalArgumentException("The name of the property/field to read should not be null");
 
     Jedi jedi = new Jedi("Yoda", "Blue");

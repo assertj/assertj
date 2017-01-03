@@ -14,7 +14,7 @@ package org.assertj.core.util.introspection;
 
 /**
  * Error that occurred when using <a href="http://java.sun.com/docs/books/tutorial/javabeans/introspection/index.html">JavaBeans
- * Instrospection</a>.
+ * Introspection</a>.
  * 
  * @author Alex Ruiz
  */

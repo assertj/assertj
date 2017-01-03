@@ -28,7 +28,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Iterables#assertAreAtLeast(AssertionInfo, Iterable, Condition, int)}</code> .
+ * Tests for <code>{@link Iterables#assertAreAtLeast(AssertionInfo, Iterable, int, Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky

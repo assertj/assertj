@@ -171,7 +171,7 @@ public class Lists {
    * @throws AssertionError if the actual list is not sorted according to the given comparator.
    * @throws AssertionError if the actual list is <code>null</code>.
    * @throws NullPointerException if the given comparator is <code>null</code>.
-   * @throws AssertionError if the actual list elements are not mutually comparabe according to given Comparator.
+   * @throws AssertionError if the actual list elements are not mutually comparable according to given Comparator.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual, Comparator<?> comparator) {

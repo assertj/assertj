@@ -33,7 +33,7 @@ import org.junit.Test;
 public class ShouldBeEqualWithTimePrecision_create_Test {
 
   @Test
-  public void should_create_error_message_ignoring_millisseconds() {
+  public void should_create_error_message_ignoring_milliseconds() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MILLISECONDS);
 
@@ -59,7 +59,7 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
   }
 
   @Test
-  public void should_create_error_message_ignoring_miinutes() {
+  public void should_create_error_message_ignoring_minutes() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MINUTES);
 

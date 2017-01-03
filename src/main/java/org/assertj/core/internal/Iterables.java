@@ -366,7 +366,7 @@ public class Iterables {
   /**
    * Return true if actualAsList contains exactly the given sequence at given starting index, false otherwise.
    * 
-   * @param actualAsList the list to look sequance in
+   * @param actualAsList the list to look sequence in
    * @param sequence the sequence to look for
    * @param startingIndex the index of actual list at which we start looking for sequence.
    * @return true if actualAsList contains exactly the given sequence at given starting index, false otherwise.
