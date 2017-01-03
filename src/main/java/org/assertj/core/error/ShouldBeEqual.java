@@ -12,6 +12,13 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.Integer.toHexString;
+import static java.lang.String.format;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
+import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Objects.hashCodeFor;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -19,10 +26,6 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
-
-import static java.lang.Integer.toHexString;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Objects.*;
 
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
@@ -186,8 +189,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   private String detailedToStringOf(Object obj) {
-    return representation.toStringOf(obj) + " (" + obj.getClass().getSimpleName() + "@" + toHexString(obj.hashCode())
-           + ")";
+    return obj == null ? null
+        : format("%s (%s@%s)", representation.toStringOf(obj), obj.getClass().getSimpleName(),
+                 toHexString(obj.hashCode()));
   }
 
   private String detailedActual() {
