@@ -98,6 +98,42 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
                                  " but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
   }
 
+  @Test
+  public void should_create_AssertionError_with_message_differentiating_null_and_object_with_null_toString() {
+    Object actual = null;
+    Object expected = new ToStringIsNull();
+    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, new StandardRepresentation());
+    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
+    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+
+    AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
+
+    assertThat(error).hasMessage("[my test] %n" +
+                                 "Expecting:%n" +
+                                 " <null>%n" +
+                                 "to be equal to:%n" +
+                                 " <\"null (ToStringIsNull@%s)\">%n" +
+                                 "but was not.", toHexString(expected.hashCode()));
+  }
+  
+  @Test
+  public void should_create_AssertionError_with_message_differentiating_object_with_null_toString_and_null() {
+    Object actual = new ToStringIsNull();
+    Object expected = null;
+    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, new StandardRepresentation());
+    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
+    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+
+    AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
+
+    assertThat(error).hasMessage("[my test] %n" +
+                                 "Expecting:%n" +
+                                 " <\"null (ToStringIsNull@%s)\">%n" +
+                                 "to be equal to:%n" +
+                                 " <null>%n" +
+                                 "but was not.", toHexString(actual.hashCode()));
+  }
+
   private static class Person {
 	private final String name;
 	private final int age;
@@ -120,4 +156,11 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 	}
   }
 
+  public static class ToStringIsNull {
+    @Override
+    public String toString() {
+      return null;
+    }
+  }
+  
 }
