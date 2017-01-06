@@ -30,30 +30,30 @@ public class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_positive() {
-    bigIntegers.assertIsNotPositive(someInfo(), new BigInteger("-6"));
+    numbers.assertIsNotPositive(someInfo(), new BigInteger("-6"));
   }
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    bigIntegers.assertIsNotPositive(someInfo(), BigInteger.ZERO);
+    numbers.assertIsNotPositive(someInfo(), BigInteger.ZERO);
   }
 
   @Test
   public void should_fail_since_actual_is_positive() {
     thrown.expectAssertionError("%nExpecting:%n <6>%nto be less than or equal to:%n <0> ");
-    bigIntegers.assertIsNotPositive(someInfo(), new BigInteger("6"));
+    numbers.assertIsNotPositive(someInfo(), new BigInteger("6"));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using 'AbsValueComparator'");
-    bigIntegersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigInteger("-1"));
+    numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigInteger("-1"));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using 'AbsValueComparator'");
-    bigIntegersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigInteger.ONE);
+    numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigInteger.ONE);
   }
 
 }

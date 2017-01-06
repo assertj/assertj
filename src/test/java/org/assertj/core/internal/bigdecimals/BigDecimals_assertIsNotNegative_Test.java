@@ -29,28 +29,28 @@ public class BigDecimals_assertIsNotNegative_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_negative() {
-    bigDecimals.assertIsNotNegative(someInfo(), new BigDecimal(6));
+    numbers.assertIsNotNegative(someInfo(), new BigDecimal(6));
   }
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    bigDecimals.assertIsNotNegative(someInfo(), BigDecimal.ZERO);
+    numbers.assertIsNotNegative(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
   public void should_fail_since_actual_is_negative() {
     thrown.expectAssertionError("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> ");
-    bigDecimals.assertIsNotNegative(someInfo(), new BigDecimal(-6));
+    numbers.assertIsNotNegative(someInfo(), new BigDecimal(-6));
   }
 
   @Test
   public void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), new BigDecimal(-1));
+    numbersWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), new BigDecimal(-1));
   }
 
   @Test
   public void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), BigDecimal.ONE);
+    numbersWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), BigDecimal.ONE);
   }
 
 }

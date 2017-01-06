@@ -38,19 +38,19 @@ public class BigIntegers_assertNotEqualByComparison_Test extends BigIntegersBase
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertNotEqualByComparison(someInfo(), null, ONE);
+    numbers.assertNotEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_integers_are_not_equal_by_comparison() {
-    bigIntegers.assertNotEqualByComparison(someInfo(), TEN, ONE);
+    numbers.assertNotEqualByComparison(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_fail_if_big_integers_are_equal_by_comparison() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertNotEqualByComparison(info, ONE, ONE);
+      numbers.assertNotEqualByComparison(info, ONE, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
       return;
@@ -61,19 +61,19 @@ public class BigIntegers_assertNotEqualByComparison_Test extends BigIntegersBase
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE);
+    numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_integers_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
-    bigIntegersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), TEN, ONE);
+    numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_fail_if_big_integers_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE, ONE);
+      numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
       return;

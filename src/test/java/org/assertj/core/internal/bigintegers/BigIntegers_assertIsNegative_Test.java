@@ -32,30 +32,30 @@ public class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_negative() {
-    bigIntegers.assertIsNegative(someInfo(), new BigInteger("-1"));
+    numbers.assertIsNegative(someInfo(), new BigInteger("-1"));
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
     thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0> ");
-    bigIntegers.assertIsNegative(someInfo(), BigInteger.ONE);
+    numbers.assertIsNegative(someInfo(), BigInteger.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_zero() {
 	  thrown.expectAssertionError("%nExpecting:%n <0>%nto be less than:%n <0> ");
-    bigIntegers.assertIsNegative(someInfo(), BigInteger.ZERO);
+    numbers.assertIsNegative(someInfo(), BigInteger.ZERO);
   }
   
   @Test
   public void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
-    bigIntegersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigInteger("-1"));
+    numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigInteger("-1"));
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using 'BigIntegerComparator'");
-    bigIntegersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigInteger.ONE);
+    numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigInteger.ONE);
   }
 
 }

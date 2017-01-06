@@ -38,19 +38,19 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertGreaterThan(someInfo(), null, ONE);
+    numbers.assertGreaterThan(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_greater_than_other() {
-    bigIntegers.assertGreaterThan(someInfo(), TEN, ONE);
+    numbers.assertGreaterThan(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertGreaterThan(info, TEN, TEN);
+      numbers.assertGreaterThan(info, TEN, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(TEN, TEN));
       return;
@@ -62,7 +62,7 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
   public void should_fail_if_actual_is_equal_to_other_by_comparison() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertGreaterThan(info, TEN, new BigInteger("10"));
+      numbers.assertGreaterThan(info, TEN, new BigInteger("10"));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(TEN, new BigInteger("10")));
       return;
@@ -74,7 +74,7 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertGreaterThan(info, ONE, TEN);
+      numbers.assertGreaterThan(info, ONE, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(ONE, TEN));
       return;
@@ -88,14 +88,14 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    bigIntegersWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), TEN.negate(), ONE);
+    numbersWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), TEN.negate(), ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN);
+      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(TEN.negate(), TEN, absValueComparisonStrategy));
       return;
@@ -107,7 +107,7 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate());
+      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate());
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(ONE, TEN.negate(), absValueComparisonStrategy));
       return;

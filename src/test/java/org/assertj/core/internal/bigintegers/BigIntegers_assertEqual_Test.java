@@ -39,19 +39,19 @@ public class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertEqual(someInfo(), null, ONE);
+    numbers.assertEqual(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_integers_are_equal() {
-    bigIntegers.assertEqual(someInfo(), ONE, ONE);
+    numbers.assertEqual(someInfo(), ONE, ONE);
   }
 
   @Test
   public void should_fail_if_big_integers_are_not_equal() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertEqual(info, ONE, TEN);
+      numbers.assertEqual(info, ONE, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(ONE, TEN, info.representation()));
       return;
@@ -62,19 +62,19 @@ public class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegersWithComparatorComparisonStrategy.assertEqual(someInfo(), null, ONE);
+    numbersWithComparatorComparisonStrategy.assertEqual(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_integers_are_equal_according_to_custom_comparison_strategy() {
-    bigIntegersWithComparatorComparisonStrategy.assertEqual(someInfo(), ONE, ONE);
+    numbersWithComparatorComparisonStrategy.assertEqual(someInfo(), ONE, ONE);
   }
 
   @Test
   public void should_fail_if_big_integers_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE);
+      numbersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
           new StandardRepresentation()));

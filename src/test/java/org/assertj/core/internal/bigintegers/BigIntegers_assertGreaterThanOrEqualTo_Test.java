@@ -14,7 +14,7 @@ package org.assertj.core.internal.bigintegers;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigIntegers;
-import org.assertj.core.internal.BigDecimalsBaseTest;
+import org.assertj.core.internal.BigIntegersBaseTest;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -33,34 +33,34 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class BigIntegers_assertGreaterThanOrEqualTo_Test extends BigDecimalsBaseTest {
+public class BigIntegers_assertGreaterThanOrEqualTo_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertGreaterThanOrEqualTo(someInfo(), null, ONE);
+    numbers.assertGreaterThanOrEqualTo(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_greater_than_other() {
-    bigDecimals.assertGreaterThanOrEqualTo(someInfo(), TEN, ONE);
+    numbers.assertGreaterThanOrEqualTo(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other() {
-    bigDecimals.assertGreaterThanOrEqualTo(someInfo(), ONE, ONE);
+    numbers.assertGreaterThanOrEqualTo(someInfo(), ONE, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_by_comparison() {
-	bigDecimals.assertGreaterThanOrEqualTo(someInfo(), ONE, new BigInteger("1"));
+    numbers.assertGreaterThanOrEqualTo(someInfo(), ONE, new BigInteger("1"));
   }
   
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertGreaterThanOrEqualTo(info, ONE, TEN);
+      numbers.assertGreaterThanOrEqualTo(info, ONE, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreaterOrEqual(ONE, TEN));
       return;
@@ -74,19 +74,19 @@ public class BigIntegers_assertGreaterThanOrEqualTo_Test extends BigDecimalsBase
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), TEN.negate(), ONE);
+    numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), TEN.negate(), ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), ONE.negate(), ONE);
+    numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), ONE.negate(), ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, ONE, TEN.negate());
+      numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, ONE, TEN.negate());
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreaterOrEqual(ONE, TEN.negate(), absValueComparisonStrategy));
       return;

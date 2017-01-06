@@ -37,42 +37,42 @@ public class BigIntegers_assertIsBetween_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertIsBetween(someInfo(), null, ZERO, ONE);
+    numbers.assertIsBetween(someInfo(), null, ZERO, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_start_is_null() {
-    bigIntegers.assertIsBetween(someInfo(), ONE, null, ONE);
+    numbers.assertIsBetween(someInfo(), ONE, null, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_end_is_null() {
-    bigIntegers.assertIsBetween(someInfo(), ONE, ZERO, null);
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, null);
   }
 
   @Test
   public void should_pass_if_actual_is_in_range() {
-    bigIntegers.assertIsBetween(someInfo(), ONE, ZERO, TEN);
-    bigIntegers.assertIsBetween(someInfo(), ONE, ONE, TEN);
-    bigIntegers.assertIsBetween(someInfo(), ONE, new BigInteger("1"), TEN);
-    bigIntegers.assertIsBetween(someInfo(), ONE, ZERO, new BigInteger("1"));
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, TEN);
+    numbers.assertIsBetween(someInfo(), ONE, ONE, TEN);
+    numbers.assertIsBetween(someInfo(), ONE, new BigInteger("1"), TEN);
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, new BigInteger("1"));
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_range_start() {
-    bigIntegers.assertIsBetween(someInfo(), ONE, ONE, TEN);
+    numbers.assertIsBetween(someInfo(), ONE, ONE, TEN);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_range_end() {
-    bigIntegers.assertIsBetween(someInfo(), ONE, ZERO, ONE);
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsBetween(info, ONE, new BigInteger("2"), TEN);
+      numbers.assertIsBetween(info, ONE, new BigInteger("2"), TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, new BigInteger("2"), TEN, true, true));
       return;
@@ -84,7 +84,7 @@ public class BigIntegers_assertIsBetween_Test extends BigIntegersBaseTest {
   public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsBetween(info, ONE, ZERO, ZERO);
+      numbers.assertIsBetween(info, ONE, ZERO, ZERO);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
       return;

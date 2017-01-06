@@ -40,19 +40,19 @@ public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBase
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertNotEqualByComparison(someInfo(), null, ONE);
+    numbers.assertNotEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_decimals_are_not_equal_by_comparison() {
-    bigDecimals.assertNotEqualByComparison(someInfo(), TEN, ONE);
+    numbers.assertNotEqualByComparison(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_fail_if_big_decimals_are_equal_by_comparison() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE);
+      numbers.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE));
       return;
@@ -63,19 +63,19 @@ public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBase
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimalsWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE);
+    numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_decimals_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), TEN, ONE);
+    numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_fail_if_big_decimals_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE);
+      numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE));
       return;

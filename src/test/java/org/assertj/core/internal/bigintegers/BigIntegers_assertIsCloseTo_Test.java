@@ -42,22 +42,22 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertIsCloseTo(someInfo(), null, ONE, offset(ONE));
+    numbers.assertIsCloseTo(someInfo(), null, ONE, offset(ONE));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if__expected_value_is_null() {
-    bigIntegers.assertIsCloseTo(someInfo(), ONE, null, within(ONE));
+    numbers.assertIsCloseTo(someInfo(), ONE, null, within(ONE));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_offset_is_null() {
-    bigIntegers.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null);
   }
   
   @Test
   public void should_pass_if_big_integers_difference_is_less_than_given_offset() {
-    bigIntegers.assertIsCloseTo(someInfo(), new BigInteger("5"), new BigInteger("6"), offset(new BigInteger("2")));
+    numbers.assertIsCloseTo(someInfo(), new BigInteger("5"), new BigInteger("6"), offset(new BigInteger("2")));
   }
 
   // @format:off
@@ -73,14 +73,14 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   })
   // @format:on
   public void should_pass_if_big_integers_difference_is_equal_to_given_offset(BigInteger actual, BigInteger expected, BigInteger offset) {
-    bigIntegers.assertIsCloseTo(someInfo(), actual, expected, offset(offset));
+    numbers.assertIsCloseTo(someInfo(), actual, expected, offset(offset));
   }
 
   @Test
   public void should_fail_if_big_integers_difference_is_greater_than_offset() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsCloseTo(info, TEN, ONE, offset(ONE));
+      numbers.assertIsCloseTo(info, TEN, ONE, offset(ONE));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(TEN, ONE, offset(ONE), TEN.subtract(ONE)));
       return;
@@ -91,19 +91,19 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), null, ONE, offset(ONE));
+    numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), null, ONE, offset(ONE));
   }
 
   @Test
   public void should_pass_if_big_integers_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
-    bigIntegersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), new BigInteger("5"), new BigInteger("5"), offset(ONE));
+    numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), new BigInteger("5"), new BigInteger("5"), offset(ONE));
   }
 
   @Test
   public void should_fail_if_big_integers_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertIsCloseTo(info, TEN, ONE, offset(ONE));
+      numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, TEN, ONE, offset(ONE));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(TEN, ONE, offset(ONE), TEN.subtract(ONE)));
       return;

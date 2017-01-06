@@ -41,17 +41,17 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    numbers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_expected_value_is_null() {
-    bigIntegers.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
+    numbers.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_offset_is_null() {
-    bigIntegers.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
+    numbers.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
   }
 
   @Test
@@ -59,7 +59,7 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
     BigInteger FIVE = new BigInteger("5");
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE, byLessThan(ONE));
+      numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE, byLessThan(ONE));
     } catch (AssertionError e) {
       verify(failures).failure(info,
                                shouldNotBeEqual(FIVE, FIVE, byLessThan(ONE), FIVE.subtract(FIVE)));
@@ -84,7 +84,7 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
     AssertionInfo info = someInfo();
     Offset<BigInteger> bigDecimalOffset = byLessThan(offset);
     try {
-      bigIntegers.assertIsNotCloseTo(info, actual, expected, bigDecimalOffset);
+      numbers.assertIsNotCloseTo(info, actual, expected, bigDecimalOffset);
     } catch (AssertionError e) {
       verify(failures).failure(info,
                                shouldNotBeEqual(actual, expected, bigDecimalOffset, actual.subtract(expected).abs()));
@@ -95,13 +95,13 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_pass_if_big_integers_difference_is_greater_than_offset() {
-    bigIntegers.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
+    numbers.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
   }
 
   @Test
@@ -109,7 +109,7 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
     BigInteger FIVE = new BigInteger("5");
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE, byLessThan(ONE));
+      numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE, byLessThan(ONE));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(FIVE, FIVE, byLessThan(ONE), FIVE.subtract(FIVE)));
       return;
@@ -119,6 +119,6 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_pass_if_big_integers_are_not_close_whatever_custom_comparison_strategy_is() {
-    bigIntegersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
+    numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
   }
 }

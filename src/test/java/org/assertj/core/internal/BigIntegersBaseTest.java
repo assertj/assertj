@@ -12,45 +12,27 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.test.ExpectedException;
-import org.assertj.core.util.AbsValueComparator;
-import org.assertj.core.util.BigIntegerComparator;
-import org.junit.Before;
-import org.junit.Rule;
-
 import java.math.BigInteger;
+import java.util.Comparator;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.BigIntegerComparator.BIG_INTEGER_COMPARATOR;
-import static org.mockito.Mockito.spy;
 
 
-public class BigIntegersBaseTest {
+public class BigIntegersBaseTest extends NumbersBaseTest<BigIntegers, BigInteger> {
 
-  @Rule
-  public ExpectedException thrown = none();
-  protected Failures failures;
-  protected BigIntegers bigIntegers;
-
-  protected ComparatorBasedComparisonStrategy comparatorComparisonStrategy;
-  /**
-   * {@link BigIntegers} using a comparison strategy based on {@link BigIntegerComparator}.
-   */
-  protected BigIntegers bigIntegersWithComparatorComparisonStrategy;
-  // another BigIntegers with a custom ComparisonStrategy other than numbersWithComparatorComparisonStrategy
-  protected BigIntegers bigIntegersWithAbsValueComparisonStrategy;
-  protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    bigIntegers = new BigIntegers();
-    bigIntegers.setFailures(failures);
-    comparatorComparisonStrategy = new ComparatorBasedComparisonStrategy(BIG_INTEGER_COMPARATOR);
-    bigIntegersWithComparatorComparisonStrategy = new BigIntegers(comparatorComparisonStrategy);
-    bigIntegersWithComparatorComparisonStrategy.failures = failures;
-    absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<BigInteger>());
-    bigIntegersWithAbsValueComparisonStrategy = new BigIntegers(absValueComparisonStrategy);
-    bigIntegersWithAbsValueComparisonStrategy.failures = failures;
+  @Override
+  protected BigIntegers getNumbers() {
+    return new BigIntegers();
   }
+
+  @Override
+  protected BigIntegers getNumbers(ComparisonStrategy comparisonStrategy) {
+    return new BigIntegers(comparisonStrategy);
+  }
+
+  @Override
+  protected Comparator<BigInteger> getComparator() {
+    return BIG_INTEGER_COMPARATOR;
+  }
+
 }

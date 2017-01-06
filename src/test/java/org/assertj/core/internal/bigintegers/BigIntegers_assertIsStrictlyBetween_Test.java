@@ -37,29 +37,29 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
+    numbers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_start_is_null() {
-    bigIntegers.assertIsStrictlyBetween(someInfo(), ONE, null, ONE);
+    numbers.assertIsStrictlyBetween(someInfo(), ONE, null, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_end_is_null() {
-    bigIntegers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null);
+    numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null);
   }
 
   @Test
   public void should_pass_if_actual_is_in_range() {
-    bigIntegers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
+    numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsStrictlyBetween(info, ONE, ONE, TEN);
+      numbers.assertIsStrictlyBetween(info, ONE, ONE, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
       return;
@@ -71,7 +71,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   public void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
 	AssertionInfo info = someInfo();
 	try {
-    bigIntegers.assertIsStrictlyBetween(info, ONE, new BigInteger("1"), TEN);
+    numbers.assertIsStrictlyBetween(info, ONE, new BigInteger("1"), TEN);
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldBeBetween(ONE, new BigInteger("1"), TEN, false, false));
 	  return;
@@ -83,7 +83,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
+      numbers.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
       return;
@@ -95,7 +95,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   public void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
 	AssertionInfo info = someInfo();
 	try {
-    bigIntegers.assertIsStrictlyBetween(info, ONE, ZERO, new BigInteger("1"));
+    numbers.assertIsStrictlyBetween(info, ONE, ZERO, new BigInteger("1"));
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldBeBetween(ONE, ZERO, new BigInteger("1"), false, false));
 	  return;
@@ -107,7 +107,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsStrictlyBetween(info, ONE, new BigInteger("2"), TEN);
+      numbers.assertIsStrictlyBetween(info, ONE, new BigInteger("2"), TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, new BigInteger("2"), TEN, false, false));
       return;
@@ -119,7 +119,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
+      numbers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, false, false));
       return;

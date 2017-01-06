@@ -38,24 +38,24 @@ public class BigIntegers_assertIsNotZero_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    bigIntegers.assertIsNotZero(someInfo(), BigInteger.ONE);
+    numbers.assertIsNotZero(someInfo(), BigInteger.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
     thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
-    bigIntegers.assertIsNotZero(someInfo(), BigInteger.ZERO);
+    numbers.assertIsNotZero(someInfo(), BigInteger.ZERO);
   }
 
   @Test
   public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    bigIntegersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigInteger.ONE);
+    numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigInteger.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
-    bigIntegersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigInteger.ZERO);
+    numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigInteger.ZERO);
   }
 
 }

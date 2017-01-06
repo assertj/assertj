@@ -38,29 +38,29 @@ public class BigIntegers_assertLessThanOrEqualTo_Test extends BigIntegersBaseTes
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertLessThanOrEqualTo(someInfo(), null, ONE);
+    numbers.assertLessThanOrEqualTo(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_less_than_other() {
-    bigIntegers.assertLessThanOrEqualTo(someInfo(), ONE, TEN);
+    numbers.assertLessThanOrEqualTo(someInfo(), ONE, TEN);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other() {
-    bigIntegers.assertLessThanOrEqualTo(someInfo(), ONE, ONE);
+    numbers.assertLessThanOrEqualTo(someInfo(), ONE, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_by_comparison() {
-    bigIntegers.assertLessThanOrEqualTo(someInfo(), ONE, new BigInteger("1"));
+    numbers.assertLessThanOrEqualTo(someInfo(), ONE, new BigInteger("1"));
   }  
  
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertLessThanOrEqualTo(info, TEN, ONE);
+      numbers.assertLessThanOrEqualTo(info, TEN, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeLessOrEqual(TEN, ONE));
       return;
@@ -74,19 +74,19 @@ public class BigIntegers_assertLessThanOrEqualTo_Test extends BigIntegersBaseTes
 
   @Test
   public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
-    bigIntegersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), ONE, TEN.negate());
+    numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), ONE, TEN.negate());
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    bigIntegersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), ONE.negate(), ONE);
+    numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), ONE.negate(), ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, TEN.negate(), ONE);
+      numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, TEN.negate(), ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeLessOrEqual(TEN.negate(), ONE, absValueComparisonStrategy));
       return;

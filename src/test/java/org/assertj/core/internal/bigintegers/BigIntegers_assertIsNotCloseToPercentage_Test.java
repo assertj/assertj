@@ -36,22 +36,22 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
+    numbers.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_expected_value_is_null() {
-    bigIntegers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1));
+    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_percentage_is_null() {
-    bigIntegers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null);
+    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void should_fail_if_percentage_is_negative() {
-    bigIntegers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
+    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
   }
 
   // @format:off
@@ -65,7 +65,7 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
   })
   // @format:on
   public void should_pass_if_difference_is_greater_than_given_percentage(BigInteger actual, BigInteger other, Integer percentage) {
-    bigIntegers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
+    numbers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   // @format:off
@@ -82,7 +82,7 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
   public void should_fail_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other, Integer percentage) {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsNotCloseToPercentage(info, actual, other, withPercentage(percentage));
+      numbers.assertIsNotCloseToPercentage(info, actual, other, withPercentage(percentage));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withinPercentage(percentage), actual.subtract(other).abs()));
       return;
@@ -94,7 +94,7 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
   public void should_fail_if_actual_is_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(100));
+      numbers.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(100));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100), TEN.subtract(ONE)));
       return;

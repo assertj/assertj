@@ -39,19 +39,19 @@ public class BigIntegers_assertEqualByComparison_Test extends BigIntegersBaseTes
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegers.assertEqualByComparison(someInfo(), null, ONE);
+    numbers.assertEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_integers_are_equal_by_comparison() {
-    bigIntegers.assertEqualByComparison(someInfo(), new BigInteger("5"), new BigInteger("5"));
+    numbers.assertEqualByComparison(someInfo(), new BigInteger("5"), new BigInteger("5"));
   }
 
   @Test
   public void should_fail_if_big_integers_are_not_equal_by_comparison() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegers.assertEqualByComparison(info, TEN, ONE);
+      numbers.assertEqualByComparison(info, TEN, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(TEN, ONE, info.representation()));
       return;
@@ -62,19 +62,19 @@ public class BigIntegers_assertEqualByComparison_Test extends BigIntegersBaseTes
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigIntegersWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), null, ONE);
+    numbersWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_integers_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
-    bigIntegersWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), new BigInteger("5"), new BigInteger("5"));
+    numbersWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), new BigInteger("5"), new BigInteger("5"));
   }
 
   @Test
   public void should_fail_if_big_integers_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     try {
-      bigIntegersWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE);
+      numbersWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(TEN, ONE, absValueComparisonStrategy,
           new StandardRepresentation()));
