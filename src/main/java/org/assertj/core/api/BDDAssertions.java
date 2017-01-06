@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
@@ -81,6 +82,17 @@ public class BDDAssertions extends Assertions {
    */
   @CheckReturnValue
   public static AbstractBigDecimalAssert<?> then(BigDecimal actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.BigIntegerAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractBigIntegerAssert<?> then(BigInteger actual) {
     return assertThat(actual);
   }
 

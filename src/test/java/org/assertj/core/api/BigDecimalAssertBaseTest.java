@@ -26,11 +26,11 @@ import org.assertj.core.internal.Comparables;
  * 
  * @author Olivier Michallat
  */
-public abstract class BigDecimalAssertBaseTest extends BaseTestTemplate<BigDecimalAssert, BigDecimal> {
+public abstract class BigDecimalAssertBaseTest extends ComparableAssertBaseTest<BigDecimalAssert, BigDecimal> {
 
   protected static final String ONE_AS_STRING = "1";
+
   protected BigDecimals bigDecimals;
-  protected Comparables comparables;
 
   @Override
   protected BigDecimalAssert create_assertions() {
@@ -42,11 +42,10 @@ public abstract class BigDecimalAssertBaseTest extends BaseTestTemplate<BigDecim
     super.inject_internal_objects();
     bigDecimals = mock(BigDecimals.class);
     assertions.bigDecimals = bigDecimals;
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
   }
 
-  protected BigDecimals getBigDecimals(BigDecimalAssert someAssertions) {
+  @Override
+  protected Comparables getComparables(BigDecimalAssert someAssertions) {
     return someAssertions.bigDecimals;
   }
 }

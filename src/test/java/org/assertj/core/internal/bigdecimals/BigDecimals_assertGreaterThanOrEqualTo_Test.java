@@ -40,29 +40,29 @@ public class BigDecimals_assertGreaterThanOrEqualTo_Test extends BigDecimalsBase
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertGreaterThanOrEqualTo(someInfo(), null, ONE);
+    numbers.assertGreaterThanOrEqualTo(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_greater_than_other() {
-    bigDecimals.assertGreaterThanOrEqualTo(someInfo(), TEN, ONE);
+    numbers.assertGreaterThanOrEqualTo(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other() {
-    bigDecimals.assertGreaterThanOrEqualTo(someInfo(), ONE, ONE);
+    numbers.assertGreaterThanOrEqualTo(someInfo(), ONE, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_by_comparison() {
-	bigDecimals.assertGreaterThanOrEqualTo(someInfo(), ONE, new BigDecimal("1.00"));
+	numbers.assertGreaterThanOrEqualTo(someInfo(), ONE, new BigDecimal("1.00"));
   }
   
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertGreaterThanOrEqualTo(info, ONE, TEN);
+      numbers.assertGreaterThanOrEqualTo(info, ONE, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreaterOrEqual(ONE, TEN));
       return;
@@ -76,19 +76,19 @@ public class BigDecimals_assertGreaterThanOrEqualTo_Test extends BigDecimalsBase
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), TEN.negate(), ONE);
+    numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), TEN.negate(), ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), ONE.negate(), ONE);
+    numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), ONE.negate(), ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, ONE, TEN.negate());
+      numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, ONE, TEN.negate());
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreaterOrEqual(ONE, TEN.negate(), absValueComparisonStrategy));
       return;

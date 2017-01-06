@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.util.Date;
@@ -56,6 +57,17 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   @CheckReturnValue
   public BigDecimalAssert assertThat(BigDecimal actual) {
     return proxy(BigDecimalAssert.class, BigDecimal.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigInteger}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public BigIntegerAssert assertThat(BigInteger actual) {
+    return proxy(BigIntegerAssert.class, BigInteger.class, actual);
   }
 
   /**
