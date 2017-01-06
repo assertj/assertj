@@ -20,7 +20,6 @@ import static org.mockito.Mockito.mock;
 public abstract class ComparableAssertBaseTest<ASSERT extends AbstractComparableAssert<ASSERT, TYPE>,TYPE extends Comparable<? super TYPE>>
   extends BaseTestTemplate<ASSERT, TYPE> {
 
-  protected static final String ONE_AS_STRING = "1";
   protected Comparables comparables;
 
   @Override

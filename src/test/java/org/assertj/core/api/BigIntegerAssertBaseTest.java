@@ -23,6 +23,8 @@ import static org.mockito.Mockito.mock;
 
 public abstract class BigIntegerAssertBaseTest extends ComparableAssertBaseTest<BigIntegerAssert, BigInteger> {
 
+  protected static final String ONE_AS_STRING = "1";
+
   protected BigIntegers bigIntegers;
 
   @Override

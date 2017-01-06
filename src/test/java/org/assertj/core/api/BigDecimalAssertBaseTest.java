@@ -28,6 +28,8 @@ import org.assertj.core.internal.Comparables;
  */
 public abstract class BigDecimalAssertBaseTest extends ComparableAssertBaseTest<BigDecimalAssert, BigDecimal> {
 
+  protected static final String ONE_AS_STRING = "1";
+
   protected BigDecimals bigDecimals;
 
   @Override
