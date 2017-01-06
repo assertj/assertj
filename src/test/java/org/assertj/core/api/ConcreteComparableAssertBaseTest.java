@@ -22,8 +22,7 @@ import org.assertj.core.internal.Comparables;
  * 
  * @author Olivier Michallat
  */
-public abstract class AbstractComparableAssertBaseTest extends BaseTestTemplate<ConcreteComparableAssert, Integer> {
-  protected Comparables comparables;
+public abstract class ConcreteComparableAssertBaseTest extends ComparableAssertBaseTest<ConcreteComparableAssert, Integer> {
 
   @Override
   protected ConcreteComparableAssert create_assertions() {
@@ -31,12 +30,6 @@ public abstract class AbstractComparableAssertBaseTest extends BaseTestTemplate<
   }
 
   @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
-  }
-
   protected Comparables getComparables(ConcreteComparableAssert someAssertions) {
     return someAssertions.comparables;
   }

@@ -17,7 +17,7 @@ import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractComparableAssert;
-import org.assertj.core.api.AbstractComparableAssertBaseTest;
+import org.assertj.core.api.ConcreteComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 import org.assertj.core.api.ObjectAssert;
 
@@ -25,7 +25,7 @@ import org.assertj.core.api.ObjectAssert;
 /**
  * Test that {@link ObjectAssert} methods are available from {@link AbstractComparableAssert}
  */
-public class AbstractComparableAssert_canCallObjectAssertMethod_Test extends AbstractComparableAssertBaseTest {
+public class AbstractComparableAssert_canCallObjectAssertMethod_Test extends ConcreteComparableAssertBaseTest {
   @Override
   protected ConcreteComparableAssert invoke_api_method() {
     return assertions.isEqualToComparingFieldByField(6);

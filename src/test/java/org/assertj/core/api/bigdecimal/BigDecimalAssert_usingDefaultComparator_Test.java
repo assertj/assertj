@@ -51,6 +51,6 @@ public class BigDecimalAssert_usingDefaultComparator_Test extends BigDecimalAsse
   @Override
   protected void verify_internal_effects() {
     assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(BigDecimals.instance()).isSameAs(getBigDecimals(assertions));
+    assertThat(BigDecimals.instance()).isSameAs(getComparables(assertions));
   }
 }

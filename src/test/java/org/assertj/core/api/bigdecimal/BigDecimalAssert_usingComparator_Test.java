@@ -49,6 +49,6 @@ public class BigDecimalAssert_usingComparator_Test extends BigDecimalAssertBaseT
   @Override
   protected void verify_internal_effects() {
     assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getBigDecimals(assertions).getComparator());
+    assertThat(comparator).isSameAs(getComparables(assertions).getComparator());
   }
 }

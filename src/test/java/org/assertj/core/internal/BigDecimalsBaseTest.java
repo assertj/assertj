@@ -20,9 +20,6 @@ import static org.mockito.Mockito.spy;
 
 import java.math.BigDecimal;
 
-import org.assertj.core.internal.BigDecimals;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.AbsValueComparator;
 import org.assertj.core.util.BigDecimalComparator;
@@ -52,7 +49,7 @@ public class BigDecimalsBaseTest {
    * {@link BigDecimals} using a comparison strategy based on {@link BigDecimalComparator}.
    */
   protected BigDecimals bigDecimalsWithComparatorComparisonStrategy;
-  // another BigDecimals with a custom ComparisonStrategy other than bigDecimalsWithComparatorComparisonStrategy
+  // another BigDecimals with a custom ComparisonStrategy other than numbersWithComparatorComparisonStrategy
   protected BigDecimals bigDecimalsWithAbsValueComparisonStrategy;
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
 
@@ -68,4 +65,5 @@ public class BigDecimalsBaseTest {
     bigDecimalsWithAbsValueComparisonStrategy = new BigDecimals(absValueComparisonStrategy);
     bigDecimalsWithAbsValueComparisonStrategy.failures = failures;
   }
+
 }

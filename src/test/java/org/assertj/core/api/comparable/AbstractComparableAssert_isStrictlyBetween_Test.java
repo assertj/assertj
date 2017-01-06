@@ -17,13 +17,13 @@ import static org.mockito.Mockito.verify;
 
 import java.math.BigInteger;
 
-import org.assertj.core.api.AbstractComparableAssertBaseTest;
+import org.assertj.core.api.ConcreteComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class AbstractComparableAssert_isStrictlyBetween_Test extends AbstractComparableAssertBaseTest {
+public class AbstractComparableAssert_isStrictlyBetween_Test extends ConcreteComparableAssertBaseTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();

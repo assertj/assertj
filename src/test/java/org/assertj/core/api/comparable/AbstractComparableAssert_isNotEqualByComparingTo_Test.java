@@ -15,14 +15,14 @@ package org.assertj.core.api.comparable;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractComparableAssert;
-import org.assertj.core.api.AbstractComparableAssertBaseTest;
+import org.assertj.core.api.ConcreteComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 
 /**
  * Tests for <code>{@link AbstractComparableAssert#isNotEqualByComparingTo(Comparable)}</code>.
  * @author Michal Kordas
  */
-public class AbstractComparableAssert_isNotEqualByComparingTo_Test extends AbstractComparableAssertBaseTest {
+public class AbstractComparableAssert_isNotEqualByComparingTo_Test extends ConcreteComparableAssertBaseTest {
 
   @Override
   protected ConcreteComparableAssert invoke_api_method() {
