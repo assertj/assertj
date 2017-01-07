@@ -13,7 +13,14 @@
 package org.assertj.core.util;
 
 import java.math.BigInteger;
+import java.util.Comparator;
 
+/**
+ *
+ * A {@link BigInteger} {@link Comparator} based on {@link BigInteger#compareTo(BigInteger)}.<br>
+ * Is useful if ones wants to use BigInteger assertions based on {@link BigInteger#compareTo(BigInteger)} instead of
+ * {@link BigInteger#equals(Object)} method.
+ */
 public class BigIntegerComparator extends AbstractComparableNumberComparator<BigInteger> {
 
   /**
