@@ -15,7 +15,7 @@ package org.assertj.core.api.comparable;
 import java.util.Comparator;
 
 import org.assertj.core.api.AbstractComparableAssert;
-import org.assertj.core.api.ConcreteComparableAssertBaseTest;
+import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Objects;
@@ -30,7 +30,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * 
  * @author Filip Hrisafov
  */
-public class AbstractComparableAssert_usingDefaultComparator_Test extends ConcreteComparableAssertBaseTest {
+public class AbstractComparableAssert_usingDefaultComparator_Test extends AbstractComparableAssertBaseTest {
 
   @Mock
   private Comparator<Integer> comparator;

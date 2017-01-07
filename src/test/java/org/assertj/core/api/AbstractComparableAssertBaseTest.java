@@ -22,7 +22,7 @@ import org.assertj.core.internal.Comparables;
  * 
  * @author Olivier Michallat
  */
-public abstract class ConcreteComparableAssertBaseTest extends ComparableAssertBaseTest<ConcreteComparableAssert, Integer> {
+public abstract class AbstractComparableAssertBaseTest extends ComparableAssertBaseTest<ConcreteComparableAssert, Integer> {
 
   @Override
   protected ConcreteComparableAssert create_assertions() {
