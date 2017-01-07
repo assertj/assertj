@@ -273,7 +273,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * // if difference is exactly equals to given offset value, it's ok
    * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.1")));
    *
-   * // BidDecimal format has no impact on the assertion, this assertion is valid:
+   * // BigDecimal format has no impact on the assertion, this assertion is valid:
    * assertThat(actual).isCloseTo(new BigDecimal("8.00"), within(new BigDecimal("0.100")));
    *
    * // but if difference is greater than given offset value assertion will fail :
@@ -302,7 +302,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * // this assertion succeeds
    * assertThat(actual).isNotCloseTo(other, byLessThan(new BigDecimal("0.01")));
    *
-   * // BidDecimal format has no impact on the assertion, this assertion is valid:
+   * // BigDecimal format has no impact on the assertion, this assertion is valid:
    * assertThat(actual).isNotCloseTo(new BigDecimal("8.00"), byLessThan(new BigDecimal("0.100")));
    *
    * // the assertion fails if the difference is equal to the given offset value 

@@ -91,10 +91,10 @@ public final class Preconditions {
   }
 
   /**
-   * Verifies that the given FilterOperator reference is not {@code null}.
+   * Verifies that the given {@link FilterOperator} reference is not {@code null}.
    * 
-   * @param reference the given object reference.
-   * @throws NullPointerException if the given object reference is {@code null}.
+   * @param filterOperator the given {@link FilterOperator} reference.
+   * @throws IllegalArgumentException if the given {@link FilterOperator} reference is {@code null}.
    */
   public static <T> void checkNotNull(FilterOperator<T> filterOperator) {
     // @format:off
