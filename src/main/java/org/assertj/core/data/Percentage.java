@@ -22,7 +22,6 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 /**
  * A positive percentage value.
  *
- * @param the type of the percentage value.
  * @author Alexander Bishcof
  */
 public class Percentage {

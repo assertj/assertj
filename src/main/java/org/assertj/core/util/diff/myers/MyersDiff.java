@@ -83,7 +83,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * @param orig The original sequence.
    * @param rev The revised sequence.
    * @return A minimum {@link PathNode Path} across the differences graph.
-   * @throws DifferentiationFailedException if a diff path could not be found.
+   * @throws IllegalStateException if a diff path could not be found.
    */
   public PathNode buildPath(final List<T> orig, final List<T> rev) {
     checkArgument(orig != null, "original sequence is null");

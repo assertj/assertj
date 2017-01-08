@@ -392,7 +392,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPolongerException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
