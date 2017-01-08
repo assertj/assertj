@@ -1,6 +1,6 @@
 # AssertJ - Fluent assertions for java
 
-[![Build Status](https://assertj.ci.cloudbees.com/buildStatus/icon?job=assertj-core)](https://assertj.ci.cloudbees.com/job/assertj-core/)
+[![Build Status (2.x)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=2.x)](https://travis-ci.org/joel-costigliola/assertj-core/branches)
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 
