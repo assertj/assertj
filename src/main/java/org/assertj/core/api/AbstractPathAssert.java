@@ -49,7 +49,7 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * These assertions are filesystem independent. You may use them on {@code Path} instances issued from the default
  * filesystem (ie, instances you get when using {@link java.nio.file.Paths#get(String, String...)}) or from other
- * filesystems. For more information, see the {@link FileSystem javadoc for {@code FileSystem} .
+ * filesystems. For more information, see the javadoc for {@link FileSystem}.
  * </p>
  *
  * <p>

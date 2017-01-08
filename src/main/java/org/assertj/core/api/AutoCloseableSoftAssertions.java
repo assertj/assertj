@@ -114,7 +114,7 @@ package org.assertj.core.api;
  * 
  * @author Brian Laframboise
  * 
- * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions">http://beust.com/weblog/2012/07/29/reinventing-assertions</a> for the inspiration
+ * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
 public class AutoCloseableSoftAssertions extends SoftAssertions implements AutoCloseable {
 

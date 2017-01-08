@@ -118,8 +118,7 @@ import java.util.function.Consumer;
  *
  * @author Brian Laframboise
  *
- * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the
- *      inspiration
+ * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 

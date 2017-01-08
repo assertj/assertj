@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
  * Implements the difference and patching engine
  * 
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
+ * @author Bill James (tankerbay@gmail.com)
  */
 public class DiffUtils {
 

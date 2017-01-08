@@ -206,7 +206,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * assertThat(abc).hasSameSizeAs(sevenEight);</code></pre>
    *
-   * @param array the array to compare size with actual AtomicReferenceArray.
+   * @param other the array to compare size with actual AtomicReferenceArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
@@ -498,7 +498,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
    *
-   * @param sequence the sequence of objects to look for.
+   * @param subsequence the subsequence of objects to look for.
    * @return this assertion object.
    * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
@@ -921,7 +921,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * oneThwoThree.areAtLeast(3, oddNumber);</code></pre>
    *
-   * @param n the minimum number of times the condition should be verified.
+   * @param times the minimum number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -968,7 +968,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * oneThwoThree.areAtMost(1, oddNumber);</code></pre>
    *
-   * @param n the number of times the condition should be at most verified.
+   * @param times the number of times the condition should be at most verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -996,7 +996,7 @@ public class AtomicReferenceArrayAssert<T>
    * oneThwoThree.areExactly(1, oddNumber);
    * oneThwoThree.areExactly(3, oddNumber);</code></pre>
    *
-   * @param n the exact number of times the condition should be verified.
+   * @param times the exact number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -1114,8 +1114,8 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not have any elements of the given type.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> hasAtLeastOneElementOfType(Class<?> type) {
-    arrays.assertHasAtLeastOneElementOfType(info, array, type);
+  public AtomicReferenceArrayAssert<T> hasAtLeastOneElementOfType(Class<?> expectedType) {
+    arrays.assertHasAtLeastOneElementOfType(info, array, expectedType);
     return myself;
   }
 
@@ -1138,8 +1138,8 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if one element is not of the expected type.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> hasOnlyElementsOfType(Class<?> type) {
-    arrays.assertHasOnlyElementsOfType(info, array, type);
+  public AtomicReferenceArrayAssert<T> hasOnlyElementsOfType(Class<?> expectedType) {
+    arrays.assertHasOnlyElementsOfType(info, array, expectedType);
     return myself;
   }
 
@@ -1208,7 +1208,7 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(fellowshipOfTheRing).usingElementComparator(raceComparator)
    *                                .contains(sauron);</code></pre>
    *
-   * @param customComparator the comparator to use for incoming assertion checks.
+   * @param elementComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */

@@ -1339,7 +1339,7 @@ public class Assertions {
    * <li>
    * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
@@ -1355,7 +1355,7 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(K key, V value)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
    * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p>

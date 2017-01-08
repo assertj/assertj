@@ -681,7 +681,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).startsWith(new double[] {2.0, 1.0}, withPrecision(0.1))
    * assertThat(values).startsWith(new double[] {1.1, 2.1}, withPrecision(0.5))</code></pre>
    * 
-   * @param sequence the sequence of values to look for.
+   * @param values the sequence of values to look for.
    * @param precision the precision under which the values may vary.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -742,7 +742,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(values).endsWith(new double[] {3.0, 2.0}, withPrecision(0.1))
    * assertThat(values).endsWith(new double[] {2.1, 3.1}, withPrecision(0.5))</code></pre>
    * 
-   * @param sequence the sequence of values to look for.
+   * @param values the sequence of values to look for.
    * @param precision the precision under which the values may vary.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.

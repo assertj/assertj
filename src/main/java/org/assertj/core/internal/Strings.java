@@ -70,6 +70,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Michal Kordas
  */
 public class Strings {
 
