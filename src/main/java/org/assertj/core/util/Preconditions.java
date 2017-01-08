@@ -97,12 +97,9 @@ public final class Preconditions {
    * @throws IllegalArgumentException if the given {@link FilterOperator} reference is {@code null}.
    */
   public static <T> void checkNotNull(FilterOperator<T> filterOperator) {
-    // @format:off
-    if (filterOperator == null) throw new IllegalArgumentException(format("The expected value should not be null.%n"
-        + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
-    // @format:on
+    checkArgument(filterOperator != null, "The expected value should not be null.%n"
+        + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
   }
-  
   
   /**
    * Ensures the truth of an expression involving one or more parameters to the calling method.

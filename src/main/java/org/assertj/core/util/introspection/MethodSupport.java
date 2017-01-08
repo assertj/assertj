@@ -13,6 +13,7 @@
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 
@@ -80,10 +81,8 @@ public class MethodSupport {
   }
 
   private static void assertHasReturnType(Class<?> itemClass, Method method) {
-    if (Void.TYPE.equals(method.getReturnType())) {
-      String message = format(METHOD_HAS_NO_RETURN_VALUE, method.getName(), itemClass.getSimpleName());
-      throw new IllegalArgumentException(message);
-    }
+    checkArgument(!Void.TYPE.equals(method.getReturnType()),
+                  METHOD_HAS_NO_RETURN_VALUE, method.getName(), itemClass.getSimpleName());
   }
 
 }
