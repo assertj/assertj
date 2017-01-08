@@ -26,7 +26,6 @@ public class ZonedDateTimeAssert extends AbstractZonedDateTimeAssert<ZonedDateTi
   /**
    * Creates a new <code>{@link ZonedDateTimeAssert}</code>.
    *
-   * @param selfType the "self type"
    * @param actual the actual value to verify
    */
   protected ZonedDateTimeAssert(ZonedDateTime actual) {

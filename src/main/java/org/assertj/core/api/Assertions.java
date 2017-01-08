@@ -76,7 +76,6 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.data.TemporalUnitWithinOffset;
@@ -1020,7 +1019,7 @@ public class Assertions {
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable) catchThrowable} as shown below.
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
    * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
    *
@@ -1073,7 +1072,7 @@ public class Assertions {
    *           .isThrownBy(() -> { throw new IOException("boom!"); })
    *           .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
    * @param exceptionType the exception type.
    * @return the created {@link ThrowableTypeAssert}.
    */

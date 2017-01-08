@@ -2211,8 +2211,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @throws AssertionError if one or more elements don't satisfy the given predicate.
    */
   @Override
-  public S allMatch(Predicate<? super T> condition) {
-    iterables.assertAllMatch(info, newArrayList(actual), condition, PredicateDescription.GIVEN);
+  public S allMatch(Predicate<? super T> predicate) {
+    iterables.assertAllMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
     return myself;
   }
 

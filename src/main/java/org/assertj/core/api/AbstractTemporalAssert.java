@@ -81,7 +81,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
   }
 
   /**
-   * Same assertion as {@link #isCloseTo(TEMPORAL, TemporalOffset)} but the {@code TEMPORAL} is built from a given String that
+   * Same assertion as {@link #isCloseTo(Temporal, TemporalOffset)} but the {@code TEMPORAL} is built from a given String that
    * follows predefined ISO date format <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html"
    * >Predefined Formatters</a> to allow calling {@link #parse(String)})} method.

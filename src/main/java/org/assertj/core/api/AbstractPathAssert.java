@@ -74,7 +74,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @see java.nio.file.Paths#get(String, String...)
  * @see FileSystem
  * @see FileSystem#getPath(String, String...)
- * @see FileSystems#getDefault()
+ * @see java.nio.file.FileSystems#getDefault()
  * @see Files
  */
 public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extends AbstractComparableAssert<S, Path> {

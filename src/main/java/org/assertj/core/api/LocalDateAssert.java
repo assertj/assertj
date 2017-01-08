@@ -19,7 +19,6 @@ public class LocalDateAssert extends AbstractLocalDateAssert<LocalDateAssert> {
   /**
    * Creates a new <code>{@link LocalDateAssert}</code>.
    *
-   * @param selfType the "self type"
    * @param actual the actual value to verify
    */
   protected LocalDateAssert(LocalDate actual) {

@@ -165,7 +165,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
-   * @param future the actual value.
+   * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.

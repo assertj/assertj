@@ -2196,8 +2196,8 @@ public class AtomicReferenceArrayAssert<T>
    * @since 3.7.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> allMatch(Predicate<? super T> condition) {
-    iterables.assertAllMatch(info, newArrayList(array), condition, PredicateDescription.GIVEN);
+  public AtomicReferenceArrayAssert<T> allMatch(Predicate<? super T> predicate) {
+    iterables.assertAllMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
     return myself;
   }
 

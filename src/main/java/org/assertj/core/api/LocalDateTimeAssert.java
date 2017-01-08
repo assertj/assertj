@@ -19,7 +19,6 @@ public class LocalDateTimeAssert extends AbstractLocalDateTimeAssert<LocalDateTi
   /**
    * Creates a new <code>{@link LocalDateTimeAssert}</code>.
    *
-   * @param selfType the "self type"
    * @param actual the actual value to verify
    */
   protected LocalDateTimeAssert(LocalDateTime actual) {

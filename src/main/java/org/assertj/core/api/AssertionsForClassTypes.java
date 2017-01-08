@@ -73,7 +73,7 @@ public class AssertionsForClassTypes {
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
-   * @param future the actual value.
+   * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
@@ -86,7 +86,7 @@ public class AssertionsForClassTypes {
   /**
    * Create assertion for {@link java.util.Optional}.
    *
-   * @param optional the actual value.
+   * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
@@ -99,7 +99,7 @@ public class AssertionsForClassTypes {
   /**
    * Create assertion for {@link java.util.OptionalDouble}.
    *
-   * @param optionalDouble the actual value.
+   * @param actual the actual value.
    *
    * @return the created assertion object.
    */
@@ -111,7 +111,7 @@ public class AssertionsForClassTypes {
   /**
    * Create assertion for {@link java.util.OptionalInt}.
    *
-   * @param optionalInt the actual value.
+   * @param actual the actual value.
    *
    * @return the created assertion object.
    */
@@ -123,7 +123,7 @@ public class AssertionsForClassTypes {
   /**
    * Create assertion for {@link java.util.OptionalInt}.
    *
-   * @param optionalLong the actual value.
+   * @param actual the actual value.
    *
    * @return the created assertion object.
    */
@@ -513,8 +513,8 @@ public class AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime date) {
-    return new ZonedDateTimeAssert(date);
+  public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime actual) {
+    return new ZonedDateTimeAssert(actual);
   }
 
   /**
@@ -524,8 +524,8 @@ public class AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime localDateTime) {
-    return new LocalDateTimeAssert(localDateTime);
+  public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime actual) {
+    return new LocalDateTimeAssert(actual);
   }
 
   /**
@@ -546,8 +546,8 @@ public class AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime offsetTime) {
-    return new OffsetTimeAssert(offsetTime);
+  public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime actual) {
+    return new OffsetTimeAssert(actual);
   }
 
   /**
@@ -615,9 +615,9 @@ public class AssertionsForClassTypes {
    *              .isThrownBy(() -> { throw new IOException("boom!"); })
    *              .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
    * 
-   * @param actual the actual value.
+   * @param exceptionType the actual value.
    * @return the created {@link ThrowableTypeAssert}.
    */
   @CheckReturnValue
@@ -813,7 +813,7 @@ public class AssertionsForClassTypes {
    * <li>
    * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
@@ -829,7 +829,7 @@ public class AssertionsForClassTypes {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(K key, V value)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
    * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p>

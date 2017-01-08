@@ -138,7 +138,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(T[])}
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Object[])}
    */
   @CheckReturnValue
   default <T> AbstractObjectArrayAssert<?, T> assertThat(final T[] actual) {
@@ -194,7 +194,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(T)}
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Object)}
    */
   @CheckReturnValue
   default <T> AbstractObjectAssert<?, T> assertThat(final T actual) {
@@ -896,7 +896,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatThrownBy(ThrowingCallable)}
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatThrownBy(ThrowableAssert.ThrowingCallable)}
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(
       final ThrowingCallable shouldRaiseThrowable) {
@@ -904,7 +904,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#catchThrowable(ThrowingCallable)}
+   * Delegate call to {@link org.assertj.core.api.Assertions#catchThrowable(ThrowableAssert.ThrowingCallable)}
    */
   default Throwable catchThrowable(final ThrowingCallable shouldRaiseThrowable) {
     return Assertions.catchThrowable(shouldRaiseThrowable);
@@ -918,8 +918,8 @@ public interface WithAssertions {
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class).isThrownBy(() -> { throw new IOException("boom!"); })
    *                                       .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
-   * @param actual the actual value.
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   * @param exceptionType the actual value.
    * @return the created {@link ThrowableTypeAssert}.
    */
   default <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
@@ -980,7 +980,7 @@ public interface WithAssertions {
   // --------------------------------------------------------------------------------------------------
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#filter(E[])}
+   * Delegate call to {@link org.assertj.core.api.Assertions#filter(Object[])}
    */
   default <E> Filters<E> filter(final E[] array) {
     return Assertions.filter(array);
