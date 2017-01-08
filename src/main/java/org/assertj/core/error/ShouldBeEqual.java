@@ -186,6 +186,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   private String detailedToStringOf(Object obj) {
+    if (obj == null) {
+      return null;
+    }
     return representation.toStringOf(obj) + " (" + obj.getClass().getSimpleName() + "@" + toHexString(obj.hashCode())
            + ")";
   }
