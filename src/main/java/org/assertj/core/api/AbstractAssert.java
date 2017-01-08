@@ -121,7 +121,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <pre><code class='java'> throwAssertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
    *
    * @param errorMessageFactory used to define the error message.
-   * @return an {@link AssertionError} with a message corresponding to the given {@link BasicErrorMessageFactory}.
+   * @throws an {@link AssertionError} with a message corresponding to the given {@link BasicErrorMessageFactory}.
    */
   protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
     throw Failures.instance().failure(info, errorMessageFactory);

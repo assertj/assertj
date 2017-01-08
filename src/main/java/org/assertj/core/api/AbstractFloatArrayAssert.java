@@ -665,7 +665,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(values).startsWith(new float[] {2.0f, 1.0f}, withPrecision(0.1f))
    * assertThat(values).startsWith(new float[] {1.1f, 2.1f}, withPrecision(0.5f))</code></pre>
    * 
-   * @param sequence the sequence of values to look for.
+   * @param values the sequence of values to look for.
    * @param precision the precision under which the values may vary.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -726,7 +726,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(values).endsWith(new float[] {3.0f, 2.0f}, withPrecision(0.1f))
    * assertThat(values).endsWith(new float[] {2.1f, 3.1f}, withPrecision(0.5f))</code></pre>
    * 
-   * @param sequence the sequence of values to look for.
+   * @param values the sequence of values to look for.
    * @param precision the precision under which the values may vary.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.

@@ -927,7 +927,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#then()} of the given component.
+   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#assertThat()} of the given component.
    * 
    * <p>
    * Read the comments on {@link AssertProvider} for an example of its usage.

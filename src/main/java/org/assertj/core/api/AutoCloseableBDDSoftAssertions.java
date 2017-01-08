@@ -118,7 +118,7 @@ package org.assertj.core.api;
  * 
  * @author Brian Laframboise
  * 
- * @see http://beust.com/weblog/2012/07/29/reinventing-assertions/ for the inspiration
+ * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
 public class AutoCloseableBDDSoftAssertions extends BDDSoftAssertions implements AutoCloseable {
 

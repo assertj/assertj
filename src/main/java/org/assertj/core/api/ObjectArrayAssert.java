@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 /**
  * Assertion methods for arrays of objects.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(T[])}</code>.
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
  * 
  * @param <T> the type of elements of the "actual" value.

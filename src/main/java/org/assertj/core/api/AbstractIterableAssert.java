@@ -1015,7 +1015,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                                          1000, "Legolas",
    *                                          87, "Aragorn");</code></pre>
    *
-   * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
+   * @param fieldOrPropertyNames the field and/or property names to extract from each actual {@code Iterable}'s element
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    * @throws IllegalArgumentException if fieldOrPropertyNames vararg is null or empty
    * @since 2.5.0

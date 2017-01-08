@@ -54,7 +54,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 /**
  * Assertion methods for arrays of objects.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(T[])}</code>.
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
  *
  * @param <T> the type of elements of the "actual" value.
@@ -149,7 +149,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertion will fail
    * assertThat(oneTwoThree).hasSameSizeAs(sevenEight);</code></pre>
    *
-   * @param array the array to compare size with actual group.
+   * @param other the array to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
@@ -414,7 +414,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertion will fail
    * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
    *
-   * @param sequence the sequence of objects to look for.
+   * @param subsequence the subsequence of objects to look for.
    * @return this assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
@@ -837,7 +837,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertion will fail
    * oneTwoThree.areAtLeast(3, oddNumber);</code></pre>
    *
-   * @param n the minimum number of times the condition should be verified.
+   * @param times the minimum number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -882,7 +882,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // assertion will fail
    * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
    *
-   * @param n the number of times the condition should be at most verified.
+   * @param times the number of times the condition should be at most verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -910,7 +910,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * oneTwoThree.areExactly(1, oddNumber);
    * oneTwoThree.areExactly(3, oddNumber);</code></pre>
    *
-   * @param n the exact number of times the condition should be verified.
+   * @param times the exact number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -1088,7 +1088,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(fellowshipOfTheRing).usingElementComparator(raceComparator)
    *                                .contains(sauron);</code></pre>
    *
-   * @param customComparator the comparator to use for incoming assertion checks.
+   * @param elementComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */

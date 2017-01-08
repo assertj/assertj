@@ -22,6 +22,7 @@ import java.util.*;
  * Utility methods related to <code>{@link Throwable}</code>s.
  * 
  * @author Alex Ruiz
+ * @author Daniel Zlotin
  */
 public final class Throwables {
   private static final String ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER = "org.assertj.core.error.ConstructorInvoker";
@@ -131,8 +132,6 @@ public final class Throwables {
    * 
    * @param throwable the {@code Throwable} to get stack trace from.
    * @return the stack trace as a {@link String}.
-   * 
-   * @author Daniel Zlotin
    */
   public static String getStackTrace(Throwable throwable) {
     StringWriter sw = null;

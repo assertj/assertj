@@ -50,7 +50,7 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * These assertions are filesystem independent. You may use them on {@code Path} instances issued from the default
  * filesystem (ie, instances you get when using {@link java.nio.file.Paths#get(String, String...)}) or from other
- * filesystems. For more information, see the {@link FileSystem javadoc for {@code FileSystem} .
+ * filesystems. For more information, see the javadoc for {@link FileSystem}.
  * </p>
  *
  * <p>
@@ -143,7 +143,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(fileUTF8Charset).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
    * 
    * @param expected the given {@code Path} to compare the actual {@code Path} to.
-   * @param expectedCharset the {@Charset} used to read the content of the expected Path.
+   * @param expectedCharset the {@code Charset} used to read the content of the expected Path.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code Path} is {@code null}.
    * @throws AssertionError if the actual or given {@code Path} is not an existing readable file.

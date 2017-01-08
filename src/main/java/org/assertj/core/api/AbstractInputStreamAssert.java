@@ -48,7 +48,7 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
    * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
    * @throws InputStreamsException if an I/O error occurs.
    *
-   * @deprecated use {@link #hasSameContentAs()} instead
+   * @deprecated use {@link #hasSameContentAs(InputStream)} instead
    */
   @Deprecated
   public S hasContentEqualTo(InputStream expected) {

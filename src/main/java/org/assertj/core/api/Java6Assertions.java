@@ -937,7 +937,7 @@ public class Java6Assertions {
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised, 
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored. 
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable) catchThrowable} as shown below.  
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.  
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error 
    * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
    * 
@@ -1195,7 +1195,7 @@ public class Java6Assertions {
    * <li>
    * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
@@ -1211,7 +1211,7 @@ public class Java6Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(K key, V value)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
    * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p>

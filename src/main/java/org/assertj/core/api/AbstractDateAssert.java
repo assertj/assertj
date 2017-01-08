@@ -58,6 +58,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author William Delanoue
+ * @author Michal Kordas
  */
 public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extends AbstractAssert<S, Date> {
 
@@ -2277,7 +2278,6 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} time is not equal to the time from date represented as
    *           String.
    * @throws AssertionError if the given date as String could not be converted to a Date.
-   * @author Michal Kordas
    */
   public S hasSameTimeAs(String dateAsString) {
     dates.hasSameTimeAs(info, actual, parse(dateAsString));

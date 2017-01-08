@@ -45,7 +45,7 @@ public class AtomicIntegerFieldUpdaterAssert<OBJECT> extends AbstractAtomicField
    * fieldUpdater.set(person, 28);
    * assertThat(fieldUpdater).hasValue(25, person);</code></pre>
    *
-   * @param expectedValue the expected value inside the {@link SELF}.
+   * @param expectedValue the expected value inside the {@link OBJECT}.
    * @param obj the object holding the updatable field.
    * @return this assertion object.
    */

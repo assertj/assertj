@@ -231,7 +231,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    *
-   * @deprecated use {@link #hasSameContentAs()} instead
+   * @deprecated use {@link #hasSameContentAs(File)} instead
    */
   @Deprecated
   public S hasContentEqualTo(File expected) {
@@ -292,7 +292,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
    * </p>
    * @param expected the given {@code File} to compare the actual {@code File} to.
-   * @param expectedCharset the {@Charset} used to read the content of the expected file.
+   * @param expectedCharset the {@code Charset} used to read the content of the expected file.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code File} is {@code null}.
    * @throws IllegalArgumentException if the given {@code File} is not an existing file.

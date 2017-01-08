@@ -157,7 +157,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * assertThat(elvesRingBearers).hasSameSizeAs(new int[] {1});
    * assertThat(keyToValue).hasSameSizeAs(new char[] {'a', 'b', 'c', 'd'});</code></pre>
    * 
-   * @param array the array to compare size with actual group.
+   * @param other the array to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
@@ -313,7 +313,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * // assertion will fail
    * assertThat(elvesRingBearers).containsAllEntriesOf(ringBearers);</code></pre>
    *
-   * @param the map with the given entries.
+   * @param other the map with the given entries.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws NullPointerException if any of the entries in the given map is {@code null}.
@@ -542,7 +542,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * assertThat(elvesRingBearers).doesNotContainKeys(vilya, nenya);
    * assertThat(elvesRingBearers).doesNotContainKeys(vilya, oneRing);</code></pre>
    * 
-   * @param key the given key
+   * @param keys the given keys
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
    */
@@ -689,7 +689,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   /**
    * Verifies that the actual map contains only the given entries and nothing else, <b>in order</b>.<br>
    * This assertion should only be used with maps that have a consistent iteration order (i.e. don't use it with
-   * {@link java.util.HashMap}, prefer {@link #containsOnly(org.assertj.core.data.MapEntry...)} in that case).
+   * {@link java.util.HashMap}, prefer {@link #containsOnly(java.util.Map.Entry...)} in that case).
    * <p>
    * Example :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),   

@@ -60,9 +60,9 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    * 
    * @since 2.7.0 / 3.7.0
    */
-  public AtomicLongAssert hasValueBetween(long start, long end) {
+  public AtomicLongAssert hasValueBetween(long startInclusive, long endInclusive) {
     isNotNull();
-    longs.assertIsBetween(getWritableAssertionInfo(), actual.get(), start, end);
+    longs.assertIsBetween(getWritableAssertionInfo(), actual.get(), startInclusive, endInclusive);
     return myself;
   }
 
@@ -292,18 +292,18 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    * <p>
    * Example with Long:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(new AtomicLong(5)).hasValueCloseTo(7, within(3));
+   * assertThat(new AtomicLong(5)).hasValueCloseTo(7, offset(3));
    *
-   * // if difference is exactly equals to the offset, it's ok
-   * assertThat(new AtomicLong(5)).hasValueCloseTo(7, within(2));
+   * // if the difference is exactly equals to the offset, it's ok
+   * assertThat(new AtomicLong(5)).hasValueCloseTo(7, offset(2));
    *
    * // assertion will fail
-   * assertThat(new AtomicLong(5)).hasValueCloseTo(7, within(1));</code></pre>
+   * assertThat(new AtomicLong(5)).hasValueCloseTo(7, offset(1));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param percentage the given positive percentage.
+   * @param offset the given allowed {@link Offset}.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@link Percentage} is {@code null}.
+   * @throws NullPointerException if the given {@link Offset} is {@code null}.
    * @throws AssertionError if the actual atomic value is not close enough to the given one.
    * 
    * @since 2.7.0 / 3.7.0

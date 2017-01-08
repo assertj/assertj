@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
  * Implements the difference and patching engine
  * 
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
+ * @author Bill James (tankerbay@gmail.com)
  */
 public class DiffUtils {
 
@@ -190,7 +191,6 @@ public class DiffUtils {
    *                    in the file.
    * @return List of strings representing the Unified Diff representation of
    *         the Patch argument.
-   * @author Bill James (tankerbay@gmail.com)
    */
   public static List<String> generateUnifiedDiff(String original,
                                                  String revised, List<String> originalLines, Patch<String> patch,
@@ -252,7 +252,6 @@ public class DiffUtils {
    * @param origLines the lines of the original file
    * @param deltas the Deltas to be output as a single block
    * @param contextSize the number of lines of context to place around block
-   * @author Bill James (tankerbay@gmail.com)
    */
   private static List<String> processDeltas(List<String> origLines,
                                             List<Delta<String>> deltas, int contextSize) {
@@ -335,7 +334,6 @@ public class DiffUtils {
    * 
    * @param delta the Delta to output
    * @return list of String lines of code.
-   * @author Bill James (tankerbay@gmail.com)
    */
   private static List<String> getDeltaText(Delta<String> delta) {
     List<String> buffer = new ArrayList<>();

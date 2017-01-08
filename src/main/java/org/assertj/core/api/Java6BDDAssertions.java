@@ -152,10 +152,9 @@ public class Java6BDDAssertions {
    * Create assertion for {@link AtomicReferenceArray}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link AtomicReferenceArray}.
+   * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
    *
-   * @return the created assertion object.  <T>   public static <T> AbstractObjectArrayAssert<?, T> then(T[] actual) {
-  
+   * @return the created assertion object.
    */
   @CheckReturnValue
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(AtomicReferenceArray<ELEMENT> actual) {
@@ -899,7 +898,7 @@ public class Java6BDDAssertions {
   }
 
   /**
-   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#then()} of the given component.
+   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#assertThat()} of the given component.
    *
    * <p>
    * Read the comments on {@link AssertProvider} for an example of its usage.

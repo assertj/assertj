@@ -625,7 +625,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *  &lt;$bar$&gt;</code></pre>
    * 
    * @param representation Describe/represent values in AssertJ error messages.
-   * @return
+   * @return this assertion object.
    */
   S withRepresentation(Representation representation);
 }

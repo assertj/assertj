@@ -47,7 +47,7 @@ public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends AbstractAt
    * fieldUpdater.set(person, "Batman");
    * assertThat(fieldUpdater).hasValue("Superman", person);</code></pre>
    *
-   * @param expectedValue the expected value inside the {@link SELF}.
+   * @param expectedValue the expected value inside the {@link OBJECT}.
    * @param obj the object holding the updatable field.
    * @return this assertion object.
    */

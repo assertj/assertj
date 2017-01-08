@@ -81,8 +81,9 @@ public class Files {
    * href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
    * @param info contains information about the assertion.
    * @param actual the "actual" file.
-   * @param charset of the "actual" file.
+   * @param actualCharset {@link Charset} of the "actual" file.
    * @param expected the "expected" file.
+   * @param expectedCharset {@link Charset} of the "actual" file.
    * @throws NullPointerException if {@code expected} is {@code null}.
    * @throws IllegalArgumentException if {@code expected} is not an existing file.
    * @throws AssertionError if {@code actual} is {@code null}.
