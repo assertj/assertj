@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util.diff;
 
+import static org.assertj.core.util.Preconditions.checkState;
+
 import java.util.List;
 
 /**
@@ -54,11 +56,8 @@ public class InsertDelta<T> extends Delta<T> {
 
   @Override
   public void verify(List<T> target) throws IllegalStateException {
-    if (getOriginal().getPosition() > target.size()) {
-      throw new IllegalStateException("Incorrect patch for delta: "
-                                     + "delta original position > target size");
-    }
-
+    checkState(getOriginal().getPosition() <= target.size(),
+               "Incorrect patch for delta: delta original position > target size");
   }
 
   public TYPE getType() {

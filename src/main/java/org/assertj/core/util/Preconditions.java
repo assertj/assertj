@@ -118,6 +118,27 @@ public final class Preconditions {
     if (!expression) throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
   }
 
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   * <p>
+   * Borrowed from Guava.
+   *
+   * @param expression a boolean expression
+   * @param errorMessageTemplate a template for the exception message should the check fail.The
+   *     message is formed by calling {@link String#format(String, Object...)} with the given parameters.
+   * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
+   *     are converted to strings using {@link String#valueOf(Object)}.
+   * @throws IllegalStateException if {@code expression} is false
+   * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
+   *     {@code errorMessageArgs} is null (don't let this happen)
+   */
+  public static void checkState(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
+    if (!expression) {
+      throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
+    }
+  }
+
   private Preconditions() {}
 
   private static void throwExceptionForBeingEmpty() {

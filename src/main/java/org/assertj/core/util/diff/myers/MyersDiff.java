@@ -13,6 +13,7 @@
 package org.assertj.core.util.diff.myers;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,8 +163,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
     if (path.isSnake())
       path = path.prev;
     while (path != null && path.prev != null && path.prev.j >= 0) {
-      if (path.isSnake())
-        throw new IllegalStateException("bad diffpath: found snake when looking for diff");
+      checkState(!path.isSnake(), "bad diffpath: found snake when looking for diff");
       int i = path.i;
       int j = path.j;
 
