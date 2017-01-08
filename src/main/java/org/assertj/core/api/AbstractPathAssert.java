@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.nio.charset.Charset;
@@ -204,9 +204,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws IllegalArgumentException if the given encoding is not supported on this platform.
    */
   public S usingCharset(String charsetName) {
-	if (!Charset.isSupported(charsetName))
-	  throw new IllegalArgumentException(format("Charset:<'%s'> is not supported on this system", charsetName));
-	return usingCharset(Charset.forName(charsetName));
+    checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
+    return usingCharset(Charset.forName(charsetName));
   }
 
   /**

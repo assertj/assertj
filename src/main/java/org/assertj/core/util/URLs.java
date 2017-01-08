@@ -12,6 +12,7 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.*;
@@ -42,9 +43,7 @@ public class URLs {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, String charsetName) {
-    if (!Charset.isSupported(charsetName)) {
-      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
-    }
+    checkArgumentCharsetIsSupported(charsetName);
     return contentOf(url, Charset.forName(charsetName));
   }
 
@@ -96,9 +95,7 @@ public class URLs {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, String charsetName) {
-    if (!Charset.isSupported(charsetName)) {
-      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
-    }
+    checkArgumentCharsetIsSupported(charsetName);
     return linesOf(url, Charset.forName(charsetName));
   }
 
@@ -149,6 +146,10 @@ public class URLs {
         }
       }
     }
+  }
+
+  private static void checkArgumentCharsetIsSupported(String charsetName) {
+    checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
   }
 
 }

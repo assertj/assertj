@@ -12,15 +12,15 @@
  */
 package org.assertj.core.groups;
 
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.List;
 
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertySupport;
-
 
 
 /**
@@ -69,7 +69,7 @@ public class Properties<T> {
   
   private static void checkIsNotNullOrEmpty(String propertyName) {
     checkNotNull(propertyName, "The name of the property to read should not be null");
-    if (propertyName.length() == 0) throw new IllegalArgumentException("The name of the property to read should not be empty");
+    checkArgument(propertyName.length() > 0, "The name of the property to read should not be empty");
   }
 
   @VisibleForTesting

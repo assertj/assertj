@@ -14,6 +14,7 @@ package org.assertj.core.util;
 
 import static java.lang.String.format;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.List;
 
@@ -161,9 +162,7 @@ public final class Strings {
      * @return the {@code String}s joined using the given delimiter.
      */
     public String with(String delimiter, String escapeString) {
-      if (delimiter == null) {
-        throw new IllegalArgumentException("Delimiter should not be null");
-      }
+      checkArgument(delimiter != null, "Delimiter should not be null");
       if (Arrays.isNullOrEmpty(strings)) {
         return "";
       }

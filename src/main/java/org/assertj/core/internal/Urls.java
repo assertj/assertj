@@ -26,6 +26,7 @@ import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
 import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.net.URL;
 import java.util.List;
@@ -54,7 +55,7 @@ public class Urls {
 
   public void assertHasPath(AssertionInfo info, URL actual, String path) {
     assertNotNull(info, actual);
-    if (path == null) throw new IllegalArgumentException("Expecting given path not to be null");
+    checkArgument(path != null, "Expecting given path not to be null");
     if (!areEqual(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
 

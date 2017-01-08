@@ -13,6 +13,8 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 
 /**
  * A positive index.
@@ -30,9 +32,7 @@ public class Index {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Index atIndex(int value) {
-    if (value < 0) {
-      throw new IllegalArgumentException("The value of the index should not be negative");
-    }
+    checkArgument(value >= 0, "The value of the index should not be negative");
     return new Index(value);
   }
 

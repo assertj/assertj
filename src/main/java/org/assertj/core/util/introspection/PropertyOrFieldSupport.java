@@ -13,6 +13,7 @@
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import org.assertj.core.util.VisibleForTesting;
 
@@ -41,12 +42,9 @@ public class PropertyOrFieldSupport {
   }
 
   public Object getValueOf(String propertyOrFieldName, Object input) {
-    if (propertyOrFieldName == null)
-      throw new IllegalArgumentException("The name of the property/field to read should not be null");
-    if (propertyOrFieldName.isEmpty())
-      throw new IllegalArgumentException("The name of the property/field to read should not be empty");
-    if (input == null)
-      throw new IllegalArgumentException("The object to extract property/field from should not be null");
+    checkArgument(propertyOrFieldName != null, "The name of the property/field to read should not be null");
+    checkArgument(!propertyOrFieldName.isEmpty(), "The name of the property/field to read should not be empty");
+    checkArgument(input != null, "The object to extract property/field from should not be null");
 
     if (isNested(propertyOrFieldName)) {
       String firstPropertyName = popNameFrom(propertyOrFieldName);

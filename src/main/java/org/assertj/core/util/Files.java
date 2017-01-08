@@ -13,13 +13,13 @@
 package org.assertj.core.util;
 
 import static java.io.File.separator;
-import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.append;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -50,9 +50,7 @@ public class Files {
    */
   public static List<String> fileNamesIn(String dirName, boolean recurse) {
     File dir = new File(dirName);
-    if (!dir.isDirectory()) {
-      throw new IllegalArgumentException(format("%s is not a directory", quote(dirName)));
-    }
+    checkArgument(dir.isDirectory(), "%s is not a directory", quote(dirName));
     return fileNamesIn(dir, recurse);
   }
 
@@ -245,9 +243,7 @@ public class Files {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, String charsetName) {
-    if (!Charset.isSupported(charsetName)) {
-      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
-    }
+    checkArgumentCharsetIsSupported(charsetName);
     return contentOf(file, Charset.forName(charsetName));
   }
 
@@ -324,9 +320,7 @@ public class Files {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, String charsetName) {
-    if (!Charset.isSupported(charsetName)) {
-      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
-    }
+    checkArgumentCharsetIsSupported(charsetName);
     return linesOf(file, Charset.forName(charsetName));
   }
 
@@ -358,6 +352,10 @@ public class Files {
       }
     }
 
+  }
+
+  private static void checkArgumentCharsetIsSupported(String charsetName) {
+    checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
   }
 
   private Files() {

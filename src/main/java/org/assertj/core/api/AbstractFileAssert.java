@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
@@ -339,8 +340,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws IllegalArgumentException if the given encoding is not supported on this platform.
    */
   public S usingCharset(String charsetName) {
-    if (!Charset.isSupported(charsetName))
-      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
+    checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
     return usingCharset(Charset.forName(charsetName));
   }
 

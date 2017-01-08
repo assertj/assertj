@@ -34,12 +34,12 @@ public class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBas
   public void should_fail_if_actual_has_stacktrace_not_containing_the_expected_description() {
     final AssertionInfo info = someInfo();
     try {
-      throwables.assertHasStackTraceContaining(info, actual, "expected descirption part");
+      throwables.assertHasStackTraceContaining(info, actual, "expected description part");
       fail("AssertionError expected");
     } catch (final AssertionError err) {
       verify(failures).failure(info,
                                shouldContain(org.assertj.core.util.Throwables.getStackTrace(actual),
-                                             "expected descirption part"));
+                                             "expected description part"));
     }
   }
 

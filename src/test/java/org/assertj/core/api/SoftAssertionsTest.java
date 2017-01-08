@@ -104,18 +104,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_return_success_of_last_assertion() {
-    try {
-      softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {}
+    softly.assertThat(true).isFalse();
     softly.assertThat(true).isEqualTo(true);
     assertThat(softly.wasSuccess()).isTrue();
   }
 
   @Test
   public void should_return_success_of_last_assertion_with_nested_calls() {
-    try {
-      softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {}
+    softly.assertThat(true).isFalse();
     softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
     assertThat(softly.wasSuccess()).isTrue();
   }

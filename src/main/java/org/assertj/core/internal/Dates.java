@@ -241,8 +241,8 @@ public class Dates {
    * @param actual the "actual" {@code Date}.
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if start {@code Date} is {@code null}.
    * @throws NullPointerException if end {@code Date} is {@code null}.

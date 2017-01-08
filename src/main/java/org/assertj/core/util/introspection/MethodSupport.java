@@ -19,7 +19,7 @@ import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 import java.lang.reflect.Method;
 
 /**
- * Utillity class for reflective method invocation.
+ * Utility class for reflective method invocation.
  *
  * @author Michał Piotrkowski
  */

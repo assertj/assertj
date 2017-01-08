@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
@@ -296,11 +297,8 @@ public class Paths {
   }
 
   public void assertHasSameContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected, Charset expectedCharset) {
-	// @format:off
     checkNotNull(expected, "The given Path to compare actual content to should not be null");
-	if (!nioFilesWrapper.isReadable(expected))
-	  throw new IllegalArgumentException(format("The given Path <%s> to compare actual content to should be readable", expected));
-	// @format:on
+    checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable", expected);
 	assertIsReadable(info, actual);
 	try {
 	  List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);

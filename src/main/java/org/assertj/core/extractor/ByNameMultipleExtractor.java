@@ -12,6 +12,8 @@
  */
 package org.assertj.core.extractor;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +30,9 @@ public class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
 
   @Override
   public Tuple extract(T input) {
-    if (fieldsOrProperties == null)
-      throw new IllegalArgumentException("The names of the fields/properties to read should not be null");
-    if (fieldsOrProperties.length == 0)
-      throw new IllegalArgumentException("The names of the fields/properties to read should not be empty");
-    if (input == null)
-      throw new IllegalArgumentException("The object to extract fields/properties from should not be null");
+    checkArgument(fieldsOrProperties != null, "The names of the fields/properties to read should not be null");
+    checkArgument(fieldsOrProperties.length > 0, "The names of the fields/properties to read should not be empty");
+    checkArgument(input != null, "The object to extract fields/properties from should not be null");
 
     List<Extractor<T, Object>> extractors = buildExtractors();
     List<Object> values = extractValues(input, extractors);

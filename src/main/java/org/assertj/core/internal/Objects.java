@@ -41,6 +41,7 @@ import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameCla
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -299,9 +300,7 @@ public class Objects {
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
     checkNotNull(types, "The given array of types should not be null");
-    if (types.length == 0) {
-      throw new IllegalArgumentException("The given array of types should not be empty");
-    }
+    checkArgument(types.length > 0, "The given array of types should not be empty");
   }
 
   /**
@@ -443,9 +442,7 @@ public class Objects {
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
     checkNotNull(values, "The given array should not be null");
-    if (values.length == 0) {
-      throw new IllegalArgumentException("The given array should not be empty");
-    }
+    checkArgument(values.length > 0, "The given array should not be empty");
   }
 
   /**
@@ -494,9 +491,7 @@ public class Objects {
 
   private void checkIsNotNullAndNotEmpty(Iterable<?> values) {
     checkNotNull(values, "The given iterable should not be null");
-    if (!values.iterator().hasNext()) {
-      throw new IllegalArgumentException("The given iterable should not be empty");
-    }
+    checkArgument(values.iterator().hasNext(), "The given iterable should not be empty");
   }
 
   private boolean isActualIn(Object actual, Iterable<?> values) {

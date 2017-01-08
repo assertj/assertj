@@ -14,6 +14,7 @@ package org.assertj.core.util.diff;
 
 import static org.assertj.core.presentation.StandardRepresentation.ELEMENT_SEPARATOR_WITH_NEWLINE;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.List;
 
@@ -56,12 +57,8 @@ public abstract class Delta<T> {
    * @param revised Chunk describing the revised text. Must not be {@code null}.
    */
   public Delta(Chunk<T> original, Chunk<T> revised) {
-    if (original == null) {
-      throw new IllegalArgumentException("original must not be null");
-    }
-    if (revised == null) {
-      throw new IllegalArgumentException("revised must not be null");
-    }
+    checkArgument(original != null, "original must not be null");
+    checkArgument(revised != null, "revised must not be null");
     this.original = original;
     this.revised = revised;
   }

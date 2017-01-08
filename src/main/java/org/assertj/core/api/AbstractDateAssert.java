@@ -75,7 +75,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string
    * to Date.<br>
-   * It keeps the instertion order so first format added will be first format used.
+   * It keeps the insertion order so first format added will be first format used.
    */
   @VisibleForTesting
   static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = new ThreadLocal<LinkedHashSet<DateFormat>>() {

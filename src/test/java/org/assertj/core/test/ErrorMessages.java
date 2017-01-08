@@ -72,11 +72,11 @@ public final class ErrorMessages {
   }
 
   public static String offsetValueIsNotPositive() {
-    return "The value of the offset should be greater than zero";
+    return "The value of the offset should be greater than or equal to zero";
   }
 
   public static String percentageValueIsInRange(Number number) {
-    return String.format("The percentage value <%s> should be > 0.", number.doubleValue());
+    return String.format("The percentage value <%s> should be greater than or equal to zero", number.doubleValue());
   }
 
   public static String regexPatternIsNull() {

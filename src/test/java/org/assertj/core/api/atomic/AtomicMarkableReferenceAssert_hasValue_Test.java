@@ -32,7 +32,7 @@ public class AtomicMarkableReferenceAssert_hasValue_Test {
   private String expectedValue = "expectedValue";
 
   @Test
-  public void should_fail_when_AtomicMarcableReference_is_null() throws Exception {
+  public void should_fail_when_AtomicMarkableReference_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
 
     assertThat((AtomicMarkableReference<String>) null).hasReference(expectedValue);

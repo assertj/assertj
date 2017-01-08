@@ -52,7 +52,7 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
   }
 
   private ShouldBeCloseTo(Date actual, Date other, long deltaInMilliseconds, long difference) {
-    // format Date up to the given ms, because defaut format is the second, thus dates with a difference less than 1s
+    // format Date up to the given ms, because default format is the second, thus dates with a difference less than 1s
     // seems equal in the error message.
     // Use standard formatting to avoid calling ToString.toStringOf for long that adds a 'L' (like 100L) to
     // differentiate integer from long (here there is no ambiguity).

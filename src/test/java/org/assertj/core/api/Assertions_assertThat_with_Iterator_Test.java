@@ -94,14 +94,14 @@ public class Assertions_assertThat_with_Iterator_Test {
   }
 
   @Test
-  public void isIstanceOf_should_check_the_original_iterator_without_consuming_it() {
+  public void isInstanceOf_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOf(Iterator.class);
     verifyZeroInteractions(iterator);
   }
 
   @Test
-  public void isIstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
+  public void isInstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOfAny(Iterator.class, String.class);
     verifyZeroInteractions(iterator);

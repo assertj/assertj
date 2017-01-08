@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 /**
  * Base class for all fieldupdater assertions.
@@ -52,9 +53,7 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
   }
 
   private void checkNotNull(VALUE expectedValue) {
-    if (expectedValue == null) {
-      throw new IllegalArgumentException("The expected value should not be <null>.");
-    }
+    checkArgument(expectedValue != null, "The expected value should not be <null>.");
   }
 
 }

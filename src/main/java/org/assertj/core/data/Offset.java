@@ -13,6 +13,7 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.util.Objects.*;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
@@ -36,14 +37,8 @@ public class Offset<T extends Number> {
    */
   public static <T extends Number> Offset<T> offset(T value) {
     checkNotNull(value);
-    if (value.doubleValue() < 0d) {
-      throw valueNotPositive();
-    }
+    checkArgument(value.doubleValue() >= 0d, "The value of the offset should be greater than or equal to zero");
     return new Offset<>(value);
-  }
-
-  private static IllegalArgumentException valueNotPositive() {
-    return new IllegalArgumentException("The value of the offset should be greater than zero");
   }
 
   private Offset(T value) {

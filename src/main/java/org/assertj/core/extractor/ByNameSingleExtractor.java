@@ -12,6 +12,8 @@
  */
 package org.assertj.core.extractor;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.util.Map;
 
 import org.assertj.core.api.iterable.Extractor;
@@ -29,12 +31,9 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
 
   @Override
   public Object extract(T input) {
-    if (propertyOrFieldName == null)
-      throw new IllegalArgumentException("The name of the field/property to read should not be null");
-    if (propertyOrFieldName.length() == 0)
-      throw new IllegalArgumentException("The name of the field/property to read should not be empty");
-    if (input == null)
-      throw new IllegalArgumentException("The object to extract field/property from should not be null");
+    checkArgument(propertyOrFieldName != null, "The name of the field/property to read should not be null");
+    checkArgument(propertyOrFieldName.length() > 0, "The name of the field/property to read should not be empty");
+    checkArgument(input != null, "The object to extract field/property from should not be null");
 
     // if input is a map, use propertyOrFieldName as a key
     if (input instanceof Map) {

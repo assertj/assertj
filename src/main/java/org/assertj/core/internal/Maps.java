@@ -33,6 +33,7 @@ import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.LinkedHashMap;
@@ -545,12 +546,11 @@ public class Maps {
   }
 
   private static <K> void failIfEmpty(K[] keys) {
-    if (keys.length == 0) throw new IllegalArgumentException("The array of keys to look for should not be empty");
+    checkArgument(keys.length > 0, "The array of keys to look for should not be empty");
   }
 
   private static <K, V> void failIfEmpty(Map.Entry<? extends K, ? extends V>[] entries) {
-    if (entries.length == 0)
-      throw new IllegalArgumentException("The array of entries to look for should not be empty");
+    checkArgument(entries.length > 0, "The array of entries to look for should not be empty");
   }
 
   private static <K, V> void failIfNullOrEmpty(Map.Entry<? extends K, ? extends V>[] entries) {

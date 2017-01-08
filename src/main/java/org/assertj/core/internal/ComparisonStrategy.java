@@ -140,7 +140,7 @@ public interface ComparisonStrategy {
   boolean stringStartsWith(String string, String prefix);
 
   /**
-   * Returns true if sstring ends with suffix according to the implemented comparison strategy, false otherwise.
+   * Returns true if string ends with suffix according to the implemented comparison strategy, false otherwise.
    * 
    * @param string the String we want to look starting suffix
    * @param suffix the suffix String to look for at string's end

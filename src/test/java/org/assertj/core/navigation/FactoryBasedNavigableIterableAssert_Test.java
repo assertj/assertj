@@ -19,7 +19,7 @@ import org.assertj.core.api.FactoryBasedNavigableIterableAssert;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
 
-public class FactoryBasedNavigableIterabelAssert_Test extends BaseNavigableIterableAssert_Test {
+public class FactoryBasedNavigableIterableAssert_Test extends BaseNavigableIterableAssert_Test {
 
   @Override
   protected FactoryBasedNavigableIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
