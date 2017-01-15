@@ -60,7 +60,7 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "  <%s>%n" +
           "but type was:%n" +
           "  <%s>.",
-          actualCause.getClass().getName(), expectedCauseClass.getName());
+          expectedCauseClass.getName(), actualCause.getClass().getName());
   }
 
   private ShouldHaveCause(Throwable actualCause, String expectedCauseMessage) {

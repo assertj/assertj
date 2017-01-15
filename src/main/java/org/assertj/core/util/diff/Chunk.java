@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util.diff;
 
+import static org.assertj.core.util.Preconditions.checkState;
+
 import java.util.List;
 
 /**
@@ -56,13 +58,10 @@ public class Chunk<T> {
    *            the sequence to verify against.
    */
   public void verify(List<T> target) throws IllegalStateException {
-    if (last() > target.size()) {
-      throw new IllegalStateException("Incorrect Chunk: the position of chunk > target size");
-    }
+    checkState(last() <= target.size(), "Incorrect Chunk: the position of chunk > target size");
     for (int i = 0; i < size(); i++) {
-      if (!target.get(position + i).equals(lines.get(i))) {
-        throw new IllegalStateException("Incorrect Chunk: the chunk content doesn't match the target");
-      }
+      checkState(target.get(position + i).equals(lines.get(i)),
+                 "Incorrect Chunk: the chunk content doesn't match the target");
     }
   }
 

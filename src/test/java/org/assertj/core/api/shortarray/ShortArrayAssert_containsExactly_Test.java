@@ -13,7 +13,6 @@
 package org.assertj.core.api.shortarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.LongArrays.arrayOf;
 import static org.assertj.core.test.ShortArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 

@@ -97,12 +97,9 @@ public final class Preconditions {
    * @throws IllegalArgumentException if the given {@link FilterOperator} reference is {@code null}.
    */
   public static <T> void checkNotNull(FilterOperator<T> filterOperator) {
-    // @format:off
-    if (filterOperator == null) throw new IllegalArgumentException(format("The expected value should not be null.%n"
-        + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
-    // @format:on
+    checkArgument(filterOperator != null, "The expected value should not be null.%n"
+        + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
   }
-  
   
   /**
    * Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -119,6 +116,27 @@ public final class Preconditions {
    */
   public static void checkArgument(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
     if (!expression) throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   * <p>
+   * Borrowed from Guava.
+   *
+   * @param expression a boolean expression
+   * @param errorMessageTemplate a template for the exception message should the check fail.The
+   *     message is formed by calling {@link String#format(String, Object...)} with the given parameters.
+   * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
+   *     are converted to strings using {@link String#valueOf(Object)}.
+   * @throws IllegalStateException if {@code expression} is false
+   * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
+   *     {@code errorMessageArgs} is null (don't let this happen)
+   */
+  public static void checkState(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
+    if (!expression) {
+      throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
+    }
   }
 
   private Preconditions() {}

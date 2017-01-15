@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Preconditions.checkState;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -67,8 +69,8 @@ class ProxifyExtractingResult implements MethodInterceptor {
   }
 
   private static Object actual(Object result) {
-    if (result instanceof AbstractAssert) return ((AbstractAssert<?, ?>) result).actual;
-    throw new IllegalStateException("We should be trying to make a proxy of an *Assert class.");
+    checkState(result instanceof AbstractAssert, "We should be trying to make a proxy of an *Assert class.");
+    return ((AbstractAssert<?, ?>) result).actual;
   }
 
 }

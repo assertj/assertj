@@ -13,6 +13,7 @@
 package org.assertj.core.util.diff.myers;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * @param orig The original sequence.
    * @param rev The revised sequence.
    * @return A minimum {@link PathNode Path} across the differences graph.
-   * @throws DifferentiationFailedException if a diff path could not be found.
+   * @throws IllegalStateException if a diff path could not be found.
    */
   public PathNode buildPath(final List<T> orig, final List<T> rev) {
     checkArgument(orig != null, "original sequence is null");
@@ -162,8 +163,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
     if (path.isSnake())
       path = path.prev;
     while (path != null && path.prev != null && path.prev.j >= 0) {
-      if (path.isSnake())
-        throw new IllegalStateException("bad diffpath: found snake when looking for diff");
+      checkState(!path.isSnake(), "bad diffpath: found snake when looking for diff");
       int i = path.i;
       int j = path.j;
 

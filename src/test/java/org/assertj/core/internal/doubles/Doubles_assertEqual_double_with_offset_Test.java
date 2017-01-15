@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.test.ErrorMessages.offsetIsNull;
