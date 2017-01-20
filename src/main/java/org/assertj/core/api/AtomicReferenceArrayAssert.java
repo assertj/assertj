@@ -564,6 +564,7 @@ public class AtomicReferenceArrayAssert<T>
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual AtomicReferenceArray contains the given object at the given index.
    */
+  @Override
   public AtomicReferenceArrayAssert<T> doesNotContain(T value, Index index) {
     arrays.assertDoesNotContain(info, array, value, index);
     return myself;
@@ -1212,6 +1213,7 @@ public class AtomicReferenceArrayAssert<T>
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
+  @Override
   public AtomicReferenceArrayAssert<T> usingElementComparator(Comparator<? super T> elementComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
     objects = new Objects(new AtomicReferenceArrayElementComparisonStrategy<>(elementComparator));
@@ -2243,21 +2245,52 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Grouping assertions example:
    * <pre><code class='java'> // myIcelanderFriends is an AtomicReferenceArray&lt;Person&gt; 
-   * assertThat(myIcelanderFriends).extracting(Person::getAddress)
-   *                               .allSatisfy(p -&gt; {
-   *                                 assertThat(p.getCountry()).isEqualTo("Iceland");
-   *                                 assertThat(p.getPhoneCountryCode()).isEqualTo("+354");
+   * assertThat(myIcelanderFriends).allSatisfy(person -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo("Iceland");
+   *                                 assertThat(person.getPhoneCountryCode()).isEqualTo("+354");
    *                               });</code></pre>
    *
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
-   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws NullPointerException if the given {@link Consumer} is {@code null}.
    * @throws AssertionError if one or more elements don't satisfy given requirements.
    * @since 3.7.0
    */
   @Override
   public AtomicReferenceArrayAssert<T> allSatisfy(Consumer<? super T> requirements) {
     iterables.assertAllSatisfy(info, newArrayList(array), requirements);
+    return myself;
+  }
+
+  /**
+   * Verifies that at least one element satisfies the given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to check that a group of assertions is verified by (at least) one element.
+   * <p>
+   * If the {@link AtomicReferenceArray} to assert is empty, the assertion will fail.
+   * <p>
+   * Grouping assertions example:
+   * <pre><code class='java'> // myIcelanderFriends is an AtomicReferenceArray&lt;Person&gt;
+   * assertThat(myIcelanderFriends).anySatisfy(person -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo("Iceland");
+   *                                 assertThat(person.getPhoneCountryCode()).isEqualTo("+354");
+   *                                 assertThat(person.getSurname()).endsWith("son");
+   *                               });
+   *                               
+   * // assertion fails for empty group, whatever the requirements are.  
+   * assertThat(emptyArray).anySatisfy($ -&gt; {
+   *                         assertThat(true).isTrue();
+   *                       });</code></pre>
+   *
+   * @param requirements the given {@link Consumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link Consumer} is {@code null}.
+   * @throws AssertionError if all elements don't satisfy given requirements.
+   * @since 3.7.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> anySatisfy(Consumer<? super T> requirements) {
+    iterables.assertAnySatisfy(info, newArrayList(array), requirements);
     return myself;
   }
 

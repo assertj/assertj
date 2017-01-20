@@ -829,19 +829,43 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * This is useful to perform a group of assertions on elements.
    * <p>
-   * Grouping assertions example:
-   * <pre><code class='java'> assertThat(myIcelanderFriends).extracting(Person::getAddress)
-   *                               .allSatisfy(p -&gt; {
-   *                                 assertThat(p.getCountry()).isEqualTo("Iceland");
-   *                                 assertThat(p.getPhoneCountryCode()).isEqualTo("+354");
+   * Example:
+   * <pre><code class='java'> assertThat(myIcelanderFriends).allSatisfy(person -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo("Iceland");
+   *                                 assertThat(person.getPhoneCountryCode()).isEqualTo("+354");
    *                               });</code></pre>
    *
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
-   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws NullPointerException if the given {@link Consumer} is {@code null}.
    * @throws AssertionError if one or more elements don't satisfy given requirements.
    * @since 3.6.0
    */
   SELF allSatisfy(Consumer<? super ELEMENT> requirements);
+
+  /**
+   * Verifies that at least one element satisfies the given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to check that a group of assertions is verified by (at least) one element.
+   * <p>
+   * If the group of elements to assert is empty, the assertion will fail.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assume that one icelander in myIcelanderFriends has a name finishing by 'son'  
+   * assertThat(myIcelanderFriends).anySatisfy(person -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo("Iceland");
+   *                                 assertThat(person.getSurname()).endsWith("son");
+   *                               });
+   *                               
+   * // assertion fails for empty group, whatever the requirements are.  
+   * assertThat(emptyGroup).anySatisfy($ -&gt; assertThat(true).isTrue());</code></pre>
+   *
+   * @param requirements the given {@link Consumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link Consumer} is {@code null}.
+   * @throws AssertionError none elements satisfy the given requirements.
+   * @since 3.7.0
+   */
+  SELF anySatisfy(Consumer<? super ELEMENT> requirements);
 
 }

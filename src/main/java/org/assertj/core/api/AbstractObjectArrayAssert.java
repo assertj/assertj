@@ -44,7 +44,6 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.Iterables;
@@ -53,6 +52,7 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.RecursiveFieldByFieldComparator;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
@@ -563,6 +563,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual group contains the given object at the given index.
    */
+  @Override
   public SELF doesNotContain(ELEMENT value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
@@ -1175,6 +1176,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
+  @Override
   public SELF usingElementComparator(Comparator<? super ELEMENT> elementComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
     // to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
@@ -1732,7 +1734,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
       return tuple;
     };
     Tuple[] tuples = stream(actual).map(tupleExtractor).toArray(size -> new Tuple[size]);
-    return new ObjectArrayAssert<Tuple>(tuples);
+    return new ObjectArrayAssert<>(tuples);
   }
 
   /**
@@ -2231,6 +2233,15 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
     iterables.assertAllSatisfy(info, newArrayList(actual), requirements);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF anySatisfy(Consumer<? super ELEMENT> requirements) {
+    iterables.assertAnySatisfy(info, newArrayList(actual), requirements);
     return myself;
   }
 
