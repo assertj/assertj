@@ -35,10 +35,10 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
 
   private ElementsShouldSatisfy(Object actual) {
     super("%n" +
-                    "Expecting any element of:%n" +
-                    "  <%s>%n" +
-                    "to satisfy given requirements, but did not.",
-            actual);
+          "Expecting any element of:%n" +
+          "  <%s>%n" +
+          "to satisfy given requirements, but did not.",
+          actual);
   }
 
 }
