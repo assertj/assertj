@@ -82,7 +82,7 @@ public class IterableAssert_extracting_Test {
                          .as("extract field that is also a property")
                          .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
     assertThat(employees).extracting("name", Name.class)
-                         .as("extract field that is also a property but specifiying the extracted type")
+                         .as("extract field that is also a property but specifying the extracted type")
                          .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
@@ -121,7 +121,7 @@ public class IterableAssert_extracting_Test {
                          .as("nested field")
                          .containsOnly("Master", null);
     assertThat(employees).extracting("surname", Name.class)
-                         .as("extract field specifiying the extracted type")
+                         .as("extract field specifying the extracted type")
                          .containsOnly(new Name("Master"), null);
   }
 
@@ -163,7 +163,7 @@ public class IterableAssert_extracting_Test {
   }
 
   @Test
-  public void sohuld_allow_extracting_multiple_values_using_extractor() {
+  public void should_allow_extracting_multiple_values_using_extractor() {
     assertThat(employees).extracting(new Extractor<Employee, Tuple>() {
       @Override
       public Tuple extract(Employee input) {

@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for {@link Throwables#appendStackTraceInCurentThreadToThrowable(Throwable, String)}.
+ * Tests for {@link Throwables#appendStackTraceInCurrentThreadToThrowable(Throwable, String)}.
  * 
  * @author Alex Ruiz
  */
@@ -52,7 +52,7 @@ public class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
       currentThread().interrupt();
     }
     RuntimeException thrown = exceptionReference.get();
-    Throwables.appendStackTraceInCurentThreadToThrowable(thrown, "should_add_stack_trace_of_current_thread");
+    Throwables.appendStackTraceInCurrentThreadToThrowable(thrown, "should_add_stack_trace_of_current_thread");
     StackTraceElement[] stackTrace = thrown.getStackTrace();
     assertThat(asString(stackTrace[0])).isEqualTo(
         "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test$1.run");

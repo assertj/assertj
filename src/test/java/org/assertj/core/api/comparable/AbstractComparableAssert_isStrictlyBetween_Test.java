@@ -39,7 +39,7 @@ public class AbstractComparableAssert_isStrictlyBetween_Test extends AbstractCom
   }
 
   @Test
-  public void succeds_if_actual_is_between_start_and_end() {
+  public void succeeds_if_actual_is_between_start_and_end() {
     assertThat(BigInteger.ONE).isStrictlyBetween(BigInteger.ZERO, BigInteger.TEN);
   }
 

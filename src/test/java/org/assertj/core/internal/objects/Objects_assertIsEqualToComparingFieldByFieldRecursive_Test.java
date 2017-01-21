@@ -225,7 +225,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_not_use_equal_implemention_of_objects_to_compare() {
+  public void should_not_use_equal_implementation_of_objects_to_compare() {
     AssertionInfo info = someInfo();
 
     EqualPerson actual = new EqualPerson();

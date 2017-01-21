@@ -664,7 +664,7 @@ public class Java6Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> tallowing to navigate to any {@code List} element
+   * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
