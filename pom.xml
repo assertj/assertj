@@ -33,7 +33,6 @@
   </issueManagement>
   <properties>
     <additionalparam>-Xdoclint:none</additionalparam>
-    <powermock.version>1.6.5</powermock.version>
   </properties>
   <dependencies>
     <dependency>
