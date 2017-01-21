@@ -27,12 +27,12 @@ import org.junit.Test;
 public class ShouldContainsStringOnlyOnce_create_Test {
 
   private ErrorMessageFactory factoryWithSeveralOccurrences;
-  private ErrorMessageFactory factoryWithNoOccurence;
+  private ErrorMessageFactory factoryWithNoOccurrence;
 
   @Before
   public void setUp() {
     factoryWithSeveralOccurrences = shouldContainOnlyOnce("aaamotifmotifaabbbmotifaaa", "motif", 3);
-    factoryWithNoOccurence = shouldContainOnlyOnce("aaamodifmoifaabbbmotfaaa", "motif", 0);
+    factoryWithNoOccurrence = shouldContainOnlyOnce("aaamodifmoifaabbbmotfaaa", "motif", 0);
   }
 
   @Test
@@ -45,7 +45,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
 
   @Test
   public void should_create_error_message_when_string_to_search_does_not_appear() {
-    String message = factoryWithNoOccurence.create(new TestDescription("Test"), new StandardRepresentation());
+    String message = factoryWithNoOccurrence.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamodifmoifaabbbmotfaaa\">%nbut it did not appear "
     ));
