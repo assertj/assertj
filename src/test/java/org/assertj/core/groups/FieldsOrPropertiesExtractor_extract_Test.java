@@ -119,7 +119,7 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   @Test
   public void should_prefer_properties_over_fields() {
     
-    List<Employee> employees = Arrays.<Employee>asList(new EmployeeWithOverridenName("Overridden Name"));
+    List<Employee> employees = Arrays.<Employee>asList(new EmployeeWithOverriddenName("Overridden Name"));
     List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(new Name("Overridden Name"));
   }
@@ -145,18 +145,18 @@ public class FieldsOrPropertiesExtractor_extract_Test {
     }
   }
 
-  public static class EmployeeWithOverridenName extends Employee {
+  public static class EmployeeWithOverriddenName extends Employee {
 
-    private String overridenName;
+    private String overriddenName;
 
-    public EmployeeWithOverridenName(final String overridenName) {
+    public EmployeeWithOverriddenName(final String overriddenName) {
       super(1L, new Name("Name"), 0);
-      this.overridenName = overridenName;
+      this.overriddenName = overriddenName;
     }
 
     @Override
     public Name getName() {
-      return new Name(overridenName);
+      return new Name(overriddenName);
     }
   }
 

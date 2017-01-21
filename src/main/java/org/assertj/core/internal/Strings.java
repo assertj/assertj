@@ -475,10 +475,10 @@ public class Strings {
   public void assertContainsOnlyOnce(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    int sequenceOccurencesInActual = countOccurences(sequence, actual);
-    if (sequenceOccurencesInActual == 1) return;
+    int sequenceOccurrencesInActual = countOccurrences(sequence, actual);
+    if (sequenceOccurrencesInActual == 1) return;
     throw failures.failure(info,
-                           shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
+                           shouldContainOnlyOnce(actual, sequence, sequenceOccurrencesInActual, comparisonStrategy));
   }
 
   /**
@@ -488,16 +488,16 @@ public class Strings {
    * @param actual the {@link CharSequence} to search occurrences in.
    * @return the number of occurrences of sequenceToSearch in actual {@link CharSequence}.
    */
-  private int countOccurences(CharSequence sequenceToSearch, CharSequence actual) {
+  private int countOccurrences(CharSequence sequenceToSearch, CharSequence actual) {
     String strToSearch = sequenceToSearch.toString();
     String strActual = actual.toString();
-    int occurences = 0;
+    int occurrences = 0;
     for (int i = 0; i <= (strActual.length() - strToSearch.length()); i++) {
       if (comparisonStrategy.areEqual(strActual.substring(i, i + sequenceToSearch.length()), strToSearch)) {
-        occurences++;
+        occurrences++;
       }
     }
-    return occurences;
+    return occurrences;
   }
 
   /**
