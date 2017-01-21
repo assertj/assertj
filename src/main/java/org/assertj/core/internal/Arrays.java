@@ -283,8 +283,8 @@ public class Arrays {
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
     if (commonChecks(info, actual, sequence)) return;
     // look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
-    int lastIndexWhereSequeceCanBeFound = sizeOf(actual) - sizeOf(sequence);
-    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequeceCanBeFound; actualIndex++) {
+    int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
+    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequenceCanBeFound; actualIndex++) {
       if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) return;
     }
     throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));

@@ -31,9 +31,9 @@ import org.junit.Test;
  * <p/>
  * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) :
  * <ul>
- * <li>successfull assertion test with a date</li>
- * <li>successfull assertion test with a date as string following default date format</li>
- * <li>successfull assertion test with a date as string following custom date format</li>
+ * <li>successful assertion test with a date</li>
+ * <li>successful assertion test with a date as string following default date format</li>
+ * <li>successful assertion test with a date as string following custom date format</li>
  * <li>failed assertion test when date as string does not follow the expected date format</li>
  * <li>checking that DateAssert instance used for assertions is returned to allow fluent assertions chaining</li>
  * </ul>

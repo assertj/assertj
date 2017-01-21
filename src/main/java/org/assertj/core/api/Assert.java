@@ -588,7 +588,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * {@link Date} format by overriding {@link StandardRepresentation#toStringOf(Date)}).
    * <p>
    * You can also control other types format by overriding {@link StandardRepresentation#toStringOf(Object)}) 
-   * calling your formatting method first and then fallback to the default represention by calling {@code super.toStringOf(Object)}.   
+   * calling your formatting method first and then fallback to the default representation by calling {@code super.toStringOf(Object)}.
    * <p>
    * Example :
    * <pre><code class='java'> private class Example {}

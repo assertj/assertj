@@ -39,17 +39,17 @@ public class AbstractComparableAssert_isBetween_Test extends AbstractComparableA
   }
 
   @Test
-  public void succeds_if_actual_is_between_start_and_end() {
+  public void succeeds_if_actual_is_between_start_and_end() {
     assertThat(BigInteger.ONE).isBetween(BigInteger.ZERO, BigInteger.TEN);
   }
 
   @Test
-  public void succeds_if_actual_is_equal_to_start() {
+  public void succeeds_if_actual_is_equal_to_start() {
     assertThat('a').isBetween('a', 'b');
   }
 
   @Test
-  public void succeds_if_actual_is_equal_to_end() {
+  public void succeeds_if_actual_is_equal_to_end() {
     assertThat('b').isBetween('a', 'b');
   }
 

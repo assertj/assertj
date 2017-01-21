@@ -24,7 +24,7 @@ public class Preconditions_checkArgument_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_throw_nullpointerexception_if_object_is_null() {
+  public void should_throw_illegalargumentexception_if_expression_is_false() {
     thrown.expectIllegalArgumentException("Invalid parameter foo");
     Preconditions.checkArgument(false, "Invalid parameter %s", "foo");
   }

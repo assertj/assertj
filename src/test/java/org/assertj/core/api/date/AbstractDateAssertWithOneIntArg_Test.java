@@ -27,7 +27,7 @@ import org.junit.Test;
  * <p>
  * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) :
  * <ul>
- * <li>successfull assertion test with an int</li>
+ * <li>successful assertion test with an int</li>
  * <li>checking that DateAssert instance used for assertions is returned to allow fluent assertions chaining</li>
  * </ul>
  * 
