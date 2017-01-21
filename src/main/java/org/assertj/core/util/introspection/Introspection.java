@@ -84,6 +84,11 @@ public final class Introspection {
 
   private static Method findMethod(String name, Object target) {
     Class<?> clazz = target.getClass();
+    // try public methods only
+    try {
+      return clazz.getMethod(name);
+    } catch (NoSuchMethodException | SecurityException ignored) {}
+    // search all methods
     while (clazz != null) {
       try {
         return clazz.getDeclaredMethod(name);
