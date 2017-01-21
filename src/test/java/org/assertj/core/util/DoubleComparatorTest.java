@@ -45,7 +45,7 @@ public class DoubleComparatorTest {
     "-1.0, -1.001"
   })
   // @format:on
-  public void should_be_equal_if_difference_is_less_than_or_equel_to_epsilon(Double actual, Double other) {
+  public void should_be_equal_if_difference_is_less_than_or_equal_to_epsilon(Double actual, Double other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,
                                               comparator.getEpsilon())
                                           .isTrue();

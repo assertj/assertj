@@ -94,7 +94,7 @@ public class IterableAssert_extracting_Test {
                          .as("extract field that is also a property")
                          .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
     assertThat(employees).extracting("name", Name.class)
-                         .as("extract field that is also a property but specifiying the extracted type")
+                         .as("extract field that is also a property but specifying the extracted type")
                          .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
@@ -133,7 +133,7 @@ public class IterableAssert_extracting_Test {
                          .as("nested field")
                          .containsOnly("Master", null);
     assertThat(employees).extracting("surname", Name.class)
-                         .as("extract field specifiying the extracted type")
+                         .as("extract field specifying the extracted type")
                          .containsOnly(new Name("Master"), null);
   }
 

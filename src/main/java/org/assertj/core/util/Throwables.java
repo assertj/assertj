@@ -35,7 +35,7 @@ public final class Throwables {
    * @param t the given {@code Throwable}.
    * @param methodToStartFrom the name of the method used as the starting point of the current thread's stack trace.
    */
-  public static void appendStackTraceInCurentThreadToThrowable(Throwable t, String methodToStartFrom) {
+  public static void appendStackTraceInCurrentThreadToThrowable(Throwable t, String methodToStartFrom) {
     List<StackTraceElement> stackTrace = newArrayList(t.getStackTrace());
     stackTrace.addAll(stackTraceInCurrentThread(methodToStartFrom));
     t.setStackTrace(stackTrace.toArray(new StackTraceElement[stackTrace.size()]));

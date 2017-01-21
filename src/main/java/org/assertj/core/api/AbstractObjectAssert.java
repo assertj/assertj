@@ -243,7 +243,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // ... but if we require the race field, the assertion fails
    * assertThat(frodo).hasNoNullFieldsExcept("name", "age");</code></pre>
    *
-   * @param propertiesOrFieldsToIgnore properties/fields that won't be chekecd for null.
+   * @param propertiesOrFieldsToIgnore properties/fields that won't be checked for null.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are null.
    * 
@@ -563,7 +563,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Assert that the object under test (actual) is equal to the given object based on recursive a property/field by property/field comparison (including
    * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
-   * the overriden {@code equals} method will be used instead of a field by field comparison.
+   * the overridden {@code equals} method will be used instead of a field by field comparison.
    * <p>
    * The recursive comparison handles cycles. By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
    * <p>

@@ -26,18 +26,18 @@ import org.junit.Test;
 
 public class ShouldContainsStringOnlyOnce_create_Test {
 
-  private ErrorMessageFactory factoryWithSeveralOccurences;
+  private ErrorMessageFactory factoryWithSeveralOccurrences;
   private ErrorMessageFactory factoryWithNoOccurence;
 
   @Before
   public void setUp() {
-    factoryWithSeveralOccurences = shouldContainOnlyOnce("aaamotifmotifaabbbmotifaaa", "motif", 3);
+    factoryWithSeveralOccurrences = shouldContainOnlyOnce("aaamotifmotifaabbbmotifaaa", "motif", 3);
     factoryWithNoOccurence = shouldContainOnlyOnce("aaamodifmoifaabbbmotfaaa", "motif", 0);
   }
 
   @Test
   public void should_create_error_message_when_string_to_search_appears_several_times() {
-    String message = factoryWithSeveralOccurences.create(new TestDescription("Test"), new StandardRepresentation());
+    String message = factoryWithSeveralOccurrences.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamotifmotifaabbbmotifaaa\">%nbut it appeared 3 times "
     ));

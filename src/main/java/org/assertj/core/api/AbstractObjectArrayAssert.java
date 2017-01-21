@@ -1373,7 +1373,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertion checks. This can be useful if actual's {@code equals} implementation does not suit you.
    * <p>
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals}
-   * implementation, i.e. the overriden {@code equals} method will be used instead of a field/property by field/property comparison.
+   * implementation, i.e. the overridden {@code equals} method will be used instead of a field/property by field/property comparison.
    * <p>
    * You can specify a custom comparator per (nested) name or type of element field with
    * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}

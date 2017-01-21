@@ -59,7 +59,7 @@ public class Iterables_assertHaveAtLeast_Test extends IterablesWithConditionsBas
   }
 
   @Test
-  public void should_fail_if_condition_is_not_met_enought() {
+  public void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     try {

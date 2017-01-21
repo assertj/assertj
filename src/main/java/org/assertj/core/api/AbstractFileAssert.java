@@ -210,7 +210,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
    * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
    * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
-   * // use UTF-8 charsest
+   * // use UTF-8 charset
    * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
    * 
    * // The following assertion succeeds (default charset is used):
@@ -248,7 +248,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
    * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
    * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
-   * // use UTF-8 charsest
+   * // use UTF-8 charset
    * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
    * 
    * // The following assertion succeeds (default charset is used):
