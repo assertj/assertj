@@ -22,6 +22,9 @@ import static org.assertj.core.data.TolkienCharacter.Race.MAN;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.data.TolkienCharacter;
@@ -198,5 +201,21 @@ public class ObjectArrayAssert_extracting_Test {
                                                  tuple("Gimli", 139, DWARF, "Gimli", 139, DWARF),
                                                  tuple("Aragorn", 87, MAN, "Aragorn", 87, MAN),
                                                  tuple("Boromir", 37, MAN, "Boromir", 37, MAN));
+  }
+
+  @Test //https://github.com/joel-costigliola/assertj-core/issues/880
+  public void should_be_able_to_extract_values_returned_from_default_methods_from_given_iterable_elements() {
+    List<Person> people = Arrays.asList(new Person());
+
+    assertThat(people).extracting("name").containsOnly("John Doe");
+  }
+
+  public static class Person implements DefaultName {
+  }
+
+  public static interface DefaultName {
+    default String getName() {
+      return "John Doe";
+    }
   }
 }
