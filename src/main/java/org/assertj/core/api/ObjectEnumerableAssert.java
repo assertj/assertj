@@ -851,7 +851,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * <p>
    * Grouping assertions example:
    * <pre><code class='java'> assertThat(myIcelanderFriends).extracting(Person::getAddress)
-   *                               .allSatisfy(p -&gt; {
+   *                               .anySatisfy(p -&gt; {
    *                                 assertThat(p.getCountry()).isEqualTo("Iceland");
    *                                 assertThat(p.getPhoneCountryCode()).isEqualTo("+354");
    *                                 assertThat(p.getSurname()).endsWith("son");
