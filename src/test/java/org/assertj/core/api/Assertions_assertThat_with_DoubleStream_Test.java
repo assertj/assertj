@@ -16,95 +16,102 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.DoubleStream;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.test.ExpectedException;
-import org.assertj.core.test.StringStream;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class Assertions_assertThat_with_Stream_Test {
+public class Assertions_assertThat_with_DoubleStream_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
-  private StringStream stringStream = new StringStream();
+  private DoubleStream intStream = DoubleStream.empty();
 
   @Test
   public void should_create_Assert() {
-    Object assertions = assertThat(Stream.of("Luke", "Leia"));
+    Object assertions = assertThat(DoubleStream.of(823952.8, 1947230585.9));
     assertThat(assertions).isNotNull();
+  }
+
+  @Test
+  public void should_assert_on_size() {
+    assertThat(DoubleStream.empty()).isEmpty();
+    assertThat(DoubleStream.of(123.3, 5674.5, 363.4)).isNotEmpty()
+                                                     .hasSize(3);
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void should_initialise_actual() {
-    Stream<String> iterator = Stream.of("Luke", "Leia");
-    List<? extends String> actual = assertThat(iterator).actual;
-    assertThat((List<String>) actual).contains("Luke", atIndex(0))
-                                     .contains("Leia", atIndex(1));
+    DoubleStream iterator = DoubleStream.of(823952.8, 1947230585.9);
+    List<? extends Double> actual = assertThat(iterator).actual;
+    assertThat((List<Double>) actual).contains(823952.8, atIndex(0))
+                                     .contains(1947230585.9, atIndex(1));
   }
 
   @Test
   public void should_allow_null() {
-    assertThat(assertThat((Stream<String>) null).actual).isNull();
+    assertThat(assertThat((DoubleStream) null).actual).isNull();
   }
 
   @Test
   public void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
-    Stream<?> stream = mock(Stream.class);
+    DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isEqualTo(stream);
   }
 
   @Test
   public void stream_can_be_asserted_twice() {
-    Stream<String> names = Stream.of("Luke", "Leia");
-    assertThat(names).containsExactly("Luke", "Leia")
-                     .containsExactly("Luke", "Leia");
+    DoubleStream names = DoubleStream.of(823952.8, 1947230585.9);
+    assertThat(names).containsExactly(823952.8, 1947230585.9)
+                     .containsExactly(823952.8, 1947230585.9);
   }
 
   @Test
   public void should_not_consume_stream_when_asserting_non_null() {
-    Stream<?> stream = mock(Stream.class);
+    DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isNotNull();
     verifyZeroInteractions(stream);
   }
 
   @Test
   public void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
-    Stream<?> stream = mock(Stream.class);
-    assertThat(stream).isInstanceOf(Stream.class);
+    DoubleStream stream = mock(DoubleStream.class);
+    assertThat(stream).isInstanceOf(DoubleStream.class);
     verifyZeroInteractions(stream);
   }
 
   @Test
   public void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
-    Stream<?> stream = mock(Stream.class);
-    assertThat(stream).isInstanceOfAny(Stream.class, String.class);
+    DoubleStream stream = mock(DoubleStream.class);
+    assertThat(stream).isInstanceOfAny(DoubleStream.class, String.class);
     verifyZeroInteractions(stream);
   }
 
   @Test
   public void isOfAnyClassIn_should_check_the_original_stream_without_consuming_it() {
-    assertThat(stringStream).isOfAnyClassIn(Double.class, StringStream.class);
+    DoubleStream stream = mock(DoubleStream.class);
+    assertThat(stream).isOfAnyClassIn(Double.class, stream.getClass());
   }
 
   @Test
   public void isExactlyInstanceOf_should_check_the_original_stream() {
-    assertThat(new StringStream()).isExactlyInstanceOf(StringStream.class);
+    // factory creates use internal classes
+    assertThat(intStream).isExactlyInstanceOf(intStream.getClass());
   }
 
   @Test
   public void isNotExactlyInstanceOf_should_check_the_original_stream() {
-    assertThat(stringStream).isNotExactlyInstanceOf(Stream.class);
+    assertThat(intStream).isNotExactlyInstanceOf(DoubleStream.class);
     try {
-      assertThat(stringStream).isNotExactlyInstanceOf(StringStream.class);
+      assertThat(intStream).isNotExactlyInstanceOf(intStream.getClass());
     } catch (AssertionError e) {
       // ok
       return;
@@ -114,29 +121,29 @@ public class Assertions_assertThat_with_Stream_Test {
 
   @Test
   public void isNotInstanceOf_should_check_the_original_stream() {
-    assertThat(stringStream).isNotInstanceOf(LazyIterable.class);
+    assertThat(intStream).isNotInstanceOf(LazyIterable.class);
   }
 
   @Test
   public void isNotInstanceOfAny_should_check_the_original_stream() {
-    assertThat(stringStream).isNotInstanceOfAny(LazyIterable.class, String.class);
+    assertThat(intStream).isNotInstanceOfAny(LazyIterable.class, String.class);
   }
 
   @Test
   public void isNotOfAnyClassIn_should_check_the_original_stream() {
-    assertThat(stringStream).isNotOfAnyClassIn(LazyIterable.class, String.class);
+    assertThat(intStream).isNotOfAnyClassIn(LazyIterable.class, String.class);
   }
 
   @Test
   public void isSameAs_should_check_the_original_stream_without_consuming_it() {
-    Stream<?> stream = mock(Stream.class);
+    DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isSameAs(stream);
     verifyZeroInteractions(stream);
   }
 
   @Test
   public void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
-    Stream<?> stream = mock(Stream.class);
+    DoubleStream stream = mock(DoubleStream.class);
     try {
       assertThat(stream).isNotSameAs(stream);
     } catch (AssertionError e) {
@@ -145,51 +152,4 @@ public class Assertions_assertThat_with_Stream_Test {
     }
     Assertions.fail("Expected assertionError, because assert notSame on same stream.");
   }
-
-  @Test
-  public void test_issue_245() throws Exception {
-    Foo foo1 = new Foo("id", 1);
-    foo1._f2 = "foo1";
-    Foo foo2 = new Foo("id", 2);
-    foo2._f2 = "foo1";
-    List<Foo> stream2 = newArrayList(foo2);
-    assertThat(Stream.of(foo1)).usingElementComparatorOnFields("_f2").isEqualTo(stream2);
-    assertThat(Stream.of(foo1)).usingElementComparatorOnFields("id").isEqualTo(stream2);
-    assertThat(Stream.of(foo1)).usingElementComparatorIgnoringFields("bar").isEqualTo(stream2);
-  }
-
-  @Test
-  public void test_issue_236() throws Exception {
-    List<Foo> stream2 = newArrayList(new Foo("id", 2));
-    assertThat(Stream.of(new Foo("id", 1))).usingElementComparatorOnFields("id")
-                                           .isEqualTo(stream2);
-    assertThat(Stream.of(new Foo("id", 1))).usingElementComparatorIgnoringFields("bar")
-                                           .isEqualTo(stream2);
-  }
-
-  public static class Foo {
-    private String id;
-    private int bar;
-    public String _f2;
-
-    public String getId() {
-      return id;
-    }
-
-    public int getBar() {
-      return bar;
-    }
-
-    public Foo(String id, int bar) {
-      super();
-      this.id = id;
-      this.bar = bar;
-    }
-
-    @Override
-    public String toString() {
-      return "Foo [id=" + id + ", bar=" + bar + "]";
-    }
-  }
-
 }

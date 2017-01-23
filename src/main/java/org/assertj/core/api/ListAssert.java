@@ -18,10 +18,11 @@ import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Failures;
+import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -44,8 +45,9 @@ public class ListAssert<ELEMENT> extends
     super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
 
-  protected ListAssert(Stream<? extends ELEMENT> actual) {
-    this(actual == null ? null : new ListFromStream<>(actual));
+  @SuppressWarnings("unchecked")
+  protected <STREAM extends BaseStream<ELEMENT, STREAM>> ListAssert(BaseStream<? extends ELEMENT, STREAM> actual) {
+    this(actual == null ? null : new ListFromStream<>((BaseStream<ELEMENT, STREAM>) actual));
   }
 
   @Override
@@ -183,23 +185,22 @@ public class ListAssert<ELEMENT> extends
   }
 
   @VisibleForTesting
-  static class ListFromStream<ELEMENT> extends AbstractList<ELEMENT> {
-    private Stream<ELEMENT> stream;
+  static class ListFromStream<ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> extends AbstractList<ELEMENT> {
+    private BaseStream<ELEMENT, STREAM> stream;
     private List<ELEMENT> list;
 
-    public ListFromStream(Stream<ELEMENT> stream) {
+    public ListFromStream(BaseStream<ELEMENT, STREAM> stream) {
       this.stream = stream;
     }
 
+    @Override
     public Stream<ELEMENT> stream() {
       initList();
       return list.stream();
     }
 
     private List<ELEMENT> initList() {
-      if (list == null) {
-        list = stream.collect(Collectors.toList());
-      }
+      if (list == null) list = Lists.newArrayList(stream.iterator());
       return list;
     }
 
