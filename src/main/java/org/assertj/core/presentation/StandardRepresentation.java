@@ -54,9 +54,9 @@ import org.assertj.core.util.DateUtil;
  * 
  * @author Mariusz Smykula
  */
-public class StandardRepresentation implements Representation { // TODO : add unit tests
+public class StandardRepresentation implements Representation {
 
-  // can share this at StandardRepresentation has no state
+  // can share this as StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   private static final String NULL = "null";
@@ -71,7 +71,7 @@ public class StandardRepresentation implements Representation { // TODO : add un
 
   // 4 spaces indentation : 2 space indentation after new line + '<' + '['
   static final String INDENTATION_AFTER_NEWLINE = "    ";
-  // used when formatting iterable to a single line
+  // used when formatting iterables to a single line
   static final String INDENTATION_FOR_SINGLE_LINE = " ";
 
   public static final String ELEMENT_SEPARATOR = ",";
@@ -106,7 +106,7 @@ public class StandardRepresentation implements Representation { // TODO : add un
   }
 
   /**
-   * Returns standard the {@code toString} representation of the given object. It may or not the object's own
+   * Returns the standard {@code toString} representation of the given object. It may or not the object's own
    * implementation of {@code toString}.
    * 
    * @param object the given object.
