@@ -77,14 +77,14 @@ public class Assertions_assertThat_with_Stream_Test {
   }
 
   @Test
-  public void isIstanceOf_should_check_the_original_stream_without_consuming_it() {
+  public void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
     Stream<?> stream = mock(Stream.class);
     assertThat(stream).isInstanceOf(Stream.class);
     verifyZeroInteractions(stream);
   }
 
   @Test
-  public void isIstanceOfAny_should_check_the_original_stream_without_consuming_it() {
+  public void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
     Stream<?> stream = mock(Stream.class);
     assertThat(stream).isInstanceOfAny(Stream.class, String.class);
     verifyZeroInteractions(stream);
