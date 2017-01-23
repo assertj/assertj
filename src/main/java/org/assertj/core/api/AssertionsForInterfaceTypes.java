@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
-
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +20,8 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.stream.BaseStream;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -127,20 +126,22 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link BaseStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be 
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link BaseStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only 
-   * interacts with the {@link List} built from the {@link Stream}.
+   * interacts with the {@link List} built from the {@link BaseStream}.
    *
-   * @param actual the actual {@link Stream} value.
+   * <p>This method accepts {@link java.util.stream.Stream} and primitive stream variants
+   * {@link java.util.stream.IntStream}, {@link java.util.stream.LongStream} and {@link java.util.stream.DoubleStream}.
+   *
+   * @param actual the actual {@link BaseStream} value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> ListAssert<ELEMENT> assertThat(BaseStream<? extends ELEMENT, STREAM> actual) {
     return new ListAssert<>(actual);
   }
-
   
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.

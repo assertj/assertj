@@ -12,9 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.data.Percentage.withPercentage;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +37,8 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -52,15 +51,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
-
+import java.util.stream.BaseStream;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.api.filter.FilterOperator;
@@ -90,6 +86,9 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
+
+import static org.assertj.core.data.Percentage.withPercentage;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
@@ -2241,17 +2240,20 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link BaseStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link BaseStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
+   * interacts with the {@link List} built from the {@link BaseStream}.
    *
-   * @param actual the actual {@link Stream} value.
+   * <p>This method accepts {@link java.util.stream.Stream} and primitive stream variants
+   * {@link java.util.stream.IntStream}, {@link java.util.stream.LongStream} and {@link java.util.stream.DoubleStream}.
+   *
+   * @param actual the actual {@link BaseStream} value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(BaseStream<? extends ELEMENT, STREAM> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
