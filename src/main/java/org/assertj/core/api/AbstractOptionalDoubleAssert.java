@@ -182,7 +182,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
   public S hasValueCloseTo(Double expectedValue, Offset<Double> offset) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseTo(expectedValue));
-    // Reuses doubles functionality, catches poyential assertion error and throw correct one
+    // Reuses doubles functionality, catches potential assertion error and throw correct one
     try {
       doubles.assertIsCloseTo(info, actual.getAsDouble(), expectedValue, offset);
     } catch (AssertionError assertionError) {
