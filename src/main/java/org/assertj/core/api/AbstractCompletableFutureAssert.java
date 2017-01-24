@@ -88,7 +88,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is completed exceptionally. 
    * Possible causes include cancellation, explicit invocation of completeExceptionally, and abrupt termination of a CompletionStage action.
    * <p>
-   * If you only want to check that actual future is completed exceptionnaly but not cancelled, use {@link #hasFailed()} or {@link #hasFailedWithThrowableThat()}.
+   * If you only want to check that actual future is completed exceptionally but not cancelled, use {@link #hasFailed()} or {@link #hasFailedWithThrowableThat()}.
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
@@ -326,7 +326,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
 
   /**
    * Verifies that the {@link CompletableFuture} has completed exceptionally and 
-   * returns a Throwable assertion object allowng to check the Throwable that has caused the future to fail.
+   * returns a Throwable assertion object allowing to check the Throwable that has caused the future to fail.
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
