@@ -30,10 +30,10 @@ import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 @RunWith(DataProviderRunner.class)
 public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
 
-  private static final Long ZERO = 0l;
-  private static final Long ONE = 1l;
-  private static final Long TWO = 2l;
-  private static final Long TEN = 10l;
+  private static final Long ZERO = 0L;
+  private static final Long ONE = 1L;
+  private static final Long TWO = 2L;
+  private static final Long TEN = 10L;
 
   @Test
   public void should_fail_if_actual_is_null() {
