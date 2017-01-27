@@ -46,7 +46,6 @@ import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;

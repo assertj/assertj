@@ -15,7 +15,7 @@ package org.assertj.core.api.throwable;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ThrowingCallable;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;

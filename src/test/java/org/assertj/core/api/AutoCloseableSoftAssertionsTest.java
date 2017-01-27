@@ -34,7 +34,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;

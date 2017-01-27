@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
+
+import java.util.IllegalFormatException;
+
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
-
-import java.util.IllegalFormatException;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
@@ -355,5 +357,18 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public SELF hasSuppressedException(Throwable suppressedException) {
     throwables.assertHasSuppressedException(info, actual, suppressedException);
     return myself;
+  }
+
+  /**
+   * Verifies that the {@link org.assertj.core.api.ThrowingCallable} didn't raise a throwable.
+   * <p>
+   * Example :
+   * <pre><code class='java'> assertThatCode(() -> foo.bar()).doesNotThrowAnyException();</code></pre>
+   *
+   * @throws AssertionError if the actual statement raised a {@code Throwable}.
+   * @since 3.7.0
+   */
+  public void doesNotThrowAnyException() {
+    if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
   }
 }

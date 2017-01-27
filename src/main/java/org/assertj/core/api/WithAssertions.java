@@ -55,7 +55,6 @@ import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.BaseStream;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
@@ -914,6 +913,52 @@ public interface WithAssertions {
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(
       final ThrowingCallable shouldRaiseThrowable) {
     return Assertions.assertThatThrownBy(shouldRaiseThrowable);
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   *   throw new Exception("boom!");
+   * };
+   * 
+   * // assertion succeeds
+   * assertThatCode(callable).isInstanceOf(Exception.class)
+   *                         .hasMessageContaining("boom");
+   *                                                      
+   * // assertion fails
+   * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
+   *
+   * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
+   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
+   * 
+   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
+   *   // do nothing 
+   * }; 
+   * 
+   * // assertion fails and "display me" appears in the assertion error
+   * assertThatCode(doNothing).as("display me")
+   *                          .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error
+   * Throwable thrown = catchThrowable(doNothing);
+   * assertThatCode(thrown).as("display me")
+   *                       .isInstanceOf(Exception.class); </code></pre>
+   * <p>
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   *
+   * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+    return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
   /**

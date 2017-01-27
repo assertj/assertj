@@ -54,7 +54,6 @@ import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
@@ -875,7 +874,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
         assertions.assertThat("red").isEqualTo("blue");
       });
     }).as("it should call assertAll() and fail with multiple validation errors")
-      .hasBeenThrown()
       .hasMessageContaining("meaning of life")
       .hasMessageContaining("blue");
   }
@@ -885,7 +883,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(new AtomicBoolean(true)).isTrue();
     softly.assertThat(new AtomicInteger(1)).hasValueGreaterThan(0);
     softly.assertThat(new AtomicLong(1L)).hasValueGreaterThan(0L);
-    softly.assertThat(new AtomicReference<String>("abc")).hasValue("abc");
+    softly.assertThat(new AtomicReference<>("abc")).hasValue("abc");
     // atomic array value
     softly.assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3);
     softly.assertThat(new AtomicLongArray(new long[] {1L, 2L, 3L})).containsExactly(1L, 2L, 3L);

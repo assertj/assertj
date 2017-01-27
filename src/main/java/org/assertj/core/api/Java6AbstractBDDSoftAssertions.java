@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * AbstractBDDSoftAssertions compatible with Android. Duplicated from {@link AbstractBDDSoftAssertions}.
@@ -694,12 +694,58 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
    *
-   * @param shouldRaiseThrowable The {@link ThrowableAssert.ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
   @CheckReturnValue
-  public AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+  public AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return then(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   *   throw new Exception("boom!");
+   * };
+   * 
+   * // assertion succeeds
+   * thenCode(callable).isInstanceOf(Exception.class)
+   *                   .hasMessageContaining("boom");
+   *                                                      
+   * // assertion fails
+   * thenCode(callable).doesNotThrowAnyException();</code></pre>
+   *
+   * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
+   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
+   * 
+   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
+   *   // do nothing 
+   * }; 
+   * 
+   * // assertion fails and "display me" appears in the assertion error
+   * thenCode(doNothing).as("display me")
+   *                    .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error
+   * Throwable thrown = catchThrowable(doNothing);
+   * thenCode(thrown).as("display me")
+   *                 .isInstanceOf(Exception.class); </code></pre>
+   * <p>
+   * This method was not named {@code then} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   *
+   * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public AbstractThrowableAssert<?, ? extends Throwable> thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+    return then(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
   /**

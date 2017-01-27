@@ -811,11 +811,11 @@ public class Java6BDDAssertions {
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
    *
-   * @param shouldRaiseThrowable The {@link ThrowableAssert.ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
   @CheckReturnValue
-  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThatThrownBy(shouldRaiseThrowable);
   }
 
