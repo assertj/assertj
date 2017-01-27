@@ -29,13 +29,13 @@ public class AtomicLongAssert_doesNotHaveValue_Test {
 
   @Test
   public void should_pass_when_actual_does_not_have_the_expected_value() {
-    AtomicLong actual = new AtomicLong(123l);
-    assertThat(actual).doesNotHaveValue(456l);
+    AtomicLong actual = new AtomicLong(123L);
+    assertThat(actual).doesNotHaveValue(456L);
   }
 
   @Test
   public void should_fail_when_actual_has_the_expected_value() {
-    long value = 123l;
+    long value = 123L;
     AtomicLong actual = new AtomicLong(value);
     thrown.expectAssertionError(shouldNotContainValue(actual, value).create());
     assertThat(actual).doesNotHaveValue(value);
@@ -45,7 +45,7 @@ public class AtomicLongAssert_doesNotHaveValue_Test {
   public void should_fail_when_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     AtomicLong actual = null;
-    assertThat(actual).doesNotHaveValue(1234l);
+    assertThat(actual).doesNotHaveValue(1234L);
   }
   
 }

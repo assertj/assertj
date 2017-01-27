@@ -30,13 +30,13 @@ public class Longs_assertIsNegative_Test extends LongsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_negative() {
-    longs.assertIsNegative(someInfo(), -6l);
+    longs.assertIsNegative(someInfo(), -6L);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
     thrown.expectAssertionError("%nExpecting:%n <6L>%nto be less than:%n <0L> ");
-    longs.assertIsNegative(someInfo(), 6l);
+    longs.assertIsNegative(someInfo(), 6L);
   }
 
   @Test

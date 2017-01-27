@@ -21,7 +21,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Longs#assertIsNegative(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link Longs#assertIsNotZero(AssertionInfo, Long)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -30,13 +30,13 @@ public class Longs_assertIsNotZero_Test extends LongsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_zero() {
-    longs.assertIsNotZero(someInfo(), 2l);
+    longs.assertIsNotZero(someInfo(), 2L);
   }
 
   @Test
   public void should_fail_since_actual_is_zero() {
     thrown.expectAssertionError("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n");
-    longs.assertIsNotZero(someInfo(), 0l);
+    longs.assertIsNotZero(someInfo(), 0L);
   }
 
   @Test
