@@ -12,11 +12,10 @@
  */
 package org.assertj.core.api;
 
+import java.util.IllegalFormatException;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
-
-import java.util.IllegalFormatException;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
@@ -355,5 +354,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public SELF hasSuppressedException(Throwable suppressedException) {
     throwables.assertHasSuppressedException(info, actual, suppressedException);
     return myself;
+  }
+
+  public void hasNotThrownException() {
+    if (actual != null) throw Failures.instance().failure("Expecting code not to raise a throwable.");
   }
 }
