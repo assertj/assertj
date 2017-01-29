@@ -8,25 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigintegers;
+
+import static org.assertj.core.test.TestData.someInfo;
+
+import java.math.BigInteger;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.BigIntegersBaseTest;
 import org.junit.Test;
 
-import java.math.BigInteger;
-
-import static org.assertj.core.test.TestData.someInfo;
-
-
 /**
  * Tests for <code>{@link BigIntegers#assertIsNegative(AssertionInfo, BigInteger)}</code>.
- * 
- * @author Yvonne Wang
- * @author Joel Costigliola
  */
 public class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
 
@@ -43,10 +39,10 @@ public class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-	  thrown.expectAssertionError("%nExpecting:%n <0>%nto be less than:%n <0> ");
+    thrown.expectAssertionError("%nExpecting:%n <0>%nto be less than:%n <0> ");
     numbers.assertIsNegative(someInfo(), BigInteger.ZERO);
   }
-  
+
   @Test
   public void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigInteger("-1"));

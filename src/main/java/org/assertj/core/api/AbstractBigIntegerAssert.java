@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,8 +25,8 @@ import org.assertj.core.util.VisibleForTesting;
  * Base class for all implementations of assertions for {@link BigInteger}s.
  *
  */
-public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> extends
-  AbstractComparableAssert<S, BigInteger> implements NumberAssert<S, BigInteger>  {
+public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> extends
+    AbstractComparableAssert<S, BigInteger> implements NumberAssert<S, BigInteger> {
 
   @VisibleForTesting
   BigIntegers bigIntegers = BigIntegers.instance();
@@ -36,7 +36,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is equal to zero.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -55,7 +55,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is not equal to zero. 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -74,7 +74,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is equal to one. 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -93,7 +93,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is positive. 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -112,7 +112,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is negative. 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -131,7 +131,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is non negative (positive or equal zero). 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -150,7 +150,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is non positive (negative or equal zero). 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -173,7 +173,9 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   * <pre><code class='java'> final BigInteger actual = new BigInteger("8");
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.within;
+   *  
+   * final BigInteger actual = new BigInteger("8");
    * final BigInteger other =  new BigInteger("10");
    *
    * // valid assertion
@@ -205,7 +207,9 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example:
-   * <pre><code class='java'> final BigInteger actual = new BigInteger("8");
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.byLessThan;
+   *  
+   * final BigInteger actual = new BigInteger("8");
    * final BigInteger other =  new BigInteger("10");
    *
    * // this assertion succeeds
@@ -238,7 +242,9 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with BigInteger:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.withinPercentage; 
+   * 
+   * // assertions will pass:
    * assertThat(new BigInteger("11")).isCloseTo(BigInteger.TEN, withinPercentage(20));
    *
    * // if difference is exactly equals to the computed offset (1), it's ok
@@ -268,7 +274,9 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with BigInteger:
-   * <pre><code class='java'> BigInteger eleven = new BigInteger("11");
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.withinPercentage; 
+   * 
+   * BigInteger eleven = new BigInteger("11");
    *
    * // assertion will pass:
    * assertThat(eleven).isNotCloseTo(BigInteger.TEN, withinPercentage(5));
@@ -356,7 +364,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(int)} but takes care of converting given int to
+   * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(BigInteger)} but takes care of converting given int to
    * {@link BigInteger} for you.
    * <p>
    * Example:
@@ -374,7 +382,7 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   }
 
   /**
-   * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(long)} but takes care of converting given int to
+   * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(BigInteger)} but takes care of converting given int to
    * {@link BigInteger} for you.
    * <p>
    * Example:
@@ -390,115 +398,6 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   public S isEqualTo(long expected) {
     return isEqualTo(new BigInteger(Long.toString(expected)));
   }
-
-  /**
-   * Same as {@link AbstractComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigInteger)} but
-   * takes care of converting given int to {@link BigInteger}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigInteger(&quot;8&quot;)).isEqualByComparingTo(8);
-   *
-   * // assertion will fail
-   * assertThat(new BigInteger(&quot;8&quot;)).isEqualByComparingTo(2);</code></pre>
-   * </p>
-   *
-   * @since 2.7.0 / 3.7.0
-   */
-  public S isEqualByComparingTo(int expected) {
-    return isEqualByComparingTo(new BigInteger(Integer.toString(expected)));
-  }
-
-  /**
-   * Same as {@link AbstractComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigInteger)} but
-   * takes care of converting given long to {@link BigInteger}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigInteger(&quot;8&quot;)).isEqualByComparingTo(8L);
-   *
-   * // assertion will fail
-   * assertThat(new BigInteger(&quot;8&quot;)).isEqualByComparingTo(2L);</code></pre>
-   * </p>
-   *
-   * @since 2.7.0 / 3.7.0
-   */
-  public S isEqualByComparingTo(long expected) {
-    return isEqualByComparingTo(new BigInteger(Long.toString(expected)));
-  }
-
-  /**
-   * Same as {@link AbstractComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigInteger)} but
-   * takes care of converting given String to {@link BigInteger}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigInteger(&quot;8&quot;)).isEqualByComparingTo(&quot;8&quot;);
-   *
-   * // assertion will fail
-   * assertThat(new BigInteger(&quot;8&quot;)).isEqualByComparingTo(&quot;2&quot;);</code></pre>
-   * </p>
-   *
-   * @since 2.7.0 / 3.7.0
-   */
-  public S isEqualByComparingTo(String expected) {
-    return isEqualByComparingTo(new BigInteger(expected));
-  }
-
-  /**
-   * Same as {@link AbstractComparableAssert#isNotEqualByComparingTo(Comparable) isNotEqualByComparingTo(BigInteger)} but
-   * takes care of converting given int to {@link BigInteger}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualByComparingTo(7);
-   *
-   * // assertion will fail
-   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualByComparingTo(8);</code></pre>
-   * </p>
-   *
-   * @since 2.7.0 / 3.7.0
-   */
-  public S isNotEqualByComparingTo(int expected) {
-    return isNotEqualByComparingTo(new BigInteger(Integer.toString(expected)));
-  }
-
-  /**
-   * Same as {@link AbstractComparableAssert#isNotEqualByComparingTo(Comparable) isNotEqualByComparingTo(BigInteger)} but
-   * takes care of converting given long to {@link BigInteger}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualByComparingTo(7L);
-   *
-   * // assertion will fail
-   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualByComparingTo(8L);</code></pre>
-   * </p>
-   *
-   * @since 2.7.0 / 3.7.0
-   */
-  public S isNotEqualByComparingTo(long expected) {
-    return isNotEqualByComparingTo(new BigInteger(Long.toString(expected)));
-  }
-
-  /**
-   * Same as {@link AbstractComparableAssert#isNotEqualByComparingTo(Comparable) isNotEqualByComparingTo(BigInteger)} but
-   * takes care of converting given String to {@link BigInteger}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualByComparingTo(&quot;7&quot;);
-   *
-   * // assertion will fail
-   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualByComparingTo(&quot;8&quot;);</code></pre>
-   * </p>
-   *
-   * @since 2.7.0 / 3.7.0
-   */
-  public S isNotEqualByComparingTo(String expected) {
-    return isNotEqualByComparingTo(new BigInteger(expected));
-  }
-
 
   @Override
   public S usingComparator(Comparator<? super BigInteger> customComparator) {

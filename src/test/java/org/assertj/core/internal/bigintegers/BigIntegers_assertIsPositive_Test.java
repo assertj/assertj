@@ -8,23 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigintegers;
+
+import static org.assertj.core.test.TestData.someInfo;
+
+import java.math.BigInteger;
 
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.BigIntegersBaseTest;
 import org.junit.Test;
 
-import java.math.BigInteger;
-
-import static org.assertj.core.test.TestData.someInfo;
-
 /**
  * Tests for <code>{@link BigIntegers#assertIsPositive(org.assertj.core.api.AssertionInfo, BigInteger)}</code>.
- * 
- * @author Yvonne Wang
- * @author Joel Costigliola
  */
 public class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
 
@@ -41,10 +38,10 @@ public class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-	  thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
+    thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
     numbers.assertIsPositive(someInfo(), BigInteger.ZERO);
   }
-  
+
   @Test
   public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigInteger.ONE);
@@ -53,7 +50,7 @@ public class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     thrown
-        .expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using 'BigIntegerComparator'");
+          .expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using 'BigIntegerComparator'");
     numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigInteger.ZERO);
   }
 

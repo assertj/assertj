@@ -8,20 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigintegers;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.BigIntegersBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.math.BigInteger;
-
-import static java.math.BigInteger.*;
+import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.TEN;
+import static java.math.BigInteger.ZERO;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -29,6 +22,16 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
+
+import java.math.BigInteger;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.BigIntegersBaseTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 @RunWith(DataProviderRunner.class)
 public class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseTest {
@@ -64,7 +67,8 @@ public class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseT
     "-1, 1, 200"
   })
   // @format:on
-  public void should_pass_if_difference_is_less_than_given_percentage(BigInteger actual, BigInteger other, Integer percentage) {
+  public void should_pass_if_difference_is_less_than_given_percentage(BigInteger actual, BigInteger other,
+                                                                      Integer percentage) {
     numbers.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
@@ -79,7 +83,8 @@ public class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseT
     "-1, -2, 50"
   })
   // @format:on
-  public void should_pass_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other, Integer percentage) {
+  public void should_pass_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other,
+                                                                     Integer percentage) {
     numbers.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 

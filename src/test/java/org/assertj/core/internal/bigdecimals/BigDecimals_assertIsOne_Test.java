@@ -36,24 +36,24 @@ public class BigDecimals_assertIsOne_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_one() {
-    bigDecimals.assertIsOne(someInfo(), BigDecimal.ONE);
+    numbers.assertIsOne(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_one() {
     thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    bigDecimals.assertIsOne(someInfo(), BigDecimal.ZERO);
+    numbers.assertIsOne(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
   public void should_succeed_since_actual_is_one_whatever_custom_comparison_strategy_is() {
-    bigDecimalsWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigDecimal.ONE);
+    numbersWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    bigDecimalsWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigDecimal.ZERO);
+    numbersWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigDecimal.ZERO);
   }
 
 }

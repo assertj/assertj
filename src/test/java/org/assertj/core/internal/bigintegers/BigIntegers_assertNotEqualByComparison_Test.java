@@ -8,16 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigintegers;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.BigIntegers;
-import org.assertj.core.internal.BigIntegersBaseTest;
-import org.junit.Test;
-
-import java.math.BigInteger;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
@@ -27,11 +20,15 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
+import java.math.BigInteger;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.BigIntegers;
+import org.assertj.core.internal.BigIntegersBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link BigIntegers#assertNotEqualByComparison(AssertionInfo, BigInteger, BigInteger)}</code>.
- * 
- * @author Joel Costigliola
  */
 public class BigIntegers_assertNotEqualByComparison_Test extends BigIntegersBaseTest {
 

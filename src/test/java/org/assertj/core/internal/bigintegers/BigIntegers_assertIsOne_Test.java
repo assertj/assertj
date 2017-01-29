@@ -26,8 +26,6 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link BigIntegers#assertIsOne(AssertionInfo, BigInteger)}</code>.
- *
- * @author Drummond Dawson
  */
 public class BigIntegers_assertIsOne_Test extends BigIntegersBaseTest {
 
