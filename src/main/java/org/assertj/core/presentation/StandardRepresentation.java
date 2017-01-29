@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -59,9 +59,9 @@ import org.assertj.core.util.DateUtil;
  * 
  * @author Mariusz Smykula
  */
-public class StandardRepresentation implements Representation { // TODO : add unit tests
+public class StandardRepresentation implements Representation {
 
-  // can be shared this at StandardRepresentation has no state
+  // can share this as StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   private static final String NULL = "null";
@@ -76,7 +76,7 @@ public class StandardRepresentation implements Representation { // TODO : add un
 
   // 4 spaces indentation : 2 space indentation after new line + '<' + '['
   static final String INDENTATION_AFTER_NEWLINE = "    ";
-  // used when formatting iterable to a single line
+  // used when formatting iterables to a single line
   static final String INDENTATION_FOR_SINGLE_LINE = " ";
 
   public static final String ELEMENT_SEPARATOR = ",";

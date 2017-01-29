@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -36,7 +36,7 @@ public class ShouldHaveValue_create_Test {
     joe = new Person();
     joe.name = "Joe";
     joe.age = 33;
-    joe.account = 123456789l;
+    joe.account = 123456789L;
   }
 
   @Test
@@ -60,7 +60,7 @@ public class ShouldHaveValue_create_Test {
     // GIVEN
     AtomicLongFieldUpdater<Person> updater = AtomicLongFieldUpdater.newUpdater(Person.class, "account");
     // WHEN
-    String message = shouldHaveValue(updater, 123456789l, 0l, joe).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+    String message = shouldHaveValue(updater, 123456789L, 0L, joe).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
     assertThat(message).isEqualTo(format("[TEST] %n" +
                                          "Expecting <AtomicLongFieldUpdater> to have value:%n" +

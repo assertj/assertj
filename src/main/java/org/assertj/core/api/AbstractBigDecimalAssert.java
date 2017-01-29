@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -28,6 +28,7 @@ import org.assertj.core.util.VisibleForTesting;
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * 
+ * @author Drummond Dawson
  * @author David DIDIER
  * @author Ted M. Young
  * @author Yvonne Wang
@@ -78,6 +79,24 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   @Override
   public S isNotZero() {
     bigDecimals.assertIsNotZero(info, actual);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(BigDecimal.ONE).isOne();
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).isOne();</code></pre>
+   *
+   * </p>
+   */
+  @Override
+  public S isOne() {
+    bigDecimals.assertIsOne(info, actual);
     return myself;
   }
 

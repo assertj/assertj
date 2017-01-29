@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -36,22 +36,22 @@ public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBa
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
+    numbers.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_expected_value_is_null() {
-    bigDecimals.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1));
+    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_percentage_is_null() {
-    bigDecimals.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null);
+    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void should_fail_if_percentage_is_negative() {
-    bigDecimals.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
+    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
   }
 
   // @format:off
@@ -65,7 +65,7 @@ public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBa
   })
   // @format:on
   public void should_pass_if_difference_is_greater_than_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
-    bigDecimals.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
+    numbers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   // @format:off
@@ -82,7 +82,7 @@ public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBa
   public void should_fail_if_difference_is_equal_to_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertIsNotCloseToPercentage(info, actual, other, withPercentage(percentage));
+      numbers.assertIsNotCloseToPercentage(info, actual, other, withPercentage(percentage));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withinPercentage(percentage), actual.subtract(other).abs()));
       return;
@@ -94,7 +94,7 @@ public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBa
   public void should_fail_if_actual_is_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(100));
+      numbers.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(100));
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100), TEN.subtract(ONE)));
       return;

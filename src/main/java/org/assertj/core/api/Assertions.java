@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -249,6 +250,18 @@ public class Assertions {
   @CheckReturnValue
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
+    return new BigIntegerAssert(actual);
   }
 
   /**
@@ -1458,6 +1471,17 @@ public class Assertions {
   }
 
   /**
+   * Assertions entry point for BigInteger {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
+   * @since 2.7.0 / 3.7.0
+   */
+  public static Offset<BigInteger> within(BigInteger value) {
+    return Offset.offset(value);
+  }
+
+  /**
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
@@ -1578,6 +1602,17 @@ public class Assertions {
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), byLessThan(BigDecimal.ONE));</code></pre>
    */
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
+    return Offset.offset(value);
+  }
+
+  /**
+   * Assertions entry point for BigInteger {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
+   * @since 2.7.0 / 3.7.0
+   */
+  public static Offset<BigInteger> byLessThan(BigInteger value) {
     return Offset.offset(value);
   }
 

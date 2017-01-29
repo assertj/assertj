@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -41,19 +41,19 @@ public class BigDecimals_assertEqualByComparison_Test extends BigDecimalsBaseTes
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertEqualByComparison(someInfo(), null, ONE);
+    numbers.assertEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_decimals_are_equal_by_comparison() {
-    bigDecimals.assertEqualByComparison(someInfo(), new BigDecimal("5.0"), new BigDecimal("5.00"));
+    numbers.assertEqualByComparison(someInfo(), new BigDecimal("5.0"), new BigDecimal("5.00"));
   }
 
   @Test
   public void should_fail_if_big_decimals_are_not_equal_by_comparison() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertEqualByComparison(info, TEN, ONE);
+      numbers.assertEqualByComparison(info, TEN, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(TEN, ONE, info.representation()));
       return;
@@ -64,19 +64,19 @@ public class BigDecimals_assertEqualByComparison_Test extends BigDecimalsBaseTes
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimalsWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), null, ONE);
+    numbersWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_decimals_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), new BigDecimal("5.0"), new BigDecimal("5"));
+    numbersWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), new BigDecimal("5.0"), new BigDecimal("5"));
   }
 
   @Test
   public void should_fail_if_big_decimals_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE);
+      numbersWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual(TEN, ONE, absValueComparisonStrategy,
           new StandardRepresentation()));

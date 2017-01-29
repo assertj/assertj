@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -569,12 +569,12 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   boolean equals(Object obj);
 
   /**
-   * In case of assertion error, the thread dump will be printed on {@link System#err}.
+   * In case of an assertion error, a thread dump will be printed to {@link System#err}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");</code></pre>
    * 
-   * will print the thread dump, something looking like:
+   * will print a thread dump, something similar to this:
    * <pre>{@code "JDWP Command Reader"
    * 	java.lang.Thread.State: RUNNABLE
    *
@@ -618,12 +618,12 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   /**
    * Use the given {@link Representation} to describe/represent values in AssertJ error messages.
    * <p>
-   * The usual to introduce a new {@link Representation} is to extend {@link StandardRepresentation} 
-   * and override any existing {@code toStringOf} methods that don't suit you, as an example you could control 
-   * {@link Date} format by overriding {@link StandardRepresentation#toStringOf(Date)}).
+   * The usual way to introduce a new {@link Representation} is to extend {@link StandardRepresentation} 
+   * and override any existing {@code toStringOf} methods that don't suit you. For example you can control 
+   * {@link Date} formatting by overriding {@link StandardRepresentation#toStringOf(Date)}).
    * <p>
    * You can also control other types format by overriding {@link StandardRepresentation#toStringOf(Object)}) 
-   * calling your formatting method first and then fallback to the default representation by calling {@code super.toStringOf(Object)}.
+   * calling your formatting method first and then fall back to the default representation by calling {@code super.toStringOf(Object)}.
    * <p>
    * Example :
    * <pre><code class='java'> private class Example {}
@@ -634,7 +634,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *   {@literal @}Override
    *   public String toStringOf(Object o) {
    *     if (o instanceof Example) return "Example";
-   *     // fallback to default formatting.  
+   *     // fall back to default formatting
    *     return super.toStringOf(o);
    *   }
    *   

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -40,19 +40,19 @@ public class BigDecimals_assertLessThan_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertLessThan(someInfo(), null, ONE);
+    numbers.assertLessThan(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_less_than_other() {
-    bigDecimals.assertLessThan(someInfo(), ONE, TEN);
+    numbers.assertLessThan(someInfo(), ONE, TEN);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertLessThan(info, TEN, TEN);
+      numbers.assertLessThan(info, TEN, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeLess(TEN, TEN));
       return;
@@ -64,7 +64,7 @@ public class BigDecimals_assertLessThan_Test extends BigDecimalsBaseTest {
   public void should_fail_if_actual_is_equal_to_other_by_comparison() {
 	AssertionInfo info = someInfo();
 	try {
-	  bigDecimals.assertLessThan(info, TEN, new BigDecimal("10.00"));
+	  numbers.assertLessThan(info, TEN, new BigDecimal("10.00"));
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldBeLess(TEN, new BigDecimal("10.00")));
 	  return;
@@ -76,7 +76,7 @@ public class BigDecimals_assertLessThan_Test extends BigDecimalsBaseTest {
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertLessThan(info, TEN, ONE);
+      numbers.assertLessThan(info, TEN, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeLess(TEN, ONE));
       return;
@@ -90,14 +90,14 @@ public class BigDecimals_assertLessThan_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), ONE, TEN.negate());
+    numbersWithAbsValueComparisonStrategy.assertLessThan(someInfo(), ONE, TEN.negate());
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), TEN);
+      numbersWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeLess(TEN.negate(), TEN, absValueComparisonStrategy));
       return;
@@ -109,7 +109,7 @@ public class BigDecimals_assertLessThan_Test extends BigDecimalsBaseTest {
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), ONE);
+      numbersWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeLess(TEN.negate(), ONE, absValueComparisonStrategy));
       return;

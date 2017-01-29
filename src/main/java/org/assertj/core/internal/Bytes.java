@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -17,6 +17,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Reusable assertions for <code>{@link Byte}</code>s.
  *
+ * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -48,8 +49,13 @@ public class Bytes extends Numbers<Byte> {
   }
 
   @Override
+  protected Byte one() {
+    return 1;
+  }
+
+  @Override
   protected Byte absDiff(Byte actual, Byte other) {
-    return (byte)Math.abs(actual - other); // TODO check corner case when diff > max byte
+    return (byte) Math.abs(actual - other); // TODO check corner case when diff > max byte
   }
 
   @Override
@@ -57,5 +63,4 @@ public class Bytes extends Numbers<Byte> {
     return value > other;
   }
 
-  
 }

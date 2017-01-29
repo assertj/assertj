@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -29,28 +29,28 @@ public class BigDecimals_assertIsNotNegative_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_negative() {
-    bigDecimals.assertIsNotNegative(someInfo(), new BigDecimal(6));
+    numbers.assertIsNotNegative(someInfo(), new BigDecimal(6));
   }
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    bigDecimals.assertIsNotNegative(someInfo(), BigDecimal.ZERO);
+    numbers.assertIsNotNegative(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
   public void should_fail_since_actual_is_negative() {
     thrown.expectAssertionError("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> ");
-    bigDecimals.assertIsNotNegative(someInfo(), new BigDecimal(-6));
+    numbers.assertIsNotNegative(someInfo(), new BigDecimal(-6));
   }
 
   @Test
   public void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), new BigDecimal(-1));
+    numbersWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), new BigDecimal(-1));
   }
 
   @Test
   public void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), BigDecimal.ONE);
+    numbersWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), BigDecimal.ONE);
   }
 
 }

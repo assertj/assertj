@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.longs;
 
@@ -30,11 +30,11 @@ import static org.mockito.Mockito.verify;
 @RunWith(DataProviderRunner.class)
 public class Longs_assertIsNotCloseTo_Test extends LongsBaseTest {
 
-  private static final Long ZERO = 0l;
-  private static final Long ONE = 1l;
-  private static final Long TWO = 2l;
-  private static final Long THREE = 3l;
-  private static final Long TEN = 10l;
+  private static final Long ZERO = 0L;
+  private static final Long ONE = 1L;
+  private static final Long TWO = 2L;
+  private static final Long THREE = 3L;
+  private static final Long TEN = 10L;
 
   @Test
   public void should_fail_if_actual_is_null() {

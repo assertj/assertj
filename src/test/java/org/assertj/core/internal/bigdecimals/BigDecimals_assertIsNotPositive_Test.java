@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -29,30 +29,30 @@ public class BigDecimals_assertIsNotPositive_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_positive() {
-    bigDecimals.assertIsNotPositive(someInfo(), new BigDecimal(-6));
+    numbers.assertIsNotPositive(someInfo(), new BigDecimal(-6));
   }
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    bigDecimals.assertIsNotPositive(someInfo(), BigDecimal.ZERO);
+    numbers.assertIsNotPositive(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
   public void should_fail_since_actual_is_positive() {
     thrown.expectAssertionError("%nExpecting:%n <6>%nto be less than or equal to:%n <0> ");
-    bigDecimals.assertIsNotPositive(someInfo(), new BigDecimal(6));
+    numbers.assertIsNotPositive(someInfo(), new BigDecimal(6));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using 'AbsValueComparator'");
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigDecimal(-1));
+    numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigDecimal(-1));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using 'AbsValueComparator'");
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigDecimal.ONE);
+    numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigDecimal.ONE);
   }
 
 }
