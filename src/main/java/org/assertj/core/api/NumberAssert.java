@@ -81,6 +81,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to one.
+   * @since 2.7.0 / 3.7.0
    */
   S isOne();
 
