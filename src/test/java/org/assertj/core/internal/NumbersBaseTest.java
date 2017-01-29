@@ -23,7 +23,7 @@ import java.util.Comparator;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
 
-public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers, NUMNER_TYPE extends Number> {
+public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMNER_TYPE extends Number> {
   @Rule
   public ExpectedException thrown = none();
   protected Failures failures;

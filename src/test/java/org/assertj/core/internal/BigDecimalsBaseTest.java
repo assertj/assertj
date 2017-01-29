@@ -39,7 +39,7 @@ public class BigDecimalsBaseTest extends NumbersBaseTest<BigDecimals, BigDecimal
   }
 
   @Override
-  protected Comparator getComparator() {
+  protected Comparator<BigDecimal> getComparator() {
     return BIG_DECIMAL_COMPARATOR;
   }
 }
