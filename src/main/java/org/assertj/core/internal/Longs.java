@@ -63,5 +63,4 @@ public class Longs extends Numbers<Long> {
     return value > other;
   }
 
-  
 }

@@ -55,7 +55,7 @@ public class Bytes extends Numbers<Byte> {
 
   @Override
   protected Byte absDiff(Byte actual, Byte other) {
-    return (byte)Math.abs(actual - other); // TODO check corner case when diff > max byte
+    return (byte) Math.abs(actual - other); // TODO check corner case when diff > max byte
   }
 
   @Override
@@ -63,5 +63,4 @@ public class Bytes extends Numbers<Byte> {
     return value > other;
   }
 
-  
 }
