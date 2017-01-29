@@ -38,24 +38,24 @@ public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    bigDecimals.assertIsZero(someInfo(), BigDecimal.ZERO);
+    numbers.assertIsZero(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
     thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
-    bigDecimals.assertIsZero(someInfo(), BigDecimal.ONE);
+    numbers.assertIsZero(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ZERO);
+    numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
-    bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
+    numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
   }
 
 }
