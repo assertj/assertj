@@ -66,6 +66,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public BigIntegerAssert then(BigInteger actual) {

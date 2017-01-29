@@ -64,6 +64,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public BigIntegerAssert assertThat(BigInteger actual) {

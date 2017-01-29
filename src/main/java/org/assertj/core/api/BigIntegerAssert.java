@@ -19,6 +19,7 @@ import java.math.BigInteger;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(BigInteger)}</code>.
  * </p>
+ * @since 2.7.0 / 3.7.0
  */
 public class BigIntegerAssert extends AbstractBigIntegerAssert<BigIntegerAssert> {
 

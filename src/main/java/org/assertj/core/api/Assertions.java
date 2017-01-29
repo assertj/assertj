@@ -110,6 +110,7 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
@@ -1374,6 +1375,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
+   * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> within(BigInteger value) {
     return Offset.offset(value);
@@ -1487,6 +1489,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
+   * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> byLessThan(BigInteger value) {
     return Offset.offset(value);

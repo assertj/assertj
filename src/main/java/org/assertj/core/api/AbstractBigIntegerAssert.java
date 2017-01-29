@@ -24,6 +24,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link BigInteger}s.
  *
+ * @since 2.7.0 / 3.7.0
  */
 public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> extends
     AbstractComparableAssert<S, BigInteger> implements NumberAssert<S, BigInteger> {

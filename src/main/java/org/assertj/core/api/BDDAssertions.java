@@ -90,6 +90,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AbstractBigIntegerAssert<?> then(BigInteger actual) {
