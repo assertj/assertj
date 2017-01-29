@@ -12,14 +12,14 @@
  */
 package org.assertj.core.api;
 
+import java.math.BigInteger;
+import java.util.Comparator;
+
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
-
-import java.math.BigInteger;
-import java.util.Comparator;
 
 /**
  * Base class for all implementations of assertions for {@link BigInteger}s.
@@ -70,6 +70,25 @@ public class AbstractBigIntegerAssert <S extends AbstractBigIntegerAssert<S>> ex
   @Override
   public S isNotZero() {
     bigIntegers.assertIsNotZero(info, actual);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(BigInteger.ONE).isOne();
+   *
+   * // assertion will fail
+   * assertThat(new BigInteger(&quot;8&quot;)).isOne();</code></pre>
+   * </p>
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  @Override
+  public S isOne() {
+    bigIntegers.assertIsOne(info, actual);
     return myself;
   }
 

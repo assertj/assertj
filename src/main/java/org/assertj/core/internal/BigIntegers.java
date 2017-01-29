@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.util.VisibleForTesting;
-
+import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
 import java.math.BigInteger;
+
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link BigInteger}</code>s.
@@ -46,6 +47,11 @@ public class BigIntegers extends Numbers<BigInteger> {
   @Override
   protected BigInteger zero() {
     return ZERO;
+  }
+
+  @Override
+  protected BigInteger one() {
+    return ONE;
   }
 
   @Override
