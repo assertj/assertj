@@ -36,6 +36,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
 * a code example showing how to use the assertion (succeeding and failing assertion)
 * parameters description (if any)
 * exceptions description
+* since tag (e.g. `@since 2.7.0 / 3.7.0` for 2.x features and `@since 3.7.0` for 3.x only features)
 
 ```java
 /**
@@ -58,6 +59,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  * @throws IllegalArgumentException if the given values is empty.
  * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
  * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
+ * @since 2.1.0 / 3.1.0
  */
 ```
 
