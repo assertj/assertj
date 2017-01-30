@@ -12,13 +12,14 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.extractor.Extractors.byName;
 
-import java.util.function.Function;
-import java.util.stream.Stream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
@@ -43,7 +44,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Joel Costigliola
  * @author Libor Ondrusek
  */
-public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL> extends AbstractAssert<SELF, ACTUAL> {
+public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
+    extends AbstractAssert<SELF, ACTUAL> {
 
   private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
@@ -565,7 +567,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     Object[] values = Stream.of(extractors)
                             .map(extractor -> extractor.apply(actual))
                             .toArray();
-    return new ObjectArrayAssert<Object>(values);
+    return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -640,6 +642,33 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
     objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorByPropertyOrField,
                                                             comparatorByType);
+    return myself;
+  }
+
+  /**
+   * Verify that the object under test returns the given expected value from the given method.
+   * <p>
+   * You can pass a getter method reference to assert object's property.
+   * <p>
+   * Wrapping {@code from} function with {@link Assertions#from(Function)} makes the assertion more fluent.
+   * <p>
+   * Example:
+   * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
+   * assertThat(yoda).returns("Yoda", from(Jedi::getName))
+   *                 // from is optional but the assertion becomes less readable
+   *                 .returns("Yoda", Jedi::getName) 
+   *                 .returns(2.4, from(Jedi::getHeight))
+   *                 .returns(150, from(Jedi::getWeight)); </code></pre>
+   *
+   * @param expected the value the object under test method's call should return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
+   */
+  public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
+    requireNonNull(from, "The given getter method/Function must not be null");
+    objects.assertEqual(info, from.apply(actual), expected);
     return myself;
   }
 }
