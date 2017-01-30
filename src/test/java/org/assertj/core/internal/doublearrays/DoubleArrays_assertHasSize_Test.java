@@ -14,11 +14,7 @@ package org.assertj.core.internal.doublearrays;
 
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoubleArrays;
@@ -42,14 +38,8 @@ public class DoubleArrays_assertHasSize_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
-    AssertionInfo info = someInfo();
-    try {
-      arrays.assertHasSize(info, actual, 2);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 2));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveSize(actual, actual.length, 2));
+    arrays.assertHasSize(someInfo(), actual, 2);
   }
 
   @Test
