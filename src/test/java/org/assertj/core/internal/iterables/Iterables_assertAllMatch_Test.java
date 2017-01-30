@@ -65,5 +65,18 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+  
+  @Test
+  public void should_report_all_items_that_do_not_match() {
+    List<String> actual = newArrayList("123", "1234", "12345");
+    
+    try {
+      iterables.assertAllMatch(someInfo(), actual,  s -> s.length() <= 3, PredicateDescription.GIVEN);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, elementsShouldMatch(actual, newArrayList("1234", "12345"), PredicateDescription.GIVEN));
+      return;
+    }
+      failBecauseExpectedAssertionErrorWasNotThrown();
+  }
 
 }
