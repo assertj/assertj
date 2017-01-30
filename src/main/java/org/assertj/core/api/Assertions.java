@@ -1670,6 +1670,16 @@ public class Assertions {
     return new TemporalUnitLessThanOffset(value, unit);
   }
 
+  /**
+   * A syntax sugar to write fluent assertion using {@link ObjectAssert#returns(Object, Function)}.
+   *
+   * @param extractor A function to extract test subject's property
+   * @param <F> Type of test subject
+   * @param <T> Type of the property under the assertion
+   * @return same instance of {@code extractor}
+   */
+  public static <F, T> Function<F, T> from(Function<F, T> extractor) { return extractor; }
+
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
