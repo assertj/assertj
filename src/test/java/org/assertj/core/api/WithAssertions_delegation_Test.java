@@ -775,7 +775,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_assertThat_longPredicate_Test() {
     LongPredicate predicate = l -> l == 0;
-    assertThat(predicate).accepts(0l);
+    assertThat(predicate).accepts(0L);
   }
 
   @Test
