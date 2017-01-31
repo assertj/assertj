@@ -42,6 +42,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
@@ -844,6 +845,27 @@ public class Iterables {
 
     throw failures.failure(info,
                            shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  public void assertContainsOnlyInstancesOf(AssertionInfo info, Iterable<?> actual, Class<?>[] types) {
+    checkIsNotNull(types);
+    assertNotNull(info, actual);
+
+    List<Object> dismatches = newArrayList();
+    
+    loop:
+    for (Object value : actual) {
+      for (Class<?> type : types) {
+        if (type.isInstance(value)) {
+          continue loop;
+        }
+      }
+      dismatches.add(value);
+    }
+    
+    if (!dismatches.isEmpty()) {
+      throw failures.failure(info, shouldOnlyHaveElementsOfTypes(actual, types, dismatches));
+    }
   }
 
   void assertNotNull(AssertionInfo info, Iterable<?> actual) {

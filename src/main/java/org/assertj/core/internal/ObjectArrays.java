@@ -501,6 +501,10 @@ public class ObjectArrays {
     }
   }
 
+  public <E> void assertHasOnlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
+    arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
+  }
+
   /**
    * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
    * 

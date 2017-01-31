@@ -476,6 +476,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public SELF hasOnlyElementsOfTypes(Class<?>... types) {
+    ObjectArrays.instance().assertHasOnlyElementsOfTypes(info, toArray(actual), types);
+    return myself;
+  }
+
   /**
    * {@inheritDoc}
    */

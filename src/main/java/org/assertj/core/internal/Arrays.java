@@ -37,7 +37,7 @@ import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
-import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -50,6 +50,7 @@ import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
@@ -329,6 +330,24 @@ public class Arrays {
     }
     if (subsequenceIndex < sizeOfSubsequence)
       throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  }
+ 
+  void assertHasOnlyElementsOfTypes(AssertionInfo info, Failures failures, Object actual, Class<?>[] expectedTypes) {
+    checkIsNotNull(expectedTypes);
+    assertNotNull(info, actual);
+
+    List<Object> nonMatchingElements = newArrayList();
+    for (Object value : asList(actual)) {
+      boolean matching = false;
+      for (Class<?> expectedType : expectedTypes) {
+        if (expectedType.isInstance(value)) matching = true;
+      }
+      if (!matching) nonMatchingElements.add(value);
+    }
+    
+    if (!nonMatchingElements.isEmpty()) {
+      throw failures.failure(info, shouldOnlyHaveElementsOfTypes(actual, expectedTypes, nonMatchingElements));
+    }
   }
 
   /**

@@ -26,22 +26,22 @@ import org.junit.Test;
 public class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysBaseTest {
 
   private static final Object[] array = { 6, 7.0, 8L };
- 
+
   @Test
   public void should_pass_if_actual_has_only_elements_of_the_expected_type() {
-	arrays.assertHasOnlyElementsOfType(someInfo(), array, Number.class);
+    arrays.assertHasOnlyElementsOfType(someInfo(), array, Number.class);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	arrays.assertHasOnlyElementsOfType(someInfo(), null, Integer.class);
+    thrown.expectAssertionError(actualIsNull());
+    arrays.assertHasOnlyElementsOfType(someInfo(), null, Integer.class);
   }
 
   @Test
   public void should_throw_exception_if_expected_type_is_null() {
-	thrown.expectNullPointerException();
-	arrays.assertHasOnlyElementsOfType(someInfo(), array, null);
+    thrown.expectNullPointerException();
+    arrays.assertHasOnlyElementsOfType(someInfo(), array, null);
   }
 
   @Test
