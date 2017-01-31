@@ -267,6 +267,10 @@ public class ObjectArrays {
     arrays.assertContainsSubsequence(info, failures, actual, subsequence);
   }
 
+  public <E> void assertContainsOnlyInstancesOf(AssertionInfo info, E[] actual, Class<?>[] types) {
+    arrays.assertContainsOnlyInstancesOf(info, failures, actual, types);
+  }
+
   /**
    * Asserts that the given array does not contain the given values.
    * 

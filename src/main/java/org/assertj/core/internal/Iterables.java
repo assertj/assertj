@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyInstances.shouldContainOnlyInstances;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -844,6 +845,27 @@ public class Iterables {
 
     throw failures.failure(info,
                            shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  public void assertContainsOnlyInstancesOf(AssertionInfo info, Iterable<?> actual, Class<?>[] types) {
+    checkIsNotNull(types);
+    assertNotNull(info, actual);
+
+    List<Object> dismatches = newArrayList();
+    
+    loop:
+    for (Object value : actual) {
+      for (Class<?> type : types) {
+        if (type.isInstance(value)) {
+          continue loop;
+        }
+      }
+      dismatches.add(value);
+    }
+    
+    if (!dismatches.isEmpty()) {
+      throw failures.failure(info, shouldContainOnlyInstances(actual, types, dismatches));
+    }
   }
 
   void assertNotNull(AssertionInfo info, Iterable<?> actual) {
