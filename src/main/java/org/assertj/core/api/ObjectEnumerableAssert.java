@@ -605,6 +605,29 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S containsAll(Iterable<? extends T> iterable);
 
   /**
+   * Verifies that all elements of the actual group are instances of given classes or interfaces.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;Object&gt; objects = Arrays.asList(new String(), new StringBuilder());
+   * 
+   * // assertions will pass
+   * assertThat(objects).containsAll(Arrays.asList(CharSequence.class));
+   * assertThat(objects).containsAll(Arrays.asList(String.class, StringBuilder.class));
+   * 
+   * // assertions will fail
+   * assertThat(objects).containsAll(Arrays.asList(Number.class));
+   * assertThat(objects).containsAll(Arrays.asList(String.class));</code></pre>
+   * 
+   * @param types the expected classes and interfaces
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if not all elements of the actual group are instances of one of the given types
+   * @since 2.7.0 / 3.7.0
+   */
+  S containsOnlyInstancesOf(Class<?>... types);
+
+ /**
    * Verifies that at least one element in the actual {@code Object} group has the specified type (matching
    * includes subclasses of the given type).
    * <p>

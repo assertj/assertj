@@ -280,6 +280,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public SELF containsOnlyInstancesOf(@SuppressWarnings("unchecked") Class<?>... types) {
+    iterables.assertContainsOnlyInstancesOf(info, actual, types);
+    return myself;
+  }
+
   /**
    * {@inheritDoc}
    */

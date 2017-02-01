@@ -538,6 +538,33 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public S contains(T value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
+  } 
+
+  /**
+   * Verifies that all elements of the actual group are instances of given classes or interfaces.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Object[] objects = {new String(), new StringBuilder()};
+   * 
+   * // assertions will pass
+   * assertThat(objects).containsAll(Arrays.asList(CharSequence.class));
+   * assertThat(objects).containsAll(Arrays.asList(String.class, StringBuilder.class));
+   * 
+   * // assertions will fail
+   * assertThat(objects).containsAll(Arrays.asList(Number.class));
+   * assertThat(objects).containsAll(Arrays.asList(String.class));</code></pre>
+   * 
+   * @param types the expected classes and interfaces
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if not all elements of the actual group are instances of one of the given types
+   * @since 2.7.0 / 3.7.0
+   */
+  @Override
+  public S containsOnlyInstancesOf(Class<?>... types) {
+    iterables.assertContainsOnlyInstancesOf(info, newArrayList(actual), types);
+    return myself;
   }
 
   /**
