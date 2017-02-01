@@ -17,9 +17,9 @@ import java.util.Map;
 /**
  * Concrete assertions for {@link Map}s without any final methods to allow proxying.
  */
-public class SoftAssertionMapAssert<K, V> extends AbstractMapAssert<SoftAssertionMapAssert<K, V>, Map<K, V>, K, V> {
+public class SoftAssertionMapAssert<KEY, VALUE> extends AbstractMapAssert<SoftAssertionMapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
-  public SoftAssertionMapAssert(Map<K, V> actual) {
+  public SoftAssertionMapAssert(Map<KEY, VALUE> actual) {
     super(actual, SoftAssertionMapAssert.class);
   }
 

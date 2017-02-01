@@ -20,10 +20,10 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link URI}s.
  *
- * @param <S> the "self" type of this assertion class.
+ * @param <SELF> the "self" type of this assertion class.
  * @see java.net.URI
  */
-public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends AbstractAssert<S, URI> {
+public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractAssert<SELF, URI> {
 
   @VisibleForTesting
   protected Uris uris = Uris.instance();
@@ -47,7 +47,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual URI path is not equal to the expected path.
    */
-  public S hasPath(String expected) {
+  public SELF hasPath(String expected) {
     uris.assertHasPath(info, actual, expected);
     return myself;
   }
@@ -66,7 +66,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a path.
    */
-  public S hasNoPath() {
+  public SELF hasNoPath() {
     uris.assertHasPath(info, actual, null);
     return myself;
   }
@@ -87,7 +87,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual port is not equal to the expected port.
    */
-  public S hasPort(int expected) {
+  public SELF hasPort(int expected) {
     uris.assertHasPort(info, actual, expected);
     return myself;
   }
@@ -105,7 +105,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a port.
    */
-  public S hasNoPort() {
+  public SELF hasNoPort() {
     uris.assertHasPort(info, actual, -1);
     return myself;
   }
@@ -127,7 +127,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual host is not equal to the expected host.
    */
-  public S hasHost(String expected) {
+  public SELF hasHost(String expected) {
     uris.assertHasHost(info, actual, expected);
     return myself;
   }
@@ -148,7 +148,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual authority is not equal to the expected authority.
    */
-  public S hasAuthority(String expected) {
+  public SELF hasAuthority(String expected) {
     uris.assertHasAuthority(info, actual, expected);
     return myself;
   }
@@ -168,7 +168,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual fragment is not equal to the expected fragment.
    */
-  public S hasFragment(String expected) {
+  public SELF hasFragment(String expected) {
     uris.assertHasFragment(info, actual, expected);
     return myself;
   }
@@ -186,7 +186,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a fragment.
    */
-  public S hasNoFragment() {
+  public SELF hasNoFragment() {
     uris.assertHasFragment(info, actual, null);
     return myself;
   }
@@ -206,7 +206,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual query is not equal to the expected query.
    */
-  public S hasQuery(String expected) {
+  public SELF hasQuery(String expected) {
     uris.assertHasQuery(info, actual, expected);
     return myself;
   }
@@ -224,7 +224,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a query.
    */
-  public S hasNoQuery() {
+  public SELF hasNoQuery() {
     uris.assertHasQuery(info, actual, null);
     return myself;
   }
@@ -243,7 +243,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual scheme is not equal to the expected scheme.
    */
-  public S hasScheme(String expected) {
+  public SELF hasScheme(String expected) {
     uris.assertHasScheme(info, actual, expected);
     return myself;
   }
@@ -265,7 +265,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual userinfo is not equal to the expected userinfo.
    */
-  public S hasUserInfo(String expected) {
+  public SELF hasUserInfo(String expected) {
     uris.assertHasUserInfo(info, actual, expected);
     return myself;
   }
@@ -283,7 +283,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has some userinfo.
    */
-  public S hasNoUserInfo() {
+  public SELF hasNoUserInfo() {
     uris.assertHasUserInfo(info, actual, null);
     return myself;
   }
@@ -309,7 +309,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    *
    * @since 2.5.0 / 3.5.0
    */
-  public S hasParameter(String name) {
+  public SELF hasParameter(String name) {
     uris.assertHasParameter(info, actual, name);
     return myself;
   }
@@ -337,7 +337,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    *
    * @since 2.5.0 / 3.5.0
    */
-  public S hasParameter(String name, String value) {
+  public SELF hasParameter(String name, String value) {
     uris.assertHasParameter(info, actual, name, value);
     return myself;
   }
@@ -359,7 +359,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    *
    * @since 2.5.0 / 3.5.0
    */
-  public S hasNoParameters() {
+  public SELF hasNoParameters() {
     uris.assertHasNoParameters(info, actual);
     return myself;
   }
@@ -382,7 +382,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @throws AssertionError if the actual has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
-  public S hasNoParameter(String name) {
+  public SELF hasNoParameter(String name) {
     uris.assertHasNoParameter(info, actual, name);
     return myself;
   }
@@ -409,7 +409,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * @throws AssertionError if the actual has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
-  public S hasNoParameter(String name, String value) {
+  public SELF hasNoParameter(String name, String value) {
     uris.assertHasNoParameter(info, actual, name, value);
     return myself;
   }

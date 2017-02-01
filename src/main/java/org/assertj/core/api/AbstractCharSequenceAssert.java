@@ -28,10 +28,10 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author David DIDIER
@@ -40,13 +40,13 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas Francois
  */
-public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceAssert<S, A>, A extends CharSequence>
-    extends AbstractAssert<S, A> implements EnumerableAssert<S, Character> {
+public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
+    extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
 
   @VisibleForTesting
   Strings strings = Strings.instance();
 
-  public AbstractCharSequenceAssert(A actual, Class<?> selfType) {
+  public AbstractCharSequenceAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -116,7 +116,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is empty (has a length of 0).
    */
   @Override
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     strings.assertNotEmpty(info, actual);
     return myself;
   }
@@ -143,7 +143,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
    * @since 2.6.0 / 3.6.0
    */
-  public S isBlank() {
+  public SELF isBlank() {
     strings.assertBlank(info, actual);
     return myself;
   }
@@ -170,7 +170,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is blank.
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotBlank() {
+  public SELF isNotBlank() {
     strings.assertNotBlank(info, actual);
     return myself;
   }
@@ -197,7 +197,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
    * @since 2.6.0 / 3.6.0
    */
-  public S isJavaBlank() {
+  public SELF isJavaBlank() {
     strings.assertJavaBlank(info, actual);
     return myself;
   }
@@ -224,7 +224,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is blank.
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotJavaBlank() {
+  public SELF isNotJavaBlank() {
     strings.assertNotJavaBlank(info, actual);
     return myself;
   }
@@ -245,7 +245,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual length is not equal to the expected length.
    */
   @Override
-  public S hasSize(int expected) {
+  public SELF hasSize(int expected) {
     strings.assertHasSize(info, actual, expected);
     return myself;
   }
@@ -269,7 +269,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual line count is not equal to the expected one.
    */
-  public S hasLineCount(int expectedLineCount) {
+  public SELF hasLineCount(int expectedLineCount) {
     strings.assertHasLineCount(info, actual, expectedLineCount);
     return myself;
   }
@@ -291,7 +291,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *           given {@code CharSequence}.
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
    */
-  public S hasSameSizeAs(CharSequence other) {
+  public SELF hasSameSizeAs(CharSequence other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -314,7 +314,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws NullPointerException if the given array is {@code null}.
    */
   @Override
-  public S hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(Object other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -337,7 +337,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    */
   @Override
-  public S hasSameSizeAs(Iterable<?> other) {
+  public SELF hasSameSizeAs(Iterable<?> other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -357,7 +357,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
    */
-  public S isEqualToIgnoringCase(CharSequence expected) {
+  public SELF isEqualToIgnoringCase(CharSequence expected) {
     strings.assertEqualsIgnoringCase(info, actual, expected);
     return myself;
   }
@@ -381,7 +381,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
    */
-  public S isNotEqualToIgnoringCase(CharSequence expected) {
+  public SELF isNotEqualToIgnoringCase(CharSequence expected) {
     strings.assertNotEqualsIgnoringCase(info, actual, expected);
     return myself;
   }
@@ -400,7 +400,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters or is {@code null}.
    */
-  public S containsOnlyDigits() {
+  public SELF containsOnlyDigits() {
     strings.assertContainsOnlyDigits(info, actual);
     return myself;
   }
@@ -421,7 +421,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} either does not contain the given one at all, or contains
    *           it more than once.
    */
-  public S containsOnlyOnce(CharSequence sequence) {
+  public SELF containsOnlyOnce(CharSequence sequence) {
     strings.assertContainsOnlyOnce(info, actual, sequence);
     return myself;
   }
@@ -440,7 +440,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
    */
-  public S contains(CharSequence... values) {
+  public SELF contains(CharSequence... values) {
     strings.assertContains(info, actual, values);
     return myself;
   }
@@ -459,7 +459,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
    */
-  public S contains(Iterable<? extends CharSequence> values) {
+  public SELF contains(Iterable<? extends CharSequence> values) {
     strings.assertContains(info, actual, IterableUtil.toArray(values, CharSequence.class));
     return myself;
   }
@@ -489,7 +489,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
    *           order</b>.
    */
-  public S containsSequence(CharSequence... values) {
+  public SELF containsSequence(CharSequence... values) {
     strings.assertContainsSequence(info, actual, values);
     return myself;
   }
@@ -520,7 +520,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
    *           order</b>.
    */
-  public S containsSequence(Iterable<? extends CharSequence> values) {
+  public SELF containsSequence(Iterable<? extends CharSequence> values) {
     strings.assertContainsSequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
     return myself;
   }
@@ -541,7 +541,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not contain the given one.
    */
-  public S containsIgnoringCase(CharSequence sequence) {
+  public SELF containsIgnoringCase(CharSequence sequence) {
     strings.assertContainsIgnoringCase(info, actual, sequence);
     return myself;
   }
@@ -563,7 +563,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} contains the given one.
    */
-  public S doesNotContain(CharSequence sequence) {
+  public SELF doesNotContain(CharSequence sequence) {
     strings.assertDoesNotContain(info, actual, sequence);
     return myself;
   }
@@ -586,7 +586,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not start with the given prefix.
    */
-  public S startsWith(CharSequence prefix) {
+  public SELF startsWith(CharSequence prefix) {
     strings.assertStartsWith(info, actual, prefix);
     return myself;
   }
@@ -609,7 +609,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} starts with the given prefix.
    */
-  public S doesNotStartWith(CharSequence prefix) {
+  public SELF doesNotStartWith(CharSequence prefix) {
     strings.assertDoesNotStartWith(info, actual, prefix);
     return myself;
   }
@@ -630,7 +630,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not end with the given suffix.
    */
-  public S endsWith(CharSequence suffix) {
+  public SELF endsWith(CharSequence suffix) {
     strings.assertEndsWith(info, actual, suffix);
     return myself;
   }
@@ -652,7 +652,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} ends with the given suffix.
    */
-  public S doesNotEndWith(CharSequence suffix) {
+  public SELF doesNotEndWith(CharSequence suffix) {
     strings.assertDoesNotEndWith(info, actual, suffix);
     return myself;
   }
@@ -674,7 +674,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
    */
-  public S matches(CharSequence regex) {
+  public SELF matches(CharSequence regex) {
     strings.assertMatches(info, actual, regex);
     return myself;
   }
@@ -696,7 +696,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} matches the given regular expression.
    */
-  public S doesNotMatch(CharSequence regex) {
+  public SELF doesNotMatch(CharSequence regex) {
     strings.assertDoesNotMatch(info, actual, regex);
     return myself;
   }
@@ -717,7 +717,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
    */
-  public S matches(Pattern pattern) {
+  public SELF matches(Pattern pattern) {
     strings.assertMatches(info, actual, pattern);
     return myself;
   }
@@ -737,7 +737,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws NullPointerException if the given pattern is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
    */
-  public S doesNotMatch(Pattern pattern) {
+  public SELF doesNotMatch(Pattern pattern) {
     strings.assertDoesNotMatch(info, actual, pattern);
     return myself;
   }
@@ -786,7 +786,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML
    *           {@code CharSequence}.
    */
-  public S isXmlEqualTo(CharSequence expectedXml) {
+  public SELF isXmlEqualTo(CharSequence expectedXml) {
     strings.assertXmlEqualsTo(info, actual, expectedXml);
     return myself;
   }
@@ -807,7 +807,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of
    *           given {@code File}.
    */
-  public S isXmlEqualToContentOf(File xmlFile) {
+  public SELF isXmlEqualToContentOf(File xmlFile) {
     isXmlEqualTo(contentOf(xmlFile));
     return myself;
   }
@@ -820,7 +820,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   @Override
   @Deprecated
-  public final S usingElementComparator(Comparator<? super Character> customComparator) {
+  public final SELF usingElementComparator(Comparator<? super Character> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for CharSequence comparison");
   }
 
@@ -832,26 +832,26 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   @Override
   @Deprecated
-  public final S usingDefaultElementComparator() {
+  public final SELF usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for CharSequence comparison");
   }
 
   @Override
-  public S usingComparator(Comparator<? super A> customComparator) {
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     super.usingComparator(customComparator);
     this.strings = new Strings(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   @Override
-  public S usingDefaultComparator() {
+  public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.strings = Strings.instance();
     return myself;
   }
 
   @Override
-  public S inHexadecimal() {
+  public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
 
@@ -881,7 +881,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @return {@code this} assertion object.
    */
-  public S inUnicode() {
+  public SELF inUnicode() {
     info.useUnicodeRepresentation();
     return myself;
   }
@@ -911,7 +911,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is not equal ignoring whitespace differences to the given
    *           one.
    */
-  public S isEqualToIgnoringWhitespace(CharSequence expected) {
+  public SELF isEqualToIgnoringWhitespace(CharSequence expected) {
     strings.assertEqualsIgnoringWhitespace(info, actual, expected);
     return myself;
   }
@@ -943,7 +943,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is equal ignoring whitespace differences to the given
    *           one.
    */
-  public S isNotEqualToIgnoringWhitespace(CharSequence expected) {
+  public SELF isNotEqualToIgnoringWhitespace(CharSequence expected) {
     strings.assertNotEqualsIgnoringWhitespace(info, actual, expected);
     return myself;
   }
@@ -963,7 +963,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not a substring of the given parameter.
    */
-  public S isSubstringOf(CharSequence sequence) {
+  public SELF isSubstringOf(CharSequence sequence) {
     strings.assertIsSubstringOf(info, actual, sequence);
     return myself;
   }
@@ -985,7 +985,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
-  public S containsPattern(CharSequence regex) {
+  public SELF containsPattern(CharSequence regex) {
     strings.assertContainsPattern(info, actual, regex);
     return myself;
   }
@@ -1006,7 +1006,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
-  public S containsPattern(Pattern pattern) {
+  public SELF containsPattern(Pattern pattern) {
     strings.assertContainsPattern(info, actual, pattern);
     return myself;
   }

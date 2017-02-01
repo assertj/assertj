@@ -18,16 +18,16 @@ import org.assertj.core.data.Percentage;
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  *
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
+public interface NumberAssert<SELF extends NumberAssert<SELF, ACTUAL>, ACTUAL extends Number> {
 
   /**
    * Verifies that the actual value is equal to zero.
@@ -45,7 +45,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to zero.
    */
-  S isZero();
+  SELF isZero();
 
   /**
    * Verifies that the actual value is not equal to zero.
@@ -63,7 +63,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to zero.
    */
-  S isNotZero();
+  SELF isNotZero();
 
   /**
    * Verifies that the actual value is positive.
@@ -81,7 +81,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
    */
-  S isPositive();
+  SELF isPositive();
 
   /**
    * Verifies that the actual value is negative.
@@ -99,7 +99,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not negative.
    */
-  S isNegative();
+  SELF isNegative();
 
   /**
    * Verifies that the actual value is non negative (positive or equal zero).
@@ -117,7 +117,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not non negative.
    */
-  S isNotNegative();
+  SELF isNotNegative();
 
   /**
    * Verifies that the actual value is non positive (negative or equal zero).
@@ -135,7 +135,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not non positive.
    */
-  S isNotPositive();
+  SELF isNotPositive();
 
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
@@ -157,7 +157,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] range.
    */
-  S isBetween(A start, A end);
+  SELF isBetween(ACTUAL start, ACTUAL end);
 
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
@@ -179,7 +179,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
-  S isStrictlyBetween(A start, A end);
+  SELF isStrictlyBetween(ACTUAL start, ACTUAL end);
 
   /**
    * Verifies that the actual number is close to the given one within the given offset.<br>
@@ -205,7 +205,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
-  S isCloseTo(A expected, Offset<A> offset);
+  SELF isCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual number is not close to the given one within the given offset.<br>
@@ -230,7 +230,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is close to the given one.
    * @since 2.6.0 / 3.6.0
    */
-  S isNotCloseTo(A expected, Offset<A> offset);
+  SELF isNotCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual number is close to the given one within the given percentage.<br>
@@ -253,7 +253,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    */
-  S isCloseTo(A expected, Percentage percentage);
+  SELF isCloseTo(ACTUAL expected, Percentage percentage);
 
   /**
    * Verifies that the actual number is not close to the given one within the given percentage.<br>
@@ -275,5 +275,5 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is not close to the given one.
    * @since 2.6.0 / 3.6.0
    */
-  S isNotCloseTo(A expected, Percentage percentage);
+  SELF isNotCloseTo(ACTUAL expected, Percentage percentage);
 }

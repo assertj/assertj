@@ -23,7 +23,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link Float}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  *
@@ -33,8 +33,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> extends AbstractComparableAssert<S, Float>
-    implements FloatingPointNumberAssert<S, Float> {
+public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
+    implements FloatingPointNumberAssert<SELF, Float> {
 
   @VisibleForTesting
   Floats floats = Floats.instance();
@@ -45,56 +45,56 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 
   /** {@inheritDoc} */
   @Override
-  public S isNaN() {
+  public SELF isNaN() {
     floats.assertIsNaN(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotNaN() {
+  public SELF isNotNaN() {
     floats.assertIsNotNaN(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isZero() {
+  public SELF isZero() {
     floats.assertIsZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotZero() {
+  public SELF isNotZero() {
     floats.assertIsNotZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isPositive() {
+  public SELF isPositive() {
     floats.assertIsPositive(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNegative() {
+  public SELF isNegative() {
     floats.assertIsNegative(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotNegative() {
+  public SELF isNotNegative() {
     floats.assertIsNotNegative(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotPositive() {
+  public SELF isNotPositive() {
     floats.assertIsNotPositive(info, actual);
     return myself;
   }
@@ -116,7 +116,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public S isEqualTo(float expected) {
+  public SELF isEqualTo(float expected) {
     floats.assertEqual(info, actual, expected);
     return myself;
   }
@@ -150,7 +150,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is not close to the given one.
    */
   // duplicate javadoc of isCloseTo(Float other, Offset<Float> offset but can't define it in super class
-  public S isCloseTo(final float expected, final Offset<Float> offset) {
+  public SELF isCloseTo(final float expected, final Offset<Float> offset) {
     floats.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -181,7 +181,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @since 2.6.0 / 3.6.0
    */
   // duplicate javadoc of isNotCloseTo(Float other, Offset<Float> offset but can't define it in super class
-  public S isNotCloseTo(final float expected, final Offset<Float> offset) {
+  public SELF isNotCloseTo(final float expected, final Offset<Float> offset) {
     floats.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -216,7 +216,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
-  public S isCloseTo(Float expected, Offset<Float> offset) {
+  public SELF isCloseTo(Float expected, Offset<Float> offset) {
     floats.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -248,7 +248,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Float expected, Offset<Float> offset) {
+  public SELF isNotCloseTo(Float expected, Offset<Float> offset) {
     floats.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -275,7 +275,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
-  public S isCloseTo(Float expected, Percentage percentage) {
+  public SELF isCloseTo(Float expected, Percentage percentage) {
     floats.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -301,7 +301,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Float expected, Percentage percentage) {
+  public SELF isNotCloseTo(Float expected, Percentage percentage) {
     floats.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -327,7 +327,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
-  public S isCloseTo(float expected, Percentage percentage) {
+  public SELF isCloseTo(float expected, Percentage percentage) {
     floats.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -352,14 +352,14 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is close to the given one.
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotCloseTo(float expected, Percentage percentage) {
+  public SELF isNotCloseTo(float expected, Percentage percentage) {
     floats.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isEqualTo(Float expected, Offset<Float> offset) {
+  public SELF isEqualTo(Float expected, Offset<Float> offset) {
     floats.assertEqual(info, actual, expected, offset);
     return myself;
   }
@@ -390,7 +390,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public S isEqualTo(float expected, Offset<Float> offset) {
+  public SELF isEqualTo(float expected, Offset<Float> offset) {
     floats.assertEqual(info, actual, expected, offset);
     return myself;
   }
@@ -412,7 +412,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  public S isNotEqualTo(float other) {
+  public SELF isNotEqualTo(float other) {
     floats.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -434,7 +434,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
-  public S isLessThan(float other) {
+  public SELF isLessThan(float other) {
     floats.assertLessThan(info, actual, other);
     return myself;
   }
@@ -455,7 +455,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
-  public S isLessThanOrEqualTo(float other) {
+  public SELF isLessThanOrEqualTo(float other) {
     floats.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -477,7 +477,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
-  public S isGreaterThan(float other) {
+  public SELF isGreaterThan(float other) {
     floats.assertGreaterThan(info, actual, other);
     return myself;
   }
@@ -499,34 +499,34 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
-  public S isGreaterThanOrEqualTo(float other) {
+  public SELF isGreaterThanOrEqualTo(float other) {
     floats.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isBetween(Float start, Float end) {
+  public SELF isBetween(Float start, Float end) {
     floats.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isStrictlyBetween(Float start, Float end) {
+  public SELF isStrictlyBetween(Float start, Float end) {
     floats.assertIsStrictlyBetween(info, actual, start, end);
     return myself;
   }
 
   @Override
-  public S usingComparator(Comparator<? super Float> customComparator) {
+  public SELF usingComparator(Comparator<? super Float> customComparator) {
     super.usingComparator(customComparator);
     floats = new Floats(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   @Override
-  public S usingDefaultComparator() {
+  public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     floats = Floats.instance();
     return myself;

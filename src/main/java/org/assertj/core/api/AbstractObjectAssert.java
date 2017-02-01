@@ -28,10 +28,10 @@ import org.assertj.core.util.introspection.IntrospectionError;
 /**
  * Base class for all implementations of assertions for {@link Object}s.
  *
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -40,7 +40,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Joel Costigliola
  * @author Libor Ondrusek
  */
-public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
+public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL> extends AbstractAssert<SELF, ACTUAL> {
 
   private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
@@ -48,7 +48,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
   private TypeComparators comparatorByType = defaultTypeComparators();
 
-  public AbstractObjectAssert(A actual, Class<?> selfType) {
+  public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -60,12 +60,12 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   @Override
-  public S as(Description description) {
+  public SELF as(Description description) {
     return super.as(description);
   }
 
   @Override
-  public S as(String description, Object... args) {
+  public SELF as(String description, Object... args) {
     return super.as(description, args);
   }
 
@@ -105,7 +105,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
-  public S isEqualToIgnoringNullFields(Object other) {
+  public SELF isEqualToIgnoringNullFields(Object other) {
     objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorByPropertyOrField, comparatorByType);
     return myself;
   }
@@ -147,7 +147,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    * @throws IntrospectionError if a property/field does not exist in actual.
    */
-  public S isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
+  public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
     objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType,
                                                     propertiesOrFieldsUsedInComparison);
     return myself;
@@ -186,7 +186,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
-  public S isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
+  public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType,
                                                propertiesOrFieldsToIgnore);
     return myself;
@@ -217,7 +217,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * 
    * @since 2.5.0 / 3.5.0
    */
-  public S hasNoNullFieldsOrProperties() {
+  public SELF hasNoNullFieldsOrProperties() {
     objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual);
     return myself;
   }
@@ -247,7 +247,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * 
    * @since 2.5.0 / 3.5.0
    */
-  public S hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
+  public SELF hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
     objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
     return myself;
   }
@@ -285,7 +285,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
-  public S isEqualToComparingFieldByField(Object other) {
+  public SELF isEqualToComparingFieldByField(Object other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType);
     return myself;
   }
@@ -337,7 +337,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
    * @return {@code this} assertions object
    */
-  public <T> S usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
+  public <T> SELF usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
     for (String propertyOrField : propertiesOrFields) {
       comparatorByPropertyOrField.put(propertyOrField, comparator);
     }
@@ -398,7 +398,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @param type the {@link java.lang.Class} of the type the comparator should be used for
    * @return {@code this} assertions object
    */
-  public <T> S usingComparatorForType(Comparator<T> comparator, Class<T> type) {
+  public <T> SELF usingComparatorForType(Comparator<T> comparator, Class<T> type) {
     comparatorByType.put(type, comparator);
     return myself;
   }
@@ -439,7 +439,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IllegalArgumentException if name is {@code null}.
    * @throws AssertionError if the actual object has not the given field/property
    */
-  public S hasFieldOrProperty(String name) {
+  public SELF hasFieldOrProperty(String name) {
     objects.assertHasFieldOrProperty(info, actual, name);
     return myself;
   }
@@ -487,7 +487,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *
    * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
-  public S hasFieldOrPropertyWithValue(String name, Object value) {
+  public SELF hasFieldOrPropertyWithValue(String name, Object value) {
     objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
     return myself;
   }
@@ -596,7 +596,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
    * @throws IntrospectionError if one property/field to compare can not be found.
    */
-  public S isEqualToComparingFieldByFieldRecursively(Object other) {
+  public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
     objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorByPropertyOrField,
                                                             comparatorByType);
     return myself;

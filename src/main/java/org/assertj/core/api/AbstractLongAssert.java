@@ -23,7 +23,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link Long}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  *
@@ -35,8 +35,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extends AbstractComparableAssert<S, Long>
-    implements NumberAssert<S, Long> {
+public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> extends AbstractComparableAssert<SELF, Long>
+    implements NumberAssert<SELF, Long> {
 
   @VisibleForTesting
   Longs longs = Longs.instance();
@@ -62,7 +62,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public S isEqualTo(long expected) {
+  public SELF isEqualTo(long expected) {
     longs.assertEqual(info, actual, expected);
     return myself;
   }
@@ -83,49 +83,49 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  public S isNotEqualTo(long other) {
+  public SELF isNotEqualTo(long other) {
     longs.assertNotEqual(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isZero() {
+  public SELF isZero() {
     longs.assertIsZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotZero() {
+  public SELF isNotZero() {
     longs.assertIsNotZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isPositive() {
+  public SELF isPositive() {
     longs.assertIsPositive(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNegative() {
+  public SELF isNegative() {
     longs.assertIsNegative(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotNegative() {
+  public SELF isNotNegative() {
     longs.assertIsNotNegative(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotPositive() {
+  public SELF isNotPositive() {
     longs.assertIsNotPositive(info, actual);
     return myself;
   }
@@ -147,7 +147,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
-  public S isLessThan(long other) {
+  public SELF isLessThan(long other) {
     longs.assertLessThan(info, actual, other);
     return myself;
   }
@@ -170,7 +170,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
-  public S isLessThanOrEqualTo(long other) {
+  public SELF isLessThanOrEqualTo(long other) {
     longs.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -192,7 +192,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
-  public S isGreaterThan(long other) {
+  public SELF isGreaterThan(long other) {
     longs.assertGreaterThan(info, actual, other);
     return myself;
   }
@@ -214,21 +214,21 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
-  public S isGreaterThanOrEqualTo(long other) {
+  public SELF isGreaterThanOrEqualTo(long other) {
     longs.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isBetween(Long start, Long end) {
+  public SELF isBetween(Long start, Long end) {
     longs.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isStrictlyBetween(Long start, Long end) {
+  public SELF isStrictlyBetween(Long start, Long end) {
     longs.assertIsStrictlyBetween(info, actual, start, end);
     return myself;
   }
@@ -253,7 +253,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
-  public S isCloseTo(long expected, Offset<Long> offset) {
+  public SELF isCloseTo(long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -278,7 +278,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @see Assertions#byLessThan(Long)
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotCloseTo(long expected, Offset<Long> offset) {
+  public SELF isNotCloseTo(long expected, Offset<Long> offset) {
     longs.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -304,7 +304,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
-  public S isCloseTo(Long expected, Offset<Long> offset) {
+  public SELF isCloseTo(Long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -330,7 +330,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Long expected, Offset<Long> offset) {
+  public SELF isNotCloseTo(Long expected, Offset<Long> offset) {
     longs.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -357,7 +357,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
-  public S isCloseTo(Long expected, Percentage percentage) {
+  public SELF isCloseTo(Long expected, Percentage percentage) {
     longs.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -383,7 +383,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Long expected, Percentage percentage) {
+  public SELF isNotCloseTo(Long expected, Percentage percentage) {
     longs.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -409,7 +409,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
-  public S isCloseTo(long expected, Percentage percentage) {
+  public SELF isCloseTo(long expected, Percentage percentage) {
     longs.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -434,20 +434,20 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * @throws AssertionError if the actual value is close to the given one.
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotCloseTo(long expected, Percentage percentage) {
+  public SELF isNotCloseTo(long expected, Percentage percentage) {
     longs.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 
   @Override
-  public S usingComparator(Comparator<? super Long> customComparator) {
+  public SELF usingComparator(Comparator<? super Long> customComparator) {
     super.usingComparator(customComparator);
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   @Override
-  public S usingDefaultComparator() {
+  public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     longs = Longs.instance();
     return myself;

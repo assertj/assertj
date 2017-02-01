@@ -14,17 +14,17 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
-public class MapSizeAssert<K, V> extends AbstractMapSizeAssert<MapAssert<K, V>, Map<K, V>, K, V> {
+public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
-  private AbstractMapAssert<MapAssert<K, V>, Map<K, V>, K, V> source;
+  private AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> source;
 
-  public MapSizeAssert(AbstractMapAssert<MapAssert<K, V>, Map<K, V>, K, V> source, Integer i) {
+  public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> source, Integer i) {
     super(i, MapSizeAssert.class);
     this.source = source;
   }
 
   @Override
-  public AbstractMapAssert<MapAssert<K, V>, Map<K, V>, K, V> returnToMap() {
+  public AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> returnToMap() {
     return source;
   }
 }

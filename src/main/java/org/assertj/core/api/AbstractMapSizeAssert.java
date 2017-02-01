@@ -14,12 +14,12 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
-public abstract class AbstractMapSizeAssert<S extends AbstractMapAssert<S, A, K, V>, A extends Map<K, V>, K, V>
-    extends AbstractIntegerAssert<AbstractMapSizeAssert<S, A, K, V>> {
+public abstract class AbstractMapSizeAssert<SELF extends AbstractMapAssert<SELF, A, KEY, VALUE>, A extends Map<KEY, VALUE>, KEY, VALUE>
+    extends AbstractIntegerAssert<AbstractMapSizeAssert<SELF, A, KEY, VALUE>> {
 
   protected AbstractMapSizeAssert(Integer actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
-  public abstract AbstractMapAssert<S, A, K, V> returnToMap();
+  public abstract AbstractMapAssert<SELF, A, KEY, VALUE> returnToMap();
 }

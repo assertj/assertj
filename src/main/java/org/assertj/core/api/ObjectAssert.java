@@ -19,20 +19,20 @@ import java.util.concurrent.atomic.AtomicReference;
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Object)}</code>.
  * </p>
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectAssert<A> extends AbstractObjectAssert<ObjectAssert<A>, A> {
+public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTUAL>, ACTUAL> {
 
-  public ObjectAssert(A actual) {
+  public ObjectAssert(ACTUAL actual) {
     super(actual, ObjectAssert.class);
   }
   
-  public ObjectAssert(AtomicReference<A> actual) {
+  public ObjectAssert(AtomicReference<ACTUAL> actual) {
     this(actual == null ? null: actual.get());
   }
 
