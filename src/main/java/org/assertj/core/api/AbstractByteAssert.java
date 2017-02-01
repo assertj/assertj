@@ -105,7 +105,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
 
   /** {@inheritDoc} */
   @Override
-  public S isOne() {
+  public SELF isOne() {
     bytes.assertIsOne(info, actual);
     return myself;
   }

@@ -103,7 +103,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
 
   /** {@inheritDoc} */
   @Override
-  public S isOne() {
+  public SELF isOne() {
     shorts.assertIsOne(info, actual);
     return myself;
   }

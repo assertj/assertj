@@ -95,7 +95,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * </p>
    */
   @Override
-  public S isOne() {
+  public SELF isOne() {
     bigDecimals.assertIsOne(info, actual);
     return myself;
   }

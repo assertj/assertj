@@ -83,7 +83,7 @@ public interface NumberAssert<SELF extends NumberAssert<SELF, ACTUAL>, ACTUAL ex
    * @throws AssertionError if the actual value is not equal to one.
    * @since 2.7.0 / 3.7.0
    */
-  S isOne();
+  SELF isOne();
 
   /**
    * Verifies that the actual value is positive.
