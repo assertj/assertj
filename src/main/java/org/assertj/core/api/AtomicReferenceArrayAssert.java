@@ -536,6 +536,33 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that all elements of the actual group are instances of given classes or interfaces.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Object[] objects = {new String(), new StringBuilder()};
+   * 
+   * // assertions will pass
+   * assertThat(objects).containsOnlyInstancesOf(CharSequence.class);
+   * assertThat(objects).containsOnlyInstancesOf(String.class, StringBuilder.class);
+   * 
+   * // assertions will fail
+   * assertThat(objects).containsOnlyInstancesOf(Number.class);
+   * assertThat(objects).containsOnlyInstancesOf(String.class);</code></pre>
+   * 
+   * @param types the expected classes and interfaces
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if not all elements of the actual group are instances of one of the given types
+   * @since 2.7.0 / 3.7.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsOnlyInstancesOf(Class<?>... types) {
+    iterables.assertContainsOnlyInstancesOf(info, newArrayList(actual), types);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual AtomicReferenceArray does not contain the given object at the given index.
    * <p>
    * Example:
