@@ -611,12 +611,12 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * <pre><code class='java'> Iterable&lt;Object&gt; objects = Arrays.asList(new String(), new StringBuilder());
    * 
    * // assertions will pass
-   * assertThat(objects).containsAll(Arrays.asList(CharSequence.class));
-   * assertThat(objects).containsAll(Arrays.asList(String.class, StringBuilder.class));
+   * assertThat(objects).containsOnlyInstancesOf(CharSequence.class);
+   * assertThat(objects).containsOnlyInstancesOf(String.class, StringBuilder.class);
    * 
    * // assertions will fail
-   * assertThat(objects).containsAll(Arrays.asList(Number.class));
-   * assertThat(objects).containsAll(Arrays.asList(String.class));</code></pre>
+   * assertThat(objects).containsOnlyInstancesOf(Number.class);
+   * assertThat(objects).containsOnlyInstancesOf(String.class);</code></pre>
    * 
    * @param types the expected classes and interfaces
    * @return {@code this} assertion object.
