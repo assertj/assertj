@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -42,19 +42,19 @@ public class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertNotEqual(someInfo(), null, ONE);
+    numbers.assertNotEqual(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_decimals_are_not_equal() {
-    bigDecimals.assertNotEqual(someInfo(), ONE, ONE_WITH_3_DECIMALS);
+    numbers.assertNotEqual(someInfo(), ONE, ONE_WITH_3_DECIMALS);
   }
 
   @Test
   public void should_fail_if_big_decimals_are_equal() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertNotEqual(info, ONE, ONE);
+      numbers.assertNotEqual(info, ONE, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
       return;
@@ -65,19 +65,19 @@ public class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimalsWithComparatorComparisonStrategy.assertNotEqual(someInfo(), null, ONE);
+    numbersWithComparatorComparisonStrategy.assertNotEqual(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_big_decimals_are_not_equal_according_to_custom_comparison_strategy() {
-    bigDecimalsWithComparatorComparisonStrategy.assertNotEqual(someInfo(), TEN, ONE);
+    numbersWithComparatorComparisonStrategy.assertNotEqual(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_fail_if_big_decimals_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS, ONE);
+      numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE, comparatorComparisonStrategy));
       return;

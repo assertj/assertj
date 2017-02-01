@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -41,11 +41,9 @@ public class DoubleArrays {
 
   private Arrays arrays = Arrays.instance();
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private Failures failures = Failures.instance();
 
-  @VisibleForTesting
-  DoubleArrays() {
+  private DoubleArrays() {
     this(StandardComparisonStrategy.instance());
   }
 

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -44,17 +44,17 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    numbers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
   }
 
   @Test(expected = NullPointerException.class)
-  public void should_fail_if__expected_value_is_null() {
-    bigDecimals.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
+  public void should_fail_if_expected_value_is_null() {
+    numbers.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_offset_is_null() {
-    bigDecimals.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
+    numbers.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
   }
 
   @Test
@@ -64,7 +64,7 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     BigDecimal FIVE = new BigDecimal("5");
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE_POINT_ONE, FIVE, byLessThan(ONE));
+      numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE_POINT_ONE, FIVE, byLessThan(ONE));
     } catch (AssertionError e) {
       verify(failures).failure(info,
                                shouldNotBeEqual(FIVE_POINT_ONE, FIVE, byLessThan(ONE), FIVE_POINT_ONE.subtract(FIVE)));
@@ -90,7 +90,7 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     AssertionInfo info = someInfo();
     Offset<BigDecimal> bigDecimalOffset = byLessThan(offset);
     try {
-      bigDecimals.assertIsNotCloseTo(info, actual, expected, bigDecimalOffset);
+      numbers.assertIsNotCloseTo(info, actual, expected, bigDecimalOffset);
     } catch (AssertionError e) {
       verify(failures).failure(info,
                                shouldNotBeEqual(actual, expected, bigDecimalOffset, actual.subtract(expected).abs()));
@@ -101,13 +101,13 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_pass_if_big_decimals_difference_is_greater_than_offset() {
-    bigDecimals.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
+    numbers.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
   }
 
   @Test
@@ -116,7 +116,7 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     BigDecimal FIVE = new BigDecimal("5");
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE_POINT_ZERO, FIVE, byLessThan(ONE));
+      numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE_POINT_ZERO, FIVE, byLessThan(ONE));
     } catch (AssertionError e) {
       verify(failures).failure(info,
                                shouldNotBeEqual(FIVE_POINT_ZERO, FIVE, byLessThan(ONE), FIVE_POINT_ZERO.subtract(FIVE)));
@@ -127,6 +127,6 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_pass_if_big_decimals_are_not_close_whatever_custom_comparison_strategy_is() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
+    numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
   }
 }

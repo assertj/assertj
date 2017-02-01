@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -30,31 +30,31 @@ public class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_positive() {
-    bigDecimals.assertIsPositive(someInfo(), BigDecimal.ONE);
+    numbers.assertIsPositive(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
     thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
-    bigDecimals.assertIsPositive(someInfo(), BigDecimal.ZERO);
+    numbers.assertIsPositive(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
   public void should_fail_since_actual_is_zero() {
 	thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
-	bigDecimals.assertIsPositive(someInfo(), BigDecimal.ZERO);
+	numbers.assertIsPositive(someInfo(), BigDecimal.ZERO);
   }
   
   @Test
   public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
-    bigDecimalsWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ONE);
+    numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     thrown
         .expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using 'BigDecimalComparator'");
-    bigDecimalsWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ZERO);
+    numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ZERO);
   }
 
 }

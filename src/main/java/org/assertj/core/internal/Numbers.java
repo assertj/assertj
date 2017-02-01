@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -29,6 +29,7 @@ import org.assertj.core.util.Objects;
 /**
  * Base class of reusable assertions for numbers.
  * 
+ * @author Drummond Dawson
  * @author Joel Costigliola
  * @author Nicolas François
  */
@@ -43,6 +44,8 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   }
 
   protected abstract NUMBER zero();
+
+  protected abstract NUMBER one();
 
   /**
    * Asserts that the actual value is equal to zero.<br>
@@ -68,6 +71,19 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    */
   public void assertIsNotZero(AssertionInfo info, NUMBER actual) {
     assertNotEqualByComparison(info, actual, zero());
+  }
+
+  /**
+   * Asserts that the actual value is equal to one.<br>
+   * It does not rely on the custom comparisonStrategy (if one is set).
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to one.
+   */
+  public void assertIsOne(AssertionInfo info, NUMBER actual) {
+    assertEqualByComparison(info, actual, one());
   }
 
   /**

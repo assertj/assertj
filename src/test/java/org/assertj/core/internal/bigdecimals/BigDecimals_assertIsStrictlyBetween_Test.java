@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -40,29 +40,29 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
+    numbers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_start_is_null() {
-    bigDecimals.assertIsStrictlyBetween(someInfo(), ONE, null, ONE);
+    numbers.assertIsStrictlyBetween(someInfo(), ONE, null, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_end_is_null() {
-    bigDecimals.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null);
+    numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null);
   }
 
   @Test
   public void should_pass_if_actual_is_in_range() {
-    bigDecimals.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
+    numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
     try {
-        bigDecimals.assertIsStrictlyBetween(info, ONE, ONE, TEN);
+        numbers.assertIsStrictlyBetween(info, ONE, ONE, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
       return;
@@ -74,7 +74,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   public void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
 	AssertionInfo info = someInfo();
 	try {
-	  bigDecimals.assertIsStrictlyBetween(info, ONE, new BigDecimal("1.00"), TEN);
+	  numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal("1.00"), TEN);
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal("1.00"), TEN, false, false));
 	  return;
@@ -86,7 +86,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
+      numbers.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
       return;
@@ -98,7 +98,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   public void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
 	AssertionInfo info = someInfo();
 	try {
-	  bigDecimals.assertIsStrictlyBetween(info, ONE, ZERO, new BigDecimal("1.00"));
+	  numbers.assertIsStrictlyBetween(info, ONE, ZERO, new BigDecimal("1.00"));
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldBeBetween(ONE, ZERO, new BigDecimal("1.00"), false, false));
 	  return;
@@ -110,7 +110,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
-        bigDecimals.assertIsStrictlyBetween(info, ONE, new BigDecimal(2), TEN);
+        numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal(2), TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal(2), TEN, false, false));
       return;
@@ -122,7 +122,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
+      numbers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, false, false));
       return;

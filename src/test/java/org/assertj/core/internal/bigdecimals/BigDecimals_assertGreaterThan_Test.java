@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -40,19 +40,19 @@ public class BigDecimals_assertGreaterThan_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertGreaterThan(someInfo(), null, ONE);
+    numbers.assertGreaterThan(someInfo(), null, ONE);
   }
 
   @Test
   public void should_pass_if_actual_is_greater_than_other() {
-    bigDecimals.assertGreaterThan(someInfo(), TEN, ONE);
+    numbers.assertGreaterThan(someInfo(), TEN, ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertGreaterThan(info, TEN, TEN);
+      numbers.assertGreaterThan(info, TEN, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(TEN, TEN));
       return;
@@ -64,7 +64,7 @@ public class BigDecimals_assertGreaterThan_Test extends BigDecimalsBaseTest {
   public void should_fail_if_actual_is_equal_to_other_by_comparison() {
 	AssertionInfo info = someInfo();
 	try {
-	  bigDecimals.assertGreaterThan(info, TEN, new BigDecimal("10.00"));
+	  numbers.assertGreaterThan(info, TEN, new BigDecimal("10.00"));
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldBeGreater(TEN, new BigDecimal("10.00")));
 	  return;
@@ -76,7 +76,7 @@ public class BigDecimals_assertGreaterThan_Test extends BigDecimalsBaseTest {
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertGreaterThan(info, ONE, TEN);
+      numbers.assertGreaterThan(info, ONE, TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(ONE, TEN));
       return;
@@ -90,14 +90,14 @@ public class BigDecimals_assertGreaterThan_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), TEN.negate(), ONE);
+    numbersWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), TEN.negate(), ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN);
+      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(TEN.negate(), TEN, absValueComparisonStrategy));
       return;
@@ -109,7 +109,7 @@ public class BigDecimals_assertGreaterThan_Test extends BigDecimalsBaseTest {
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate());
+      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate());
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeGreater(ONE, TEN.negate(), absValueComparisonStrategy));
       return;

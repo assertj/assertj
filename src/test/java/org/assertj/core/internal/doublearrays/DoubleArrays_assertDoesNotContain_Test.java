@@ -8,20 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.doublearrays;
 
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.test.DoubleArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.DoubleArrays.arrayOf;
+import static org.assertj.core.test.DoubleArrays.emptyArray;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsEmpty;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoubleArrays;
@@ -72,15 +70,9 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Test
   public void should_fail_if_actual_contains_given_values() {
-    AssertionInfo info = someInfo();
     double[] expected = { 6d, 8d, 20d };
-    try {
-      arrays.assertDoesNotContain(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6d, 8d)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotContain(actual, expected, newLinkedHashSet(6d, 8d)));
+    arrays.assertDoesNotContain(someInfo(), actual, expected);
   }
 
   @Test
@@ -113,14 +105,9 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Test
   public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
     double[] expected = { 6d, -8d, 20d };
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6d, -8d), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotContain(actual, expected, newLinkedHashSet(6d, -8d),
+                                                 absValueComparisonStrategy));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, expected);
   }
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -23,6 +23,7 @@ import org.assertj.core.data.Percentage;
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ACTUAL> the type of the "actual" value.
  *
+ * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
@@ -64,6 +65,25 @@ public interface NumberAssert<SELF extends NumberAssert<SELF, ACTUAL>, ACTUAL ex
    * @throws AssertionError if the actual value is equal to zero.
    */
   SELF isNotZero();
+
+  /**
+   * Verifies that the actual value is equal to one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1).isOne();
+   * assertThat(1.0).isOne();
+   *
+   * // assertions will fail
+   * assertThat(42).isOne();
+   * assertThat(3.142).isOne();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to one.
+   * @since 2.7.0 / 3.7.0
+   */
+  S isOne();
 
   /**
    * Verifies that the actual value is positive.

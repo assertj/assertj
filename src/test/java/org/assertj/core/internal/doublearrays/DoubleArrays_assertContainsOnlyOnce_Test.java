@@ -8,19 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.doublearrays;
 
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
 import static org.assertj.core.test.DoubleArrays.emptyArray;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoubleArrays;
@@ -46,19 +44,11 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
 
   @Test
   public void should_fail_if_actual_contains_given_values_only_more_than_once() {
-    AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8, 6);
     double[] expected = { 6, -8, 20 };
-    try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
-              newLinkedHashSet((double) 6, (double) -8)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
+                                                       newLinkedHashSet((double) 6, (double) -8)));
+    arrays.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 
   @Test
@@ -92,16 +82,9 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only() {
-    AssertionInfo info = someInfo();
     double[] expected = { 6, 8, 20 };
-    try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError( shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet()));
+    arrays.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 
   @Test
@@ -116,19 +99,11 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
 
   @Test
   public void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
     double[] expected = { 6, -8, 20 };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
-              newLinkedHashSet((double) 6, (double) -8), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
+                                                       newLinkedHashSet((double) 6, (double) -8), absValueComparisonStrategy));
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 
   @Test
@@ -156,17 +131,9 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
     double[] expected = { 6, -8, 20 };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet(),
-              absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet(),
+                                                       absValueComparisonStrategy));
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 }

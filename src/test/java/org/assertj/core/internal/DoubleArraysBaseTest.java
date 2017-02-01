@@ -8,20 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.DoubleArrays.arrayOf;
 import static org.assertj.core.test.ExpectedException.none;
 
-import static org.mockito.Mockito.spy;
-
 import java.util.Comparator;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.DoubleArrays;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.AbsValueComparator;
@@ -46,7 +43,6 @@ public class DoubleArraysBaseTest {
    * is initialized with {@link #initActualArray()} with default value = {6.0, 8.0, 10.0}
    */
   protected double[] actual;
-  protected Failures failures;
   protected DoubleArrays arrays;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
@@ -56,12 +52,9 @@ public class DoubleArraysBaseTest {
 
   @Before
   public void setUp() {
-    failures = spy(new Failures());
-    arrays = new DoubleArrays();
-    arrays.failures = failures;
+    arrays = DoubleArrays.instance();
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     arraysWithCustomComparisonStrategy = new DoubleArrays(absValueComparisonStrategy);
-    arraysWithCustomComparisonStrategy.failures = failures;
     initActualArray();
   }
 

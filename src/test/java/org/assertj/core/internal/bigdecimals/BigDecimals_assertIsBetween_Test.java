@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -40,42 +40,42 @@ public class BigDecimals_assertIsBetween_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertIsBetween(someInfo(), null, ZERO, ONE);
+    numbers.assertIsBetween(someInfo(), null, ZERO, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_start_is_null() {
-    bigDecimals.assertIsBetween(someInfo(), ONE, null, ONE);
+    numbers.assertIsBetween(someInfo(), ONE, null, ONE);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_fail_if_end_is_null() {
-    bigDecimals.assertIsBetween(someInfo(), ONE, ZERO, null);
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, null);
   }
 
   @Test
   public void should_pass_if_actual_is_in_range() {
-    bigDecimals.assertIsBetween(someInfo(), ONE, ZERO, TEN);
-    bigDecimals.assertIsBetween(someInfo(), ONE, ONE, TEN);
-    bigDecimals.assertIsBetween(someInfo(), ONE, new BigDecimal("1.00"), TEN);
-    bigDecimals.assertIsBetween(someInfo(), ONE, ZERO, new BigDecimal("1.00"));
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, TEN);
+    numbers.assertIsBetween(someInfo(), ONE, ONE, TEN);
+    numbers.assertIsBetween(someInfo(), ONE, new BigDecimal("1.00"), TEN);
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, new BigDecimal("1.00"));
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_range_start() {
-    bigDecimals.assertIsBetween(someInfo(), ONE, ONE, TEN);
+    numbers.assertIsBetween(someInfo(), ONE, ONE, TEN);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_range_end() {
-    bigDecimals.assertIsBetween(someInfo(), ONE, ZERO, ONE);
+    numbers.assertIsBetween(someInfo(), ONE, ZERO, ONE);
   }
 
   @Test
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
-        bigDecimals.assertIsBetween(info, ONE, new BigDecimal(2), TEN);
+        numbers.assertIsBetween(info, ONE, new BigDecimal(2), TEN);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal(2), TEN, true, true));
       return;
@@ -87,7 +87,7 @@ public class BigDecimals_assertIsBetween_Test extends BigDecimalsBaseTest {
   public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertIsBetween(info, ONE, ZERO, ZERO);
+      numbers.assertIsBetween(info, ONE, ZERO, ZERO);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
       return;

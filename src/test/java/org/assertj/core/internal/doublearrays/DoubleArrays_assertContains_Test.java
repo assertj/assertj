@@ -8,20 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.internal.doublearrays;
 
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.test.DoubleArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.DoubleArrays.arrayOf;
+import static org.assertj.core.test.DoubleArrays.emptyArray;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoubleArrays;
@@ -89,15 +86,9 @@ public class DoubleArrays_assertContains_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_values() {
-    AssertionInfo info = someInfo();
     double[] expected = { 6d, 8d, 9d };
-    try {
-      arrays.assertContains(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet(9d)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContain(actual, expected, newLinkedHashSet(9d)));
+    arrays.assertContains(someInfo(), actual, expected);
   }
 
   @Test
@@ -146,14 +137,8 @@ public class DoubleArrays_assertContains_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
     double[] expected = { 6d, -8d, 9d };
-    try {
-      arraysWithCustomComparisonStrategy.assertContains(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet(9d), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContain(actual, expected, newLinkedHashSet(9d), absValueComparisonStrategy));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, expected);
   }
 }

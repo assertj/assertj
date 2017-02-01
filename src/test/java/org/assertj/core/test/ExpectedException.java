@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  */
 package org.assertj.core.test;
 
@@ -17,6 +17,7 @@ import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
@@ -50,6 +51,10 @@ public class ExpectedException implements TestRule {
 
   public void expectAssertionError(String message) {
     expect(AssertionError.class, message);
+  }
+
+  public void expectAssertionError(ErrorMessageFactory errorMessageFactory) {
+    expect(AssertionError.class, errorMessageFactory.create());
   }
 
   public void expectAssertionErrorWithMessageContaining(String... parts) {
