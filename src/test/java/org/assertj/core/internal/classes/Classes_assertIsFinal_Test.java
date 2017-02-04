@@ -32,7 +32,7 @@ public class Classes_assertIsFinal_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    classes.assertIsAnnotation(someInfo(), null);
+    classes.assertIsFinal(someInfo(), null);
   }
 
   @Test
