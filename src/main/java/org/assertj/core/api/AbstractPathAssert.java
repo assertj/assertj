@@ -69,7 +69,7 @@ import org.assertj.core.util.VisibleForTesting;
  * accessing the filesystem, these assertions will throw a {@link PathsException}.</li>
  * </ul>
  *
- * @param <S> self type
+ * @param <SELF> self type
  *
  * @see Path
  * @see java.nio.file.Paths#get(String, String...)
@@ -78,7 +78,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @see FileSystems#getDefault()
  * @see Files
  */
-public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extends AbstractComparableAssert<S, Path> {
+public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
 
   @VisibleForTesting
   protected Paths paths = Paths.instance();
@@ -120,7 +120,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
    */
-  public S hasSameContentAs(Path expected) {
+  public SELF hasSameContentAs(Path expected) {
 	paths.assertHasSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
 	return myself;
   }
@@ -151,7 +151,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
    */
-  public S hasSameContentAs(Path expected, Charset expectedCharset) {
+  public SELF hasSameContentAs(Path expected, Charset expectedCharset) {
       paths.assertHasSameContentAs(info, actual, charset, expected, expectedCharset);
       return myself;
     }
@@ -184,7 +184,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
    */
-  public S hasBinaryContent(byte[] expected) {
+  public SELF hasBinaryContent(byte[] expected) {
 	paths.assertHasBinaryContent(info, actual, expected);
 	return myself;
   }
@@ -204,7 +204,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws IllegalArgumentException if the given encoding is not supported on this platform.
    */
-  public S usingCharset(String charsetName) {
+  public SELF usingCharset(String charsetName) {
     checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
     return usingCharset(Charset.forName(charsetName));
   }
@@ -223,7 +223,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given charset is {@code null}.
    */
-  public S usingCharset(Charset charset) {
+  public SELF usingCharset(Charset charset) {
 	this.charset = checkNotNull(charset, "The charset should not be null");
 	return myself;
   }
@@ -264,7 +264,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws AssertionError if the actual {@code Path} is not a {@link Files#isReadable(Path) readable} file.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.
    */
-  public S hasContent(String expected) {
+  public SELF hasContent(String expected) {
 	paths.assertHasContent(info, actual, expected, charset);
 	return myself;
   }
@@ -301,7 +301,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Files#isReadable(Path)
    */
-  public S isReadable() {
+  public SELF isReadable() {
 	paths.assertIsReadable(info, actual);
 	return myself;
   }
@@ -338,7 +338,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Files#isWritable(Path)
    */
-  public S isWritable() {
+  public SELF isWritable() {
 	paths.assertIsWritable(info, actual);
 	return myself;
   }
@@ -376,7 +376,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Files#isExecutable(Path)
    */
-  public S isExecutable() {
+  public SELF isExecutable() {
 	paths.assertIsExecutable(info, actual);
 	return myself;
   }
@@ -420,7 +420,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Files#exists(Path, LinkOption...)
    */
-  public S exists() {
+  public SELF exists() {
 	paths.assertExists(info, actual);
 	return myself;
   }
@@ -459,7 +459,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Files#exists(Path, LinkOption...)
    */
-  public S existsNoFollowLinks() {
+  public SELF existsNoFollowLinks() {
 	paths.assertExistsNoFollowLinks(info, actual);
 	return myself;
   }
@@ -506,7 +506,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @see Files#notExists(Path, LinkOption...)
    * @see LinkOption#NOFOLLOW_LINKS
    */
-  public S doesNotExist() {
+  public SELF doesNotExist() {
 	paths.assertDoesNotExist(info, actual);
 	return myself;
   }
@@ -558,7 +558,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @return self
    */
-  public S isRegularFile() {
+  public SELF isRegularFile() {
 	paths.assertIsRegularFile(info, actual);
 	return myself;
   }
@@ -609,7 +609,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @return self
    */
-  public S isDirectory() {
+  public SELF isDirectory() {
 	paths.assertIsDirectory(info, actual);
 	return myself;
   }
@@ -655,7 +655,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @return self
    */
-  public S isSymbolicLink() {
+  public SELF isSymbolicLink() {
 	paths.assertIsSymbolicLink(info, actual);
 	return myself;
   }
@@ -691,7 +691,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Path#isAbsolute()
    */
-  public S isAbsolute() {
+  public SELF isAbsolute() {
 	paths.assertIsAbsolute(info, actual);
 	return myself;
   }
@@ -723,7 +723,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Path#isAbsolute()
    */
-  public S isRelative() {
+  public SELF isRelative() {
 	paths.assertIsRelative(info, actual);
 	return myself;
   }
@@ -752,7 +752,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @return self
    */
-  public S isNormalized() {
+  public SELF isNormalized() {
 	paths.assertIsNormalized(info, actual);
 	return myself;
   }
@@ -792,7 +792,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @see Path#toRealPath(LinkOption...)
    * @see Files#isSameFile(Path, Path)
    */
-  public S isCanonical() {
+  public SELF isCanonical() {
 	paths.assertIsCanonical(info, actual);
 	return myself;
   }
@@ -830,7 +830,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @throws NullPointerException if the given fileName is null.
    * @see Path#getFileName()
    */
-  public S hasFileName(final String fileName) {
+  public SELF hasFileName(final String fileName) {
 	paths.assertHasFileName(info, actual, fileName);
 	return myself;
   }
@@ -868,7 +868,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * 
    * @see Path#getParent()
    */
-  public S hasParent(final Path expected) {
+  public SELF hasParent(final Path expected) {
 	paths.assertHasParent(info, actual, expected);
 	return myself;
   }
@@ -917,7 +917,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * 
    * @see Path#getParent()
    */
-  public S hasParentRaw(final Path expected) {
+  public SELF hasParentRaw(final Path expected) {
 	paths.assertHasParentRaw(info, actual, expected);
 	return myself;
   }
@@ -952,7 +952,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Path#getParent()
    */
-  public S hasNoParent() {
+  public SELF hasNoParent() {
 	paths.assertHasNoParent(info, actual);
 	return myself;
   }
@@ -992,7 +992,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * @see Path#getParent()
    */
-  public S hasNoParentRaw() {
+  public SELF hasNoParentRaw() {
 	paths.assertHasNoParentRaw(info, actual);
 	return myself;
   }
@@ -1034,7 +1034,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @see Path#startsWith(Path)
    * @see Path#toRealPath(LinkOption...)
    */
-  public S startsWith(final Path other) {
+  public SELF startsWith(final Path other) {
 	paths.assertStartsWith(info, actual, other);
 	return myself;
   }
@@ -1080,7 +1080,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * 
    * @see Path#startsWith(Path)
    */
-  public S startsWithRaw(final Path other) {
+  public SELF startsWithRaw(final Path other) {
 	paths.assertStartsWithRaw(info, actual, other);
 	return myself;
   }
@@ -1122,7 +1122,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * @see Path#endsWith(Path)
    * @see Path#toRealPath(LinkOption...)
    */
-  public S endsWith(final Path other) {
+  public SELF endsWith(final Path other) {
 	paths.assertEndsWith(info, actual, other);
 	return myself;
   }
@@ -1163,7 +1163,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * 
    * @see Path#endsWith(Path)
    */
-  public S endsWithRaw(final Path other) {
+  public SELF endsWithRaw(final Path other) {
 	paths.assertEndsWithRaw(info, actual, other);
 	return myself;
   }

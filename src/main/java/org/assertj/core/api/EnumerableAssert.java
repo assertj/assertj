@@ -17,17 +17,17 @@ import java.util.Comparator;
 /**
  * Assertions applicable to groups of values that can be enumerated (e.g. arrays, collections or strings.)
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <E> the type of elements of the "actual" value.
+ * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
+public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, ELEMENT> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.
@@ -77,7 +77,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group of values is empty.
    */
-  S isNotEmpty();
+  SELF isNotEmpty();
 
   /**
    * Verifies that the number of values in the actual group is equal to the given one.
@@ -95,7 +95,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
    */
-  S hasSize(int expected);
+  SELF hasSize(int expected);
 
   /**
    * Verifies that the actual group has the same size as given {@link Iterable}.
@@ -117,7 +117,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * @throws AssertionError if the other {@code Iterable} is {@code null}.
    * @throws AssertionError if actual group and given {@code Iterable} don't have the same size.
    */
-  S hasSameSizeAs(Iterable<?> other);
+  SELF hasSameSizeAs(Iterable<?> other);
 
   /**
    * Verifies that the actual group has the same size as given array.
@@ -141,7 +141,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
    * @throws AssertionError if actual group and given array don't have the same size.
    */
-  S hasSameSizeAs(Object array);
+  SELF hasSameSizeAs(Object array);
 
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group
@@ -173,7 +173,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
-  S usingElementComparator(Comparator<? super E> customComparator);
+  SELF usingElementComparator(Comparator<? super ELEMENT> customComparator);
 
   /**
    * Revert to standard comparison for incoming assertion group element checks.
@@ -183,5 +183,5 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * 
    * @return {@code this} assertion object.
    */
-  S usingDefaultElementComparator();
+  SELF usingDefaultElementComparator();
 }

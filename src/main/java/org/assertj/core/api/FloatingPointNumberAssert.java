@@ -16,15 +16,15 @@ import org.assertj.core.data.Offset;
 
 /**
  * Assertion methods applicable to floating-point <code>{@link Number}</code>s.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<S, A>, A extends Number> extends NumberAssert<S, A> {
+public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAssert<SELF, ACTUAL>, ACTUAL extends Number> extends NumberAssert<SELF, ACTUAL> {
 
   /**
    * Verifies that the actual value is close to the given one by less than the given offset.<br>
@@ -50,7 +50,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  S isEqualTo(A expected, Offset<A> offset);
+  SELF isEqualTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual number is close to the given one within the given offset.<br>
@@ -76,7 +76,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
-  S isCloseTo(A expected, Offset<A> offset);
+  SELF isCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
@@ -102,7 +102,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @see Assertions#byLessThan(Double)
    * @since 2.6.0 / 3.6.0
    */
-  S isNotCloseTo(A expected, Offset<A> offset);
+  SELF isNotCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual value is equal to {@code NaN}.
@@ -120,7 +120,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @return this assertion object.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
-  S isNaN();
+  SELF isNaN();
 
   /**
    * Verifies that the actual value is not equal to {@code NaN}.
@@ -138,5 +138,5 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @return this assertion object.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
-  S isNotNaN();
+  SELF isNotNaN();
 }
