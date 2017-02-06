@@ -14,9 +14,7 @@ package org.assertj.core.internal.classes;
 
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.lang.annotation.*;
 
@@ -77,18 +75,12 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @SuppressWarnings("unchecked")
   @Test()
   public void should_fail_if_actual_does_not_contains_an_annotation() {
-    AssertionInfo info = someInfo();
     actual = AnnotatedClass.class;
     Class<Annotation> expected[] = new Class[] { Override.class, Deprecated.class, MyAnnotation.class };
-    try {
-      classes.assertContainsAnnotations(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldHaveAnnotations(actual, Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
-              Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class, Deprecated.class)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveAnnotations(actual,
+                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
+                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class,
+                                                                                                          Deprecated.class)));
+    classes.assertContainsAnnotations(someInfo(), actual, expected);
   }
 }

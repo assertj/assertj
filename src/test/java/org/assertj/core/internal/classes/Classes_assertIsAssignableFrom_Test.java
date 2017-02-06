@@ -14,11 +14,8 @@ package org.assertj.core.internal.classes;
 
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
@@ -60,18 +57,10 @@ public class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_assignable_from() {
-    AssertionInfo info = someInfo();
     actual = HumanJedi.class;
     Class<?>[] expected = new Class[] { HumanJedi.class, Jedi.class };
-    try {
-      classes.assertIsAssignableFrom(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldBeAssignableFrom(actual, Sets.<Class<?>> newLinkedHashSet(expected),
-              Sets.<Class<?>> newLinkedHashSet(Jedi.class)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeAssignableFrom(actual, Sets.<Class<?>> newLinkedHashSet(expected),
+                                                       Sets.<Class<?>> newLinkedHashSet(Jedi.class)));
+    classes.assertIsAssignableFrom(someInfo(), actual, expected);
   }
 }
