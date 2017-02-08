@@ -2234,4 +2234,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public S anySatisfy(Consumer<? super T> requirements) {
+    iterables.assertAnySatisfy(info, newArrayList(actual), requirements);
+    return myself;
+  }
+
 }

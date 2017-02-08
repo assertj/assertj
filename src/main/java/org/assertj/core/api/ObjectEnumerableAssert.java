@@ -838,10 +838,31 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
-   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws NullPointerException if the given {@link Consumer} is {@code null}.
    * @throws AssertionError if one or more elements don't satisfy given requirements.
    * @since 3.6.0
    */
   SELF allSatisfy(Consumer<? super ELEMENT> requirements);
+
+  /**
+   * Verifies that any element satisfy given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to perform a group of assertions on elements.
+   * <p>
+   * Grouping assertions example:
+   * <pre><code class='java'> assertThat(myIcelanderFriends).extracting(Person::getAddress)
+   *                               .anySatisfy(p -&gt; {
+   *                                 assertThat(p.getCountry()).isEqualTo("Iceland");
+   *                                 assertThat(p.getPhoneCountryCode()).isEqualTo("+354");
+   *                                 assertThat(p.getSurname()).endsWith("son");
+   *                               });</code></pre>
+   *
+   * @param requirements the given {@link Consumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link Consumer} is {@code null}.
+   * @throws AssertionError if all elements don't satisfy given requirements.
+   * @since 3.7.0
+   */
+  S anySatisfy(Consumer<? super T> requirements);
 
 }

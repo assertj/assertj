@@ -19,6 +19,10 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
     return new ElementsShouldSatisfy(actual, elementNotSatisfyingRestrictions, assertionErrorDetails);
   }
 
+  public static <T> ErrorMessageFactory elementsShouldSatisfyAny(Object actual) {
+    return new ElementsShouldSatisfy(actual);
+  }
+
   private ElementsShouldSatisfy(Object actual, Object notSatisfies, String assertionErrorDetails) {
     super("%n" +
           "Expecting all elements of:%n" +
@@ -27,6 +31,14 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
           "  <%s> %n" +
           "Details: %s",
           actual, notSatisfies, assertionErrorDetails);
+  }
+
+  private ElementsShouldSatisfy(Object actual) {
+    super("%n" +
+          "Expecting any element of:%n" +
+          "  <%s>%n" +
+          "to satisfy given requirements, but did not.",
+          actual);
   }
 
 }
