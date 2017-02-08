@@ -17,16 +17,16 @@ import java.math.BigDecimal;
 /**
  * Assertion methods applicable to <code>{@link Comparable}</code>s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  * 
  * @author Alex Ruiz
  * @author Ted M. Young
  * @author Mikhail Mazursky
  */
-public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Comparable<? super A>> {
+public interface ComparableAssert<SELF extends ComparableAssert<SELF, ACTUAL>, ACTUAL extends Comparable<? super ACTUAL>> {
 
   /**
    * Verifies that the actual value is equal to the given one by invoking
@@ -46,7 +46,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal when comparing to the given one.
    */
-  S isEqualByComparingTo(A other);
+  SELF isEqualByComparingTo(ACTUAL other);
 
   /**
    * Verifies that the actual value is not equal to the given one by invoking
@@ -66,7 +66,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal when comparing to the given one.
    */
-  S isNotEqualByComparingTo(A other);
+  SELF isNotEqualByComparingTo(ACTUAL other);
 
   /**
    * Verifies that the actual value is less than the given one.
@@ -85,7 +85,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
-  S isLessThan(A other);
+  SELF isLessThan(ACTUAL other);
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
@@ -105,7 +105,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
-  S isLessThanOrEqualTo(A other);
+  SELF isLessThanOrEqualTo(ACTUAL other);
 
   /**
    * Verifies that the actual value is greater than the given one.
@@ -124,7 +124,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
-  S isGreaterThan(A other);
+  SELF isGreaterThan(ACTUAL other);
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
@@ -143,7 +143,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
-  S isGreaterThanOrEqualTo(A other);
+  SELF isGreaterThanOrEqualTo(ACTUAL other);
 
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
@@ -168,7 +168,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * 
    * @since 2.5.0 / 3.5.0
    */
-  S isBetween(A startInclusive, A endInclusive);
+  SELF isBetween(ACTUAL startInclusive, ACTUAL endInclusive);
 
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
@@ -193,5 +193,5 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * 
    * @since 2.5.0 / 3.5.0
    */
-  S isStrictlyBetween(A startExclusive, A endExclusive);
+  SELF isStrictlyBetween(ACTUAL startExclusive, ACTUAL endExclusive);
 }

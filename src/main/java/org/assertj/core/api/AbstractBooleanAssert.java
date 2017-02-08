@@ -20,7 +20,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link Boolean}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * 
@@ -30,7 +30,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Mikhail Mazursky
  */
-public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> extends AbstractAssert<S, Boolean> {
+public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<SELF>> extends AbstractAssert<SELF, Boolean> {
 
   @VisibleForTesting
   Booleans booleans = Booleans.instance();
@@ -55,7 +55,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not {@code true}.
    */
-  public S isTrue() {
+  public SELF isTrue() {
     return isEqualTo(true);
   }
 
@@ -75,7 +75,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not {@code false}.
    */
-  public S isFalse() {
+  public SELF isFalse() {
     return isEqualTo(false);
   }
 
@@ -96,7 +96,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public S isEqualTo(boolean expected) {
+  public SELF isEqualTo(boolean expected) {
     booleans.assertEqual(info, actual, expected);
     return myself;
   }
@@ -118,7 +118,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  public S isNotEqualTo(boolean other) {
+  public SELF isNotEqualTo(boolean other) {
     booleans.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -131,7 +131,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    */
   @Override
   @Deprecated
-  public final S usingComparator(Comparator<? super Boolean> customComparator) {
+  public final SELF usingComparator(Comparator<? super Boolean> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
   }
 }

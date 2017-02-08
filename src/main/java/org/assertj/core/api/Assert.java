@@ -22,17 +22,17 @@ import org.assertj.core.presentation.StandardRepresentation;
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, ExtensionPoints<S, A> {
+public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descriptable<SELF>, ExtensionPoints<SELF, ACTUAL> {
 
   /**
    * Verifies that the actual value is equal to the given one.
@@ -50,7 +50,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  S isEqualTo(Object expected);
+  SELF isEqualTo(Object expected);
 
   /**
    * Verifies that the actual value is not equal to the given one.
@@ -68,7 +68,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  S isNotEqualTo(Object other);
+  SELF isNotEqualTo(Object other);
 
   /**
    * Verifies that the actual value is {@code null}.
@@ -101,7 +101,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    */
-  S isNotNull();
+  SELF isNotNull();
 
   /**
    * Verifies that the actual value is the same as the given one, ie using == comparison.
@@ -123,7 +123,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not the same as the given one.
    */
-  S isSameAs(Object expected);
+  SELF isSameAs(Object expected);
 
   /**
    * Verifies that the actual value is not the same as the given one, ie using == comparison.
@@ -145,7 +145,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is the same as the given one.
    */
-  S isNotSameAs(Object other);
+  SELF isNotSameAs(Object other);
 
   /**
    * Verifies that the actual value is present in the given array of values.
@@ -165,7 +165,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is not present in the given array.
    */
-  S isIn(Object... values);
+  SELF isIn(Object... values);
 
   /**
    * Verifies that the actual value is not present in the given array of values.
@@ -185,7 +185,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is present in the given array.
    */
-  S isNotIn(Object... values);
+  SELF isNotIn(Object... values);
 
   /**
    * Verifies that the actual value is present in the given values.
@@ -205,7 +205,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is not present in the given collection.
    */
-  S isIn(Iterable<?> values);
+  SELF isIn(Iterable<?> values);
 
   /**
    * Verifies that the actual value is not present in the given values.
@@ -225,7 +225,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is present in the given collection.
    */
-  S isNotIn(Iterable<?> values);
+  SELF isNotIn(Iterable<?> values);
 
   /**
    * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
@@ -242,7 +242,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
-  S usingComparator(Comparator<? super A> customComparator);
+  SELF usingComparator(Comparator<? super ACTUAL> customComparator);
 
   /**
    * Revert to standard comparison for incoming assertion checks.
@@ -253,7 +253,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * @return {@code this} assertion object.
    */
-  S usingDefaultComparator();
+  SELF usingDefaultComparator();
 
   /**
    * Verifies that the actual value is an instance of the given type.
@@ -274,7 +274,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not an instance of the given type.
    */
-  S isInstanceOf(Class<?> type);
+  SELF isInstanceOf(Class<?> type);
 
   /**
    * Verifies that the actual value is an instance of any of the given types.
@@ -296,7 +296,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the given array of types is {@code null}.
    * @throws NullPointerException if the given array of types contains {@code null}s.
    */
-  S isInstanceOfAny(Class<?>... types);
+  SELF isInstanceOfAny(Class<?>... types);
 
   /**
    * Verifies that the actual value is not an instance of the given type.
@@ -317,7 +317,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is an instance of the given type.
    */
-  S isNotInstanceOf(Class<?> type);
+  SELF isNotInstanceOf(Class<?> type);
 
   /**
    * Verifies that the actual value is not an instance of any of the given types.
@@ -339,7 +339,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the given array of types is {@code null}.
    * @throws NullPointerException if the given array of types contains {@code null}s.
    */
-  S isNotInstanceOfAny(Class<?>... types);
+  SELF isNotInstanceOfAny(Class<?>... types);
 
   /**
    * Verifies that the actual value has the same class as the given object.
@@ -360,7 +360,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
-  S hasSameClassAs(Object other);
+  SELF hasSameClassAs(Object other);
 
   /**
    * Verifies that actual {@code actual.toString()} is equal to the given {@code String}.
@@ -378,7 +378,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws AssertionError if {@code actual.toString()} result is not to the given {@code String}.
    * @throws AssertionError if actual is {@code null}.
    */
-  S hasToString(String expectedToString);
+  SELF hasToString(String expectedToString);
 
   /**
    * Verifies that the actual value does not have the same class as the given object.
@@ -399,7 +399,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
-  S doesNotHaveSameClassAs(Object other);
+  SELF doesNotHaveSameClassAs(Object other);
 
   /**
    * Verifies that the actual value is <b>exactly</b> an instance of the given type.
@@ -421,7 +421,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
-  S isExactlyInstanceOf(Class<?> type);
+  SELF isExactlyInstanceOf(Class<?> type);
 
   /**
    * Verifies that the actual value is not <b>exactly</b> an instance of given type.
@@ -443,7 +443,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
-  S isNotExactlyInstanceOf(Class<?> type);
+  SELF isNotExactlyInstanceOf(Class<?> type);
 
   /**
    * Verifies that the actual value type is in given types.
@@ -463,7 +463,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */
-  S isOfAnyClassIn(Class<?>... types);
+  SELF isOfAnyClassIn(Class<?>... types);
 
   /**
    * Verifies that the actual value type is not in given types.
@@ -483,7 +483,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */
-  S isNotOfAnyClassIn(Class<?>... types);
+  SELF isNotOfAnyClassIn(Class<?>... types);
 
   /**
    * Verifies that the actual value is an instance of List,
@@ -578,7 +578,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 
    * @return this assertion object.
    */
-  S withThreadDumpOnError();
+  SELF withThreadDumpOnError();
 
   /**
    * Use the given {@link Representation} to describe/represent values in AssertJ error messages.
@@ -627,5 +627,5 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * @param representation Describe/represent values in AssertJ error messages.
    * @return this assertion object.
    */
-  S withRepresentation(Representation representation);
+  SELF withRepresentation(Representation representation);
 }
