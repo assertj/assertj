@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
+import org.assertj.core.util.CheckReturnValue;
+
 public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
   private AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> source;
@@ -24,6 +26,7 @@ public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<K
   }
 
   @Override
+  @CheckReturnValue
   public AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> returnToMap() {
     return source;
   }

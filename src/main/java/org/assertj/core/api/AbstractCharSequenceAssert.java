@@ -22,6 +22,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -837,6 +838,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     super.usingComparator(customComparator);
     this.strings = new Strings(new ComparatorBasedComparisonStrategy(customComparator));
@@ -844,6 +846,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.strings = Strings.instance();
@@ -851,6 +854,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   @Override
+  @CheckReturnValue
   public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
@@ -881,6 +885,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF inUnicode() {
     info.useUnicodeRepresentation();
     return myself;

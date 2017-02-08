@@ -47,6 +47,7 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.RecursiveFieldByFieldComparator;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -1092,6 +1093,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> elementComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
     // to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
@@ -1102,6 +1104,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     this.arrays = ObjectArrays.instance();
     return myself;
@@ -1171,6 +1174,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertions object
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public <C> SELF usingComparatorForElementFieldsWithNames(Comparator<C> comparator,
                                                            String... elementPropertyOrFieldNames) {
     for (String elementPropertyOrField : elementPropertyOrFieldNames) {
@@ -1248,6 +1252,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertions object
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public <C> SELF usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
     comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
     return myself;
@@ -1279,6 +1284,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF usingFieldByFieldElementComparator() {
     return usingElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                              comparatorsForElementPropertyOrFieldTypes));
@@ -1327,6 +1333,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
     return usingElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                                       comparatorsForElementPropertyOrFieldTypes));
@@ -1359,6 +1366,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF usingElementComparatorOnFields(String... fields) {
     return usingElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                          comparatorsForElementPropertyOrFieldTypes, fields));
@@ -1391,6 +1399,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF usingElementComparatorIgnoringFields(String... fields) {
     return usingElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                                comparatorsForElementPropertyOrFieldTypes, fields));
@@ -1438,6 +1447,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the array of extracted field/property values.
    * @throws IntrospectionError if no field or property exists with the given name
    */
+  @CheckReturnValue
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     return new ObjectArrayAssert<>(values);
@@ -1486,6 +1496,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the array of extracted field/property values.
    * @throws IntrospectionError if no field or property exists with the given name
    */
+  @CheckReturnValue
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
@@ -1544,6 +1555,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError if one of the given name does not match a field or property in one of the initial
    *         Iterable's element.
    */
+  @CheckReturnValue
   public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
     Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
@@ -1591,6 +1603,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    */
+  @CheckReturnValue
   public <U> ObjectArrayAssert<U> extracting(Extractor<? super ELEMENT, U> extractor) {
     U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
@@ -1632,6 +1645,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    */
+  @CheckReturnValue
   public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super ELEMENT, C> extractor) {
     final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
 
@@ -1672,6 +1686,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of values extracted
    * @throws IllegalArgumentException if one of the extracted property value was not an array or an iterable.
    */
+  @CheckReturnValue
   public ObjectArrayAssert<Object> flatExtracting(String propertyName) {
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
@@ -1731,6 +1746,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void, or method accepts arguments.
    */
+  @CheckReturnValue
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     return new ObjectArrayAssert<>(values);
@@ -1774,6 +1790,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void, or method accepts arguments.
    */
+  @CheckReturnValue
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
@@ -1808,11 +1825,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    */
   @Override
+  @CheckReturnValue
   public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
 
   @Override
+  @CheckReturnValue
   public SELF inBinary() {
     return super.inBinary();
   }
@@ -1874,6 +1893,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
    */
   @SuppressWarnings("unchecked")
+  @CheckReturnValue
   public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
     Iterable<? extends ELEMENT> filteredIterable = filter(actual).with(propertyOrFieldName, expectedValue).get();
     return (SELF) new ObjectArrayAssert<>(toArray(filteredIterable));
@@ -1917,6 +1937,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object with the filtered array under test
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
    */
+  @CheckReturnValue
   public SELF filteredOnNull(String propertyOrFieldName) {
     // need to cast nulll to Object otherwise it calls :
     // filteredOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
@@ -1989,6 +2010,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    */
   @SuppressWarnings("unchecked")
+  @CheckReturnValue
   public SELF filteredOn(String propertyOrFieldName, FilterOperator<?> filterOperator) {
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter(actual).with(propertyOrFieldName);
@@ -2029,6 +2051,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
   @SuppressWarnings("unchecked")
+  @CheckReturnValue
   public SELF filteredOn(Condition<? super ELEMENT> condition) {
     Iterable<? extends ELEMENT> filteredIterable = filter(actual).being(condition).get();
     return (SELF) new ObjectArrayAssert<>(toArray(filteredIterable));
