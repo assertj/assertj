@@ -20,10 +20,10 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link URL}s.
  *
- * @param <S> the "self" type of this assertion class.
+ * @param <SELF> the "self" type of this assertion class.
  * @see java.net.URL
  */
-public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends AbstractAssert<S, URL> {
+public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> extends AbstractAssert<SELF, URL> {
 
   @VisibleForTesting
   protected Urls urls = Urls.instance();
@@ -46,7 +46,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual protocol is not equal to the expected protocol.
    */
-  public S hasProtocol(String expected) {
+  public SELF hasProtocol(String expected) {
     urls.assertHasProtocol(info, actual, expected);
     return myself;
   }
@@ -72,7 +72,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @throws AssertionError if the actual URL path is not equal to the expected path.
    * @throws IllegalArgumentException if given path is null.
    */
-  public S hasPath(String expected) {
+  public SELF hasPath(String expected) {
     urls.assertHasPath(info, actual, expected);
     return myself;
   }
@@ -90,7 +90,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a path.
    */
-  public S hasNoPath() {
+  public SELF hasNoPath() {
     urls.assertHasPath(info, actual, "");
     return myself;
   }
@@ -110,7 +110,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual port is not equal to the expected port.
    */
-  public S hasPort(int expected) {
+  public SELF hasPort(int expected) {
     urls.assertHasPort(info, actual, expected);
     return myself;
   }
@@ -128,7 +128,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a port.
    */
-  public S hasNoPort() {
+  public SELF hasNoPort() {
     urls.assertHasPort(info, actual, -1);
     return myself;
   }
@@ -149,7 +149,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual host is not equal to the expected host.
    */
-  public S hasHost(String expected) {
+  public SELF hasHost(String expected) {
     urls.assertHasHost(info, actual, expected);
     return myself;
   }
@@ -171,7 +171,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual authority is not equal to the expected authority.
    */
-  public S hasAuthority(String expected) {
+  public SELF hasAuthority(String expected) {
     urls.assertHasAuthority(info, actual, expected);
     return myself;
   }
@@ -191,7 +191,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual query is not equal to the expected query.
    */
-  public S hasQuery(String expected) {
+  public SELF hasQuery(String expected) {
     urls.assertHasQuery(info, actual, expected);
     return myself;
   }
@@ -209,7 +209,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a query.
    */
-  public S hasNoQuery() {
+  public SELF hasNoQuery() {
     urls.assertHasQuery(info, actual, null);
     return myself;
   }
@@ -229,7 +229,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual anchor is not equal to the expected anchor.
    */
-  public S hasAnchor(String expected) {
+  public SELF hasAnchor(String expected) {
     urls.assertHasAnchor(info, actual, expected);
     return myself;
   }
@@ -247,7 +247,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a anchor.
    */
-  public S hasNoAnchor() {
+  public SELF hasNoAnchor() {
     urls.assertHasAnchor(info, actual, null);
     return myself;
   }
@@ -269,7 +269,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual userinfo is not equal to the expected userinfo.
    */
-  public S hasUserInfo(String expected) {
+  public SELF hasUserInfo(String expected) {
     urls.assertHasUserInfo(info, actual, expected);
     return myself;
   }
@@ -287,7 +287,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has some userinfo.
    */
-  public S hasNoUserInfo() {
+  public SELF hasNoUserInfo() {
     urls.assertHasUserInfo(info, actual, null);
     return myself;
   }
@@ -311,7 +311,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @throws AssertionError if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
-  public S hasParameter(String name) {
+  public SELF hasParameter(String name) {
     urls.assertHasParameter(info, actual, name);
     return myself;
   }
@@ -337,7 +337,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * @throws AssertionError if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
-  public S hasParameter(String name, String value) {
+  public SELF hasParameter(String name, String value) {
     urls.assertHasParameter(info, actual, name, value);
     return myself;
   }
@@ -359,7 +359,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    *
    * @since 2.5.0 / 3.5.0
    */
-  public S hasNoParameters() {
+  public SELF hasNoParameters() {
     urls.assertHasNoParameters(info, actual);
     return myself;
   }
@@ -384,7 +384,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    *
    * @since 2.5.0 / 3.5.0
    */
-  public S hasNoParameter(String name) {
+  public SELF hasNoParameter(String name) {
     urls.assertHasNoParameter(info, actual, name);
     return myself;
   }
@@ -413,7 +413,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    *
    * @since 2.5.0 / 3.5.0
    */
-  public S hasNoParameter(String name, String value) {
+  public SELF hasNoParameter(String name, String value) {
     urls.assertHasNoParameter(info, actual, name, value);
     return myself;
   }

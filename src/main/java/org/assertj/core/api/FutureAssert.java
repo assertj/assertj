@@ -19,13 +19,13 @@ import java.util.concurrent.Future;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Future)}</code>.
  * </p>
- * @param <T> the type contained within the Future
+ * @param <RESULT> the type contained within the Future
  *
  * @author Ruben Dijkstra
  */
-public class FutureAssert<T> extends AbstractFutureAssert<FutureAssert<T>, Future<T>, T> {
+public class FutureAssert<RESULT> extends AbstractFutureAssert<FutureAssert<RESULT>, Future<RESULT>, RESULT> {
 
-  protected FutureAssert(Future<T> actual) {
+  protected FutureAssert(Future<RESULT> actual) {
     super(actual, FutureAssert.class);
   }
 

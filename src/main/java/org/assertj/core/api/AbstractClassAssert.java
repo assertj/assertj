@@ -19,14 +19,14 @@ import org.assertj.core.internal.Classes;
 /**
  * Base class for all implementations of assertions for {@link Class}es.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * 
  * @author William Delanoue
  * @author Mikhail Mazursky
  */
-public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> extends AbstractAssert<S, Class<?>> {
+public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>> extends AbstractAssert<SELF, Class<?>> {
 
   Classes classes = Classes.instance();
 
@@ -53,7 +53,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws IllegalArgumentException if no {@code others} classes have been specified.
    * @throws AssertionError if the actual {@code Class} is not assignable from all of the {@code others} classes.
    */
-  public S isAssignableFrom(Class<?>... others) {
+  public SELF isAssignableFrom(Class<?>... others) {
     classes.assertIsAssignableFrom(info, actual, others);
     return myself;
   }
@@ -73,7 +73,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
-  public S isNotInterface() {
+  public SELF isNotInterface() {
     classes.assertIsNotInterface(info, actual);
     return myself;
   }
@@ -93,7 +93,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
-  public S isInterface() {
+  public SELF isInterface() {
     classes.assertIsInterface(info, actual);
     return myself;
   }
@@ -114,7 +114,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an annotation.
    */
-  public S isAnnotation() {
+  public SELF isAnnotation() {
     classes.assertIsAnnotation(info, actual);
     return myself;
   }
@@ -135,7 +135,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is an annotation.
    */
-  public S isNotAnnotation() {
+  public SELF isNotAnnotation() {
     classes.assertIsNotAnnotation(info, actual);
     return myself;
   }
@@ -154,7 +154,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not final.
    */
-  public S isFinal() {
+  public SELF isFinal() {
     classes.assertIsFinal(info, actual);
     return myself;
   }
@@ -173,7 +173,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is final.
    */
-  public S isNotFinal() {
+  public SELF isNotFinal() {
     classes.assertIsNotFinal(info, actual);
     return myself;
   }
@@ -251,7 +251,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  public S hasAnnotations(@SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+  public SELF hasAnnotations(@SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
     classes.assertContainsAnnotations(info, actual, annotations);
     return myself;
   }
@@ -276,7 +276,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
   @SuppressWarnings("unchecked")
-  public S hasAnnotation(Class<? extends Annotation> annotation) {
+  public SELF hasAnnotation(Class<? extends Annotation> annotation) {
     classes.assertContainsAnnotations(info, actual, annotation);
     return myself;
   }
@@ -301,7 +301,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public S hasFields(String... fields) {
+  public SELF hasFields(String... fields) {
     classes.assertHasFields(info, actual, fields);
     return myself;
   }
@@ -325,7 +325,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public S hasDeclaredFields(String... fields) {
+  public SELF hasDeclaredFields(String... fields) {
     classes.assertHasDeclaredFields(info, actual, fields);
     return myself;
   }
