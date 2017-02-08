@@ -18,10 +18,7 @@ import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNo
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,13 +60,8 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
   @Test
   @UseDataProvider("equalIgnoringWhitespaceGenerator")
   public void should_fail_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
-    try {
-      strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreEqualIgnoringWhitespace(someInfo(), actual, expected);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotBeEqualIgnoringWhitespace(actual, expected));
+    strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
   @DataProvider
@@ -89,8 +81,4 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
     // @format:on
   }
 
-  private void verifyFailureThrownWhenStringsAreEqualIgnoringWhitespace(AssertionInfo info, String actual,
-                                                                        String expected) {
-    verify(failures).failure(info, shouldNotBeEqualIgnoringWhitespace(actual, expected));
-  }
 }

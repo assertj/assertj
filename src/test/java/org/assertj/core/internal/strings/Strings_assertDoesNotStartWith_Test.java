@@ -14,9 +14,7 @@ package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;
@@ -32,14 +30,8 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertDoesNotStartWith(info, "Yoda", "Yo");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotStartWith("Yoda", "Yo"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotStartWith("Yoda", "Yo"));
+    strings.assertDoesNotStartWith(someInfo(), "Yoda", "Yo");
   }
 
   @Test
@@ -67,14 +59,8 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(info, "Yoda", "yODA");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotStartWith("Yoda", "yODA", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotStartWith("Yoda", "yODA", comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(someInfo(), "Yoda", "yODA");
   }
 
 }

@@ -14,11 +14,8 @@ package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
@@ -43,26 +40,14 @@ public class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_given_string() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertIsSubstringOf(info, "Yoda", "oda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubstring("Yoda", "oda", StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeSubstring("Yoda", "oda", StandardComparisonStrategy.instance()));
+    strings.assertIsSubstringOf(someInfo(), "Yoda", "oda");
   }
 
   @Test
   public void should_fail_if_actual_completely_different_from_given_string() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertIsSubstringOf(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubstring("Yoda", "Luke", StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeSubstring("Yoda", "Luke", StandardComparisonStrategy.instance()));
+    strings.assertIsSubstringOf(someInfo(), "Yoda", "Luke");
   }
 
   @Test
@@ -86,14 +71,8 @@ public class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_a_substring_of_sequence_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertIsSubstringOf(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubstring("Yoda", "Luke", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeSubstring("Yoda", "Luke", comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertIsSubstringOf(someInfo(), "Yoda", "Luke");
   }
 
 }
