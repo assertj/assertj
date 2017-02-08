@@ -41,11 +41,9 @@ public class DoubleArrays {
 
   private Arrays arrays = Arrays.instance();
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private Failures failures = Failures.instance();
 
-  @VisibleForTesting
-  DoubleArrays() {
+  private DoubleArrays() {
     this(StandardComparisonStrategy.instance());
   }
 

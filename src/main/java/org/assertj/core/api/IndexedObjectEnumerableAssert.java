@@ -16,15 +16,15 @@ import org.assertj.core.data.Index;
 
 /**
  * Assertions methods applicable to indexed groups of objects (e.g. arrays or lists.)
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <T> the type of elements of the "actual" value.
+ * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerableAssert<S, T>, T> extends
-    ObjectEnumerableAssert<S, T> {
+public interface IndexedObjectEnumerableAssert<SELF extends IndexedObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT> extends
+    ObjectEnumerableAssert<SELF, ELEMENT> {
 
   /**
    * Verifies that the actual group contains the given object at the given index.
@@ -51,7 +51,7 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
    *           group.
    * @throws AssertionError if the actual group does not contain the given object at the given index.
    */
-  S contains(T value, Index index);
+  SELF contains(ELEMENT value, Index index);
 
   /**
    * Verifies that the actual group does not contain the given object at the given index.
@@ -76,5 +76,5 @@ public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerable
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual group contains the given object at the given index.
    */
-  S doesNotContain(T value, Index index);
+  SELF doesNotContain(ELEMENT value, Index index);
 }

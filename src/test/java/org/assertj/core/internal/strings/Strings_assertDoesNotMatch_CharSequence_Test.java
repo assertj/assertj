@@ -53,15 +53,9 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
 
   @Test
   public void should_fail_if_actual_matches_regular_expression() {
-    AssertionInfo info = someInfo();
     String regex = matchAnything().pattern();
-    try {
-      strings.assertDoesNotMatch(info, actual, regex);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotMatch(actual, regex));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotMatch(actual, regex));
+    strings.assertDoesNotMatch(someInfo(), actual, regex);
   }
 
   @Test
@@ -90,15 +84,9 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
 
   @Test
   public void should_fail_if_actual_matches_regular_expression_whatever_custom_comparison_strategy_is() {
-    AssertionInfo info = someInfo();
     String regex = matchAnything().pattern();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(info, actual, regex);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotMatch(actual, regex));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotMatch(actual, regex));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, regex);
   }
 
   @Test

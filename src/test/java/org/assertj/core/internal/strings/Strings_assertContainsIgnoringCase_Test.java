@@ -15,11 +15,7 @@ package org.assertj.core.internal.strings;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;
@@ -37,14 +33,8 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertContainsIgnoringCase(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainIgnoringCase("Yoda", "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke"));
+    strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke");
   }
 
   @Test
@@ -71,14 +61,8 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_whatever_custom_comparison_strategy_is() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainIgnoringCase("Yoda", "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke"));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke");
   }
 
   @Test

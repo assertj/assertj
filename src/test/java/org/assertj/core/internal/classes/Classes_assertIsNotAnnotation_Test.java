@@ -14,11 +14,8 @@ package org.assertj.core.internal.classes;
 
 import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.Test;
 
@@ -47,13 +44,7 @@ public class Classes_assertIsNotAnnotation_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_actual_is_an_annotation() {
     actual = Override.class;
-    AssertionInfo info = someInfo();
-    try {
-      classes.assertIsNotAnnotation(someInfo(), actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeAnnotation(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotBeAnnotation(actual));
+    classes.assertIsNotAnnotation(someInfo(), actual);
   }
 }

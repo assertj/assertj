@@ -60,14 +60,8 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_match_regular_expression() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertMatches(info, actual, "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldMatch(actual, "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldMatch(actual, "Luke"));
+    strings.assertMatches(someInfo(), actual, "Luke");
   }
 
   @Test

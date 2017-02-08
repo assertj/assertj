@@ -17,13 +17,13 @@ import java.util.concurrent.Future;
 import org.assertj.core.internal.Futures;
 import org.assertj.core.util.VisibleForTesting;
 
-public abstract class AbstractFutureAssert<S extends AbstractFutureAssert<S, A, T>, A extends Future<T>, T> extends
-    AbstractAssert<S, A> {
+public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends Future<RESULT>, RESULT> extends
+    AbstractAssert<SELF, ACTUAL> {
 
   @VisibleForTesting
   Futures futures = Futures.instance();
 
-  protected AbstractFutureAssert(A actual, Class<?> selfType) {
+  protected AbstractFutureAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -44,7 +44,7 @@ public abstract class AbstractFutureAssert<S extends AbstractFutureAssert<S, A, 
    * @see Future#isCancelled()
    * @since 2.7.0 / 3.7.0
    */
-  public S isCancelled() {
+  public SELF isCancelled() {
     futures.assertIsCancelled(info, actual);
     return myself;
   }
@@ -66,7 +66,7 @@ public abstract class AbstractFutureAssert<S extends AbstractFutureAssert<S, A, 
    * @see Future#isCancelled()
    * @since 2.7.0 / 3.7.0
    */
-  public S isNotCancelled() {
+  public SELF isNotCancelled() {
     futures.assertIsNotCancelled(info, actual);
     return myself;
   }
@@ -87,7 +87,7 @@ public abstract class AbstractFutureAssert<S extends AbstractFutureAssert<S, A, 
    * @see Future#isDone()
    * @since 2.7.0 / 3.7.0
    */
-  public S isDone() {
+  public SELF isDone() {
     futures.assertIsDone(info, actual);
     return myself;
   }
@@ -108,7 +108,7 @@ public abstract class AbstractFutureAssert<S extends AbstractFutureAssert<S, A, 
    * @see Future#isDone()
    * @since 2.7.0 / 3.7.0
    */
-  public S isNotDone() {
+  public SELF isNotDone() {
     futures.assertIsNotDone(info, actual);
     return myself;
   }

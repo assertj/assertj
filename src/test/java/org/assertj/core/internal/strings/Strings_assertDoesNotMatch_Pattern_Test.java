@@ -14,11 +14,8 @@ package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.test.ErrorMessages.regexPatternIsNull;
-import static org.assertj.core.test.TestData.*;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-
-
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.test.TestData.matchAnything;
+import static org.assertj.core.test.TestData.someInfo;
 
 import java.util.regex.Pattern;
 
@@ -47,15 +44,9 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_matches_Pattern() {
-    AssertionInfo info = someInfo();
     Pattern pattern = matchAnything();
-    try {
-      strings.assertDoesNotMatch(info, actual, pattern);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotMatch(actual, pattern.pattern()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()));
+    strings.assertDoesNotMatch(someInfo(), actual, pattern);
   }
 
   @Test
@@ -77,15 +68,9 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
-    AssertionInfo info = someInfo();
     Pattern pattern = matchAnything();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(info, actual, pattern);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotMatch(actual, pattern.pattern()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
   }
 
   @Test

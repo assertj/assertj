@@ -14,16 +14,12 @@ package org.assertj.core.internal.classes;
 
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
 
 /**
@@ -59,16 +55,10 @@ public class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_fields_are_missing() {
-    AssertionInfo info = someInfo();
     String[] expected = new String[] { "missingField", "publicField" };
-    try {
-      classes.assertHasDeclaredFields(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDeclaredFields(actual,
-                                                              newLinkedHashSet(expected),
-                                                              newLinkedHashSet("missingField")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveDeclaredFields(actual,
+                                                         newLinkedHashSet(expected),
+                                                         newLinkedHashSet("missingField")));
+    classes.assertHasDeclaredFields(someInfo(), actual, expected);
   }
 }

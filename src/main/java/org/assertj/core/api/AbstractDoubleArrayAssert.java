@@ -20,8 +20,8 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.util.VisibleForTesting;
 
-public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAssert<S>>
-    extends AbstractArrayAssert<S, double[], Double> {
+public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArrayAssert<SELF>>
+    extends AbstractArrayAssert<SELF, double[], Double> {
 
   @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
@@ -46,7 +46,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /** {@inheritDoc} */
   @Override
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return myself;
   }
@@ -64,7 +64,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * </p>
    */
   @Override
-  public S hasSize(int expected) {
+  public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
@@ -80,7 +80,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSameSizeAs(Arrays.asList(1, 2));</code></pre>
    */
   @Override
-  public S hasSameSizeAs(Iterable<?> other) {
+  public SELF hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -112,7 +112,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(double... values) {
+  public SELF contains(double... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -139,7 +139,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(double[] values, Offset<Double> precision) {
+  public SELF contains(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return contains(values);
   }
@@ -176,7 +176,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(double... values) {
+  public SELF containsOnly(double... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -207,7 +207,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(double[] values, Offset<Double> precision) {
+  public SELF containsOnly(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsOnly(values);
   }
@@ -239,7 +239,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(double... values) {
+  public SELF containsOnlyOnce(double... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -266,7 +266,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
   *           or none of the given values, or the actual group contains more than once these values.
   */
-  public S containsOnlyOnce(double[] values, Offset<Double> precision) {
+  public SELF containsOnlyOnce(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsOnlyOnce(values);
   }
@@ -299,7 +299,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(double... sequence) {
+  public SELF containsSequence(double... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -327,7 +327,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(double[] sequence, Offset<Double> precision) {
+  public SELF containsSequence(double[] sequence, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsSequence(sequence);
   }
@@ -360,7 +360,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(double... subsequence) {
+  public SELF containsSubsequence(double... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -388,7 +388,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(double[] subsequence, Offset<Double> precision) {
+  public SELF containsSubsequence(double[] subsequence, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsSubsequence(subsequence);
   }
@@ -425,7 +425,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(double value, Index index) {
+  public SELF contains(double value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -457,7 +457,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(double value, Index index, Offset<Double> precision) {
+  public SELF contains(double value, Index index, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return contains(value, index);
   }
@@ -488,7 +488,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(double... values) {
+  public SELF doesNotContain(double... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -514,7 +514,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(double[] values, Offset<Double> precision) {
+  public SELF doesNotContain(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
@@ -549,7 +549,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(double value, Index index) {
+  public SELF doesNotContain(double value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -576,7 +576,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(double value, Index index, Offset<Double> precision) {
+  public SELF doesNotContain(double value, Index index, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return doesNotContain(value, index);
   }
@@ -602,7 +602,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  public SELF doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -626,7 +626,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates(Offset<Double> precision) {
+  public SELF doesNotHaveDuplicates(Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return doesNotHaveDuplicates();
   }
@@ -659,7 +659,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(double... sequence) {
+  public SELF startsWith(double... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -689,7 +689,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S startsWith(double[] values, Offset<Double> precision) {
+  public SELF startsWith(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return startsWith(values);
   }
@@ -720,7 +720,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(double... sequence) {
+  public SELF endsWith(double... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -750,35 +750,35 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(double[] values, Offset<Double> precision) {
+  public SELF endsWith(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return endsWith(values);
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSorted() {
+  public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSortedAccordingTo(Comparator<? super Double> comparator) {
+  public SELF isSortedAccordingTo(Comparator<? super Double> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingElementComparator(Comparator<? super Double> customComparator) {
+  public SELF usingElementComparator(Comparator<? super Double> customComparator) {
     this.arrays = new DoubleArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingDefaultElementComparator() {
+  public SELF usingDefaultElementComparator() {
     this.arrays = DoubleArrays.instance();
     return myself;
   }
@@ -809,7 +809,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(double... values) {
+  public SELF containsExactly(double... values) {
     arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
@@ -835,7 +835,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
-  public S containsExactlyInAnyOrder(double... values) {
+  public SELF containsExactlyInAnyOrder(double... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
@@ -865,7 +865,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           with same order, i.e. the actual group contains some or none of the given values, or the actual group contains 
    *           more values than the given ones or values are the same but the order is not.
    */
-  public S containsExactly(double[] values, Offset<Double> precision) {
+  public SELF containsExactly(double[] values, Offset<Double> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsExactly(values);
   }
@@ -877,7 +877,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @param precision precisin used to compare {@link Double}.
    * @return {@code this} assertion object.
    */
-  public S usingComparatorWithPrecision(Double precision) {
+  public SELF usingComparatorWithPrecision(Double precision) {
     return usingElementComparator(doubleComparator.doubleComparatorWithPrecision(precision));
   }
 

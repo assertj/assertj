@@ -15,11 +15,7 @@ package org.assertj.core.internal.strings;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;
@@ -36,14 +32,8 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_sequence() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertDoesNotContain(info, "Yoda", "oda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain("Yoda", "oda"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotContain("Yoda", "oda"));
+    strings.assertDoesNotContain(someInfo(), "Yoda", "oda");
   }
 
   @Test
@@ -70,14 +60,8 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, "Yoda", "yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain("Yoda", "yoda", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotContain("Yoda", "yoda", comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "yoda");
   }
 
 }

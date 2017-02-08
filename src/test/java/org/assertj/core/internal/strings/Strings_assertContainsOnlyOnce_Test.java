@@ -15,9 +15,7 @@ package org.assertj.core.internal.strings;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;
@@ -37,38 +35,20 @@ public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_given_string_more_than_once() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertContainsOnlyOnce(info, "Yodayoda", "oda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyOnce("Yodayoda", "oda", 2));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yodayoda", "oda", 2));
+    strings.assertContainsOnlyOnce(someInfo(), "Yodayoda", "oda");
   }
 
   @Test
   public void should_fail_if_actual_contains_sequence_only_once_but_in_different_case() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertContainsOnlyOnce(info, "Yoda", "yo");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyOnce("Yoda", "yo", 0));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "yo", 0));
+    strings.assertContainsOnlyOnce(someInfo(), "Yoda", "yo");
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_string() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertContainsOnlyOnce(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyOnce("Yoda", "Luke", 0));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0));
+    strings.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
   }
 
   @Test
@@ -92,26 +72,14 @@ public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_only_once_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
   }
 
   @Test
   public void should_fail_if_actual_contains_sequence_several_times_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
   }
 
 }

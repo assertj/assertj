@@ -14,9 +14,7 @@ package org.assertj.core.internal.classes;
 
 import static org.assertj.core.error.ShouldBeFinal.shouldNotBeFinal;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
@@ -32,7 +30,7 @@ public class Classes_assertIsNotFinal_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    classes.assertIsAnnotation(someInfo(), null);
+    classes.assertIsNotFinal(someInfo(), null);
   }
 
   @Test
@@ -42,13 +40,7 @@ public class Classes_assertIsNotFinal_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_a_final_class() {
-    AssertionInfo info = someInfo();
-    try {
-      classes.assertIsNotFinal(someInfo(), String.class);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeFinal(String.class));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotBeFinal(String.class));
+    classes.assertIsNotFinal(someInfo(), String.class);
   }
 }

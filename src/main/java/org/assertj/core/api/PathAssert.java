@@ -17,8 +17,7 @@ import java.nio.file.Path;
 /**
  * Assertion class for {@link Path}s
  */
-public class PathAssert extends AbstractPathAssert<PathAssert>
-{
+public class PathAssert extends AbstractPathAssert<PathAssert> {
     /**
      * Constructor
      *

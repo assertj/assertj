@@ -19,10 +19,10 @@ import java.util.function.Predicate;
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * @param <T> the type of elements of the "actual" value.
+ * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -31,7 +31,7 @@ import java.util.function.Predicate;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, T> extends EnumerableAssert<S, T> {
+public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT> extends EnumerableAssert<SELF, ELEMENT> {
 
   /**
    * Verifies that the actual group contains the given values, in any order.
@@ -53,7 +53,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values.
    */
-  S contains(@SuppressWarnings("unchecked") T... values);
+  SELF contains(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in any order</b>.
@@ -75,7 +75,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more values than the given ones.
    */
-  S containsOnly(@SuppressWarnings("unchecked") T... values);
+  SELF containsOnly(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that the actual group contains the given values only once.
@@ -100,7 +100,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  S containsOnlyOnce(@SuppressWarnings("unchecked") T... values);
+  SELF containsOnlyOnce(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.<br>
@@ -125,7 +125,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  S containsExactly(@SuppressWarnings("unchecked") T... values);
+  SELF containsExactly(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
@@ -148,7 +148,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    */
-  S containsExactlyInAnyOrder(@SuppressWarnings("unchecked") T... values);
+  SELF containsExactlyInAnyOrder(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that the actual group contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
@@ -173,7 +173,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
-  S containsSequence(@SuppressWarnings("unchecked") T... sequence);
+  SELF containsSequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
 
   /**
    * Verifies that the actual group contains the given subsequence in the correct order (possibly with other values between them).
@@ -195,7 +195,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given subsequence.
    */
-  S containsSubsequence(@SuppressWarnings("unchecked") T... sequence);
+  SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
 
   /**
    * Verifies that the actual group does not contain the given values.
@@ -220,7 +220,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains any of the given values.
    */
-  S doesNotContain(@SuppressWarnings("unchecked") T... values);
+  SELF doesNotContain(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that the actual group does not contain duplicates.
@@ -240,7 +240,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains duplicates.
    */
-  S doesNotHaveDuplicates();
+  SELF doesNotHaveDuplicates();
 
   /**
    * Verifies that the actual group starts with the given sequence of objects, without any other objects between them.
@@ -265,7 +265,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not start with the given sequence of objects.
    */
-  S startsWith(@SuppressWarnings("unchecked") T... sequence);
+  SELF startsWith(@SuppressWarnings("unchecked") ELEMENT... sequence);
 
   /**
    * Verifies that the actual group ends with the given sequence of objects, without any other objects between them.
@@ -291,7 +291,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
-  S endsWith(@SuppressWarnings("unchecked") T... sequence);
+  SELF endsWith(@SuppressWarnings("unchecked") ELEMENT... sequence);
 
   /**
    * Verifies that the actual group contains at least a null element.
@@ -310,7 +310,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain a null element.
    */
-  S containsNull();
+  SELF containsNull();
 
   /**
    * Verifies that the actual group does not contain null elements.
@@ -329,7 +329,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains a null element.
    */
-  S doesNotContainNull();
+  SELF doesNotContainNull();
 
   /**
    * Verifies that each element value satisfies the given condition.
@@ -353,7 +353,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
-  S are(Condition<? super T> condition);
+  SELF are(Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that each element value does not satisfy the given condition.
@@ -377,7 +377,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
-  S areNot(Condition<? super T> condition);
+  SELF areNot(Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that all elements satisfy the given condition.
@@ -401,7 +401,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
-  S have(Condition<? super T> condition);
+  SELF have(Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that all elements do not satisfy the given condition.
@@ -425,7 +425,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
-  S doNotHave(Condition<? super T> condition);
+  SELF doNotHave(Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there are <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -448,7 +448,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element can not be cast to T.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
-  S areAtLeast(int n, Condition<? super T> condition);
+  SELF areAtLeast(int n, Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
@@ -461,7 +461,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *
    * @see #haveAtLeast(int, Condition)
    */
-  S areAtLeastOne(Condition<? super T> condition);
+  SELF areAtLeastOne(Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there are <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -485,7 +485,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
-  S areAtMost(int n, Condition<? super T> condition);
+  SELF areAtMost(int n, Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -509,7 +509,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
-  S areExactly(int n, Condition<? super T> condition);
+  SELF areExactly(int n, Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
@@ -524,7 +524,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *
    * @see #haveAtLeast(int, Condition)
    */
-  S haveAtLeastOne(Condition<? super T> condition);
+  SELF haveAtLeastOne(Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there are <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
@@ -542,7 +542,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
-  S haveAtLeast(int n, Condition<? super T> condition);
+  SELF haveAtLeast(int n, Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there are <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -561,7 +561,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *
    * This method is an alias {@link #areAtMost(int, Condition)}.
    */
-  S haveAtMost(int n, Condition<? super T> condition);
+  SELF haveAtMost(int n, Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -580,7 +580,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *
    * This method is an alias {@link #areExactly(int, Condition)}.
    */
-  S haveExactly(int n, Condition<? super T> condition);
+  SELF haveExactly(int n, Condition<? super ELEMENT> condition);
 
   /**
    * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.
@@ -602,7 +602,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
    */
-  S containsAll(Iterable<? extends T> iterable);
+  SELF containsAll(Iterable<? extends ELEMENT> iterable);
 
   /**
    * Verifies that at least one element in the actual {@code Object} group has the specified type (matching
@@ -622,7 +622,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given type is {@code null}.
    * @throws AssertionError if the actual {@code Object} group does not have any elements of the given type.
    */
-  S hasAtLeastOneElementOfType(Class<?> expectedType);
+  SELF hasAtLeastOneElementOfType(Class<?> expectedType);
 
   /**
    * Verifies that all the elements in the actual {@code Object} group belong to the specified type (matching includes
@@ -642,7 +642,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given type is {@code null}.
    * @throws AssertionError if one element is not of the expected type.
    */
-  S hasOnlyElementsOfType(Class<?> expectedType);
+  SELF hasOnlyElementsOfType(Class<?> expectedType);
 
   /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
@@ -659,7 +659,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    */
-  S containsExactlyElementsOf(Iterable<? extends T> iterable);
+  SELF containsExactlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
@@ -679,7 +679,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    */
-  S containsOnlyElementsOf(Iterable<? extends T> iterable);
+  SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
@@ -703,7 +703,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
    *           {@code Iterable}
    */
-  S hasSameElementsAs(Iterable<? extends T> iterable);
+  SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable);
 
   /**
    * Verifies that actual does not contain any elements of the given {@link Iterable} (i.e. none).
@@ -724,7 +724,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
    */
-  S doesNotContainAnyElementsOf(Iterable<? extends T> iterable);
+  SELF doesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
    * Verifies that all the elements of actual are present in the given {@code Iterable}.
@@ -746,7 +746,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
-  S isSubsetOf(Iterable<? extends T> values);
+  SELF isSubsetOf(Iterable<? extends ELEMENT> values);
   
   /**
    * Verifies that all the elements of actual are present in the given values.
@@ -768,7 +768,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
    */
-  S isSubsetOf(@SuppressWarnings("unchecked") T... values);
+  SELF isSubsetOf(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that all the elements of actual match the given {@link Predicate}.
@@ -791,7 +791,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element cannot be cast to T.
    * @throws AssertionError if one or more elements don't satisfy the given predicate.
    */
-  S allMatch(Predicate<? super T> predicate);
+  SELF allMatch(Predicate<? super ELEMENT> predicate);
 
   /**
    * Verifies that all the elements of actual match the given {@link Predicate}. The predicate description is used
@@ -822,7 +822,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if one or more elements don't satisfy the given predicate.
    * @since 3.6.0
    */
-  S allMatch(Predicate<? super T> predicate, String predicateDescription);
+  SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);
 
   /**
    * Verifies that all the elements satisfy given requirements expressed as a {@link Consumer}.
@@ -842,6 +842,6 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if one or more elements don't satisfy given requirements.
    * @since 3.6.0
    */
-  S allSatisfy(Consumer<? super T> requirements);
+  SELF allSatisfy(Consumer<? super ELEMENT> requirements);
 
 }

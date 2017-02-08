@@ -17,13 +17,10 @@ import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldCon
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
@@ -43,28 +40,16 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertContainsSequence(info, "Yoda", array("Yo", "da", "Han"));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")));
+    strings.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
   }
 
   @Test
   public void should_fail_if_actual_contains_values_but_not_in_given_order() {
-    AssertionInfo info = someInfo();
     String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-    try {
-      strings.assertContainsSequence(info, actual, sequenceValues);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, 1));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues, 1));
+    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
   @Test
@@ -94,8 +79,6 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   public void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value_bug_544() {
     strings.assertContainsSequence(someInfo(), "a-b-c-", array("a", "-", "b", "-", "c"));
   }
-  
-  // tests with custom comparison strategy
 
   @Test
   public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
@@ -106,30 +89,17 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, "Yoda", array("Yo", "da", "Han"));
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
-                                             comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
+                                              comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
   }
 
   @Test
   public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
     String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequenceValues);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequenceValues, 1, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues, 1, comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
 }

@@ -19,8 +19,8 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.util.VisibleForTesting;
 
-public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>>
-  extends AbstractArrayAssert<S, int[], Integer> {
+public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert<SELF>>
+  extends AbstractArrayAssert<SELF, int[], Integer> {
 
   @VisibleForTesting
   protected IntArrays arrays = IntArrays.instance();
@@ -43,21 +43,21 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
 
   /** {@inheritDoc} */
   @Override
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S hasSize(int expected) {
+  public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S hasSameSizeAs(Iterable<?> other) {
+  public SELF hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -82,7 +82,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(int... values) {
+  public SELF contains(int... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -107,7 +107,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(int... values) {
+  public SELF containsOnly(int... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -132,7 +132,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(int... values) {
+  public SELF containsOnlyOnce(int... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -156,7 +156,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(int... sequence) {
+  public SELF containsSequence(int... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -180,7 +180,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(int... subsequence) {
+  public SELF containsSubsequence(int... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -206,7 +206,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(int value, Index index) {
+  public SELF contains(int value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -228,7 +228,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(int... values) {
+  public SELF doesNotContain(int... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -252,7 +252,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(int value, Index index) {
+  public SELF doesNotContain(int value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -271,7 +271,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  public SELF doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -295,7 +295,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(int... sequence) {
+  public SELF startsWith(int... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -319,35 +319,35 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(int... sequence) {
+  public SELF endsWith(int... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSorted() {
+  public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSortedAccordingTo(Comparator<? super Integer> comparator) {
+  public SELF isSortedAccordingTo(Comparator<? super Integer> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingElementComparator(Comparator<? super Integer> customComparator) {
+  public SELF usingElementComparator(Comparator<? super Integer> customComparator) {
     this.arrays = new IntArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingDefaultElementComparator() {
+  public SELF usingDefaultElementComparator() {
     this.arrays = IntArrays.instance();
     return myself;
   }
@@ -372,7 +372,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(int... values) {
+  public SELF containsExactly(int... values) {
     arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
@@ -398,7 +398,7 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
-  public S containsExactlyInAnyOrder(int... values) {
+  public SELF containsExactlyInAnyOrder(int... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
