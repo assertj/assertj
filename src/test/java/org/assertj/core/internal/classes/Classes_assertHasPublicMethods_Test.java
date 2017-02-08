@@ -44,12 +44,12 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_pass_if_no_fields_are_expected() {
+  public void should_pass_if_no_methods_are_expected() {
     classes.assertHasPublicMethods(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_fields_are_public() {
+  public void should_pass_if_methods_are_public() {
     classes.assertHasPublicMethods(someInfo(), actual, "publicMethod");
   }
 

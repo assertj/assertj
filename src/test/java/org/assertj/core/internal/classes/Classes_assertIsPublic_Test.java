@@ -32,12 +32,12 @@ public class Classes_assertIsPublic_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_a_final_class() {
+  public void should_pass_if_actual_is_a_public_class() {
     classes.assertIsPublic(someInfo(), Math.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_final_class() {
+  public void should_fail_if_actual_is_not_a_public_class() {
     AssertionInfo info = someInfo();
     try {
       classes.assertIsPublic(someInfo(), MethodsClass.class);
