@@ -12,41 +12,37 @@
  */
 package org.assertj.core.internal.classes;
 
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.Test;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Classes#assertIsFinal(AssertionInfo, Class)}</code>.
- *
- * @author Michal Kordas
- */
-public class Classes_assertIsFinal_Test extends ClassesBaseTest {
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.verify;
+
+public class Classes_assertIsPublic_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    classes.assertIsAnnotation(someInfo(), null);
+    classes.assertIsPublic(someInfo(), null);
   }
 
   @Test
   public void should_pass_if_actual_is_a_final_class() {
-    classes.assertIsFinal(someInfo(), Math.class);
+    classes.assertIsPublic(someInfo(), Math.class);
   }
 
   @Test
   public void should_fail_if_actual_is_not_a_final_class() {
     AssertionInfo info = someInfo();
     try {
-      classes.assertIsFinal(someInfo(), Object.class);
+      classes.assertIsPublic(someInfo(), MethodsClass.class);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeFinal(Object.class));
+      verify(failures).failure(info, shouldBePublic(MethodsClass.class));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -12,34 +12,49 @@
  */
 package org.assertj.core.error;
 
+import java.lang.reflect.Modifier;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a class is (or is not) final.
  *
  * @author Michal Kordas
  */
-public class ShouldBeFinal extends BasicErrorMessageFactory {
+public class ClassModifierShouldBe extends BasicErrorMessageFactory {
 
-  private ShouldBeFinal(Class<?> actual, boolean positive) {
-    super("%nExpecting:%n  <%s>%n" + (positive ? "to" : "not to") + " be a final class.", actual);
+  private ClassModifierShouldBe(Class<?> actual, boolean positive, String modifier) {
+    super("%nExpecting:%n  <%s>%n" + (positive ? "to" : "not to") + " be a %s class.", actual, modifier);
+  }
+
+  private ClassModifierShouldBe(Class<?> actual, String modifier) {
+    this(actual, true, modifier);
   }
 
   /**
-   * Creates a new {@link ShouldBeFinal}.
+   * Creates a new {@link ClassModifierShouldBe}.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeFinal(Class<?> actual) {
-    return new ShouldBeFinal(actual, true);
+    return new ClassModifierShouldBe(actual, true, Modifier.toString(Modifier.FINAL));
   }
 
   /**
-   * Creates a new {@link ShouldBeFinal}.
+   * Creates a new {@link ClassModifierShouldBe}.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeFinal(Class<?> actual) {
-    return new ShouldBeFinal(actual, false);
+    return new ClassModifierShouldBe(actual, false, Modifier.toString(Modifier.FINAL));
   }
+
+  public static ErrorMessageFactory shouldBePublic(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, Modifier.toString(Modifier.PUBLIC));
+  }
+
+  public static ErrorMessageFactory shouldBeProtected(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, Modifier.toString(Modifier.PROTECTED));
+  }
+
 }

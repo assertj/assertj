@@ -14,13 +14,13 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeFinal.shouldBeFinal;
-import static org.assertj.core.error.ShouldBeFinal.shouldNotBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 
 import org.assertj.core.internal.TestDescription;
 import org.junit.Test;
 
-public class ShouldBeFinal_create_Test {
+public class ClassModifierShouldBe_create_Test {
 
   @Test
   public void should_create_error_message_for_is_final() {
@@ -29,7 +29,7 @@ public class ShouldBeFinal_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting:%n" +
                                        "  <java.lang.Object>%n" +
-                                       "to be a final class."));
+                                       "to be a \"final\" class."));
   }
 
   @Test
@@ -39,6 +39,6 @@ public class ShouldBeFinal_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting:%n" +
                                        "  <java.lang.String>%n" +
-                                       "not to be a final class."));
+                                       "not to be a \"final\" class."));
   }
 }

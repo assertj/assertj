@@ -62,6 +62,15 @@ public abstract class ClassesBaseTest {
 
   }
 
+  protected static class MethodsClass {
+    public void publicMethod() {}
+
+    protected void protectedMethod() {}
+
+    private void privateMethod() {}
+
+  }
+
   @Before
   public void setUp() {
     failures = spy(new Failures());

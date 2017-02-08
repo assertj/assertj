@@ -12,24 +12,27 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ClassModifierShouldBe.*;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
-import static org.assertj.core.error.ShouldBeFinal.shouldBeFinal;
-import static org.assertj.core.error.ShouldBeFinal.shouldNotBeFinal;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
+import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
@@ -147,6 +150,35 @@ public class Classes {
   }
 
   /**
+   * Verifies that the actual {@code Class} is public.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not public.
+   */
+  public void assertIsPublic(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    if(!Modifier.isPublic(actual.getModifiers())) {
+      throw failures.failure(info, shouldBePublic(actual));
+    }
+  }
+  /**
+   * Verifies that the actual {@code Class} is protected.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not protected.
+   */
+  public void assertIsProtected(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    if(!Modifier.isProtected(actual.getModifiers())) {
+      throw failures.failure(info, shouldBeProtected(actual));
+    }
+  }
+
+  /**
    * Verifies that the actual {@code Class} is not final.
    *
    * @param info contains information about the assertion.
@@ -195,16 +227,16 @@ public class Classes {
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
     Set<String> actualFieldNames = fieldsToName(actual.getFields());
-    if (noMissingFields(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
+    if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
     throw failures.failure(info, shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
   }
 
-  private static boolean noMissingFields(Set<String> actualFieldNames, Set<String> expectedFieldNames,
-                                         Set<String> missingFieldNames) {
-    for (String field : expectedFieldNames) {
-      if (!actualFieldNames.contains(field)) missingFieldNames.add(field);
+  private static boolean noMissingElement(Set<String> actualNames, Set<String> expectedNames,
+                                          Set<String> missingNames) {
+    for (String field : expectedNames) {
+      if (!actualNames.contains(field)) missingNames.add(field);
     }
-    return missingFieldNames.isEmpty();
+    return missingNames.isEmpty();
   }
 
   /**
@@ -221,7 +253,7 @@ public class Classes {
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
     Set<String> actualFieldNames = fieldsToName(actual.getDeclaredFields());
-    if (noMissingFields(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
+    if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
     throw failures.failure(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
   }
 
@@ -231,6 +263,115 @@ public class Classes {
       fieldsName.add(field.getName());
     }
     return fieldsName;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the {@code methods}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param methods the methods who must be present in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   */
+  public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
+    assertNotNull(info, actual);
+    doAssertHasMethods(info,actual, actual.getMethods(), methods);
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the declared {@code methods}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param methods the methods who must be declared in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   */
+  public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
+    assertNotNull(info, actual);
+    doAssertHasMethods(info, actual, actual.getDeclaredMethods(), methods);
+  }
+
+  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Method[] methods, String... expectedMethods) {
+    Set<String> expectedMethodNames = newLinkedHashSet(expectedMethods);
+    Set<String> missingMethodNames = newLinkedHashSet();
+    Set<String> actualMethodNames = methodsToName(methods);
+
+    if (!noMissingElement(actualMethodNames, expectedMethodNames, missingMethodNames)) {
+      throw failures.failure(info, shouldHaveMethods(actual, expectedMethodNames, missingMethodNames));
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the public {@code methods}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param methods the public methods who must be present in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
+   */
+  public void assertHasPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
+    assertNotNull(info, actual);
+    doAssertHasPublicMethods(info, actual, actual.getMethods(), methods);
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the declared public {@code methods}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param methods the public methods who must be present in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
+   */
+  public void assertHasDeclaredPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
+    assertNotNull(info, actual);
+    doAssertHasPublicMethods(info, actual, actual.getDeclaredMethods(), methods);
+  }
+
+  private void doAssertHasPublicMethods(AssertionInfo info, Class<?> actual, Method[] methods, String... expectedMethods) {
+    Set<String> expectedMethodNames = newLinkedHashSet(expectedMethods);
+    Set<String> missingMethodNames = newLinkedHashSet();
+    Map<String,Integer> actualMethods = methodsToNameAndModifier(methods);
+
+    if (!noMissingElement(actualMethods.keySet(), expectedMethodNames, missingMethodNames)) {
+      throw failures.failure(info, shouldHaveMethods(actual, expectedMethodNames, missingMethodNames));
+    }
+    Map<String,String> nonMatchingModifiers= new LinkedHashMap<>();
+    if(!noNonMatchingModifier(expectedMethodNames, actualMethods, nonMatchingModifiers, Modifier.PUBLIC)) {
+
+      throw failures.failure(info, shouldHaveMethods(actual, expectedMethodNames, Modifier.toString(Modifier.PUBLIC), nonMatchingModifiers));
+    }
+  }
+
+  private static boolean noNonMatchingModifier(Set<String> expectedMethodNames, Map<String, Integer> actualMethods, Map<String, String> nonMatchingModifiers, int modifier) {
+    for (String method : actualMethods.keySet()) {
+      if(expectedMethodNames.contains(method)) {
+        if ((actualMethods.get(method) & modifier) == 0) {
+          nonMatchingModifiers.put(method, Modifier.toString(actualMethods.get(method)));
+        }
+      }
+    }
+    return nonMatchingModifiers.isEmpty();
+  }
+
+
+  private static Set<String> methodsToName(Method[] methods) {
+    Set<String> methodsName = new LinkedHashSet<>(methods.length);
+    for (Method method : methods) {
+      methodsName.add(method.getName());
+    }
+    return methodsName;
+  }
+
+  private static Map<String,Integer> methodsToNameAndModifier(Method[] methods) {
+    Map<String,Integer> methodMap = new LinkedHashMap<>(methods.length);
+    for (Method method : methods) {
+      methodMap.put(method.getName(), method.getModifiers());
+    }
+    return methodMap;
   }
 
   private static void assertNotNull(AssertionInfo info, Class<?> actual) {

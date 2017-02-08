@@ -179,6 +179,51 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   }
 
   /**
+   * Verifies that the actual {@code Class} is public (has {@code public} modifier).
+   *
+   * <pre><code class='java'> protected class MyClass { }
+   *
+   * // These assertions succeed:
+   * assertThat(String.class).isPublic();
+   * assertThat(Math.class).isPublic();
+   *
+   * // This assertion fail:
+   * assertThat(MyClass.class).isPublic();</code></pre>
+   *
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not public.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public S isPublic() {
+    classes.assertIsPublic(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is protected (has {@code protected} modifier).
+   *
+   * <pre><code class='java'> public class MyClass { }
+   *
+   * // This assertion succeed:
+   * assertThat(MyClass.class).isProtected();
+   *
+   * // These assertions fail:
+   * assertThat(String.class).isProtected();
+   * assertThat(Math.class).isProtected();</code></pre>
+   *
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not protected.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public S isProtected() {
+    classes.assertIsProtected(info, actual);
+    return myself;
+  }
+
+
+  /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
    * 
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
@@ -282,6 +327,113 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    */
   public S hasDeclaredFields(String... fields) {
     classes.assertHasDeclaredFields(info, actual, fields);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the {@code methods}.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public void methodOne() {}
+   *     private void methodTwo() {}
+   * }
+   *
+   * // This one should pass :
+   * assertThat(MyClass.class).hasMethods("methodOne");
+   *
+   * // This one should fail :
+   * assertThat(MyClass.class).hasMethods("methodTwo");
+   * assertThat(MyClass.class).hasMethods("methodThree");</code></pre>
+   *
+   * @param methods the methods which must be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public S hasMethods(String... methods) {
+    classes.assertHasMethods(info, actual, methods);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the declared {@code methods}.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public void methodOne() {}
+   *     private void methodTwo() {}
+   * }
+   *
+   * // This one should pass :
+   * assertThat(MyClass.class).hasDeclaredMethods("methodOne", "methodTwo");
+   *
+   * // This one should fail :
+   * assertThat(MyClass.class).hasDeclaredMethods("methodThree");</code></pre>
+   *
+   * @param methods the methods which must be declared in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public S hasDeclaredMethods(String... methods) {
+    classes.assertHasDeclaredMethods(info, actual, methods);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the public {@code methods}.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public void methodOne() {}
+   *     public void methodTwo() {}
+   *     protected void methodThree() {}
+   * }
+   *
+   * // This one should pass :
+   * assertThat(MyClass.class).hasPublicMethods("methodOne");
+   * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodTwo");
+   *
+   * // This one should fail :
+   * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodThree");
+   * assertThat(MyClass.class).hasPublicMethods("methodThree");</code></pre>
+   *
+   * @param methods the public methods which must be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public S hasPublicMethods(String... methods) {
+    classes.assertHasPublicMethods(info, actual, methods);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the declared public {@code methods}.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public void methodOne() {}
+   *     public void methodTwo() {}
+   *     protected void methodThree() {}
+   * }
+   *
+   * // This one should pass :
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne");
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodTwo");
+   *
+   * // This one should fail :
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodThree");
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodThree");</code></pre>
+   *
+   * @param methods the public methods which must be declared in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public S hasDeclaredPublicMethods(String... methods) {
+    classes.assertHasDeclaredPublicMethods(info, actual, methods);
     return myself;
   }
 }
