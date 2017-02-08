@@ -195,7 +195,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S isPublic() {
+  public SELF isPublic() {
     classes.assertIsPublic(info, actual);
     return myself;
   }
@@ -217,7 +217,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S isProtected() {
+  public SELF isProtected() {
     classes.assertIsProtected(info, actual);
     return myself;
   }
@@ -351,7 +351,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S hasMethods(String... methods) {
+  public SELF hasMethods(String... methods) {
     classes.assertHasMethods(info, actual, methods);
     return myself;
   }
@@ -376,7 +376,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S hasDeclaredMethods(String... methods) {
+  public SELF hasDeclaredMethods(String... methods) {
     classes.assertHasDeclaredMethods(info, actual, methods);
     return myself;
   }
@@ -404,7 +404,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S hasPublicMethods(String... methods) {
+  public SELF hasPublicMethods(String... methods) {
     classes.assertHasPublicMethods(info, actual, methods);
     return myself;
   }
@@ -432,7 +432,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S hasDeclaredPublicMethods(String... methods) {
+  public SELF hasDeclaredPublicMethods(String... methods) {
     classes.assertHasDeclaredPublicMethods(info, actual, methods);
     return myself;
   }
