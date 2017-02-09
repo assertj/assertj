@@ -388,5 +388,4 @@ public class Classes {
   private static void classParameterIsNotNull(Class<?> clazz) {
     checkNotNull(clazz, "The class to compare actual with should not be null");
   }
-
 }
