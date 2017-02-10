@@ -23,6 +23,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, AtomicInteger> {
@@ -365,6 +366,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
   }
 
   @Override
+  @CheckReturnValue
   public AtomicIntegerAssert usingComparator(Comparator<? super AtomicInteger> customComparator) {
     super.usingComparator(customComparator);
     integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
@@ -372,6 +374,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
   }
 
   @Override
+  @CheckReturnValue
   public AtomicIntegerAssert usingDefaultComparator() {
     super.usingDefaultComparator();
     integers = Integers.instance();

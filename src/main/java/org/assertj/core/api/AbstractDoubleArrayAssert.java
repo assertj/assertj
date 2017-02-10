@@ -18,6 +18,7 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.DoubleArrays;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArrayAssert<SELF>>
@@ -771,6 +772,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super Double> customComparator) {
     this.arrays = new DoubleArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
@@ -778,6 +780,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     this.arrays = DoubleArrays.instance();
     return myself;
@@ -877,6 +880,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @param precision precisin used to compare {@link Double}.
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF usingComparatorWithPrecision(Double precision) {
     return usingElementComparator(doubleComparator.doubleComparatorWithPrecision(precision));
   }

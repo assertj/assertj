@@ -18,6 +18,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Floats;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -527,6 +528,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super Float> customComparator) {
     super.usingComparator(customComparator);
     floats = new Floats(new ComparatorBasedComparisonStrategy(customComparator));
@@ -534,6 +536,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     floats = Floats.instance();

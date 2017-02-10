@@ -21,6 +21,7 @@ import java.util.Map;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.FloatComparator;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -60,11 +61,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   @Override
+  @CheckReturnValue
   public SELF as(Description description) {
     return super.as(description);
   }
 
   @Override
+  @CheckReturnValue
   public SELF as(String description, Object... args) {
     return super.as(description, args);
   }
@@ -337,6 +340,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
    * @return {@code this} assertions object
    */
+  @CheckReturnValue
   public <T> SELF usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
     for (String propertyOrField : propertiesOrFields) {
       comparatorByPropertyOrField.put(propertyOrField, comparator);
@@ -398,6 +402,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param type the {@link java.lang.Class} of the type the comparator should be used for
    * @return {@code this} assertions object
    */
+  @CheckReturnValue
   public <T> SELF usingComparatorForType(Comparator<T> comparator, Class<T> type) {
     comparatorByType.put(type, comparator);
     return myself;
@@ -522,6 +527,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new assertion object whose object under test is the array containing the extracted properties/fields values
    * @throws IntrospectionError if one of the given name does not match a field or property
    */
+  @CheckReturnValue
   public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).extract(actual);
     return new ObjectArrayAssert<Object>(values.toArray());

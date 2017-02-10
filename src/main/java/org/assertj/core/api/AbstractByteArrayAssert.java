@@ -17,6 +17,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>
@@ -661,6 +662,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super Byte> customComparator) {
     this.arrays = new ByteArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
@@ -668,6 +670,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     this.arrays = ByteArrays.instance();
     return myself;

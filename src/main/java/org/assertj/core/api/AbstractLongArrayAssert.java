@@ -17,6 +17,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAssert<SELF>>
@@ -340,6 +341,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super Long> customComparator) {
     this.arrays = new LongArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
@@ -347,6 +349,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     this.arrays = LongArrays.instance();
     return myself;

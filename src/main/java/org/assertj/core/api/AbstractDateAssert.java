@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Dates;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -2305,6 +2306,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    * @return this assertion object.
    */
+  @CheckReturnValue
   public SELF withDateFormat(DateFormat userCustomDateFormat) {
     registerCustomDateFormat(userCustomDateFormat);
     return myself;
@@ -2331,6 +2333,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param userCustomDateFormatPattern the new Date format string pattern used for String based Date assertions.
    * @return this assertion object.
    */
+  @CheckReturnValue
   public SELF withDateFormat(String userCustomDateFormatPattern) {
     checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
     return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
@@ -2511,6 +2514,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * @return this assertion
    */
+  @CheckReturnValue
   public SELF withDefaultDateFormatsOnly() {
     useDefaultDateFormatsOnly();
     return myself;
@@ -2564,6 +2568,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super Date> customComparator) {
     super.usingComparator(customComparator);
     this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator));
@@ -2571,6 +2576,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.dates = Dates.instance();
