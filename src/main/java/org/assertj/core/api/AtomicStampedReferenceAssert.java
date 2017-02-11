@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
  * </p>
  *
  * @author epeee
+ * @since 2.7.0 / 3.7.0
  */
 public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
 
@@ -45,6 +46,7 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReference
    *
    * @param expectedValue the expected value inside the {@link AtomicStampedReference}.
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @Override
   public AtomicStampedReferenceAssert<VALUE> hasReference(VALUE expectedValue) {
@@ -68,6 +70,7 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReference
    *
    * @param expectedStamp the expected stamp inside the {@link AtomicStampedReference}.
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   public AtomicStampedReferenceAssert<VALUE> hasStamp(int expectedStamp){
     int timestamp = actual.getStamp();

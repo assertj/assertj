@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  *
  * @param <OBJECT> the type of the object holding the updatable field.
  * @author epeee
+ * @since 2.7.0 / 3.7.0
  */
 public class AtomicIntegerFieldUpdaterAssert<OBJECT> extends AbstractAtomicFieldUpdaterAssert<AtomicIntegerFieldUpdaterAssert<OBJECT>, Integer, AtomicIntegerFieldUpdater<OBJECT>, OBJECT> {
 
@@ -48,6 +49,7 @@ public class AtomicIntegerFieldUpdaterAssert<OBJECT> extends AbstractAtomicField
    * @param expectedValue the expected value inside the {@link OBJECT}.
    * @param obj the object holding the updatable field.
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @Override
   public AtomicIntegerFieldUpdaterAssert<OBJECT> hasValue(Integer expectedValue, OBJECT obj) {
