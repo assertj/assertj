@@ -37,8 +37,7 @@ import org.junit.Test;
 import java.util.Map;
 
 /**
- * Tests for
- * <code>{@link Objects#assertIsEqualToIgnoringNullFields(AssertionInfo, Object, Object, Map, TypeComparators)} </code>.
+ * Tests for <code>{@link Objects#assertIsEqualToIgnoringNullFields(AssertionInfo, Object, Object, Map, TypeComparators)} </code>.
  *
  * @author Nicolas François
  * @author Joel Costigliola
