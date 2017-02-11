@@ -55,7 +55,7 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
 
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Map<String, String> nonMatching, boolean declared) {
     super("%nExpecting%n  <%s>%nto have " + (declared ? "declared " : "") +  modifier + " "
-      + "methods:%n  <%s>%nbut the following are not " +modifier + ":%n  <%s>", actual, expected, nonMatching);
+      + "methods:%n  <%s>%nbut but the following are not " +modifier + ":%n  <%s>", actual, expected, nonMatching);
   }
 }
 
