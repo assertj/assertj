@@ -23,6 +23,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLong> {
@@ -365,6 +366,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
   }
 
   @Override
+  @CheckReturnValue
   public AtomicLongAssert usingComparator(Comparator<? super AtomicLong> customComparator) {
     super.usingComparator(customComparator);
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator));
@@ -372,6 +374,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
   }
 
   @Override
+  @CheckReturnValue
   public AtomicLongAssert usingDefaultComparator() {
     super.usingDefaultComparator();
     longs = Longs.instance();

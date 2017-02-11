@@ -18,10 +18,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqu
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,14 +41,8 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertEqualsIgnoringWhitespace(info, null, "Luke");
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, null, "Luke");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeEqualIgnoringWhitespace(null, "Luke"));
+    strings.assertEqualsIgnoringWhitespace(someInfo(), null, "Luke");
   }
 
   @Test
@@ -62,14 +53,8 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
 
   @Test
   public void should_fail_if_both_Strings_are_not_equal_ignoring_whitespace() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertEqualsIgnoringWhitespace(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, "Yoda", "Luke");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeEqualIgnoringWhitespace("Yoda", "Luke"));
+    strings.assertEqualsIgnoringWhitespace(someInfo(), "Yoda", "Luke");
   }
 
   @Test
@@ -93,10 +78,5 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
               $(" \t \t", " "),
               $(" abc", "abc "));
    // @format:on
-  }
-
-  private void verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(AssertionInfo info, String actual,
-                                                                           String expected) {
-    verify(failures).failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
   }
 }

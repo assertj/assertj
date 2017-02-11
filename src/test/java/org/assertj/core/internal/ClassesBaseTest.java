@@ -13,14 +13,12 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.ExpectedException.none;
-import static org.mockito.Mockito.spy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -74,10 +72,7 @@ public abstract class ClassesBaseTest {
 
   @Before
   public void setUp() {
-    failures = spy(new Failures());
-    Assertions.assertThat(failures).isNotNull();
     classes = new Classes();
-    classes.failures = failures;
   }
 
 }

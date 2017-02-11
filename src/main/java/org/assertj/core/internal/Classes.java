@@ -37,7 +37,6 @@ import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.Arrays;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Class}</code>s.
@@ -57,8 +56,7 @@ public class Classes {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private Failures failures = Failures.instance();
 
   /**
    * Verifies that the actual {@code Class} is assignable from all the {@code others} classes.

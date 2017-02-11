@@ -17,6 +17,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
@@ -384,6 +385,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super Character> customComparator) {
     this.arrays = new CharArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
@@ -391,6 +393,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     this.arrays = CharArrays.instance();
     return myself;
@@ -464,6 +467,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF inUnicode() {
     info.useUnicodeRepresentation();
     return myself;

@@ -17,7 +17,9 @@ import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -56,6 +58,11 @@ public class ExpectedException implements TestRule {
 
   public void expectAssertionError(ErrorMessageFactory errorMessageFactory) {
     delegate.expect(new ThrowableMatcher<>(AssertionError.class, errorMessageFactory.create()));
+  }
+
+  public void expectAssertionError(AssertionErrorFactory assertionErrorFactory) {
+    AssertionError assertionError = assertionErrorFactory.newAssertionError(null, StandardRepresentation.STANDARD_REPRESENTATION);
+    delegate.expect(new ThrowableMatcher<>(AssertionError.class, assertionError.getMessage()));
   }
 
   public void expectAssertionErrorWithMessageContaining(String... parts) {
@@ -143,20 +150,22 @@ public class ExpectedException implements TestRule {
 
   private static class ThrowableMatcher<T extends Throwable> extends TypeSafeMatcher<T> {
 
-    private String expectedStringRepresentation;
+    private final Class<?> expectedType;
+    private final String expectedMessage;
 
     public ThrowableMatcher(Class<?> expectedType, String expectedMessage) {
-      this.expectedStringRepresentation = buildStringRepresentation(expectedType, expectedMessage);
+      this.expectedType = expectedType;
+      this.expectedMessage = expectedMessage;
     }
 
     @Override
     public void describeTo(org.hamcrest.Description description) {
-      description.appendText(expectedStringRepresentation);
+      description.appendText(buildStringRepresentation(expectedType, expectedMessage));
     }
 
     @Override
     protected boolean matchesSafely(T actual) {
-      return expectedStringRepresentation.equals(buildStringRepresentation(actual.getClass(), actual.getMessage()));
+      return expectedType.isInstance(actual) && expectedMessage.equals(actual.getMessage());
     }
 
     private String buildStringRepresentation(Class<?> clazz, String message) {

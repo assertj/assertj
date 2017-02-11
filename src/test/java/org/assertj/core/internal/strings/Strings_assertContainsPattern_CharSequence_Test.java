@@ -16,9 +16,7 @@ import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.test.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.matchAnything;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.regex.PatternSyntaxException;
 
@@ -58,14 +56,8 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_fail_if_actual_does_not_contain_regular_expression() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertContainsPattern(info, actual, "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainPattern(actual, "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
+    strings.assertContainsPattern(someInfo(), actual, "Luke");
   }
 
   @Test
@@ -94,14 +86,8 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_fail_if_actual_does_not_contain_regular_expression_whatever_custom_comparison_strategy_is() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(info, actual, "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainPattern(actual, "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, "Luke");
   }
 
   @Test

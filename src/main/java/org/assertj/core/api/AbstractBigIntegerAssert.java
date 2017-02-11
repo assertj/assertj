@@ -19,6 +19,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -401,6 +402,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
   }
 
   @Override
+  @CheckReturnValue
   public S usingComparator(Comparator<? super BigInteger> customComparator) {
     super.usingComparator(customComparator);
     this.bigIntegers = new BigIntegers(new ComparatorBasedComparisonStrategy(customComparator));
@@ -408,6 +410,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
   }
 
   @Override
+  @CheckReturnValue
   public S usingDefaultComparator() {
     super.usingDefaultComparator();
     this.bigIntegers = BigIntegers.instance();

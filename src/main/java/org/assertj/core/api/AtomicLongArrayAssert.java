@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public class AtomicLongArrayAssert
@@ -504,6 +505,7 @@ public class AtomicLongArrayAssert
    * @return {@code this} assertion object.
    */
   @Override
+  @CheckReturnValue
   public AtomicLongArrayAssert usingElementComparator(Comparator<? super Long> customComparator) {
     this.arrays = new LongArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

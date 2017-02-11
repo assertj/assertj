@@ -18,6 +18,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -523,6 +524,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super Byte> customComparator) {
     super.usingComparator(customComparator);
     this.bytes = new Bytes(new ComparatorBasedComparisonStrategy(customComparator));
@@ -530,6 +532,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.bytes = Bytes.instance();

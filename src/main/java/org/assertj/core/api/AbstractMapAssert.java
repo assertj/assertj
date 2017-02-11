@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Maps;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -747,21 +748,25 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // this is pretty sad, a better fix for that would be welcome
 
   @Override
+  @CheckReturnValue
   public SELF as(String description, Object... args) {
     return super.as(description, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF as(Description description) {
     return super.as(description);
   }
 
   @Override
+  @CheckReturnValue
   public SELF describedAs(Description description) {
     return super.describedAs(description);
   }
 
   @Override
+  @CheckReturnValue
   public SELF describedAs(String description, Object... args) {
     return super.describedAs(description, args);
   }
@@ -887,26 +892,31 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   @Override
+  @CheckReturnValue
   public SELF overridingErrorMessage(String newErrorMessage, Object... args) {
     return super.overridingErrorMessage(newErrorMessage, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     return super.usingDefaultComparator();
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     return super.usingComparator(customComparator);
   }
 
   @Override
+  @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     return super.withFailMessage(newErrorMessage, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF withThreadDumpOnError() {
     return super.withThreadDumpOnError();
   }
@@ -935,6 +945,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given map is {@code null}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
+  @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
     Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null map.");
     return new MapSizeAssert(this, actual.size());

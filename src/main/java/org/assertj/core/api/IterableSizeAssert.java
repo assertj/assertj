@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.util.CheckReturnValue;
+
 //@format:off
 public class IterableSizeAssert<T> extends AbstractIterableSizeAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> {
 //@format:on
@@ -24,6 +26,7 @@ public class IterableSizeAssert<T> extends AbstractIterableSizeAssert<IterableAs
     this.source = source;
   }
 
+  @CheckReturnValue
   public AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> returnToIterable() {
     return source;
   }

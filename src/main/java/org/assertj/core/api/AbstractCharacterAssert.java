@@ -16,6 +16,7 @@ import java.util.Comparator;
 
 import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -177,6 +178,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF inUnicode() {
     info.useUnicodeRepresentation();
     return myself;
@@ -249,6 +251,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super Character> customComparator) {
     super.usingComparator(customComparator);
     this.characters = new Characters(new ComparatorBasedComparisonStrategy(customComparator));
@@ -256,6 +259,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.characters = Characters.instance();
