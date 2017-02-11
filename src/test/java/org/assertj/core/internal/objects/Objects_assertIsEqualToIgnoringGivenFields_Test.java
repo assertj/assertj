@@ -23,10 +23,13 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToIgnoringGivenFields_Test.OuterClass.InnerClass;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
@@ -37,7 +40,7 @@ import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Objects#assertIsLenientEqualsToByIgnoringFields(AssertionInfo, Object, Object, String...)</code>.
+ * Tests for <code>{@link Objects#assertIsEqualToIgnoringGivenFields(AssertionInfo, Object, Object, Map, TypeComparators, String...)}</code>.
  *
  * @author Nicolas François
  * @author Joel Costigliola
