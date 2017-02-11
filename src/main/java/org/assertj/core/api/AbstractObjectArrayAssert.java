@@ -1736,6 +1736,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param extractors the extractor functions to extract a value from an element of the array under test.
    * @return a new assertion object whose object under test is the array of Tuples containing the extracted values.
    */
+  @CheckReturnValue
   @SafeVarargs
   public final ObjectArrayAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
     // combine all extractors into one function

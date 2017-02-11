@@ -557,6 +557,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
    * @return a new assertion object whose object under test is the array containing the extracted values
    */
+  @CheckReturnValue
   @SafeVarargs
   public final AbstractObjectArrayAssert<?, Object> extracting(Function<? super ACTUAL, Object>... extractors) {
     Object[] values = Stream.of(extractors)

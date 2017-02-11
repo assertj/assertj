@@ -29,6 +29,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertions for {@link java.util.Optional}.
@@ -262,6 +263,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public S usingFieldByFieldValueComparator() {
     return usingValueComparator(new FieldByFieldComparator());
   }
@@ -288,6 +290,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public S usingValueComparator(Comparator<? super T> customComparator) {
     optionalValueComparisonStrategy = new ComparatorBasedComparisonStrategy(customComparator);
     return myself;
@@ -301,6 +304,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public S usingDefaultValueComparator() {
     // fall back to default strategy to compare actual with other objects.
     optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
@@ -367,6 +371,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @throws AssertionError if the actual {@link Optional} is null.
    * @since 3.6.0
    */
+  @CheckReturnValue
   public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super T, Optional<U>> mapper) {
     isNotNull();
     return assertThat(actual.flatMap(mapper));
@@ -393,6 +398,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @throws AssertionError if the actual {@link Optional} is null.
    * @since 3.6.0
    */
+  @CheckReturnValue
   public <U> AbstractOptionalAssert<?, U> map(Function<? super T, ? extends U> mapper) {
     isNotNull();
     return assertThat(actual.map(mapper));

@@ -1031,6 +1031,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    */
+  @CheckReturnValue
   @SafeVarargs
   public final ListAssert<Object> flatExtracting(Extractor<? super ELEMENT, ?>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
@@ -1141,6 +1142,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
    * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
    */
+  @CheckReturnValue
   @SafeVarargs
   public final ListAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
     // combine all extractors into one function
