@@ -54,16 +54,10 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
 
   @Test()
   public void should_fail_if_methods_are_missing() {
-    AssertionInfo info = someInfo();
     String[] expected = new String[] { "missingMethod", "publicMethod" };
-    try {
+    thrown.expectAssertionError(shouldHaveMethods(actual,
+      newLinkedHashSet(expected),
+      newLinkedHashSet("missingMethod")));
       classes.assertHasDeclaredMethods(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveMethods(actual,
-        newLinkedHashSet(expected),
-        newLinkedHashSet("missingMethod")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

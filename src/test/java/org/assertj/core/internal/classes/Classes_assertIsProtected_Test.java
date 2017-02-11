@@ -38,13 +38,7 @@ public class Classes_assertIsProtected_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_a_protected_class() {
-    AssertionInfo info = someInfo();
-    try {
-      classes.assertIsProtected(someInfo(), Object.class);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeProtected(Object.class));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeProtected(Object.class));
+    classes.assertIsProtected(someInfo(), Object.class);
   }
 }

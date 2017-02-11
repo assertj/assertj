@@ -40,14 +40,7 @@ public class Classes_assertIsPublic_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_a_public_class() {
-    AssertionInfo info = someInfo();
-    try {
-      classes.assertIsPublic(someInfo(), MethodsClass.class);
-    } catch (AssertionError e) {
-      Assertions.assertThat(failures).isNotNull();
-      verify(failures).failure(info, shouldBePublic(MethodsClass.class));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBePublic(MethodsClass.class));
+    classes.assertIsPublic(someInfo(), MethodsClass.class);
   }
 }

@@ -54,31 +54,19 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
 
   @Test()
   public void should_fail_if_methods_are_protected_or_private() {
-    AssertionInfo info = someInfo();
     String[] expected = new String[] { "publicMethod", "protectedMethod", "privateMethod" };
-    try {
-      classes.assertHasPublicMethods(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveMethods(actual,
-        newLinkedHashSet(expected),
-        newLinkedHashSet("protectedMethod", "privateMethod")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveMethods(actual,
+      newLinkedHashSet(expected),
+      newLinkedHashSet("protectedMethod", "privateMethod")));
+    classes.assertHasPublicMethods(someInfo(), actual, expected);
   }
 
   @Test()
   public void should_fail_if_methods_are_missing() {
-    AssertionInfo info = someInfo();
     String[] expected = new String[] { "missingMethod", "publicMethod" };
-    try {
-      classes.assertHasPublicMethods(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveMethods(actual,
-        newLinkedHashSet(expected),
-        newLinkedHashSet("missingMethod")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveMethods(actual,
+      newLinkedHashSet(expected),
+      newLinkedHashSet("missingMethod")));
+    classes.assertHasPublicMethods(someInfo(), actual, expected);
   }
 }
