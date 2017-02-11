@@ -14,6 +14,7 @@ package org.assertj.core.internal.classes;
 
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.Test;
 
@@ -42,6 +43,7 @@ public class Classes_assertIsPublic_Test extends ClassesBaseTest {
     try {
       classes.assertIsPublic(someInfo(), MethodsClass.class);
     } catch (AssertionError e) {
+      Assertions.assertThat(failures).isNotNull();
       verify(failures).failure(info, shouldBePublic(MethodsClass.class));
       return;
     }
