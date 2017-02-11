@@ -53,8 +53,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
-
+import java.util.stream.BaseStream;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
@@ -664,8 +663,8 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
   @CheckReturnValue
-  default <T> AbstractListAssert<?, ? extends List<? extends T>, T, ObjectAssert<T>> assertThat(
-      final Stream<? extends T> actual) {
+  default <ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> AbstractListAssert<?, ? extends List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(
+      final BaseStream<? extends ELEMENT, STREAM> actual) {
     return Assertions.assertThat(actual);
   }
   
