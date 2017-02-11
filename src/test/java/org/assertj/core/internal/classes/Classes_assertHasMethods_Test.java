@@ -12,19 +12,15 @@
  */
 package org.assertj.core.internal.classes;
 
-import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-import static org.mockito.Mockito.verify;
-
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ClassesBaseTest;
+import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 /**
  * Tests for
