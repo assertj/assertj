@@ -18,6 +18,7 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.FloatArrays;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>
@@ -755,6 +756,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super Float> customComparator) {
     this.arrays = new FloatArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
@@ -762,6 +764,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     this.arrays = FloatArrays.instance();
     return myself;
@@ -860,6 +863,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @param precision precisin used to compare {@link Float}.
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   public SELF usingComparatorWithPrecision(Float precision) {
     return usingElementComparator(floatComparator.floatComparatorWithPrecision(precision));
   }

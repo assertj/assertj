@@ -19,6 +19,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -265,6 +266,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super BigDecimal> customComparator) {
     super.usingComparator(customComparator);
     this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator));
@@ -272,6 +274,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.bigDecimals = BigDecimals.instance();

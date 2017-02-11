@@ -18,6 +18,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Doubles;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -519,6 +520,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super Double> customComparator) {
     super.usingComparator(customComparator);
     doubles = new Doubles(new ComparatorBasedComparisonStrategy(customComparator));
@@ -526,6 +528,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     doubles = Doubles.instance();

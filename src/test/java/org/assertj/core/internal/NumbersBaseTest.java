@@ -23,7 +23,7 @@ import java.util.Comparator;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
 
-public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMNER_TYPE extends Number> {
+public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TYPE extends Number> {
   @Rule
   public ExpectedException thrown = none();
   protected Failures failures;
@@ -46,12 +46,12 @@ public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMNER_TY
     comparatorComparisonStrategy = new ComparatorBasedComparisonStrategy(getComparator());
     numbersWithComparatorComparisonStrategy = getNumbers(comparatorComparisonStrategy);
     numbersWithComparatorComparisonStrategy.failures = failures;
-    absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<NUMNER_TYPE>());
+    absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<NUMBER_TYPE>());
     numbersWithAbsValueComparisonStrategy = getNumbers(absValueComparisonStrategy);
     numbersWithAbsValueComparisonStrategy.failures = failures;
   }
 
   protected abstract NUMBERS_TYPE getNumbers();
   protected abstract NUMBERS_TYPE getNumbers(ComparisonStrategy comparisonStrategy);
-  protected abstract Comparator<NUMNER_TYPE> getComparator();
+  protected abstract Comparator<NUMBER_TYPE> getComparator();
 }

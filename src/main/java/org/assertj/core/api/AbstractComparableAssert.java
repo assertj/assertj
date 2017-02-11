@@ -16,6 +16,7 @@ import java.util.Comparator;
 
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -96,6 +97,7 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     super.usingComparator(customComparator);
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator));
@@ -103,6 +105,7 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.comparables = Comparables.instance();
@@ -110,11 +113,13 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
   }
 
   @Override
+  @CheckReturnValue
   public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
 
   @Override
+  @CheckReturnValue
   public SELF inBinary() {
     return super.inBinary();
   }

@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 
 import org.assertj.core.internal.Arrays;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base implementation for Enumerable class assertions.
@@ -78,11 +79,13 @@ public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAs
    * @return {@code this} assertion object.
    */
   @Override
+  @CheckReturnValue
   public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
 
   @Override
+  @CheckReturnValue
   public SELF inBinary() {
     return super.inBinary();
   }

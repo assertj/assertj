@@ -27,6 +27,7 @@ import java.nio.file.spi.FileSystemProvider;
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -203,6 +204,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws IllegalArgumentException if the given encoding is not supported on this platform.
    */
+  @CheckReturnValue
   public SELF usingCharset(String charsetName) {
     checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
     return usingCharset(Charset.forName(charsetName));
@@ -222,6 +224,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given charset is {@code null}.
    */
+  @CheckReturnValue
   public SELF usingCharset(Charset charset) {
 	this.charset = checkNotNull(charset, "The charset should not be null");
 	return myself;

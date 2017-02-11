@@ -19,6 +19,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Files;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -339,6 +340,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws IllegalArgumentException if the given encoding is not supported on this platform.
    */
+  @CheckReturnValue
   public SELF usingCharset(String charsetName) {
     checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
     return usingCharset(Charset.forName(charsetName));
@@ -351,6 +353,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given charset is {@code null}.
    */
+  @CheckReturnValue
   public SELF usingCharset(Charset charset) {
     this.charset = checkNotNull(charset, "The charset should not be null");
     return myself;

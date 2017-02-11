@@ -20,6 +20,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Lists;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -148,6 +149,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> customComparator) {
     super.usingElementComparator(customComparator);
     lists = new Lists(new ComparatorBasedComparisonStrategy(customComparator));
@@ -155,6 +157,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     super.usingDefaultElementComparator();
     lists = Lists.instance();
@@ -175,21 +178,25 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   // raw types :(
 
   @Override
+  @CheckReturnValue
   public SELF as(String description, Object... args) {
     return super.as(description, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF as(Description description) {
     return super.as(description);
   }
 
   @Override
+  @CheckReturnValue
   public SELF describedAs(Description description) {
     return super.describedAs(description);
   }
 
   @Override
+  @CheckReturnValue
   public SELF describedAs(String description, Object... args) {
     return super.describedAs(description, args);
   }
@@ -315,26 +322,31 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
+  @CheckReturnValue
   public SELF overridingErrorMessage(String newErrorMessage, Object... args) {
     return super.overridingErrorMessage(newErrorMessage, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     return super.usingDefaultComparator();
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     return super.usingComparator(customComparator);
   }
 
   @Override
+  @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     return super.withFailMessage(newErrorMessage, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF withThreadDumpOnError() {
     return super.withThreadDumpOnError();
   }

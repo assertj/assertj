@@ -31,6 +31,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -135,12 +136,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF as(String description, Object... args) {
     return describedAs(description, args);
   }
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF as(Description description) {
     return describedAs(description);
   }
@@ -171,6 +174,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   protected SELF inHexadecimal() {
     info.useHexadecimalRepresentation();
     return myself;
@@ -188,6 +192,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @return {@code this} assertion object.
    */
+  @CheckReturnValue
   protected SELF inBinary() {
     info.useBinaryRepresentation();
     return myself;
@@ -195,6 +200,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF describedAs(String description, Object... args) {
     info.description(description, args);
     return myself;
@@ -202,6 +208,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF describedAs(Description description) {
     info.description(description);
     return myself;
@@ -394,13 +401,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
-    objects.assertIsInstanceOf(info, actual, List.class);
+  @CheckReturnValue
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {    objects.assertIsInstanceOf(info, actual, List.class);
     return new ListAssert<>((List<Object>) actual);
   }
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public AbstractCharSequenceAssert<?, String> asString() {
     objects.assertIsInstanceOf(info, actual, String.class);
     return Assertions.assertThat((String) actual);
@@ -431,6 +439,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return this assertion object.
    * @throws Exception see {@link String#format(String, Object...)} exception clause.
    */
+  @CheckReturnValue
   public SELF overridingErrorMessage(String newErrorMessage, Object... args) {
     info.overridingErrorMessage(formatIfArgs(newErrorMessage, args));
     return myself;
@@ -444,6 +453,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return this assertion object.
    * @throws Exception see {@link String#format(String, Object...)} exception clause.
    */
+  @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     overridingErrorMessage(newErrorMessage, args);
     return myself;
@@ -451,6 +461,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     // using a specific strategy to compare actual with other objects.
     this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
@@ -459,6 +470,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     // fall back to default strategy to compare actual with other objects.
     this.objects = Objects.instance();
@@ -467,6 +479,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF withThreadDumpOnError() {
     Failures.instance().enablePrintThreadDump();
     return myself;
@@ -474,6 +487,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public SELF withRepresentation(Representation representation) {
     info.useRepresentation(representation);
     return myself;
