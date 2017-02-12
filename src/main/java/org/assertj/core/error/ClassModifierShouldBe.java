@@ -22,7 +22,7 @@ import java.lang.reflect.Modifier;
 public class ClassModifierShouldBe extends BasicErrorMessageFactory {
 
   private ClassModifierShouldBe(Class<?> actual, boolean positive, String modifier) {
-    super("%nExpecting:%n  <%s>%n" + (positive ? "to" : "not to") + " be a %s class, but was %s", actual, modifier, Modifier.toString(actual.getModifiers()));
+    super("%nExpecting:%n  <%s>%n" + (positive ? "to" : "not to") + " be a %s class but was %s.", actual, modifier, Modifier.toString(actual.getModifiers()));
   }
 
   /**
