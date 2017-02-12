@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
+import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -41,7 +42,15 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_pass_if_no_methods_are_expected() {
+  public void should_succeed_if_no_methods_are_expected_and_no_declared_methods_are_available() {
+    actual = Jedi.class;
+    classes.assertHasDeclaredPublicMethods(someInfo(), actual);
+  }
+
+
+  @Test
+  public void should_fail_if_no_methods_are_expected_and_declared_methods_are_available() {
+    thrown.expectAssertionError(shouldNotHaveMethods(actual, true, newLinkedHashSet("publicMethod")));
     classes.assertHasDeclaredMethods(someInfo(), actual);
   }
 
