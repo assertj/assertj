@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
+import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -41,7 +42,9 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_pass_if_no_methods_are_expected() {
+  public void should_fail_if_no_methods_are_expected_and_methods_are_available() {
+    thrown.expectAssertionError(shouldNotHaveMethods(actual,false,
+      newLinkedHashSet("publicMethod", "wait", "equals", "toString", "hashCode", "getClass", "notify", "notifyAll")));
     classes.assertHasMethods(someInfo(), actual);
   }
 

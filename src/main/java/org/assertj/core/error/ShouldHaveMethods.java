@@ -33,8 +33,16 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
     return new ShouldHaveMethods(actual, expected, missing, declared);
   }
 
-  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Map<String,String> nonMatching) {
-    return new ShouldHaveMethods(actual, expected, modifier, nonMatching, false);
+  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, Set<String> expected, String modifier, Map<String,String> nonMatching) {
+    return new ShouldHaveMethods(actual, expected, modifier, nonMatching, declared);
+  }
+
+  public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, String modifier, boolean declared, Set<String> actualMethodsHavingModifier) {
+    return new ShouldHaveMethods(actual, modifier, declared, actualMethodsHavingModifier);
+  }
+
+  public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, boolean declared, Set<String> actualMethodsHavingModifier) {
+    return new ShouldHaveMethods(actual, null, declared, actualMethodsHavingModifier);
   }
 
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
@@ -45,6 +53,11 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Map<String, String> nonMatching, boolean declared) {
     super("%nExpecting%n  <%s>%nto have " + (declared ? "declared " : "") +  modifier + " "
       + "methods:%n  <%s>%nbut the following are not " +modifier + ":%n  <%s>", actual, expected, nonMatching);
+  }
+
+  private ShouldHaveMethods(Class<?> actual, String modifier, boolean declared, Set<String> actualMethodsHavingModifier) {
+    super("%nExpecting%n  <%s>%nto have no " + (declared ? "declared " : "") +  ((modifier != null && modifier.length() > 0)  ?  modifier + " " : "")
+      + "methods but have the following:%n  <%s>", actual, actualMethodsHavingModifier);
   }
 }
 

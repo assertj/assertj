@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
+import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -46,7 +47,14 @@ public class Classes_assertHasDeclaredPublicMethods_Test extends ClassesBaseTest
   }
 
   @Test
-  public void should_pass_if_no_methods_are_expected() {
+  public void should_succeed_if_no_methods_are_expected_and_no_declared_public_methods_are_available() {
+    actual = Jedi.class;
+    classes.assertHasDeclaredPublicMethods(someInfo(), actual);
+  }
+
+  @Test
+  public void should_fail_if_no_methods_are_expected_and_declared_public_methods_are_available() {
+    thrown.expectAssertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), true, newLinkedHashSet("publicMethod")));
     classes.assertHasDeclaredPublicMethods(someInfo(), actual);
   }
 
@@ -62,7 +70,7 @@ public class Classes_assertHasDeclaredPublicMethods_Test extends ClassesBaseTest
     nonMatching.put("protectedMethod", "protected");
     nonMatching.put("privateMethod", "private");
 
-    thrown.expectAssertionError(shouldHaveMethods(actual,
+    thrown.expectAssertionError(shouldHaveMethods(actual, true,
       newLinkedHashSet(expected),
       Modifier.toString(Modifier.PUBLIC),
       nonMatching));

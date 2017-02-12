@@ -22,6 +22,7 @@ import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
+import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -296,6 +297,10 @@ public class Classes {
     Set<String> missingMethodNames = newLinkedHashSet();
     Set<String> actualMethodNames = methodsToName(methods);
 
+    if(!isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
+      throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(methods, Modifier.PUBLIC)));
+    }
+
     if (!noMissingElement(actualMethodNames, expectedMethodNames, missingMethodNames)) {
       throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
     }
@@ -334,14 +339,27 @@ public class Classes {
     Set<String> missingMethodNames = newLinkedHashSet();
     Map<String,Integer> actualMethods = methodsToNameAndModifier(methods);
 
+    if(!isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
+      throw failures.failure(info, shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), declared, getMethodsWithModifier(methods, Modifier.PUBLIC)));
+    }
+
     if (!noMissingElement(actualMethods.keySet(), expectedMethodNames, missingMethodNames)) {
       throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
     }
-    Map<String,String> nonMatchingModifiers= new LinkedHashMap<>();
+    Map<String,String> nonMatchingModifiers = new LinkedHashMap<>();
     if(!noNonMatchingModifier(expectedMethodNames, actualMethods, nonMatchingModifiers, Modifier.PUBLIC)) {
-
-      throw failures.failure(info, shouldHaveMethods(actual, expectedMethodNames, Modifier.toString(Modifier.PUBLIC), nonMatchingModifiers));
+      throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, Modifier.toString(Modifier.PUBLIC), nonMatchingModifiers));
     }
+  }
+
+  private static Set<String> getMethodsWithModifier(Method[] methods, int modifier) {
+    Set<String> methodsWithModifier = newLinkedHashSet();
+    for (Method method : methods) {
+      if ((method.getModifiers() & modifier) != 0) {
+        methodsWithModifier.add(method.getName());
+      }
+    }
+    return methodsWithModifier;
   }
 
   private static boolean noNonMatchingModifier(Set<String> expectedMethodNames, Map<String, Integer> methodsModifier, Map<String, String> nonMatchingModifiers, int modifier) {
@@ -353,6 +371,17 @@ public class Classes {
     return nonMatchingModifiers.isEmpty();
   }
 
+
+  private static boolean isEmptyAndHasNoMethodsWithModifier(int expectedModifier, Method[] methods, String... expectedMethods) {
+    if (expectedMethods.length == 0) {
+      for (Method method : methods) {
+        if ((method.getModifiers() & expectedModifier) != 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
   private static Set<String> methodsToName(Method[] methods) {
     Set<String> methodsName = new LinkedHashSet<>(methods.length);
