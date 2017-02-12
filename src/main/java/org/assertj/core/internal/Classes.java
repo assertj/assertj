@@ -344,12 +344,10 @@ public class Classes {
     }
   }
 
-  private static boolean noNonMatchingModifier(Set<String> expectedMethodNames, Map<String, Integer> actualMethods, Map<String, String> nonMatchingModifiers, int modifier) {
-    for (String method : actualMethods.keySet()) {
-      if(expectedMethodNames.contains(method)) {
-        if ((actualMethods.get(method) & modifier) == 0) {
-          nonMatchingModifiers.put(method, Modifier.toString(actualMethods.get(method)));
-        }
+  private static boolean noNonMatchingModifier(Set<String> expectedMethodNames, Map<String, Integer> methodsModifier, Map<String, String> nonMatchingModifiers, int modifier) {
+    for (String method : methodsModifier.keySet()) {
+      if(expectedMethodNames.contains(method) && (methodsModifier.get(method) & modifier) == 0) {
+        nonMatchingModifiers.put(method, Modifier.toString(methodsModifier.get(method)));
       }
     }
     return nonMatchingModifiers.isEmpty();
