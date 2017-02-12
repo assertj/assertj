@@ -29,7 +29,7 @@ public class ClassModifierShouldBe_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting:%n" +
                                        "  <java.lang.Object>%n" +
-                                       "to be a \"final\" class."));
+                                       "to be a \"final\" class, but was \"public\""));
   }
 
   @Test
@@ -39,6 +39,6 @@ public class ClassModifierShouldBe_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting:%n" +
                                        "  <java.lang.String>%n" +
-                                       "not to be a \"final\" class."));
+                                       "not to be a \"final\" class, but was \"public final\""));
   }
 }
