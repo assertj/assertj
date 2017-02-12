@@ -187,7 +187,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(String.class).isPublic();
    * assertThat(Math.class).isPublic();
    *
-   * // This assertion fail:
+   * // This assertion fails:
    * assertThat(MyClass.class).isPublic();</code></pre>
    *
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -205,7 +205,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * <pre><code class='java'> public class MyClass { }
    *
-   * // This assertion succeed:
+   * // This assertion succeeds:
    * assertThat(MyClass.class).isProtected();
    *
    * // These assertions fail:
