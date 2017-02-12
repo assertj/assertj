@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.assertj.core.internal.Booleans;
 import org.assertj.core.util.VisibleForTesting;
 
-// TODO add to WithAssertions in 3.x
 public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, AtomicBoolean> {
 
   @VisibleForTesting

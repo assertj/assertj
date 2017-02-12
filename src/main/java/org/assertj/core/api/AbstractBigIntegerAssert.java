@@ -27,8 +27,8 @@ import org.assertj.core.util.VisibleForTesting;
  *
  * @since 2.7.0 / 3.7.0
  */
-public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> extends
-    AbstractComparableAssert<S, BigInteger> implements NumberAssert<S, BigInteger> {
+public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF>> extends
+    AbstractComparableAssert<SELF, BigInteger> implements NumberAssert<SELF, BigInteger> {
 
   @VisibleForTesting
   BigIntegers bigIntegers = BigIntegers.instance();
@@ -51,7 +51,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isZero() {
+  public SELF isZero() {
     bigIntegers.assertIsZero(info, actual);
     return myself;
   }
@@ -70,7 +70,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isNotZero() {
+  public SELF isNotZero() {
     bigIntegers.assertIsNotZero(info, actual);
     return myself;
   }
@@ -89,7 +89,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isOne() {
+  public SELF isOne() {
     bigIntegers.assertIsOne(info, actual);
     return myself;
   }
@@ -108,7 +108,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isPositive() {
+  public SELF isPositive() {
     bigIntegers.assertIsPositive(info, actual);
     return myself;
   }
@@ -127,7 +127,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isNegative() {
+  public SELF isNegative() {
     bigIntegers.assertIsNegative(info, actual);
     return myself;
   }
@@ -146,7 +146,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isNotNegative() {
+  public SELF isNotNegative() {
     bigIntegers.assertIsNotNegative(info, actual);
     return myself;
   }
@@ -165,7 +165,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isNotPositive() {
+  public SELF isNotPositive() {
     bigIntegers.assertIsNotPositive(info, actual);
     return myself;
   }
@@ -199,7 +199,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isCloseTo(BigInteger expected, Offset<BigInteger> offset) {
+  public SELF isCloseTo(BigInteger expected, Offset<BigInteger> offset) {
     bigIntegers.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -234,7 +234,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isNotCloseTo(BigInteger expected, Offset<BigInteger> offset) {
+  public SELF isNotCloseTo(BigInteger expected, Offset<BigInteger> offset) {
     bigIntegers.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -266,7 +266,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isCloseTo(BigInteger expected, Percentage percentage) {
+  public SELF isCloseTo(BigInteger expected, Percentage percentage) {
     bigIntegers.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -300,7 +300,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isNotCloseTo(BigInteger expected, Percentage percentage) {
+  public SELF isNotCloseTo(BigInteger expected, Percentage percentage) {
     bigIntegers.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -321,7 +321,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isBetween(BigInteger start, BigInteger end) {
+  public SELF isBetween(BigInteger start, BigInteger end) {
     bigIntegers.assertIsBetween(info, actual, start, end);
     return myself;
   }
@@ -342,7 +342,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public S isStrictlyBetween(BigInteger start, BigInteger end) {
+  public SELF isStrictlyBetween(BigInteger start, BigInteger end) {
     bigIntegers.assertIsStrictlyBetween(info, actual, start, end);
     return myself;
   }
@@ -361,7 +361,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S isEqualTo(String expected) {
+  public SELF isEqualTo(String expected) {
     return isEqualTo(new BigInteger(expected));
   }
 
@@ -379,7 +379,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S isEqualTo(int expected) {
+  public SELF isEqualTo(int expected) {
     return isEqualTo(new BigInteger(Integer.toString(expected)));
   }
 
@@ -397,13 +397,13 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
    *
    * @since 2.7.0 / 3.7.0
    */
-  public S isEqualTo(long expected) {
+  public SELF isEqualTo(long expected) {
     return isEqualTo(new BigInteger(Long.toString(expected)));
   }
 
   @Override
   @CheckReturnValue
-  public S usingComparator(Comparator<? super BigInteger> customComparator) {
+  public SELF usingComparator(Comparator<? super BigInteger> customComparator) {
     super.usingComparator(customComparator);
     this.bigIntegers = new BigIntegers(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
@@ -411,7 +411,7 @@ public class AbstractBigIntegerAssert<S extends AbstractBigIntegerAssert<S>> ext
 
   @Override
   @CheckReturnValue
-  public S usingDefaultComparator() {
+  public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.bigIntegers = BigIntegers.instance();
     return myself;
