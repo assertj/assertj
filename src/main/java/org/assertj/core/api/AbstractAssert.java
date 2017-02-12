@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Comparator;
@@ -43,6 +44,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
+
+  private static final String ORG_ASSERTJ = "org.assert";
 
   @VisibleForTesting
   Objects objects = Objects.instance();
@@ -107,9 +110,16 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   protected void failWithMessage(String errorMessage, Object... arguments) {
     AssertionError failureWithOverriddenErrorMessage = Failures.instance().failureIfErrorMessageIsOverridden(info);
-    if (failureWithOverriddenErrorMessage != null) throw failureWithOverriddenErrorMessage;
+    if (failureWithOverriddenErrorMessage != null) {
+      removeCustomAssertRelatedElementsFromStackTrace(failureWithOverriddenErrorMessage);
+      throw failureWithOverriddenErrorMessage;
+    }
+
     String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
-    throw new AssertionError(description + String.format(errorMessage, arguments));
+    AssertionError assertionError = new AssertionError(description + String.format(errorMessage, arguments));
+    Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    removeCustomAssertRelatedElementsFromStackTrace(assertionError);
+    throw assertionError;
   }
 
   /**
@@ -125,7 +135,35 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws an {@link AssertionError} with a message corresponding to the given {@link BasicErrorMessageFactory}.
    */
   protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
-    throw Failures.instance().failure(info, errorMessageFactory);
+    AssertionError failure = Failures.instance().failure(info, errorMessageFactory);
+    removeCustomAssertRelatedElementsFromStackTrace(failure);
+    throw failure;
+  }
+
+  private void removeCustomAssertRelatedElementsFromStackTrace(AssertionError assertionError) {
+    if (!Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace()) return;
+    if (getClass().getName().startsWith(ORG_ASSERTJ)) return;
+
+    List<StackTraceElement> filtered = newArrayList(assertionError.getStackTrace());
+    for (StackTraceElement element : assertionError.getStackTrace()) {
+      if (isElementOfCustomAssert(element)) {
+        filtered.remove(element);
+      }
+    }
+    StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[filtered.size()]);
+    assertionError.setStackTrace(newStackTrace);
+  }
+
+  private boolean isElementOfCustomAssert(StackTraceElement element) {
+    Class<?> currentAssertClass = getClass();
+    while (currentAssertClass != AbstractAssert.class) {
+      if (element.getClassName().equals(currentAssertClass.getName())) {
+        return true;
+      }
+      currentAssertClass = currentAssertClass.getSuperclass();
+    }
+
+    return false;
   }
 
   /** {@inheritDoc} */
