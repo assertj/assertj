@@ -274,7 +274,7 @@ public class Classes {
    */
   public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info,actual, actual.getMethods(), methods);
+    doAssertHasMethods(info,actual, actual.getMethods(), false, methods);
   }
 
   /**
@@ -288,16 +288,16 @@ public class Classes {
    */
   public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info, actual, actual.getDeclaredMethods(), methods);
+    doAssertHasMethods(info, actual, actual.getDeclaredMethods(), true, methods);
   }
 
-  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Method[] methods, String... expectedMethods) {
+  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
     Set<String> expectedMethodNames = newLinkedHashSet(expectedMethods);
     Set<String> missingMethodNames = newLinkedHashSet();
     Set<String> actualMethodNames = methodsToName(methods);
 
     if (!noMissingElement(actualMethodNames, expectedMethodNames, missingMethodNames)) {
-      throw failures.failure(info, shouldHaveMethods(actual, expectedMethodNames, missingMethodNames));
+      throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
     }
   }
 
@@ -312,7 +312,7 @@ public class Classes {
    */
   public void assertHasPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasPublicMethods(info, actual, actual.getMethods(), methods);
+    doAssertHasPublicMethods(info, actual, actual.getMethods(), false, methods);
   }
 
   /**
@@ -326,16 +326,16 @@ public class Classes {
    */
   public void assertHasDeclaredPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasPublicMethods(info, actual, actual.getDeclaredMethods(), methods);
+    doAssertHasPublicMethods(info, actual, actual.getDeclaredMethods(), true, methods);
   }
 
-  private void doAssertHasPublicMethods(AssertionInfo info, Class<?> actual, Method[] methods, String... expectedMethods) {
+  private void doAssertHasPublicMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
     Set<String> expectedMethodNames = newLinkedHashSet(expectedMethods);
     Set<String> missingMethodNames = newLinkedHashSet();
     Map<String,Integer> actualMethods = methodsToNameAndModifier(methods);
 
     if (!noMissingElement(actualMethods.keySet(), expectedMethodNames, missingMethodNames)) {
-      throw failures.failure(info, shouldHaveMethods(actual, expectedMethodNames, missingMethodNames));
+      throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
     }
     Map<String,String> nonMatchingModifiers= new LinkedHashMap<>();
     if(!noNonMatchingModifier(expectedMethodNames, actualMethods, nonMatchingModifiers, Modifier.PUBLIC)) {

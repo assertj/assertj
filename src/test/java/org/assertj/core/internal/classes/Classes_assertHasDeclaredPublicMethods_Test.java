@@ -72,7 +72,7 @@ public class Classes_assertHasDeclaredPublicMethods_Test extends ClassesBaseTest
   @Test()
   public void should_fail_if_methods_are_missing() {
     String[] expected = new String[] { "missingMethod", "publicMethod" };
-    thrown.expectAssertionError(shouldHaveMethods(actual,
+    thrown.expectAssertionError(shouldHaveMethods(actual, true,
       newLinkedHashSet(expected),
       newLinkedHashSet("missingMethod")));
     classes.assertHasDeclaredPublicMethods(someInfo(), actual, expected);

@@ -53,7 +53,7 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_methods_are_protected_or_private() {
     String[] expected = new String[] { "publicMethod", "protectedMethod", "privateMethod" };
-    thrown.expectAssertionError(shouldHaveMethods(actual,
+    thrown.expectAssertionError(shouldHaveMethods(actual, false,
       newLinkedHashSet(expected),
       newLinkedHashSet("protectedMethod", "privateMethod")));
     classes.assertHasPublicMethods(someInfo(), actual, expected);
@@ -62,7 +62,7 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_methods_are_missing() {
     String[] expected = new String[] { "missingMethod", "publicMethod" };
-    thrown.expectAssertionError(shouldHaveMethods(actual,
+    thrown.expectAssertionError(shouldHaveMethods(actual, false,
       newLinkedHashSet(expected),
       newLinkedHashSet("missingMethod")));
     classes.assertHasPublicMethods(someInfo(), actual, expected);

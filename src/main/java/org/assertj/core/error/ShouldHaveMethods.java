@@ -24,28 +24,17 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
    * Creates a new </code>{@link org.assertj.core.error.ShouldHaveMethods}</code>.
    *
    * @param actual the actual value in the failed assertion.
+   * @param declared {@code true} if the expected methods are declared ones, {@code false} otherwise.
    * @param expected expected methods for this class
    * @param missing missing methods for this class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, Set<String> expected, Set<String> missing) {
-    return new ShouldHaveMethods(actual, expected, missing, false);
+  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, Set<String> expected, Set<String> missing) {
+    return new ShouldHaveMethods(actual, expected, missing, declared);
   }
 
   public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Map<String,String> nonMatching) {
     return new ShouldHaveMethods(actual, expected, modifier, nonMatching, false);
-  }
-
-  /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveMethods}</code>.
-   *
-   * @param actual the actual value in the failed assertion.
-   * @param expected expected methods for this class
-   * @param missing missing methods for this class
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldHaveDeclaredMethods(Class<?> actual, Set<String> expected, Set<String> missing) {
-    return new ShouldHaveMethods(actual, expected, missing, true);
   }
 
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
