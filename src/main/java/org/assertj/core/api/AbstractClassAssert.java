@@ -331,7 +331,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given {@code methodNames}.
+   * Verifies that the actual {@code Class} has the given methods.
    *
    * <pre><code class='java'> class MyClass {
    *     public void methodOne() {}
@@ -357,7 +357,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given declared {@code methodNames}.
+   * Verifies that the actual {@code Class} has the given declared methods.
    *
    * <pre><code class='java'> class MySuperClass {
    *     public void superMethod() {}
@@ -387,7 +387,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given public {@code methodNames}.
+   * Verifies that the actual {@code Class} has the given public methods.
    *
    * <pre><code class='java'> class MyClass {
    *     public void methodOne() {}
@@ -415,7 +415,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given declared public {@code methodNames}.
+   * Verifies that the actual {@code Class} has the given declared public methods.
    *
    * <pre><code class='java'> class MySuperClass {
    *     public void superMethod() {}
