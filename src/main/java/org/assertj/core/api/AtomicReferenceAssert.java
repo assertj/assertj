@@ -36,7 +36,6 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic does not have the given value.
-   * 
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceAssert<V> hasValue(V expectedValue) {
