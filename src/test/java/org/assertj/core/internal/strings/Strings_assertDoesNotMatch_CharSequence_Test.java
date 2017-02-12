@@ -15,11 +15,7 @@ package org.assertj.core.internal.strings;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.test.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.*;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
-import static org.mockito.Mockito.verify;
 
 import java.util.regex.PatternSyntaxException;
 
