@@ -31,12 +31,14 @@ import org.assertj.core.internal.Objects;
 /**
  * Assertions for {@link java.time.OffsetDateTime} type from new Date &amp; Time API introduced in Java 8.
  *
+ * @param <SELF> the "self" type of this assertion class.
+ *
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateTimeAssert<S>> extends
-    AbstractTemporalAssert<S, OffsetDateTime> {
+public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDateTimeAssert<SELF>> extends
+    AbstractTemporalAssert<SELF, OffsetDateTime> {
 
   public static final String NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE = "The OffsetDateTime to compare actual with should not be null";
 
@@ -64,7 +66,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} is not strictly before the given one.
    */
-  public S isBefore(OffsetDateTime other) {
+  public SELF isBefore(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!actual.isBefore(other)) {
@@ -95,7 +97,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    *           {@link java.time.OffsetDateTime} built
    *           from given String.
    */
-  public S isBefore(String offsetDateTimeAsString) {
+  public SELF isBefore(String offsetDateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(offsetDateTimeAsString);
     return isBefore(parse(offsetDateTimeAsString));
   }
@@ -115,7 +117,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} is not before or equals to the given one.
    */
-  public S isBeforeOrEqualTo(OffsetDateTime other) {
+  public SELF isBeforeOrEqualTo(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (actual.isAfter(other)) {
@@ -146,7 +148,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is not before or equals to the
    *           {@link java.time.OffsetDateTime} built from given String.
    */
-  public S isBeforeOrEqualTo(String offsetDateTimeAsString) {
+  public SELF isBeforeOrEqualTo(String offsetDateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(offsetDateTimeAsString);
     return isBeforeOrEqualTo(parse(offsetDateTimeAsString));
   }
@@ -166,7 +168,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} is not after or equals to the given one.
    */
-  public S isAfterOrEqualTo(OffsetDateTime other) {
+  public SELF isAfterOrEqualTo(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (actual.isBefore(other)) {
@@ -197,7 +199,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is not after or equals to the
    *           {@link java.time.OffsetDateTime} built from given String.
    */
-  public S isAfterOrEqualTo(String offsetDateTimeAsString) {
+  public SELF isAfterOrEqualTo(String offsetDateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(offsetDateTimeAsString);
     return isAfterOrEqualTo(parse(offsetDateTimeAsString));
   }
@@ -216,7 +218,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} is not strictly after the given one.
    */
-  public S isAfter(OffsetDateTime other) {
+  public SELF isAfter(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!actual.isAfter(other)) {
@@ -246,7 +248,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is not strictly after the
    *           {@link java.time.OffsetDateTime} built from given String.
    */
-  public S isAfter(String offsetDateTimeAsString) {
+  public SELF isAfter(String offsetDateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(offsetDateTimeAsString);
     return isAfter(parse(offsetDateTimeAsString));
   }
@@ -272,7 +274,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is not equal to the {@link java.time.OffsetDateTime}
    *           built from given String.
    */
-  public S isEqualTo(String dateTimeAsString) {
+  public SELF isEqualTo(String dateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(dateTimeAsString);
     return isEqualTo(parse(dateTimeAsString));
   }
@@ -298,7 +300,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is equal to the {@link java.time.OffsetDateTime} built
    *           from given String.
    */
-  public S isNotEqualTo(String dateTimeAsString) {
+  public SELF isNotEqualTo(String dateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(dateTimeAsString);
     return isNotEqualTo(parse(dateTimeAsString));
   }
@@ -324,7 +326,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is not in the {@link java.time.OffsetDateTime}s built
    *           from given Strings.
    */
-  public S isIn(String... dateTimesAsString) {
+  public SELF isIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
     return isIn(convertToOffsetDateTimeArray(dateTimesAsString));
   }
@@ -350,7 +352,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is in the {@link java.time.OffsetDateTime}s built from
    *           given Strings.
    */
-  public S isNotIn(String... dateTimesAsString) {
+  public SELF isNotIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
     return isNotIn(convertToOffsetDateTimeArray(dateTimesAsString));
   }
@@ -384,7 +386,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with nanoseconds ignored.
    */
-  public S isEqualToIgnoringNanos(OffsetDateTime other) {
+  public SELF isEqualToIgnoringNanos(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!areEqualIgnoringNanos(actual, other)) {
@@ -417,7 +419,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with timezone ignored.
    */
-  public S isEqualToIgnoringTimezone(OffsetDateTime other) {
+  public SELF isEqualToIgnoringTimezone(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!areEqualIgnoringTimezone(actual, other)) {
@@ -457,7 +459,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with second and nanosecond fields
    *           ignored.
    */
-  public S isEqualToIgnoringSeconds(OffsetDateTime other) {
+  public SELF isEqualToIgnoringSeconds(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!areEqualIgnoringSeconds(actual, other)) {
@@ -497,7 +499,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal ignoring minute, second and nanosecond
    *           fields.
    */
-  public S isEqualToIgnoringMinutes(OffsetDateTime other) {
+  public SELF isEqualToIgnoringMinutes(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!areEqualIgnoringMinutes(actual, other)) {
@@ -537,7 +539,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with second and nanosecond fields
    *           ignored.
    */
-  public S isEqualToIgnoringHours(OffsetDateTime other) {
+  public SELF isEqualToIgnoringHours(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!haveSameYearMonthAndDayOfMonth(actual, other)) {

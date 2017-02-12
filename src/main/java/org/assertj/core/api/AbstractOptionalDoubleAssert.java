@@ -31,8 +31,8 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
  * @author Alexander Bischof
  * @author Grzegorz Piwowarek
  */
-public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDoubleAssert<S>> extends
-    AbstractAssert<S, OptionalDouble> {
+public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptionalDoubleAssert<SELF>> extends
+    AbstractAssert<SELF, OptionalDouble> {
 
   @VisibleForTesting
   Doubles doubles = Doubles.instance();
@@ -58,7 +58,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * @throws java.lang.AssertionError if actual value is empty.
    * @throws java.lang.AssertionError if actual is null.
    */
-  public S isPresent() {
+  public SELF isPresent() {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     return myself;
@@ -75,7 +75,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    *
    * @return this assertion object.
    */
-  public S isNotPresent() {
+  public SELF isNotPresent() {
     return isEmpty();
   }
   
@@ -96,7 +96,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * @throws java.lang.AssertionError if actual value is present.
    * @throws java.lang.AssertionError if actual is null.
    */
-  public S isEmpty() {
+  public SELF isEmpty() {
     isNotNull();
     if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
@@ -119,7 +119,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * @throws java.lang.AssertionError if actual value is empty.
    * @throws java.lang.AssertionError if actual is null.
    */
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     return isPresent();
   }
 
@@ -145,7 +145,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * @throws java.lang.AssertionError if actual is null.
    * @throws java.lang.AssertionError if actual has not the value as expected.
    */
-  public S hasValue(double expectedValue) {
+  public SELF hasValue(double expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
     if (expectedValue != actual.getAsDouble()) throwAssertionError(shouldContain(actual, expectedValue));
@@ -179,7 +179,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * @throws java.lang.NullPointerException if offset is null
    * @throws java.lang.IllegalArgumentException if offset is not positive.
    */
-  public S hasValueCloseTo(Double expectedValue, Offset<Double> offset) {
+  public SELF hasValueCloseTo(Double expectedValue, Offset<Double> offset) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseTo(expectedValue));
     // Reuses doubles functionality, catches potential assertion error and throw correct one
