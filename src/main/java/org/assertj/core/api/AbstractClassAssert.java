@@ -331,58 +331,63 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the {@code methods}.
+   * Verifies that the actual {@code Class} has the given {@code methodNames}.
    *
    * <pre><code class='java'> class MyClass {
    *     public void methodOne() {}
    *     private void methodTwo() {}
    * }
    *
-   * // This one should pass :
+   * // This assertion succeeds:
    * assertThat(MyClass.class).hasMethods("methodOne");
    *
-   * // This one should fail :
+   * // These assertions fail:
    * assertThat(MyClass.class).hasMethods("methodTwo");
    * assertThat(MyClass.class).hasMethods("methodThree");</code></pre>
    *
-   * @param methods the methods which must be in the class.
+   * @param methodNames the method names which must be in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
    *
    * @since 2.7.0 / 3.7.0
    */
-  public SELF hasMethods(String... methods) {
-    classes.assertHasMethods(info, actual, methods);
+  public SELF hasMethods(String... methodNames) {
+    classes.assertHasMethods(info, actual, methodNames);
     return myself;
   }
 
   /**
-   * Verifies that the actual {@code Class} has the declared {@code methods}.
+   * Verifies that the actual {@code Class} has the given declared {@code methodNames}.
    *
-   * <pre><code class='java'> class MyClass {
+   * <pre><code class='java'> class MySuperClass {
+   *     public void superMethod() {}
+   * }
+   *
+   * class MyClass extends MySuperClass {
    *     public void methodOne() {}
    *     private void methodTwo() {}
    * }
    *
-   * // This one should pass :
+   * // This assertion succeeds:
    * assertThat(MyClass.class).hasDeclaredMethods("methodOne", "methodTwo");
    *
-   * // This one should fail :
+   * // These assertions fail:
+   * assertThat(MyClass.class).hasDeclaredMethods("superMethod");
    * assertThat(MyClass.class).hasDeclaredMethods("methodThree");</code></pre>
    *
-   * @param methods the methods which must be declared in the class.
+   * @param methodNames the method names which must be declared in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
    *
    * @since 2.7.0 / 3.7.0
    */
-  public SELF hasDeclaredMethods(String... methods) {
-    classes.assertHasDeclaredMethods(info, actual, methods);
+  public SELF hasDeclaredMethods(String... methodNames) {
+    classes.assertHasDeclaredMethods(info, actual, methodNames);
     return myself;
   }
 
   /**
-   * Verifies that the actual {@code Class} has the public {@code methods}.
+   * Verifies that the actual {@code Class} has the given public {@code methodNames}.
    *
    * <pre><code class='java'> class MyClass {
    *     public void methodOne() {}
@@ -390,50 +395,55 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *     protected void methodThree() {}
    * }
    *
-   * // This one should pass :
+   * // These assertions succeed:
    * assertThat(MyClass.class).hasPublicMethods("methodOne");
    * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodTwo");
    *
-   * // This one should fail :
+   * // These assertions fail:
    * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodThree");
    * assertThat(MyClass.class).hasPublicMethods("methodThree");</code></pre>
    *
-   * @param methods the public methods which must be in the class.
+   * @param methodNames the public method names which must be in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public method names.
    *
    * @since 2.7.0 / 3.7.0
    */
-  public SELF hasPublicMethods(String... methods) {
-    classes.assertHasPublicMethods(info, actual, methods);
+  public SELF hasPublicMethods(String... methodNames) {
+    classes.assertHasPublicMethods(info, actual, methodNames);
     return myself;
   }
 
   /**
-   * Verifies that the actual {@code Class} has the declared public {@code methods}.
+   * Verifies that the actual {@code Class} has the given declared public {@code methodNames}.
    *
-   * <pre><code class='java'> class MyClass {
+   * <pre><code class='java'> class MySuperClass {
+   *     public void superMethod() {}
+   * }
+   *
+   * class MyClass extends MySuperClass{
    *     public void methodOne() {}
    *     public void methodTwo() {}
    *     protected void methodThree() {}
    * }
    *
-   * // This one should pass :
+   * // These assertions succeed:
    * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne");
    * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodTwo");
    *
-   * // This one should fail :
+   * // These assertions fail:
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("superMethod");
    * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodThree");
    * assertThat(MyClass.class).hasDeclaredPublicMethods("methodThree");</code></pre>
    *
-   * @param methods the public methods which must be declared in the class.
+   * @param methodNames the public method names which must be declared in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public method names.
    *
    * @since 2.7.0 / 3.7.0
    */
-  public SELF hasDeclaredPublicMethods(String... methods) {
-    classes.assertHasDeclaredPublicMethods(info, actual, methods);
+  public SELF hasDeclaredPublicMethods(String... methodNames) {
+    classes.assertHasDeclaredPublicMethods(info, actual, methodNames);
     return myself;
   }
 }
