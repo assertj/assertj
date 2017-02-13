@@ -92,12 +92,12 @@ public class Assertions_assertThat_with_Throwable_Test {
 
     try {
       // When
-      assertThat(boom).hasNotThrownException();
+      assertThat(boom).didNotThrowAnyException();
 
       fail("Assertion error expected");
     } catch (AssertionError assertionError) {
       // Then
-      assertThat(assertionError).hasMessageContaining("Expecting code not to raise a throwable.");
+      assertThat(assertionError).hasMessageContaining("Expecting code not to raise a throwable but caught 'java.lang.Exception' with message : boom");
     }
   }
 
@@ -108,7 +108,7 @@ public class Assertions_assertThat_with_Throwable_Test {
 
     try {
       // When
-      assertThat(silent).hasNotThrownException();
+      assertThat(silent).didNotThrowAnyException();
     } catch (AssertionError assertionError) {
       // Then
       fail("Assertion error not expected");

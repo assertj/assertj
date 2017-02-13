@@ -17,6 +17,8 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
 
+import static java.lang.String.format;
+
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
  * 
@@ -356,7 +358,21 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
     return myself;
   }
 
-  public void hasNotThrownException() {
-    if (actual != null) throw Failures.instance().failure("Expecting code not to raise a throwable.");
+  /**
+   * Verifies that the {@link org.assertj.core.api.ThrowableAssert.ThrowingCallable} didn't raise a throwable.
+   *
+   * Example :
+   * <pre><code class='java'>assertThat(() -> foo.bar()).didNotThrowAnyException();
+   * assertThat(() -> jedi.saber()).didNotThrowAnyException();</code></pre>
+   *
+   * @throws AssertionError if the actual statement raised a {@code Throwable}.
+   */
+  public void didNotThrowAnyException() {
+    if (actual != null) {
+      throw Failures.instance()
+                    .failure(format("Expecting code not to raise a throwable but caught '%s' with message : %s",
+                                    actual.getClass().getName(),
+                                    actual.getMessage()));
+    }
   }
 }
