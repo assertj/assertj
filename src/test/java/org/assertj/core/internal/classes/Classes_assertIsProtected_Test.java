@@ -12,35 +12,29 @@
  */
 package org.assertj.core.internal.classes;
 
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.Test;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Classes#assertIsFinal(AssertionInfo, Class)}</code>.
- *
- * @author Michal Kordas
- */
-public class Classes_assertIsFinal_Test extends ClassesBaseTest {
+public class Classes_assertIsProtected_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    classes.assertIsFinal(someInfo(), null);
+    classes.assertIsProtected(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_actual_is_a_final_class() {
-    classes.assertIsFinal(someInfo(), Math.class);
+  public void should_pass_if_actual_is_a_protected_class() {
+    classes.assertIsProtected(someInfo(), MethodsClass.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_final_class() {
-    thrown.expectAssertionError(shouldBeFinal(Object.class));
-    classes.assertIsFinal(someInfo(), Object.class);
+  public void should_fail_if_actual_is_not_a_protected_class() {
+    thrown.expectAssertionError(shouldBeProtected(Object.class));
+    classes.assertIsProtected(someInfo(), Object.class);
   }
 }

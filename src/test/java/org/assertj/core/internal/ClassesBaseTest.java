@@ -61,6 +61,14 @@ public abstract class ClassesBaseTest {
 
   }
 
+  protected static class MethodsClass {
+    public void publicMethod() {}
+    protected void protectedMethod() {}
+    @SuppressWarnings("unused")
+    private void privateMethod() {}
+
+  }
+
   @Before
   public void setUp() {
     classes = new Classes();
