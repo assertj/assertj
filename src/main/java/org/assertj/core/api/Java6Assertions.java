@@ -963,8 +963,7 @@ public class Java6Assertions {
    * public void testException() {
    *   assertThat(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                      .hasMessageContaining("boom");
-   *   assertThat(() -> { throw new Exception("boom!"); }).doesNotThrow();
-   * }</code></pre>
+   *   assertThat(() -> { throw new Exception("boom!"); }).didNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.

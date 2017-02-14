@@ -917,6 +917,14 @@ public interface WithAssertions {
   }
 
   /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(ThrowableAssert.ThrowingCallable)}
+   */
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThat(
+      final ThrowingCallable shouldRaiseThrowable) {
+    return Assertions.assertThat(shouldRaiseThrowable);
+  }
+
+  /**
    * Delegate call to {@link org.assertj.core.api.Assertions#catchThrowable(ThrowableAssert.ThrowingCallable)}
    */
   default Throwable catchThrowable(final ThrowingCallable shouldRaiseThrowable) {
