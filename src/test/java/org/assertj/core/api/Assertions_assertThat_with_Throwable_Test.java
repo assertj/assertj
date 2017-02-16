@@ -12,15 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.test.ExpectedException.none;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.test.ExpectedException.none;
 
 public class Assertions_assertThat_with_Throwable_Test {
 
@@ -66,6 +67,52 @@ public class Assertions_assertThat_with_Throwable_Test {
                                                      "but was:",
                                                      "<\"boom\">");
     assertThatThrownBy(raisingException("boom")).hasMessage("yo");
+  }
+
+  @Test
+  public void can_invoke_late_assertion_on_assertThat_ThrowingCallable() {
+    // Given
+    ThrowingCallable boom = raisingException("boom");
+
+    try {
+      // When
+      assertThat(boom).isInstanceOf(Exception.class)
+                      .hasMessageContaining("boom");
+
+    } catch (AssertionError assertionError) {
+      // Then
+      fail("Assertion error expected");
+    }
+  }
+
+  @Test
+  public void should_fail_when_asserting_not_exception_raised() {
+    // Given
+    ThrowingCallable boom = raisingException("boom");
+
+    try {
+      // When
+      assertThat(boom).didNotThrowAnyException();
+
+      fail("Assertion error expected");
+    } catch (AssertionError assertionError) {
+      // Then
+      assertThat(assertionError).hasMessageContaining("Expecting code not to raise a throwable but caught 'java.lang.Exception' with message : boom");
+    }
+  }
+
+  @Test
+  public void should_not_fail_when_asserting_not_exception_raised() {
+    // Given
+    ThrowingCallable silent = () -> {};
+
+    try {
+      // When
+      assertThat(silent).didNotThrowAnyException();
+    } catch (AssertionError assertionError) {
+      // Then
+      fail("Assertion error not expected");
+    }
   }
 
   private ThrowingCallable raisingException(final String reason) {

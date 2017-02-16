@@ -12,17 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.DateUtil.parseDatetime;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.lang.reflect.Method;
@@ -53,7 +42,6 @@ import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.test.ComparableExample;
@@ -64,6 +52,17 @@ import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
+
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
@@ -875,7 +874,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
         assertions.assertThat("red").isEqualTo("blue");
       });
     }).as("it should call assertAll() and fail with multiple validation errors")
-      .hasBeenThrown()
       .hasMessageContaining("meaning of life")
       .hasMessageContaining("blue");
   }

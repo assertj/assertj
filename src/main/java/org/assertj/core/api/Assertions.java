@@ -12,9 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.data.Percentage.withPercentage;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,7 +58,6 @@ import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.BaseStream;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.api.filter.FilterOperator;
@@ -91,6 +87,9 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
+
+import static org.assertj.core.data.Percentage.withPercentage;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
@@ -1046,6 +1045,37 @@ public class Assertions {
   @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre><code class='java'>{@literal @}Test
+   * public void testException() {
+   *   assertThat(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                      .hasMessageContaining("boom");
+   *   assertThat(() -> { throw new Exception("boom!"); }).didNotThrowAnyException();</code></pre>
+   *
+   * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
+   * <pre><code class='java'>// assertion will fail and "display me" will appear in the error
+   * assertThat(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error
+   * Throwable thrown = catchThrowable(() -> { // do nothing });
+   * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   *
+   * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   */
+  @CheckReturnValue
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(ThrowingCallable shouldRaiseOrNotThrowable) {
+    return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
   /**

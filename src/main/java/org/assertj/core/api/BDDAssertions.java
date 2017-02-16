@@ -967,6 +967,25 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Allows to capture and then assert on a {@link ThrowingCallable} more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * Java 8 example :
+   * <pre><code class='java'> {@literal @}Test
+   *  public void testException() {
+   *    then(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                 .hasMessageContaining("boom");
+   *    then(() -> { throw new Exception("boom!"); }).didNotThrowAnyException();</code></pre>
+   *
+   * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   */
+  @CheckReturnValue
+  public static AbstractThrowableAssert<?, ? extends Throwable> then(ThrowingCallable shouldRaiseOrNotThrowable) {
+    return assertThat(shouldRaiseOrNotThrowable);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.LocalDateAssert}</code>.
    *
    * @param actual the actual value.

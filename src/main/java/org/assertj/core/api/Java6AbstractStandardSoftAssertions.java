@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
-
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -37,8 +35,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
-
 import org.assertj.core.util.CheckReturnValue;
+
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 /**
  * AbstractStandardSoftAssertions compatible with Android. Duplicated from {@link AbstractStandardSoftAssertions}.
@@ -706,6 +705,27 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   @CheckReturnValue
   public AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre><code class='java'>{@literal @}Test
+   * public void testException() {
+   *   assertThat(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                      .hasMessageContaining("boom");
+   *   assertThat(() -> { throw new Exception("boom!"); }).didNotThrowAnyException();</code></pre>
+   *
+   * @param shouldRaiseOrNotThrowable The {@link org.assertj.core.api.ThrowableAssert.ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   */
+  @CheckReturnValue
+  public AbstractThrowableAssert<?, ? extends Throwable> assertThat(ThrowableAssert.ThrowingCallable shouldRaiseOrNotThrowable) {
+    return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
   /**
