@@ -34,14 +34,15 @@ import org.assertj.core.util.CheckReturnValue;
 /**
  * Assertions for {@link java.util.Optional}.
  *
+ * @param <SELF> the "self" type of this assertion class.
  * @param <T> type of the value contained in the {@link java.util.Optional}.
  *
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
  * @author Grzegorz Piwowarek
  */
-public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S, T>, T> extends
-    AbstractAssert<S, Optional<T>> {
+public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, T>, T> extends
+    AbstractAssert<SELF, Optional<T>> {
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 
@@ -61,7 +62,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isPresent() {
+  public SELF isPresent() {
     assertValueIsPresent();
     return myself;
   }
@@ -77,7 +78,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     return isPresent();
   }
 
@@ -92,7 +93,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isEmpty() {
+  public SELF isEmpty() {
     isNotNull();
     if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
@@ -109,7 +110,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isNotPresent() {
+  public SELF isNotPresent() {
     return isEmpty();
   }
 
@@ -127,7 +128,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S contains(T expectedValue) {
+  public SELF contains(T expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
@@ -163,7 +164,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S hasValueSatisfying(Consumer<T> requirement) {
+  public SELF hasValueSatisfying(Consumer<T> requirement) {
     assertValueIsPresent();
     requirement.accept(actual.get());
     return myself;
@@ -191,7 +192,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @throws AssertionError       if the actual value does not satisfy the given condition.
    * @since 3.6.0
    */
-  public S hasValueSatisfying(Condition<? super T> condition) {
+  public SELF hasValueSatisfying(Condition<? super T> condition) {
     assertValueIsPresent();
     conditions.assertIs(info, actual.get(), condition);
     return myself;
@@ -211,7 +212,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S hasValue(T expectedValue) {
+  public SELF hasValue(T expectedValue) {
     return contains(expectedValue);
   }
 
@@ -232,7 +233,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param clazz the expected class of the value inside the {@link Optional}.
    * @return this assertion object.
    */
-  public S containsInstanceOf(Class<?> clazz) {
+  public SELF containsInstanceOf(Class<?> clazz) {
     assertValueIsPresent();
     if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
@@ -264,7 +265,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
-  public S usingFieldByFieldValueComparator() {
+  public SELF usingFieldByFieldValueComparator() {
     return usingValueComparator(new FieldByFieldComparator());
   }
 
@@ -291,7 +292,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
-  public S usingValueComparator(Comparator<? super T> customComparator) {
+  public SELF usingValueComparator(Comparator<? super T> customComparator) {
     optionalValueComparisonStrategy = new ComparatorBasedComparisonStrategy(customComparator);
     return myself;
   }
@@ -305,7 +306,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
-  public S usingDefaultValueComparator() {
+  public SELF usingDefaultValueComparator() {
     // fall back to default strategy to compare actual with other objects.
     optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
     return myself;
@@ -336,7 +337,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S containsSame(T expectedValue) {
+  public SELF containsSame(T expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));

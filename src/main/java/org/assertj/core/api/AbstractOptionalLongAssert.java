@@ -25,8 +25,8 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
  * @author Alexander Bischof
  * @author Grzegorz Piwowarek
  */
-public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongAssert<S>> extends
-    AbstractAssert<S, OptionalLong> {
+public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLongAssert<SELF>> extends
+    AbstractAssert<SELF, OptionalLong> {
 
   protected AbstractOptionalLongAssert(OptionalLong actual, Class<?> selfType) {
     super(actual, selfType);
@@ -49,7 +49,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * @throws AssertionError if actual value is empty.
    * @throws AssertionError if actual is null.
    */
-  public S isPresent() {
+  public SELF isPresent() {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     return myself;
@@ -66,7 +66,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    *
    * @return this assertion object.
    */
-  public S isNotPresent() {
+  public SELF isNotPresent() {
     return isEmpty();
   }
   
@@ -87,7 +87,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * @throws AssertionError if actual value is present.
    * @throws AssertionError if actual is null.
    */
-  public S isEmpty() {
+  public SELF isEmpty() {
     isNotNull();
     if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
@@ -110,7 +110,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * @throws AssertionError if actual value is empty.
    * @throws AssertionError if actual is null.
    */
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     return isPresent();
   }
 
@@ -135,7 +135,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * @throws AssertionError if actual is null.
    * @throws AssertionError if actual has not the value as expected.
    */
-  public S hasValue(long expectedValue) {
+  public SELF hasValue(long expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
     if (expectedValue != actual.getAsLong()) throwAssertionError(shouldContain(actual, expectedValue));

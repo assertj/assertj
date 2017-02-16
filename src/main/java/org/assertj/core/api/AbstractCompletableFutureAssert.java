@@ -39,8 +39,8 @@ import org.assertj.core.presentation.PredicateDescription;
  *
  * @param <T> type of the value contained in the {@link CompletableFuture}.
  */
-public abstract class AbstractCompletableFutureAssert<S extends AbstractCompletableFutureAssert<S, T>, T> extends
-    AbstractAssert<S, CompletableFuture<T>> {
+public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, T>, T> extends
+    AbstractAssert<SELF, CompletableFuture<T>> {
 
   protected AbstractCompletableFutureAssert(CompletableFuture<T> actual, Class<?> selfType) {
     super(actual, selfType);
@@ -59,7 +59,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isDone()
    */
-  public S isDone() {
+  public SELF isDone() {
     isNotNull();
     if (!actual.isDone()) throwAssertionError(shouldBeDone(actual));
     return myself;
@@ -78,7 +78,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isDone()
    */
-  public S isNotDone() {
+  public SELF isNotDone() {
     isNotNull();
     if (actual.isDone()) throwAssertionError(shouldNotBeDone(actual));
     return myself;
@@ -102,7 +102,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCompletedExceptionally()
    */
-  public S isCompletedExceptionally() {
+  public SELF isCompletedExceptionally() {
     isNotNull();
     if (!actual.isCompletedExceptionally()) throwAssertionError(shouldHaveCompletedExceptionally(actual));
     return myself;
@@ -123,7 +123,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCompletedExceptionally()
    */
-  public S isNotCompletedExceptionally() {
+  public SELF isNotCompletedExceptionally() {
     isNotNull();
     if (actual.isCompletedExceptionally()) throwAssertionError(shouldNotHaveCompletedExceptionally(actual));
     return myself;
@@ -144,7 +144,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCancelled()
    */
-  public S isCancelled() {
+  public SELF isCancelled() {
     isNotNull();
     if (!actual.isCancelled()) throwAssertionError(shouldBeCancelled(actual));
     return myself;
@@ -165,7 +165,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCancelled()
    */
-  public S isNotCancelled() {
+  public SELF isNotCancelled() {
     isNotNull();
     if (actual.isCancelled()) throwAssertionError(shouldNotBeCancelled(actual));
     return myself;
@@ -183,7 +183,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S isCompleted() {
+  public SELF isCompleted() {
     isNotNull();
     if (!actual.isDone() || actual.isCompletedExceptionally()) throwAssertionError(shouldBeCompleted(actual));
     return myself;
@@ -200,7 +200,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S isNotCompleted() {
+  public SELF isNotCompleted() {
     isNotNull();
     if (actual.isDone() && !actual.isCompletedExceptionally()) throwAssertionError(shouldNotBeCompleted(actual));
     return myself;
@@ -219,7 +219,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S isCompletedWithValue(T expected) {
+  public SELF isCompletedWithValue(T expected) {
     isCompleted();
 
     T actualResult = actual.join();
@@ -242,7 +242,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S isCompletedWithValueMatching(Predicate<? super T> predicate) {
+  public SELF isCompletedWithValueMatching(Predicate<? super T> predicate) {
     return isCompletedWithValueMatching(predicate, PredicateDescription.GIVEN);
   }
 
@@ -264,11 +264,11 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S isCompletedWithValueMatching(Predicate<? super T> predicate, String description) {
+  public SELF isCompletedWithValueMatching(Predicate<? super T> predicate, String description) {
     return isCompletedWithValueMatching(predicate, new PredicateDescription(description));
   }
 
-  private S isCompletedWithValueMatching(Predicate<? super T> predicate, PredicateDescription description) {
+  private SELF isCompletedWithValueMatching(Predicate<? super T> predicate, PredicateDescription description) {
     isCompleted();
 
     T actualResult = actual.join();
@@ -296,7 +296,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S hasFailed() {
+  public SELF hasFailed() {
     isNotNull();
     if (!actual.isCompletedExceptionally() || actual.isCancelled()) throwAssertionError(shouldHaveFailed(actual));
     return myself;
@@ -318,7 +318,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S hasNotFailed() {
+  public SELF hasNotFailed() {
     isNotNull();
     if (actual.isCompletedExceptionally() && !actual.isCancelled()) throwAssertionError(shouldNotHaveFailed(actual));
     return myself;

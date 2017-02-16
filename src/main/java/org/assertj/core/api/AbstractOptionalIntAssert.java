@@ -28,8 +28,8 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
  * @author Alexander Bischof
  * @author Grzegorz Piwowarek
  */
-public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAssert<S>> extends
-    AbstractAssert<S, OptionalInt> {
+public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalIntAssert<SELF>> extends
+    AbstractAssert<SELF, OptionalInt> {
 
   @VisibleForTesting
   Integers integers = Integers.instance();
@@ -55,7 +55,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * @throws AssertionError if actual value is empty.
    * @throws AssertionError if actual is null.
    */
-  public S isPresent() {
+  public SELF isPresent() {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     return myself;
@@ -72,7 +72,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    *
    * @return this assertion object.
    */
-  public S isNotPresent() {
+  public SELF isNotPresent() {
     return isEmpty();
   }
   
@@ -93,7 +93,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * @throws AssertionError if actual value is present.
    * @throws AssertionError if actual is null.
    */
-  public S isEmpty() {
+  public SELF isEmpty() {
     isNotNull();
     if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
@@ -116,7 +116,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * @throws AssertionError if actual value is empty.
    * @throws AssertionError if actual is null.
    */
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     return isPresent();
   }
 
@@ -141,7 +141,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * @throws AssertionError if actual is null.
    * @throws AssertionError if actual has not the value as expected.
    */
-  public S hasValue(int expectedValue) {
+  public SELF hasValue(int expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
     if (expectedValue != actual.getAsInt()) throwAssertionError(shouldContain(actual, expectedValue));
