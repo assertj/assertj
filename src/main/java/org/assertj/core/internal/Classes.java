@@ -275,7 +275,7 @@ public class Classes {
    */
   public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info,actual, actual.getMethods(), false, methods);
+    doAssertHasMethods(info,actual, getAllMethods(actual), false, methods);
   }
 
   /**
@@ -297,8 +297,8 @@ public class Classes {
     Set<String> missingMethodNames = newLinkedHashSet();
     Set<String> actualMethodNames = methodsToName(methods);
 
-    if(!isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
-      throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(methods, Modifier.PUBLIC)));
+    if(isEmptyAndHasNoMethods(methods, expectedMethods)) {
+      throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(methods, Modifier.methodModifiers())));
     }
 
     if (!noMissingElement(actualMethodNames, expectedMethodNames, missingMethodNames)) {
@@ -339,7 +339,7 @@ public class Classes {
     Set<String> missingMethodNames = newLinkedHashSet();
     Map<String,Integer> actualMethods = methodsToNameAndModifier(methods);
 
-    if(!isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
+    if(isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
       throw failures.failure(info, shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), declared, getMethodsWithModifier(methods, Modifier.PUBLIC)));
     }
 
@@ -371,16 +371,19 @@ public class Classes {
     return nonMatchingModifiers.isEmpty();
   }
 
+  private static boolean isEmptyAndHasNoMethods(Method[] methods, String... expectedMethods) {
+    return expectedMethods.length == 0 && methods.length > 0;
+  }
 
   private static boolean isEmptyAndHasNoMethodsWithModifier(int expectedModifier, Method[] methods, String... expectedMethods) {
     if (expectedMethods.length == 0) {
       for (Method method : methods) {
         if ((method.getModifiers() & expectedModifier) != 0) {
-          return false;
+          return true;
         }
       }
     }
-    return true;
+    return false;
   }
 
   private static Set<String> methodsToName(Method[] methods) {
@@ -397,6 +400,17 @@ public class Classes {
       methodMap.put(method.getName(), method.getModifiers());
     }
     return methodMap;
+  }
+
+  private static Method[] getAllMethods(Class<?> actual) {
+    Set<Method> allMethods = newLinkedHashSet();
+    Method[] declaredMethods = actual.getDeclaredMethods();
+    allMethods.addAll(newLinkedHashSet(declaredMethods));
+    Class<?> superclass = actual.getSuperclass();
+    if (superclass != null) {
+      allMethods.addAll(newLinkedHashSet(getAllMethods(superclass)));
+    }
+    return allMethods.toArray(new Method[allMethods.size()]);
   }
 
   private static void assertNotNull(AssertionInfo info, Class<?> actual) {

@@ -47,10 +47,9 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
     classes.assertHasDeclaredPublicMethods(someInfo(), actual);
   }
 
-
   @Test
   public void should_fail_if_no_methods_are_expected_and_declared_methods_are_available() {
-    thrown.expectAssertionError(shouldNotHaveMethods(actual, true, newLinkedHashSet("publicMethod")));
+    thrown.expectAssertionError(shouldNotHaveMethods(actual, true, newLinkedHashSet("publicMethod", "protectedMethod", "privateMethod")));
     classes.assertHasDeclaredMethods(someInfo(), actual);
   }
 

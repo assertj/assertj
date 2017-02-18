@@ -44,7 +44,8 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_no_methods_are_expected_and_methods_are_available() {
     thrown.expectAssertionError(shouldNotHaveMethods(actual,false,
-      newLinkedHashSet("publicMethod", "wait", "equals", "toString", "hashCode", "getClass", "notify", "notifyAll")));
+      newLinkedHashSet("publicMethod",  "protectedMethod", "privateMethod", "finalize", "wait", "equals", "toString",
+        "hashCode", "getClass", "clone", "registerNatives", "notify", "notifyAll")));
     classes.assertHasMethods(someInfo(), actual);
   }
 
@@ -54,11 +55,14 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_methods_are_protected_or_private() {
-    String[] expected = new String[] { "publicMethod", "protectedMethod", "privateMethod" };
-    thrown.expectAssertionError(shouldHaveMethods(actual, false,
-      newLinkedHashSet(expected),
-      newLinkedHashSet("protectedMethod", "privateMethod")));
+  public void should_pass_if_methods_are_protected_or_private() {
+    String[] expected = new String[] { "protectedMethod", "privateMethod" };
+    classes.assertHasMethods(someInfo(), actual, expected);
+  }
+
+  @Test
+  public void should_pass_if_methods_are_inherited() {
+    String[] expected = new String[] { "notify", "notifyAll" };
     classes.assertHasMethods(someInfo(), actual, expected);
   }
 
