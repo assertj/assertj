@@ -40,6 +40,12 @@ public class Floats_assertIsZero_Test extends FloatsBaseTest {
   }
 
   @Test
+  public void should_fail_since_actual_is_negative_zero_and_not_primitive() {
+    thrown.expectAssertionError("expected:<[]0.0f> but was:<[-]0.0f>");
+    floats.assertIsZero(someInfo(), new Float(-0.0));
+  }
+
+  @Test
   public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     floatsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 0.0f);
   }

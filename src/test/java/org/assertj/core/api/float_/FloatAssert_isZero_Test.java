@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api.float_;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
+import org.junit.Test;
 
 
 /**
@@ -34,4 +37,59 @@ public class FloatAssert_isZero_Test extends FloatAssertBaseTest {
   protected void verify_internal_effects() {
     verify(floats).assertIsZero(getInfo(assertions), getActual(assertions));
   }
+
+  @Test
+  public void should_pass_with_primitive_negative_zero() {
+    // GIVEN
+    final float negativeZero = -0.0f;
+    // THEN
+    assertThat(negativeZero).isZero();
+  }
+
+  @Test
+  public void should_pass_with_primitive_positive_zero() {
+    // GIVEN
+    final float positiveZero = 0.0f;
+    // THEN
+    assertThat(positiveZero).isZero();
+  }
+
+  @Test
+  public void should_pass_with_Float_positive_zero() {
+    // GIVEN
+    final Float positiveZero = 0.0f;
+    // THEN
+    assertThat(positiveZero).isZero();
+  }
+
+  @Test
+  public void should_fail_with_non_zero() {
+    // GIVEN
+    final float notZero = 1.0f;
+    try {
+      // WHEN
+      assertThat(notZero).isZero();
+    } catch (AssertionError e) {
+      // THEN
+      assertThat(e).hasMessage("expected:<[0].0f> but was:<[1].0f>");
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_with_Float_negative_zero() {
+    // GIVEN
+    final Float negativeZero = -0.0f;
+    try {
+      // WHEN
+      assertThat(negativeZero).isZero();
+    } catch (AssertionError e) {
+      // THEN
+      assertThat(e).hasMessage("expected:<[]0.0f> but was:<[-]0.0f>");
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
 }

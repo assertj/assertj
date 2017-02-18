@@ -14,18 +14,10 @@ package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.Test;
 
 
-/**
- * Tests for <code>{@link Doubles#assertIsNegative(AssertionInfo, Double)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 public class Doubles_assertIsZero_Test extends DoublesBaseTest {
 
   @Test
@@ -37,6 +29,12 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
   public void should_fail_since_actual_is_not_zero() {
     thrown.expectAssertionError("expected:<[0].0> but was:<[2].0>");
     doubles.assertIsZero(someInfo(), 2.0d);
+  }
+
+  @Test
+  public void should_fail_since_actual_is_negative_zero_and_not_primitive() {
+    thrown.expectAssertionError("expected:<[]0.0> but was:<[-]0.0>");
+    doubles.assertIsZero(someInfo(), new Double(-0.0d));
   }
 
   @Test

@@ -12,12 +12,16 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Doubles;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -40,11 +44,21 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SELF>> extends
     AbstractComparableAssert<SELF, Double> implements FloatingPointNumberAssert<SELF, Double> {
 
+  private static final Double NEGATIVE_ZERO = new Double(-0.0);
+
   @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
+  private boolean isPrimitive;
+
   public AbstractDoubleAssert(Double actual, Class<?> selfType) {
     super(actual, selfType);
+    this.isPrimitive = false;
+  }
+
+  public AbstractDoubleAssert(double actual, Class<?> selfType) {
+    super(actual, selfType);
+    this.isPrimitive = true;
   }
 
   /** {@inheritDoc} */
@@ -61,17 +75,55 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is equal to zero.
+   * <p>
+   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.</br>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(0.0).isZero();
+   * assertThat(-0.0).isZero();
+   *
+   * // assertions will fail
+   * assertThat(new Double(-0.0)).isZero();
+   * assertThat(3.142).isZero();</code></pre>
+   * 
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to zero.
+   */
   @Override
   public SELF isZero() {
-    doubles.assertIsZero(info, actual);
+    if (isPrimitive) assertIsPrimitiveZero();
+    else doubles.assertIsZero(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is not equal to zero.
+   * <p>
+   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.</br>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(3.142).isNotZero();
+   * assertThat(new Double(-0.0)).isNotZero();
+   *
+   * // assertions will fail
+   * assertThat(0.0).isNotZero();
+   * assertThat(new Double(0.0)).isNotZero();
+   * assertThat(-0.0).isNotZero();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to zero.
+   */
   @Override
   public SELF isNotZero() {
-    doubles.assertIsNotZero(info, actual);
+    if (isPrimitive) assertIsPrimitiveNonZero();
+    else if (NEGATIVE_ZERO.equals(actual)) return myself;
+    else doubles.assertIsNotZero(info, actual);
     return myself;
   }
 
@@ -340,12 +392,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(1.0).isEqualTo(1.0);
-	 * assertThat(1D).isEqualTo(1.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(0.0).isEqualTo(1.0);
-	 * assertThat(-1.0).isEqualTo(1.0);</code></pre>
+   * assertThat(1.0).isEqualTo(1.0);
+   * assertThat(1D).isEqualTo(1.0);
+   * 
+   * // assertions will fail:
+   * assertThat(0.0).isEqualTo(1.0);
+   * assertThat(-1.0).isEqualTo(1.0);</code></pre>
    * </p>
    *
    * @param expected the given value to compare the actual value to.
@@ -399,12 +451,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(0.0).isNotEqualTo(1.0);
-	 * assertThat(-1.0).isNotEqualTo(1.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(1.0).isNotEqualTo(1.0);
-	 * assertThat(1D).isNotEqualTo(1.0);</code></pre>
+   * assertThat(0.0).isNotEqualTo(1.0);
+   * assertThat(-1.0).isNotEqualTo(1.0);
+   * 
+   * // assertions will fail:
+   * assertThat(1.0).isNotEqualTo(1.0);
+   * assertThat(1D).isNotEqualTo(1.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -422,11 +474,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
-	 * assertThat(1.0).isLessThan(2.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(2.0).isLessThan(1.0);
-	 * assertThat(1.0).isLessThan(1.0);</code></pre>
+   * assertThat(1.0).isLessThan(2.0);
+   * 
+   * // assertions will fail:
+   * assertThat(2.0).isLessThan(1.0);
+   * assertThat(1.0).isLessThan(1.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -444,11 +496,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(-1.0).isLessThanOrEqualTo(1.0);
-	 * assertThat(1.0).isLessThanOrEqualTo(1.0);
-	 * 
-	 * // assertion will fail:
-	 * assertThat(2.0).isLessThanOrEqualTo(1.0);</code></pre>
+   * assertThat(-1.0).isLessThanOrEqualTo(1.0);
+   * assertThat(1.0).isLessThanOrEqualTo(1.0);
+   * 
+   * // assertion will fail:
+   * assertThat(2.0).isLessThanOrEqualTo(1.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -466,11 +518,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
-	 * assertThat(2.0).isGreaterThan(1.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(1.0).isGreaterThan(1.0);
-	 * assertThat(1.0).isGreaterThan(2.0);</code></pre>
+   * assertThat(2.0).isGreaterThan(1.0);
+   * 
+   * // assertions will fail:
+   * assertThat(1.0).isGreaterThan(1.0);
+   * assertThat(1.0).isGreaterThan(2.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -488,11 +540,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(2.0).isGreaterThanOrEqualTo(1.0);
-	 * assertThat(1.0).isGreaterThanOrEqualTo(1.0);
-	 * 
-	 * // assertion will fail:
-	 * assertThat(1.0).isGreaterThanOrEqualTo(2.0);</code></pre>
+   * assertThat(2.0).isGreaterThanOrEqualTo(1.0);
+   * assertThat(1.0).isGreaterThanOrEqualTo(1.0);
+   * 
+   * // assertion will fail:
+   * assertThat(1.0).isGreaterThanOrEqualTo(2.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -534,4 +586,15 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
     doubles = Doubles.instance();
     return myself;
   }
+
+  private void assertIsPrimitiveZero() {
+    if (actual.doubleValue() == 0.0) return;
+    throw Failures.instance().failure(info, shouldBeEqual(actual, 0.0, info.representation()));
+  }
+
+  private void assertIsPrimitiveNonZero() {
+    if (actual.doubleValue() != 0.0) return;
+    throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0));
+  }
+
 }
