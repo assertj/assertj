@@ -26,15 +26,18 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.LinkedHashMap;
+
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.Arrays;
@@ -293,9 +296,9 @@ public class Classes {
   }
 
   private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
-    Set<String> expectedMethodNames = newLinkedHashSet(expectedMethods);
-    Set<String> missingMethodNames = newLinkedHashSet();
-    Set<String> actualMethodNames = methodsToName(methods);
+    SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
+    SortedSet<String> missingMethodNames = newTreeSet();
+    SortedSet<String> actualMethodNames = methodsToName(methods);
 
     if(isEmptyAndHasNoMethods(methods, expectedMethods)) {
       throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(methods, Modifier.methodModifiers())));
@@ -335,8 +338,8 @@ public class Classes {
   }
 
   private void doAssertHasPublicMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
-    Set<String> expectedMethodNames = newLinkedHashSet(expectedMethods);
-    Set<String> missingMethodNames = newLinkedHashSet();
+    SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
+    SortedSet<String> missingMethodNames = newTreeSet();
     Map<String,Integer> actualMethods = methodsToNameAndModifier(methods);
 
     if(isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
@@ -352,8 +355,8 @@ public class Classes {
     }
   }
 
-  private static Set<String> getMethodsWithModifier(Method[] methods, int modifier) {
-    Set<String> methodsWithModifier = newLinkedHashSet();
+  private static SortedSet<String> getMethodsWithModifier(Method[] methods, int modifier) {
+    SortedSet<String> methodsWithModifier = newTreeSet();
     for (Method method : methods) {
       if ((method.getModifiers() & modifier) != 0) {
         methodsWithModifier.add(method.getName());
@@ -386,8 +389,8 @@ public class Classes {
     return false;
   }
 
-  private static Set<String> methodsToName(Method[] methods) {
-    Set<String> methodsName = new LinkedHashSet<>(methods.length);
+  private static SortedSet<String> methodsToName(Method[] methods) {
+    SortedSet<String> methodsName = newTreeSet();
     for (Method method : methods) {
       methodsName.add(method.getName());
     }

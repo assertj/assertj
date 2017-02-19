@@ -26,7 +26,7 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Sets.newTreeSet;
 
 /**
  * Tests for
@@ -54,7 +54,7 @@ public class Classes_assertHasDeclaredPublicMethods_Test extends ClassesBaseTest
 
   @Test
   public void should_fail_if_no_methods_are_expected_and_declared_public_methods_are_available() {
-    thrown.expectAssertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), true, newLinkedHashSet("publicMethod")));
+    thrown.expectAssertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), true, newTreeSet("publicMethod")));
     classes.assertHasDeclaredPublicMethods(someInfo(), actual);
   }
 
@@ -71,7 +71,7 @@ public class Classes_assertHasDeclaredPublicMethods_Test extends ClassesBaseTest
     nonMatching.put("privateMethod", "private");
 
     thrown.expectAssertionError(shouldHaveMethods(actual, true,
-      newLinkedHashSet(expected),
+      newTreeSet(expected),
       Modifier.toString(Modifier.PUBLIC),
       nonMatching));
     classes.assertHasDeclaredPublicMethods(someInfo(), actual, expected);
@@ -81,8 +81,8 @@ public class Classes_assertHasDeclaredPublicMethods_Test extends ClassesBaseTest
   public void should_fail_if_methods_are_missing() {
     String[] expected = new String[] { "missingMethod", "publicMethod" };
     thrown.expectAssertionError(shouldHaveMethods(actual, true,
-      newLinkedHashSet(expected),
-      newLinkedHashSet("missingMethod")));
+      newTreeSet(expected),
+      newTreeSet("missingMethod")));
     classes.assertHasDeclaredPublicMethods(someInfo(), actual, expected);
   }
 }

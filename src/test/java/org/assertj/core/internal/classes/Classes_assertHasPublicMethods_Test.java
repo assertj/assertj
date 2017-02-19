@@ -23,7 +23,7 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Sets.newTreeSet;
 
 /**
  * Tests for
@@ -46,7 +46,7 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_no_methods_are_expected_but_public_methods_are_available() {
     thrown.expectAssertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false,
-      newLinkedHashSet("publicMethod", "wait", "equals", "toString", "hashCode", "getClass", "notify", "notifyAll")));
+      newTreeSet("publicMethod", "wait", "equals", "toString", "hashCode", "getClass", "notify", "notifyAll")));
     classes.assertHasPublicMethods(someInfo(), actual);
   }
 
@@ -59,8 +59,8 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   public void should_fail_if_methods_are_protected_or_private() {
     String[] expected = new String[] { "publicMethod", "protectedMethod", "privateMethod" };
     thrown.expectAssertionError(shouldHaveMethods(actual, false,
-      newLinkedHashSet(expected),
-      newLinkedHashSet("protectedMethod", "privateMethod")));
+      newTreeSet(expected),
+      newTreeSet("protectedMethod", "privateMethod")));
     classes.assertHasPublicMethods(someInfo(), actual, expected);
   }
 
@@ -68,8 +68,8 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   public void should_fail_if_methods_are_missing() {
     String[] expected = new String[] { "missingMethod", "publicMethod" };
     thrown.expectAssertionError(shouldHaveMethods(actual, false,
-      newLinkedHashSet(expected),
-      newLinkedHashSet("missingMethod")));
+      newTreeSet(expected),
+      newTreeSet("missingMethod")));
     classes.assertHasPublicMethods(someInfo(), actual, expected);
   }
 }

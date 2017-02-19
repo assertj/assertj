@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a class have methods.
@@ -29,19 +30,19 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
    * @param missing missing methods for this class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, Set<String> expected, Set<String> missing) {
+  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, SortedSet<String> expected, SortedSet<String> missing) {
     return new ShouldHaveMethods(actual, expected, missing, declared);
   }
 
-  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, Set<String> expected, String modifier, Map<String,String> nonMatching) {
+  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, SortedSet<String> expected, String modifier, Map<String,String> nonMatching) {
     return new ShouldHaveMethods(actual, expected, modifier, nonMatching, declared);
   }
 
-  public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, String modifier, boolean declared, Set<String> actualMethodsHavingModifier) {
+  public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, String modifier, boolean declared, SortedSet<String> actualMethodsHavingModifier) {
     return new ShouldHaveMethods(actual, modifier, declared, actualMethodsHavingModifier);
   }
 
-  public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, boolean declared, Set<String> actualMethodsHavingModifier) {
+  public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, boolean declared, SortedSet<String> actualMethodsHavingModifier) {
     return new ShouldHaveMethods(actual, null, declared, actualMethodsHavingModifier);
   }
 
