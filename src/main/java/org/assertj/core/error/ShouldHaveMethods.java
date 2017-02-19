@@ -46,18 +46,31 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
-    super("%nExpecting%n  <%s>%nto have " + (declared ? "declared " : "")
-      + "methods:%n  <%s>%nbut it doesn't have:%n  <%s>", actual, expected, missing);
+    super("%n" +
+      "Expecting%n" +
+      "  <%s>%n" +
+      "to have " + (declared ? "declared " : "") + "methods:%n" +
+      "  <%s>%n" +
+      "but it doesn't have:%n" +
+      "  <%s>", actual, expected, missing);
   }
 
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Map<String, String> nonMatching, boolean declared) {
-    super("%nExpecting%n  <%s>%nto have " + (declared ? "declared " : "") +  modifier + " "
-      + "methods:%n  <%s>%nbut the following are not " +modifier + ":%n  <%s>", actual, expected, nonMatching);
+    super("%n" +
+      "Expecting%n" +
+      "  <%s>%n" +
+      "to have " + (declared ? "declared " : "") +  modifier + " " + "methods:%n" +
+      "  <%s>%n" +
+      "but the following are not " +modifier + ":%n" +
+      "  <%s>", actual, expected, nonMatching);
   }
 
   private ShouldHaveMethods(Class<?> actual, String modifier, boolean declared, Set<String> actualMethodsHavingModifier) {
-    super("%nExpecting%n  <%s>%nto have no " + (declared ? "declared " : "") +  ((modifier != null && modifier.length() > 0)  ?  modifier + " " : "")
-      + "methods but have the following:%n  <%s>", actual, actualMethodsHavingModifier);
+    super("%n" +
+      "Expecting%n" +
+      "  <%s>%n" +
+      "to have no " + (declared ? "declared " : "") +  ((modifier != null && modifier.length() > 0)  ?  modifier + " " : "") + "methods but have the following:%n" +
+      "  <%s>", actual, actualMethodsHavingModifier);
   }
 }
 
