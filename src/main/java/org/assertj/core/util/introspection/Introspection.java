@@ -52,7 +52,7 @@ public final class Introspection {
       }
       getter.invoke(target);
     } catch (Exception t) {
-      throw new IntrospectionError(propertyNotFoundErrorMessage(propertyName, target));
+      throw new IntrospectionError(propertyNotFoundErrorMessage(propertyName, target), t);
     }
     return getter;
   }

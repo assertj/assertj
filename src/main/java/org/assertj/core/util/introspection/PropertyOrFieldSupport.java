@@ -74,7 +74,7 @@ public class PropertyOrFieldSupport {
                                 "- %s",
                                 propertyOrFieldName, propertyIntrospectionError.getMessage(),
                                 fieldIntrospectionError.getMessage());
-        throw new IntrospectionError(message);
+        throw new IntrospectionError(message, fieldIntrospectionError);
       }
     }
   }
