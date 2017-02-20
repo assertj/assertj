@@ -143,12 +143,12 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link java.util.Optional}.
    *
    * @param optional the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> OptionalAssert<T> then(Optional<T> optional) {
+  public static <VALUE> OptionalAssert<VALUE> then(Optional<VALUE> optional) {
     return assertThat(optional);
   }
 

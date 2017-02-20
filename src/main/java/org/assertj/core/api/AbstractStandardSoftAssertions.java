@@ -50,13 +50,13 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * Create assertion for {@link java.util.Optional}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> OptionalAssert<T> assertThat(Optional<T> actual) {
+  public <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
   }
 

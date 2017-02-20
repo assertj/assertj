@@ -44,10 +44,10 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    *
    * @param optional the {@link java.util.Optional} which contains a value.
    * @param expectedValue the value we expect to be in the provided {@link java.util.Optional}.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    * @return a error message factory
    */
-  public static <T> OptionalShouldContain shouldContain(Optional<T> optional, T expectedValue) {
+  public static <VALUE> OptionalShouldContain shouldContain(Optional<VALUE> optional, VALUE expectedValue) {
     return optional.isPresent() ?
             new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue) :
             shouldContain(expectedValue);
@@ -98,10 +98,10 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    *
    * @param optional the {@link java.util.Optional} which contains a value.
    * @param expectedValue the value we expect to be in the provided {@link java.util.Optional}.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    * @return a error message factory
    */
-  public static <T> OptionalShouldContain shouldContainSame(Optional<T> optional, T expectedValue) {
+  public static <VALUE> OptionalShouldContain shouldContainSame(Optional<VALUE> optional, VALUE expectedValue) {
     return optional.isPresent() ?
             new OptionalShouldContain(EXPECTING_TO_CONTAIN_SAME, optional, expectedValue) :
             shouldContain(expectedValue);

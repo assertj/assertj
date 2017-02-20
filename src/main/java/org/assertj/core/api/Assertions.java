@@ -195,12 +195,12 @@ public class Assertions {
    * Create assertion for {@link java.util.Optional}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> OptionalAssert<T> assertThat(Optional<T> actual) {
+  public static <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 

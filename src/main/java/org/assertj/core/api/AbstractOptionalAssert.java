@@ -35,18 +35,18 @@ import org.assertj.core.util.CheckReturnValue;
  * Assertions for {@link java.util.Optional}.
  *
  * @param <SELF> the "self" type of this assertion class.
- * @param <T> type of the value contained in the {@link java.util.Optional}.
+ * @param <VALUE> type of the value contained in the {@link java.util.Optional}.
  *
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
  * @author Grzegorz Piwowarek
  */
-public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, T>, T> extends
-    AbstractAssert<SELF, Optional<T>> {
+public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
+    AbstractAssert<SELF, Optional<VALUE>> {
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 
-  protected AbstractOptionalAssert(Optional<T> actual, Class<?> selfType) {
+  protected AbstractOptionalAssert(Optional<VALUE> actual, Class<?> selfType) {
     super(actual, selfType);
     this.optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
   }
@@ -128,7 +128,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public SELF contains(T expectedValue) {
+  public SELF contains(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
@@ -164,7 +164,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public SELF hasValueSatisfying(Consumer<T> requirement) {
+  public SELF hasValueSatisfying(Consumer<VALUE> requirement) {
     assertValueIsPresent();
     requirement.accept(actual.get());
     return myself;
@@ -192,7 +192,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @throws AssertionError       if the actual value does not satisfy the given condition.
    * @since 3.6.0
    */
-  public SELF hasValueSatisfying(Condition<? super T> condition) {
+  public SELF hasValueSatisfying(Condition<? super VALUE> condition) {
     assertValueIsPresent();
     conditions.assertIs(info, actual.get(), condition);
     return myself;
@@ -212,7 +212,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public SELF hasValue(T expectedValue) {
+  public SELF hasValue(VALUE expectedValue) {
     return contains(expectedValue);
   }
 
@@ -292,7 +292,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
-  public SELF usingValueComparator(Comparator<? super T> customComparator) {
+  public SELF usingValueComparator(Comparator<? super VALUE> customComparator) {
     optionalValueComparisonStrategy = new ComparatorBasedComparisonStrategy(customComparator);
     return myself;
   }
@@ -337,7 +337,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public SELF containsSame(T expectedValue) {
+  public SELF containsSame(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
@@ -373,7 +373,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @since 3.6.0
    */
   @CheckReturnValue
-  public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super T, Optional<U>> mapper) {
+  public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
     isNotNull();
     return assertThat(actual.flatMap(mapper));
   }
@@ -400,7 +400,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @since 3.6.0
    */
   @CheckReturnValue
-  public <U> AbstractOptionalAssert<?, U> map(Function<? super T, ? extends U> mapper) {
+  public <U> AbstractOptionalAssert<?, U> map(Function<? super VALUE, ? extends U> mapper) {
     isNotNull();
     return assertThat(actual.map(mapper));
   }
