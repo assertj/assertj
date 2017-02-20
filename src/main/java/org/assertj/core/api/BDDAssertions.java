@@ -1103,12 +1103,12 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
    * @param future the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> CompletableFutureAssert<T> then(CompletableFuture<T> future) {
+  public static <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> future) {
     return assertThat(future);
   }
 

@@ -166,13 +166,13 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> actual) {
+  public <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
   }
 

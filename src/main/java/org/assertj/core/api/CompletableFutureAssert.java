@@ -17,11 +17,11 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Assertions for {@link CompletableFuture}.
  *
- * @param <T> type of the value contained in the {@link CompletableFuture}.
+ * @param <RESULT> type of the value contained in the {@link CompletableFuture}.
  */
-public class CompletableFutureAssert<T> extends AbstractCompletableFutureAssert<CompletableFutureAssert<T>, T> {
+public class CompletableFutureAssert<RESULT> extends AbstractCompletableFutureAssert<CompletableFutureAssert<RESULT>, RESULT> {
 
-  protected CompletableFutureAssert(CompletableFuture<T> actual) {
+  protected CompletableFutureAssert(CompletableFuture<RESULT> actual) {
     super(actual, CompletableFutureAssert.class);
   }
 

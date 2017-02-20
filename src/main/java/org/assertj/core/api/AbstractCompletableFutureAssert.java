@@ -37,12 +37,12 @@ import org.assertj.core.presentation.PredicateDescription;
 /**
  * Assertions for {@link CompletableFuture}.
  *
- * @param <T> type of the value contained in the {@link CompletableFuture}.
+ * @param <RESULT> type of the value contained in the {@link CompletableFuture}.
  */
-public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, T>, T> extends
-    AbstractAssert<SELF, CompletableFuture<T>> {
+public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
+    AbstractAssert<SELF, CompletableFuture<RESULT>> {
 
-  protected AbstractCompletableFutureAssert(CompletableFuture<T> actual, Class<?> selfType) {
+  protected AbstractCompletableFutureAssert(CompletableFuture<RESULT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -219,10 +219,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @return this assertion object.
    */
-  public SELF isCompletedWithValue(T expected) {
+  public SELF isCompletedWithValue(RESULT expected) {
     isCompleted();
 
-    T actualResult = actual.join();
+    RESULT actualResult = actual.join();
     if (!Objects.equals(actualResult, expected))
       throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
 
@@ -242,7 +242,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @return this assertion object.
    */
-  public SELF isCompletedWithValueMatching(Predicate<? super T> predicate) {
+  public SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate) {
     return isCompletedWithValueMatching(predicate, PredicateDescription.GIVEN);
   }
 
@@ -264,14 +264,14 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @return this assertion object.
    */
-  public SELF isCompletedWithValueMatching(Predicate<? super T> predicate, String description) {
+  public SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate, String description) {
     return isCompletedWithValueMatching(predicate, new PredicateDescription(description));
   }
 
-  private SELF isCompletedWithValueMatching(Predicate<? super T> predicate, PredicateDescription description) {
+  private SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate, PredicateDescription description) {
     isCompleted();
 
-    T actualResult = actual.join();
+    RESULT actualResult = actual.join();
     if (!predicate.test(actualResult))
       throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
 

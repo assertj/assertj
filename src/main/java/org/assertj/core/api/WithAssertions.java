@@ -840,7 +840,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CompletableFuture)}
    */
-  default <T> CompletableFutureAssert<T> assertThat(final CompletableFuture<T> future) {
+  default <RESULT> CompletableFutureAssert<RESULT> assertThat(final CompletableFuture<RESULT> future) {
     return Assertions.assertThat(future);
   }
 
