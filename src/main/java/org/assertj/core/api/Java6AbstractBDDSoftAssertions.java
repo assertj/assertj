@@ -277,7 +277,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> FutureAssert<T> then(Future<T> actual) {
+  public <RESULT> FutureAssert<RESULT> then(Future<RESULT> actual) {
     return proxy(FutureAssert.class, Future.class, actual);
   }
 

@@ -450,7 +450,7 @@ public class BDDAssertions extends Assertions {
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public static <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> then(Future<T> actual) {
+  public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> then(Future<RESULT> actual) {
     return assertThat(actual);
   }
 

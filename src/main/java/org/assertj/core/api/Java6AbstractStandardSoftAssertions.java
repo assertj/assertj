@@ -277,7 +277,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    */
   @CheckReturnValue
   @SuppressWarnings("unchecked")
-  public <T> FutureAssert<T> assertThat(Future<? extends T> actual) {
+  public <RESULT> FutureAssert<RESULT> assertThat(Future<? extends RESULT> actual) {
     return proxy(FutureAssert.class, Future.class, actual);
   }
 
