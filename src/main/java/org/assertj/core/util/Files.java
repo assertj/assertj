@@ -13,7 +13,6 @@
 package org.assertj.core.util;
 
 import static java.io.File.separator;
-import static java.lang.String.valueOf;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -30,6 +29,7 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.assertj.core.api.exception.RuntimeIOException;
 
@@ -108,23 +108,23 @@ public class Files {
 
   /**
    * Creates a new file in the system's temporary directory. The name of the file will be the result of:
-   * <pre><code class='java'> concat(String.valueOf(System.currentTimeMillis()), &quot;.txt&quot;);</code></pre>
+   * <pre><code class='java'> concat(UUID.randomUUID().toString(), &quot;.txt&quot;);</code></pre>
    * 
    * @return the created file.
    */
   public static File newTemporaryFile() {
-    String tempFileName = concat(valueOf(System.currentTimeMillis()), ".txt");
+    String tempFileName = concat(UUID.randomUUID().toString(), ".txt");
     return newFile(concat(temporaryFolderPath(), tempFileName));
   }
 
   /**
    * Creates a new directory in the system's temporary directory. The name of the directory will be the result of:
-   * <pre><code class='java'> System.currentTimeMillis();</code></pre>
+   * <pre><code class='java'> UUID.randomUUID().toString();</code></pre>
    * 
    * @return the created file.
    */
   public static File newTemporaryFolder() {
-    String tempFileName = String.valueOf(System.currentTimeMillis());
+    String tempFileName = UUID.randomUUID().toString();
     return newFolder(concat(temporaryFolderPath(), tempFileName));
   }
 
