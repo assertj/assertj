@@ -32,10 +32,10 @@ public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
    * Indicates that the provided {@link java.util.Optional} should be empty.
    *
    * @param optional the actual {@link Optional} to test.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    * @return a error message factory.
    */
-  public static <T> OptionalShouldBeEmpty shouldBeEmpty(Optional<T> optional) {
+  public static <VALUE> OptionalShouldBeEmpty shouldBeEmpty(Optional<VALUE> optional) {
     return new OptionalShouldBeEmpty(optional.getClass(), optional.get());
   }
 

@@ -840,14 +840,14 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CompletableFuture)}
    */
-  default <T> CompletableFutureAssert<T> assertThat(final CompletableFuture<T> future) {
+  default <RESULT> CompletableFutureAssert<RESULT> assertThat(final CompletableFuture<RESULT> future) {
     return Assertions.assertThat(future);
   }
 
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Optional)}
    */
-  default <T> OptionalAssert<T> assertThat(final Optional<T> optional) {
+  default <VALUE> OptionalAssert<VALUE> assertThat(final Optional<VALUE> optional) {
     return Assertions.assertThat(optional);
   }
 
@@ -969,7 +969,7 @@ public interface WithAssertions {
   }
   
   /**
-   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}  
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
    * which allows to chain assertions on the thrown exception.
    * <p>
    * Example:

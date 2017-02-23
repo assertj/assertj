@@ -50,13 +50,13 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    * Create assertion for {@link java.util.Optional}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> OptionalAssert<T> then(Optional<T> actual) {
+  public <VALUE> OptionalAssert<VALUE> then(Optional<VALUE> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
   }
 
@@ -166,13 +166,13 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> CompletableFutureAssert<T> then(CompletableFuture<T> actual) {
+  public <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
   }
 

@@ -17,12 +17,12 @@ import java.util.Optional;
 /**
  * Assertions for {@link java.util.Optional}.
  *
- * @param <T> type of the value contained in the {@link java.util.Optional}.
+ * @param <VALUE> type of the value contained in the {@link java.util.Optional}.
  * @author Jean-Christophe Gay
  */
-public class OptionalAssert<T> extends AbstractOptionalAssert<OptionalAssert<T>, T> {
+public class OptionalAssert<VALUE> extends AbstractOptionalAssert<OptionalAssert<VALUE>, VALUE> {
 
-  protected OptionalAssert(Optional<T> actual) {
+  protected OptionalAssert(Optional<VALUE> actual) {
 	super(actual, OptionalAssert.class);
   }
 

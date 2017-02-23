@@ -60,7 +60,7 @@ import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded, 
- * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve 
+ * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve
  * the proper <code>assertThat</code> method (normally <code>assertThat(Throwable)</code> as foo might implement an interface like List,
  * if that occurred <code>assertThat(List)</code> would also be a possible choice - thus confusing java 8.
  * <p>
@@ -73,12 +73,12 @@ public class AssertionsForClassTypes {
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> actual) {
+  public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return new CompletableFutureAssert<>(actual);
   }
 
@@ -86,12 +86,12 @@ public class AssertionsForClassTypes {
    * Create assertion for {@link java.util.Optional}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> OptionalAssert<T> assertThat(Optional<T> actual) {
+  public static <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return new OptionalAssert<>(actual);
   }
 
@@ -606,7 +606,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}  
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
    * which allows to chain assertions on the thrown exception.
    * <p>
    * Example:
