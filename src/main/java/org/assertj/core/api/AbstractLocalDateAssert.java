@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -73,16 +74,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isBefore("2000-01-02");</code></pre>
    * 
-   * @param localDateTimeAsString String representing a {@link LocalDate}.
+   * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is not strictly before the {@link LocalDate} built
    *           from given String.
    */
-  public SELF isBefore(String localDateTimeAsString) {
-    assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isBefore(parse(localDateTimeAsString));
+  public SELF isBefore(String localDateAsString) {
+    assertLocalDateAsStringParameterIsNotNull(localDateAsString);
+    return isBefore(parse(localDateAsString));
   }
 
   /**
@@ -118,16 +119,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * assertThat(parse("2000-01-01")).isBeforeOrEqualTo("2000-01-01")
    *                                .isBeforeOrEqualTo("2000-01-02");</code></pre>
    * 
-   * @param localDateTimeAsString String representing a {@link LocalDate}.
+   * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is not before or equals to the {@link LocalDate} built from
    *           given String.
    */
-  public SELF isBeforeOrEqualTo(String localDateTimeAsString) {
-    assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isBeforeOrEqualTo(parse(localDateTimeAsString));
+  public SELF isBeforeOrEqualTo(String localDateAsString) {
+    assertLocalDateAsStringParameterIsNotNull(localDateAsString);
+    return isBeforeOrEqualTo(parse(localDateAsString));
   }
 
   /**
@@ -163,16 +164,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * assertThat(parse("2000-01-01")).isAfterOrEqualTo("2000-01-01")
    *                                .isAfterOrEqualTo("1999-12-31");</code></pre>
    * 
-   * @param localDateTimeAsString String representing a {@link LocalDate}.
+   * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is not after or equals to the {@link LocalDate} built from
    *           given String.
    */
-  public SELF isAfterOrEqualTo(String localDateTimeAsString) {
-    assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isAfterOrEqualTo(parse(localDateTimeAsString));
+  public SELF isAfterOrEqualTo(String localDateAsString) {
+    assertLocalDateAsStringParameterIsNotNull(localDateAsString);
+    return isAfterOrEqualTo(parse(localDateAsString));
   }
 
   /**
@@ -206,16 +207,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01")).isAfter("1999-12-31");</code></pre>
    * 
-   * @param localDateTimeAsString String representing a {@link LocalDate}.
+   * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is not strictly after the {@link LocalDate} built
    *           from given String.
    */
-  public SELF isAfter(String localDateTimeAsString) {
-    assertLocalDateAsStringParameterIsNotNull(localDateTimeAsString);
-    return isAfter(parse(localDateTimeAsString));
+  public SELF isAfter(String localDateAsString) {
+    assertLocalDateAsStringParameterIsNotNull(localDateAsString);
+    return isAfter(parse(localDateAsString));
   }
 
   /**
@@ -228,16 +229,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isEqualTo("2000-01-01");</code></pre>
    * 
-   * @param dateTimeAsString String representing a {@link LocalDate}.
+   * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is not equal to the {@link LocalDate} built from
    *           given String.
    */
-  public SELF isEqualTo(String dateTimeAsString) {
-    assertLocalDateAsStringParameterIsNotNull(dateTimeAsString);
-    return isEqualTo(parse(dateTimeAsString));
+  public SELF isEqualTo(String localDateAsString) {
+    assertLocalDateAsStringParameterIsNotNull(localDateAsString);
+    return isEqualTo(parse(localDateAsString));
   }
 
   /**
@@ -250,16 +251,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isNotEqualTo("2000-01-15");</code></pre>
    * 
-   * @param dateTimeAsString String representing a {@link LocalDate}.
+   * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is equal to the {@link LocalDate} built from given
    *           String.
    */
-  public SELF isNotEqualTo(String dateTimeAsString) {
-    assertLocalDateAsStringParameterIsNotNull(dateTimeAsString);
-    return isNotEqualTo(parse(dateTimeAsString));
+  public SELF isNotEqualTo(String localDateAsString) {
+    assertLocalDateAsStringParameterIsNotNull(localDateAsString);
+    return isNotEqualTo(parse(localDateAsString));
   }
 
   /**
@@ -272,16 +273,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use String based representation of LocalDate
    * assertThat(parse("2000-01-01")).isIn("1999-12-31", "2000-01-01");</code></pre>
    * 
-   * @param dateTimesAsString String array representing {@link LocalDate}s.
+   * @param localDatesAsString String array representing {@link LocalDate}s.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is not in the {@link LocalDate}s built from given
    *           Strings.
    */
-  public SELF isIn(String... dateTimesAsString) {
-    checkIsNotNullAndNotEmpty(dateTimesAsString);
-    return isIn(convertToLocalDateArray(dateTimesAsString));
+  public SELF isIn(String... localDatesAsString) {
+    checkIsNotNullAndNotEmpty(localDatesAsString);
+    return isIn(convertToLocalDateArray(localDatesAsString));
   }
 
   /**
@@ -294,16 +295,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use String based representation of LocalDate
    * assertThat(parse("2000-01-01")).isNotIn("1999-12-31", "2000-01-02");</code></pre>
    * 
-   * @param dateTimesAsString Array of String representing a {@link LocalDate}.
+   * @param localDatesAsString Array of String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual {@code LocalDate} is in the {@link LocalDate}s built from given
    *           Strings.
    */
-  public SELF isNotIn(String... dateTimesAsString) {
-    checkIsNotNullAndNotEmpty(dateTimesAsString);
-    return isNotIn(convertToLocalDateArray(dateTimesAsString));
+  public SELF isNotIn(String... localDatesAsString) {
+    checkIsNotNullAndNotEmpty(localDatesAsString);
+    return isNotIn(convertToLocalDateArray(localDatesAsString));
   }
 
   /**
@@ -330,16 +331,12 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * {@inheritDoc}
    */
   @Override
-  protected LocalDate parse(String localDateTimeAsString) {
-    return LocalDate.parse(localDateTimeAsString);
+  protected LocalDate parse(String localDateAsString) {
+    return LocalDate.parse(localDateAsString);
   }
 
-  private static Object[] convertToLocalDateArray(String... dateTimesAsString) {
-    LocalDate[] dates = new LocalDate[dateTimesAsString.length];
-    for (int i = 0; i < dateTimesAsString.length; i++) {
-      dates[i] = LocalDate.parse(dateTimesAsString[i]);
-    }
-    return dates;
+  private static Object[] convertToLocalDateArray(String... localDatesAsString) {
+    return Arrays.stream(localDatesAsString).map(LocalDate::parse).toArray();
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
@@ -351,11 +348,11 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Check that the {@link LocalDate} string representation to compare actual {@link LocalDate} to is not null,
    * otherwise throws a {@link IllegalArgumentException} with an explicit message
    * 
-   * @param localDateTimeAsString String representing the {@link LocalDate} to compare actual with
+   * @param localDateAsString String representing the {@link LocalDate} to compare actual with
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
-  private static void assertLocalDateAsStringParameterIsNotNull(String localDateTimeAsString) {
-    checkArgument(localDateTimeAsString != null,
+  private static void assertLocalDateAsStringParameterIsNotNull(String localDateAsString) {
+    checkArgument(localDateAsString != null,
                   "The String representing the LocalDate to compare actual with should not be null");
   }
 
