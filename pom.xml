@@ -210,4 +210,17 @@
   <properties>
     <additionalparam />
   </properties>
+  
+  <profiles>
+    <profile>
+      <id>java9</id>
+      <activation>
+        <jdk>9</jdk>
+      </activation>
+      <properties>
+        <!-- allow tests to access private fields/methods of java.base classes via reflection -->
+        <argLine>--add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED</argLine>
+      </properties>
+    </profile>
+  </profiles>
 </project>
