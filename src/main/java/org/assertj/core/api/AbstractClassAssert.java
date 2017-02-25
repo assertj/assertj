@@ -179,6 +179,51 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} is public (has {@code public} modifier).
+   *
+   * <pre><code class='java'> protected class MyClass { }
+   *
+   * // These assertions succeed:
+   * assertThat(String.class).isPublic();
+   * assertThat(Math.class).isPublic();
+   *
+   * // This assertion fails:
+   * assertThat(MyClass.class).isPublic();</code></pre>
+   *
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not public.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF isPublic() {
+    classes.assertIsPublic(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is protected (has {@code protected} modifier).
+   *
+   * <pre><code class='java'> public class MyClass { }
+   *
+   * // This assertion succeeds:
+   * assertThat(MyClass.class).isProtected();
+   *
+   * // These assertions fail:
+   * assertThat(String.class).isProtected();
+   * assertThat(Math.class).isProtected();</code></pre>
+   *
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not protected.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF isProtected() {
+    classes.assertIsProtected(info, actual);
+    return myself;
+  }
+
+
+  /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
    * 
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
@@ -282,6 +327,123 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   public SELF hasDeclaredFields(String... fields) {
     classes.assertHasDeclaredFields(info, actual, fields);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given methods.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public void methodOne() {}
+   *     private void methodTwo() {}
+   * }
+   *
+   * // This assertion succeeds:
+   * assertThat(MyClass.class).hasMethods("methodOne");
+   *
+   * // These assertions fail:
+   * assertThat(MyClass.class).hasMethods("methodTwo");
+   * assertThat(MyClass.class).hasMethods("methodThree");</code></pre>
+   *
+   * @param methodNames the method names which must be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasMethods(String... methodNames) {
+    classes.assertHasMethods(info, actual, methodNames);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given declared methods.
+   *
+   * <pre><code class='java'> class MySuperClass {
+   *     public void superMethod() {}
+   * }
+   *
+   * class MyClass extends MySuperClass {
+   *     public void methodOne() {}
+   *     private void methodTwo() {}
+   * }
+   *
+   * // This assertion succeeds:
+   * assertThat(MyClass.class).hasDeclaredMethods("methodOne", "methodTwo");
+   *
+   * // These assertions fail:
+   * assertThat(MyClass.class).hasDeclaredMethods("superMethod");
+   * assertThat(MyClass.class).hasDeclaredMethods("methodThree");</code></pre>
+   *
+   * @param methodNames the method names which must be declared in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasDeclaredMethods(String... methodNames) {
+    classes.assertHasDeclaredMethods(info, actual, methodNames);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given public methods.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public void methodOne() {}
+   *     public void methodTwo() {}
+   *     protected void methodThree() {}
+   * }
+   *
+   * // These assertions succeed:
+   * assertThat(MyClass.class).hasPublicMethods("methodOne");
+   * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodTwo");
+   *
+   * // These assertions fail:
+   * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodThree");
+   * assertThat(MyClass.class).hasPublicMethods("methodThree");</code></pre>
+   *
+   * @param methodNames the public method names which must be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public method names.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasPublicMethods(String... methodNames) {
+    classes.assertHasPublicMethods(info, actual, methodNames);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given declared public methods.
+   *
+   * <pre><code class='java'> class MySuperClass {
+   *     public void superMethod() {}
+   * }
+   *
+   * class MyClass extends MySuperClass{
+   *     public void methodOne() {}
+   *     public void methodTwo() {}
+   *     protected void methodThree() {}
+   * }
+   *
+   * // These assertions succeed:
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne");
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodTwo");
+   *
+   * // These assertions fail:
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("superMethod");
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodThree");
+   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodThree");</code></pre>
+   *
+   * @param methodNames the public method names which must be declared in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public method names.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasDeclaredPublicMethods(String... methodNames) {
+    classes.assertHasDeclaredPublicMethods(info, actual, methodNames);
     return myself;
   }
 }

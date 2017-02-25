@@ -12,35 +12,31 @@
  */
 package org.assertj.core.internal.classes;
 
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.Test;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Classes#assertIsFinal(AssertionInfo, Class)}</code>.
- *
- * @author Michal Kordas
- */
-public class Classes_assertIsFinal_Test extends ClassesBaseTest {
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+
+public class Classes_assertIsPublic_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    classes.assertIsFinal(someInfo(), null);
+    classes.assertIsPublic(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_actual_is_a_final_class() {
-    classes.assertIsFinal(someInfo(), Math.class);
+  public void should_pass_if_actual_is_a_public_class() {
+    classes.assertIsPublic(someInfo(), Math.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_final_class() {
-    thrown.expectAssertionError(shouldBeFinal(Object.class));
-    classes.assertIsFinal(someInfo(), Object.class);
+  public void should_fail_if_actual_is_not_a_public_class() {
+    thrown.expectAssertionError(shouldBePublic(MethodsClass.class));
+    classes.assertIsPublic(someInfo(), MethodsClass.class);
   }
 }

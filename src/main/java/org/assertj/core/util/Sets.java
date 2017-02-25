@@ -15,6 +15,7 @@ package org.assertj.core.util;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Utility methods related to {@link Set}s.
@@ -73,6 +74,33 @@ public final class Sets {
       return null;
     }
     LinkedHashSet<T> set = newLinkedHashSet();
+    java.util.Collections.addAll(set, elements);
+    return set;
+  }
+
+  /**
+   * Creates a <em>mutable</em> {@link TreeSet}.
+   *
+   * @param <T> the generic type of the {@link TreeSet} to create.
+   * @return the created {@link TreeSet}.
+   */
+  public static <T> TreeSet<T> newTreeSet() {
+    return new TreeSet<>();
+  }
+
+  /**
+   * Creates a <em>mutable</em> {@link TreeSet} containing the given elements.
+   *
+   * @param <T> the generic type of the {@link TreeSet} to create.
+   * @param elements the elements to store in the {@link TreeSet}.
+   * @return the created {@link TreeSet}, or {@code null} if the given array of elements is {@code null}.
+   */
+  @SafeVarargs
+  public static <T> TreeSet<T> newTreeSet(T... elements) {
+    if (elements == null) {
+      return null;
+    }
+    TreeSet<T> set = newTreeSet();
     java.util.Collections.addAll(set, elements);
     return set;
   }
