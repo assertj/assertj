@@ -23,6 +23,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualI
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -316,11 +317,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   private static Object[] convertToLocalDateTimeArray(String... dateTimesAsString) {
-    LocalDateTime[] dates = new LocalDateTime[dateTimesAsString.length];
-    for (int i = 0; i < dateTimesAsString.length; i++) {
-      dates[i] = LocalDateTime.parse(dateTimesAsString[i]);
-    }
-    return dates;
+    return Arrays.stream(dateTimesAsString).map(LocalDateTime::parse).toArray();
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {

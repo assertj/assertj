@@ -22,6 +22,7 @@ import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalTime;
+import java.util.Arrays;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -309,11 +310,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   }
 
   private static Object[] convertToLocalTimeArray(String... localTimesAsString) {
-    LocalTime[] dates = new LocalTime[localTimesAsString.length];
-    for (int i = 0; i < localTimesAsString.length; i++) {
-      dates[i] = LocalTime.parse(localTimesAsString[i]);
-    }
-    return dates;
+    return Arrays.stream(localTimesAsString).map(LocalTime::parse).toArray();
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
