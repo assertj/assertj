@@ -74,10 +74,9 @@ public class AssertionMatcher_matches_Test {
     verify(description).appendText(argThat(new ArgumentMatcher<String>() {
       @Override public boolean matches(String s) {
         return s.contains("org.junit.ComparisonFailure: expected:<[0]> but was:<[1]>")
-            && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:20)")
-            && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:17)")
-            && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:53)")
-            && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test.should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:68)");
+            && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:")
+            && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:")
+            && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test.should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:");
       }
     }));
   }
