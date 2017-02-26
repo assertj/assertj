@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.classes;
 
-import static org.assertj.core.error.ShouldBeFinal.shouldNotBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 

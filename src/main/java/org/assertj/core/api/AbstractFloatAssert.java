@@ -12,11 +12,15 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
@@ -38,11 +42,21 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
     implements FloatingPointNumberAssert<SELF, Float> {
 
+  private static final Float NEGATIVE_ZERO = new Float(-0.0);
+
   @VisibleForTesting
   Floats floats = Floats.instance();
 
+  private boolean isPrimitive;
+
   public AbstractFloatAssert(Float actual, Class<?> selfType) {
     super(actual, selfType);
+    this.isPrimitive = false;
+  }
+
+  public AbstractFloatAssert(float actual, Class<?> selfType) {
+    super(actual, selfType);
+    this.isPrimitive = true;
   }
 
   /** {@inheritDoc} */
@@ -59,17 +73,65 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is equal to zero.
+   * <p>
+   * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.</br>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(0.0f).isZero();
+   * assertThat(-0.0f).isZero();
+   *
+   * // assertions will fail
+   * assertThat(new Float(-0.0)).isZero();
+   * assertThat(3.142f).isZero();</code></pre>
+   * 
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to zero.
+   */
   @Override
   public SELF isZero() {
-    floats.assertIsZero(info, actual);
+    if (isPrimitive) assertIsPrimitiveZero();
+    else floats.assertIsZero(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  private void assertIsPrimitiveZero() {
+    if (actual.floatValue() == 0.0f) return;
+    throw Failures.instance().failure(info, shouldBeEqual(actual, 0.0f, info.representation()));
+  }
+
+  private void assertIsPrimitiveNonZero() {
+    if (actual.floatValue() != 0.0) return;
+    throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0));
+  }
+
+  /**
+   * Verifies that the actual value is not equal to zero.
+   * <p>
+   * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.</br>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(3.142f).isNotZero();
+   * assertThat(new Float(-0.0f)).isNotZero();
+   *
+   * // assertions will fail
+   * assertThat(0.0f).isNotZero();
+   * assertThat(new Float(0.0f)).isNotZero();
+   * assertThat(-0.0f).isNotZero();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to zero.
+   */
   @Override
   public SELF isNotZero() {
-    floats.assertIsNotZero(info, actual);
+    if (isPrimitive) assertIsPrimitiveNonZero();
+    else if (NEGATIVE_ZERO.equals(actual)) return myself;
+    else floats.assertIsNotZero(info, actual);
     return myself;
   }
 

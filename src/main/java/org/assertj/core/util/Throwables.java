@@ -16,7 +16,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
@@ -106,6 +107,7 @@ public final class Throwables {
     StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[filtered.size()]);
     throwable.setStackTrace(newStackTrace);
   }
+
 
   /**
    * Get the root cause (ie the last non null cause) from a {@link Throwable}.

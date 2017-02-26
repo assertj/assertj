@@ -10,29 +10,26 @@
  *
  * Copyright 2012-2017 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.classes;
 
+import org.assertj.core.api.ClassAssert;
+import org.assertj.core.api.ClassAssertBaseTest;
+
+import static org.mockito.Mockito.verify;
 
 /**
- * Assertion methods for floats.
- * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Float)}</code> or
- * <code>{@link Assertions#assertThat(float)}</code>.
- * </p>
- * 
- * @author Yvonne Wang
- * @author Alex Ruiz
- * @author Ansgar Konermann
- * @author Mikhail Mazursky
- * @author Nicolas François
+ * Tests for <code>{@link ClassAssert#isProtected()} ()}</code>.
  */
-public class FloatAssert extends AbstractFloatAssert<FloatAssert> {
+public class ClassAssert_isProtected_Test extends ClassAssertBaseTest {
 
-  public FloatAssert(Float actual) {
-    super(actual, FloatAssert.class);
+  @Override
+  protected ClassAssert invoke_api_method() {
+    return assertions.isProtected();
   }
 
-  public FloatAssert(float actual) {
-    super(actual, FloatAssert.class);
+  @Override
+  protected void verify_internal_effects() {
+    verify(classes).assertIsProtected(getInfo(assertions), getActual(assertions));
   }
+
 }

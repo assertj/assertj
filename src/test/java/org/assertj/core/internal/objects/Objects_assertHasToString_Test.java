@@ -31,7 +31,9 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
   private Person actual;
 
   @Before
-  public void setup() {
+  @Override
+  public void setUp() {
+    super.setUp();
     actual = mock(Person.class);
     when(actual.toString()).thenReturn("foo");
   }

@@ -27,7 +27,7 @@ public abstract class FloatAssertBaseTest extends BaseTestTemplate<FloatAssert, 
 
   @Override
   protected FloatAssert create_assertions() {
-    return new FloatAssert(6.0f);
+    return new FloatAssert(new Float(6.0f));
   }
 
   @Override

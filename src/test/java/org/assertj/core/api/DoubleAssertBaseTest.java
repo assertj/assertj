@@ -27,7 +27,7 @@ public abstract class DoubleAssertBaseTest extends BaseTestTemplate<DoubleAssert
 
   @Override
   protected DoubleAssert create_assertions() {
-    return new DoubleAssert(3.14);
+    return new DoubleAssert(new Double(3.14));
   }
 
   @Override

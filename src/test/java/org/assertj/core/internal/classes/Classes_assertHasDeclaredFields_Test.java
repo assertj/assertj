@@ -17,10 +17,9 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.assertj.core.internal.ClassesBaseTest;
 
 /**
  * Tests for

@@ -451,13 +451,13 @@ public class Java6Assertions {
    * Create assertion for {@link java.util.concurrent.Future}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.Future}.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
    *
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public static <T> FutureAssert<T> assertThat(Future<T> actual) {
+  public static <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return new FutureAssert<>(actual);
   }
 

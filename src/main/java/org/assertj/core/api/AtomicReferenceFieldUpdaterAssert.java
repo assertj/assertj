@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
  * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
  * @param <OBJECT> the type of the object holding the updatable field.
  * @author epeee
+ * @since 2.7.0 / 3.7.0
  */
 public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends AbstractAtomicFieldUpdaterAssert<AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>, FIELD, AtomicReferenceFieldUpdater<OBJECT, FIELD>, OBJECT> {
 
@@ -50,6 +51,7 @@ public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends AbstractAt
    * @param expectedValue the expected value inside the {@code OBJECT}.
    * @param obj the object holding the updatable field.
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> hasValue(FIELD expectedValue, OBJECT obj) {
     return super.hasValue(expectedValue, obj);

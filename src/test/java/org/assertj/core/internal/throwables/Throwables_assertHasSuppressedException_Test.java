@@ -31,7 +31,9 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
   private Throwable throwableSuppressedException;
 
   @Before
-  public void setup() {
+  @Override
+  public void setUp() {
+    super.setUp();
     throwableSuppressedException = new Throwable();
     throwableSuppressedException.addSuppressed(new IllegalArgumentException(IAE_EXCEPTION_MESSAGE));
     throwableSuppressedException.addSuppressed(new NullPointerException(NPE_EXCEPTION_MESSAGE));

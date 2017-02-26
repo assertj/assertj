@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  *
  * @param <OBJECT> the type of the object holding the updatable field.
  * @author epeee
+ * @since 2.7.0 / 3.7.0
  */
 public class AtomicLongFieldUpdaterAssert<OBJECT> extends AbstractAtomicFieldUpdaterAssert<AtomicLongFieldUpdaterAssert<OBJECT>, Long, AtomicLongFieldUpdater<OBJECT>, OBJECT> {
 
@@ -48,6 +49,7 @@ public class AtomicLongFieldUpdaterAssert<OBJECT> extends AbstractAtomicFieldUpd
    * @param expectedValue the expected value inside the {@code OBJECT}.
    * @param obj the object holding the updatable field.
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @Override
   public AtomicLongFieldUpdaterAssert<OBJECT> hasValue(Long expectedValue, OBJECT obj) {

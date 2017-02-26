@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
  * </p>
  *
  * @author epeee
+ * @since 2.7.0 / 3.7.0
  */
 public class AtomicMarkableReferenceAssert<VALUE>
     extends AbstractAtomicReferenceAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
@@ -46,6 +47,7 @@ public class AtomicMarkableReferenceAssert<VALUE>
    *
    * @param expectedValue the expected value inside the {@link AtomicMarkableReference}.
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @Override
   public AtomicMarkableReferenceAssert<VALUE> hasReference(VALUE expectedValue) {
@@ -68,6 +70,7 @@ public class AtomicMarkableReferenceAssert<VALUE>
    * assertThat(new AtomicMarkableReference&lt;&gt;("actual", false)).isMarked();</code></pre>
    *
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   public AtomicMarkableReferenceAssert<VALUE> isMarked() {
     boolean marked = actual.isMarked();
@@ -86,6 +89,7 @@ public class AtomicMarkableReferenceAssert<VALUE>
    * assertThat(new AtomicMarkableReference&lt;&gt;("actual", true)).isNotMarked();</code></pre>
    *
    * @return this assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   public AtomicMarkableReferenceAssert<VALUE> isNotMarked() {
     boolean marked = actual.isMarked();
