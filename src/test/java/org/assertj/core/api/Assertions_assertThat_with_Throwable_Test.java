@@ -109,13 +109,6 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_not_fail_when_asserting_not_exception_raised() {
-    ThrowingCallable callable = new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        throw new Exception("boom!");
-      }
-    };
-
     // Given
     ThrowingCallable silent = () -> {};
 
