@@ -206,11 +206,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <properties>
-    <additionalparam />
-  </properties>
-  
   <profiles>
     <profile>
       <id>java9</id>
