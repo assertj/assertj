@@ -27,7 +27,7 @@ import org.hamcrest.Matcher;
  *
  * <p>
  * Example with Mockito use case:
- * <pre><code class='java'>verify(customerRepository).save(argThat(new AssertionMatcher&lt;Customer&gt;() {
+ * <pre><code class='java'> verify(customerRepository).save(argThat(new AssertionMatcher&lt;Customer&gt;() {
  *   &#64;Override
  *   public void assertion(Customer actual) throws AssertionError {
  *     assertThat(actual)
@@ -76,7 +76,7 @@ public abstract class AssertionMatcher<T> extends BaseMatcher<T> {
     if (lastError != null) {
       description.appendText("AssertionError with message: ");
       description.appendText(lastError.getMessage());
-      description.appendText("\n\nStacktrace was: ");
+      description.appendText(String.format("%n%nStacktrace was: "));
       description.appendText(Throwables.getStackTrace(lastError));
     }
   }
