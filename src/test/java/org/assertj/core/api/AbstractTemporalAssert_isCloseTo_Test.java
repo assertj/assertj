@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
@@ -29,6 +30,7 @@ import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -52,6 +54,7 @@ import org.junit.runners.Parameterized.Parameters;
 public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
 
   private static AbstractTemporalAssert<?, ?>[] nullAsserts = {
+      assertThat((Instant) null),
       assertThat((LocalDateTime) null),
       assertThat((LocalDate) null),
       assertThat((LocalTime) null),
@@ -60,6 +63,7 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
       assertThat((OffsetTime) null)
   };
 
+  private static final Instant _2017_Mar_12_07_10_Instant = Instant.parse("2017-03-12T07:10:00.00Z");
   private static final LocalDate _2017_Mar_10 = LocalDate.of(2017, Month.MARCH, 10);
   private static final LocalDate _2017_Mar_12 = LocalDate.of(2017, Month.MARCH, 12);
   private static final LocalDate _2017_Mar_27 = LocalDate.of(2017, Month.MARCH, 27);
@@ -67,6 +71,7 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
   private static final LocalDateTime _2017_Mar_12_07_10 = LocalDateTime.of(_2017_Mar_12, _07_10);
 
   private static AbstractTemporalAssert<?, ?>[] temporalAsserts = {
+      assertThat(_2017_Mar_12_07_10_Instant),
       assertThat(_2017_Mar_12_07_10),
       assertThat(_2017_Mar_12),
       assertThat(_07_10),
@@ -75,11 +80,13 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
       assertThat(OffsetTime.of(_07_10, UTC))
   };
 
+  private static final Instant _2017_Mar_12_07_12_Instant = Instant.parse("2017-03-12T07:12:00.00Z");
   private static final LocalTime _07_12 = LocalTime.of(7, 12);
   private static final LocalDateTime _2017_Mar_12_07_12 = LocalDateTime.of(_2017_Mar_12, _07_12);
   private static final LocalDateTime _2017_Mar_10_07_12 = LocalDateTime.of(_2017_Mar_10, _07_12);
 
   private static Temporal[] closeTemporals = {
+      _2017_Mar_12_07_12_Instant,
       _2017_Mar_10_07_12,
       _2017_Mar_10,
       _07_12,
@@ -88,12 +95,14 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
       OffsetTime.of(_07_12, UTC)
   };
 
+  private static final Instant _2017_Mar_08_07_10_Instant = Instant.parse("2017-03-08T07:10:00.00Z");
   private static final LocalTime _07_23 = LocalTime.of(7, 23);
   private static final LocalDate _2017_Mar_08 = LocalDate.of(2017, Month.MARCH, 8);
   private static final LocalDateTime _2017_Mar_12_07_23 = LocalDateTime.of(_2017_Mar_12, _07_23);
   private static final LocalDateTime _2017_Mar_08_07_10 = LocalDateTime.of(_2017_Mar_08, _07_10);
 
   private static Temporal[] farTemporals = new Temporal[] {
+      _2017_Mar_08_07_10_Instant,
       _2017_Mar_08_07_10,
       _2017_Mar_27,
       _07_23,
@@ -103,6 +112,8 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
   };
 
   private static String[] differenceMessages = {
+    format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 50 Hours but difference was 96 Hours",
+      _2017_Mar_12_07_10_Instant, _2017_Mar_08_07_10_Instant),
       format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 50 Hours but difference was 96 Hours",
              _2017_Mar_12_07_10, _2017_Mar_08_07_10),
       format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 3 Days but difference was 15 Days",
@@ -121,6 +132,7 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
 
   private static TemporalUnitOffset[] offsets = {
       within(50, HOURS),
+      within(50, HOURS),
       within(3, DAYS),
       within(5, MINUTES),
       within(10, MINUTES),
@@ -128,13 +140,14 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
       within(2, MINUTES)
   };
 
-  private static TemporalUnitOffset[] inapplicableOffsets = { null, within(1, MINUTES),
+  private static TemporalUnitOffset[] inapplicableOffsets = { null, null, within(1, MINUTES),
       within(1, DAYS), null, null, within(1, WEEKS) };
 
   @Parameters
   public static Object[][] getParameters() {
     
     DateTimeFormatter[] formatters = {
+        ISO_INSTANT,
         ISO_LOCAL_DATE_TIME,
         ISO_LOCAL_DATE,
         ISO_LOCAL_TIME,

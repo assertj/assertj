@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.nio.file.Path;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -160,6 +161,17 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
   @CheckReturnValue
   public OffsetDateTimeAssert assertThat(OffsetDateTime actual) {
     return proxy(OffsetDateTimeAssert.class, OffsetDateTime.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public InstantAssert assertThat(Instant actual) {
+    return proxy(InstantAssert.class, Instant.class, actual);
   }
 
   /**
