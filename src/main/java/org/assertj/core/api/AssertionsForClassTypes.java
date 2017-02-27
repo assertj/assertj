@@ -22,6 +22,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -572,6 +573,19 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   *
+   * @param instant the actual value.
+   * @return the created assertion object.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractInstantAssert<?> assertThat(Instant instant) {
+    return new InstantAssert(instant);
+  }
+
+
+  /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
    * @param actual the actual value.
@@ -614,7 +628,7 @@ public class AssertionsForClassTypes {
    *              .isThrownBy(() -> { throw new IOException("boom!"); })
    *              .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
    * 
    * @param exceptionType the actual value.
    * @return the created {@link ThrowableTypeAssert}.

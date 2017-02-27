@@ -21,6 +21,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -894,6 +895,14 @@ public interface WithAssertions {
   }
 
   /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.time.Instant)}
+   * @since 3.7.0
+   */
+  default AbstractInstantAssert<?> assertThat(final Instant actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(OffsetTime)}
    */
   default AbstractOffsetTimeAssert<?> assertThat(final OffsetTime offsetTime) {
@@ -908,7 +917,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatThrownBy(ThrowableAssert.ThrowingCallable)}
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatThrownBy(ThrowingCallable)}
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(
       final ThrowingCallable shouldRaiseThrowable) {
