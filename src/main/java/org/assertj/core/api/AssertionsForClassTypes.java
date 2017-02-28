@@ -577,6 +577,7 @@ public class AssertionsForClassTypes {
    *
    * @param instant the actual value.
    * @return the created assertion object.
+   * @since 3.7.0
    */
   @CheckReturnValue
   public static AbstractInstantAssert<?> assertThat(Instant instant) {

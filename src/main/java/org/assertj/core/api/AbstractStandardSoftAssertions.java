@@ -168,6 +168,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.7.0
    */
   @CheckReturnValue
   public InstantAssert assertThat(Instant actual) {

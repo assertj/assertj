@@ -168,6 +168,7 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.7.0
    */
   @CheckReturnValue
   public InstantAssert then(Instant actual) {

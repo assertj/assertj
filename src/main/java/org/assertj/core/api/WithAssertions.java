@@ -896,6 +896,7 @@ public interface WithAssertions {
 
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.time.Instant)}
+   * @since 3.7.0
    */
   default AbstractInstantAssert<?> assertThat(final Instant actual) {
     return Assertions.assertThat(actual);
