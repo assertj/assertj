@@ -66,7 +66,7 @@ public class ObjectArrayAssert_extracting_Test {
     fellowshipOfTheRing[5] = TolkienCharacter.of("Gimli", 139, DWARF);
     fellowshipOfTheRing[6] = TolkienCharacter.of("Aragorn", 87, MAN);
     fellowshipOfTheRing[7] = TolkienCharacter.of("Boromir", 37, MAN);
-  };
+  }
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {

@@ -32,7 +32,7 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
   public ExpectedException thrown = none();
   
   // init here to make it available in create_assertions() 
-  private Jedi yoda = new Jedi("Yoda", "Green");;
+  private Jedi yoda = new Jedi("Yoda", "Green");
   private Jedi luke = new Jedi("Luke Skywalker", "Green");
   private Consumer<Jedi> jediRequirements;
 
