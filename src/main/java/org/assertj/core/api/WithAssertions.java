@@ -563,7 +563,7 @@ public interface WithAssertions {
    * @since 3.7.0
    */
   @CheckReturnValue
-  default <T> AbstractFutureAssert<?, ? extends Future<? extends T>, T> assertThat(Future<T> actual) {
+  default <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
     return Assertions.assertThat(actual);
   }
 
