@@ -8,17 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2017 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
 import static com.tngtech.java.junit.dataprovider.DataProviders.$;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
-import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +32,7 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsIgnoringWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
+ * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsNormalizingWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
  *
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -37,38 +40,48 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
  * @author Dan Corder
  */
 @RunWith(DataProviderRunner.class)
-public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest {
+public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
-    thrown.expectAssertionError(shouldBeEqualIgnoringWhitespace(null, "Luke"));
-    strings.assertEqualsIgnoringWhitespace(someInfo(), null, "Luke");
+    AssertionInfo info = someInfo();
+    try {
+      strings.assertEqualsNormalizingWhitespace(info, null, "Luke");
+    } catch (AssertionError e) {
+      verifyFailureThrownWhenStringsAreNotEqualNormalizingWhitespace(info, null, "Luke");
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_is_not_null_and_expected_is_null() {
     thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertEqualsIgnoringWhitespace(someInfo(), "Luke", null);
+    strings.assertEqualsNormalizingWhitespace(someInfo(), "Luke", null);
   }
 
   @Test
-  public void should_fail_if_both_Strings_are_not_equal_ignoring_whitespace() {
-    thrown.expectAssertionError(shouldBeEqualIgnoringWhitespace("Yoda", "Luke"));
-    strings.assertEqualsIgnoringWhitespace(someInfo(), "Yoda", "Luke");
+  public void should_fail_if_both_Strings_are_not_equal_after_whitespace_is_normalized() {
+    AssertionInfo info = someInfo();
+    try {
+      strings.assertEqualsNormalizingWhitespace(info, "Yoda", "Luke");
+    } catch (AssertionError e) {
+      verifyFailureThrownWhenStringsAreNotEqualNormalizingWhitespace(info, "Yoda", "Luke");
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  @UseDataProvider("equalIgnoringWhitespaceGenerator")
-  public void should_pass_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
-    strings.assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
+  @UseDataProvider("equalNormalizingWhitespaceGenerator")
+  public void should_pass_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
+    strings.assertEqualsNormalizingWhitespace(someInfo(), actual, expected);
   }
 
   @DataProvider
-  public static Object[][] equalIgnoringWhitespaceGenerator() {
+  public static Object[][] equalNormalizingWhitespaceGenerator() {
     // @format:off
-    return $$($("myfoobar", "my foo bar"),
-              $("my foo bar", "myfoobar"),
-              $("my   foo bar", "my foo bar"),
+    return $$($("my   foo bar", "my foo bar"),
               $("  my foo bar  ", "my foo bar"),
               $(" my\tfoo bar ", " my foo bar"),
               $(" my foo    bar ", "my foo bar"),
@@ -80,5 +93,10 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
               $(" \t \t", " "),
               $(" abc", "abc "));
    // @format:on
+  }
+
+  private void verifyFailureThrownWhenStringsAreNotEqualNormalizingWhitespace(AssertionInfo info, String actual,
+                                                                           String expected) {
+    verify(failures).failure(info, shouldBeEqualNormalizingWhitespace(actual, expected));
   }
 }
