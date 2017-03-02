@@ -12,13 +12,12 @@
  */
 package org.assertj.core.description;
 
-import org.assertj.core.util.Arrays;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
+import org.assertj.core.util.Arrays;
 import org.assertj.core.util.VisibleForTesting;
 
 
@@ -42,8 +41,7 @@ public class TextDescription extends Description {
    * @throws NullPointerException if the given value is {@code null}.
    */
   public TextDescription(String value, Object... args) {
-    checkNotNull(value);
-    this.value = value;
+    this.value = value == null ? "" : value;
     this.args = Arrays.isNullOrEmpty(args) ? null : args.clone();
   }
 
@@ -59,15 +57,9 @@ public class TextDescription extends Description {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     TextDescription other = (TextDescription) obj;
     return areEqual(value, other.value) && areEqual(args, other.args);
   }

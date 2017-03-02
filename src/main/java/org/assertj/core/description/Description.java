@@ -12,6 +12,8 @@
  */
 package org.assertj.core.description;
 
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
+
 /**
  * The description of a value.
  * 
@@ -27,5 +29,9 @@ public abstract class Description {
   @Override
   public String toString() {
     return value();
+  }
+
+  public static Description emptyIfNull(Description description) {
+    return description == null ? emptyDescription() : description;
   }
 }

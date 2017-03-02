@@ -12,9 +12,8 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.DescriptionValidations.checkIsNotNull;
-
 import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.VisibleForTesting;
 
 
@@ -65,7 +64,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
   /** {@inheritDoc} */
   @Override
   public Condition<T> as(String newDescription, Object... args) {
-    description = checkIsNotNull(newDescription, args);
+    description = new TextDescription(newDescription, args);
     return this;
   }
 
@@ -78,7 +77,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
   /** {@inheritDoc} */
   @Override
   public Condition<T> as(Description newDescription) {
-    description = checkIsNotNull(newDescription);
+    description = Description.emptyIfNull(newDescription);
     return this;
   }
 

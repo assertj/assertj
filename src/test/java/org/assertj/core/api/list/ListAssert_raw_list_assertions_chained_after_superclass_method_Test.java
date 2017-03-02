@@ -14,13 +14,13 @@ package org.assertj.core.api.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.description.EmptyTextDescription;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class ListAssert_raw_list_assertions_chained_after_superclass_method_Test
   @Ignore
   @Test
   public void raw_list_assertions_mixed_with_inherited_methods() {
-    Description description = EmptyTextDescription.emptyText();
+    Description description = emptyDescription();
 
     List list = new java.util.ArrayList<>();
     list.add("Key1");

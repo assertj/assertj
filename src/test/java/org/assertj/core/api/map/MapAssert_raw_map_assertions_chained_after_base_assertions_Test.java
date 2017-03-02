@@ -13,12 +13,12 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.description.EmptyTextDescription;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
   @Ignore
   @Test
   public void raw_map_mixing_assertions_from_AbstractAssert_and_AbstractMapAssert() {
-    Description description = EmptyTextDescription.emptyText();
+    Description description = emptyDescription();
 
     Map map1 = new java.util.HashMap();
     map1.put("Key1", "Value1");

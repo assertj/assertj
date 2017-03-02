@@ -42,10 +42,9 @@ public class TextDescription_constructor_Test {
     return randomUUID().toString();
   }
 
-  @SuppressWarnings("unused")
   @Test
-  public void should_throw_error_if_value_is_null() {
-    thrown.expect(NullPointerException.class);
-    new TextDescription(null);
+  public void should_return_empty_description_if_value_is_null() {
+    TextDescription description = new TextDescription(null);
+    assertThat(description.value).isEmpty();
   }
 }

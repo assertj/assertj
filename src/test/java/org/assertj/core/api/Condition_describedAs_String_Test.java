@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someTextDescription;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
@@ -46,10 +46,10 @@ public class Condition_describedAs_String_Test {
   }
 
   @Test
-  public void should_throw_error_of_description_is_null() {
-    thrown.expectNullPointerException("The description to set should not be null");
+  public void should_set_empty_description_if_description_is_null() {
     String description = null;
     condition.describedAs(description);
+    assertThat(condition.description.value()).isEmpty();
   }
 
   @Test

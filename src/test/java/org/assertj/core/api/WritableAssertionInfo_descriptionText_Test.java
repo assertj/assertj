@@ -35,8 +35,8 @@ public class WritableAssertionInfo_descriptionText_Test {
   }
 
   @Test
-  public void should_return_null_if_description_is_null() {
-    assertThat(info.descriptionText()).isNull();
+  public void should_return_empty_if_no_description_was_set() {
+    assertThat(info.descriptionText()).isEmpty();
   }
 
   @Test
