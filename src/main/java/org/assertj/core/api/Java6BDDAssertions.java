@@ -18,6 +18,7 @@ import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.util.Date;
@@ -209,6 +210,18 @@ public class Java6BDDAssertions {
    */
   @CheckReturnValue
   public static AbstractBigDecimalAssert<?> then(BigDecimal actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.BigIntegerAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractBigIntegerAssert<?> then(BigInteger actual) {
     return assertThat(actual);
   }
 
