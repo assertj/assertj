@@ -53,8 +53,8 @@ public class Java6BDDAssertions {
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicBooleanAssert then(AtomicBoolean actual) {
@@ -65,8 +65,8 @@ public class Java6BDDAssertions {
    * Create assertion for {@link AtomicInteger}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerAssert then(AtomicInteger actual) {
@@ -77,8 +77,8 @@ public class Java6BDDAssertions {
    * Create int[] assertion for {@link AtomicIntegerArray}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
@@ -89,9 +89,9 @@ public class Java6BDDAssertions {
    * Create assertion for {@link AtomicIntegerFieldUpdater}.
    *
    * @param actual the actual value.
-   *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(AtomicIntegerFieldUpdater<OBJECT> actual) {
@@ -102,8 +102,8 @@ public class Java6BDDAssertions {
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongAssert then(AtomicLong actual) {
@@ -114,8 +114,8 @@ public class Java6BDDAssertions {
    * Create assertion for {@link AtomicLongArray}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongArrayAssert then(AtomicLongArray actual) {
@@ -126,9 +126,9 @@ public class Java6BDDAssertions {
    * Create assertion for {@link AtomicLongFieldUpdater}.
    *
    * @param actual the actual value.
-   *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> then(AtomicLongFieldUpdater<OBJECT> actual) {
@@ -140,8 +140,8 @@ public class Java6BDDAssertions {
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
@@ -153,8 +153,8 @@ public class Java6BDDAssertions {
    *
    * @param actual the actual value.
    * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(AtomicReferenceArray<ELEMENT> actual) {
@@ -167,8 +167,8 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
    * @param <OBJECT> the type of the object holding the updatable field.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> then(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
@@ -180,8 +180,8 @@ public class Java6BDDAssertions {
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> then(AtomicMarkableReference<VALUE> actual) {
@@ -193,8 +193,8 @@ public class Java6BDDAssertions {
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> then(AtomicStampedReference<VALUE> actual) {

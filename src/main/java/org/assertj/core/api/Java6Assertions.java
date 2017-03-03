@@ -76,6 +76,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicBooleanAssert assertThat(AtomicBoolean actual) {
@@ -88,6 +89,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
@@ -100,6 +102,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
@@ -113,6 +116,7 @@ public class Java6Assertions {
    *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
@@ -125,6 +129,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongAssert assertThat(AtomicLong actual) {
@@ -137,6 +142,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
@@ -150,6 +156,7 @@ public class Java6Assertions {
    *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
@@ -163,6 +170,7 @@ public class Java6Assertions {
    * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
@@ -176,7 +184,7 @@ public class Java6Assertions {
    * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
    *
    * @return the created assertion object.
-
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
@@ -191,6 +199,7 @@ public class Java6Assertions {
    * @param <OBJECT> the type of the object holding the updatable field.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
@@ -204,6 +213,7 @@ public class Java6Assertions {
    * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
@@ -217,6 +227,7 @@ public class Java6Assertions {
    * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {

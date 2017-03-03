@@ -804,8 +804,8 @@ public class Assertions {
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicBooleanAssert assertThat(AtomicBoolean actual) {
@@ -816,8 +816,8 @@ public class Assertions {
    * Create assertion for {@link AtomicInteger}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
@@ -828,8 +828,8 @@ public class Assertions {
    * Create int[] assertion for {@link AtomicIntegerArray}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
@@ -840,9 +840,9 @@ public class Assertions {
    * Create assertion for {@link AtomicIntegerFieldUpdater}.
    *
    * @param actual the actual value.
-   *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
@@ -853,8 +853,8 @@ public class Assertions {
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongAssert assertThat(AtomicLong actual) {
@@ -865,8 +865,8 @@ public class Assertions {
    * Create assertion for {@link AtomicLongArray}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
@@ -877,9 +877,9 @@ public class Assertions {
    * Create assertion for {@link AtomicLongFieldUpdater}.
    *
    * @param actual the actual value.
-   *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
@@ -891,8 +891,8 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
@@ -904,8 +904,8 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
@@ -918,8 +918,8 @@ public class Assertions {
    * @param actual the actual value.
    * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
    * @param <OBJECT> the type of the object holding the updatable field.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
@@ -931,8 +931,8 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
@@ -944,8 +944,8 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
