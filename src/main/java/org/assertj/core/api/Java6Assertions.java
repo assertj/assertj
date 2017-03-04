@@ -121,7 +121,7 @@ public class Java6Assertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
-    return new AtomicIntegerFieldUpdaterAssert<OBJECT>(actual);
+    return new AtomicIntegerFieldUpdaterAssert<>(actual);
   }
 
   /**
@@ -161,7 +161,7 @@ public class Java6Assertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
-    return new AtomicLongFieldUpdaterAssert<OBJECT>(actual);
+    return new AtomicLongFieldUpdaterAssert<>(actual);
   }
 
   /**
@@ -175,7 +175,7 @@ public class Java6Assertions {
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
-    return new AtomicReferenceAssert<VALUE>(actual);
+    return new AtomicReferenceAssert<>(actual);
   }
 
   /**
@@ -409,7 +409,7 @@ public class Java6Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
+  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterable<? extends T> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -424,7 +424,7 @@ public class Java6Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> IterableAssert<T> assertThat(Iterator<? extends T> actual) {
+  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterator<? extends T> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -482,7 +482,7 @@ public class Java6Assertions {
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public static <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
+  public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
     return new FutureAssert<>(actual);
   }
 
@@ -570,7 +570,7 @@ public class Java6Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> ListAssert<T> assertThat(List<? extends T> actual) {
+  public static <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> assertThat(List<? extends T> actual) {
     return new ListAssert<>(actual);
   }
 

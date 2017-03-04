@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * AbstractBDDSoftAssertions compatible with Android. Duplicated from {@link AbstractBDDSoftAssertions}.

@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -19,40 +22,38 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-import org.assertj.core.util.Sets;
-
 /**
  * @author Filip Hrisafov
  */
 public class BaseAssertionsTest {
 
   private static final int ACCESS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
-  
-  protected static final Comparator<Method> IGNORING_DECLARING_CLASS_AND_METHOD_NAME = internalMethodComparator(true, false, true);
-  protected static final Comparator<Method> IGNORING_DECLARING_CLASS_AND_RETURN_TYPE = internalMethodComparator(true, true, false);
 
-  //Object is ignored because of the AssertProvider
-  protected static final Class<?>[] SPECIAL_IGNORED_RETURN_TYPES = new Class[] { AssertDelegateTarget.class,
-    FactoryBasedNavigableListAssert.class, FactoryBasedNavigableIterableAssert.class,
-    ClassBasedNavigableListAssert.class, ClassBasedNavigableIterableAssert.class, Object.class};
+  protected static final Comparator<Method> IGNORING_DECLARING_CLASS_AND_METHOD_NAME = internalMethodComparator(true,
+                                                                                                                false,
+                                                                                                                true);
+
+  protected static final Comparator<Method> IGNORING_DECLARING_CLASS_AND_RETURN_TYPE = internalMethodComparator(true,
+                                                                                                                true,
+                                                                                                                false);
+
+  // Object is ignored because of the AssertProvider
+  protected static final Class<?>[] SPECIAL_IGNORED_RETURN_TYPES = array(AssertDelegateTarget.class,
+                                                                         FactoryBasedNavigableListAssert.class,
+                                                                         FactoryBasedNavigableIterableAssert.class,
+                                                                         ClassBasedNavigableListAssert.class,
+                                                                         ClassBasedNavigableIterableAssert.class,
+                                                                         Object.class);
 
   protected static Method[] findMethodsWithName(Class<?> clazz, String name, Class<?>... ignoredReturnTypes) {
     List<Method> matchingMethods = new ArrayList<>();
-    Set<Class<?>> ignoredReturnTypesSet = Sets.newLinkedHashSet(ignoredReturnTypes);
+    Set<Class<?>> ignoredReturnTypesSet = newLinkedHashSet(ignoredReturnTypes);
     for (Method method : clazz.getMethods()) {
       if (!ignoredReturnTypesSet.contains(method.getReturnType()) && method.getName().equals(name)) {
         matchingMethods.add(method);
       }
     }
     return matchingMethods.toArray(new Method[matchingMethods.size()]);
-  }
-
-  protected static Comparator<Method> ignoringDeclaringClassAndMethodName() {
-    return internalMethodComparator(true, false, true);
-  }
-
-  protected static Comparator<Method> ignoringDeclaringClassAndReturnType() {
-    return internalMethodComparator(true, true, false);
   }
 
   private static Comparator<Method> internalMethodComparator(final boolean ignoreDeclaringClass,
