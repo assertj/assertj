@@ -48,7 +48,7 @@
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib-nodep</artifactId>
-      <version>3.2.4</version>
+      <version>3.2.5</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -242,7 +242,6 @@
       </plugins>
     </pluginManagement>
   </build>
-  
   <profiles>
     <profile>
       <id>java9</id>

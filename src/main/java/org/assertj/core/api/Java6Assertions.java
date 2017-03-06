@@ -17,6 +17,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -75,6 +76,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicBooleanAssert assertThat(AtomicBoolean actual) {
@@ -87,6 +89,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
@@ -99,6 +102,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
@@ -112,6 +116,7 @@ public class Java6Assertions {
    *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
@@ -124,6 +129,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongAssert assertThat(AtomicLong actual) {
@@ -136,6 +142,7 @@ public class Java6Assertions {
    * @param actual the actual value.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
@@ -149,6 +156,7 @@ public class Java6Assertions {
    *
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
@@ -162,6 +170,7 @@ public class Java6Assertions {
    * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
@@ -175,7 +184,7 @@ public class Java6Assertions {
    * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
    *
    * @return the created assertion object.
-  
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
@@ -190,6 +199,7 @@ public class Java6Assertions {
    * @param <OBJECT> the type of the object holding the updatable field.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
@@ -203,6 +213,7 @@ public class Java6Assertions {
    * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
@@ -216,6 +227,7 @@ public class Java6Assertions {
    * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
    *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
@@ -231,6 +243,18 @@ public class Java6Assertions {
   @CheckReturnValue
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return new BigDecimalAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
+    return new BigIntegerAssert(actual);
   }
 
   /**
@@ -384,7 +408,7 @@ public class Java6Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
+  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterable<? extends T> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -399,7 +423,7 @@ public class Java6Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> IterableAssert<T> assertThat(Iterator<? extends T> actual) {
+  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterator<? extends T> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -457,7 +481,7 @@ public class Java6Assertions {
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public static <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
+  public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
     return new FutureAssert<>(actual);
   }
 
@@ -545,7 +569,7 @@ public class Java6Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> ListAssert<T> assertThat(List<? extends T> actual) {
+  public static <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> assertThat(List<? extends T> actual) {
     return new ListAssert<>(actual);
   }
 
@@ -1338,6 +1362,17 @@ public class Java6Assertions {
   }
 
   /**
+   * Assertions entry point for BigInteger {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
+   * @since 2.7.0 / 3.7.0
+   */
+  public static Offset<BigInteger> within(BigInteger value) {
+    return Offset.offset(value);
+  }
+
+  /**
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
@@ -1406,7 +1441,18 @@ public class Java6Assertions {
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
     return Offset.offset(value);
   }
-  
+
+  /**
+   * Assertions entry point for BigInteger {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
+   * @since 2.7.0 / 3.7.0
+   */
+  public static Offset<BigInteger> byLessThan(BigInteger value) {
+    return Offset.offset(value);
+  }
+
   /**
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>

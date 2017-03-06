@@ -21,10 +21,10 @@ import org.junit.Test;
 /**
  * @author Filip Hrisafov
  */
-public class AssertionsTest extends BaseAssertionsTest {
+public class Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAssertionsTest {
 
   @Test
-  public void bdd_assertions_should_have_the_same_methods_as_in_assertions() {
+  public void standard_assertions_and_bdd_assertions_should_have_the_same_assertions_methods() {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat");
     Method[] thenMethods = findMethodsWithName(BDDAssertions.class, "then");
 
@@ -33,24 +33,28 @@ public class AssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void standard_soft_assertions_should_have_the_same_methods_as_in_assertions() {
+  public void standard_assertions_and_soft_assertions_should_have_the_same_assertions_methods() {
     // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
     // the soft assertions we need to ignore them
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
     Method[] assertThatSoftMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
 
     // ignore the return type of soft assertions until they have the same as the Assertions
-    assertThat(assertThatSoftMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
-                                     .containsExactlyInAnyOrder(assertThatMethods);
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
+                                 .containsExactlyInAnyOrder(assertThatSoftMethods);
 
   }
 
   @Test
-  public void with_assertions_should_have_the_same_methods_as_in_assertions() {
-    Method[] withAssertionsMethods = findMethodsWithName(WithAssertions.class, "assertThat");
-    Method[] assertionsMethods = findMethodsWithName(Assertions.class, "assertThat");
+  public void bdd_assertions_and_bdd_soft_assertions_should_have_the_same_assertions_methods() {
+    // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
+    // the soft assertions we need to ignore them
+    Method[] thenMethods = findMethodsWithName(BDDAssertions.class, "then", SPECIAL_IGNORED_RETURN_TYPES);
+    Method[] thenSoftMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
 
-    assertThat(withAssertionsMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
-                                     .containsExactlyInAnyOrder(assertionsMethods);
+    // ignore the return type of soft assertions until they have the same as the Assertions
+    assertThat(thenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
+                           .containsExactlyInAnyOrder(thenSoftMethods);
+
   }
 }

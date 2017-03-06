@@ -21,7 +21,7 @@ package org.assertj.core.description;
 public class EmptyTextDescription extends TextDescription {
   private static final Description INSTANCE = new EmptyTextDescription();
 
-  public static Description emptyText() {
+  public static Description emptyDescription() {
     return INSTANCE;
   }
 

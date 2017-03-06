@@ -511,8 +511,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public AtomicBooleanAssert then(AtomicBoolean actual) {
@@ -523,8 +523,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicInteger}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public AtomicIntegerAssert then(AtomicInteger actual) {
@@ -535,8 +535,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicIntegerArray}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
@@ -547,8 +547,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicIntegerFieldUpdater}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -560,8 +560,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public AtomicLongAssert then(AtomicLong actual) {
@@ -572,8 +572,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicLongArray}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
   public AtomicLongArrayAssert then(AtomicLongArray actual) {
@@ -584,8 +584,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicLongFieldUpdater}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -597,8 +597,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicReference}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -610,9 +610,9 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicReferenceArray}.
    *
    * @param actual the actual value.
-   *
    * @param <ELEMENT> the type of object referred to by the {@link AtomicReferenceArray}.
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -624,8 +624,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicReferenceFieldUpdater}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -637,8 +637,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicMarkableReference}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -650,8 +650,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicStampedReference}.
    *
    * @param actual the actual value.
-   *
    * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue

@@ -13,13 +13,13 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.DescriptionValidations.checkIsNotNull;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.quote;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.EmptyTextDescription;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
@@ -34,6 +34,7 @@ import org.assertj.core.presentation.UnicodeRepresentation;
  */
 public class WritableAssertionInfo implements AssertionInfo {
 
+  private static final String EMPTY_STRING = "";
   private String overridingErrorMessage;
   private Description description;
   private Representation representation;
@@ -45,7 +46,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   public WritableAssertionInfo() {
     useRepresentation(STANDARD_REPRESENTATION);
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -71,37 +72,36 @@ public class WritableAssertionInfo implements AssertionInfo {
     return description;
   }
 
-
   /**
-   * Returns the text of this object's description, or {@code null} if such description is {@code null}.
+   * Returns the text of this object's description, it is an empty String if no description was set.
    *
-   * @return the text of this object's description, or {@code null} if such description is {@code null}.
+   * @return the text of this object's description.
    */
   public String descriptionText() {
-    return description != null ? description.value() : null;
+    return description == null ? EMPTY_STRING : description.value();
   }
 
   /**
-   * Sets the description of an assertion.
+   * Sets the description of an assertion, if given null an empty {@link Description} is set.
    *
    * @param newDescription the new description.
    * @param args           if {@code newDescription} is a format String, {@code args} is argument of {@link String#format(String, Object...)}
-   * @throws NullPointerException if the given description is {@code null}.
    * @see #description(Description)
    */
   public void description(String newDescription, Object... args) {
-    description = checkIsNotNull(newDescription, args);
+    description = new TextDescription(newDescription, args);
   }
 
   /**
-   * Sets the description of an assertion. To remove or clear the description, pass a <code>{@link EmptyTextDescription}</code> as
+   * Sets the description of an assertion, if given null an empty {@link Description} is set.
+   * <p> 
+   * To remove or clear the description, pass a <code>{@link EmptyTextDescription}</code> as
    * argument.
    *
    * @param newDescription the new description.
-   * @throws NullPointerException if the given description is {@code null}.
    */
   public void description(Description newDescription) {
-    description = checkIsNotNull(newDescription);
+    description = Description.emptyIfNull(newDescription);
   }
 
   /**
@@ -135,6 +135,8 @@ public class WritableAssertionInfo implements AssertionInfo {
   @Override
   public String toString() {
     String format = "%s[overridingErrorMessage=%s, description=%s, representation=%s]";
-    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()), quote(representation()));
+    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()),
+                  quote(representation()));
   }
+
 }

@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.DescriptionValidations.checkIsNotNull;
 
 import java.util.function.Predicate;
 
@@ -110,8 +109,8 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   /** {@inheritDoc} */
   @Override
   public Condition<T> as(String newDescription, Object... args) {
-	description = checkIsNotNull(newDescription, args);
-	return this;
+    description = new TextDescription(newDescription, args);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -123,8 +122,8 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   /** {@inheritDoc} */
   @Override
   public Condition<T> as(Description newDescription) {
-	description = checkIsNotNull(newDescription);
-	return this;
+    description = Description.emptyIfNull(newDescription);
+    return this;
   }
 
   /**

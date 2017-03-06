@@ -13,7 +13,6 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someDescription;
 
@@ -56,8 +55,10 @@ public class AbstractAssert_describedAs_with_description_Test {
   }
 
   @Test
-  public void should_throw_error_if_description_is_null() {
-    thrown.expectNullPointerException(descriptionIsNull());
-    assertions.describedAs((Description) null);
+  public void should_set_empty_description_if_description_is_null() {
+    Description description = null;
+    assertions.describedAs(description);
+    assertThat(assertions.descriptionText()).isEmpty();
   }
+
 }

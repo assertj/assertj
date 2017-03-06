@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.description.Description;
@@ -45,15 +44,14 @@ public class Condition_constructor_with_description_Test {
     assertThat(condition.description).isSameAs(d);
   }
 
-  @SuppressWarnings("unused")
   @Test
-  public void should_throw_error_if_description_is_null() {
-    thrown.expectNullPointerException(descriptionIsNull());
-    new Condition<Object>((Description) null) {
+  public void should_set_empty_description_if_description_is_null() {
+    Condition<Object> condition = new Condition<Object>((Description) null) {
       @Override
       public boolean matches(Object value) {
         return false;
       }
     };
+    assertThat(condition.description.value()).isEmpty();
   }
 }
