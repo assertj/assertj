@@ -44,6 +44,8 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
@@ -80,6 +82,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
 
+  private TypeComparators comparatorsByType = new TypeComparators();
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
 
@@ -177,7 +180,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertion will pass
    * assertThat(oneTwoThree).hasSameSizeAs(elvesRings);
-   * 
+   *
    * // assertion will fail
    * assertThat(oneTwoThree).hasSameSizeAs(Arrays.asList("a", "b"));</code></pre>
    *
@@ -634,18 +637,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public SELF contains(ELEMENT value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
-  } 
+  }
 
   /**
    * Verifies that all elements of the actual group are instances of given classes or interfaces.
    * <p>
    * Example :
    * <pre><code class='java'> Object[] objects = { "foo", new StringBuilder() };
-   * 
+   *
    * // assertions will pass
    * assertThat(objects).hasOnlyElementsOfTypes(CharSequence.class);
    * assertThat(objects).hasOnlyElementsOfTypes(String.class, StringBuilder.class);
-   * 
+   *
    * // assertions will fail
    * assertThat(objects).hasOnlyElementsOfTypes(Number.class);
    * assertThat(objects).hasOnlyElementsOfTypes(String.class, Number.class);
@@ -1287,7 +1290,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertion will pass
    * assertThat(abc).containsAll(Arrays.asList("b", "c"));
-   * 
+   *
    * // assertions will fail
    * assertThat(abc).containsAll(Arrays.asList("d"));
    * assertThat(abc).containsAll(Arrays.asList("a", "b", "c", "d"));</code></pre>
@@ -1342,6 +1345,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     // elements with elementComparator parameter
     objects = new Objects(new ObjectArrayElementComparisonStrategy<>(elementComparator));
     return myself;
+  }
+
+  private SELF usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
+    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, comparatorsByType));
   }
 
   /** {@inheritDoc} */
@@ -1499,6 +1506,48 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Allows to set a specific comparator for the given type of elements or their fields.
+   * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
+   * to elements themselves, not only to their fields.
+   * <p>
+   * Usage of this method affects comparators set by next methods:
+   * <ul>
+   * <li>{@link #usingFieldByFieldElementComparator}</li>
+   * <li>{@link #usingElementComparatorOnFields}</li>
+   * <li>{@link #usingElementComparatorIgnoringFields}</li>
+   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
+   * </ul>
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   *     Person obiwan = new Person("Obi-Wan");
+   *     obiwan.setHeight(new BigDecimal("1.820"));
+   *
+   *     // assertion will pass
+   *     assertThat(obiwan).extracting("name", "height")
+   *                       .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+   *                       .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+   * </code></pre>
+   * </p>
+   *
+   * @param comparator the {@link java.util.Comparator} to use
+   * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
+   * @return {@code this} assertions object
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public <C> SELF usingComparatorForType(Comparator<C> comparator, Class<C> type) {
+    if (arrays.getComparator() == null) {
+      usingElementComparator(new ExtendedByTypesComparator(comparatorsByType));
+    }
+
+    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
+    comparatorsByType.put(type, comparator);
+
+    return myself;
+  }
+
+  /**
    * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
    * actual type A <code>equals</code> method to compare group elements for incoming assertion checks. Private fields
    * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
@@ -1526,7 +1575,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public SELF usingFieldByFieldElementComparator() {
-    return usingElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                              comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1575,7 +1624,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
-    return usingElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                                       comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1609,7 +1658,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public SELF usingElementComparatorOnFields(String... fields) {
-    return usingElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                          comparatorsForElementPropertyOrFieldTypes, fields));
   }
 
@@ -1643,7 +1692,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public SELF usingElementComparatorIgnoringFields(String... fields) {
-    return usingElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                                comparatorsForElementPropertyOrFieldTypes, fields));
   }
 
@@ -2312,7 +2361,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that the actual array contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"};
    *
    * // assertions will pass
    * assertThat(abc).containsAnyOf("b")
@@ -2343,7 +2392,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that the actual array contains at least one of the given {@link Iterable} elements.
    * <p>
    * Example :
-   * <pre><code class='java'> String[] abc = {"a", "b", "c"}; 
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"};
    *
    * // assertions will pass
    * assertThat(abc).containsAnyElementsOf(Arrays.asList("b"))

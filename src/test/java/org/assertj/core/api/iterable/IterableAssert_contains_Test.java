@@ -15,7 +15,13 @@ package org.assertj.core.api.iterable;
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.junit.Test;
 
+import java.math.BigDecimal;
+
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.mockito.Mockito.verify;
 
 
@@ -37,5 +43,12 @@ public class IterableAssert_contains_Test extends IterableAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertContains(getInfo(assertions), getActual(assertions), values);
+  }
+
+  @Test
+  public void should_allow_to_specify_element_type_comparator() {
+    assertThat(asList("some", new BigDecimal("4.2")))
+      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+      .contains(new BigDecimal("4.20"));
   }
 }

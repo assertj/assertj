@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.AbstractObjectAssert.defaultTypeComparators;
+import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
 
 import java.util.Comparator;
@@ -24,8 +25,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * Compares objects field/property by field/property recursively.
  */
 public class RecursiveFieldByFieldComparator implements Comparator<Object> {
-
-  private static final int NOT_EQUAL = -1;
 
   private final Map<String, Comparator<?>> comparatorByPropertyOrField;
   private final TypeComparators comparatorByType;
