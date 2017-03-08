@@ -511,6 +511,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties. 
+   * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
@@ -525,14 +527,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
    * test.
    *
-   * @param propertiesOrFields the properties/fields to extract from the initial array under test
+   * @param propertiesOrFields the properties/fields to extract from the initial object under test
    * @return a new assertion object whose object under test is the array containing the extracted properties/fields values
    * @throws IntrospectionError if one of the given name does not match a field or property
    */
   @CheckReturnValue
   public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).extract(actual);
-    return new ObjectArrayAssert<Object>(values.toArray());
+    return new ObjectArrayAssert<>(values.toArray());
   }
 
   /**
