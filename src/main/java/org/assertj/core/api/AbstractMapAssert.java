@@ -42,7 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author dorzey
  */
 public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
-    extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
+    extends AbstractObjectAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
   @VisibleForTesting
   Maps maps = Maps.instance();
@@ -164,6 +164,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
    * @throws AssertionError if actual group and given array don't have the same size.
    */
+  @Override
   public SELF hasSameSizeAs(Object other) {
     maps.assertHasSameSizeAs(info, actual, other);
     return myself;
@@ -292,7 +293,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     maps.assertContainsAnyOf(info, actual, entries);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual map contains all entries of the given map, in any order.
    * <p>
@@ -949,5 +950,36 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
     Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null map.");
     return new MapSizeAssert(this, actual.size());
+  }
+
+  /**
+   * Extract the values of given keys from the map under test into an array, this new array becoming
+   * the object under test.
+   * <p>
+   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for 
+   * these keys, you can then perform array assertions on the extracted values.
+   * <p>
+   * If a given key is not present in the map under test, a null value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map<String, Object> map = new HashMap<>(); 
+   * map.put("name", "kawhi");                  
+   * map.put("age", 25);                        
+   *                                            
+   * assertThat(map).extracting("name", "age")
+   *                .contains("kawhi", 25);</code></pre>     
+   * <p>
+   * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
+   * <p>
+   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract 
+   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.  
+   *
+   * @param keys the keys used to get values from the map under test
+   * @return a new assertion object whose object under test is the array containing the extracted map values
+   */
+  @CheckReturnValue
+  @Override
+  public AbstractObjectArrayAssert<?, Object> extracting(String... keys) {
+    return super.extracting(keys);
   }
 }
