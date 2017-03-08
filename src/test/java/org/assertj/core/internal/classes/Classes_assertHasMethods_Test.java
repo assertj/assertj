@@ -20,6 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newTreeSet;
 
 import org.assertj.core.internal.ClassesBaseTest;
+import org.assertj.core.util.Strings;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,13 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
 
   @Before
   public void setupActual() {
-    actual = MethodsClass.class;
+    AnotherMethodsClass m = new AnotherMethodsClass();
+    Strings.isNullOrEmpty(m.string); // causes a synthetic method in AnotherMethodsClass
+    actual = AnotherMethodsClass.class;
+  }
+
+  private static class AnotherMethodsClass extends MethodsClass {
+    private String string;
   }
 
   @Test
