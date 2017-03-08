@@ -26,8 +26,21 @@ public class MapAssert_extracting_Test {
     Map<String, Object> map = new HashMap<>();
     map.put("name", "kawhi");
     map.put("age", 25);
-      
+
     assertThat(map).extracting("name", "age")
+                   .contains("kawhi", 25);
+
+    assertThat(map).extracting(m -> m.get("name"), m -> m.get("age"))
+                   .contains("kawhi", 25);
+  }
+
+  @Test
+  public void should_allow_assertions_on_values_extracted_from_given_extractors() {
+    Map<String, Object> map = new HashMap<>();
+    map.put("name", "kawhi");
+    map.put("age", 25);
+
+    assertThat(map).extracting(m -> m.get("name"), m -> m.get("age"))
                    .contains("kawhi", 25);
   }
 
