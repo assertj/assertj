@@ -20,8 +20,10 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -127,6 +129,34 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     actual.friends.add(other);
     other.friends.add(sherlock);
     other.friends.add(actual);
+
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                            defaultTypeComparators());
+  }
+
+  @Test
+  public void should_treat_date_as_equal_to_timestamp() {
+    Person actual = new Person();
+    actual.name = "Fred";
+    actual.dateOfBirth = new Date(1000L);
+
+    Person other = new Person();
+    other.name = "Fred";
+    other.dateOfBirth = new Timestamp(1000L);
+
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                            defaultTypeComparators());
+  }
+
+  @Test
+  public void should_treat_timestamp_as_equal_to_date() {
+    Person actual = new Person();
+    actual.name = "Fred";
+    actual.dateOfBirth = new Timestamp(1000L);
+
+    Person other = new Person();
+    other.name = "Fred";
+    other.dateOfBirth = new Date(1000L);
 
     objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
                                                             defaultTypeComparators());
@@ -254,6 +284,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     public String name;
     public Home home = new Home();
     public Person neighbour;
+    public Date dateOfBirth;
 
     public String toString() {
       return "Person [name=" + name + ", home=" + home + "]";

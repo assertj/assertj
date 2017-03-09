@@ -280,7 +280,7 @@ public class DeepDifference {
       }
 
       if (hasCustomEquals(key1.getClass())) {
-        if (!key1.equals(key2)) {
+        if (!(key1.equals(key2) || key2.equals(key1))) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
         }
