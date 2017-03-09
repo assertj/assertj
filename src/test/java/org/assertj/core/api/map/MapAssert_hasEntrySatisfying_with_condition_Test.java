@@ -12,23 +12,17 @@
  */
 package org.assertj.core.api.map;
 
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-import org.assertj.core.data.MapEntry;
 
 /**
- * Tests for <code>{@link MapAssert#hasEntrySatisfying(Object, Condition)}</code>.
- *
- * @author Filip Hrisafov
+ * Tests for <code>{@link MapAssert#hasEntrySatisfying(Condition)}</code>.
  */
-public class MapAssert_hasEntrySatisfying_Test extends MapAssertBaseTest {
+public class MapAssert_hasEntrySatisfying_with_condition_Test extends MapAssertBaseTest {
 
-  final MapEntry<String, String>[] entries = array(entry("key1", "value1"));
 
   private final Condition<Object> condition = new Condition<Object>() {
     @Override
@@ -40,11 +34,11 @@ public class MapAssert_hasEntrySatisfying_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.hasEntrySatisfying("key1", condition);
+    return assertions.hasEntrySatisfying(condition);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), "key1", condition);
+    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), condition);
   }
 }

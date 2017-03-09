@@ -17,6 +17,7 @@ import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
@@ -232,6 +233,58 @@ public class Maps {
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
     if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldBe(actual, value, valueCondition));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains an entry satisfying given {@code entryCondition}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param entryCondition the condition for searching entry.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry matching given {@code entryCondition}.
+   * @since 2.8.0
+   */
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual,
+                                              Condition<? super Map.Entry<K, V>> entryCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(entryCondition);
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
+      if (entryCondition.matches(entry)) {
+        return;
+      }
+    }
+
+    throw failures.failure(info, shouldContainEntry(actual, entryCondition));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition} and value satisfying {@code valueCondition}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param keyCondition the condition for entry key.
+   * @param valueCondition the condition for entry value.
+   * @throws NullPointerException if any of the given conditions is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry matching given {@code keyCondition} and {@code valueCondition}.
+   * @since 2.8.0
+   */
+  public <K, V> void assertHasEntrySatisfyingConditions(AssertionInfo info, Map<K, V> actual,
+                                                        Condition<? super K> keyCondition,
+                                                        Condition<? super V> valueCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(keyCondition);
+    conditions.assertIsNotNull(valueCondition);
+
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
+      if (keyCondition.matches(entry.getKey()) && valueCondition.matches(entry.getValue())) {
+        return;
+      }
+    }
+
+    throw failures.failure(info, shouldContainEntry(actual, keyCondition, valueCondition));
   }
 
   /**
