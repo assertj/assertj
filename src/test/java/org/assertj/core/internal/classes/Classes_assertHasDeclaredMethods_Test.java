@@ -20,6 +20,7 @@ import static org.assertj.core.util.Sets.newTreeSet;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
+import org.assertj.core.util.Strings;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +32,18 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
 
   @Before
   public void setupActual() {
-    actual = MethodsClass.class;
+    AnotherMethodsClass m = new AnotherMethodsClass();
+    Strings.isNullOrEmpty(m.string); // causes a synthetic method in AnotherMethodsClass
+    actual = AnotherMethodsClass.class;
+  }
+
+  private static final class AnotherMethodsClass {
+    private String string;
+
+    public void publicMethod() {}
+    protected void protectedMethod() {}
+    @SuppressWarnings("unused")
+    private void privateMethod() {}
   }
 
   @Test
@@ -42,7 +54,7 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
   @Test
   public void should_pass_if_actual_has_no_declared_methods_and_no_expected_methods_are_given() {
     actual = Jedi.class;
-    classes.assertHasDeclaredPublicMethods(someInfo(), actual);
+    classes.assertHasDeclaredMethods(someInfo(), actual);
   }
 
   @Test

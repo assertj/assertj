@@ -278,7 +278,7 @@ public class Classes {
    */
   public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info,actual, getAllMethods(actual), false, methods);
+    doAssertHasMethods(info,actual, filterSyntheticMethods(getAllMethods(actual)), false, methods);
   }
 
   /**
@@ -292,7 +292,7 @@ public class Classes {
    */
   public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info, actual, actual.getDeclaredMethods(), true, methods);
+    doAssertHasMethods(info, actual, filterSyntheticMethods(actual.getDeclaredMethods()), true, methods);
   }
 
   private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
@@ -414,6 +414,16 @@ public class Classes {
       allMethods.addAll(newLinkedHashSet(getAllMethods(superclass)));
     }
     return allMethods.toArray(new Method[allMethods.size()]);
+  }
+
+  private static Method[] filterSyntheticMethods(Method[] methods) {
+    Set<Method> filteredMethods = newLinkedHashSet();
+    for (Method method : methods) {
+      if (!method.isSynthetic()) {
+        filteredMethods.add(method);
+      }
+    }
+    return filteredMethods.toArray(new Method[filteredMethods.size()]);
   }
 
   private static void assertNotNull(AssertionInfo info, Class<?> actual) {
