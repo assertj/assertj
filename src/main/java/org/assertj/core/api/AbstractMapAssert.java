@@ -146,7 +146,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * 
-   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
@@ -174,7 +174,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map has the same size as the given {@link Iterable}.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
@@ -202,7 +202,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map has the same size as the given {@link Map}.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -237,7 +237,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * This assertion succeeds if both actual map and given entries are empty.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -268,7 +268,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains at least one of the given entries.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -298,13 +298,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains all entries of the given map, in any order.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
    *
-   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
@@ -333,7 +333,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains the given entry.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -363,7 +363,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains a value for the given {@code key} that satisfies the given {@code valueCondition}.
    * <p>
    * Example:
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -396,10 +396,176 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that the actual map contains an entry satisfying the given {@code entryCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;TolkienCharacter, Ring&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(galadriel, nenya);
+   * ringBearers.put(gandalf, narya);
+   * ringBearers.put(elrond, vilya);
+   * ringBearers.put(frodo, oneRing);
+   *
+   * Condition&lt;Map.Entry&lt;TolkienCharacter, Ring&gt;&gt; oneRingManBearer =
+   *   new Condition&lt;Map.Entry&lt;TolkienCharacter, Ring&gt;&gt;("One ring man bearer") {
+   *     public boolean matches(Map.Entry&lt;TolkienCharacter, Ring&gt; entry) {
+   *       return entry.getKey().getRace() == MAN && entry.getValue() == oneRing;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasEntrySatisfying(oneRingManBearer);
+   *
+   * ringBearers.put(isildur, oneRing);
+   *
+   * // now assertion will pass
+   * assertThat(ringBearers).hasEntrySatisfying(oneRingManBearer);
+   * </code></pre>
+   *
+   * @param entryCondition the condition for searching entry.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry matching given {@code entryCondition}.
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasEntrySatisfying(Condition<? super Map.Entry<K, V>> entryCondition) {
+    maps.assertHasEntrySatisfying(info, actual, entryCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains an entry with a key satisfying the given {@code keyCondition} 
+   * and a value satisfying the given {@code valueCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;TolkienCharacter, Ring&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(galadriel, nenya);
+   * ringBearers.put(gandalf, narya);
+   * ringBearers.put(elrond, vilya);
+   * ringBearers.put(frodo, oneRing);
+   *
+   * Condition&lt;TolkienCharacter&gt; isMan = new Condition&lt;TolkienCharacter&gt;("is man") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == MAN;
+   *     }
+   *   };
+   *
+   * Condition&lt;Ring&gt; oneRingBearer = new Condition&lt;Ring&gt;("One ring bearer") {
+   *     public boolean matches(Ring value) {
+   *       return value == oneRing;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasEntrySatisfying(isMan, oneRingBearer);
+   *
+   * ringBearers.put(isildur, oneRing);
+   *
+   * // now assertion will pass
+   * assertThat(ringBearers).hasEntrySatisfying(isMan, oneRingBearer);
+   * </code></pre>
+   *
+   * @param keyCondition the condition to be matched by the entry's key.
+   * @param valueCondition the condition to be matched by the entry's value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if any of the given conditions is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry with a key matching {@code keyCondition} and a value matching {@code valueCondition}.
+   * @since 2.7.0  / 3.7.0
+   */
+  public SELF hasEntrySatisfying(Condition<? super K> keyCondition, Condition<? super V> valueCondition) {
+    maps.assertHasEntrySatisfyingConditions(info, actual, keyCondition, valueCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains an entry with a key satisfying the given {@code keyCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;TolkienCharacter, Ring&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(galadriel, nenya);
+   * ringBearers.put(gandalf, narya);
+   * ringBearers.put(elrond, vilya);
+   * ringBearers.put(frodo, oneRing);
+   *
+   * Condition&lt;TolkienCharacter&gt; isElf = new Condition&lt;TolkienCharacter&gt;("is elf") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == ELF;
+   *     }
+   *   };
+   *
+   * Condition&lt;TolkienCharacter&gt; isOrc = new Condition&lt;TolkienCharacter&gt;("is orc") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == ORC;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasKeySatisfying(isOrc);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).hasKeySatisfying(isElf);
+   * </code></pre>
+   *
+   * @param keyCondition the condition to be matched by the entry's key.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no key matching the given {@code keyCondition}.
+   * @since 2.7.0  / 3.7.0
+   */
+  public SELF hasKeySatisfying(Condition<? super K> keyCondition) {
+    maps.assertHasKeySatisfying(info, actual, keyCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains an entry with a value satisfying the given {@code valueCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, elrond);
+   * ringBearers.put(oneRing, frodo);
+   *
+   * Condition&lt;TolkienCharacter&gt; isElf = new Condition&lt;TolkienCharacter&gt;("is elf") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == ELF;
+   *     }
+   *   };
+   *
+   * Condition&lt;TolkienCharacter&gt; isOrc =
+   *   new Condition&lt;TolkienCharacter&gt;("is orc") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == ORC;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasValueSatisfying(isOrc);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).hasValueSatisfying(isElf);
+   * </code></pre>
+   *
+   * @param valueCondition the condition to be matched by the entry's value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no value matching the given {@code valueCondition}.
+   * @since 2.7.0  / 3.7.0
+   */
+  public SELF hasValueSatisfying(Condition<? super V> valueCondition) {
+    maps.assertHasValueSatisfying(info, actual, valueCondition);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given entries.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -428,7 +594,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map does not contain the given entry.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -457,7 +623,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains the given key.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -481,7 +647,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains the given keys.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(oneRing, frodo);
@@ -508,7 +674,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map does not contain the given key.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
@@ -532,7 +698,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map does not contain any of the given keys.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
@@ -558,7 +724,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * <p>
    * Examples :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -586,7 +752,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains the given value.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -611,7 +777,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -638,7 +804,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map does not contain the given value.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -664,7 +830,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * 
    * <p>
    * Examples :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -962,7 +1128,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * If a given key is not present in the map under test, a null value is extracted.
    * <p>
    * Example:
-   * <pre><code class='java'> Map<String, Object> map = new HashMap<>(); 
+   * <pre><code class='java'> Map<String, Object> map = new HashMap&lt;&gt;(); 
    * map.put("name", "kawhi");                  
    * map.put("age", 25);                        
    *                                            
