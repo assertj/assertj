@@ -170,9 +170,19 @@
         <version>0.7.9</version>
         <configuration>
         </configuration>
+        <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine
+             code coverage of the unpacked shaded classes -->
         <executions>
           <execution>
-            <id>check</id>
+            <id>jacoco-report</id>
+            <phase>prepare-package</phase>
+            <goals>
+                <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-check</id>
+            <phase>prepare-package</phase>
             <goals>
               <goal>check</goal>
             </goals>
@@ -184,7 +194,7 @@
                     <limit implementation="org.jacoco.report.check.Limit">
                       <counter>CLASS</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.99</minimum>
+                      <minimum>0.98</minimum>
                     </limit>
                   </limits>
                 </rule>
