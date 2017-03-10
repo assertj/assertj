@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Strings.isNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
 import org.assertj.core.description.Description;
@@ -81,6 +82,15 @@ public class WritableAssertionInfo implements AssertionInfo {
   }
 
   /**
+   * Returns whether the text of this object's description was set.
+   *
+   * @return whether the text of this object's description was set.
+   */
+  public boolean hasDescription() {
+    return description != null && !isNullOrEmpty(description.value());
+  }
+
+  /**
    * Sets the description of an assertion, if given null an empty {@link Description} is set.
    *
    * @param newDescription the new description.
@@ -126,6 +136,10 @@ public class WritableAssertionInfo implements AssertionInfo {
   public void useRepresentation(Representation newRepresentation) {
     checkNotNull(newRepresentation, "The representation to use should not be null.");
     representation = newRepresentation;
+  }
+
+  public static String mostRelevantDescriptionIn(WritableAssertionInfo info, String newDescription) {
+    return info.hasDescription() ? info.descriptionText() : newDescription;
   }
 
   /**

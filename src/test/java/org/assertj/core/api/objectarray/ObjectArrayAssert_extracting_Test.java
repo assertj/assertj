@@ -12,9 +12,10 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.test.ExpectedException.*;
-import static org.assertj.core.util.Arrays.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.Arrays.array;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.iterable.Extractor;
@@ -53,8 +54,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined()
-       {
+  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     assertThat(employees).extracting("name", Name.class).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
@@ -76,13 +76,15 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
-    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+                                                                             tuple("Luke", 26, 2L));
   }
 
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
     thrown.expectIntrospectionError();
-    assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+                                                                          tuple("Luke", 26, 2L));
   }
 
   @Test
@@ -93,5 +95,47 @@ public class ObjectArrayAssert_extracting_Test {
         return input.getName().getFirst();
       }
     }).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first").isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first", String.class).isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
+
+    assertThat(employees).extracting("name.first", "name.last").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting("name.first", String.class).isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees name]");
+
+    assertThat(employees).as("check employees name").extracting("name.first", "name.last").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
   }
 }

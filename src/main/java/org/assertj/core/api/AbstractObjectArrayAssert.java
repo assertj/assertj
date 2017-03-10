@@ -13,7 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.filter.Filters.filter;
+import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -39,7 +41,6 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
@@ -47,6 +48,7 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.RecursiveFieldByFieldComparator;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
@@ -481,6 +483,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual group contains the given object at the given index.
    */
+  @Override
   public SELF doesNotContain(ELEMENT value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
@@ -1093,6 +1096,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
+  @Override
   @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> elementComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
@@ -1450,7 +1454,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1500,7 +1506,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1559,8 +1567,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
     Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
-
-    return new ObjectArrayAssert<>(result);
+    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
+    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+    return new ObjectArrayAssert<>(result).as(description);
   }
 
   /**

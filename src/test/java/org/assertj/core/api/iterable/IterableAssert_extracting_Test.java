@@ -12,6 +12,13 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.Lists.newArrayList;
+
+import java.util.Comparator;
+
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.Tuple;
@@ -21,13 +28,6 @@ import org.assertj.core.test.Name;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Comparator;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#extracting(String)}</code> and
@@ -177,5 +177,46 @@ public class IterableAssert_extracting_Test {
         "Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
         "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
   }
-  
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first").isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first", String.class).isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
+
+    assertThat(employees).extracting("name.first", "name.last").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting("name.first", String.class).isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees name]");
+
+    assertThat(employees).as("check employees name").extracting("name.first", "name.last").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
+  }
 }
