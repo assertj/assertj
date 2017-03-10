@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.extractor.Extractors.byName;
 
 import java.util.Comparator;
@@ -24,6 +25,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.FloatComparator;
+import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -532,7 +534,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).extract(actual);
-    return new ObjectArrayAssert<>(values.toArray());
+    String description = format("Extracted: %s", Strings.join(propertiesOrFields).with(", "));
+    return new ObjectArrayAssert<>(values.toArray()).as(description);
   }
 
   /**

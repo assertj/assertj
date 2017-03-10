@@ -91,4 +91,25 @@ public class AtomicReferenceArrayAssert_extracting_Test {
       }
     }).containsOnly("Yoda", "Luke");
   }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first").isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_typed_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first", String.class).isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_tuples() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
+
+    assertThat(employees).extracting("name.first", "name.last").isEmpty();
+  }
 }
