@@ -16,13 +16,20 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.AtPrecisionComparator;
@@ -70,7 +77,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     goliathTwin.name = "Goliath";
     goliathTwin.height = 3.1;
 
-    assertThat(goliath).usingComparatorForType(new AtPrecisionComparator<Double>(0.2), Double.class)
+    assertThat(goliath).usingComparatorForType(new AtPrecisionComparator<>(0.2), Double.class)
                        .isEqualToComparingFieldByFieldRecursively(goliathTwin);
   }
 
@@ -84,7 +91,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     goliathTwin.name = "Goliath";
     goliathTwin.height = 3.1;
 
-    assertThat(goliath).usingComparatorForFields(new AtPrecisionComparator<Double>(0.2), "height")
+    assertThat(goliath).usingComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
                        .isEqualToComparingFieldByFieldRecursively(goliathTwin);
   }
 
@@ -100,8 +107,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     goliathTwin.height = 3.1;
     goliathTwin.home.address.number = 5;
 
-    assertThat(goliath).usingComparatorForFields(new AtPrecisionComparator<Double>(0.2), "height")
-                       .usingComparatorForFields(new AtPrecisionComparator<Integer>(10), "home.address.number")
+    assertThat(goliath).usingComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
+                       .usingComparatorForFields(new AtPrecisionComparator<>(10), "home.address.number")
                        .isEqualToComparingFieldByFieldRecursively(goliathTwin);
   }
 
@@ -149,7 +156,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
       verify(failures).failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
                                                                                    asList(new Difference(asList("name"),
                                                                                                          "John",
-                                                                                                         "Jack"))));
+                                                                                                         "Jack")),
+                                                                                   STANDARD_REPRESENTATION));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -174,8 +182,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
       verify(failures).failure(info,
                                shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
                                                                              asList(new Difference(asList("home.address.number"),
-                                                                                                   "1",
-                                                                                                   "2"))));
+                                                                                                   1,
+                                                                                                   2)),
+                                                                             STANDARD_REPRESENTATION));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -191,14 +200,15 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
 
-    thrown.expectAssertionError(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                                "when recursively comparing field by field, but found the following difference(s):%n%n" +
-                                "Path to difference:  <home.address.number>%n" +
+    thrown.expectAssertionError(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
+                                "when recursively comparing field by field, but found the following difference(s):%n%n"
+                                +
+                                "Path to difference: <home.address.number>%n" +
                                 "- expected: <2>%n" +
                                 "- actual  : <1>%n%n" +
-                                "Path to difference:  <name>%n" +
-                                "- expected: <John>%n" +
-                                "- actual  : <Jack>");
+                                "Path to difference: <name>%n" +
+                                "- expected: <\"John\">%n" +
+                                "- actual  : <\"Jack\">");
 
     assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }
@@ -215,9 +225,10 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     friendOfOther.home.address.number = 10;
     other.friends = Arrays.asList(friendOfOther);
 
-    thrown.expectAssertionError(format("Expecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                                "when recursively comparing field by field, but found the following difference(s):%n%n" +
-                                "Path to difference:  <friends.home.address.number>%n" +
+    thrown.expectAssertionError(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
+                                "when recursively comparing field by field, but found the following difference(s):%n%n"
+                                +
+                                "Path to difference: <friends.home.address.number>%n" +
                                 "- expected: <10>%n" +
                                 "- actual  : <99>");
 
@@ -243,11 +254,120 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
       verify(failures).failure(info,
                                shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
                                                                              asList(new Difference(asList("home.address.number"),
-                                                                                                   "1",
-                                                                                                   "2"))));
+                                                                                                   1,
+                                                                                                   2)),
+                                                                             STANDARD_REPRESENTATION));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_when_comparing_unsorted_with_sorted_set() {
+    WithCollection<String> actual = new WithCollection<>(new LinkedHashSet<String>());
+    actual.collection.add("bar");
+    actual.collection.add("foo");
+    WithCollection<String> expected = new WithCollection<>(new TreeSet<String>());
+    expected.collection.add("bar");
+    expected.collection.add("foo");
+
+    try {
+      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+    } catch (AssertionError err) {
+      assertThat(err).hasMessageContaining(format("Path to difference: <collection>%n"));
+      assertThat(err).hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@"));
+      assertThat(err).hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (TreeSet@"));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_when_comparing_sorted_with_unsorted_set() {
+    WithCollection<String> actual = new WithCollection<>(new TreeSet<String>());
+    actual.collection.add("bar");
+    actual.collection.add("foo");
+    WithCollection<String> expected = new WithCollection<>(new LinkedHashSet<String>());
+    expected.collection.add("bar");
+    expected.collection.add("foo");
+
+    try {
+      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+    } catch (AssertionError err) {
+      assertThat(err).hasMessageContaining(format("Path to difference: <collection>%n"));
+      assertThat(err).hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (TreeSet@"));
+      assertThat(err).hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (LinkedHashSet@"));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_when_comparing_unsorted_with_sorted_map() {
+    WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<Long, Boolean>());
+    actual.map.put(1L, true);
+    actual.map.put(2L, false);
+    WithMap<Long, Boolean> expected = new WithMap<>(new TreeMap<Long, Boolean>());
+    expected.map.put(2L, false);
+    expected.map.put(1L, true);
+
+    try {
+      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+    } catch (AssertionError err) {
+      assertThat(err).hasMessageContaining(format("Path to difference: <map>%n"));
+      assertThat(err).hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (LinkedHashMap@"));
+      assertThat(err).hasMessageContaining(format("- expected: <{1L=true, 2L=false} (TreeMap@"));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_when_comparing_sorted_with_unsorted_map() {
+    WithMap<Long, Boolean> actual = new WithMap<>(new TreeMap<Long, Boolean>());
+    actual.map.put(1L, true);
+    actual.map.put(2L, false);
+    WithMap<Long, Boolean> expected = new WithMap<>(new LinkedHashMap<Long, Boolean>());
+    expected.map.put(2L, false);
+    expected.map.put(1L, true);
+
+    try {
+      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+    } catch (AssertionError err) {
+      assertThat(err).hasMessageContaining(format("Path to difference: <map>%n"));
+      assertThat(err).hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (TreeMap@"));
+      assertThat(err).hasMessageContaining(format("- expected: <{1L=true, 2L=false} (LinkedHashMap@"));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  public static class WithMap<K, V> {
+    public Map<K, V> map;
+
+    public WithMap(Map<K, V> map) {
+      this.map = map;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("WithMap [map=%s]", map);
+    }
+
+  }
+
+  public static class WithCollection<E> {
+    public Collection<E> collection;
+
+    public WithCollection(Collection<E> collection) {
+      this.collection = collection;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("WithCollection [collection=%s]", collection);
+    }
+
   }
 
   public static class Person {
@@ -255,6 +375,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     public Home home = new Home();
     public Person neighbour;
 
+    @Override
     public String toString() {
       return "Person [name=" + name + ", home=" + home + "]";
     }
@@ -263,6 +384,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   public static class Home {
     public Address address = new Address();
 
+    @Override
     public String toString() {
       return "Home [address=" + address + "]";
     }
@@ -271,6 +393,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   public static class Address {
     public int number = 1;
 
+    @Override
     public String toString() {
       return "Address [number=" + number + "]";
     }
@@ -285,6 +408,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   public static class EqualPerson extends Person {
 
+    @Override
     public boolean equals(Object o) {
       return true;
     }

@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.Integer.toHexString;
-import static java.lang.String.format;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
@@ -188,18 +186,12 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     return array(description, representation.toStringOf(expected), representation.toStringOf(actual));
   }
 
-  private String detailedToStringOf(Object obj) {
-    return obj == null ? null
-        : format("%s (%s@%s)", representation.toStringOf(obj), obj.getClass().getSimpleName(),
-                 toHexString(obj.hashCode()));
-  }
-
   private String detailedActual() {
-    return detailedToStringOf(actual);
+    return representation.unambiguousToStringOf(actual);
   }
 
   private String detailedExpected() {
-    return detailedToStringOf(expected);
+    return representation.unambiguousToStringOf(expected);
   }
 
   @Override
