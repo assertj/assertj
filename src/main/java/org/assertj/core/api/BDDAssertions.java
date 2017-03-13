@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -1068,6 +1069,18 @@ public class BDDAssertions extends Assertions {
    */
   @CheckReturnValue
   public static AbstractOffsetTimeAssert<?> then(OffsetTime actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractInstantAssert<?> then(Instant actual) {
     return assertThat(actual);
   }
 
