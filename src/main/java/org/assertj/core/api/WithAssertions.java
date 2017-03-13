@@ -241,7 +241,7 @@ public interface WithAssertions {
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
+  default AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
     return Assertions.assertThat(actual);
   }
 
