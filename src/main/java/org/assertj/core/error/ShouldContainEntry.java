@@ -24,7 +24,7 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   /**
    * Creates a new </code>{@link ShouldContainEntry}</code>.
    *
-   * @param actual the actual value in the failed assertion.
+   * @param actual the actual map in the failed assertion.
    * @param entryCondition entry condition.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -35,7 +35,7 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   /**
    * Creates a new </code>{@link ShouldContainEntry}</code>.
    *
-   * @param actual the actual value in the failed assertion.
+   * @param actual the actual map in the failed assertion.
    * @param keyCondition key condition.
    * @param valueCondition value condition.
    * @return the created {@code ErrorMessageFactory}.
@@ -46,11 +46,11 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   }
 
   private <K, V> ShouldContainEntry(Map<K, V> actual, Condition<?> entryCondition) {
-    super("%nExpecting%n <%s>%nto have an entry satisfying%n <%s>", actual, entryCondition);
+    super("%nExpecting:%n <%s>%nto contain an entry satisfying:%n <%s>", actual, entryCondition);
   }
 
   private <K, V> ShouldContainEntry(Map<K, V> actual, Condition<? super K> keyCondition, Condition<? super V> valueCondition) {
-    super("%nExpecting%n <%s>%nto have an entry satisfying%nkey condition%n <%s>%nand value condition%n <%s>",
+    super("%nExpecting:%n <%s>%nto contain an entry satisfying:%nkey condition%n <%s>%nand value condition%n <%s>",
           actual, keyCondition, valueCondition);
   }
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
+import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -27,52 +27,51 @@ import org.assertj.core.internal.MapsBaseTest;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Maps#assertHasEntrySatisfying(AssertionInfo, Map, Condition)}</code>.
+ * Tests for <code>{@link Maps#assertHasValueSatisfying(AssertionInfo, Map, Condition)} (AssertionInfo, Map, Condition)}</code>.
  */
-public class Maps_assertHasEntrySatisfying_with_condition_Test extends MapsBaseTest {
+public class Maps_assertHasValueSatisfying_Test extends MapsBaseTest {
 
-  private Condition<Map.Entry<String, String>> greenColorCondition =
-    new Condition<Map.Entry<String, String>>("green color condition") {
-      @Override
-      public boolean matches(Map.Entry<String, String> entry) {
-        return entry.getKey().equals("color") && entry.getValue().equals("green");
-      }
-    };
+  private Condition<String> isGreen = new Condition<String>("green color condition") {
+    @Override
+    public boolean matches(String value) {
+      return "green".equals(value);
+    }
+  };
 
-  private Condition<Map.Entry<String, String>> blackColorCondition =
-    new Condition<Map.Entry<String, String>>("black color condition") {
-      @Override
-      public boolean matches(Map.Entry<String, String> entry) {
-        return entry.getKey().equals("color") && entry.getValue().equals("black");
-      }
-    };
+  private Condition<Object> isBlack = new Condition<Object>("black color condition") {
+    @Override
+    public boolean matches(Object value) {
+      return "black".equals(value);
+    }
+  };
 
   @Test
   public void should_fail_if_condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    maps.assertHasEntrySatisfying(someInfo(), actual, null);
+    maps.assertHasValueSatisfying(someInfo(), actual, null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    maps.assertHasEntrySatisfying(someInfo(), null, greenColorCondition);
+    maps.assertHasValueSatisfying(someInfo(), null, isGreen);
   }
 
+
   @Test
-  public void should_fail_if_actual_does_not_contain_entry_matching_condition() {
+  public void should_fail_if_actual_does_not_contain_value_matching_condition() {
     AssertionInfo info = someInfo();
     try {
-      maps.assertHasEntrySatisfying(info, actual, blackColorCondition);
+      maps.assertHasValueSatisfying(info, actual, isBlack);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainEntry(actual, blackColorCondition));
+      verify(failures).failure(info, shouldContainValue(actual, isBlack));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_contains_entry_matching_condition() {
-    maps.assertHasEntrySatisfying(someInfo(), actual, greenColorCondition);
+  public void should_pass_if_actual_contains_value_matching_condition() {
+    maps.assertHasValueSatisfying(someInfo(), actual, isGreen);
   }
 }

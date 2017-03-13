@@ -52,7 +52,7 @@ public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test ex
     }
   };
 
-  private Condition<Object> isBlack = new Condition<Object>("greenColorCondition") {
+  private Condition<Object> isBlack = new Condition<Object>("black color condition") {
     @Override
     public boolean matches(Object value) {
       return "black".equals(value);

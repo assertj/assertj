@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys;
@@ -260,7 +261,8 @@ public class Maps {
   }
 
   /**
-   * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition} and value satisfying {@code valueCondition}.
+   * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition}
+   * and value satisfying {@code valueCondition}.
    *
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
@@ -285,6 +287,54 @@ public class Maps {
     }
 
     throw failures.failure(info, shouldContainEntry(actual, keyCondition, valueCondition));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param keyCondition the condition for key search.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no key matching given {@code keyCondition}.
+   * @since 2.8.0
+   */
+  public <K> void assertHasKeySatisfying(AssertionInfo info, Map<K, ?> actual, Condition<? super K> keyCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(keyCondition);
+
+    for (K key : actual.keySet()) {
+      if (keyCondition.matches(key)) {
+        return;
+      }
+    }
+
+    throw failures.failure(info, shouldContainKey(actual, keyCondition));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains an entry with value satisfying {@code valueCondition}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param valueCondition the condition for value search.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no value matching given {@code valueCondition}.
+   * @since 2.8.0
+   */
+  public <V> void assertHasValueSatisfying(AssertionInfo info, Map<?, V> actual, Condition<? super V> valueCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(valueCondition);
+
+    for (V value : actual.values()) {
+      if (valueCondition.matches(value)) {
+        return;
+      }
+    }
+
+    throw failures.failure(info, shouldContainValue(actual, valueCondition));
   }
 
   /**
