@@ -208,9 +208,9 @@ public class Failures {
       threadDumpDescription.append(format("\"%s\"%n\tjava.lang.Thread.State: %s",
                                           threadInfo.getThreadName(), threadInfo.getThreadState()));
       for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
-        threadDumpDescription.append(LINE_SEPARATOR + "\t\tat " + stackTraceElement);
+        threadDumpDescription.append(LINE_SEPARATOR).append("\t\tat ").append(stackTraceElement);
       }
-      threadDumpDescription.append(LINE_SEPARATOR + LINE_SEPARATOR);
+      threadDumpDescription.append(LINE_SEPARATOR).append(LINE_SEPARATOR);
     }
     return threadDumpDescription.toString();
   }
