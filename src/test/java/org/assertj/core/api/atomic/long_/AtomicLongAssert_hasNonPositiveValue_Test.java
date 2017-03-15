@@ -21,12 +21,12 @@ public class AtomicLongAssert_hasNonPositiveValue_Test extends AtomicLongAssertB
 
   @Override
   protected AtomicLongAssert invoke_api_method() {
-    return assertions.hasNonNegativeValue();
+    return assertions.hasNonPositiveValue();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(longs).assertIsNotNegative(getInfo(assertions), getActual(assertions).get());
+    verify(longs).assertIsNotPositive(getInfo(assertions), getActual(assertions).get());
   }
 
 }

@@ -21,12 +21,12 @@ public class AtomicIntegerAssert_hasNonPositiveValue_Test extends AtomicIntegerA
 
   @Override
   protected AtomicIntegerAssert invoke_api_method() {
-    return assertions.hasNonNegativeValue();
+    return assertions.hasNonPositiveValue();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(integers).assertIsNotNegative(getInfo(assertions), getActual(assertions).get());
+    verify(integers).assertIsNotPositive(getInfo(assertions), getActual(assertions).get());
   }
 
 }
