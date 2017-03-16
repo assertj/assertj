@@ -1029,10 +1029,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> String singleLine = &quot;\n&quot;;
    * assertThat(singleLine).isEqualToNormalizingNewlines(&quot;&quot;);</code></pre>
    *
-   * @param expectedLineCount the expected line count of the actual {@code CharSequence}.
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual line count is not equal to the expected one.
-   * 
+   * @throws AssertionError if the actual {@code CharSequence} and the given {@code CharSequence} are different
+   *         after new lines are normalized.
    * @since 2.7.0 / 3.7.0
    */
   public SELF isEqualToNormalizingNewlines(CharSequence expected) {
