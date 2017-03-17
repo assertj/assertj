@@ -12,6 +12,7 @@
  */
 package org.assertj.core.presentation;
 
+import static java.lang.Integer.toHexString;
 import static java.lang.reflect.Array.getLength;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
@@ -144,9 +145,9 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
-    if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean)object);
-    if (object instanceof AtomicInteger) return toStringOf((AtomicInteger)object);
-    if (object instanceof AtomicLong) return toStringOf((AtomicLong)object);
+    if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
+    if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
+    if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
     if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
     if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
     if (object instanceof AtomicStampedReference) return toStringOf((AtomicStampedReference<?>) object);
@@ -180,6 +181,12 @@ public class StandardRepresentation implements Representation {
     return customFormatterByType.containsKey(object.getClass());
   }
 
+  @Override
+  public String unambiguousToStringOf(Object obj) {
+    return obj == null ? null
+        : String.format("%s (%s@%s)", toStringOf(obj), obj.getClass().getSimpleName(), toHexString(obj.hashCode()));
+  }
+
   protected String toStringOf(Number number) {
     if (number instanceof Float) return toStringOf((Float) number);
     if (number instanceof Long) return toStringOf((Long) number);
@@ -194,11 +201,11 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(AtomicInteger atomicInteger) {
     return String.format("AtomicInteger(%s)", atomicInteger.get());
   }
-  
+
   protected String toStringOf(AtomicLong atomicLong) {
     return String.format("AtomicLong(%s)", atomicLong.get());
   }
-  
+
   protected String toStringOf(Comparator<?> comparator) {
     if (!comparator.toString().contains("@")) return quote(comparator.toString());
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
@@ -307,17 +314,17 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(AtomicReference<?> atomicReference) {
     return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
   }
-  
+
   protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
     return String.format("AtomicMarkableReference[marked=%s, reference=%s]", atomicMarkableReference.isMarked(),
                          toStringOf(atomicMarkableReference.getReference()));
   }
-  
+
   protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
     return String.format("AtomicStampedReference[stamp=%s, reference=%s]", atomicStampedReference.getStamp(),
                          toStringOf(atomicStampedReference.getReference()));
   }
-  
+
   @Override
   public String toString() {
     return this.getClass().getSimpleName();

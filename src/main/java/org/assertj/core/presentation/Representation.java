@@ -20,12 +20,21 @@ package org.assertj.core.presentation;
 public interface Representation {
 
   /**
-   * Returns the {@code toString} representation of the given object. It may or not the object's own implementation of
+   * Returns the {@code String} representation of the given object. It may or not the object's own implementation of
    * {@code toString}.
    *
-   * @param object the given object.
+   * @param object the object to represent.
    * @return the {@code toString} representation of the given object.
    */
   String toStringOf(Object object);
+
+  /**
+   * Returns the {@code String} representation of the given object with its type and hexadecimal hash code so that 
+   * it can be differentied from other objects with the same {@link #toStringOf(Object)} representation.
+   *
+   * @param object the object to represent.
+   * @return the {@code toString} representation of the given object.
+   */
+  String unambiguousToStringOf(Object object);
 
 }
