@@ -71,7 +71,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isBefore("2000-01-02");</code></pre>
    * 
    * @param localDateAsString String representing a {@link LocalDate}.
@@ -226,7 +226,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isEqualTo("2000-01-01");</code></pre>
    * 
    * @param localDateAsString String representing a {@link LocalDate}.
@@ -248,7 +248,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isNotEqualTo("2000-01-15");</code></pre>
    * 
    * @param localDateAsString String representing a {@link LocalDate}.

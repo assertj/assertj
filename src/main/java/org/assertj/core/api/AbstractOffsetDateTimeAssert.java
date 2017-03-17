@@ -85,7 +85,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * Example :
    * <p>
    * 
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T23:59:59Z")).isBefore("2000-01-02T00:00:00Z");</code></pre>
    *
    * @param offsetDateTimeAsString String representing a {@link java.time.OffsetDateTime}.
@@ -263,7 +263,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * Example :
    * <p>
    * 
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00Z")).isEqualTo("2000-01-01T00:00:00Z");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link java.time.OffsetDateTime}.
@@ -289,7 +289,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * Example :
    * <p>
    * 
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo("2000-01-15T00:00:00Z");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link java.time.OffsetDateTime}.

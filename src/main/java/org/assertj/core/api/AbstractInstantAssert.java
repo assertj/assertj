@@ -73,7 +73,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2007-12-03T10:15:30.00Z").isBefore("2007-12-03T10:15:31.00Z");</code></pre>
    *
    * @param instantAsString String representing a {@link Instant}.

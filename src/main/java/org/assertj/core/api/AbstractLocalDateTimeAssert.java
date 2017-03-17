@@ -80,7 +80,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * >ISO LocalDateTime format</a> to allow calling {@link LocalDateTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T23:59:59")).isBefore("2000-01-02T00:00:00");</code></pre>
    *
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
@@ -235,7 +235,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * >ISO LocalDateTime format</a> to allow calling {@link LocalDateTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00")).isEqualTo("2000-01-01T00:00:00");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link LocalDateTime}.
@@ -257,7 +257,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * >ISO LocalDateTime format</a> to allow calling {@link LocalDateTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00")).isNotEqualTo("2000-01-15T00:00:00");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link LocalDateTime}.
