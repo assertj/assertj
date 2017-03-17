@@ -27,6 +27,10 @@ import java.util.concurrent.Callable;
  */
 public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Throwable> {
 
+  public interface ThrowingCallable {
+    void call() throws Throwable;
+  }
+
   public ThrowableAssert(Throwable actual) {
     super(actual, ThrowableAssert.class);
   }

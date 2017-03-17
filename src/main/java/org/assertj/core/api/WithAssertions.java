@@ -56,6 +56,7 @@ import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.BaseStream;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
@@ -917,7 +918,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatThrownBy(ThrowingCallable)}
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatThrownBy(ThrowableAssert.ThrowingCallable)}
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(
       final ThrowingCallable shouldRaiseThrowable) {
@@ -944,7 +945,7 @@ public interface WithAssertions {
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
    * <pre><code class='java'> ThrowingCallable doNothing = () -> {
    *   // do nothing 

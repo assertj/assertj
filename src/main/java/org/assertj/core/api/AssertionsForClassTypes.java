@@ -37,6 +37,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -628,7 +629,7 @@ public class AssertionsForClassTypes {
    *              .isThrownBy(() -> { throw new IOException("boom!"); })
    *              .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
    * 
    * @param exceptionType the actual value.
    * @return the created {@link ThrowableTypeAssert}.
@@ -658,7 +659,7 @@ public class AssertionsForClassTypes {
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
    * <pre><code class='java'> ThrowingCallable doNothing = () -> {
    *   // do nothing 

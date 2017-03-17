@@ -38,6 +38,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -722,7 +723,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
+   * To use a test description, use {@link #thenCode(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
    * <pre><code class='java'> ThrowingCallable doNothing = () -> {
    *   // do nothing 

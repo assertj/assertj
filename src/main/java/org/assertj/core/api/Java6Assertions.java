@@ -41,6 +41,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -960,7 +961,7 @@ public class Java6Assertions {
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised, 
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored. 
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.  
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.  
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error 
    * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
    * 
@@ -999,7 +1000,7 @@ public class Java6Assertions {
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
    * <pre><code class='java'> ThrowingCallable doNothing = new ThrowingCallable() {
    *   {@literal @}Override
