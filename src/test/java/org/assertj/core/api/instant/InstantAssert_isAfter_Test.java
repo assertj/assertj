@@ -55,13 +55,13 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   public void should_fail_if_actual_is_null() {
     expectException(AssertionError.class, actualIsNull());
     Instant actual = null;
-    assertThat(actual).isAfter(Instant.now().now());
+    assertThat(actual).isAfter(Instant.now());
   }
 
   @Test
   public void should_fail_if_date_parameter_is_null() {
     expectException(IllegalArgumentException.class, "The Instant to compare actual with should not be null");
-    assertThat(Instant.now().now()).isAfter((Instant) null);
+    assertThat(Instant.now()).isAfter((Instant) null);
   }
 
   @Test
