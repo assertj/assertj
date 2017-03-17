@@ -37,12 +37,12 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
     actual = AnotherMethodsClass.class;
   }
 
+  @SuppressWarnings("unused")
   private static final class AnotherMethodsClass {
     private String string;
 
     public void publicMethod() {}
     protected void protectedMethod() {}
-    @SuppressWarnings("unused")
     private void privateMethod() {}
   }
 
