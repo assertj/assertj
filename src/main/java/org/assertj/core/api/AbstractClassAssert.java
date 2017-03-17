@@ -299,10 +299,37 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see Class#getField(String)
    * @param fields the fields who must be in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
+   * @throws AssertionError if the actual {@code Class} doesn't contain all of the fields.
    */
   public SELF hasFields(String... fields) {
     classes.assertHasFields(info, actual, fields);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the exactly the {@code fields} and nothing more. <b>in any order</b>.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public String fieldOne;
+   *     public String fieldTwo;
+   *     private String fieldThree;
+   * }
+   *
+   * // This one should pass :
+   * assertThat(MyClass.class).hasExactlyFields("fieldOne", "fieldTwo");
+   *
+   * // This one should fail :
+   * assertThat(MyClass.class).hasExactlyFields("fieldOne");</code></pre>
+   *
+   * @see Class#getField(String)
+   * @param fields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasExactlyFields(String... fields) {
+    classes.assertHasExactlyFields(info, actual, fields);
     return myself;
   }
 
@@ -327,6 +354,34 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   public SELF hasDeclaredFields(String... fields) {
     classes.assertHasDeclaredFields(info, actual, fields);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the exactly the declared {@code fields} and nothing more. <b>in any order</b>.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public String fieldOne;
+   *     public String fieldTwo;
+   *     private String fieldThree;
+   *     private String fieldFour;
+   * }
+   *
+   * // This one should pass :
+   * assertThat(MyClass.class).hasExactlyDeclaredFields("fieldOne", "fieldTwo", "fieldThree", "fieldFour:);
+   *
+   * // This one should fail :
+   * assertThat(MyClass.class).hasExactlyDeclaredFields("fieldOne", "fieldThree");</code></pre>
+   *
+   * @see Class#getField(String)
+   * @param fields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the declared fields of the actual {@code Class}.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasExactlyDeclaredFields(String... fields) {
+    classes.assertHasExactlyDeclaredFields(info, actual, fields);
     return myself;
   }
 
