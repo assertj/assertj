@@ -26,7 +26,8 @@ import org.assertj.core.internal.Classes;
  * @author William Delanoue
  * @author Mikhail Mazursky
  */
-public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>> extends AbstractAssert<SELF, Class<?>> {
+public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
+    extends AbstractAssert<SELF, Class<?>> {
 
   Classes classes = Classes.instance();
 
@@ -40,10 +41,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <pre><code class='java'> class Jedi {}
    * class HumanJedi extends Jedi {}
    * 
-   * // Should pass if :
+   * // Should pass if:
    * assertThat(Jedi.class).isAssignableFrom(HumanJedi.class);
    * 
-   * // Should fail if :
+   * // Should fail if:
    * assertThat(HumanJedi.class).isAssignableFrom(Jedi.class);</code></pre>
    * 
    * @see Class#isAssignableFrom(Class)
@@ -64,10 +65,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
    * 
-   * // Should pass if :
+   * // Should pass if:
    * assertThat(HumanJedi.class).isNotInterface();
    * 
-   * // Should fail if :
+   * // Should fail if:
    * assertThat(Jedi.class).isNotInterface();</code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -84,10 +85,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
    * 
-   * // Should pass if :
+   * // Should pass if:
    * assertThat(Jedi.class).isInterface();
    * 
-   * // Should fail if :
+   * // Should fail if:
    * assertThat(HumanJedi.class).isInterface();</code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -103,12 +104,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * 
    * <pre><code class='java'> public @interface Jedi {}
    * 
-   * // Should pass if :
+   * // Should pass if:
    * assertThat(Jedi.class).isAnnotation();
    * assertThat(Override.class).isAnnotation();
    * assertThat(Deprecated.class).isAnnotation();
    * 
-   * // Should fail if :
+   * // Should fail if:
    * assertThat(String.class).isAnnotation();</code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -124,10 +125,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * 
    * <pre><code class='java'> public @interface Jedi {}
    * 
-   * // Should pass if :
+   * // Should pass if:
    * assertThat(String.class).isNotAnnotation();
    * 
-   * // Should fail if :
+   * // Should fail if:
    * assertThat(Jedi.class).isNotAnnotation();
    * assertThat(Override.class).isNotAnnotation();
    * assertThat(Deprecated.class).isNotAnnotation();</code></pre>
@@ -222,7 +223,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return myself;
   }
 
-
   /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
    * 
@@ -265,10 +265,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * &#64;Force
    * class Jedi implements Jedi {}
    * 
-   * // Should pass if :
+   * // Should pass if:
    * assertThat(Jedi.class).containsAnnotation(Force.class);
    * 
-   * // Should fail if :
+   * // Should fail if:
    * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
    * 
    * @param annotation annotations who must be attached to the class
@@ -282,24 +282,24 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the {@code fields}.
-   * 
+   * Verifies that the actual {@code Class} has the given accessible public fields (as in {@link Class#getFields()}).
+   * <p>
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     private String fieldTwo;
    * }
    * 
-   * // This one should pass :
+   * // this assertion succeeds:
    * assertThat(MyClass.class).hasFields("fieldOne");
    * 
-   * // This one should fail :
+   * // these assertions fail:
    * assertThat(MyClass.class).hasFields("fieldTwo");
-   * assertThat(MyClass.class).hasDeclaredFields("fieldThree");</code></pre>
+   * assertThat(MyClass.class).hasFields("fieldThree");</code></pre>
    * 
    * @see Class#getField(String)
    * @param fields the fields who must be in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
+   * @throws AssertionError if the actual {@code Class} doesn't contain all of the fields.
    */
   public SELF hasFields(String... fields) {
     classes.assertHasFields(info, actual, fields);
@@ -307,17 +307,46 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the declared {@code fields}.
+   * Verifies that the actual {@code Class} <b>only</b> has the given accessible public 
+   * fields (as in {@link Class#getFields()}) and nothing more <b>in any order</b>.
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public String fieldOne;
+   *     public String fieldTwo;
+   *     private String fieldThree;
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(MyClass.class).hasOnlyFields("fieldOne", "fieldTwo");
+   * assertThat(MyClass.class).hasOnlyFields("fieldTwo", "fieldOne");
+   *
+   * // this assertion fails:
+   * assertThat(MyClass.class).hasOnlyFields("fieldOne");</code></pre>
+   *
+   * @see Class#getField(String)
+   * @param fields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the actual {@code Class}'s accessible public fields.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasOnlyFields(String... fields) {
+    classes.assertHasOnlyFields(info, actual, fields);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given declared fields (as in {@link Class#getDeclaredFields()}).
    * 
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     private String fieldTwo;
    * }
    * 
-   * // This one should pass :
+   * // this assertion succeeds:
    * assertThat(MyClass.class).hasDeclaredFields("fieldOne", "fieldTwo");
    * 
-   * // This one should fail :
+   * // this assertion fails:
    * assertThat(MyClass.class).hasDeclaredFields("fieldThree");</code></pre>
    * 
    * @see Class#getDeclaredField(String)
@@ -331,6 +360,35 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} <b>only</b> has the given declared {@code fields} and nothing more <b>in any order</b> 
+   * (as in {@link Class#getDeclaredFields()}).
+   *
+   * <pre><code class='java'> class MyClass {
+   *     public String fieldOne;
+   *     public String fieldTwo;
+   *     private String fieldThree;
+   *     private String fieldFour;
+   * }
+   *
+   * // this assertion succeeds:
+   * assertThat(MyClass.class).hasOnlyDeclaredFields("fieldOne", "fieldTwo", "fieldThree", "fieldFour");
+   *
+   * // this assertion fails:
+   * assertThat(MyClass.class).hasOnlyDeclaredFields("fieldOne", "fieldThree");</code></pre>
+   *
+   * @see Class#getField(String)
+   * @param fields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the declared fields of the actual {@code Class}.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
+  public SELF hasOnlyDeclaredFields(String... fields) {
+    classes.assertHasOnlyDeclaredFields(info, actual, fields);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code Class} has the given methods.
    *
    * <pre><code class='java'> class MyClass {
@@ -338,10 +396,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *     private void methodTwo() {}
    * }
    *
-   * // This assertion succeeds:
+   * // this assertion succeeds:
    * assertThat(MyClass.class).hasMethods("methodOne");
    *
-   * // These assertions fail:
+   * // these assertions fail:
    * assertThat(MyClass.class).hasMethods("methodTwo");
    * assertThat(MyClass.class).hasMethods("methodThree");</code></pre>
    *
