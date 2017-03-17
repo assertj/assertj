@@ -59,13 +59,13 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-	thrown.expect(AssertionError.class);
+	thrown.expectAssertionError();
 	arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8));
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-	thrown.expect(AssertionError.class);
+	thrown.expectAssertionError();
 	arrays.assertContainsExactly(someInfo(), actual, emptyArray());
   }
 
@@ -133,7 +133,7 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-	thrown.expect(AssertionError.class);
+	thrown.expectAssertionError();
 	arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray());
   }
 

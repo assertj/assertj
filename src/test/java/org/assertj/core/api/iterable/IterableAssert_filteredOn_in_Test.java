@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_baseTest {
@@ -46,7 +45,7 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
     setAllowExtractingPrivateFields(false);
     try {
       assertThat(employees).filteredOn("city", in("New York")).isEmpty();

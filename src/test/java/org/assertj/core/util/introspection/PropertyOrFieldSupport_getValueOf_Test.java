@@ -100,14 +100,14 @@ public class PropertyOrFieldSupport_getValueOf_Test {
 
   @Test
   public void should_throw_error_when_no_property_nor_field_match_given_name() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
 
     propertyOrFieldSupport.getValueOf("unknown", yoda);
   }
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_given_name_if_extraction_is_limited_to_public_fields() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
 
     propertyOrFieldSupport = new PropertyOrFieldSupport(new PropertySupport(),
                                                         FieldSupport.EXTRACTION_OF_PUBLIC_FIELD_ONLY);
@@ -129,14 +129,14 @@ public class PropertyOrFieldSupport_getValueOf_Test {
 
   @Test
   public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
 
     propertyOrFieldSupport.getValueOf("adult", brokenEmployee());
   }
 
   @Test
   public void should_throw_exception_if_no_object_is_given() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     propertyOrFieldSupport.getValueOf("name", null);
   }
 

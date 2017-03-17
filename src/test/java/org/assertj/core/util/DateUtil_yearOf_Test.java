@@ -15,13 +15,13 @@ package org.assertj.core.util;
 import static org.assertj.core.util.DateUtil.yearOf;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.rules.ExpectedException.none;
+import static org.assertj.core.test.ExpectedException.none;
 
 import java.text.*;
 import java.util.Date;
 
 import org.junit.*;
-import org.junit.rules.ExpectedException;
+import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>{@link DateUtil#yearOf(Date)}</code>.
@@ -42,7 +42,7 @@ public class DateUtil_yearOf_Test {
 
   @Test
   public void should_throws_NullPointerException_if_date_parameter_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     yearOf(null);
   }
 

@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.rules.ExpectedException.none;
+import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import org.assertj.core.test.ExpectedException;
 
 public class AbstractTest_StandardComparisonStrategy {
 

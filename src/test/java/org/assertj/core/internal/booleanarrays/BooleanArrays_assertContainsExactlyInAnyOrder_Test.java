@@ -48,13 +48,13 @@ public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanA
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(true));
   }
 
   @Test
   public void should_fail_if_expected_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray());
   }
 

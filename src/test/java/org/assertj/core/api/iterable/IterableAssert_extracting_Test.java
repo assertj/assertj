@@ -18,7 +18,6 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -139,7 +138,7 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
     assertThat(employees).extracting("unknown");
   }
 
@@ -151,7 +150,7 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
     assertThat(employees).extracting("unknown", "age", "id")
                          .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }

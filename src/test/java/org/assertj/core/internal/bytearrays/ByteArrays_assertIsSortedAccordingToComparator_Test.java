@@ -78,7 +78,7 @@ public class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArr
 
   @Test
   public void should_fail_if_comparator_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null);
   }
 

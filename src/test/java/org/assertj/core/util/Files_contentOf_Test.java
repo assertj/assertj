@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.rules.ExpectedException.none;
+import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for {@link Files#contentOf(File, Charset)} and {@link Files#contentOf(File, String)}.
@@ -39,13 +39,13 @@ public class Files_contentOf_Test {
   @Test
   public void should_throw_exception_if_charset_is_null() {
     Charset charset = null;
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     Files.contentOf(new File("test"), charset);
   }
 
   @Test
   public void should_throw_exception_if_charset_name_does_not_exist() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     Files.contentOf(new File("test"), "Klingon");
   }
 

@@ -71,7 +71,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
 
   @Test
   public void should_throw_null_pointer_exception_when_extracting_from_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(children);
   }
 

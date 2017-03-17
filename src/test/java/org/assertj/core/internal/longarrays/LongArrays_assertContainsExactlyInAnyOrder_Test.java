@@ -48,13 +48,13 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6L, 8L));
   }
 
   @Test
   public void should_fail_if_expected_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray());
   }
 
@@ -146,7 +146,7 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
 
   @Test
   public void should_fail_if_expected_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray());
   }
 

@@ -64,7 +64,7 @@ public class ObjectArrayAssert_flatExtracting_with_String_parameter_Test {
 
   @Test
   public void should_throw_illegal_argument_exception_when_extracting_from_null() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     assertThat(new CartoonCharacter[] { homer, null }).flatExtracting("children");
   }
 

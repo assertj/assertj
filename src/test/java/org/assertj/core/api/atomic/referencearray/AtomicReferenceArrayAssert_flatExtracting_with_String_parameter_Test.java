@@ -71,7 +71,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_with_String_parameter_Tes
 
   @Test
   public void should_throw_illegal_argument_exception_when_extracting_from_null() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting("children");
   }
 

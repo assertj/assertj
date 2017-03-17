@@ -37,7 +37,7 @@ public class StandardComparisonStrategy_isLessThanOrEqualTo_Test extends Abstrac
 
   @Test
   public void should_fail_if_a_parameter_is_not_comparable() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     Rectangle r1 = new Rectangle(10, 20);
     Rectangle r2 = new Rectangle(20, 10);
     standardComparisonStrategy.isLessThanOrEqualTo(r1, r2);

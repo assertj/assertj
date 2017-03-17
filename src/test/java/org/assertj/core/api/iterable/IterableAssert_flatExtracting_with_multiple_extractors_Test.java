@@ -51,20 +51,20 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
   @Test
   public void should_throw_IllegalArgumentException_when_no_fields_or_properties_are_specified() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     assertThat(fellowshipOfTheRing).flatExtracting();
   }
 
   @Test
   public void should_throw_IllegalArgumentException_when_null_fields_or_properties_vararg() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     String[] fields = null;
     assertThat(fellowshipOfTheRing).flatExtracting(fields);
   }
   
   @Test
   public void should_throw_IllegalArgumentException_when_extracting_from_null() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     fellowshipOfTheRing.add(null);
     assertThat(fellowshipOfTheRing).flatExtracting("age", "name");
   }

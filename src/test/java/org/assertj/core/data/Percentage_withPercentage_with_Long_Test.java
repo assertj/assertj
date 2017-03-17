@@ -33,7 +33,7 @@ public class Percentage_withPercentage_with_Long_Test {
   @SuppressWarnings("null")
   @Test
   public void should_throw_error_if_value_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     Long value = null;
     withPercentage(value);
   }

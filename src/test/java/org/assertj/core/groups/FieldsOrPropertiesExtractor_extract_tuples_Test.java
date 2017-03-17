@@ -26,7 +26,6 @@ import java.util.Set;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -71,7 +70,7 @@ public class FieldsOrPropertiesExtractor_extract_tuples_Test {
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
     extract(employees, byName("id", "age", "unknown"));
   }
 

@@ -47,7 +47,7 @@ public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_
 
   @Test
   public void should_fail_if_first_parameter_is_not_comparable() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     standardComparisonStrategy.isGreaterThan(new Rectangle(), "foo");
   }
 }

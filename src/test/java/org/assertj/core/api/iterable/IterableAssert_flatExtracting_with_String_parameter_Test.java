@@ -70,7 +70,7 @@ public class IterableAssert_flatExtracting_with_String_parameter_Test {
 
   @Test
   public void should_throw_exception_when_extracting_from_null() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     assertThat(newArrayList(homer, null)).flatExtracting("children");
   }
 

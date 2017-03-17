@@ -79,7 +79,7 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test extends Objec
 
   @Test
   public void should_fail_if_comparator_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     arrays.assertIsSortedAccordingToComparator(someInfo(), array(), null);
   }
 

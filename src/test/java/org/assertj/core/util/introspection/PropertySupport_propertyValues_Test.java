@@ -99,13 +99,13 @@ public class PropertySupport_propertyValues_Test {
 
   @Test
   public void should_throw_error_if_property_not_found() {
-    thrown.expect(IntrospectionError.class);
+    thrown.expectIntrospectionError();
     PropertySupport.instance().propertyValues("foo", Integer.class, employees);
   }
 
   @Test
   public void should_throw_error_if_property_name_is_null() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     PropertySupport.instance().propertyValueOf(null, Integer.class, employees);
   }
 
