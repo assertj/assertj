@@ -19,10 +19,14 @@ import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFr
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
+import static org.assertj.core.error.ShouldHaveExactlyFields.shouldHaveExactlyDeclaredFields;
+import static org.assertj.core.error.ShouldHaveExactlyFields.shouldHaveExactlyFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -30,9 +34,11 @@ import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -61,6 +67,7 @@ public class Classes {
   }
 
   private Failures failures = Failures.instance();
+  private ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
 
   /**
    * Verifies that the actual {@code Class} is assignable from all the {@code others} classes.
@@ -228,11 +235,47 @@ public class Classes {
     assertNotNull(info, actual);
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
-    Set<String> actualFieldNames = fieldsToName(actual.getFields());
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
     if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
     throw failures.failure(info, shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
   }
 
+  /**
+   * Verifies that the actual {@code Class} has the exactly the {@code fields} and nothing more. <b>in any order</b>.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param fields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
+   */
+  public void assertHasExactlyFields(AssertionInfo info, Class<?> actual, String... fields) {
+    assertNotNull(info, actual);
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
+    List<String> notExpected = newArrayList(actualFieldNames);
+    List<String> notFound = newArrayList(fields);
+
+    for (String field : fields) {
+      if (comparisonStrategy.iterableContains(notExpected, field)) {
+        comparisonStrategy.iterablesRemoveFirst(notExpected, field);
+        comparisonStrategy.iterablesRemoveFirst(notFound, field);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw failures.failure(info, shouldHaveExactlyFields(actual, actualFieldNames, notFound, notExpected));
+  }
+
+  /**
+   * Checks that the {@code expectedNames} are part of the {@code actualNames}. If an {@code expectedName} is not
+   * contained in the {@code actualNames}, the this method will return {@code true}. THe {@code missingNames} will
+   * contain all the {@code expectedNames} that are not part of the {@code actualNames}.
+   *
+   * @param actualNames the names that should be used to check
+   * @param expectedNames the names that should be contained in {@code actualNames}
+   * @param missingNames the names that were not part of {@code expectedNames}
+   * @return {@code true} if all {@code expectedNames} are part of the {@code actualNames}, {@code false} otherwise
+   */
   private static boolean noMissingElement(Set<String> actualNames, Set<String> expectedNames,
                                           Set<String> missingNames) {
     for (String field : expectedNames) {
@@ -254,12 +297,38 @@ public class Classes {
     assertNotNull(info, actual);
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
-    Set<String> actualFieldNames = fieldsToName(actual.getDeclaredFields());
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
     if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
     throw failures.failure(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
   }
 
-  private static Set<String> fieldsToName(Field[] fields) {
+  /**
+   * Verifies that the actual {@code Class} has the exactly the {@code fields} and nothing more. <b>in any order</b>.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param fields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
+   */
+  public void assertHasExactlyDeclaredFields(AssertionInfo info, Class<?> actual, String... fields) {
+    assertNotNull(info, actual);
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
+    List<String> notExpected = newArrayList(actualFieldNames);
+    List<String> notFound = newArrayList(fields);
+
+    for (String field : fields) {
+      if (comparisonStrategy.iterableContains(notExpected, field)) {
+        comparisonStrategy.iterablesRemoveFirst(notExpected, field);
+        comparisonStrategy.iterablesRemoveFirst(notFound, field);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw failures.failure(info, shouldHaveExactlyDeclaredFields(actual, actualFieldNames, notFound, notExpected));
+  }
+
+  private static Set<String> fieldsToName(Set<Field> fields) {
     Set<String> fieldsName = new LinkedHashSet<>();
     for (Field field : fields) {
       fieldsName.add(field.getName());
@@ -278,7 +347,7 @@ public class Classes {
    */
   public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info,actual, filterSyntheticMethods(getAllMethods(actual)), false, methods);
+    doAssertHasMethods(info, actual, filterSyntheticMembers(getAllMethods(actual)), false, methods);
   }
 
   /**
@@ -292,10 +361,10 @@ public class Classes {
    */
   public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info, actual, filterSyntheticMethods(actual.getDeclaredMethods()), true, methods);
+    doAssertHasMethods(info, actual, filterSyntheticMembers(actual.getDeclaredMethods()), true, methods);
   }
 
-  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
+  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Set<Method> methods, boolean declared, String... expectedMethods) {
     SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
     SortedSet<String> missingMethodNames = newTreeSet();
     SortedSet<String> actualMethodNames = methodsToName(methods);
@@ -343,7 +412,7 @@ public class Classes {
     Map<String,Integer> actualMethods = methodsToNameAndModifier(methods);
 
     if(isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
-      throw failures.failure(info, shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), declared, getMethodsWithModifier(methods, Modifier.PUBLIC)));
+      throw failures.failure(info, shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), declared, getMethodsWithModifier(newLinkedHashSet(methods), Modifier.PUBLIC)));
     }
 
     if (!noMissingElement(actualMethods.keySet(), expectedMethodNames, missingMethodNames)) {
@@ -355,7 +424,7 @@ public class Classes {
     }
   }
 
-  private static SortedSet<String> getMethodsWithModifier(Method[] methods, int modifier) {
+  private static SortedSet<String> getMethodsWithModifier(Set<Method> methods, int modifier) {
     SortedSet<String> methodsWithModifier = newTreeSet();
     for (Method method : methods) {
       if ((method.getModifiers() & modifier) != 0) {
@@ -374,8 +443,8 @@ public class Classes {
     return nonMatchingModifiers.isEmpty();
   }
 
-  private static boolean isEmptyAndHasNoMethods(Method[] methods, String... expectedMethods) {
-    return expectedMethods.length == 0 && methods.length > 0;
+  private static boolean isEmptyAndHasNoMethods(Set<Method> methods, String... expectedMethods) {
+    return expectedMethods.length == 0 && !methods.isEmpty();
   }
 
   private static boolean isEmptyAndHasNoMethodsWithModifier(int expectedModifier, Method[] methods, String... expectedMethods) {
@@ -389,7 +458,7 @@ public class Classes {
     return false;
   }
 
-  private static SortedSet<String> methodsToName(Method[] methods) {
+  private static SortedSet<String> methodsToName(Set<Method> methods) {
     SortedSet<String> methodsName = newTreeSet();
     for (Method method : methods) {
       methodsName.add(method.getName());
@@ -416,14 +485,14 @@ public class Classes {
     return allMethods.toArray(new Method[allMethods.size()]);
   }
 
-  private static Method[] filterSyntheticMethods(Method[] methods) {
-    Set<Method> filteredMethods = newLinkedHashSet();
-    for (Method method : methods) {
-      if (!method.isSynthetic()) {
-        filteredMethods.add(method);
+  private static <M extends Member> Set<M> filterSyntheticMembers(M[] members) {
+    Set<M> filteredMembers = newLinkedHashSet();
+    for (M member : members) {
+      if (!member.isSynthetic()) {
+        filteredMembers.add(member);
       }
     }
-    return filteredMethods.toArray(new Method[filteredMethods.size()]);
+    return filteredMembers;
   }
 
   private static void assertNotNull(AssertionInfo info, Class<?> actual) {
