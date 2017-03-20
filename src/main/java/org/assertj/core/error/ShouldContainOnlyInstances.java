@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.presentation.StandardRepresentation;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains elements that
  * are not an instance of one of the given types. A group of elements can be an iterable or an array of objects.
@@ -40,8 +42,27 @@ public class ShouldContainOnlyInstances extends BasicErrorMessageFactory {
         "to contain only instances of:%n" +
         "  <%s>%n" +
         "elements are not instances:%n" +
-        "  <%s>",
-        actual, types, dismatches);
+        "  <[" + resolveClassNames(dismatches) + "]>",
+        actual, types);
+  }
+
+  private static String resolveClassNames(Iterable<?> instances) {
+    StringBuilder builder = new StringBuilder();
+    
+    for (Object instance : instances) {
+      if (builder.length() > 0) {
+        builder.append(", ");
+      }
+      
+      String formatted = StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(instance);
+      builder.append(formatted);
+      
+      if (instance != null && !formatted.contains(instance.getClass().getName())) {
+        builder.append(" (").append(instance.getClass().getName()).append(")");
+      }
+    }
+    
+    return builder.toString();
   }
 
 }

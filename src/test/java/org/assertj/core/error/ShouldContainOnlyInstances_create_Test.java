@@ -45,7 +45,7 @@ public class ShouldContainOnlyInstances_create_Test {
                                          "to contain only instances of:%n" +
                                          "  <[java.lang.Number]>%n" +
                                          "elements are not instances:%n" +
-                                         "  <[\"Yoda\"]>"));
+                                         "  <[\"Yoda\" (java.lang.String)]>"));
   }
   
 }
