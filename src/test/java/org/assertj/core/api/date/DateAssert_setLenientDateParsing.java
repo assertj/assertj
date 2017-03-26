@@ -73,7 +73,7 @@ public class DateAssert_setLenientDateParsing extends DateAssertBaseTest {
   @Test
   public void should_fail_if_given_date_string_representation_cant_be_parsed() {
     final String dateAsString = "2001/02/03";
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     assertThat(new Date()).isEqualTo(dateAsString);
   }
 

@@ -37,7 +37,7 @@ public class Preconditions_checkNotNullOrEmpty_GenericArray_Test {
 
   @Test
   public void should_throw_NullPointerException_if_array_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     String[] array = null;
     Preconditions.checkNotNullOrEmpty(array);
   }

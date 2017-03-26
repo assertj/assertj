@@ -47,13 +47,13 @@ public class Files_linesOf_Test {
   @Test
   public void should_throw_exception_when_charset_is_null() {
     Charset charset = null;
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     linesOf(SAMPLE_UNIX_FILE, charset);
   }
 
   @Test
   public void should_throw_exception_if_charset_name_does_not_exist() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     linesOf(new File("test"), "Klingon");
   }
 

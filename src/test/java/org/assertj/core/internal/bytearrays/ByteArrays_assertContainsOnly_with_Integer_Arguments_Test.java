@@ -63,7 +63,7 @@ public class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends B
   
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsOnly(someInfo(), actual, IntArrays.emptyArray());
   }
 
@@ -115,7 +115,7 @@ public class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends B
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, IntArrays.emptyArray());
   }
 

@@ -40,7 +40,7 @@ public class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysB
 
   @Test
   public void should_throw_exception_if_expected_type_is_null() {
-	thrown.expect(NullPointerException.class);
+	thrown.expectNullPointerException();
 	arrays.assertHasOnlyElementsOfType(someInfo(), array, null);
   }
 

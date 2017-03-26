@@ -16,14 +16,14 @@ import static java.io.File.separator;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.rules.ExpectedException.none;
+import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.File;
 import java.util.List;
 
+import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for <code>{@link Files#fileNamesIn(String, boolean)}</code>.
@@ -39,7 +39,7 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
   @Test
   public void should_throw_error_if_directory_does_not_exist() {
     String path = concat("root", separator, "not_existing_dir");
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     Files.fileNamesIn(path, false);
   }
 
@@ -48,7 +48,7 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
     String fileName = "file_1";
     root.addFiles(fileName);
     String path = concat("root", separator, fileName);
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     Files.fileNamesIn(path, false);
   }
 

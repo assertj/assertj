@@ -13,11 +13,11 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.rules.ExpectedException.none;
+import static org.assertj.core.test.ExpectedException.none;
 
+import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for <code>{@link Arrays#hasOnlyNullElements(Object[])}</code>.
@@ -31,7 +31,7 @@ public class Arrays_hasOnlyNullElements_Test {
 
   @Test
   public void should_throw_error_if_array_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     Arrays.hasOnlyNullElements(null);
   }
 

@@ -52,6 +52,10 @@ public class ExpectedException implements TestRule {
     return delegate.apply(base, description);
   }
 
+  public void expectAssertionError() {
+    expect(AssertionError.class);
+  }
+
   public void expectAssertionError(String message) {
     expect(AssertionError.class, message);
   }
@@ -69,8 +73,16 @@ public class ExpectedException implements TestRule {
     expectWithMessageContaining(AssertionError.class, parts);
   }
 
+  public void expectNullPointerException() {
+    expect(NullPointerException.class);
+  }
+
   public void expectNullPointerException(String message) {
     expect(NullPointerException.class, message);
+  }
+
+  public void expectIllegalArgumentException() {
+    expect(IllegalArgumentException.class);
   }
 
   public void expectIllegalArgumentException(String message) {
@@ -83,6 +95,10 @@ public class ExpectedException implements TestRule {
 
   public void expectUnsupportedOperationException(String message) {
     expect(UnsupportedOperationException.class, message);
+  }
+
+  public void expectIntrospectionError() {
+    expect(IntrospectionError.class);
   }
 
   public void expectIntrospectionErrorWithMessageContaining(String... parts) {

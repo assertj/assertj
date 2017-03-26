@@ -39,7 +39,7 @@ public class Preconditions_checkNotNullOrEmpty_String_String_Test {
 
   @Test
   public void should_throw_nullpointerexception_if_string_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     String string = null;
     Preconditions.checkNotNullOrEmpty(string, CUSTOM_MESSAGE);
   }

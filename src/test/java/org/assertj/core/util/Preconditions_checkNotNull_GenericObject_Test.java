@@ -30,7 +30,7 @@ public class Preconditions_checkNotNull_GenericObject_Test {
 
   @Test
   public void should_throw_nullpointerexception_if_object_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     Object object = null;
     Preconditions.checkNotNull(object);
   }
