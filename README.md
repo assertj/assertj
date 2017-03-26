@@ -8,7 +8,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 * [Quick start](#quickstart)
 * [Latest News](#news)
 * [Features highlight](http://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html)
-* [Assertions for custom types](#custom types-assertions)
+* [Assertions for custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html)
 * [Replacing JUnit assertions with AssertJ Assertions](#junit-to-assertj-assertions)
 * [Migrating from FEST Assertions](#migrating-from-fest)
 * [Contributing](#contributing)
