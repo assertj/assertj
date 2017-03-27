@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.extractor.Extractors.byName;
 
 import java.util.function.Function;
@@ -640,6 +641,33 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
     objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorByPropertyOrField,
                                                             comparatorByType);
+    return myself;
+  }
+
+  /**
+   * Verify that the test subject returns expected value with given method.
+   * <p>
+   * You can pass a getter method reference to assert object's property.
+   * <p>
+   * Wrapping {@code from} function with {@link Assertions#from(Function)} makes the assertion more fluent.
+   * <p>
+   * Example:
+   * <pre><code class="java">
+   * Jedi yoda = new Jedi("Yoda", "Green");
+   * assertThat(yoda).returns("Yoda", from(Jedi::getName))
+   *                 .returns(2.4, from(Jedi::getHeight))
+   *                 .returns(150, from(Jedi::getWeight));
+   * </code></pre>
+   *
+   * @param expected a expected value that test subject returns.
+   * @param from a function (or a method reference) to acquire value from test subject. Must not be {@code null}
+   * @param <T> type of expected value that {@code method} returns.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
+   */
+  public <T> S returns(T expected, Function<A, T> from) {
+    requireNonNull(from, "The getter method Function<A, T> must not be null");
+    objects.assertEqual(info, from.apply(actual), expected);
     return myself;
   }
 }
