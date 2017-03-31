@@ -17,17 +17,11 @@ import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.test.Person;
 import org.junit.Test;
 
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.test.Person;
-
-/**
- * Tests for <code>{@link ShouldHaveFields#shouldHaveFields(Class, java.util.Set, java.util.Set)}}</code>
- * 
- * @author Joel Costigliola
- */
 public class ShouldHaveFields_create_Test {
 
   @Test
@@ -38,7 +32,7 @@ public class ShouldHaveFields_create_Test {
                                   "[Test] %n"
                                       + "Expecting%n"
                                       + "  <org.assertj.core.test.Person>%n"
-                                      + "to have fields:%n"
+                                                + "to have the following public accessible fields:%n"
                                       + "  <[\"name\", \"address\"]>%n"
                                       + "but it doesn't have:%n"
                                       + "  <[\"address\"]>"));
@@ -52,7 +46,7 @@ public class ShouldHaveFields_create_Test {
                                   "[Test] %n"
                                       + "Expecting%n"
                                       + "  <org.assertj.core.test.Person>%n"
-                                      + "to have declared fields:%n"
+                                                + "to have the following declared fields:%n"
                                       + "  <[\"name\", \"address\"]>%n"
                                       + "but it doesn't have:%n"
                                       + "  <[\"address\"]>"));
