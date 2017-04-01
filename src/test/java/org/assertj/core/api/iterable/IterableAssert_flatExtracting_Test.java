@@ -77,4 +77,46 @@ public class IterableAssert_flatExtracting_Test {
     thrown.expectNullPointerException();
     assertThat(newArrayList(homer, null)).flatExtracting(children);
   }
+
+  @Test
+  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+    List<CartoonCharacter> childCharacters = newArrayList(bart, lisa, maggie);
+    thrown.expect(RuntimeException.class, "java.lang.Exception: no children");
+    assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
+      if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
+      return cartoonCharacter.getChildren();
+    });
+  }
+
+  @Test
+  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+    List<CartoonCharacter> childCharacters = newArrayList(bart, lisa, maggie);
+    thrown.expect(RuntimeException.class, "no children");
+    assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
+      if (cartoonCharacter.getChildren().isEmpty()) throw new RuntimeException("no children");
+      return cartoonCharacter.getChildren();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_throwing_extractor() {
+    List<CartoonCharacter> cartoonCharacters = newArrayList(homer, fred);
+    assertThat(cartoonCharacters).flatExtracting(cartoonCharacter -> {
+      if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
+      return cartoonCharacter.getChildren();
+    }).containsOnly(bart, lisa, maggie, pebbles);
+  }
+
+  @Test
+  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
+    List<CartoonCharacter> cartoonCharacters = newArrayList(homer, fred);
+    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+      @Override
+      public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
+        if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
+        return cartoonCharacter.getChildren();
+      }
+    }).containsOnly(bart, lisa, maggie, pebbles);
+  }
+
 }

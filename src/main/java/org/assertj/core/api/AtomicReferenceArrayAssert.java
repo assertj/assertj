@@ -41,6 +41,7 @@ import java.util.function.Predicate;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
@@ -93,7 +94,7 @@ public class AtomicReferenceArrayAssert<T>
   public AtomicReferenceArrayAssert<T> as(String description, Object... args) {
     return super.as(description, args);
   }
- 
+
   /**
    * Verifies that the AtomicReferenceArray is {@code null} or empty.
    * <p>
@@ -174,7 +175,6 @@ public class AtomicReferenceArrayAssert<T>
     arrays.assertContainsExactly(info, array, expected);
     return myself;
   }
-  
 
   /**
    * Verifies that the number of values in the AtomicReferenceArray is equal to the given one.
@@ -1496,7 +1496,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithNames(Comparator<C> comparator,
-                                                        String... elementPropertyOrFieldNames) {
+                                                                                    String... elementPropertyOrFieldNames) {
     for (String elementPropertyOrField : elementPropertyOrFieldNames) {
       comparatorsForElementPropertyOrFieldNames.put(elementPropertyOrField, comparator);
     }
@@ -1573,7 +1573,8 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
+  public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithType(Comparator<C> comparator,
+                                                                                   Class<C> type) {
     comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
     return myself;
   }
@@ -1942,6 +1943,49 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Extract the values from the array's elements by applying an extracting function (which might throw an
+   * exception) on them. The returned array becomes a new object under test.
+   * <p>
+   * It allows to test values from the elements in safer way than by using {@link #extracting(String)}, as it
+   * doesn't utilize introspection.
+   * <p>
+   * Let's take a look an example:
+   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * // they can be public field or properties, both can be extracted.
+   * AtomicReferenceArray&lt;TolkienCharacter&gt; fellowshipOfTheRing = new AtomicReferenceArray&lt;&gt;(new TolkienCharacter[]{
+   *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
+   *   new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT),
+   *   new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA),
+   *   new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF),
+   *   new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT),
+   *   new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF),
+   *   new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN,
+   *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
+   * };
+   *
+   * assertThat(fellowshipOfTheRing).extracting(input -> {
+   *   if (input.getAge() < 20) {
+   *     throw new Exception("age < 20");
+   *   }
+   *   return input.getName();
+   * }).contains("Frodo");</code></pre>
+   *
+   * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
+   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
+   * order.
+   *
+   * @param extractor the object transforming input object to desired one
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public <U, EXCEPTION extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super T, U, EXCEPTION> extractor) {
+    U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
+
+    return new ObjectArrayAssert<>(extracted);
+  }
+
+  /**
    * Extract the Iterable values from the array's elements by applying an Iterable extracting function on them
    * and concatenating the result lists into an array which becomes the new object under test.
    * <p>
@@ -1979,6 +2023,49 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super T, C> extractor) {
+    return doFlatExtracting(extractor);
+  }
+
+  /**
+   * Extract the Iterable values from the array's elements by applying an Iterable extracting function (which might
+   * throw an exception) on them and concatenating the result lists into an array which becomes the new object under
+   * test.
+   * <p>
+   * It allows testing the results of extracting values that are represented by Iterables.
+   * <p>
+   * For example:
+   * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
+   * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
+   * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+   * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
+   * homer.addChildren(bart, lisa, maggie);
+   *
+   * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
+   * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
+   * fred.getChildren().add(pebbles);
+   *
+   * AtomicReferenceArray&lt;CartoonCharacter&gt; parents = new AtomicReferenceArray&lt;&gt;(new CartoonCharacter[]{ homer, fred });
+   * // check children
+   * assertThat(parents).flatExtracting(input -> {
+   *   if (input.getChildren().size() == 0) {
+   *     throw new Exception("no children");
+   *   }
+   *   return input.getChildren();
+   * }).containsOnly(bart, lisa, maggie, pebbles);</code></pre>
+   *
+   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * collections.
+   *
+   * @param extractor the object transforming input object to an Iterable of desired ones
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public <U, C extends Collection<U>, EXCEPTION extends Exception> ObjectArrayAssert<U> flatExtracting(ThrowingExtractor<? super T, C, EXCEPTION> extractor) {
+    return doFlatExtracting(extractor);
+  }
+
+  private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Extractor<? super T, C> extractor) {
     final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), extractor);
 
     final List<U> result = newArrayList();
@@ -2405,7 +2492,6 @@ public class AtomicReferenceArrayAssert<T>
     Iterable<? extends T> filteredIterable = filter(array).being(condition).get();
     return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
   }
-
 
   /**
    * Verifies that all elements match the given {@link Predicate}.

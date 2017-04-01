@@ -20,6 +20,7 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
@@ -49,8 +50,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined()
-       {
+  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     assertThat(employees).extracting("name", Name.class).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
@@ -72,23 +72,20 @@ public class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
-    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+                                                                             tuple("Luke", 26, 2L));
   }
 
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
     thrown.expectIntrospectionError();
-    assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+                                                                          tuple("Luke", 26, 2L));
   }
 
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        return input.getName().getFirst();
-      }
-    }).containsOnly("Yoda", "Luke");
+    assertThat(employees).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
@@ -132,4 +129,54 @@ public class AtomicReferenceArrayAssert_extracting_Test {
 
     assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
   }
+
+  @Test
+  public void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
+    thrown.expect(RuntimeException.class, "age > 100");
+    assertThat(employees).extracting(new Extractor<Employee, String>() {
+      @Override
+      public String extract(Employee employee) {
+        if (employee.getAge() > 100) throw new RuntimeException("age > 100");
+        return employee.getName().getFirst();
+      }
+    });
+  }
+
+  @Test
+  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+    thrown.expect(RuntimeException.class, "java.lang.Exception: age > 100");
+    assertThat(employees).extracting(employee -> {
+      if (employee.getAge() > 100) throw new Exception("age > 100");
+      return employee.getName().getFirst();
+    });
+  }
+
+  @Test
+  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+    thrown.expect(RuntimeException.class, "age > 100");
+    assertThat(employees).extracting(employee -> {
+      if (employee.getAge() > 100) throw new RuntimeException("age > 100");
+      return employee.getName().getFirst();
+    });
+  }
+
+  @Test
+  public void should_allow_extracting_with_throwing_extractor() {
+    assertThat(employees).extracting(employee -> {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
+    }).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_allow_extracting_with_anonymous_class_throwing_extractor() {
+    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
+      @Override
+      public Object extractThrows(Employee employee) throws Exception {
+        if (employee.getAge() < 20) throw new Exception("age < 20");
+        return employee.getName().getFirst();
+      }
+    }).containsOnly("Yoda", "Luke");
+  }
+
 }

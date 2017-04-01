@@ -53,32 +53,32 @@ public class IterableAssert_extracting_Test {
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
-	@Override
-	public String extract(Employee input) {
+	  @Override
+	  public String extract(Employee input) {
 	  return input.getName().getFirst();
 	}
   };
 
   private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
-	@Override
-	public Integer extract(Employee input) {
+	  @Override
+	  public Integer extract(Employee input) {
 	  return input.getAge();
 	}
   };
 
   @Before
   public void setUp() {
-	yoda = new Employee(1L, new Name("Yoda"), 800);
-	luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
-	employees = newArrayList(yoda, luke);
-	fellowshipOfTheRing.add(TolkienCharacter.of("Frodo", 33, HOBBIT));
-	fellowshipOfTheRing.add(TolkienCharacter.of("Sam", 38, HOBBIT));
-	fellowshipOfTheRing.add(TolkienCharacter.of("Gandalf", 2020, MAIA));
-	fellowshipOfTheRing.add(TolkienCharacter.of("Legolas", 1000, ELF));
-	fellowshipOfTheRing.add(TolkienCharacter.of("Pippin", 28, HOBBIT));
-	fellowshipOfTheRing.add(TolkienCharacter.of("Gimli", 139, DWARF));
-	fellowshipOfTheRing.add(TolkienCharacter.of("Aragorn", 87, MAN));
-	fellowshipOfTheRing.add(TolkienCharacter.of("Boromir", 37, MAN));
+    yoda = new Employee(1L, new Name("Yoda"), 800);
+    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+    employees = newArrayList(yoda, luke);
+    fellowshipOfTheRing.add(TolkienCharacter.of("Frodo", 33, HOBBIT));
+    fellowshipOfTheRing.add(TolkienCharacter.of("Sam", 38, HOBBIT));
+    fellowshipOfTheRing.add(TolkienCharacter.of("Gandalf", 2020, MAIA));
+    fellowshipOfTheRing.add(TolkienCharacter.of("Legolas", 1000, ELF));
+    fellowshipOfTheRing.add(TolkienCharacter.of("Pippin", 28, HOBBIT));
+    fellowshipOfTheRing.add(TolkienCharacter.of("Gimli", 139, DWARF));
+    fellowshipOfTheRing.add(TolkienCharacter.of("Aragorn", 87, MAN));
+    fellowshipOfTheRing.add(TolkienCharacter.of("Boromir", 37, MAN));
   }
 
   @Rule
@@ -175,8 +175,64 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_single_values_using_extractor() {
-	assertThat(employees).extracting(firstName).containsOnly("Yoda", "Luke");
-	assertThat(employees).extracting(age).containsOnly(26, 800);
+	  assertThat(employees).extracting(firstName).containsOnly("Yoda", "Luke");
+	  assertThat(employees).extracting(age).containsOnly(26, 800);
+  }
+
+  @Test
+  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
+    thrown.expect(RuntimeException.class);
+    assertThat(employees).extracting(new Extractor<Employee, String>() {
+      @Override
+      public String extract(Employee input) {
+        if (input.getAge() > 100) {
+          throw new RuntimeException("age > 100");
+        }
+        return input.getName().getFirst();
+      }
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
+    assertThat(employees).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+    thrown.expect(RuntimeException.class, "java.lang.Exception: age > 100");
+    assertThat(employees).extracting(employee -> {
+      if (employee.getAge() > 100) throw new Exception("age > 100");
+      return employee.getName().getFirst();
+    });
+  }
+
+  @Test
+  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+    thrown.expect(RuntimeException.class, "age > 100");
+    assertThat(employees).extracting(employee -> {
+      if (employee.getAge() > 100) throw new RuntimeException("age > 100");
+      return employee.getName().getFirst();
+    });
+  }
+
+  @Test
+  public void should_allow_extracting_with_throwing_extractor() {
+    assertThat(employees).extracting(employee -> {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
+    }).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_allow_extracting_with_anonymous_class_throwing_extractor() {
+    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
+      @Override
+      public Object extractThrows(Employee employee) throws Exception {
+        if (employee.getAge() < 20) throw new Exception("age < 20");
+        return employee.getName().getFirst();
+      }
+    }).containsOnly("Yoda", "Luke");
   }
 
   @Test
@@ -198,17 +254,17 @@ public class IterableAssert_extracting_Test {
     
   @Test
   public void should_allow_assertions_by_using_function_extracted_from_given_iterable() throws Exception {
-	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
+	  assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
 	                               .contains("Boromir", "Gandalf", "Frodo")
 	                               .doesNotContain("Sauron", "Elrond");
   }
 
   @Test
   public void should_throw_error_if_function_fails() throws Exception {
-	RuntimeException thrown = new RuntimeException();
-	assertThatThrownBy(() -> assertThat(fellowshipOfTheRing).extracting(e -> {
-	  throw thrown;
-	}).isEqualTo(thrown));
+	  RuntimeException thrown = new RuntimeException();
+	  assertThatThrownBy(() -> assertThat(fellowshipOfTheRing).extracting(e -> {
+	    throw thrown;
+	  }).isEqualTo(thrown));
   }
 
   @Test
