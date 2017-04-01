@@ -41,6 +41,7 @@ import java.util.function.Predicate;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
@@ -1936,6 +1937,13 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public <U> ObjectArrayAssert<U> extracting(Extractor<? super T, U> extractor) {
+    U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
+
+    return new ObjectArrayAssert<>(extracted);
+  }
+
+  @CheckReturnValue
+  public <U, E extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super T, U, E> extractor) {
     U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
 
     return new ObjectArrayAssert<>(extracted);

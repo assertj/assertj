@@ -48,6 +48,7 @@ import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
 import org.assertj.core.extractor.Extractors;
@@ -1046,6 +1047,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return newListAssertInstance(values);
   }
 
+  @CheckReturnValue
+  public <V,E extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, E> extractor) {
+    List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
+    return newListAssertInstance(values);
+  }
   /**
    * Extract the Iterable values from Iterable's elements under test by applying an Iterable extracting function on them
    * and concatenating the result lists. The returned iterable becomes a new object under test.

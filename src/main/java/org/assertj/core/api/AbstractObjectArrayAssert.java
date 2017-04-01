@@ -42,6 +42,7 @@ import java.util.function.Predicate;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
@@ -1885,6 +1886,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <U> ObjectArrayAssert<U> extracting(Extractor<? super ELEMENT, U> extractor) {
+    U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
+
+    return new ObjectArrayAssert<>(extracted);
+  }
+
+  public <U, E extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super ELEMENT, U, E> extractor) {
     U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
     return new ObjectArrayAssert<>(extracted);

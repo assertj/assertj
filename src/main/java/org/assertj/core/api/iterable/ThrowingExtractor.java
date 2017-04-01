@@ -12,19 +12,19 @@
  */
 package org.assertj.core.api.iterable;
 
-import org.assertj.core.api.ListAssert;
-import org.assertj.core.api.ObjectArrayAssert;
-
-/**
- * Function converting an element to another element. Used in {@link ListAssert#extracting(Extractor)} and
- * {@link ObjectArrayAssert#extracting(Extractor)}.
- * 
- * @author Mateusz Haligowski
- *
- * @param <F> type of element from which the conversion happens
- * @param <T> target element type
- */
 @FunctionalInterface
-public interface Extractor<F, T> {
-  T extract(F input);
+public interface ThrowingExtractor<F, T, E extends Exception> extends Extractor<F,T> {
+
+  @Override
+  default T extract(final F input) {
+    try {
+      return extractThrows(input);
+    } catch (final RuntimeException e) {
+      throw e;
+    } catch (final Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  T extractThrows(F input) throws E;
 }
