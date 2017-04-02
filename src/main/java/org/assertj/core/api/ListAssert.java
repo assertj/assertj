@@ -77,8 +77,18 @@ public class ListAssert<ELEMENT> extends
   }
 
   @Override
+  public final ListAssert<ELEMENT> containsSequence(List<ELEMENT> sequence) {
+    return super.containsSequence(sequence);
+  }
+
+  @Override
   @SafeVarargs
   public final ListAssert<ELEMENT> containsSubsequence(ELEMENT... sequence) {
+    return super.containsSubsequence(sequence);
+  }
+
+  @Override
+  public final ListAssert<ELEMENT> containsSubsequence(List<ELEMENT> sequence) {
     return super.containsSubsequence(sequence);
   }
 
