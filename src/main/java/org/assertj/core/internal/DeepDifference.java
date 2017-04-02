@@ -26,6 +26,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -145,12 +146,16 @@ public class DeepDifference {
   public static List<Difference> determineDifferences(Object a, Object b,
                                                       Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                       TypeComparators comparatorByType) {
+    // replace null comparators groups by empty one to simplify code afterwards
+    comparatorByPropertyOrField = comparatorByPropertyOrField == null ? new HashMap<String, Comparator<?>>()
+        : comparatorByPropertyOrField;
+    comparatorByType = comparatorByType == null ? new TypeComparators() : comparatorByType;
     return determineDifferences(a, b, null, comparatorByPropertyOrField, comparatorByType);
   }
 
   private static List<Difference> determineDifferences(Object a, Object b, List<String> parentPath,
-                                                      Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                      TypeComparators comparatorByType) {
+                                                       Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                       TypeComparators comparatorByType) {
     final Set<DualKey> visited = new HashSet<>();
     final Deque<DualKey> toCompare = initStack(a, b, parentPath, comparatorByPropertyOrField, comparatorByType);
     final List<Difference> differences = new ArrayList<>();
@@ -239,8 +244,7 @@ public class DeepDifference {
         continue;
       }
 
-      // Check any Collection that is List. In these cases, element
-      // order matters, therefore this comparison is faster than using unordered comparison.
+      // Check List, as element order matters this comparison is faster than using unordered comparison.
       if (key1 instanceof List) {
         if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
@@ -313,10 +317,9 @@ public class DeepDifference {
                                              TypeComparators comparatorByType) {
     if (dualKey.key1.getClass() == dualKey.key2.getClass()) {
       String fieldName = dualKey.getConcatenatedPath();
-      Comparator<?> fieldComparator = comparatorByPropertyOrField != null && comparatorByPropertyOrField.containsKey(fieldName)
-        ? comparatorByPropertyOrField.get(fieldName) : comparatorByType == null
-        ? null : comparatorByType.get(dualKey.key1.getClass());
-      return fieldComparator != null;
+      return comparatorByPropertyOrField.containsKey(fieldName)
+          ? comparatorByPropertyOrField.get(fieldName) != null
+          : comparatorByType.get(dualKey.key1.getClass()) != null;
     }
     return false;
   }
@@ -325,20 +328,19 @@ public class DeepDifference {
                                           Map<String, Comparator<?>> comparatorByPropertyOrField,
                                           TypeComparators comparatorByType) {
     Deque<DualKey> stack = new LinkedList<>();
-    List<String> currentPath = parentPath == null ? new ArrayList<String>() : parentPath;
+    boolean isRootObject = parentPath == null;
+    List<String> currentPath = isRootObject ? new ArrayList<String>() : parentPath;
     DualKey basicDualKey = new DualKey(currentPath, a, b);
-    if (a != null && b != null && (parentPath == null || !hasCustomComparator(basicDualKey, comparatorByPropertyOrField, comparatorByType))
-      && !isContainerType(a) && !isContainerType(b)) {
+    if (a != null && b != null && !isContainerType(a) && !isContainerType(b)
+        && (isRootObject || !hasCustomComparator(basicDualKey, comparatorByPropertyOrField, comparatorByType))) {
       // disregard the equals method and start comparing fields
-      Collection<Field> aFields = getDeclaredFieldsIncludingInherited(a.getClass());
-      if (!aFields.isEmpty()) {
-        Set<String> aFieldsNames = getFieldsNames(aFields);
+      Set<String> aFieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(a.getClass()));
+      if (!aFieldsNames.isEmpty()) {
         Set<String> bFieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(b.getClass()));
         if (!bFieldsNames.containsAll(aFieldsNames)) {
           stack.addFirst(basicDualKey);
         } else {
-          for (Field field : aFields) {
-            String fieldName = field.getName();
+          for (String fieldName : aFieldsNames) {
             List<String> fieldPath = new ArrayList<>(currentPath);
             fieldPath.add(fieldName);
             DualKey dk = new DualKey(fieldPath,
@@ -357,12 +359,11 @@ public class DeepDifference {
   }
 
   private static Set<String> getFieldsNames(Collection<Field> fields) {
-    Set<String> result = new HashSet<>();
+    Set<String> fieldNames = new LinkedHashSet<>();
     for (Field field : fields) {
-      result.add(field.getName());
+      fieldNames.add(field.getName());
     }
-
-    return result;
+    return fieldNames;
   }
 
   private static boolean isContainerType(Object o) {
@@ -441,8 +442,8 @@ public class DeepDifference {
    *         the sets items will be added to the Stack for further comparison.
    */
   private static <K, V> boolean compareUnorderedCollectionByHashCodes(Collection<K> col1, Collection<V> col2,
-                                                           List<String> path, Deque<DualKey> toCompare,
-                                                           Set<DualKey> visited) {
+                                                                      List<String> path, Deque<DualKey> toCompare,
+                                                                      Set<DualKey> visited) {
     Map<Integer, Object> fastLookup = new HashMap<>();
     for (Object o : col2) {
       fastLookup.put(deepHashCode(o), o);
@@ -475,13 +476,10 @@ public class DeepDifference {
                                                            Set<DualKey> visited,
                                                            Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                            TypeComparators comparatorByType) {
-    if (col1.size() != col2.size()) {
-      return false;
-    }
+    if (col1.size() != col2.size()) return false;
 
-    boolean hasNoCustomComparators = (comparatorByPropertyOrField == null || comparatorByPropertyOrField.isEmpty())
-      && (comparatorByType == null || comparatorByType.isEmpty());
-    if (hasNoCustomComparators && col1 instanceof Set) {
+    boolean noCustomComparators = comparatorByPropertyOrField.isEmpty() && comparatorByType.isEmpty();
+    if (noCustomComparators && col1 instanceof Set) {
       // this comparison is used for performance optimization reasons
       return compareUnorderedCollectionByHashCodes(col1, col2, path, toCompare, visited);
     }
