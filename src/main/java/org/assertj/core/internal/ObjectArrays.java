@@ -253,6 +253,21 @@ public class ObjectArrays {
   }
 
   /**
+   * Verifies that the given array does not contain the given sequence of objects in order.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param sequence the sequence of objects to look for.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence is empty.
+   * @throws AssertionError if the given array does contain the given sequence of objects in order.
+   */
+  public void assertDoesNotContainSequence(AssertionInfo info, Object[] actual, Object[] sequence) {
+    arrays.assertDoesNotContainSequence(info, failures, actual, sequence);
+  }
+
+  /**
    * Verifies that the given array contains the given subsequence of objects (possibly with other values between them).
    * 
    * @param info contains information about the assertion.
