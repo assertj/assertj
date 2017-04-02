@@ -248,8 +248,26 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
+  public SELF containsSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
+    iterables.assertContainsSequence(info, actual, sequence.toArray());
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
     iterables.assertContainsSubsequence(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF containsSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
+    iterables.assertContainsSubsequence(info, actual, sequence.toArray());
     return myself;
   }
 

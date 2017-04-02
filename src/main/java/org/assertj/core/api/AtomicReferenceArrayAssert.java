@@ -483,6 +483,34 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * <p>
+   * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya))
+   *                       .containsSequence(newArrayList(nenya, narya));
+   *
+   * // assertions will fail, the elements order is correct but there is a value between them (nenya)
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, narya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, vilya));</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsSequence(@SuppressWarnings("unchecked") List<T> sequence) {
+    arrays.assertContainsSequence(info, array, sequence.toArray());
+    return myself;
+  }
+
+  /**
    * Verifies that the actual AtomicReferenceArray contains the given subsequence in the correct order (possibly with other values between them).
    * <p>
    * Example:
@@ -504,6 +532,31 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   public AtomicReferenceArrayAssert<T> containsSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
     arrays.assertContainsSubsequence(info, array, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray contains the given subsequence in the correct order (possibly with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, nenya))
+   *                       .containsSubsequence(newArrayList(vilya, narya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).containsSubsequence(newArrayList(nenya, vilya));</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given subsequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsSubsequence(@SuppressWarnings("unchecked") List<T> subsequence) {
+    arrays.assertContainsSubsequence(info, array, subsequence.toArray());
     return myself;
   }
 
