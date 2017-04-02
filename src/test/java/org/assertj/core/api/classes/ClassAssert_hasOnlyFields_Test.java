@@ -18,19 +18,19 @@ import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
 
 /**
- * Tests for <code>{@link ClassAssert#hasFields(String...)}</code>.
+ * Tests for <code>{@link ClassAssert#hasOnlyPublicFields(String...)}</code>.
  *
  * @author Filip Hrisafoc
  */
-public class ClassAssert_hasExactlyFields_Test extends ClassAssertBaseTest {
+public class ClassAssert_hasOnlyFields_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {
-    return assertions.hasOnlyFields("field");
+    return assertions.hasOnlyPublicFields("field");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(classes).assertHasOnlyFields(getInfo(assertions), getActual(assertions), "field");
+    verify(classes).assertHasOnlyPublicFields(getInfo(assertions), getActual(assertions), "field");
   }
 }

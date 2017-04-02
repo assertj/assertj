@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.classes;
 
+import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -43,6 +44,23 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
   }
 
   @Test
+  public void should_pass_if_class_has_all_the_expected_declared_fields() {
+    classes.assertHasOnlyDeclaredFields(someInfo(), actual, "publicField", "publicField2", "protectedField",
+                                        "privateField");
+  }
+
+  @Test
+  public void should_pass_if_class_has_all_the_expected_declared_fields_whatever_the_order_is() {
+    classes.assertHasOnlyDeclaredFields(someInfo(), actual, "protectedField", "privateField", "publicField2",
+                                        "publicField");
+  }
+
+  @Test
+  public void should_pass_if_class_has_no_declared_fields_and_none_are_expected() {
+    classes.assertHasOnlyDeclaredFields(someInfo(), NoField.class);
+  }
+
+  @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
     thrown.expectAssertionError(actualIsNull());
@@ -50,54 +68,40 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_no_fields_are_expected() {
-    thrown.expectAssertionError(shouldOnlyHaveDeclaredFields(actual,
-                                                                EMPTY_STRING_SET,
-                                                                EMPTY_STRING_SET,
-                                                                newLinkedHashSet("publicField", "public2Field",
-                                                                                 "protectedField", "privateField")));
-    classes.assertHasOnlyDeclaredFields(someInfo(), actual);
-  }
-
-  @Test
   public void should_fail_if_not_all_fields_are_expected() {
     thrown.expectAssertionError(shouldOnlyHaveDeclaredFields(actual,
-                                                                newLinkedHashSet("publicField", "protectedField",
-                                                                                 "privateField"),
-                                                                EMPTY_STRING_SET,
-                                                                newLinkedHashSet("public2Field")));
+                                                             newLinkedHashSet("publicField", "protectedField",
+                                                                              "privateField"),
+                                                             EMPTY_STRING_SET,
+                                                             newLinkedHashSet("publicField2")));
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, "publicField", "protectedField", "privateField");
   }
 
   @Test
   public void should_fail_if_fields_are_missing() {
-    String[] expected = array("missingField", "publicField", "public2Field", "protectedField", "privateField");
+    String[] expected = array("missingField", "publicField", "publicField2", "protectedField", "privateField");
     thrown.expectAssertionError(shouldOnlyHaveDeclaredFields(actual,
-                                                                newLinkedHashSet(expected),
-                                                                newLinkedHashSet("missingField"),
-                                                                EMPTY_STRING_SET));
+                                                             newLinkedHashSet(expected),
+                                                             newLinkedHashSet("missingField"),
+                                                             EMPTY_STRING_SET));
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, expected);
-  }
-
-  @Test
-  public void should_pass_if_all_fields_are_expected() {
-    classes.assertHasOnlyDeclaredFields(someInfo(), actual, "publicField", "public2Field", "protectedField",
-                                           "privateField");
-  }
-
-  @Test
-  public void should_pass_if_public_all_fields_are_expected_whatever_the_order_is() {
-    classes.assertHasOnlyDeclaredFields(someInfo(), actual, "protectedField", "privateField", "public2Field",
-                                           "publicField");
   }
 
   @Test()
   public void should_fail_if_fields_are_not_expected_and_not_found() {
-    String[] expected = array("publicField", "public2Field", "missing", "privateField");
+    String[] expected = array("publicField", "publicField2", "missing", "privateField");
     thrown.expectAssertionError(shouldOnlyHaveDeclaredFields(actual,
-                                                                newLinkedHashSet(expected),
-                                                                newLinkedHashSet("missing"),
-                                                                newLinkedHashSet("protectedField")));
+                                                             newLinkedHashSet(expected),
+                                                             newLinkedHashSet("missing"),
+                                                             newLinkedHashSet("protectedField")));
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, expected);
   }
+
+  @Test
+  public void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
+    thrown.expectAssertionError(shouldHaveNoDeclaredFields(actual, newLinkedHashSet("publicField", "publicField2",
+                                                                                    "protectedField", "privateField")));
+    classes.assertHasOnlyDeclaredFields(someInfo(), actual);
+  }
+
 }

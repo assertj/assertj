@@ -323,11 +323,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * }
    *
    * // these assertions succeed:
-   * assertThat(MyClass.class).hasOnlyFields("fieldOne", "fieldTwo");
-   * assertThat(MyClass.class).hasOnlyFields("fieldTwo", "fieldOne");
+   * assertThat(MyClass.class).hasOnlyPublicFields("fieldOne", "fieldTwo");
+   * assertThat(MyClass.class).hasOnlyPublicFields("fieldTwo", "fieldOne");
    *
    * // this assertion fails:
-   * assertThat(MyClass.class).hasOnlyFields("fieldOne");</code></pre>
+   * assertThat(MyClass.class).hasOnlyPublicFields("fieldOne");</code></pre>
+   * <p>
+   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no accessible public fields.
    *
    * @see Class#getField(String)
    * @param fields all the fields that are expected to be in the class.
@@ -336,8 +338,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 2.7.0 / 3.7.0
    */
-  public SELF hasOnlyFields(String... fields) {
-    classes.assertHasOnlyFields(info, actual, fields);
+  public SELF hasOnlyPublicFields(String... fields) {
+    classes.assertHasOnlyPublicFields(info, actual, fields);
     return myself;
   }
 
@@ -354,6 +356,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * 
    * // this assertion fails:
    * assertThat(MyClass.class).hasDeclaredFields("fieldThree");</code></pre>
+   * <p>
+   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no declared fields.
    * 
    * @see Class#getDeclaredField(String)
    * @param fields the fields who must be declared in the class.
@@ -381,6 +385,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * // this assertion fails:
    * assertThat(MyClass.class).hasOnlyDeclaredFields("fieldOne", "fieldThree");</code></pre>
+   * <p>
+   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no declared fields.
    *
    * @see Class#getField(String)
    * @param fields all the fields that are expected to be in the class.
@@ -395,18 +401,22 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given methods.
+   * Verifies that the actual {@code Class} has the given methods (including inherited) whatever their visibility are.
    *
-   * <pre><code class='java'> class MyClass {
+   * <pre><code class='java'> class MySuperClass {
+   *     public void superMethod() {}
+   *     private void privateSuperMethod() {}
+   * }
+   *
+   * class MyClass extends MySuperClass {
    *     public void methodOne() {}
    *     private void methodTwo() {}
    * }
    *
    * // this assertion succeeds:
-   * assertThat(MyClass.class).hasMethods("methodOne");
+   * assertThat(MyClass.class).hasMethods("methodOne", "methodTwo", "superMethod", "privateSuperMethod");
    *
-   * // these assertions fail:
-   * assertThat(MyClass.class).hasMethods("methodTwo");
+   * // this assertion fails:
    * assertThat(MyClass.class).hasMethods("methodThree");</code></pre>
    *
    * @param methodNames the method names which must be in the class.
@@ -438,10 +448,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // These assertions fail:
    * assertThat(MyClass.class).hasDeclaredMethods("superMethod");
    * assertThat(MyClass.class).hasDeclaredMethods("methodThree");</code></pre>
+   * <p>
+   * The assertion succeeds if no given methods are passed and the actual {@code Class} has no declared methods.
    *
    * @param methodNames the method names which must be declared in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given methods.
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -469,45 +481,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @param methodNames the public method names which must be in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public method names.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given public methods.
    *
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasPublicMethods(String... methodNames) {
     classes.assertHasPublicMethods(info, actual, methodNames);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has the given declared public methods.
-   *
-   * <pre><code class='java'> class MySuperClass {
-   *     public void superMethod() {}
-   * }
-   *
-   * class MyClass extends MySuperClass{
-   *     public void methodOne() {}
-   *     public void methodTwo() {}
-   *     protected void methodThree() {}
-   * }
-   *
-   * // These assertions succeed:
-   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne");
-   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodTwo");
-   *
-   * // These assertions fail:
-   * assertThat(MyClass.class).hasDeclaredPublicMethods("superMethod");
-   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodOne", "methodThree");
-   * assertThat(MyClass.class).hasDeclaredPublicMethods("methodThree");</code></pre>
-   *
-   * @param methodNames the public method names which must be declared in the class.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public method names.
-   *
-   * @since 2.7.0 / 3.7.0
-   */
-  public SELF hasDeclaredPublicMethods(String... methodNames) {
-    classes.assertHasDeclaredPublicMethods(info, actual, methodNames);
     return myself;
   }
 }

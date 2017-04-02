@@ -38,7 +38,7 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_methods() {
+  public void should_pass_if_actual_has_expected_accessible_public_methods() {
     classes.assertHasMethods(someInfo(), actual, "publicMethod", "protectedMethod", "privateMethod");
   }
 
