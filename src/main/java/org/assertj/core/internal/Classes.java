@@ -233,7 +233,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public void assertHasFields(AssertionInfo info, Class<?> actual, String... fields) {
+  public void assertHasPublicFields(AssertionInfo info, Class<?> actual, String... fields) {
     assertNotNull(info, actual);
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();

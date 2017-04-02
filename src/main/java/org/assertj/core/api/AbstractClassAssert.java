@@ -286,23 +286,29 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
-   *     private String fieldTwo;
+   *     protected String fieldTwo;
+   *     String fieldThree;
+   *     private String fieldFour;
    * }
    * 
    * // this assertion succeeds:
-   * assertThat(MyClass.class).hasFields("fieldOne");
+   * assertThat(MyClass.class).hasPublicFields("fieldOne");
    * 
    * // these assertions fail:
-   * assertThat(MyClass.class).hasFields("fieldTwo");
-   * assertThat(MyClass.class).hasFields("fieldThree");</code></pre>
+   * assertThat(MyClass.class).hasPublicFields("fieldTwo");
+   * assertThat(MyClass.class).hasPublicFields("fieldThree");
+   * assertThat(MyClass.class).hasPublicFields("fieldFour");
+   * assertThat(MyClass.class).hasPublicFields("unknownField");</code></pre>
+   * <p>
+   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no accessible public fields.
    * 
    * @see Class#getField(String)
    * @param fields the fields who must be in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contain all of the fields.
    */
-  public SELF hasFields(String... fields) {
-    classes.assertHasFields(info, actual, fields);
+  public SELF hasPublicFields(String... fields) {
+    classes.assertHasPublicFields(info, actual, fields);
     return myself;
   }
 
