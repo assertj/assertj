@@ -94,4 +94,11 @@ public class ObjectArrayAssert_extracting_Test {
       }
     }).containsOnly("Yoda", "Luke");
   }
+
+  @Test
+  public void should_use_property_field_names_as_description() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
+
+    assertThat(employees).extracting("name.first", "name.last").isEmpty();
+  }
 }

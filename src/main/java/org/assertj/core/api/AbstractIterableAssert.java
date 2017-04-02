@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -590,7 +591,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String propertyOrField) {
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-    return newListAssertInstance(values);
+    String description = format("Extracted: %s", propertyOrField);
+    return newListAssertInstance(values).as(description);
   }
 
   /**
@@ -771,7 +773,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                                                                                      Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-    return newListAssertInstance(values);
+    String description = format("Extracted: %s", propertyOrField);
+    return newListAssertInstance(values).as(description);
   }
 
   /**
@@ -861,7 +864,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
-    return newListAssertInstance(values);
+    String description = format("Extracted: %s", Strings.join(propertiesOrFields).with(", "));
+    return newListAssertInstance(values).as(description);
   }
 
   /**

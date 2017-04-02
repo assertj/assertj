@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
@@ -51,6 +52,7 @@ import org.assertj.core.internal.RecursiveFieldByFieldComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
+import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -1568,7 +1570,8 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(array, byName(fieldOrProperty));
-    return new ObjectArrayAssert<>(values);
+    String description = format("Extracted: %s", fieldOrProperty);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1619,7 +1622,8 @@ public class AtomicReferenceArrayAssert<T>
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(array, byName(fieldOrProperty));
-    return new ObjectArrayAssert<>(values);
+    String description = format("Extracted: %s", fieldOrProperty);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1678,8 +1682,8 @@ public class AtomicReferenceArrayAssert<T>
   public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
     Object[] values = FieldsOrPropertiesExtractor.extract(array, byName(propertiesOrFields));
     Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
-
-    return new ObjectArrayAssert<>(result);
+    String description = format("Extracted: %s", Strings.join(propertiesOrFields).with(", "));
+    return new ObjectArrayAssert<>(result).as(description);
   }
 
   /**

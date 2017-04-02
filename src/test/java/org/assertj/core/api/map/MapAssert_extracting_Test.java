@@ -13,13 +13,19 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class MapAssert_extracting_Test {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   @Test
   public void should_allow_assertions_on_values_extracted_from_given_map_keys() {
@@ -41,4 +47,14 @@ public class MapAssert_extracting_Test {
                    .contains("kawhi", (Object) null);
   }
 
+  @Test
+  public void should_use_key_names_as_description() {
+    Map<String, Object> map = new HashMap<>();
+    map.put("name", "kawhi");
+    map.put("age", 25);
+
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name, age]");
+
+    assertThat(map).extracting("name", "age").isEmpty();
+  }
 }
