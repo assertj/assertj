@@ -19,6 +19,7 @@ import static org.assertj.core.test.Maps.mapOf;
 
 import java.util.Map;
 
+import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
@@ -34,14 +35,25 @@ public class ShouldContainValue_create_Test {
 
   @Test
   public void should_create_error_message() {
-	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-	ErrorMessageFactory factory = shouldContainValue(map, "VeryOld");
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n" +
-	                              "Expecting:%n" +
-	                              "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-	                              "to contain value:%n" +
-	                              "  <\"VeryOld\">"));
+    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+    ErrorMessageFactory factory = shouldContainValue(map, "VeryOld");
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                                  "Expecting:%n" +
+                                                  "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                                  "to contain value:%n" +
+                                                  "  <\"VeryOld\">"));
   }
 
+  @Test
+  public void should_create_error_message_with_value_condition() {
+    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+    ErrorMessageFactory factory = shouldContainValue(map, new TestCondition<>("test condition"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                                  "Expecting:%n" +
+                                                  " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                                  "to contain value satisfying:%n" +
+                                                  " <test condition>"));
+  }
 }

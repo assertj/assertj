@@ -396,6 +396,180 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that the actual map contains an entry satisfying given {@code entryCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;TolkienCharacter, Ring&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(galadriel, nenya);
+   * ringBearers.put(gandalf, narya);
+   * ringBearers.put(elrond, vilya);
+   * ringBearers.put(frodo, oneRing);
+   *
+   * Condition&lt;Map.Entry&lt;TolkienCharacter, Ring&gt;&gt; oneRingManBearer =
+   *   new Condition&lt;Map.Entry&lt;TolkienCharacter, Ring&gt;&gt;("One ring man bearer") {
+   *     public boolean matches(Map.Entry&lt;TolkienCharacter, Ring&gt; entry) {
+   *       return entry.getKey().getRace() == MAN && entry.getValue() == oneRing;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasEntrySatisfying(oneRingManBearer);
+   *
+   * ringBearers.put(isildur, oneRing);
+   *
+   * // now assertion will pass
+   * assertThat(ringBearers).hasEntrySatisfying(oneRingManBearer);
+   * </code></pre>
+   *
+   * @param entryCondition the condition for searching entry.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry matching given {@code entryCondition}.
+   * @since 2.8.0
+   */
+  public SELF hasEntrySatisfying(Condition<? super Map.Entry<K, V>> entryCondition) {
+    maps.assertHasEntrySatisfying(info, actual, entryCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains an entry with key satisfying {@code keyCondition} and value satisfying {@code valueCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;TolkienCharacter, Ring&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(galadriel, nenya);
+   * ringBearers.put(gandalf, narya);
+   * ringBearers.put(elrond, vilya);
+   * ringBearers.put(frodo, oneRing);
+   *
+   * Condition&lt;TolkienCharacter&gt; isMan =
+   *   new Condition&lt;TolkienCharacter&gt;("is man") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == MAN;
+   *     }
+   *   };
+   *
+   * Condition&lt;Ring&gt; oneRingBearer =
+   *   new Condition&lt;Ring&gt;("One ring bearer") {
+   *     public boolean matches(Ring value) {
+   *       return value == oneRing;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasEntrySatisfying(isMan, oneRingBearer);
+   *
+   * ringBearers.put(isildur, oneRing);
+   *
+   * // now assertion will pass
+   * assertThat(ringBearers).hasEntrySatisfying(isMan, oneRingBearer);
+   * </code></pre>
+   *
+   * @param keyCondition the condition for entry key.
+   * @param valueCondition the condition for entry value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if any of the given conditions is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry matching given {@code keyCondition} and {@code valueCondition}.
+   * @since 2.8.0
+   */
+  public SELF hasEntrySatisfying(Condition<? super K> keyCondition, Condition<? super V> valueCondition) {
+    maps.assertHasEntrySatisfyingConditions(info, actual, keyCondition, valueCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains an entry with key satisfying {@code keyCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;TolkienCharacter, Ring&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(galadriel, nenya);
+   * ringBearers.put(gandalf, narya);
+   * ringBearers.put(elrond, vilya);
+   * ringBearers.put(frodo, oneRing);
+   *
+   * Condition&lt;TolkienCharacter&gt; isMan =
+   *   new Condition&lt;TolkienCharacter&gt;("is man") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == MAN;
+   *     }
+   *   };
+   *
+   * Condition&lt;TolkienCharacter&gt; isOrc =
+   *   new Condition&lt;TolkienCharacter&gt;("is orc") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == ORC;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasKeySatisfying(isOrc);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).hasKeySatisfying(isMan);
+   * </code></pre>
+   *
+   * @param keyCondition the condition for key search.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no key matching given {@code keyCondition}.
+   * @since 2.8.0
+   */
+  public SELF hasKeySatisfying(Condition<? super K> keyCondition) {
+    maps.assertHasKeySatisfying(info, actual, keyCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains an entry with value satisfying {@code valueCondition}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, elrond);
+   * ringBearers.put(oneRing, frodo);
+   *
+   * Condition&lt;TolkienCharacter&gt; isMan =
+   *   new Condition&lt;TolkienCharacter&gt;("is man") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == MAN;
+   *     }
+   *   };
+   *
+   * Condition&lt;TolkienCharacter&gt; isOrc =
+   *   new Condition&lt;TolkienCharacter&gt;("is orc") {
+   *     public boolean matches(TolkienCharacter value) {
+   *       return value.getRace() == ORC;
+   *     }
+   *   };
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasValueSatisfying(isOrc);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).hasValueSatisfying(isMan);
+   * </code></pre>
+   *
+   * @param valueCondition the condition for value search.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no value matching given {@code valueCondition}.
+   * @since 2.8.0
+   */
+  public SELF hasValueSatisfying(Condition<? super V> valueCondition) {
+    maps.assertHasValueSatisfying(info, actual, valueCondition);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given entries.
    * <p>
    * Example :
