@@ -17,6 +17,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -638,8 +639,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
+    // can't refactor by calling extractingResultOf(method, Object.class) as SoftAssertion would fail
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-    return newListAssertInstance(values);
+    String extractedDescription = extractedDescriptionOfMethod(method);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return newListAssertInstance(values).as(description);
   }
 
   /**
@@ -687,7 +691,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                                                                                              Class<P> extractedType) {
     @SuppressWarnings("unchecked")
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-    return newListAssertInstance(values);
+    String extractedDescription = extractedDescriptionOfMethod(method);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return newListAssertInstance(values).as(description);
   }
 
   /**

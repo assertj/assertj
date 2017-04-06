@@ -16,6 +16,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
@@ -1884,7 +1885,9 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
     Object[] values = FieldsOrPropertiesExtractor.extract(array, resultOf(method));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOfMethod(method);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1933,7 +1936,9 @@ public class AtomicReferenceArrayAssert<T>
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(array, resultOf(method));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOfMethod(method);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**

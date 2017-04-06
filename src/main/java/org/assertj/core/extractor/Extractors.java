@@ -62,4 +62,8 @@ public class Extractors {
     return format("Extracted: %s", Strings.join(propertiesOrFields).with(", "));
   }
   
+  public static String extractedDescriptionOfMethod(String method) {
+    return format("Extracted: result of %s()", method);
+  }
+
 }
