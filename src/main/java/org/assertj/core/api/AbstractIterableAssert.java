@@ -1047,6 +1047,42 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return newListAssertInstance(values);
   }
 
+  /**
+   * Extract the values from Iterable's elements under test by applying an extracting function (which might throw an
+   * exception) on them. The returned iterable becomes a new object under test.
+   * <p>
+   * It allows to test values from the elements in more safe way than by using {@link #extracting(String)}, as it
+   * doesn't utilize introspection.
+   * <p>
+   * Let's have a look at an example :
+   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * // they can be public field or properties, both can be extracted.
+   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
+   *
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
+   *
+   * assertThat(fellowshipOfTheRing).extracting(input -> {
+   *   if (input.getAge() < 20) {
+   *     throw new Exception("age < 20");
+   *   }
+   *   return input.getName();
+   * }).contains("Frodo");</code></pre>
+   *
+   * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
+   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
+   * order.
+   *
+   * @param extractor the object transforming input object to desired one
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.7.0
+   */
   @CheckReturnValue
   public <V,E extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, E> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);

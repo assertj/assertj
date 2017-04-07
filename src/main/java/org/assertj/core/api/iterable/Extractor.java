@@ -14,10 +14,11 @@ package org.assertj.core.api.iterable;
 
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssert;
 
 /**
- * Function converting an element to another element. Used in {@link ListAssert#extracting(Extractor)} and
- * {@link ObjectArrayAssert#extracting(Extractor)}.
+ * Function converting an element to another element. Used in {@link ListAssert#extracting(Extractor)},
+ * {@link ObjectArrayAssert#extracting(Extractor)} and {@link AtomicReferenceArrayAssert#extracting(Extractor)}.
  * 
  * @author Mateusz Haligowski
  *

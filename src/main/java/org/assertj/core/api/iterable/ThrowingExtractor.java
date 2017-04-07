@@ -12,8 +12,21 @@
  */
 package org.assertj.core.api.iterable;
 
+import org.assertj.core.api.ListAssert;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+
+/**
+ * Function converting an element to another element. Used in {@link ListAssert#extracting(ThrowingExtractor)},
+ * {@link ObjectArrayAssert#extracting(ThrowingExtractor)} and
+ * {@link AtomicReferenceArrayAssert#extracting(ThrowingExtractor)}.
+ *
+ * @param <F> type of element from which the conversion happens
+ * @param <T> target element type
+ * @param <E> type of exception which might be thrown during conversion
+ */
 @FunctionalInterface
-public interface ThrowingExtractor<F, T, E extends Exception> extends Extractor<F,T> {
+public interface ThrowingExtractor<F, T, E extends Exception> extends Extractor<F, T> {
 
   @Override
   default T extract(final F input) {
