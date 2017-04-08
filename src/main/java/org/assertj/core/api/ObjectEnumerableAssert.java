@@ -293,6 +293,51 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence);
 
   /**
+   * Verifies that the actual group does not contain the given subsequence in the correct order (possibly with other
+   * values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya);
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, nenya);
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, narya);</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group contains the given subsequence.
+   */
+  SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
+
+  /**
+   * Verifies that the actual group does not contain the given subsequence in the correct order (possibly with other
+   * values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(nenya, vilya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, narya));</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group contains the given subsequence.
+   */
+  SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence);
+
+  /**
    * Verifies that the actual group does not contain the given values.
    * <p>
    * Example :

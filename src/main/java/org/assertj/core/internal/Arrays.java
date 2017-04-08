@@ -43,6 +43,7 @@ import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
+import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -342,6 +343,35 @@ public class Arrays {
     }
     if (subsequenceIndex < sizeOfSubsequence)
       throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  }
+
+  void assertDoesNotContainSubsequence(AssertionInfo info, Failures failures, Object actual, Object subsequence) {
+    if (commonChecks(info, actual, subsequence)) return;
+
+    int sizeOfActual = sizeOf(actual);
+    int sizeOfSubsequence = sizeOf(subsequence);
+    // look for given subsequence, stop check when there is not enough elements remaining in actual to contain
+    // subsequence
+    int lastIndexWhereEndOfSubsequenceCanBeFound = sizeOfActual - sizeOfSubsequence;
+
+    int actualIndex = 0;
+    int subsequenceIndex = 0;
+    int subsequenceStartIndex = 0;
+
+    while (actualIndex <= lastIndexWhereEndOfSubsequenceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
+      if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
+        if (subsequenceIndex == 0) {
+          subsequenceStartIndex = actualIndex;
+        }
+        subsequenceIndex++;
+        lastIndexWhereEndOfSubsequenceCanBeFound++;
+      }
+      actualIndex++;
+
+      if (subsequenceIndex == sizeOfSubsequence) {
+        throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy, subsequenceStartIndex));
+      }
+    }
   }
 
   /**

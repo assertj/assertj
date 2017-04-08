@@ -105,6 +105,17 @@ public class ListAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
+  public final ListAssert<ELEMENT> doesNotContainSubsequence(ELEMENT... sequence) {
+    return super.doesNotContainSubsequence(sequence);
+  }
+
+  @Override
+  public final ListAssert<ELEMENT> doesNotContainSubsequence(List<ELEMENT> sequence) {
+    return super.doesNotContainSubsequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
   public final ListAssert<ELEMENT> doesNotContain(ELEMENT... values) {
     return super.doesNotContain(values);
   }
