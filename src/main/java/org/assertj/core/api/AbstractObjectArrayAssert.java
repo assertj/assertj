@@ -540,6 +540,58 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies that the actual array does not contain the given subsequence in the correct order (possibly with other
+   * values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya);
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, nenya);
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, narya);</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group contains the given subsequence.
+   */
+  @Override
+  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given subsequence in the correct order (possibly with other
+   * values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(nenya, vilya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, narya));</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group contains the given subsequence.
+   */
+  @Override
+  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, actual, subsequence.toArray());
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array contains the given object at the given index.
    * <p>
    * Example:

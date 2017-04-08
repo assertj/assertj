@@ -620,6 +620,58 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the actual AtomicReferenceArray does not contain the given subsequence in the correct order (possibly
+   * with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya);
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, nenya);
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, narya);</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray contains the given subsequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, array, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray does not contain the given subsequence in the correct order (possibly
+   * with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(nenya, vilya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, narya));</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray contains the given subsequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(@SuppressWarnings("unchecked") List<T> subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, array, subsequence.toArray());
+    return myself;
+  }
+
+  /**
    * Verifies that the actual AtomicReferenceArray contains the given object at the given index.
    * <p>
    * Example:

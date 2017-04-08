@@ -292,6 +292,17 @@ public class IterableAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
+  public final IterableAssert<ELEMENT> doesNotContainSubsequence(ELEMENT... sequence) {
+    return super.doesNotContainSubsequence(sequence);
+  }
+
+  @Override
+  public final IterableAssert<ELEMENT> doesNotContainSubsequence(List<ELEMENT> sequence) {
+    return super.doesNotContainSubsequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
   public final IterableAssert<ELEMENT> doesNotContain(ELEMENT... values) {
     return super.doesNotContain(values);
   }
