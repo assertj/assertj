@@ -40,6 +40,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyInstances.shouldContainOnlyInstances;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -55,6 +56,7 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmp
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.IterableDiff.diff;
@@ -329,6 +331,27 @@ public class Arrays {
     }
     if (subsequenceIndex < sizeOfSubsequence)
       throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  }
+ 
+  void assertContainsOnlyInstancesOf(AssertionInfo info, Failures failures, Object actual, Class<?>[] types) {
+    checkIsNotNull(types);
+    assertNotNull(info, actual);
+
+    List<Object> dismatches = newArrayList();
+    
+    loop:
+    for (Object value : asList(actual)) {
+      for (Class<?> type : types) {
+        if (type.isInstance(value)) {
+          continue loop;
+        }
+      }
+      dismatches.add(value);
+    }
+    
+    if (!dismatches.isEmpty()) {
+      throw failures.failure(info, shouldContainOnlyInstances(actual, types, dismatches));
+    }
   }
 
   /**
