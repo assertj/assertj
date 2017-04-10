@@ -27,7 +27,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertContains(AssertionInfo, CharSequence, Pattern)}</code>.
+ * Tests for <code>{@link Strings#assertContainsPattern(AssertionInfo, CharSequence, Pattern)}</code>.
  * 
  * @author Pierre Templier
  */
