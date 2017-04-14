@@ -33,8 +33,10 @@ public class FloatComparator implements Comparator<Float> {
   }
 
   private boolean closeEnough(Float x, Float y, float epsilon) {
-    // a == b handles infinities
-    return x == y || Math.abs(x - y) < epsilon;
+    // x == y handles infinities
+    if (x == y) return true;
+    if (x == null || y == null) return false;
+    return Math.abs(x - y) < epsilon;
   }
 
   /**
@@ -46,16 +48,15 @@ public class FloatComparator implements Comparator<Float> {
     final float absB = Math.abs(b);
     final float diff = Math.abs(a - b);
 
-    if (a == b) {
-      // shortcut, handles infinities
-      return true;
-    } else if (a == 0 || b == 0 || diff < Float.MIN_NORMAL) {
+    // shortcut, handles infinities
+    if (a == b) return true;
+    if (a == 0 || b == 0 || diff < Float.MIN_NORMAL) {
       // a or b is zero or both are extremely close to it
       // relative error is less meaningful here
       return diff < (epsilon * Float.MIN_NORMAL);
-    } else { // use relative error
-      return diff / Math.min((absA + absB), Float.MAX_VALUE) < epsilon;
     }
+    // use relative error
+    return diff / Math.min((absA + absB), Float.MAX_VALUE) < epsilon;
   }
 
   @Override
@@ -69,8 +70,7 @@ public class FloatComparator implements Comparator<Float> {
     if (obj == null) return false;
     if (!(obj instanceof FloatComparator)) return false;
     FloatComparator other = (FloatComparator) obj;
-    if (Float.floatToIntBits(epsilon) != Float.floatToIntBits(other.epsilon)) return false;
-    return true;
+    return Float.floatToIntBits(epsilon) == Float.floatToIntBits(other.epsilon) ? true : false;
   }
 
 }

@@ -14,7 +14,7 @@ package org.assertj.core.api.atomic.referencearray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 
@@ -185,7 +185,7 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                              .usingFieldByFieldElementComparator()
                              .contains(other);
   }
@@ -200,7 +200,7 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                              .usingComparatorForElementFieldsWithType(comparator, String.class)
                              .usingFieldByFieldElementComparator()
                              .contains(other);
@@ -211,7 +211,7 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
                              .usingFieldByFieldElementComparator()
                              .contains(other);
   }

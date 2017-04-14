@@ -15,7 +15,7 @@ package org.assertj.core.api.object;
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
@@ -52,7 +52,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Luke", null);
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS, "name").isEqualToIgnoringNullFields(other);
+    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name").isEqualToIgnoringNullFields(other);
   }
 
   @Test
@@ -65,7 +65,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Luke", null);
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS, "name")
+    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name")
       .usingComparatorForType(comparator, String.class).isEqualToIgnoringNullFields(other);
   }
 
@@ -74,7 +74,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Luke", null);
 
-    assertThat(actual).usingComparatorForType(ALWAY_EQUALS, String.class).isEqualToIgnoringNullFields(other);
+    assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class).isEqualToIgnoringNullFields(other);
   }
 
 }

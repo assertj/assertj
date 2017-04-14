@@ -13,7 +13,7 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
@@ -173,7 +173,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                              .usingFieldByFieldElementComparator()
                              .contains(other);
   }
@@ -188,7 +188,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                              .usingComparatorForElementFieldsWithType(comparator, String.class)
                              .usingFieldByFieldElementComparator()
                              .contains(other);
@@ -199,7 +199,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+    assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
                              .usingFieldByFieldElementComparator()
                              .contains(other);
   }

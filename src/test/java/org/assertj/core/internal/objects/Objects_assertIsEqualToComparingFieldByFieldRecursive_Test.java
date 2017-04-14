@@ -17,10 +17,14 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +39,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.test.Patient;
 import org.junit.Test;
 
 public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends ObjectsBaseTest {
@@ -340,6 +345,37 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_handle_null_field_with_field_comparator() {
+    // GIVEN
+    Patient adam = new Patient(null);
+    Patient eve = new Patient(new Timestamp(3L));
+    // THEN
+    assertThat(adam).usingComparatorForFields(ALWAY_EQUALS, "dateOfBirth", "health")
+                    .isEqualToComparingFieldByFieldRecursively(eve);
+  }
+
+  @Test
+  public void should_handle_null_field_with_type_comparator() {
+    // GIVEN
+    Patient adam = new Patient(null);
+    Patient eve = new Patient(new Timestamp(3L));
+    // THEN
+    assertThat(adam).usingComparatorForType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+                    .isEqualToComparingFieldByFieldRecursively(eve);
+  }
+
+  @Test
+  public void should_not_bother_with_comparators_when_fields_are_the_same() {
+    // GIVEN
+    Timestamp dateOfBirth = new Timestamp(3L);
+    Patient adam = new Patient(dateOfBirth);
+    Patient eve = new Patient(dateOfBirth);
+    // THEN
+    assertThat(adam).usingComparatorForFields(NEVER_EQUALS, "dateOfBirth")
+                    .isEqualToComparingFieldByFieldRecursively(eve);
   }
 
   public static class WithMap<K, V> {

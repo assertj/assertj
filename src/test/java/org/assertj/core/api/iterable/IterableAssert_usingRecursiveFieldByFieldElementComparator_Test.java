@@ -14,7 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 
 import java.util.Comparator;
 import java.util.List;
@@ -116,7 +116,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "id")
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "id")
                                      .usingComparatorForElementFieldsWithType(comparator, String.class)
                                      .usingRecursiveFieldByFieldElementComparator()
                                      .contains(other);
@@ -127,7 +127,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
                                      .usingRecursiveFieldByFieldElementComparator()
                                      .contains(other);
   }

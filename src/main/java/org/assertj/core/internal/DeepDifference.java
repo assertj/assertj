@@ -147,7 +147,8 @@ public class DeepDifference {
                                                       Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                       TypeComparators comparatorByType) {
     // replace null comparators groups by empty one to simplify code afterwards
-    comparatorByPropertyOrField = comparatorByPropertyOrField == null ? new HashMap<String, Comparator<?>>()
+    comparatorByPropertyOrField = comparatorByPropertyOrField == null
+        ? new HashMap<String, Comparator<?>>()
         : comparatorByPropertyOrField;
     comparatorByType = comparatorByType == null ? new TypeComparators() : comparatorByType;
     return determineDifferences(a, b, null, comparatorByPropertyOrField, comparatorByType);
@@ -172,15 +173,15 @@ public class DeepDifference {
         continue;
       }
 
-      if (key1 == null || key2 == null) {
-        differences.add(new Difference(currentPath, key1, key2));
-        continue;
-      }
-
       if (hasCustomComparator(dualKey, comparatorByPropertyOrField, comparatorByType)) {
         if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(),
                                           comparatorByPropertyOrField, comparatorByType))
           continue;
+      }
+
+      if (key1 == null || key2 == null) {
+        differences.add(new Difference(currentPath, key1, key2));
+        continue;
       }
 
       if (key1 instanceof Collection) {
@@ -315,13 +316,11 @@ public class DeepDifference {
 
   private static boolean hasCustomComparator(DualKey dualKey, Map<String, Comparator<?>> comparatorByPropertyOrField,
                                              TypeComparators comparatorByType) {
-    if (dualKey.key1.getClass() == dualKey.key2.getClass()) {
-      String fieldName = dualKey.getConcatenatedPath();
-      return comparatorByPropertyOrField.containsKey(fieldName)
-          ? comparatorByPropertyOrField.get(fieldName) != null
-          : comparatorByType.get(dualKey.key1.getClass()) != null;
-    }
-    return false;
+    String fieldName = dualKey.getConcatenatedPath();
+    if (comparatorByPropertyOrField.containsKey(fieldName)) return true;
+    // we know that dualKey.key1 != dualKey.key2 at this point, so one the key is not null
+    Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass() : dualKey.key2.getClass();
+    return comparatorByType.get(keyType) != null;
   }
 
   private static Deque<DualKey> initStack(Object a, Object b, List<String> parentPath,

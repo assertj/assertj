@@ -24,10 +24,10 @@ public class DoubleComparator implements Comparator<Double> {
 
   @Override
   public int compare(Double x, Double y) {
-    if (closeEnough(x, y, epsilon))return 0;
+    if (closeEnough(x, y, epsilon)) return 0;
     return x < y ? -1 : 1;
   }
-  
+
   public double getEpsilon() {
     return epsilon;
   }
@@ -41,23 +41,24 @@ public class DoubleComparator implements Comparator<Double> {
     final double absB = Math.abs(b);
     final double diff = Math.abs(a - b);
 
-    if (a == b) {
-      // shortcut, handles infinities
-      return true;
-    } else if (a == 0 || b == 0 || diff < Double.MIN_NORMAL) {
+    // shortcut, handles infinities
+    if (a == b) return true;
+    if (a == 0 || b == 0 || diff < Double.MIN_NORMAL) {
       // a or b is zero or both are extremely close to it
       // relative error is less meaningful here
       return diff < (epsilon * Double.MIN_NORMAL);
-    } else { // use relative error
-      return diff / Math.min((absA + absB), Double.MAX_VALUE) < epsilon;
     }
+    // use relative error
+    return diff / Math.min((absA + absB), Double.MAX_VALUE) < epsilon;
   }
 
-  private static boolean closeEnough(double a, double b, double epsilon) {
-    // a == b handles infinities
-    return a == b || Math.abs(a - b) < epsilon;
+  private static boolean closeEnough(Double x, Double y, double epsilon) {
+    // x == y handles infinities
+    if (x == y) return true;
+    if (x == null || y == null) return false;
+    return Math.abs(x - y) < epsilon;
   }
-  
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -73,9 +74,7 @@ public class DoubleComparator implements Comparator<Double> {
     if (obj == null) return false;
     if (!(obj instanceof DoubleComparator)) return false;
     DoubleComparator other = (DoubleComparator) obj;
-    if (Double.doubleToLongBits(epsilon) != Double.doubleToLongBits(other.epsilon)) return false;
-    return true;
+    return Double.doubleToLongBits(epsilon) == Double.doubleToLongBits(other.epsilon) ? true : false;
   }
 
-  
 }

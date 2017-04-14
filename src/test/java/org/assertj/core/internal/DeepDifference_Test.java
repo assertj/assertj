@@ -23,7 +23,7 @@ import static java.lang.Math.tan;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
 import static org.assertj.core.internal.ObjectsBaseTest.noFieldComparators;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -97,7 +97,7 @@ public class DeepDifference_Test {
     Class2 b = new Class2((float) PI / 4, "hello", (short) 2, new Class1(false, 2 * cos(0.75 / 2) * sin(0.75 / 2), 5));
 
     assertHaveNoDifferences(a, b);
-    assertHaveDifferences(a, new Class2());
+    assertHaveDifferences(a, new Class2((float) atan(2.0), "hello", (short) 2, new Class1(false, sin(0.75), 5)));
   }
 
   @Test
@@ -118,7 +118,7 @@ public class DeepDifference_Test {
   @Test
   public void testOrderedCollection() {
     List<String> a = newArrayList("one", "two", "three", "four", "five");
-    List<String> b = new LinkedList<String>();
+    List<String> b = new LinkedList<>();
     b.addAll(a);
     assertHaveNoDifferences(a, b);
 
@@ -173,7 +173,7 @@ public class DeepDifference_Test {
     SetWrapper b = new SetWrapper(newLinkedHashSet(new Wrapper("1"), new Wrapper("2")));
 
     Map<String, Comparator<?>> fieldComparators = new HashMap<>();
-    fieldComparators.put("set.o", ALWAY_EQUALS);
+    fieldComparators.put("set.o", ALWAY_EQUALS_STRING);
     assertHaveNoDifferences(a, b, fieldComparators, defaultTypeComparators());
   }
 
@@ -312,6 +312,7 @@ public class DeepDifference_Test {
 
     @SuppressWarnings("rawtypes")
     class AlwaysEqualMapComparator implements Comparator<Map> {
+      @Override
       public int compare(Map o1, Map o2) {
         return 0;
       }
@@ -343,10 +344,12 @@ public class DeepDifference_Test {
 
   private static class EmptyClassWithEquals {
 
+    @Override
     public boolean equals(Object obj) {
       return obj instanceof EmptyClassWithEquals;
     }
 
+    @Override
     public int hashCode() {
       return 0;
     }
@@ -365,7 +368,6 @@ public class DeepDifference_Test {
     }
 
     public Class1(boolean b, double d, int i) {
-      super();
       this.b = b;
       this.d = d;
       this.i = i;
@@ -384,15 +386,12 @@ public class DeepDifference_Test {
     Class1 c;
 
     public Class2(float f, String s, short ss, Class1 c) {
-      super();
       this.f = f;
       this.s = s;
       this.ss = ss;
       this.c = c;
     }
 
-    public Class2() {
-    }
   }
 
   private static class Wrapper {
