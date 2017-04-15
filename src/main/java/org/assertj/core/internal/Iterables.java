@@ -35,7 +35,9 @@ import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContai
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
+import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -65,6 +67,7 @@ import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -318,6 +321,29 @@ public class Iterables {
   }
 
   /**
+   * Verifies that the given <code>{@link Iterable}</code> does not contain the given sequence of objects in order.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param sequence the sequence of objects to look for.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence is empty.
+   * @throws AssertionError if the given {@code Iterable} does contain the given sequence of objects.
+   */
+  public void assertDoesNotContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
+    // check for elements in values that are missing in actual.
+    List<?> actualAsList = newArrayList(actual);
+    for (int index = 0; index < actualAsList.size(); index++) {
+      // look for given sequence in actual starting from current index (i)
+      if (containsSequenceAtGivenIndex(actualAsList, sequence, index)) {
+        throw actualDoesContainSequence(info, actual, sequence, index);
+      }
+    }
+  }
+
+  /**
    * Verifies that the given <code>{@link Iterable}</code> contains the given subsequence of objects (possibly with
    * other values between them).
    * 
@@ -341,6 +367,40 @@ public class Iterables {
     }
 
     if (subsequenceIndex < subsequence.length) throw actualDoesNotContainSubsequence(info, actual, subsequence);
+  }
+
+  /**
+   * Verifies that the given <code>{@link Iterable}</code> does not contain the given subsequence of objects (possibly
+   * with other values between them).
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param subsequence the subsequence of objects to look for.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given subsequence is empty.
+   * @throws AssertionError if the given {@code Iterable} contains the given subsequence of objects.
+   */
+  public void assertDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) return;
+
+    int subsequenceIndex = 0;
+    int subsequenceStartIndex = 0;
+
+    List<?> actualAsList = newArrayList(actual);
+    for (int index = 0; index < actualAsList.size(); index++) {
+      Object actualNext = actualAsList.get(index);
+      Object subsequenceNext = subsequence[subsequenceIndex];
+      if (areEqual(actualNext, subsequenceNext)) {
+        if (subsequenceIndex == 0) {
+          subsequenceStartIndex = index;
+        }
+        subsequenceIndex++;
+      }
+      if (subsequenceIndex == subsequence.length) {
+        throw actualContainsSubsequence(info, actual, subsequence, subsequenceStartIndex);
+      }
+    }
   }
 
   /**
@@ -392,8 +452,17 @@ public class Iterables {
     return failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
+  private AssertionError actualDoesContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence, int index) {
+    return failures.failure(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
+  }
+
   private AssertionError actualDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
     return failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  }
+
+  private AssertionError actualContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence,
+                                                   int index) {
+    return failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy, index));
   }
 
   /**
@@ -895,5 +964,4 @@ public class Iterables {
   static public NullPointerException iterableToLookForIsNull() {
     return new NullPointerException("The iterable to look for should not be null");
   }
-
 }

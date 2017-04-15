@@ -406,6 +406,90 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies that the actual array contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * <p>
+   * Use {@link #containsSubsequence(List)} to allow values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, narya));
+   *
+   * // assertions will fail, the elements order is correct but there is a value between them (nenya)
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, narya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, vilya));</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given sequence.
+   */
+  @Override
+  public SELF containsSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
+    arrays.assertContainsSequence(info, actual, sequence.toArray());
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given sequence in the given order and <b>without extra values between the sequence values</b>.
+   * <p>
+   * Use {@link #doesNotContainSubsequence(Object...)} to also ensure the sequence does not exist with values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertion will pass, the elements order is correct but there is a value between them (nenya)
+   * assertThat(elvesRings).containsSequence(vilya, narya);
+   * assertThat(elvesRings).containsSequence(nenya, vilya);
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).containsSequence(vilya, nenya);
+   * assertThat(elvesRings).containsSequence(nenya, narya);</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given sequence.
+   */
+  @Override
+  public SELF doesNotContainSequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+    arrays.assertDoesNotContainSequence(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given sequence in the given order and <b>without extra values between the sequence values</b>.
+   * <p>
+   * Use {@link #doesNotContainSubsequence(Object...)} to also ensure the sequence does not exist with values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertion will pass, the elements order is correct but there is a value between them (nenya)
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, narya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, vilya));
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, narya));</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given sequence.
+   */
+  @Override
+  public SELF doesNotContainSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
+    arrays.assertDoesNotContainSequence(info, actual, sequence.toArray());
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array contains the given subsequence in the correct order (possibly with other values between them).
    * <p>
    * Example:
@@ -427,6 +511,83 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given subsequence in the correct order (possibly with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, narya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).containsSubsequence(newArrayList(nenya, vilya));</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given subsequence.
+   */
+  @Override
+  public SELF containsSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence.toArray());
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given subsequence in the correct order (possibly with other
+   * values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya);
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, nenya);
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, narya);</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group contains the given subsequence.
+   */
+  @Override
+  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given subsequence in the correct order (possibly with other
+   * values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(nenya, vilya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, narya));</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group contains the given subsequence.
+   */
+  @Override
+  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, actual, subsequence.toArray());
     return myself;
   }
 

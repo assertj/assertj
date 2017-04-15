@@ -18,6 +18,7 @@ import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
@@ -263,9 +264,41 @@ public class IterableAssert<ELEMENT> extends
   }
 
   @Override
+  public final IterableAssert<ELEMENT> containsSequence(List<ELEMENT> sequence) {
+    return super.containsSequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> doesNotContainSequence(ELEMENT... sequence) {
+    return super.doesNotContainSequence(sequence);
+  }
+
+  @Override
+  public final IterableAssert<ELEMENT> doesNotContainSequence(List<ELEMENT> sequence) {
+    return super.doesNotContainSequence(sequence);
+  }
+
+  @Override
   @SafeVarargs
   public final IterableAssert<ELEMENT> containsSubsequence(ELEMENT... sequence) {
     return super.containsSubsequence(sequence);
+  }
+
+  @Override
+  public final IterableAssert<ELEMENT> containsSubsequence(List<ELEMENT> sequence) {
+    return super.containsSubsequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> doesNotContainSubsequence(ELEMENT... sequence) {
+    return super.doesNotContainSubsequence(sequence);
+  }
+
+  @Override
+  public final IterableAssert<ELEMENT> doesNotContainSubsequence(List<ELEMENT> sequence) {
+    return super.doesNotContainSubsequence(sequence);
   }
 
   @Override
