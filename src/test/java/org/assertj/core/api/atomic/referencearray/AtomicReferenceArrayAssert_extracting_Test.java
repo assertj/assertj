@@ -112,7 +112,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array() {
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array_exception() {
     thrown.expect(RuntimeException.class);
     assertThat(employees).extracting(input -> {
       if (input.getAge() > 100) {
@@ -147,7 +147,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array1() {
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array() {
     assertThat(employees).extracting(input -> {
       if (input.getAge() < 20) {
         throw new Exception("age < 20");
