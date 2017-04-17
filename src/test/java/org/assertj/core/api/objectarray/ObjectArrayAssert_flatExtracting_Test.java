@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
@@ -70,6 +71,53 @@ public class ObjectArrayAssert_flatExtracting_Test {
   public void should_throw_null_pointer_exception_when_extracting_from_null() {
     thrown.expectNullPointerException();
     assertThat(new CartoonCharacter[] { homer, null }).flatExtracting(children);
+  }
+
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_exception() {
+    thrown.expect(RuntimeException.class);
+    assertThat(new CartoonCharacter[] { bart, lisa, maggie }).flatExtracting(input -> {
+      if (input.getChildren().size() == 0) {
+        throw new Exception("no children");
+      }
+      return input.getChildren();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_runtimeexception() {
+    thrown.expect(RuntimeException.class);
+    assertThat(new CartoonCharacter[] { bart, lisa, maggie }).flatExtracting( input -> {
+      if (input.getChildren().size() == 0) {
+        throw new RuntimeException("no children");
+      }
+      return input.getChildren();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_compatibility() {
+    assertThat(new CartoonCharacter[] { homer, fred }).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+      @Override
+      public List<CartoonCharacter> extractThrows(CartoonCharacter input) throws Exception {
+        if (input.getChildren().size() == 0) {
+          throw new Exception("no children");
+        }
+        return input.getChildren();
+      }
+    }).containsOnly(bart, lisa, maggie, pebbles);
+  }
+
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array() {
+    assertThat(new CartoonCharacter[] { homer, fred }).flatExtracting(input -> {
+      if (input.getChildren().size() == 0) {
+        throw new Exception("no children");
+      }
+      return input.getChildren();
+    }).containsOnly(bart, lisa, maggie, pebbles);
   }
 
 }

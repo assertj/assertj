@@ -2023,6 +2023,49 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super T, C> extractor) {
+    return doFlatExtracting(extractor);
+  }
+
+  /**
+   * Extract the Iterable values from the array's elements by applying an Iterable extracting function (which might
+   * throw an exception) on them and concatenating the result lists into an array which becomes the new object under
+   * test.
+   * <p>
+   * It allows testing the results of extracting values that are represented by Iterables.
+   * <p>
+   * For example:
+   * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
+   * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
+   * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+   * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
+   * homer.addChildren(bart, lisa, maggie);
+   *
+   * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
+   * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
+   * fred.getChildren().add(pebbles);
+   *
+   * AtomicReferenceArray&lt;CartoonCharacter&gt; parents = new AtomicReferenceArray&lt;&gt;(new CartoonCharacter[]{ homer, fred });
+   * // check children
+   * assertThat(parents).flatExtracting(input -> {
+   *   if (input.getChildren().size() == 0) {
+   *     throw new Exception("no children");
+   *   }
+   *   return input.getChildren();
+   * }).containsOnly(bart, lisa, maggie, pebbles);</code></pre>
+   *
+   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * collections.
+   *
+   * @param extractor the object transforming input object to an Iterable of desired ones
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public <U, C extends Collection<U>, E extends Exception> ObjectArrayAssert<U> flatExtracting(ThrowingExtractor<? super T, C, E> extractor) {
+    return doFlatExtracting(extractor);
+  }
+
+  private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Extractor<? super T, C> extractor) {
     final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), extractor);
 
     final List<U> result = newArrayList();
