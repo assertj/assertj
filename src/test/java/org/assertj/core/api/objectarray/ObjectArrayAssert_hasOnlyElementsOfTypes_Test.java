@@ -10,30 +10,30 @@
  *
  * Copyright 2012-2017 the original author or authors.
  */
-package org.assertj.core.api.atomic.referencearray;
+package org.assertj.core.api.objectarray;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AtomicReferenceArrayAssert;
-import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.AtomicReferenceArrayAssert#containsOnlyInstancesOf(Class...)} </code>.
+ * Tests for <code>{@link ObjectArrayAssert#hasOnlyElementsOfTypes(Class...)} </code>.
  * 
  * @author Martin Winandy
  */
-public class AtomicReferenceArrayAssert_containsOnlyInstancesOf_Test extends AtomicReferenceArrayAssertBaseTest {
+public class ObjectArrayAssert_hasOnlyElementsOfTypes_Test extends ObjectArrayAssertBaseTest {
 
   private final Class<?>[] types = { CharSequence.class };
 
   @Override
-  protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
+  protected ObjectArrayAssert<Object> invoke_api_method() {
     return assertions.hasOnlyElementsOfTypes(types);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasOnlyElementsOfTypes(getInfo(assertions), internalArray(), types);
+    verify(arrays).assertHasOnlyElementsOfTypes(getInfo(assertions), getActual(assertions), types);
   }
 
 }
