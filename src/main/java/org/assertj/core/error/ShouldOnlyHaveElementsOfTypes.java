@@ -23,9 +23,9 @@ import org.assertj.core.presentation.StandardRepresentation;
 public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link shouldOnlyHaveElementsOfTypes}</code>.
+   * Creates a new </code>{@link ShouldOnlyHaveElementsOfTypes}</code>.
    * 
-   * @param object the object value in the failed assertion.
+   * @param actual the object value in the failed assertion.
    * @param types the expected classes and interfaces.
    * @param dismatches elements that are not an instance of one of the given types.
    * @return the created {@code ErrorMessageFactory}.
@@ -48,8 +48,6 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
 
   private static String resolveClassNames(Iterable<?> elements) {
     StringBuilder builder = new StringBuilder();
-    
-    // Strings.join(null)
 
     for (Object element : elements) {
       if (builder.length() > 0) {
