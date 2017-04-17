@@ -13,7 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -47,7 +47,8 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
   @Test
   public void should_throw_error_if_subsequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    iterables.assertContainsSubsequence(someInfo(), actual, null);
+    Object[] nullArray = null;
+    iterables.assertContainsSubsequence(someInfo(), actual, nullArray);
   }
 
   @Test

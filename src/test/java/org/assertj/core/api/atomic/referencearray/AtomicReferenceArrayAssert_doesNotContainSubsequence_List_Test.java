@@ -12,21 +12,23 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import org.assertj.core.api.AtomicReferenceArrayAssert;
-import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
+import org.assertj.core.util.Lists;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link AtomicReferenceArrayAssert#doesNotContainSubsequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class AtomicReferenceArrayAssert_doesNotContainSubsequence_ListTest extends AtomicReferenceArrayAssertBaseTest {
+public class AtomicReferenceArrayAssert_doesNotContainSubsequence_List_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
@@ -38,5 +40,12 @@ public class AtomicReferenceArrayAssert_doesNotContainSubsequence_ListTest exten
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertDoesNotContainSubsequence(info(), internalArray(), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_subsequence_is_null() {
+    thrown.expectNullPointerException(nullSubsequence());
+    List<Object> nullList = null;
+    assertions.doesNotContainSubsequence(nullList);
   }
 }

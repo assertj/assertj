@@ -18,6 +18,8 @@ import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
 import static org.assertj.core.extractor.Extractors.resultOf;
+import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -428,8 +430,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
   @Override
-  public SELF containsSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
-    arrays.assertContainsSequence(info, actual, sequence.toArray());
+  public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
+    checkSequenceIsNotNull(sequence);
+    arrays.assertContainsSequence(info, actual, toArray(sequence));
     return myself;
   }
 
@@ -484,8 +487,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
   @Override
-  public SELF doesNotContainSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
-    arrays.assertDoesNotContainSequence(info, actual, sequence.toArray());
+  public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
+    checkSequenceIsNotNull(sequence);
+    arrays.assertDoesNotContainSequence(info, actual, toArray(sequence));
     return myself;
   }
 
@@ -534,8 +538,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual group does not contain the given subsequence.
    */
   @Override
-  public SELF containsSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence.toArray());
+  public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    arrays.assertContainsSubsequence(info, actual, toArray(subsequence));
     return myself;
   }
 
@@ -586,8 +591,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual group contains the given subsequence.
    */
   @Override
-  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> subsequence) {
-    arrays.assertDoesNotContainSubsequence(info, actual, subsequence.toArray());
+  public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    arrays.assertDoesNotContainSubsequence(info, actual, toArray(subsequence));
     return myself;
   }
 

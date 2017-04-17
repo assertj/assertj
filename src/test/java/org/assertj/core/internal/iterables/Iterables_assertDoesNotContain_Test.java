@@ -14,7 +14,8 @@ package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -22,12 +23,10 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -96,7 +95,8 @@ public class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), actual, array("Han", "Han", "Anakin"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), actual,
+                                                                        array("Han", "Han", "Anakin"));
   }
 
   @Test
@@ -106,7 +106,8 @@ public class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet("LuKe", "YODA"), comparisonStrategy));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet("LuKe", "YODA"),
+                                                      comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2017 the original author or authors.
  */
-package org.assertj.core.test;
+package org.assertj.core.internal;
 
 /**
  * @author Alex Ruiz
@@ -121,6 +121,22 @@ public final class ErrorMessages {
 
   public static String arrayOfValuesToLookForIsEmpty() {
     return "The array of values to look for should not be empty";
+  }
+
+  public static String emptySequence() {
+    return "The sequence of values should not be empty";
+  }
+
+  public static String emptySubsequence() {
+    return "The subsequence of values should not be empty";
+  }
+
+  public static String nullSequence() {
+    return "The sequence of values should not be null";
+  }
+
+  public static String nullSubsequence() {
+    return "The subsequence of values should not be null";
   }
 
   private ErrorMessages() {}

@@ -18,6 +18,8 @@ import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
 import static org.assertj.core.extractor.Extractors.resultOf;
+import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -508,8 +510,9 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsSequence(@SuppressWarnings("unchecked") List<T> sequence) {
-    arrays.assertContainsSequence(info, array, sequence.toArray());
+  public AtomicReferenceArrayAssert<T> containsSequence(Iterable<? extends T> sequence) {
+    checkSequenceIsNotNull(sequence);
+    arrays.assertContainsSequence(info, array, toArray(sequence));
     return myself;
   }
 
@@ -564,8 +567,9 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> doesNotContainSequence(@SuppressWarnings("unchecked") List<T> sequence) {
-    arrays.assertDoesNotContainSequence(info, array, sequence.toArray());
+  public AtomicReferenceArrayAssert<T> doesNotContainSequence(Iterable<? extends T> sequence) {
+    checkSequenceIsNotNull(sequence);
+    arrays.assertDoesNotContainSequence(info, array, toArray(sequence));
     return myself;
   }
 
@@ -614,8 +618,9 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not contain the given subsequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsSubsequence(@SuppressWarnings("unchecked") List<T> subsequence) {
-    arrays.assertContainsSubsequence(info, array, subsequence.toArray());
+  public AtomicReferenceArrayAssert<T> containsSubsequence(Iterable<? extends T> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    arrays.assertContainsSubsequence(info, array, toArray(subsequence));
     return myself;
   }
 
@@ -666,8 +671,9 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray contains the given subsequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(@SuppressWarnings("unchecked") List<T> subsequence) {
-    arrays.assertDoesNotContainSubsequence(info, array, subsequence.toArray());
+  public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(Iterable<? extends T> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    arrays.assertDoesNotContainSubsequence(info, array, toArray(subsequence));
     return myself;
   }
 

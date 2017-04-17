@@ -14,8 +14,8 @@ package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
-import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsEmpty;
-import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

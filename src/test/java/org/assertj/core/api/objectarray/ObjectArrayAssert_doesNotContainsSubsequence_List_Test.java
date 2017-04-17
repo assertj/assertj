@@ -12,21 +12,23 @@
  */
 package org.assertj.core.api.objectarray;
 
-import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.util.Lists;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#doesNotContainSubsequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class ObjectArrayAssert_doesNotContainsSubsequence_ListTest extends ObjectArrayAssertBaseTest {
+public class ObjectArrayAssert_doesNotContainsSubsequence_List_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
@@ -38,5 +40,12 @@ public class ObjectArrayAssert_doesNotContainsSubsequence_ListTest extends Objec
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertDoesNotContainSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_subsequence_is_null() {
+    thrown.expectNullPointerException(nullSubsequence());
+    List<Object> nullList = null;
+    assertions.doesNotContainSubsequence(nullList);
   }
 }

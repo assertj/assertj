@@ -13,10 +13,10 @@
 package org.assertj.core.internal.doublearrays;
 
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
 import static org.assertj.core.test.DoubleArrays.emptyArray;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsEmpty;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;

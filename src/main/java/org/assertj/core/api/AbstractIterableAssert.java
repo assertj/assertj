@@ -19,6 +19,8 @@ import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
 import static org.assertj.core.extractor.Extractors.resultOf;
+import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -251,8 +253,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF containsSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
-    iterables.assertContainsSequence(info, actual, sequence.toArray());
+  public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
+    checkSequenceIsNotNull(sequence);
+    iterables.assertContainsSequence(info, actual, toArray(sequence));
     return myself;
   }
 
@@ -269,8 +272,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF doesNotContainSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
-    iterables.assertDoesNotContainSequence(info, actual, sequence.toArray());
+  public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
+    checkSequenceIsNotNull(sequence);
+    iterables.assertDoesNotContainSequence(info, actual, toArray(sequence));
     return myself;
   }
 
@@ -278,8 +282,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
-    iterables.assertContainsSubsequence(info, actual, sequence);
+  public SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+    iterables.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
 
@@ -287,8 +291,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF containsSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
-    iterables.assertContainsSubsequence(info, actual, sequence.toArray());
+  public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    iterables.assertContainsSubsequence(info, actual, toArray(subsequence));
     return myself;
   }
 
@@ -296,8 +301,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
-    iterables.assertDoesNotContainSubsequence(info, actual, sequence);
+  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+    iterables.assertDoesNotContainSubsequence(info, actual, subsequence);
     return myself;
   }
 
@@ -305,8 +310,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence) {
-    iterables.assertDoesNotContainSubsequence(info, actual, sequence.toArray());
+  public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    iterables.assertDoesNotContainSubsequence(info, actual, toArray(subsequence));
     return myself;
   }
 

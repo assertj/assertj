@@ -12,31 +12,40 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import org.assertj.core.api.AtomicReferenceArrayAssert;
-import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link AtomicReferenceArrayAssert#containsSubsequence(List)}</code>.
+ * Tests for <code>{@link AtomicReferenceArrayAssert#containsSequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class AtomicReferenceArrayAssert_containsSubSequence_ListTest extends AtomicReferenceArrayAssertBaseTest {
+public class AtomicReferenceArrayAssert_containsSequence_List_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
     // AtomicReferenceArrayAssertBaseTest is testing AtomicReferenceArray<Object>, so the List type needs to be Object
     // or the {@link AtomicReferenceArrayAssert#containsSequence(Object...)} method is called.
-    return assertions.containsSubsequence(Lists.newArrayList((Object)"Luke", "Yoda"));
+    return assertions.containsSequence(newArrayList((Object) "Luke", "Yoda"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsSubsequence(info(), internalArray(), array("Luke", "Yoda"));
+    verify(arrays).assertContainsSequence(info(), internalArray(), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_is_null() {
+    thrown.expectNullPointerException(nullSequence());
+    List<Object> nullList = null;
+    assertions.containsSequence(nullList);
   }
 }

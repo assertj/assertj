@@ -13,7 +13,7 @@
 package org.assertj.core.internal.longarrays;
 
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.LongArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;

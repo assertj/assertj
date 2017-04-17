@@ -35,14 +35,14 @@ import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContai
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
-import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
-import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
+import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
+import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
@@ -53,6 +53,11 @@ import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.CommonValidations.iterableToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.emptySequence;
+import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
@@ -67,7 +72,6 @@ import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
-import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -332,7 +336,9 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does contain the given sequence of objects.
    */
   public void assertDoesNotContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
+    checkIsNotNullSequence(sequence);
+    checkIsNotEmptySequence(sequence);
+    assertNotNull(info, actual);
     // check for elements in values that are missing in actual.
     List<?> actualAsList = newArrayList(actual);
     for (int index = 0; index < actualAsList.size(); index++) {
@@ -369,6 +375,11 @@ public class Iterables {
     if (subsequenceIndex < subsequence.length) throw actualDoesNotContainSubsequence(info, actual, subsequence);
   }
 
+  public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, List<?> subsequence) {
+    checkIsNotNull(subsequence);
+    assertContainsSubsequence(info, actual, subsequence.toArray());
+  }
+
   /**
    * Verifies that the given <code>{@link Iterable}</code> does not contain the given subsequence of objects (possibly
    * with other values between them).
@@ -382,7 +393,9 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} contains the given subsequence of objects.
    */
   public void assertDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) return;
+    checkIsNotNullSubsequence(subsequence);
+    checkIsNotEmptySubsequence(subsequence);
+    assertNotNull(info, actual);
 
     int subsequenceIndex = 0;
     int subsequenceStartIndex = 0;
@@ -392,9 +405,7 @@ public class Iterables {
       Object actualNext = actualAsList.get(index);
       Object subsequenceNext = subsequence[subsequenceIndex];
       if (areEqual(actualNext, subsequenceNext)) {
-        if (subsequenceIndex == 0) {
-          subsequenceStartIndex = index;
-        }
+        if (subsequenceIndex == 0) subsequenceStartIndex = index;
         subsequenceIndex++;
       }
       if (subsequenceIndex == subsequence.length) {
@@ -961,7 +972,20 @@ public class Iterables {
     return satisfiesCondition;
   }
 
-  static public NullPointerException iterableToLookForIsNull() {
-    return new NullPointerException("The iterable to look for should not be null");
+  private static void checkIsNotEmptySequence(Object[] sequence) {
+    if (sequence.length == 0) throw new IllegalArgumentException(emptySequence());
   }
+
+  private static void checkIsNotNullSequence(Object sequence) {
+    if (sequence == null) throw new NullPointerException(nullSequence());
+  }
+
+  private static void checkIsNotEmptySubsequence(Object[] subsequence) {
+    if (subsequence.length == 0) throw new IllegalArgumentException(emptySubsequence());
+  }
+
+  private static void checkIsNotNullSubsequence(Object subsequence) {
+    if (subsequence == null) throw new NullPointerException(nullSubsequence());
+  }
+
 }

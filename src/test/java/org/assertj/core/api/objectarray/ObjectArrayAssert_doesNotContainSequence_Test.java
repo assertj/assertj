@@ -12,14 +12,11 @@
  */
 package org.assertj.core.api.objectarray;
 
-import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
-
-import java.util.List;
-
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#doesNotContainSequence(Object...)}</code>.

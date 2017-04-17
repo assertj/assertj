@@ -12,12 +12,12 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
-
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#doesNotContainSubsequence(Object[])}</code>.
@@ -28,11 +28,12 @@ public class IterableAssert_doesNotContainSubsequence_Test extends IterableAsser
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-	return assertions.doesNotContainSubsequence("Luke", "Leia");
+    return assertions.doesNotContainSubsequence("Luke", "Leia");
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(iterables).assertDoesNotContainSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
+    verify(iterables).assertDoesNotContainSubsequence(getInfo(assertions), getActual(assertions),
+                                                      array("Luke", "Leia"));
   }
 }

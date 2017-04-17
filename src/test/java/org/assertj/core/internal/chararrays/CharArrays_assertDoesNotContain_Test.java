@@ -13,8 +13,8 @@
 package org.assertj.core.internal.chararrays;
 
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.CharArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

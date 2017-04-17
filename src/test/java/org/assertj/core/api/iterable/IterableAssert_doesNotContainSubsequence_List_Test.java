@@ -12,32 +12,41 @@
  */
 package org.assertj.core.api.iterable;
 
-import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.api.ConcreteIterableAssert;
-import org.assertj.core.api.IterableAssertBaseTest;
-import org.assertj.core.util.Lists;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.ConcreteIterableAssert;
+import org.assertj.core.api.IterableAssertBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#doesNotContainSubsequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class IterableAssert_doesNotContainSubsequence_ListTest extends IterableAssertBaseTest {
+public class IterableAssert_doesNotContainSubsequence_List_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
     // IterableAssertBaseTest is testing Iterable<Object>, so the List type needs to be Object
     // or the {@link AbstractIterableAssert#doesNotContainSubsequence(Object...)} method is called.
-	  return assertions.doesNotContainSubsequence(Lists.newArrayList((Object) "Luke", "Leia"));
+    return assertions.doesNotContainSubsequence(newLinkedHashSet((Object) "Luke", "Leia"));
   }
 
   @Override
   protected void verify_internal_effects() {
 	  verify(iterables).assertDoesNotContainSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
+  }
+
+  @Test
+  public void should_throw_error_if_subsequence_is_null() {
+    thrown.expectNullPointerException(nullSubsequence());
+    List<Object> nullList = null;
+    assertions.doesNotContainSubsequence(nullList);
   }
 }

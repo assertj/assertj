@@ -12,27 +12,41 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
+
+import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#doesNotContainSequence(Object...)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#containsSequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class IterableAssert_doesNotContainSequence_Test extends IterableAssertBaseTest {
+public class IterableAssert_containsSequence_List_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-    return assertions.doesNotContainSequence("Luke", "Yoda");
+    // IterableAssertBaseTest is testing Iterable<Object>, so the List type needs to be Object
+    // otherwise the {@link AbstractIterableAssert#containsSequence(Object...)} method is called.
+    return assertions.containsSequence(newArrayList((Object) "Luke", "Yoda"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertDoesNotContainSequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+    verify(iterables).assertContainsSequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_is_null() {
+    thrown.expectNullPointerException(nullSequence());
+    List<Object> nullList = null;
+    assertions.containsSequence(nullList);
   }
 }

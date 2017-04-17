@@ -12,31 +12,40 @@
  */
 package org.assertj.core.api.objectarray;
 
-import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#containsSequence(List)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#containsSubsequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class ObjectArrayAssert_containsSequence_ListTest extends ObjectArrayAssertBaseTest {
+public class ObjectArrayAssert_containsSubSequence_List_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
     // ObjectArrayAssertBaseTest is testing Object[], so the List type needs to be Object
     // or the {@link ObjectArrayAssert#containsSequence(Object...)} method is called.
-    return assertions.containsSequence(Lists.newArrayList((Object)"Luke", "Yoda"));
+    return assertions.containsSubsequence(newArrayList((Object) "Luke", "Yoda"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+    verify(arrays).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_subsequence_is_null() {
+    thrown.expectNullPointerException(nullSubsequence());
+    List<Object> nullList = null;
+    assertions.containsSubsequence(nullList);
   }
 }

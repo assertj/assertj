@@ -12,14 +12,11 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import org.assertj.core.api.AtomicReferenceArrayAssert;
-import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
-
-import java.util.List;
-
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link AtomicReferenceArrayAssert#doesNotContainSequence(Object...)}</code>.

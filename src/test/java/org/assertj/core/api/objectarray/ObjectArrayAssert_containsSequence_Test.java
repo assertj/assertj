@@ -13,11 +13,10 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 
 /**
@@ -37,4 +36,5 @@ public class ObjectArrayAssert_containsSequence_Test extends ObjectArrayAssertBa
   protected void verify_internal_effects() {
     verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
   }
+
 }

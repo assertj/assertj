@@ -18,8 +18,8 @@ import org.assertj.core.test.IntArrays;
 import org.junit.*;
 
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.ByteArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
 import static org.assertj.core.test.TestData.*;
 import static org.assertj.core.test.TestFailures.*;
 import static org.assertj.core.util.FailureMessages.*;

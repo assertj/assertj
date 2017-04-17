@@ -12,32 +12,41 @@
  */
 package org.assertj.core.api.iterable;
 
-import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.api.ConcreteIterableAssert;
-import org.assertj.core.api.IterableAssertBaseTest;
-import org.assertj.core.util.Lists;
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.ConcreteIterableAssert;
+import org.assertj.core.api.IterableAssertBaseTest;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#containsSequence(List)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#doesNotContainSequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class IterableAssert_containsSequence_ListTest extends IterableAssertBaseTest {
+public class IterableAssert_doesNotContainSequence_List_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
     // IterableAssertBaseTest is testing Iterable<Object>, so the List type needs to be Object
     // or the {@link AbstractIterableAssert#containsSequence(Object...)} method is called.
-    return assertions.containsSequence(Lists.newArrayList((Object)"Luke", "Yoda"));
+    return assertions.doesNotContainSequence(newArrayList((Object) "Luke", "Yoda"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertContainsSequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+    verify(iterables).assertDoesNotContainSequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_is_null() {
+    thrown.expectNullPointerException(nullSequence());
+    List<Object> nullList = null;
+    assertions.doesNotContainSequence(nullList);
   }
 }

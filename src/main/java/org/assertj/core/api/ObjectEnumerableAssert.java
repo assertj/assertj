@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import java.util.HashSet;
-import java.util.List;
 
 
 /**
@@ -178,7 +177,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   /**
    * Verifies that the actual group contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
    * <p>
-   * Use {@link #containsSubsequence(List)} to allow values between the expected sequence values.
+   * Use {@link #containsSubsequence(Iterable)} to allow values between the expected sequence values.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
@@ -197,10 +196,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
-  SELF containsSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence);
+  SELF containsSequence(Iterable<? extends ELEMENT> sequence);
 
   /**
-   * Verifies that the actual group does not contain the given sequence in the given order and <b>without extra values between the sequence values</b>.
+   * Verifies that the actual group does not contain the given sequence, 
+   * a sequence is defined by an ordered group of values <b>without extra values between them</b>.
    * <p>
    * Use {@link #doesNotContainSubsequence(Object...)} to also ensure the sequence does not exist with values between the expected sequence values.
    * <p>
@@ -225,9 +225,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF doesNotContainSequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
 
   /**
-   * Verifies that the actual group does not contain the given sequence in the given order and <b>without extra values between the sequence values</b>.
+   * Verifies that the actual group does not contain the given sequence, 
+   * a sequence is defined by an ordered group of values <b>without extra values between them</b>.
    * <p>
-   * Use {@link #doesNotContainSubsequence(List)} to also ensure the sequence does not exist with values between the expected sequence values.
+   * Use {@link #doesNotContainSubsequence(Iterable)} to also ensure the sequence does not exist with values between the sequence values.
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
@@ -247,7 +248,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group contains the given sequence.
    */
-  SELF doesNotContainSequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence);
+  SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence);
 
   /**
    * Verifies that the actual group contains the given subsequence in the correct order (possibly with other values between them).
@@ -290,18 +291,19 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given subsequence.
    */
-  SELF containsSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence);
+  SELF containsSubsequence(Iterable<? extends ELEMENT> sequence);
 
   /**
-   * Verifies that the actual group does not contain the given subsequence in the correct order (possibly with other
-   * values between them).
+   * Verifies that the actual group does not contain the given subsequence, 
+   * a subsequence is defined by an ordered group of values <b>with possibly extra values between them</b>.
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
    * // assertions will pass
-   * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya);
+   * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya)
+   *                       .doesNotContainSubsequence(narya, vilya);
    *
    * // assertion will fail
    * assertThat(elvesRings).doesNotContainSubsequence(vilya, nenya);
@@ -316,14 +318,15 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
 
   /**
-   * Verifies that the actual group does not contain the given subsequence in the correct order (possibly with other
-   * values between them).
+   * Verifies that the actual group does not contain the given subsequence, 
+   * a subsequence is defined by an ordered group of values <b>with possibly extra values between them</b>.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(nenya, vilya));
+   *                       .doesNotContainSubsequence(newArrayList(narya, vilya));
    *
    * // assertion will fail
    * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, nenya));
@@ -335,7 +338,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group contains the given subsequence.
    */
-  SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") List<ELEMENT> sequence);
+  SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> sequence);
 
   /**
    * Verifies that the actual group does not contain the given values.

@@ -13,8 +13,8 @@
 package org.assertj.core.internal.objectarrays;
 
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.test.ErrorMessages.iterableValuesToLookForIsEmpty;
-import static org.assertj.core.test.ErrorMessages.iterableValuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

@@ -14,8 +14,8 @@ package org.assertj.core.internal.objects;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.assertj.core.test.ErrorMessages.iterableIsEmpty;
-import static org.assertj.core.test.ErrorMessages.iterableIsNull;
+import static org.assertj.core.internal.ErrorMessages.iterableIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.iterableIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;

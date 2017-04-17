@@ -12,17 +12,9 @@
  */
 package org.assertj.core.internal.iterables;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Collection;
-
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -30,6 +22,12 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.IterablesBaseTest;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertDoesNotContainSubsequence(AssertionInfo, Iterable, Object[])} </code>.
@@ -45,32 +43,15 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
     actual = newArrayList("Yoda", "Luke", "Leia", "Obi-Wan");
   }
 
-  private void expectFailure(Iterables iterables, Iterable<String> sequence, Object[] subsequence, int index) {
-    AssertionInfo info = someInfo();
-    try {
-      iterables.assertDoesNotContainSubsequence(info, sequence, subsequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSubsequence(actual, subsequence, iterables.getComparisonStrategy(), index));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
   @Test
   public void should_throw_error_if_subsequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
+    thrown.expectNullPointerException(nullSubsequence());
     iterables.assertDoesNotContainSubsequence(someInfo(), actual, null);
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
-    actual.clear();
-    iterables.assertDoesNotContainSubsequence(someInfo(), actual, array());
-  }
-
-  @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
+  public void should_throw_error_if_subsequence_is_empty() {
+    thrown.expectIllegalArgumentException(emptySubsequence());
     iterables.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray());
   }
 
@@ -99,7 +80,7 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
   }
 
   @Test
-  public void should_pass_if_actual_contains_subsequence_without_elements_between() {
+  public void should_fail_if_actual_contains_subsequence_without_elements_between() {
     Object[] subsequence = array("Luke", "Leia");
     expectFailure(iterables, actual, subsequence, 1);
   }
@@ -135,7 +116,7 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
 
   @Test
   public void should_pass_if_actual_contains_first_elements_of_subsequence_but_not_whole_subsequence_according_to_custom_comparison_strategy() {
-    Object[] subsequence = { "Luke", "Leia", "Han" };
+    Object[] subsequence = { "Luke", "LEIA", "Han" };
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSubsequence(someInfo(), actual, subsequence);
   }
 
@@ -150,4 +131,17 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
     Object[] subsequence = array("YODA", "luke", "lEIA", "Obi-wan");
     expectFailure(iterablesWithCaseInsensitiveComparisonStrategy, actual, subsequence, 0);
   }
+
+  private void expectFailure(Iterables iterables, Iterable<String> sequence, Object[] subsequence, int index) {
+    AssertionInfo info = someInfo();
+    try {
+      iterables.assertDoesNotContainSubsequence(info, sequence, subsequence);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotContainSubsequence(actual, subsequence, iterables.getComparisonStrategy(),
+                                                                 index));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
 }

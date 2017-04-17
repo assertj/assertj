@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.mock;
@@ -19,9 +20,14 @@ import static org.mockito.Mockito.mock;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 
 public abstract class AtomicReferenceArrayAssertBaseTest
     extends BaseTestTemplate<AtomicReferenceArrayAssert<Object>, AtomicReferenceArray<Object>> {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   protected ObjectArrays arrays;
 

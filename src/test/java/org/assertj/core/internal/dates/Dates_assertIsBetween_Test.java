@@ -13,8 +13,8 @@
 package org.assertj.core.internal.dates;
 
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
-import static org.assertj.core.test.ErrorMessages.endDateToCompareActualWithIsNull;
-import static org.assertj.core.test.ErrorMessages.startDateToCompareActualWithIsNull;
+import static org.assertj.core.internal.ErrorMessages.endDateToCompareActualWithIsNull;
+import static org.assertj.core.internal.ErrorMessages.startDateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

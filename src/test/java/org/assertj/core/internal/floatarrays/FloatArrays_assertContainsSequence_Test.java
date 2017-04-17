@@ -13,7 +13,7 @@
 package org.assertj.core.internal.floatarrays;
 
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.FloatArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;

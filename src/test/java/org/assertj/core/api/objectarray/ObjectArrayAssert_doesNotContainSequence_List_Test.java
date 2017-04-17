@@ -12,31 +12,40 @@
  */
 package org.assertj.core.api.objectarray;
 
-import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.util.Lists;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#doesNotContainSequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class ObjectArrayAssert_doesNotContainSequence_ListTest extends ObjectArrayAssertBaseTest {
+public class ObjectArrayAssert_doesNotContainSequence_List_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
     // ObjectArrayAssertBaseTest is testing Object[], so the List type needs to be Object
     // or the {@link ObjectArrayAssert#containsSequence(Object...)} method is called.
-    return assertions.doesNotContainSequence(Lists.newArrayList((Object)"Luke", "Yoda"));
+    return assertions.doesNotContainSequence(Lists.newArrayList((Object) "Luke", "Yoda"));
   }
 
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertDoesNotContainSequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_is_null() {
+    thrown.expectNullPointerException(nullSequence());
+    List<Object> nullList = null;
+    assertions.doesNotContainSequence(nullList);
   }
 }

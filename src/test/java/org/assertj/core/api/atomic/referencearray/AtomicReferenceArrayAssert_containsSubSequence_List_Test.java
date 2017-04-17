@@ -12,31 +12,40 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import org.assertj.core.api.AtomicReferenceArrayAssert;
-import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.assertj.core.util.Lists;
-
-import java.util.List;
-
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
+import org.assertj.core.util.Lists;
+import org.junit.Test;
+
 /**
- * Tests for <code>{@link AtomicReferenceArrayAssert#doesNotContainSequence(List)}</code>.
+ * Tests for <code>{@link AtomicReferenceArrayAssert#containsSubsequence(List)}</code>.
  *
  * @author Chris Arnott
  */
-public class AtomicReferenceArrayAssert_doesNotContainSequence_ListTest extends AtomicReferenceArrayAssertBaseTest {
+public class AtomicReferenceArrayAssert_containsSubSequence_List_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
     // AtomicReferenceArrayAssertBaseTest is testing AtomicReferenceArray<Object>, so the List type needs to be Object
     // or the {@link AtomicReferenceArrayAssert#containsSequence(Object...)} method is called.
-    return assertions.doesNotContainSequence(Lists.newArrayList((Object)"Luke", "Yoda"));
+    return assertions.containsSubsequence(Lists.newArrayList((Object)"Luke", "Yoda"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertDoesNotContainSequence(info(), internalArray(), array("Luke", "Yoda"));
+    verify(arrays).assertContainsSubsequence(info(), internalArray(), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_throw_error_if_subsequence_is_null() {
+    thrown.expectNullPointerException(nullSubsequence());
+    List<Object> nullList = null;
+    assertions.containsSubsequence(nullList);
   }
 }
