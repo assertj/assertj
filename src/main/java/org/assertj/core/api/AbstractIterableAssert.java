@@ -654,7 +654,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String propertyOrField) {
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-    return newListAssertInstance(values);
+    return newListAssertInstance(values).as(propertyOrField);
   }
 
   /**
