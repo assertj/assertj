@@ -460,7 +460,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
    * <p>
    * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
    * <p>
@@ -488,7 +488,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
    * <p>
    * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
    * <p>
