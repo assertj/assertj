@@ -13,8 +13,13 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.filter.Filters.filter;
+import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
 import static org.assertj.core.extractor.Extractors.resultOf;
+import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -461,7 +466,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
+   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
    * <p>
    * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
    * <p>
@@ -489,6 +494,92 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the actual AtomicReferenceArray contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
+   * <p>
+   * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya))
+   *                       .containsSequence(newArrayList(nenya, narya));
+   *
+   * // assertions will fail, the elements order is correct but there is a value between them (nenya)
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, narya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, vilya));</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsSequence(Iterable<? extends T> sequence) {
+    checkSequenceIsNotNull(sequence);
+    arrays.assertContainsSequence(info, array, toArray(sequence));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray contains the given sequence in the given order and <b>without extra values between the sequence values</b>.
+   * <p>
+   * Use {@link #doesNotContainSubsequence(Object...)} to also ensure the sequence does not exist with values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertion will pass, the elements order is correct but there is a value between them (nenya)
+   * assertThat(elvesRings).containsSequence(vilya, narya);
+   * assertThat(elvesRings).containsSequence(nenya, vilya);
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).containsSequence(vilya, nenya);
+   * assertThat(elvesRings).containsSequence(nenya, narya);</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotContainSequence(@SuppressWarnings("unchecked") T... sequence) {
+    arrays.assertDoesNotContainSequence(info, array, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray contains the given sequence in the given order and <b>without extra values between the sequence values</b>.
+   * <p>
+   * Use {@link #doesNotContainSubsequence(Iterable)} to also ensure the sequence does not exist with values between the expected sequence values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertion will pass, the elements order is correct but there is a value between them (nenya)
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, narya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, vilya));
+   *
+   * // assertions will fail
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).containsSequence(newArrayList(nenya, narya));</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotContainSequence(Iterable<? extends T> sequence) {
+    checkSequenceIsNotNull(sequence);
+    arrays.assertDoesNotContainSequence(info, array, toArray(sequence));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual AtomicReferenceArray contains the given subsequence in the correct order (possibly with other values between them).
    * <p>
    * Example:
@@ -510,6 +601,85 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   public AtomicReferenceArrayAssert<T> containsSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
     arrays.assertContainsSubsequence(info, array, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray contains the given subsequence in the correct order (possibly with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, nenya))
+   *                       .containsSubsequence(newArrayList(vilya, narya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).containsSubsequence(newArrayList(nenya, vilya));</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given subsequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsSubsequence(Iterable<? extends T> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    arrays.assertContainsSubsequence(info, array, toArray(subsequence));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray does not contain the given subsequence in the correct order (possibly
+   * with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya);
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, nenya);
+   * assertThat(elvesRings).doesNotContainSubsequence(vilya, narya);</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray contains the given subsequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, array, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray does not contain the given subsequence in the correct order (possibly
+   * with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
+   *
+   * // assertions will pass
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(nenya, vilya));
+   *
+   * // assertion will fail
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, nenya));
+   * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, narya));</code></pre>
+   *
+   * @param subsequence the subsequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray contains the given subsequence.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(Iterable<? extends T> subsequence) {
+    checkSubsequenceIsNotNull(subsequence);
+    arrays.assertDoesNotContainSubsequence(info, array, toArray(subsequence));
     return myself;
   }
 
@@ -541,6 +711,34 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   public AtomicReferenceArrayAssert<T> contains(T value, Index index) {
     arrays.assertContains(info, array, value, index);
+    return myself;
+  }
+
+  /**
+   * Verifies that all elements of the actual group are instances of given classes or interfaces.
+   * <p>
+   * Example :
+   * <pre><code class='java'> AtomicReferenceArray&lt;Object&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Object[]{"", new StringBuilder()});
+   * 
+   * // assertions will pass
+   * assertThat(objects).hasOnlyElementsOfTypes(CharSequence.class);
+   * assertThat(objects).hasOnlyElementsOfTypes(String.class, StringBuilder.class);
+   * 
+   * // assertions will fail
+   * assertThat(objects).hasOnlyElementsOfTypes(Number.class);
+   * assertThat(objects).hasOnlyElementsOfTypes(String.class, Number.class);
+   * assertThat(objects).hasOnlyElementsOfTypes(String.class);</code></pre>
+   * 
+   * @param types the expected classes and interfaces
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if not all elements of the actual group are instances of one of the given types
+   * @since 2.7.0 / 3.7.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasOnlyElementsOfTypes(Class<?>... types) {
+    arrays.assertHasOnlyElementsOfTypes(info, array, types);
     return myself;
   }
 
@@ -1576,7 +1774,9 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(array, byName(fieldOrProperty));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1627,7 +1827,9 @@ public class AtomicReferenceArrayAssert<T>
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(array, byName(fieldOrProperty));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1686,8 +1888,9 @@ public class AtomicReferenceArrayAssert<T>
   public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
     Object[] values = FieldsOrPropertiesExtractor.extract(array, byName(propertiesOrFields));
     Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
-
-    return new ObjectArrayAssert<>(result);
+    String extractedDescription = extractedDescriptionOf(propertiesOrFields);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(result).as(description);
   }
 
   /**
@@ -1883,7 +2086,9 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
     Object[] values = FieldsOrPropertiesExtractor.extract(array, resultOf(method));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOfMethod(method);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -1932,7 +2137,9 @@ public class AtomicReferenceArrayAssert<T>
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(array, resultOf(method));
-    return new ObjectArrayAssert<>(values);
+    String extractedDescription = extractedDescriptionOfMethod(method);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return new ObjectArrayAssert<>(values).as(description);
   }
 
   /**
@@ -2037,7 +2244,7 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> filteredOn(String propertyOrFieldName, Object expectedValue) {
     Iterable<? extends T> filteredIterable = filter(array).with(propertyOrFieldName, expectedValue).get();
-    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<T>(toArray(filteredIterable)));
+    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
   }
 
   /**
@@ -2157,7 +2364,7 @@ public class AtomicReferenceArrayAssert<T>
     checkNotNull(filterOperator);
     Filters<? extends T> filter = filter(array).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<T>(toArray(filter.get())));
+    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filter.get())));
   }
 
   /**
@@ -2196,7 +2403,7 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> filteredOn(Condition<? super T> condition) {
     Iterable<? extends T> filteredIterable = filter(array).being(condition).get();
-    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<T>(toArray(filteredIterable)));
+    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
   }
 
 

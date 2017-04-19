@@ -12,8 +12,11 @@
  */
 package org.assertj.core.extractor;
 
+import static java.lang.String.format;
+
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.util.Strings;
 
 /**
  * Extractors factory, providing convenient methods of creating common extractors.
@@ -54,5 +57,13 @@ public class Extractors {
   public static <F> Extractor<F, Object> resultOf(String methodName) {
     return new ResultOfExtractor<>(methodName);
   }
+
+  public static String extractedDescriptionOf(String... propertiesOrFields) {
+    return format("Extracted: %s", Strings.join(propertiesOrFields).with(", "));
+  }
   
+  public static String extractedDescriptionOfMethod(String method) {
+    return format("Extracted: result of %s()", method);
+  }
+
 }

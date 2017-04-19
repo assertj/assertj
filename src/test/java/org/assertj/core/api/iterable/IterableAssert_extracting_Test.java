@@ -12,10 +12,16 @@
  */
 package org.assertj.core.api.iterable;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.test.ExpectedException.*;
-import static org.assertj.core.util.Lists.*;
-import static org.assertj.core.data.TolkienCharacter.Race.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
+import static org.assertj.core.data.TolkienCharacter.Race.ELF;
+import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.data.TolkienCharacter.Race.MAIA;
+import static org.assertj.core.data.TolkienCharacter.Race.MAN;
+import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -226,7 +232,7 @@ public class IterableAssert_extracting_Test {
 	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
 	                                           TolkienCharacter::getAge,
 	                                           TolkienCharacter::getRace)
-	                               .containsOnly(tuple("Frodo", 33, HOBBIT),
+	                               .containsOnly(tuple("Frodo", 33, TolkienCharacter.Race.HOBBIT),
 	                                             tuple("Sam", 38, HOBBIT),
 	                                             tuple("Gandalf", 2020, MAIA),
 	                                             tuple("Legolas", 1000, ELF),
@@ -288,5 +294,47 @@ public class IterableAssert_extracting_Test {
 	                                             tuple("Gimli", 139, DWARF, "Gimli", 139, DWARF),
 	                                             tuple("Aragorn", 87, MAN, "Aragorn", 87, MAN),
 	                                             tuple("Boromir", 37, MAN, "Boromir", 37, MAN));
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first").isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
+
+    assertThat(employees).extracting("name.first", String.class).isEmpty();
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
+
+    assertThat(employees).extracting("name.first", "name.last").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting("name.first", String.class).isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees name]");
+
+    assertThat(employees).as("check employees name").extracting("name.first", "name.last").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
   }
 }

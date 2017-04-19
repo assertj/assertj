@@ -12,38 +12,33 @@
  */
 package org.assertj.core.internal;
 
-/**
- * @author Alex Ruiz
- * 
- *         TODO : merge/use with ErrorMessages !
- */
 public final class CommonErrors {
 
-  static NullPointerException arrayOfValuesToLookForIsNull() {
-    return new NullPointerException("The array of values to look for should not be null");
+  public static NullPointerException arrayOfValuesToLookForIsNull() {
+    return new NullPointerException(ErrorMessages.arrayOfValuesToLookForIsNull());
   }
 
-  static NullPointerException iterableToLookForIsNull() {
-    return new NullPointerException("The iterable to look for should not be null");
+  public static NullPointerException iterableToLookForIsNull() {
+    return new NullPointerException(ErrorMessages.iterableToLookForIsNull());
   }
 
-  static NullPointerException iterableOfValuesForIsNull() {
-    return new NullPointerException("The iterable of values to look for should not be null");
+  public static NullPointerException iterableOfValuesToLookForIsNull() {
+    return new NullPointerException(ErrorMessages.iterableValuesToLookForIsNull());
   }
 
-  static IllegalArgumentException arrayOfValuesToLookForIsEmpty() {
-    return new IllegalArgumentException("The array of values to look for should not be empty");
+  public static IllegalArgumentException arrayOfValuesToLookForIsEmpty() {
+    return new IllegalArgumentException(ErrorMessages.arrayOfValuesToLookForIsEmpty());
   }
 
-  static IllegalArgumentException iterableOfValuesToLookForIsEmpty() {
-    return new IllegalArgumentException("The iterable of values to look for should not be empty");
-  }
-
-  private CommonErrors() {
+  public static IllegalArgumentException iterableOfValuesToLookForIsEmpty() {
+    return new IllegalArgumentException(ErrorMessages.iterableValuesToLookForIsEmpty());
   }
 
   public static void wrongElementTypeForFlatExtracting(Object group) {
     throw new IllegalArgumentException("Flat extracting expects extracted values to be Iterables or arrays but was a "
                                        + group.getClass().getSimpleName());
   }
+
+  private CommonErrors() {}
+
 }

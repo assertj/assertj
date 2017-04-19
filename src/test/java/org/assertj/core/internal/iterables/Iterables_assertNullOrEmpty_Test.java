@@ -13,13 +13,10 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;

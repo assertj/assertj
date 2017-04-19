@@ -13,7 +13,7 @@
 package org.assertj.core.internal.dates;
 
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.test.ErrorMessages.dateToCompareActualWithIsNull;
+import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

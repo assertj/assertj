@@ -651,12 +651,16 @@ public class Objects {
   static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
                                                Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                TypeComparators comparatorByType) {
-    if (actualFieldValue != null && otherFieldValue != null
-        && actualFieldValue.getClass() == otherFieldValue.getClass()) {
-      Comparator fieldComparator = comparatorByPropertyOrField.containsKey(fieldName)
-          ? comparatorByPropertyOrField.get(fieldName) : comparatorByType.get(actualFieldValue.getClass());
-      if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
-    }
+    // no need to look into comparators if objects are the same
+    if (actualFieldValue == otherFieldValue) return true;
+    // check field comparators as they take precedence over type comparators
+    Comparator fieldComparator = comparatorByPropertyOrField.get(fieldName);
+    if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
+    // check if a type comparators exist for the field type
+    Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : otherFieldValue.getClass();
+    Comparator typeComparator = comparatorByType.get(fieldType);
+    if (typeComparator != null) return typeComparator.compare(actualFieldValue, otherFieldValue) == 0;
+    // default comparison using equals
     return org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue);
   }
 
@@ -673,7 +677,8 @@ public class Objects {
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if some of the fields of the actual object are null.
    */
-  public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, A actual, String... propertiesOrFieldsToIgnore) {
+  public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
+                                                          String... propertiesOrFieldsToIgnore) {
     assertNotNull(info, actual);
     Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
     List<String> nullFieldNames = new LinkedList<>();

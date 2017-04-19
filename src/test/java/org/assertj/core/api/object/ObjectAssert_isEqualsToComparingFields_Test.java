@@ -14,15 +14,19 @@ package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.mockito.Mockito.verify;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Comparator;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
+import org.assertj.core.test.Patient;
 import org.assertj.core.test.Person;
 import org.assertj.core.test.PersonCaseInsensitiveNameComparator;
 import org.junit.Test;
@@ -53,12 +57,13 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS, "name").isEqualToComparingFieldByField(other);
+    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name").isEqualToComparingFieldByField(other);
   }
 
   @Test
   public void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
     Comparator<String> comparator = new Comparator<String>() {
+      @Override
       public int compare(String o1, String o2) {
         return o1.compareTo(o2);
       }
@@ -66,8 +71,9 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS, "name")
-                      .usingComparatorForType(comparator, String.class).isEqualToComparingFieldByField(other);
+    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name")
+                      .usingComparatorForType(comparator, String.class)
+                      .isEqualToComparingFieldByField(other);
   }
 
   @Test
@@ -75,7 +81,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(actual).usingComparatorForType(ALWAY_EQUALS, String.class).isEqualToComparingFieldByField(other);
+    assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class).isEqualToComparingFieldByField(other);
   }
 
   @Test
@@ -105,6 +111,27 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     public String getName() {
       return name;
     }
+  }
+
+  @Test
+  public void should_handle_null_field_with_field_comparator() {
+    // GIVEN
+    Patient adam = new Patient(null);
+    Patient eve = new Patient(new Timestamp(3L));
+    // THEN
+    assertThat(adam).usingComparatorForFields(ALWAY_EQUALS, "dateOfBirth")
+                    .isEqualToComparingFieldByField(eve);
+  }
+
+  @Test
+  public void should_not_bother_with_comparators_when_fields_are_the_same() {
+    // GIVEN
+    Timestamp dateOfBirth = new Timestamp(3L);
+    Patient adam = new Patient(dateOfBirth);
+    Patient eve = new Patient(dateOfBirth);
+    // THEN
+    assertThat(adam).usingComparatorForFields(NEVER_EQUALS, "dateOfBirth")
+                    .isEqualToComparingFieldByField(eve);
   }
 
 }

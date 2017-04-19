@@ -15,7 +15,7 @@ package org.assertj.core.api.iterable;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Comparator;
@@ -148,7 +148,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
   }
@@ -163,7 +163,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                                      .usingComparatorForElementFieldsWithType(comparator, String.class)
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
@@ -174,7 +174,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
   }

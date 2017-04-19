@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.api.Condition;
+
 /**
  * Creates an error message indicating that an assertion that verifies a map contains a value.
  * 
@@ -28,7 +30,22 @@ public class ShouldContainValue extends BasicErrorMessageFactory {
     return new ShouldContainValue(actual, value);
   }
 
+  /**
+   * Creates a new </code>{@link ShouldContainValue}</code>.
+   *
+   * @param actual the actual map in the failed assertion.
+   * @param valueCondition value condition.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainValue(Object actual, Condition<?> valueCondition) {
+    return new ShouldContainValue(actual, valueCondition);
+  }
+
   private ShouldContainValue(Object actual, Object value) {
     super("%nExpecting:%n  <%s>%nto contain value:%n  <%s>", actual, value);
+  }
+
+  private ShouldContainValue(Object actual, Condition<?> valueCondition) {
+    super("%nExpecting:%n  <%s>%nto contain a value satisfying:%n  <%s>", actual, valueCondition);
   }
 }

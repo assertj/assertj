@@ -48,6 +48,7 @@ public abstract class ClassesBaseTest {
   @MyAnnotation
   protected static class AnnotatedClass {
     public String publicField;
+    public String publicField2;
     protected String protectedField;
     @SuppressWarnings("unused")
     private String privateField;
@@ -72,6 +73,10 @@ public abstract class ClassesBaseTest {
   @Before
   public void setUp() {
     classes = new Classes();
+  }
+
+  public class NoField {
+
   }
 
 }

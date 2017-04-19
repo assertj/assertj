@@ -13,8 +13,8 @@
 package org.assertj.core.internal.booleanarrays;
 
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.BooleanArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

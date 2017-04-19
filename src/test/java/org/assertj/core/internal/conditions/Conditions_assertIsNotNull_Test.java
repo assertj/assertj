@@ -38,4 +38,10 @@ public class Conditions_assertIsNotNull_Test extends ConditionsBaseTest {
     conditions.assertIsNotNull(null);
   }
 
+  @Test
+  public void should_throw_error_with_the_given_alternative_error_message_if_Condition_is_null() {
+    thrown.expectNullPointerException("alternative error message");
+    conditions.assertIsNotNull(null, "%s error message", "alternative");
+  }
+
 }

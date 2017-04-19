@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.error.ShouldHave.shouldHave;
 import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
@@ -112,6 +113,15 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    */
   public void assertIsNotNull(Condition<?> condition) {
-    checkNotNull(condition, "The condition to evaluate should not be null");
+    assertIsNotNull(condition, "The condition to evaluate should not be null");
+  }
+
+  /**
+   * Asserts the the given <code>{@link Condition}</code> is not null.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given {@code Condition} is {@code null}.
+   */
+  public void assertIsNotNull(Condition<?> condition, String format, Object... args) {
+    checkNotNull(condition, format(format, args));
   }
 }

@@ -63,7 +63,7 @@ public class FloatComparatorTest {
     "-1.0, -1.010001"
   })
   // @format:on
-  public void should_be_equal_if_difference_is_more_than_epsilon(Float actual, Float other) {
+  public void should_not_be_equal_if_difference_is_more_than_epsilon(Float actual, Float other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,
                                               comparator.getEpsilon())
                                           .isFalse();

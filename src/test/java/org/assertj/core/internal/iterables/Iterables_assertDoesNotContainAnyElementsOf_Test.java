@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.test.ErrorMessages.iterableValuesToLookForIsEmpty;
-import static org.assertj.core.test.ErrorMessages.iterableValuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -22,7 +23,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -52,7 +52,7 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   @Test
   public void should_throw_error_if_given_iterable_is_empty() {
     thrown.expectIllegalArgumentException(iterableValuesToLookForIsEmpty());
-    iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, Collections.<String>emptyList());
+    iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, emptyList());
   }
 
   @Test

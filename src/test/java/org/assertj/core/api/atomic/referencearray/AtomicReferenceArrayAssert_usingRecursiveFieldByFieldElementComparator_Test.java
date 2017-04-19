@@ -14,7 +14,7 @@ package org.assertj.core.api.atomic.referencearray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -126,7 +126,7 @@ public class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementCompara
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "id")
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "id")
                                      .usingComparatorForElementFieldsWithType(comparator, String.class)
                                      .usingRecursiveFieldByFieldElementComparator()
                                      .contains(other);
@@ -137,7 +137,7 @@ public class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementCompara
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
                                      .usingRecursiveFieldByFieldElementComparator()
                                      .contains(other);
   }

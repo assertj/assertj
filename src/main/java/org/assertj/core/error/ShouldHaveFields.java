@@ -42,12 +42,17 @@ public class ShouldHaveFields extends BasicErrorMessageFactory {
    * @param missing missing fields for this class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveDeclaredFields(Class<?> actual, Set<String> expected, Set<String> missing) {
+  public static ErrorMessageFactory shouldHaveDeclaredFields(Class<?> actual, Set<String> expected,
+                                                             Set<String> missing) {
     return new ShouldHaveFields(actual, expected, missing, true);
   }
 
   private ShouldHaveFields(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
-    super("%nExpecting%n  <%s>%nto have " + (declared ? "declared " : "")
-        + "fields:%n  <%s>%nbut it doesn't have:%n  <%s>", actual, expected, missing);
+    super("%nExpecting%n" +
+          "  <%s>%n" +
+          "to have the following " + (declared ? "declared" : "public accessible") + " fields:%n" +
+          "  <%s>%n" +
+          "but it doesn't have:%n" +
+          "  <%s>", actual, expected, missing);
   }
 }

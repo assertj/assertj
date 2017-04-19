@@ -13,6 +13,7 @@
 package org.assertj.core.internal.classes;
 
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
+import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -36,20 +37,20 @@ public class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
   }
 
   @Test
+  public void should_pass_if_class_has_expected_declared_fields() {
+    classes.assertHasDeclaredFields(someInfo(), actual, "publicField", "protectedField", "privateField");
+  }
+
+  @Test
+  public void should_pass_if_class_has_no_declared_fields_and_none_are_expected() {
+    classes.assertHasDeclaredFields(someInfo(), NoField.class);
+  }
+
+  @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
     thrown.expectAssertionError(actualIsNull());
     classes.assertHasDeclaredFields(someInfo(), actual);
-  }
-
-  @Test
-  public void should_pass_if_no_fields_are_expected() {
-    classes.assertHasDeclaredFields(someInfo(), actual);
-  }
-
-  @Test
-  public void should_pass_if_fields_are_public_protected_or_private() {
-    classes.assertHasDeclaredFields(someInfo(), actual, "publicField", "protectedField", "privateField");
   }
 
   @Test
@@ -60,4 +61,12 @@ public class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
                                                          newLinkedHashSet("missingField")));
     classes.assertHasDeclaredFields(someInfo(), actual, expected);
   }
+
+  @Test
+  public void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
+    thrown.expectAssertionError(shouldHaveNoDeclaredFields(actual, newLinkedHashSet("publicField", "publicField2",
+                                                                                    "protectedField", "privateField")));
+    classes.assertHasDeclaredFields(someInfo(), actual);
+  }
+
 }

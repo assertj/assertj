@@ -13,11 +13,14 @@
 package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
+import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -25,6 +28,8 @@ import org.junit.Test;
  */
 public class ObjectAssert_extracting_Test {
 
+  @Rule
+  public ExpectedException thrown = none();
   private Employee luke;
 
   @Before
@@ -50,5 +55,23 @@ public class ObjectAssert_extracting_Test {
     assertThat(luke).extracting(employee -> employee.getName().first, employee -> employee.getName().getLast())
                     .hasSize(2)
                     .containsExactly("Luke", "Skywalker");
+  }
+
+  @Test
+  public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
+
+    assertThat(luke).extracting("name.first", "name.last").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+
+    thrown.expectAssertionErrorWithMessageContaining("[check luke first name]");
+
+    assertThat(luke).as("check luke first name").extracting("name.first").isEmpty();
   }
 }

@@ -13,7 +13,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
-import static org.assertj.core.test.ErrorMessages.regexPatternIsNull;
+import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.*;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

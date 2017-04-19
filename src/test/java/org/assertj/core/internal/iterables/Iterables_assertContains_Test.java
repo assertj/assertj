@@ -13,7 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -21,11 +21,9 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;

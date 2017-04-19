@@ -71,7 +71,7 @@ public class ShouldHaveMethods_create_Test {
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any declared public methods but had the following:%n" +
+                                         "not to have any declared public methods but it has the following:%n" +
                                          "  <[\"getName\"]>"));
   }
 
@@ -84,7 +84,7 @@ public class ShouldHaveMethods_create_Test {
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any public methods but had the following:%n" +
+                                         "not to have any public methods but it has the following:%n" +
                                          "  <[\"getName\"]>"));
   }
 
@@ -95,7 +95,7 @@ public class ShouldHaveMethods_create_Test {
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any declared methods but had the following:%n" +
+                                         "not to have any declared methods but it has the following:%n" +
                                          "  <[\"getName\"]>"));
   }
 
@@ -106,7 +106,7 @@ public class ShouldHaveMethods_create_Test {
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any methods but had the following:%n" +
+                                         "not to have any methods but it has the following:%n" +
                                          "  <[\"getName\"]>"));
   }
 

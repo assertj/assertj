@@ -18,7 +18,7 @@ import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ClassAssert#hasFields(String...)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.ClassAssert#hasPublicFields(String...)}</code>.
  * 
  * @author William Delanoue
  */
@@ -26,12 +26,12 @@ public class ClassAssert_hasFields_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {
-    return assertions.hasFields("field");
+    return assertions.hasPublicFields("field");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(classes).assertHasFields(getInfo(assertions), getActual(assertions), "field");
+    verify(classes).assertHasPublicFields(getInfo(assertions), getActual(assertions), "field");
   }
 
 }

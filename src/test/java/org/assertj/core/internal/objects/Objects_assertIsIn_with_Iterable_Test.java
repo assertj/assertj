@@ -14,16 +14,16 @@ package org.assertj.core.internal.objects;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
-import static org.assertj.core.test.ErrorMessages.iterableIsNull;
+import static org.assertj.core.internal.ErrorMessages.iterableIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.ErrorMessages;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
-import org.assertj.core.test.ErrorMessages;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -33,6 +33,11 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   }
 
   @Test
+  public void should_pass_if_actual_has_the_expected_public_methods() {
+    classes.assertHasPublicMethods(someInfo(), actual, "publicMethod");
+  }
+
+  @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
     thrown.expectAssertionError(actualIsNull());
@@ -45,11 +50,6 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
                                                      newTreeSet("publicMethod", "wait", "equals", "toString",
                                                                 "hashCode", "getClass", "notify", "notifyAll")));
     classes.assertHasPublicMethods(someInfo(), actual);
-  }
-
-  @Test
-  public void should_pass_if_methods_are_public() {
-    classes.assertHasPublicMethods(someInfo(), actual, "publicMethod");
   }
 
   @Test()

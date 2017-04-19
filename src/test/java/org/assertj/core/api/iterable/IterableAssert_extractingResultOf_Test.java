@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api.iterable;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.test.ExpectedException.*;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.test.ExpectedException;
@@ -72,5 +72,18 @@ public class IterableAssert_extractingResultOf_Test {
     assertThat(jedis).extractingResultOf("unknown");
   }
   
+  @Test
+  public void should_use_method_name_as_description_when_extracting_result_of_method_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
+
+    assertThat(jedis).extractingResultOf("age").isEmpty();
+  }
+
+  @Test
+  public void should_use_method_name_as_description_when_extracting_typed_result_of_method_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
+
+    assertThat(jedis).extractingResultOf("age", Integer.class).isEmpty();
+  }
 }
 

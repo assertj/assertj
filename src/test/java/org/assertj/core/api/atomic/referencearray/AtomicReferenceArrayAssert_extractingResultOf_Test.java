@@ -65,5 +65,18 @@ public class AtomicReferenceArrayAssert_extractingResultOf_Test {
     assertThat(jedis).extractingResultOf("unknown");
   }
 
+  @Test
+  public void should_use_method_name_as_description_when_extracting_result_of_method_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
+
+    assertThat(jedis).extractingResultOf("age").isEmpty();
+  }
+
+  @Test
+  public void should_use_method_name_as_description_when_extracting_typed_result_of_method_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
+
+    assertThat(jedis).extractingResultOf("age", Integer.class).isEmpty();
+  }
 }
 

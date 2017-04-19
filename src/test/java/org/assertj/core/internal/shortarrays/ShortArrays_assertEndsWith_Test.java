@@ -13,7 +13,7 @@
 package org.assertj.core.internal.shortarrays;
 
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.ShortArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;

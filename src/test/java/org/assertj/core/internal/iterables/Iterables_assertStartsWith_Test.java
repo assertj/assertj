@@ -13,7 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;

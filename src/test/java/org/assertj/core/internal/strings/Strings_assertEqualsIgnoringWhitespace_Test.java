@@ -15,8 +15,8 @@ package org.assertj.core.internal.strings;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.CharArrays.arrayOf;
-import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.StringsBaseTest;

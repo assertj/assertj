@@ -13,7 +13,7 @@
 package org.assertj.core.internal.objectarrays;
 
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
-import static org.assertj.core.test.ErrorMessages.iterableToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;

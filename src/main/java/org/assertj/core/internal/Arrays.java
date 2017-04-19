@@ -37,11 +37,13 @@ import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
-import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
+import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -50,6 +52,7 @@ import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
@@ -282,12 +285,24 @@ public class Arrays {
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
     if (commonChecks(info, actual, sequence)) return;
-    // look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
+    // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
     for (int actualIndex = 0; actualIndex <= lastIndexWhereSequenceCanBeFound; actualIndex++) {
       if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) return;
     }
     throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+  }
+
+  void assertDoesNotContainSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
+    if(commonChecks(info, actual, sequence)) return;
+
+    // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
+    int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
+    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequenceCanBeFound; actualIndex++) {
+      if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) {
+        throw failures.failure(info, shouldNotContainSequence(actual, sequence, actualIndex, comparisonStrategy));
+      }
+    }
   }
 
   /**
@@ -329,6 +344,53 @@ public class Arrays {
     }
     if (subsequenceIndex < sizeOfSubsequence)
       throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  }
+ 
+  void assertHasOnlyElementsOfTypes(AssertionInfo info, Failures failures, Object actual, Class<?>[] expectedTypes) {
+    checkIsNotNull(expectedTypes);
+    assertNotNull(info, actual);
+
+    List<Object> nonMatchingElements = newArrayList();
+    for (Object value : asList(actual)) {
+      boolean matching = false;
+      for (Class<?> expectedType : expectedTypes) {
+        if (expectedType.isInstance(value)) matching = true;
+      }
+      if (!matching) nonMatchingElements.add(value);
+    }
+    
+    if (!nonMatchingElements.isEmpty()) {
+      throw failures.failure(info, shouldOnlyHaveElementsOfTypes(actual, expectedTypes, nonMatchingElements));
+    }
+  }
+
+  void assertDoesNotContainSubsequence(AssertionInfo info, Failures failures, Object actual, Object subsequence) {
+    if (commonChecks(info, actual, subsequence)) return;
+
+    int sizeOfActual = sizeOf(actual);
+    int sizeOfSubsequence = sizeOf(subsequence);
+    // look for given subsequence, stop check when there is not enough elements remaining in actual to contain
+    // subsequence
+    int lastIndexWhereEndOfSubsequenceCanBeFound = sizeOfActual - sizeOfSubsequence;
+
+    int actualIndex = 0;
+    int subsequenceIndex = 0;
+    int subsequenceStartIndex = 0;
+
+    while (actualIndex <= lastIndexWhereEndOfSubsequenceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
+      if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
+        if (subsequenceIndex == 0) {
+          subsequenceStartIndex = actualIndex;
+        }
+        subsequenceIndex++;
+        lastIndexWhereEndOfSubsequenceCanBeFound++;
+      }
+      actualIndex++;
+
+      if (subsequenceIndex == sizeOfSubsequence) {
+        throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy, subsequenceStartIndex));
+      }
+    }
   }
 
   /**

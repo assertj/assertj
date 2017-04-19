@@ -13,6 +13,7 @@
 package org.assertj.core.description;
 
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
+import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 /**
  * The description of a value.
@@ -34,4 +35,10 @@ public abstract class Description {
   public static Description emptyIfNull(Description description) {
     return description == null ? emptyDescription() : description;
   }
+
+  public static String mostRelevantDescription(Description existingDescription, String newDescription) {
+    boolean isDescriptionSet = existingDescription != null && !isNullOrEmpty(existingDescription.value());
+    return isDescriptionSet ? existingDescription.value() : newDescription;
+  }
+
 }

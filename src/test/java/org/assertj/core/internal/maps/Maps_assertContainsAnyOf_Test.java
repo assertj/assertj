@@ -14,8 +14,8 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
-import static org.assertj.core.test.ErrorMessages.entriesToLookForIsNull;
-import static org.assertj.core.test.ErrorMessages.entryToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.entryToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;

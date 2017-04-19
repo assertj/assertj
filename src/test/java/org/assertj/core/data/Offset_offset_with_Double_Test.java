@@ -13,7 +13,7 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ErrorMessages.offsetValueIsNotPositive;
+import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
 import static org.assertj.core.test.ExpectedException.none;
 
 

@@ -12,7 +12,10 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.error.ClassModifierShouldBe.*;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
@@ -23,21 +26,27 @@ import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
+import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
+import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
+import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.LinkedHashMap;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.Arrays;
@@ -61,6 +70,7 @@ public class Classes {
   }
 
   private Failures failures = Failures.instance();
+  private ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
 
   /**
    * Verifies that the actual {@code Class} is assignable from all the {@code others} classes.
@@ -161,10 +171,11 @@ public class Classes {
    */
   public void assertIsPublic(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if(!Modifier.isPublic(actual.getModifiers())) {
+    if (!Modifier.isPublic(actual.getModifiers())) {
       throw failures.failure(info, shouldBePublic(actual));
     }
   }
+
   /**
    * Verifies that the actual {@code Class} is protected.
    *
@@ -175,7 +186,7 @@ public class Classes {
    */
   public void assertIsProtected(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if(!Modifier.isProtected(actual.getModifiers())) {
+    if (!Modifier.isProtected(actual.getModifiers())) {
       throw failures.failure(info, shouldBeProtected(actual));
     }
   }
@@ -224,15 +235,59 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public void assertHasFields(AssertionInfo info, Class<?> actual, String... fields) {
+  public void assertHasPublicFields(AssertionInfo info, Class<?> actual, String... fields) {
     assertNotNull(info, actual);
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
-    Set<String> actualFieldNames = fieldsToName(actual.getFields());
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
+    if (expectedFieldNames.isEmpty()) {
+      if (actualFieldNames.isEmpty()) return;
+      throw failures.failure(info, shouldHaveNoPublicFields(actual, actualFieldNames));
+    }
     if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
     throw failures.failure(info, shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
   }
 
+  /**
+   * Verifies that the actual {@code Class} has only the {@code fields} and nothing more. <b>in any order</b>.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param expectedFields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
+   */
+  public void assertHasOnlyPublicFields(AssertionInfo info, Class<?> actual, String... expectedFields) {
+    assertNotNull(info, actual);
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
+    List<String> notExpected = newArrayList(actualFieldNames);
+    List<String> notFound = newArrayList(expectedFields);
+    if (expectedFields.length == 0) {
+      if (actualFieldNames.isEmpty()) return;
+      throw failures.failure(info, shouldHaveNoPublicFields(actual, actualFieldNames));
+    }
+
+    for (String field : expectedFields) {
+      if (comparisonStrategy.iterableContains(notExpected, field)) {
+        comparisonStrategy.iterablesRemoveFirst(notExpected, field);
+        comparisonStrategy.iterablesRemoveFirst(notFound, field);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw failures.failure(info, shouldOnlyHaveFields(actual, newArrayList(expectedFields), notFound, notExpected));
+  }
+
+  /**
+   * Checks that the {@code expectedNames} are part of the {@code actualNames}. If an {@code expectedName} is not
+   * contained in the {@code actualNames}, the this method will return {@code true}. THe {@code missingNames} will
+   * contain all the {@code expectedNames} that are not part of the {@code actualNames}.
+   *
+   * @param actualNames the names that should be used to check
+   * @param expectedNames the names that should be contained in {@code actualNames}
+   * @param missingNames the names that were not part of {@code expectedNames}
+   * @return {@code true} if all {@code expectedNames} are part of the {@code actualNames}, {@code false} otherwise
+   */
   private static boolean noMissingElement(Set<String> actualNames, Set<String> expectedNames,
                                           Set<String> missingNames) {
     for (String field : expectedNames) {
@@ -254,12 +309,48 @@ public class Classes {
     assertNotNull(info, actual);
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
-    Set<String> actualFieldNames = fieldsToName(actual.getDeclaredFields());
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
+    if (expectedFieldNames.isEmpty()) {
+      if (actualFieldNames.isEmpty()) return;
+      throw failures.failure(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
+    }
     if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
     throw failures.failure(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
   }
 
-  private static Set<String> fieldsToName(Field[] fields) {
+  /**
+   * Verifies that the actual {@code Class} has the exactly the {@code fields} and nothing more. <b>in any order</b>.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @param expectedFields all the fields that are expected to be in the class.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
+   */
+  public void assertHasOnlyDeclaredFields(AssertionInfo info, Class<?> actual, String... expectedFields) {
+    assertNotNull(info, actual);
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
+    List<String> notExpected = newArrayList(actualFieldNames);
+    List<String> notFound = newArrayList(expectedFields);
+
+    if (expectedFields.length == 0) {
+      if (actualFieldNames.isEmpty()) return;
+      throw failures.failure(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
+    }
+
+    for (String field : expectedFields) {
+      if (comparisonStrategy.iterableContains(notExpected, field)) {
+        comparisonStrategy.iterablesRemoveFirst(notExpected, field);
+        comparisonStrategy.iterablesRemoveFirst(notFound, field);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw failures.failure(info,
+                           shouldOnlyHaveDeclaredFields(actual, newArrayList(expectedFields), notFound, notExpected));
+  }
+
+  private static Set<String> fieldsToName(Set<Field> fields) {
     Set<String> fieldsName = new LinkedHashSet<>();
     for (Field field : fields) {
       fieldsName.add(field.getName());
@@ -278,7 +369,7 @@ public class Classes {
    */
   public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info,actual, filterSyntheticMethods(getAllMethods(actual)), false, methods);
+    doAssertHasMethods(info, actual, filterSyntheticMembers(getAllMethods(actual)), false, methods);
   }
 
   /**
@@ -292,16 +383,19 @@ public class Classes {
    */
   public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info, actual, filterSyntheticMethods(actual.getDeclaredMethods()), true, methods);
+    doAssertHasMethods(info, actual, filterSyntheticMembers(actual.getDeclaredMethods()), true, methods);
   }
 
-  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
+  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Set<Method> actualMethods, boolean declared,
+                                  String... expectedMethods) {
     SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
     SortedSet<String> missingMethodNames = newTreeSet();
-    SortedSet<String> actualMethodNames = methodsToName(methods);
+    SortedSet<String> actualMethodNames = methodsToName(actualMethods);
 
-    if(isEmptyAndHasNoMethods(methods, expectedMethods)) {
-      throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(methods, Modifier.methodModifiers())));
+    if (expectedMethods.length == 0) {
+      if (actualMethods.isEmpty()) return;
+      throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(actualMethods,
+                                                                                                 Modifier.methodModifiers())));
     }
 
     if (!noMissingElement(actualMethodNames, expectedMethodNames, missingMethodNames)) {
@@ -320,42 +414,29 @@ public class Classes {
    */
   public void assertHasPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasPublicMethods(info, actual, actual.getMethods(), false, methods);
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has the declared public {@code methods}.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @param methods the public methods who must be present in the class.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
-   */
-  public void assertHasDeclaredPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
-    assertNotNull(info, actual);
-    doAssertHasPublicMethods(info, actual, actual.getDeclaredMethods(), true, methods);
-  }
-
-  private void doAssertHasPublicMethods(AssertionInfo info, Class<?> actual, Method[] methods, boolean declared, String... expectedMethods) {
-    SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
+    Method[] actualMethods = actual.getMethods();
+    SortedSet<String> expectedMethodNames = newTreeSet(methods);
     SortedSet<String> missingMethodNames = newTreeSet();
-    Map<String,Integer> actualMethods = methodsToNameAndModifier(methods);
+    Map<String, Integer> methodNamesWithModifier = methodsToNameAndModifier(actualMethods);
 
-    if(isEmptyAndHasNoMethodsWithModifier(Modifier.PUBLIC, methods, expectedMethods)) {
-      throw failures.failure(info, shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), declared, getMethodsWithModifier(methods, Modifier.PUBLIC)));
+    if (methods.length == 0 && hasPublicMethods(actualMethods)) {
+      throw failures.failure(info,
+                             shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false,
+                                                  getMethodsWithModifier(newLinkedHashSet(actualMethods),
+                                                                         Modifier.PUBLIC)));
     }
 
-    if (!noMissingElement(actualMethods.keySet(), expectedMethodNames, missingMethodNames)) {
-      throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
+    if (!noMissingElement(methodNamesWithModifier.keySet(), expectedMethodNames, missingMethodNames)) {
+      throw failures.failure(info, shouldHaveMethods(actual, false, expectedMethodNames, missingMethodNames));
     }
-    Map<String,String> nonMatchingModifiers = new LinkedHashMap<>();
-    if(!noNonMatchingModifier(expectedMethodNames, actualMethods, nonMatchingModifiers, Modifier.PUBLIC)) {
-      throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, Modifier.toString(Modifier.PUBLIC), nonMatchingModifiers));
+    Map<String, String> nonMatchingModifiers = new LinkedHashMap<>();
+    if (!noNonMatchingModifier(expectedMethodNames, methodNamesWithModifier, nonMatchingModifiers, Modifier.PUBLIC)) {
+      throw failures.failure(info, shouldHaveMethods(actual, false, expectedMethodNames,
+                                                     Modifier.toString(Modifier.PUBLIC), nonMatchingModifiers));
     }
   }
 
-  private static SortedSet<String> getMethodsWithModifier(Method[] methods, int modifier) {
+  private static SortedSet<String> getMethodsWithModifier(Set<Method> methods, int modifier) {
     SortedSet<String> methodsWithModifier = newTreeSet();
     for (Method method : methods) {
       if ((method.getModifiers() & modifier) != 0) {
@@ -365,31 +446,26 @@ public class Classes {
     return methodsWithModifier;
   }
 
-  private static boolean noNonMatchingModifier(Set<String> expectedMethodNames, Map<String, Integer> methodsModifier, Map<String, String> nonMatchingModifiers, int modifier) {
+  private static boolean noNonMatchingModifier(Set<String> expectedMethodNames, Map<String, Integer> methodsModifier,
+                                               Map<String, String> nonMatchingModifiers, int modifier) {
     for (String method : methodsModifier.keySet()) {
-      if(expectedMethodNames.contains(method) && (methodsModifier.get(method) & modifier) == 0) {
+      if (expectedMethodNames.contains(method) && (methodsModifier.get(method) & modifier) == 0) {
         nonMatchingModifiers.put(method, Modifier.toString(methodsModifier.get(method)));
       }
     }
     return nonMatchingModifiers.isEmpty();
   }
 
-  private static boolean isEmptyAndHasNoMethods(Method[] methods, String... expectedMethods) {
-    return expectedMethods.length == 0 && methods.length > 0;
-  }
-
-  private static boolean isEmptyAndHasNoMethodsWithModifier(int expectedModifier, Method[] methods, String... expectedMethods) {
-    if (expectedMethods.length == 0) {
-      for (Method method : methods) {
-        if ((method.getModifiers() & expectedModifier) != 0) {
-          return true;
-        }
+  private static boolean hasPublicMethods(Method[] methods) {
+    for (Method method : methods) {
+      if (Modifier.isPublic(method.getModifiers())) {
+        return true;
       }
     }
     return false;
   }
 
-  private static SortedSet<String> methodsToName(Method[] methods) {
+  private static SortedSet<String> methodsToName(Set<Method> methods) {
     SortedSet<String> methodsName = newTreeSet();
     for (Method method : methods) {
       methodsName.add(method.getName());
@@ -397,8 +473,8 @@ public class Classes {
     return methodsName;
   }
 
-  private static Map<String,Integer> methodsToNameAndModifier(Method[] methods) {
-    Map<String,Integer> methodMap = new LinkedHashMap<>(methods.length);
+  private static Map<String, Integer> methodsToNameAndModifier(Method[] methods) {
+    Map<String, Integer> methodMap = new LinkedHashMap<>(methods.length);
     for (Method method : methods) {
       methodMap.put(method.getName(), method.getModifiers());
     }
@@ -416,14 +492,14 @@ public class Classes {
     return allMethods.toArray(new Method[allMethods.size()]);
   }
 
-  private static Method[] filterSyntheticMethods(Method[] methods) {
-    Set<Method> filteredMethods = newLinkedHashSet();
-    for (Method method : methods) {
-      if (!method.isSynthetic()) {
-        filteredMethods.add(method);
+  private static <M extends Member> Set<M> filterSyntheticMembers(M[] members) {
+    Set<M> filteredMembers = newLinkedHashSet();
+    for (M member : members) {
+      if (!member.isSynthetic()) {
+        filteredMembers.add(member);
       }
     }
-    return filteredMethods.toArray(new Method[filteredMethods.size()]);
+    return filteredMembers;
   }
 
   private static void assertNotNull(AssertionInfo info, Class<?> actual) {

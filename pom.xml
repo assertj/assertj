@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
@@ -57,21 +58,13 @@
       <version>5.2</version>
       <optional>true</optional>
     </dependency>
-    <!--
-      NEEDED! Unlike File, a Path is not linked to the JRE's filesystem.
-
-      In order to accurately test assertions, we need a decent JSR 203 implementation
-      which lets us test our assertions. Right now, this is memoryfilesystem
-      (https://github.com/marschall/memoryfilesystem).
-
-      Another choice would be jimfs from Google (https://github.com/google/jimfs),
-      but its support for reading/writing file attributes is not as complete as that
-      of memoryfilesystem's.
-    -->
-    <dependency>
+    <!-- NEEDED! Unlike File, a Path is not linked to the JRE's filesystem. In order to accurately test assertions, we need 
+      a decent JSR 203 implementation which lets us test our assertions. Right now, this is memoryfilesystem (https://github.com/marschall/memoryfilesystem). 
+      Another choice would be jimfs from Google (https://github.com/google/jimfs), but its support for reading/writing file attributes 
+      is not as complete as that of memoryfilesystem's. -->    <dependency>
       <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
-      <version>0.8.0</version>
+      <version>0.9.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -170,14 +163,14 @@
         <version>0.7.9</version>
         <configuration>
         </configuration>
-        <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine
-             code coverage of the unpacked shaded classes -->
+        <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine code coverage 
+          of the unpacked shaded classes -->
         <executions>
           <execution>
             <id>jacoco-report</id>
             <phase>prepare-package</phase>
             <goals>
-                <goal>report</goal>
+              <goal>report</goal>
             </goals>
           </execution>
           <execution>
@@ -260,7 +253,8 @@
       </activation>
       <properties>
         <!-- allow tests to access private fields/methods of java.base classes via reflection -->
-        <argLine>--add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED</argLine>
+        <argLine>--add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens
+          java.base/java.math=ALL-UNNAMED</argLine>
       </properties>
     </profile>
   </profiles>

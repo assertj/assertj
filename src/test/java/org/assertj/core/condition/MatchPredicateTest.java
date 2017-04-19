@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static org.assertj.core.test.ErrorMessages.predicateIsNull;
+import static org.assertj.core.internal.ErrorMessages.predicateIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.WithAssertions;

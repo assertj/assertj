@@ -18,18 +18,20 @@ import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
-import static org.assertj.core.internal.CommonErrors.iterableOfValuesForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
+import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+
+import java.lang.reflect.Array;
+import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-
-import java.lang.reflect.Array;
-import java.util.Map;
 
 /**
  * @author Alex Ruiz
@@ -73,7 +75,7 @@ public final class CommonValidations {
   }
 
   static void checkIsNotNull(Iterable<?> iterable) {
-    if (iterable == null) throw iterableOfValuesForIsNull();
+    if (iterable == null) throw iterableOfValuesToLookForIsNull();
   }
 
   static void checkIsNotNullAndNotEmpty(Object[] values) {
@@ -127,6 +129,19 @@ public final class CommonValidations {
   }
 
   public static void checkIterableIsNotNull(AssertionInfo info, Iterable<?> set) {
-    if (set == null) throw Iterables.iterableToLookForIsNull();
+    if (set == null) throw iterableToLookForIsNull();
   }
+
+  static public NullPointerException iterableToLookForIsNull() {
+    return new NullPointerException("The iterable to look for should not be null");
+  }
+
+  public static void checkSequenceIsNotNull(Object sequence) {
+    if (sequence == null) throw new NullPointerException(nullSequence());
+  }
+
+  public static void checkSubsequenceIsNotNull(Object subsequence) {
+    if (subsequence == null) throw new NullPointerException(nullSubsequence());
+  }
+
 }

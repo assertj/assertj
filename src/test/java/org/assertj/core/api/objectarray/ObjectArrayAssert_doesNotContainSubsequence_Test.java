@@ -10,25 +10,28 @@
  *
  * Copyright 2012-2017 the original author or authors.
  */
-package org.assertj.core.api.classes;
+package org.assertj.core.api.objectarray;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link ClassAssert#hasDeclaredPublicMethods(String...)} </code>.
+ * Tests for <code>{@link ObjectArrayAssert#doesNotContainSubsequence(Object[])}</code>.
+ * 
+ * @author Filip Hrisfaov
  */
-public class ClassAssert_hasDeclaredPublicMethods_Test extends ClassAssertBaseTest {
+public class ObjectArrayAssert_doesNotContainSubsequence_Test extends ObjectArrayAssertBaseTest {
 
   @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.hasDeclaredPublicMethods("method");
+  protected ObjectArrayAssert<Object> invoke_api_method() {
+    return assertions.doesNotContainSubsequence("Luke", "Yoda");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(classes).assertHasDeclaredPublicMethods(getInfo(assertions), getActual(assertions), "method");
+    verify(arrays).assertDoesNotContainSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
   }
 }

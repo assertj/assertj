@@ -16,14 +16,12 @@ import static org.assertj.core.error.ElementsShouldBeAtMost.elementsShouldBeAtMo
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.mockito.Mockito.verify;
-
-import org.junit.Test;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesWithConditionsBaseTest;
+import org.junit.Test;
 
 
 /**

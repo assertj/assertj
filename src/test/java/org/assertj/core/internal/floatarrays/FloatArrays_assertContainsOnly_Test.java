@@ -13,7 +13,7 @@
 package org.assertj.core.internal.floatarrays;
 
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.FloatArrays.arrayOf;
 import static org.assertj.core.test.FloatArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;

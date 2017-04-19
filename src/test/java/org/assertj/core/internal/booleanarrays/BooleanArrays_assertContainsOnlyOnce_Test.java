@@ -13,7 +13,7 @@
 package org.assertj.core.internal.booleanarrays;
 
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
