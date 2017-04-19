@@ -547,7 +547,7 @@ public class AtomicReferenceArrayAssert<T>
   /**
    * Verifies that the actual AtomicReferenceArray contains the given sequence in the given order and <b>without extra values between the sequence values</b>.
    * <p>
-   * Use {@link #doesNotContainSubsequence(List)} to also ensure the sequence does not exist with values between the expected sequence values.
+   * Use {@link #doesNotContainSubsequence(Iterable)} to also ensure the sequence does not exist with values between the expected sequence values.
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});

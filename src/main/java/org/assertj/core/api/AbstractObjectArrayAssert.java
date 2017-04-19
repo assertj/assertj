@@ -410,7 +410,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * Verifies that the actual array contains the given sequence in the correct order and <b>without extra value between the sequence values</b>.
    * <p>
-   * Use {@link #containsSubsequence(List)} to allow values between the expected sequence values.
+   * Use {@link #containsSubsequence(Iterable)} to allow values between the expected sequence values.
    * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
