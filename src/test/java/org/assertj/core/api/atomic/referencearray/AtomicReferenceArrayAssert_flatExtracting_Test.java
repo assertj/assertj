@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
@@ -73,6 +74,56 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   public void should_throw_null_pointer_exception_when_extracting_from_null() {
     thrown.expectNullPointerException();
     assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(children);
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_exception() {
+    AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
+    thrown.expect(RuntimeException.class);
+    assertThat(childCharacters).flatExtracting(input -> {
+      if (input.getChildren().size() == 0) {
+        throw new Exception("no children");
+      }
+      return input.getChildren();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_runtimeexception() {
+    AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
+    thrown.expect(RuntimeException.class);
+    assertThat(childCharacters).flatExtracting(input -> {
+      if (input.getChildren().size() == 0) {
+        throw new RuntimeException("no children");
+      }
+      return input.getChildren();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_compatibility() {
+    AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
+    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+      @Override
+      public List<CartoonCharacter> extractThrows(CartoonCharacter input) throws Exception {
+        if (input.getChildren().size() == 0) {
+          throw new Exception("no children");
+        }
+        return input.getChildren();
+      }
+    }).containsOnly(bart, lisa, maggie, pebbles);
+  }
+
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array() {
+    AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
+    assertThat(cartoonCharacters).flatExtracting(input -> {
+      if (input.getChildren().size() == 0) {
+        throw new Exception("no children");
+      }
+      return input.getChildren();
+    }).containsOnly(bart, lisa, maggie, pebbles);
   }
 
 }

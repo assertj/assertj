@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
@@ -107,12 +108,76 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
+  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility() {
     assertThat(employees).extracting(new Extractor<Employee, String>() {
       @Override
       public String extract(Employee input) {
         return input.getName().getFirst();
       }
+    }).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
+    thrown.expect(RuntimeException.class);
+    assertThat(employees).extracting(new Extractor<Employee, String>() {
+      @Override
+      public String extract(Employee input) {
+        if (input.getAge() > 100) {
+          throw new RuntimeException("age > 100");
+        }
+        return input.getName().getFirst();
+      }
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
+    assertThat(employees).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array_exception() {
+    thrown.expect(RuntimeException.class);
+    assertThat(employees).extracting(input -> {
+      if (input.getAge() > 100) {
+        throw new Exception("age > 100");
+      }
+      return input.getName().getFirst();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array_runtimeexception() {
+    thrown.expect(RuntimeException.class);
+    assertThat(employees).extracting(input -> {
+      if (input.getAge() > 100) {
+        throw new RuntimeException("age > 100");
+      }
+      return input.getName().getFirst();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array_compatibility() {
+    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
+      @Override
+      public Object extractThrows(Employee input) throws Exception {
+        if (input.getAge() < 20) {
+          throw new Exception("age < 20");
+        }
+        return input.getName().getFirst();
+      }
+    }).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_array() {
+    assertThat(employees).extracting(input -> {
+      if (input.getAge() < 20) {
+        throw new Exception("age < 20");
+      }
+      return input.getName().getFirst();
     }).containsOnly("Yoda", "Luke");
   }
 

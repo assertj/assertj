@@ -77,4 +77,55 @@ public class IterableAssert_flatExtracting_Test {
     thrown.expectNullPointerException();
     assertThat(newArrayList(homer, null)).flatExtracting(children);
   }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_exception() {
+    List<CartoonCharacter> childCharacters = newArrayList(bart, lisa, maggie);
+    thrown.expect(RuntimeException.class);
+    assertThat(childCharacters).flatExtracting((ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>)input -> {
+      if (input.getChildren().size() == 0) {
+        throw new Exception("no children");
+      }
+      return input.getChildren();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_runtimeexception() {
+    List<CartoonCharacter> childCharacters = newArrayList(bart, lisa, maggie);
+    thrown.expect(RuntimeException.class);
+    assertThat(childCharacters).flatExtracting((ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>) input -> {
+      if (input.getChildren().size() == 0) {
+        throw new RuntimeException("no children");
+      }
+      return input.getChildren();
+    });
+  }
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array_compatibility() {
+    List<CartoonCharacter> cartoonCharacters = newArrayList(homer, fred);
+    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+      @Override
+      public List<CartoonCharacter> extractThrows(CartoonCharacter input) throws Exception {
+        if (input.getChildren().size() == 0) {
+          throw new Exception("no children");
+        }
+        return input.getChildren();
+      }
+    }).containsOnly(bart, lisa, maggie, pebbles);
+  }
+
+
+  @Test
+  public void should_allow_assertions_on_throwingextractor_assertions_extracted_from_given_atomic_reference_array() {
+    List<CartoonCharacter> cartoonCharacters = newArrayList(homer, fred);
+    assertThat(cartoonCharacters).flatExtracting((ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>)input -> {
+      if (input.getChildren().size() == 0) {
+        throw new Exception("no children");
+      }
+      return input.getChildren();
+    }).containsOnly(bart, lisa, maggie, pebbles);
+  }
+
 }

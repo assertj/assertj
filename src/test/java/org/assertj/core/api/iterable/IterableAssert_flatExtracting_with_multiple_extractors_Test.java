@@ -88,4 +88,20 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     fellowshipOfTheRing.add(null);
     assertThat(fellowshipOfTheRing).flatExtracting(age, name);
   }
+
+  @Test
+  public void should_allow_assertions_on_multiple_extracted_values_using_throwingextractor() {
+    assertThat(fellowshipOfTheRing).flatExtracting(input -> {
+      if (input.getAge() < 20) {
+        throw new Exception("age < 20");
+      }
+      return input.getName();
+    }, input2 -> {
+      if (input2.getAge() < 20) {
+        throw new Exception("age < 20");
+      }
+      return input2.getAge();
+      }
+    ).contains(33, "Frodo", 38, "Sam");;
+  }
 }
