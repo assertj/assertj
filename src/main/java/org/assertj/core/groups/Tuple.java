@@ -19,20 +19,12 @@ import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.List;
 
-/**
- * Will be immutable when {@link #addData(Object)} is removed.
- */
 public class Tuple {
 
   private final List<Object> datas = newArrayList();
 
   public Tuple(Object... values) {
 	addAll(datas, values);
-  }
-
-  @Deprecated
-  public void addData(Object data) {
-	datas.add(data);
   }
 
   public Object[] toArray() {
