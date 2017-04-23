@@ -570,6 +570,51 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} does not contain the given regular expression.
+   * <p>
+   * Example :
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotContainPattern(&quot;Fr.ud&quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot;Freud&quot;).doesNotContainPattern(&quot;Fr.ud&quot;);</code></pre>
+   *
+   * @param pattern the regular expression to find in the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given regular expression can be found in the actual {@code CharSequence}.
+   */
+  public SELF doesNotContainPattern(CharSequence pattern) {
+    strings.assertDoesNotContainPattern(info, actual, pattern);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given regular expression.
+   * <p>
+   * Example :
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotContainPattern(Pattern.compile(&quot;Fr.ud&quot;));
+   *
+   * // assertion will fail
+   * assertThat(&quot;Freud&quot;).doesNotContainPattern(Pattern.compile(&quot;Fr.ud&quot;));</code></pre>
+   *
+   * @param pattern the regular expression to find in the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given regular expression can be found in the actual {@code CharSequence}.
+   */
+  public SELF doesNotContainPattern(Pattern pattern) {
+    strings.assertDoesNotContainPattern(info, actual, pattern);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} starts with the given prefix.
    * <p>
    * Example :
