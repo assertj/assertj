@@ -860,7 +860,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * Create a {@link Float} comparator which compares floats at the given precision and pass it to {@link #usingElementComparator(Comparator)}. 
    * All the following assertions will use this comparator to compare float[] elements.
    *  
-   * @param precision precisin used to compare {@link Float}.
+   * @param precision precision used to compare {@link Float}.
    * @return {@code this} assertion object.
    */
   @CheckReturnValue

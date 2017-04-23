@@ -312,7 +312,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <pre><code class='java'> // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence((byte) 1, (byte) 2, (byte) 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence((byte) 1, (byte) 2);
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsubsequence((byte) 1, (byte) 3);
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence((byte) 1, (byte) 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence((byte) 2, (byte) 3);
    *
    * // assertion will fail
@@ -339,7 +339,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <pre><code class='java'> // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 2, 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 2);
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsubsequence(1, 3);
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(2, 3);
    *
    * // assertion will fail

@@ -877,7 +877,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * Create a {@link Double} comparator which compares double at the given precision and pass it to {@link #usingElementComparator(Comparator)}. 
    * All the following assertions will use this comparator to compare double[] elements.
    *  
-   * @param precision precisin used to compare {@link Double}.
+   * @param precision precision used to compare {@link Double}.
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
