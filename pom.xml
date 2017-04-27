@@ -61,7 +61,8 @@
     <!-- NEEDED! Unlike File, a Path is not linked to the JRE's filesystem. In order to accurately test assertions, we need 
       a decent JSR 203 implementation which lets us test our assertions. Right now, this is memoryfilesystem (https://github.com/marschall/memoryfilesystem). 
       Another choice would be jimfs from Google (https://github.com/google/jimfs), but its support for reading/writing file attributes 
-      is not as complete as that of memoryfilesystem's. -->    <dependency>
+      is not as complete as that of memoryfilesystem's. -->
+    <dependency>
       <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
       <version>0.9.1</version>
@@ -95,7 +96,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <phase>package</phase>
