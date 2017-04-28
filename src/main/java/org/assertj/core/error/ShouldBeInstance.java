@@ -31,8 +31,8 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeInstance(Object object, Class<?> type) {
-    return object instanceof Throwable ?
-      new ShouldBeInstance((Throwable) object, type) : new ShouldBeInstance(object, type);
+    return object instanceof Throwable ? new ShouldBeInstance((Throwable) object, type)
+        : new ShouldBeInstance(object, type);
   }
 
   /**
@@ -47,16 +47,34 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInstance(Object object, Class<?> type) {
-    super("%nExpecting:%n <%s>%nto be an instance of:%n <%s>%nbut was instance of:%n <%s>", object, type, object
-        .getClass());
+    super("%n" +
+          "Expecting:%n" +
+          "  <%s>%n" +
+          "to be an instance of:%n" +
+          "  <%s>%n" +
+          "but was instance of:%n" +
+          "  <%s>",
+          object, type, object.getClass());
   }
 
   private ShouldBeInstance(Throwable throwable, Class<?> type) {
-    super("%nExpecting:%n <%s>%nto be an instance of:%n <%s>%nbut was:%n <%s>", throwable, type,
-          getStackTrace(throwable));
+    super("%n" +
+          "Expecting:%n" +
+          "  <%s>%n" +
+          "to be an instance of:%n" +
+          "  <%s>%n" +
+          "but was:%n" +
+          "  <%s>",
+          throwable, type, getStackTrace(throwable));
   }
 
   private ShouldBeInstance(String objectDescription, Class<?> type) {
-    super("%nExpecting object:%n %s%nto be an instance of:%n <%s>%nbut was null", objectDescription, type);
+    super("%n" +
+          "Expecting object:%n" +
+          "  %s%n" +
+          "to be an instance of:%n" +
+          "  <%s>%n" +
+          "but was null",
+          objectDescription, type);
   }
 }
