@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
@@ -424,7 +425,8 @@ public class Strings {
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
     String actualNormalized = normalizeNewlines(actual);
     String expectedNormalized = normalizeNewlines(expected);
-    if (!actualNormalized.equals(expectedNormalized)) throw failures.failure(info, shouldBeEqual(actual, expected));
+    if (!actualNormalized.equals(expectedNormalized))
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected));
   }
 
   private static String normalizeNewlines(CharSequence actual) {

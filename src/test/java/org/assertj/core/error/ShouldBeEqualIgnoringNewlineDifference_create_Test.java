@@ -14,29 +14,20 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.error.ShouldBeEqualIgnoringWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- * .
- *
- * @author Alex Ruiz
- * @author Joel Costigliola
- * @author Alexander Bischof
- */
-public class ShouldBeEqualIgnoringWhitespace_create_Test {
+public class ShouldBeEqualIgnoringNewlineDifference_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Before
   public void setUp() {
-    factory = shouldBeEqualIgnoringWhitespace(" my\tfoo bar ", " myfoo bar ");
+    factory = shouldBeEqualIgnoringNewLineDifferences("foo", "bar");
   }
 
   @Test
@@ -44,9 +35,9 @@ public class ShouldBeEqualIgnoringWhitespace_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         "  <\" my\tfoo bar \">%n" +
+                                         "  <\"foo\">%n" +
                                          "to be equal to:%n" +
-                                         "  <\" myfoo bar \">%n" +
-                                         "ignoring whitespace differences"));
+                                         "  <\"bar\">%n" +
+                                         "ignoring newline differences ('\\r\\n' == '\\n')"));
   }
 }
