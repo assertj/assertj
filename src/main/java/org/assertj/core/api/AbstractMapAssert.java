@@ -418,8 +418,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(isildur, oneRing);
    *
    * // now assertion will pass
-   * assertThat(ringBearers).hasEntrySatisfying(oneRingManBearer);
-   * </code></pre>
+   * assertThat(ringBearers).hasEntrySatisfying(oneRingManBearer);</code></pre>
    *
    * @param entryCondition the condition for searching entry.
    * @return {@code this} assertion object.
@@ -445,16 +444,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(frodo, oneRing);
    *
    * Condition&lt;TolkienCharacter&gt; isMan = new Condition&lt;TolkienCharacter&gt;("is man") {
-   *     public boolean matches(TolkienCharacter value) {
-   *       return value.getRace() == MAN;
-   *     }
-   *   };
+   *   public boolean matches(TolkienCharacter tolkienCharacter) {
+   *     return tolkienCharacter.getRace() == MAN;
+   *   }
+   * };
    *
    * Condition&lt;Ring&gt; oneRingBearer = new Condition&lt;Ring&gt;("One ring bearer") {
-   *     public boolean matches(Ring value) {
-   *       return value == oneRing;
-   *     }
-   *   };
+   *   public boolean matches(Ring ring) {
+   *     return ring == oneRing;
+   *   }
+   * };
    *
    * // assertion will fail
    * assertThat(ringBearers).hasEntrySatisfying(isMan, oneRingBearer);
@@ -462,8 +461,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(isildur, oneRing);
    *
    * // now assertion will pass
-   * assertThat(ringBearers).hasEntrySatisfying(isMan, oneRingBearer);
-   * </code></pre>
+   * assertThat(ringBearers).hasEntrySatisfying(isMan, oneRingBearer);</code></pre>
    *
    * @param keyCondition the condition to be matched by the entry's key.
    * @param valueCondition the condition to be matched by the entry's value.
@@ -489,23 +487,22 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(frodo, oneRing);
    *
    * Condition&lt;TolkienCharacter&gt; isElf = new Condition&lt;TolkienCharacter&gt;("is elf") {
-   *     public boolean matches(TolkienCharacter value) {
-   *       return value.getRace() == ELF;
-   *     }
-   *   };
+   *   public boolean matches(TolkienCharacter tolkienCharacter) {
+   *     return tolkienCharacter.getRace() == ELF;
+   *   }
+   * };
    *
    * Condition&lt;TolkienCharacter&gt; isOrc = new Condition&lt;TolkienCharacter&gt;("is orc") {
-   *     public boolean matches(TolkienCharacter value) {
-   *       return value.getRace() == ORC;
-   *     }
-   *   };
-   *
-   * // assertion will fail
-   * assertThat(ringBearers).hasKeySatisfying(isOrc);
+   *   public boolean matches(TolkienCharacter tolkienCharacter) {
+   *     return tolkienCharacter.getRace() == ORC;
+   *   }
+   * };
    *
    * // assertion will pass
    * assertThat(ringBearers).hasKeySatisfying(isElf);
-   * </code></pre>
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).hasKeySatisfying(isOrc);</code></pre>
    *
    * @param keyCondition the condition to be matched by the entry's key.
    * @return {@code this} assertion object.
@@ -530,24 +527,22 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(oneRing, frodo);
    *
    * Condition&lt;TolkienCharacter&gt; isElf = new Condition&lt;TolkienCharacter&gt;("is elf") {
-   *     public boolean matches(TolkienCharacter value) {
-   *       return value.getRace() == ELF;
-   *     }
-   *   };
+   *   public boolean matches(TolkienCharacter tolkienCharacter) {
+   *     return tolkienCharacter.getRace() == ELF;
+   *   }
+   * };
    *
-   * Condition&lt;TolkienCharacter&gt; isOrc =
-   *   new Condition&lt;TolkienCharacter&gt;("is orc") {
-   *     public boolean matches(TolkienCharacter value) {
-   *       return value.getRace() == ORC;
-   *     }
-   *   };
-   *
-   * // assertion will fail
-   * assertThat(ringBearers).hasValueSatisfying(isOrc);
+   * Condition&lt;TolkienCharacter&gt; isOrc = new Condition&lt;TolkienCharacter&gt;("is orc") {
+   *   public boolean matches(TolkienCharacter tolkienCharacter) {
+   *     return tolkienCharacter.getRace() == ORC;
+   *   }
+   * };
    *
    * // assertion will pass
+   *
    * assertThat(ringBearers).hasValueSatisfying(isElf);
-   * </code></pre>
+   * // assertion will fail
+   * assertThat(ringBearers).hasValueSatisfying(isOrc);</code></pre>
    *
    * @param valueCondition the condition to be matched by the entry's value.
    * @return {@code this} assertion object.

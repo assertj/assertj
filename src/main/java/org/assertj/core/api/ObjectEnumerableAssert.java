@@ -787,7 +787,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that all elements of the actual group are instances of the given types.
    * <p>
    * Example :
-   * <pre><code class='java'> Iterable&lt;Object&gt; objects = Arrays.asList("foo", new StringBuilder());
+   * <pre><code class='java'> Iterable&lt;? extends Object&gt; objects = Arrays.asList("foo", new StringBuilder());
    * 
    * // assertions will pass
    * assertThat(objects).hasOnlyElementsOfTypes(CharSequence.class);

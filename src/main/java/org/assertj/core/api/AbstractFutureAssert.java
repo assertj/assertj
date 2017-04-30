@@ -153,7 +153,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    *
    * @return this assertion object.
    *
-   * @see Future#isNotDone()
+   * @see Future#isDone()
    * @since 2.7.0 / 3.7.0
    */
   public SELF isNotDone() {
