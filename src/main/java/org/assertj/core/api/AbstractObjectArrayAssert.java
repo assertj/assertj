@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -1985,15 +1986,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   @SafeVarargs
   public final ObjectArrayAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
-    // combine all extractors into one function
-    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> {
-      Tuple tuple = new Tuple();
-      for (Function<ELEMENT, ?> extractor : extractors) {
-        // extract value one by one
-        tuple.addData(extractor.apply(objectToExtractValueFrom));
-      }
-      return tuple;
-    };
+
+    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                          .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                          .toArray());
     Tuple[] tuples = stream(actual).map(tupleExtractor).toArray(size -> new Tuple[size]);
     return new ObjectArrayAssert<>(tuples);
   }

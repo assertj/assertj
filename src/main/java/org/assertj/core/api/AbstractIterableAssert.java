@@ -1358,15 +1358,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @SafeVarargs
   public final ListAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
     // combine all extractors into one function
-    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> {
-      Tuple tuple = new Tuple();
-      for (Function<ELEMENT, ?> extractor : extractors) {
-        // extract value one by one
-        tuple.addData(extractor.apply(objectToExtractValueFrom));
-      }
-      return tuple;
-    };
-
+    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                          .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                          .toArray());
     List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
                                                             .collect(toList());
     return new ListAssert<>(tuples);
