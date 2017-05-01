@@ -30,13 +30,21 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   /**
    * Verifies that the {@link Future} is cancelled.
    * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> Future future = new CompletableFuture();
+   * Example:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *                                                                        
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   &commat;Override                                                            
+   *   public String call() throws Exception {                              
+   *     return "done";                                                     
+   *   }                                                                    
+   * });                                                                    
+   *                                                                        
+   * // assertion will fail:
+   * assertThat(future).isCancelled();
+   * 
+   * // assertion will pass:
    * future.cancel(true);
-   * assertThat(future).isCancelled();</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> Future future = new CompletableFuture();
    * assertThat(future).isCancelled();</code></pre>
    *
    * @return this assertion object.
@@ -52,12 +60,20 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   /**
    * Verifies that the {@link Future} is not cancelled.
    * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> Future future = new CompletableFuture();
-   * assertThat(future).isNotCancelled();</code></pre>
+   * Example:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *                                                                        
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   &commat;Override                                                            
+   *   public String call() throws Exception {                              
+   *     return "done";                                                     
+   *   }                                                                    
+   * });                                                                    
+   *                                                                        
+   * // assertion will pass:
+   * assertThat(future).isNotCancelled();
    *
-   * Assertion will fail :
-   * <pre><code class='java'> Future future = new CompletableFuture();
+   * // assertion will fail:
    * future.cancel(true);
    * assertThat(future).isNotCancelled();</code></pre>
    *
@@ -74,12 +90,28 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   /**
    * Verifies that the {@link Future} is done.
    * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> Future future = CompletableFuture.completedFuture("something");
-   * assertThat(future).isDone();</code></pre>
+   * Example:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *                                                                        
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   &commat;Override                                                            
+   *   public String call() throws Exception {                              
+   *     return "done";                                                     
+   *   }                                                                    
+   * });                                                                    
+   *                                                                        
+   * // assertion will pass:
+   * assertThat(future).isDone();
    *
-   * Assertion will fail :
-   * <pre><code class='java'> Future future = new CompletableFuture();
+   * future = executorService.submit(new Callable&lt;String&gt;() {
+   *   &commat;Override                                                            
+   *   public String call() throws Exception {                              
+   *     Thread.sleep(1000);
+   *     return "done";                                                     
+   *   }                                                                    
+   * });                                                                    
+   *                                                                        
+   * // assertion will fail:
    * assertThat(future).isDone();</code></pre>
    *
    * @return this assertion object.
@@ -95,12 +127,28 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   /**
    * Verifies that the {@link Future} is not done.
    * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> Future future = new CompletableFuture();
-   * assertThat(future).isNotDone();</code></pre>
+   * Example:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *                                                                        
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   &commat;Override                                                            
+   *   public String call() throws Exception {                              
+   *     Thread.sleep(1000);
+   *     return "done";                                                     
+   *   }                                                                    
+   * });
+   *                                                                     
+   * // assertion will pass:
+   * assertThat(future).isNotDone();
+   *                                                                        
+   * future = executorService.submit(new Callable&lt;String&gt;() {
+   *   &commat;Override                                                            
+   *   public String call() throws Exception {                              
+   *     return "done";                                                     
+   *   }                                                                    
+   * });                                                             
    *
-   * Assertion will fail :
-   * <pre><code class='java'> Future future = CompletableFuture.completedFuture("something");
+   * // assertion will fail:
    * assertThat(future).isNotDone();</code></pre>
    *
    * @return this assertion object.

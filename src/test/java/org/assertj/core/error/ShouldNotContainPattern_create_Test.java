@@ -14,39 +14,30 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
-import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.description.TextDescription;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.error.ShouldBeEqualIgnoringWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- * .
- *
- * @author Alex Ruiz
- * @author Joel Costigliola
- * @author Alexander Bischof
- */
-public class ShouldBeEqualIgnoringWhitespace_create_Test {
+public class ShouldNotContainPattern_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Before
   public void setUp() {
-    factory = shouldBeEqualIgnoringWhitespace(" my\tfoo bar ", " myfoo bar ");
+    factory = shouldNotContainPattern("Frodo", "Fr.do");
   }
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         "  <\" my\tfoo bar \">%n" +
-                                         "to be equal to:%n" +
-                                         "  <\" myfoo bar \">%n" +
-                                         "ignoring whitespace differences"));
+                                         "  \"Frodo\"%n" +
+                                         "not to contain pattern:%n" +
+                                         "  \"Fr.do\""));
   }
+
 }

@@ -37,14 +37,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is assignable from others {@code Class}
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> class Jedi {}
    * class HumanJedi extends Jedi {}
    * 
-   * // Should pass if:
+   * // this assertion succeeds:
    * assertThat(Jedi.class).isAssignableFrom(HumanJedi.class);
    * 
-   * // Should fail if:
+   * // this assertion fails:
    * assertThat(HumanJedi.class).isAssignableFrom(Jedi.class);</code></pre>
    * 
    * @see Class#isAssignableFrom(Class)
@@ -61,14 +62,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is not an interface.
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
    * 
-   * // Should pass if:
+   * // this assertion succeeds:
    * assertThat(HumanJedi.class).isNotInterface();
    * 
-   * // Should fail if:
+   * // this assertion fails:
    * assertThat(Jedi.class).isNotInterface();</code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -81,14 +83,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is an interface.
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
    * 
-   * // Should pass if:
+   * // this assertion succeeds:
    * assertThat(Jedi.class).isInterface();
    * 
-   * // Should fail if:
+   * // this assertion fails:
    * assertThat(HumanJedi.class).isInterface();</code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -101,15 +104,16 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is an annotation.
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> public @interface Jedi {}
    * 
-   * // Should pass if:
+   * // these assertions succeed:
    * assertThat(Jedi.class).isAnnotation();
    * assertThat(Override.class).isAnnotation();
    * assertThat(Deprecated.class).isAnnotation();
    * 
-   * // Should fail if:
+   * // this assertion fails:
    * assertThat(String.class).isAnnotation();</code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -122,13 +126,14 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is not an annotation.
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> public @interface Jedi {}
    * 
-   * // Should pass if:
+   * // this assertion succeeds:
    * assertThat(String.class).isNotAnnotation();
    * 
-   * // Should fail if:
+   * // these assertions fail:
    * assertThat(Jedi.class).isNotAnnotation();
    * assertThat(Override.class).isNotAnnotation();
    * assertThat(Deprecated.class).isNotAnnotation();</code></pre>
@@ -143,12 +148,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is final (has {@code final} modifier).
-   *
-   * <pre><code class='java'> // These assertions succeed:
+   * <p>
+   * Example:
+   * <pre><code class='java'> // these assertions succeed:
    * assertThat(String.class).isFinal();
    * assertThat(Math.class).isFinal();
    *
-   * // These assertions fail:
+   * // these assertions fail:
    * assertThat(Object.class).isFinal();
    * assertThat(Throwable.class).isFinal();</code></pre>
    *
@@ -162,12 +168,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is not final (does not have {@code final} modifier).
-   *
-   * <pre><code class='java'> // These assertions succeed:
+   * <p>
+   * Example:
+   * <pre><code class='java'> // these assertions succeed:
    * assertThat(Object.class).isNotFinal();
    * assertThat(Throwable.class).isNotFinal();
    *
-   * // These assertions fail:
+   * // these assertions fail:
    * assertThat(String.class).isNotFinal();
    * assertThat(Math.class).isNotFinal();</code></pre>
    *
@@ -181,10 +188,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is public (has {@code public} modifier).
-   *
+   * <p>
+   * Example:
    * <pre><code class='java'> protected class MyClass { }
    *
-   * // These assertions succeed:
+   * // these assertions succeed:
    * assertThat(String.class).isPublic();
    * assertThat(Math.class).isPublic();
    *
@@ -203,13 +211,14 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is protected (has {@code protected} modifier).
-   *
+   * <p>
+   * Example:
    * <pre><code class='java'> public class MyClass { }
    *
-   * // This assertion succeeds:
+   * // this assertion succeeds:
    * assertThat(MyClass.class).isProtected();
    *
-   * // These assertions fail:
+   * // these assertions fail:
    * assertThat(String.class).isProtected();
    * assertThat(Math.class).isProtected();</code></pre>
    *
@@ -225,7 +234,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
    * &#64;Retention(RetentionPolicy.RUNTIME)
    * private static @interface Force { }
@@ -241,10 +251,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * &#64;Hero &#64;Force
    * class Jedi implements Jedi {}
    * 
-   * // Should pass:
+   * // this assertion succeeds:
    * assertThat(Jedi.class).containsAnnotations(Force.class, Hero.class);
    * 
-   * // Should fail:
+   * // this assertion fails:
    * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);</code></pre>
    * 
    * @param annotations annotations who must be attached to the class
@@ -258,17 +268,18 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}.
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
    * &#64;Retention(RetentionPolicy.RUNTIME)
    * private static @interface Force { }
    * &#64;Force
    * class Jedi implements Jedi {}
    * 
-   * // Should pass if:
+   * // this assertion succeeds:
    * assertThat(Jedi.class).containsAnnotation(Force.class);
    * 
-   * // Should fail if:
+   * // this assertion fails:
    * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
    * 
    * @param annotation annotations who must be attached to the class
@@ -282,8 +293,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * @deprecated use {@link #hasPublicFields(String...)} instead.
+   */
+  @Deprecated
+  public SELF hasFields(String... fields) {
+    return hasPublicFields(fields);
+  }
+
+  /**
    * Verifies that the actual {@code Class} has the given accessible public fields (as in {@link Class#getFields()}).
    * <p>
+   * Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     protected String fieldTwo;
@@ -315,7 +335,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} <b>only</b> has the given accessible public 
    * fields (as in {@link Class#getFields()}) and nothing more <b>in any order</b>.
-   *
+   * <p>
+   * Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     public String fieldTwo;
@@ -345,7 +366,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given declared fields (as in {@link Class#getDeclaredFields()}).
-   * 
+   * <p>
+   * Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     private String fieldTwo;
@@ -372,7 +394,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} <b>only</b> has the given declared {@code fields} and nothing more <b>in any order</b> 
    * (as in {@link Class#getDeclaredFields()}).
-   *
+   * <p>
+   * Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     public String fieldTwo;
@@ -402,7 +425,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given methods (including inherited) whatever their visibility are.
-   *
+   * <p>
+   * Example:
    * <pre><code class='java'> class MySuperClass {
    *     public void superMethod() {}
    *     private void privateSuperMethod() {}
@@ -432,7 +456,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given declared methods.
-   *
+   * <p>
+   * Example:
    * <pre><code class='java'> class MySuperClass {
    *     public void superMethod() {}
    * }
@@ -445,7 +470,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // This assertion succeeds:
    * assertThat(MyClass.class).hasDeclaredMethods("methodOne", "methodTwo");
    *
-   * // These assertions fail:
+   * // these assertions fail:
    * assertThat(MyClass.class).hasDeclaredMethods("superMethod");
    * assertThat(MyClass.class).hasDeclaredMethods("methodThree");</code></pre>
    * <p>
@@ -464,18 +489,19 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given public methods.
-   *
+   * <p>
+   * Example:
    * <pre><code class='java'> class MyClass {
    *     public void methodOne() {}
    *     public void methodTwo() {}
    *     protected void methodThree() {}
    * }
    *
-   * // These assertions succeed:
+   * // these assertions succeed:
    * assertThat(MyClass.class).hasPublicMethods("methodOne");
    * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodTwo");
    *
-   * // These assertions fail:
+   * // these assertions fail:
    * assertThat(MyClass.class).hasPublicMethods("methodOne", "methodThree");
    * assertThat(MyClass.class).hasPublicMethods("methodThree");</code></pre>
    *

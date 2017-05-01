@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
@@ -51,7 +51,7 @@ public class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBase
     try {
       strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(someInfo(), shouldBeEqual(actual, expected));
+      verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

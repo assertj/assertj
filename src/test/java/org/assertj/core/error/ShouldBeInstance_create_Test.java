@@ -45,11 +45,11 @@ public class ShouldBeInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         " <\"Yoda\">%n" +
+                                         "  <\"Yoda\">%n" +
                                          "to be an instance of:%n" +
-                                         " <java.io.File>%n" +
+                                         "  <java.io.File>%n" +
                                          "but was instance of:%n" +
-                                         " <java.lang.String>"));
+                                         "  <java.lang.String>"));
   }
 
   @Test
@@ -57,12 +57,12 @@ public class ShouldBeInstance_create_Test {
     IllegalArgumentException throwable = new IllegalArgumentException("Not a file");
     String message = shouldBeInstance(throwable, File.class).create();
 
-    assertThat(message).isEqualTo(format("%nExpecting:%n"
-                                         + " <java.lang.IllegalArgumentException: Not a file>%n" +
+    assertThat(message).isEqualTo(format("%nExpecting:%n" +
+                                         "  <java.lang.IllegalArgumentException: Not a file>%n" +
                                          "to be an instance of:%n" +
-                                         " <java.io.File>%n" +
+                                         "  <java.io.File>%n" +
                                          "but was:%n" +
-                                         " <\"%s\">",
+                                         "  <\"%s\">",
                                          getStackTrace(throwable)));
   }
 
@@ -72,9 +72,9 @@ public class ShouldBeInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting object:%n" +
-                                         " \"other\"%n" +
+                                         "  \"other\"%n" +
                                          "to be an instance of:%n" +
-                                         " <java.io.File>%n" +
+                                         "  <java.io.File>%n" +
                                          "but was null"));
   }
 }

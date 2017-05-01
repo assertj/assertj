@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  * 
@@ -32,7 +31,8 @@ import java.util.function.Predicate;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT> extends EnumerableAssert<SELF, ELEMENT> {
+public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT>
+    extends EnumerableAssert<SELF, ELEMENT> {
 
   /**
    * Verifies that the actual group contains the given values, in any order.
@@ -161,8 +161,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass
-   * assertThat(elvesRings).containsSequence(vilya, nenya);
-   * assertThat(elvesRings).containsSequence(nenya, narya);
+   * assertThat(elvesRings).containsSequence(vilya, nenya)
+   *                       .containsSequence(nenya, narya);
    * 
    * // assertions will fail, the elements order is correct but there is a value between them (nenya) 
    * assertThat(elvesRings).containsSequence(vilya, narya);  
@@ -185,8 +185,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
    * // assertions will pass
-   * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya));
-   * assertThat(elvesRings).containsSequence(newArrayList(nenya, narya));
+   * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya))
+   *                       .containsSequence(newArrayList(nenya, narya));
    *
    * // assertions will fail, the elements order is correct but there is a value between them (nenya)
    * assertThat(elvesRings).containsSequence(newArrayList(vilya, narya));
@@ -211,8 +211,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
    * // assertions will pass, the elements order is correct but there is a value between them (nenya)
-   * assertThat(elvesRings).doesNotContainSequence(vilya, narya);
-   * assertThat(elvesRings).doesNotContainSequence(nenya, vilya);
+   * assertThat(elvesRings).doesNotContainSequence(vilya, narya)
+   *                       .doesNotContainSequence(nenya, vilya);
    *
    * // assertions will fail
    * assertThat(elvesRings).doesNotContainSequence(vilya, nenya);
@@ -237,8 +237,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
    * // assertions will pass, the elements order is correct but there is a value between them (nenya)
-   * assertThat(elvesRings).doesNotContainSequence(newArrayList(vilya, narya));
-   * assertThat(elvesRings).doesNotContainSequence(newArrayList(nenya, vilya));
+   * assertThat(elvesRings).doesNotContainSequence(newArrayList(vilya, narya))
+   *                       .doesNotContainSequence(newArrayList(nenya, vilya));
    *
    * // assertions will fail
    * assertThat(elvesRings).doesNotContainSequence(newArrayList(vilya, nenya));
@@ -260,8 +260,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass
-   * assertThat(elvesRings).containsSubsequence(vilya, nenya);
-   * assertThat(elvesRings).containsSubsequence(vilya, narya);
+   * assertThat(elvesRings).containsSubsequence(vilya, nenya)
+   *                       .containsSubsequence(vilya, narya);
    * 
    * // assertion will fail
    * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
@@ -281,8 +281,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    *
    * // assertions will pass
-   * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, nenya));
-   * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, narya));
+   * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, nenya))
+   *                       .containsSubsequence(newArrayList(vilya, narya));
    *
    * // assertion will fail
    * assertThat(elvesRings).containsSubsequence(newArrayList(nenya, vilya));</code></pre>
@@ -351,7 +351,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertions will pass
    * assertThat(abc).doesNotContain("d")
-   * assertThat(abc).doesNotContain("d", "e");
+   *                .doesNotContain("d", "e");
    * 
    * // assertions will fail
    * assertThat(abc).doesNotContain("a");
@@ -397,8 +397,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    * // assertions will pass
-   * assertThat(abc).startsWith("a");
-   * assertThat(abc).startsWith("a", "b");
+   * assertThat(abc).startsWith("a")
+   *                .startsWith("a", "b");
    * 
    * // assertion will fail
    * assertThat(abc).startsWith("c");</code></pre>
@@ -423,7 +423,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertions will pass
    * assertThat(abc).endsWith("c")
-   * assertThat(abc).endsWith("b", "c");
+   *                .endsWith("b", "c");
    * 
    * // assertions will fail
    * assertThat(abc).endsWith("a");
@@ -617,8 +617,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
    *
    * // assertions will pass
-   * oneTwoThree.areAtMost(2, oddNumber);
-   * oneTwoThree.areAtMost(3, oddNumber);
+   * oneTwoThree.areAtMost(2, oddNumber)
+   *            .areAtMost(3, oddNumber);
    * 
    * // assertion will fail
    * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
@@ -734,8 +734,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;String&gt; abc = Arrays.asList("a", "b", "c");
    * 
    * // assertions will pass
-   * assertThat(abc).containsAll(Arrays.asList("b", "c"));
-   * assertThat(abc).containsAll(Arrays.asList("a", "b", "c"));
+   * assertThat(abc).containsAll(Arrays.asList("b", "c"))
+   *                .containsAll(Arrays.asList("a", "b", "c"));
    * 
    * // assertions will fail
    * assertThat(abc).containsAll(Arrays.asList("d"));
@@ -753,11 +753,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that all elements of the actual group are instances of the given types.
    * <p>
    * Example :
-   * <pre><code class='java'> Iterable&lt;Object&gt; objects = Arrays.asList("foo", new StringBuilder());
+   * <pre><code class='java'> Iterable&lt;? extends Object&gt; objects = Arrays.asList("foo", new StringBuilder());
    * 
    * // assertions will pass
-   * assertThat(objects).hasOnlyElementsOfTypes(CharSequence.class);
-   * assertThat(objects).hasOnlyElementsOfTypes(String.class, StringBuilder.class);
+   * assertThat(objects).hasOnlyElementsOfTypes(CharSequence.class)
+   *                    .hasOnlyElementsOfTypes(String.class, StringBuilder.class);
    * 
    * // assertions will fail
    * assertThat(objects).hasOnlyElementsOfTypes(Number.class);
@@ -773,7 +773,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    */
   SELF hasOnlyElementsOfTypes(Class<?>... types);
 
- /**
+  /**
    * Verifies that at least one element in the actual {@code Object} group has the specified type (matching
    * includes subclasses of the given type).
    * <p>
@@ -838,8 +838,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
    * 
    * // assertion will pass
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
+   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya))
+   *                  .containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
    * 
    * // assertion will fail as actual does not contain narya
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
@@ -858,8 +858,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass:
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya));
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, nenya));
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya))
+   *                       .hasSameElementsAs(newArrayList(nenya, narya, vilya, nenya));
    * 
    * // assertions will fail:
    * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
@@ -916,7 +916,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
   SELF isSubsetOf(Iterable<? extends ELEMENT> values);
-  
+
   /**
    * Verifies that all the elements of actual are present in the given values.
    * <p>
@@ -925,8 +925,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass:
-   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya);
-   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya, dwarfRing);
+   * assertThat(elvesRings).isSubsetOf(vilya, nenya, narya)
+   *                       .isSubsetOf(vilya, nenya, narya, dwarfRing);
    * 
    * // assertions will fail:
    * assertThat(elvesRings).isSubsetOf(vilya, nenya);

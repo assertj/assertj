@@ -26,7 +26,7 @@ import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Strings#assertMatches(AssertionInfo, CharSequence, CharSequence)}</code>.
+ * Tests for <code>{@link Strings#assertContainsPattern(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Pierre Templier
  */

@@ -44,13 +44,6 @@ public class Tuple_Test {
   }
 
   @Test
-  public void add_an_element_to_a_tuple() {
-    Tuple tuple = new Tuple("Yoda", 800);
-    tuple.addData("Jedi");
-    assertThat(tuple).isEqualTo(new Tuple("Yoda", 800, "Jedi"));
-  }
-
-  @Test
   public void convert_tuple_to_an_array() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
     assertThat(tuple.toArray()).isEqualTo(array("Yoda", 800, "Jedi"));

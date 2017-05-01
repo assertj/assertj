@@ -67,8 +67,8 @@ public class StandardRepresentation implements Representation {
 
   private static final String NULL = "null";
 
-  private static final String TUPPLE_START = "(";
-  private static final String TUPPLE_END = ")";
+  private static final String TUPLE_START = "(";
+  private static final String TUPLE_END = ")";
 
   private static final String DEFAULT_START = "[";
   private static final String DEFAULT_END = "]";
@@ -272,7 +272,7 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(Tuple tuple) {
-    return singleLineFormat(tuple.toList(), TUPPLE_START, TUPPLE_END);
+    return singleLineFormat(tuple.toList(), TUPLE_START, TUPLE_END);
   }
 
   protected String toStringOf(MapEntry<?, ?> mapEntry) {

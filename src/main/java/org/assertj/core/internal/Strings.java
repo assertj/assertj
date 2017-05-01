@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
@@ -35,6 +36,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
@@ -423,7 +425,8 @@ public class Strings {
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
     String actualNormalized = normalizeNewlines(actual);
     String expectedNormalized = normalizeNewlines(expected);
-    if (!actualNormalized.equals(expectedNormalized)) throw failures.failure(info, shouldBeEqual(actual, expected));
+    if (!actualNormalized.equals(expectedNormalized))
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected));
   }
 
   private static String normalizeNewlines(CharSequence actual) {
@@ -772,6 +775,40 @@ public class Strings {
     assertNotNull(info, actual);
     Matcher matcher = pattern.matcher(actual);
     if (!matcher.find()) throw failures.failure(info, shouldContainPattern(actual, pattern.pattern()));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} does not contain the given regular expression.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param regex the regular expression to find in the actual {@code CharSequence}.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains the given regular expression.
+   */
+  public void assertDoesNotContainPattern(AssertionInfo info, CharSequence actual, CharSequence regex) {
+    checkRegexIsNotNull(regex);
+    Pattern pattern = Pattern.compile(regex.toString());
+    assertDoesNotContainPattern(info, actual, pattern);
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} does not contain the given regular expression.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param pattern the regular expression to find in the actual {@code CharSequence}.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} contains the given regular expression.
+   */
+  public void assertDoesNotContainPattern(AssertionInfo info, CharSequence actual, Pattern pattern) {
+    checkIsNotNull(pattern);
+    assertNotNull(info, actual);
+    Matcher matcher = pattern.matcher(actual);
+    if (matcher.find()) throw failures.failure(info, shouldNotContainPattern(actual, pattern.pattern()));
   }
 
   private void checkCharSequenceArrayDoesNotHaveNullElements(CharSequence[] values) {
