@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
@@ -651,19 +650,16 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Verify that the object under test returns the given expected value from the given method.
+   * Verify that the object under test returns the given expected value from the given {@link Function}, 
+   * a typical usage is to pass a method reference to assert object's property.
    * <p>
-   * You can pass a getter method reference to assert object's property.
-   * <p>
-   * Wrapping {@code from} function with {@link Assertions#from(Function)} makes the assertion more fluent.
+   * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
    * <p>
    * Example:
-   * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
-   * assertThat(yoda).returns("Yoda", from(Jedi::getName))
-   *                 // from is optional but the assertion becomes less readable
-   *                 .returns("Yoda", Jedi::getName) 
-   *                 .returns(2.4, from(Jedi::getHeight))
-   *                 .returns(150, from(Jedi::getWeight)); </code></pre>
+   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable 
+   * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName))
+   *                  .returns("Frodo", TolkienCharacter::getName) // no from :(
+   *                  .returns(HOBBIT, from(TolkienCharacter::getRace));</code></pre>
    *
    * @param expected the value the object under test method's call should return.
    * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
