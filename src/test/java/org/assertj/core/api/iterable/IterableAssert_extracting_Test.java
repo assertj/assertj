@@ -53,17 +53,17 @@ public class IterableAssert_extracting_Test {
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
-	  @Override
-	  public String extract(Employee input) {
-	  return input.getName().getFirst();
-	}
+    @Override
+    public String extract(Employee input) {
+      return input.getName().getFirst();
+    }
   };
 
   private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
-	  @Override
-	  public Integer extract(Employee input) {
-	  return input.getAge();
-	}
+    @Override
+    public Integer extract(Employee input) {
+      return input.getAge();
+    }
   };
 
   @Before
@@ -143,8 +143,7 @@ public class IterableAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined()
-       {
+  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     // extract field that is also a property and check generic for comparator.
     assertThat(employees).extracting("name", Name.class).usingElementComparator(new Comparator<Name>() {
       @Override
@@ -175,8 +174,8 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_single_values_using_extractor() {
-	  assertThat(employees).extracting(firstName).containsOnly("Yoda", "Luke");
-	  assertThat(employees).extracting(age).containsOnly(26, 800);
+    assertThat(employees).extracting(firstName).containsOnly("Yoda", "Luke");
+    assertThat(employees).extracting(age).containsOnly(26, 800);
   }
 
   @Test
@@ -245,111 +244,111 @@ public class IterableAssert_extracting_Test {
     }).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
- @Test
+  @Test
   public void should_allow_extracting_by_toString_method() {
-    assertThat(employees).extracting(Extractors.toStringMethod()).containsOnly(
-        "Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
-        "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
+    assertThat(employees).extracting(Extractors.toStringMethod())
+                         .containsOnly("Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
+                                       "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
   }
-    
+
   @Test
   public void should_allow_assertions_by_using_function_extracted_from_given_iterable() throws Exception {
-	  assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
-	                               .contains("Boromir", "Gandalf", "Frodo")
-	                               .doesNotContain("Sauron", "Elrond");
+    assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
+                                   .contains("Boromir", "Gandalf", "Frodo")
+                                   .doesNotContain("Sauron", "Elrond");
   }
 
   @Test
   public void should_throw_error_if_function_fails() throws Exception {
-	  RuntimeException thrown = new RuntimeException();
-	  assertThatThrownBy(() -> assertThat(fellowshipOfTheRing).extracting(e -> {
-	    throw thrown;
-	  }).isEqualTo(thrown));
+    RuntimeException thrown = new RuntimeException();
+    assertThatThrownBy(() -> assertThat(fellowshipOfTheRing).extracting(e -> {
+      throw thrown;
+    }).isEqualTo(thrown));
   }
 
   @Test
   public void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_function() {
 
-	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName, 
-	                                           TolkienCharacter::getAge)
-	                               .containsOnly(tuple("Frodo", 33),
-	                                             tuple("Sam", 38),
-	                                             tuple("Gandalf", 2020),
-	                                             tuple("Legolas", 1000),
-	                                             tuple("Pippin", 28),
-	                                             tuple("Gimli", 139),
-	                                             tuple("Aragorn", 87),
-	                                             tuple("Boromir", 37));
+    assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                               TolkienCharacter::getAge)
+                                   .containsOnly(tuple("Frodo", 33),
+                                                 tuple("Sam", 38),
+                                                 tuple("Gandalf", 2020),
+                                                 tuple("Legolas", 1000),
+                                                 tuple("Pippin", 28),
+                                                 tuple("Gimli", 139),
+                                                 tuple("Aragorn", 87),
+                                                 tuple("Boromir", 37));
   }
 
   @Test
   public void should_allow_assertions_on_three_extracted_values_from_given_iterable_by_using_a_function() {
 
-	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
-	                                           TolkienCharacter::getAge,
-	                                           TolkienCharacter::getRace)
-	                               .containsOnly(tuple("Frodo", 33, TolkienCharacter.Race.HOBBIT),
-	                                             tuple("Sam", 38, HOBBIT),
-	                                             tuple("Gandalf", 2020, MAIA),
-	                                             tuple("Legolas", 1000, ELF),
-	                                             tuple("Pippin", 28, HOBBIT),
-	                                             tuple("Gimli", 139, DWARF),
-	                                             tuple("Aragorn", 87, MAN),
-	                                             tuple("Boromir", 37, MAN));
+    assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                               TolkienCharacter::getAge,
+                                               TolkienCharacter::getRace)
+                                   .containsOnly(tuple("Frodo", 33, TolkienCharacter.Race.HOBBIT),
+                                                 tuple("Sam", 38, HOBBIT),
+                                                 tuple("Gandalf", 2020, MAIA),
+                                                 tuple("Legolas", 1000, ELF),
+                                                 tuple("Pippin", 28, HOBBIT),
+                                                 tuple("Gimli", 139, DWARF),
+                                                 tuple("Aragorn", 87, MAN),
+                                                 tuple("Boromir", 37, MAN));
   }
 
   @Test
   public void should_allow_assertions_on_four_extracted_values_from_given_iterable_by_using_a_function() {
 
-	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
-	                                           TolkienCharacter::getAge,
-	                                           TolkienCharacter::getRace,
-	                                           character -> character.name)
-	                               .containsOnly(tuple("Frodo", 33, HOBBIT, "Frodo"),
-	                                             tuple("Sam", 38, HOBBIT, "Sam"),
-	                                             tuple("Gandalf", 2020, MAIA, "Gandalf"),
-	                                             tuple("Legolas", 1000, ELF, "Legolas"),
-	                                             tuple("Pippin", 28, HOBBIT, "Pippin"),
-	                                             tuple("Gimli", 139, DWARF, "Gimli"),
-	                                             tuple("Aragorn", 87, MAN, "Aragorn"),
-	                                             tuple("Boromir", 37, MAN, "Boromir"));
+    assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                               TolkienCharacter::getAge,
+                                               TolkienCharacter::getRace,
+                                               character -> character.name)
+                                   .containsOnly(tuple("Frodo", 33, HOBBIT, "Frodo"),
+                                                 tuple("Sam", 38, HOBBIT, "Sam"),
+                                                 tuple("Gandalf", 2020, MAIA, "Gandalf"),
+                                                 tuple("Legolas", 1000, ELF, "Legolas"),
+                                                 tuple("Pippin", 28, HOBBIT, "Pippin"),
+                                                 tuple("Gimli", 139, DWARF, "Gimli"),
+                                                 tuple("Aragorn", 87, MAN, "Aragorn"),
+                                                 tuple("Boromir", 37, MAN, "Boromir"));
   }
 
   @Test
   public void should_allow_assertions_on_five_extracted_values_from_given_iterable_by_using_a_function() {
 
-	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
-	                                           TolkienCharacter::getAge,
-	                                           TolkienCharacter::getRace,
-	                                           character -> character.name,
-	                                           character -> character.age)
-	                               .containsOnly(tuple("Frodo", 33, HOBBIT, "Frodo", 33),
-	                                             tuple("Sam", 38, HOBBIT, "Sam", 38),
-	                                             tuple("Gandalf", 2020, MAIA, "Gandalf", 2020),
-	                                             tuple("Legolas", 1000, ELF, "Legolas", 1000),
-	                                             tuple("Pippin", 28, HOBBIT, "Pippin", 28),
-	                                             tuple("Gimli", 139, DWARF, "Gimli", 139),
-	                                             tuple("Aragorn", 87, MAN, "Aragorn", 87),
-	                                             tuple("Boromir", 37, MAN, "Boromir", 37));
+    assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                               TolkienCharacter::getAge,
+                                               TolkienCharacter::getRace,
+                                               character -> character.name,
+                                               character -> character.age)
+                                   .containsOnly(tuple("Frodo", 33, HOBBIT, "Frodo", 33),
+                                                 tuple("Sam", 38, HOBBIT, "Sam", 38),
+                                                 tuple("Gandalf", 2020, MAIA, "Gandalf", 2020),
+                                                 tuple("Legolas", 1000, ELF, "Legolas", 1000),
+                                                 tuple("Pippin", 28, HOBBIT, "Pippin", 28),
+                                                 tuple("Gimli", 139, DWARF, "Gimli", 139),
+                                                 tuple("Aragorn", 87, MAN, "Aragorn", 87),
+                                                 tuple("Boromir", 37, MAN, "Boromir", 37));
   }
 
   @Test
   public void should_allow_assertions_on_more_than_five_extracted_values_from_given_iterable_by_using_a_function() {
 
-	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
-	                                           TolkienCharacter::getAge,
-	                                           TolkienCharacter::getRace,
-	                                           character -> character.name,
-	                                           character -> character.age,
-	                                           character -> character.race)
-	                               .containsOnly(tuple("Frodo", 33, HOBBIT, "Frodo", 33, HOBBIT),
-	                                             tuple("Sam", 38, HOBBIT, "Sam", 38, HOBBIT),
-	                                             tuple("Gandalf", 2020, MAIA, "Gandalf", 2020, MAIA),
-	                                             tuple("Legolas", 1000, ELF, "Legolas", 1000, ELF),
-	                                             tuple("Pippin", 28, HOBBIT, "Pippin", 28, HOBBIT),
-	                                             tuple("Gimli", 139, DWARF, "Gimli", 139, DWARF),
-	                                             tuple("Aragorn", 87, MAN, "Aragorn", 87, MAN),
-	                                             tuple("Boromir", 37, MAN, "Boromir", 37, MAN));
+    assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                               TolkienCharacter::getAge,
+                                               TolkienCharacter::getRace,
+                                               character -> character.name,
+                                               character -> character.age,
+                                               character -> character.race)
+                                   .containsOnly(tuple("Frodo", 33, HOBBIT, "Frodo", 33, HOBBIT),
+                                                 tuple("Sam", 38, HOBBIT, "Sam", 38, HOBBIT),
+                                                 tuple("Gandalf", 2020, MAIA, "Gandalf", 2020, MAIA),
+                                                 tuple("Legolas", 1000, ELF, "Legolas", 1000, ELF),
+                                                 tuple("Pippin", 28, HOBBIT, "Pippin", 28, HOBBIT),
+                                                 tuple("Gimli", 139, DWARF, "Gimli", 139, DWARF),
+                                                 tuple("Aragorn", 87, MAN, "Aragorn", 87, MAN),
+                                                 tuple("Boromir", 37, MAN, "Boromir", 37, MAN));
   }
 
   @Test
