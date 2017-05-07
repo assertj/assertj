@@ -1946,6 +1946,8 @@ public class AtomicReferenceArrayAssert<T>
    * Extract the values from the array's elements by applying an extracting function (which might throw an
    * exception) on them. The returned array becomes a new object under test.
    * <p>
+   * Any checked exception raised in the extractor is rethrown wrapped in a {@link RuntimeException}.
+   * <p>
    * It allows to test values from the elements in safer way than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p>

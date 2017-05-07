@@ -1051,6 +1051,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Extract the values from Iterable's elements under test by applying an extracting function (which might throw an
    * exception) on them. The returned iterable becomes a new object under test.
    * <p>
+   * Any checked exception raised in the extractor is rethrown wrapped in a {@link RuntimeException}.
+   * <p>
    * It allows to test values from the elements in more safe way than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p>
