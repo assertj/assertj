@@ -21,7 +21,7 @@ import java.util.Optional;
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
-public class OptionalAssert_isNotPresent extends BaseTest {
+public class OptionalAssert_isNotPresent_Test extends BaseTest {
 
   @Test
   public void should_pass_if_optional_is_empty() throws Exception {
