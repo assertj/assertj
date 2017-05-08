@@ -13,26 +13,27 @@
 package org.assertj.core.condition;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.condition.Not.not;
+import static org.assertj.core.condition.DoesNotHave.doesNotHave;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.junit.Test;
 
+
 /**
- * Tests for <code>{@link Not#not(Condition)}</code>.
+ * Tests for <code>{@link DoesNotHave#doesNotHave(Condition)}</code>.
  * 
  * @author Nicolas François
  */
-public class Not_with_condition {
+public class DoesNotHave_with_condition_Test {
 
   @Test
-  public void should_create_new_notOf_with_passed_Conditions() {
+  public void should_create_new_doesNotHave_with_passed_Condition() {
     TestCondition<Object> condition = new TestCondition<>();
-    Condition<Object> created = not(condition);
-    assertThat(created.getClass()).isEqualTo(Not.class);
-    Not<Object> not = (Not<Object>) created;
-    assertThat(not.condition).isEqualTo(condition);
+    Condition<Object> created = doesNotHave(condition);
+    assertThat(created.getClass()).isEqualTo(DoesNotHave.class);
+    DoesNotHave<Object> doesNotHave = (DoesNotHave<Object>) created;
+    assertThat(doesNotHave.condition).isEqualTo(condition);
   }
 
 }
