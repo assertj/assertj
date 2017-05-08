@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Tests for Assert.asString() methods
  */
-public class Assertions_assertThat_asString {
+public class Assertions_assertThat_asString_Test {
 
   @Rule
   public ExpectedException thrown = none();
@@ -37,7 +37,7 @@ public class Assertions_assertThat_asString {
   public void should_fail_string_asserts_on_non_string_objects_even_with_asString() {
 	Object nonString = new Object();
 
-	thrown.expectAssertionErrorWithMessageContaining("an instance of:%n <java.lang.String>%nbut was instance of:%n <java.lang.Object>");
+	thrown.expectAssertionErrorWithMessageContaining("an instance of:%n  <java.lang.String>%nbut was instance of:%n  <java.lang.Object>");
 	assertThat(nonString).asString().contains("hello");
   }
 

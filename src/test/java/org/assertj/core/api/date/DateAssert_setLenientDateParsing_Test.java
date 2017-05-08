@@ -32,7 +32,7 @@ import org.junit.Test;
  *
  * @author Michal Kordas
  */
-public class DateAssert_setLenientDateParsing extends DateAssertBaseTest {
+public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
   @Rule
   public ExpectedException thrown = none();
 
