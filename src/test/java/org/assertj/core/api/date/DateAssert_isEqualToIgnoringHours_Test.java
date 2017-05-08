@@ -12,34 +12,32 @@
  */
 package org.assertj.core.api.date;
 
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
-
 import java.util.Date;
-
+import java.util.concurrent.TimeUnit;
 import org.assertj.core.api.DateAssert;
+import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for {@link DateAssert#isIn(java.util.Collection))} with Collection of Date or String.
- * 
- * @author Joel Costigliola
+ * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringHours(java.util.Date)}</code>.
+ *
+ * @author William Delanoue
  */
-public class DateAssert_isIn_Test_with_collection_param extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isIn(newArrayList(otherDate));
+    return assertions.isEqualToIgnoringHours(otherDate);
   }
 
   @Override
-  protected DateAssert assertionInvocationWithStringArg(String dateAsString) {
-    return assertions.isInWithStringDateCollection(newArrayList(dateAsString));
+  protected DateAssert assertionInvocationWithStringArg(String date) {
+    return assertions.isEqualToIgnoringHours(date);
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(objects).assertIsIn(getInfo(assertions), getActual(assertions), newArrayList(date));
+    verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.HOURS);
   }
 
 }

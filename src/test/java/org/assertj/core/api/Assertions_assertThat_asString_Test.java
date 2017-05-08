@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Tests for Assert.asString() methods
  */
-public class Assertions_assertThat_asString {
+public class Assertions_assertThat_asString_Test {
 
   @Rule
   public ExpectedException thrown = none();

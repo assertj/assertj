@@ -19,25 +19,25 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringMinutes(java.util.Date)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringMillis(java.util.Date)}</code>.
  *
  * @author William Delanoue
  */
-public class DateAssert_isEqualToIgnoringMinutes extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isEqualToIgnoringMillis_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isEqualToIgnoringMinutes(otherDate);
+    return assertions.isEqualToIgnoringMillis(otherDate);
   }
 
   @Override
   protected DateAssert assertionInvocationWithStringArg(String date) {
-    return assertions.isEqualToIgnoringMinutes(date);
+    return assertions.isEqualToIgnoringMillis(date);
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.MINUTES);
+    verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.MILLISECONDS);
   }
 
 }

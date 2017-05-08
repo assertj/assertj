@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * Tests for Assert.asList() methods
  */
-public class Assertions_assertThat_asList {
+public class Assertions_assertThat_asList_Test {
 
   @Rule
   public ExpectedException thrown = none();

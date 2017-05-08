@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.date;
 
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -20,25 +21,25 @@ import org.assertj.core.api.DateAssert;
 
 
 /**
- * Tests for {@link DateAssert#isIn(Object...)} with vararg of Date or String.
+ * Tests for {@link DateAssert#isIn(java.util.Collection))} with Collection of Date or String.
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isNotIn_Test_with_vararg_param extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isIn_with_collection_param_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isNotIn(otherDate);
+    return assertions.isIn(newArrayList(otherDate));
   }
 
   @Override
   protected DateAssert assertionInvocationWithStringArg(String dateAsString) {
-    return assertions.isNotIn(dateAsString);
+    return assertions.isInWithStringDateCollection(newArrayList(dateAsString));
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), new Object[] { date });
+    verify(objects).assertIsIn(getInfo(assertions), getActual(assertions), newArrayList(date));
   }
 
 }

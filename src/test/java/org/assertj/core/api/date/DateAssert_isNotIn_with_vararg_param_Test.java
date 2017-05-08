@@ -12,32 +12,33 @@
  */
 package org.assertj.core.api.date;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import org.assertj.core.api.DateAssert;
 import static org.mockito.Mockito.verify;
+
+import java.util.Date;
+
+import org.assertj.core.api.DateAssert;
 
 
 /**
- * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringHours(java.util.Date)}</code>.
- *
- * @author William Delanoue
+ * Tests for {@link DateAssert#isIn(Object...)} with vararg of Date or String.
+ * 
+ * @author Joel Costigliola
  */
-public class DateAssert_isEqualToIgnoringHours extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isNotIn_with_vararg_param_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isEqualToIgnoringHours(otherDate);
+    return assertions.isNotIn(otherDate);
   }
 
   @Override
-  protected DateAssert assertionInvocationWithStringArg(String date) {
-    return assertions.isEqualToIgnoringHours(date);
+  protected DateAssert assertionInvocationWithStringArg(String dateAsString) {
+    return assertions.isNotIn(dateAsString);
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.HOURS);
+    verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), new Object[] { date });
   }
 
 }

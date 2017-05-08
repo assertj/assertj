@@ -25,7 +25,7 @@ import org.assertj.core.api.DateAssert;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isNotIn_Test_with_collection_param extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isNotIn_with_collection_param_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {

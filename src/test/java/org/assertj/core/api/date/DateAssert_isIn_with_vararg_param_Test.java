@@ -24,7 +24,7 @@ import org.assertj.core.api.DateAssert;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isIn_Test_with_vararg_param extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isIn_with_vararg_param_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
