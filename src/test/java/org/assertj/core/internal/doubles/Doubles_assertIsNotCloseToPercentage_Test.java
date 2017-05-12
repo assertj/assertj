@@ -19,6 +19,9 @@ import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.NaN;
+import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -103,5 +106,43 @@ public class Doubles_assertIsNotCloseToPercentage_Test extends DoublesBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_NaN() {
+    thrown.expectAssertionError();
+    doubles.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
+    thrown.expectAssertionError();
+    doubles.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
+    thrown.expectAssertionError();
+    doubles.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+    doubles.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, ONE, withPercentage(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+    doubles.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+    doubles.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, ONE, withPercentage(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
+    doubles.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
   }
 }
