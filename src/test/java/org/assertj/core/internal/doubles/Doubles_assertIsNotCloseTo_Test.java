@@ -12,14 +12,9 @@
  */
 package org.assertj.core.internal.doubles;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.DoublesBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.NaN;
+import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
@@ -27,6 +22,14 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.DoublesBaseTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 @RunWith(DataProviderRunner.class)
 public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
@@ -86,5 +89,43 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_NaN() {
+    thrown.expectAssertionError();
+    doubles.assertIsNotCloseTo(someInfo(), NaN, NaN, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
+    thrown.expectAssertionError();
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
+    thrown.expectAssertionError();
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
   }
 }
