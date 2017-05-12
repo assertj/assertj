@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.floats;
 
+import static java.lang.Float.NEGATIVE_INFINITY;
+import static java.lang.Float.NaN;
+import static java.lang.Float.POSITIVE_INFINITY;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
@@ -69,5 +72,50 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_NaN_and_expected_is_not() {
+    thrown.expectAssertionError();
+    floats.assertIsCloseTo(someInfo(), NaN, ONE, within(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_and_expected_are_NaN() {
+    floats.assertIsCloseTo(someInfo(), NaN, NaN, within(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+    thrown.expectAssertionError();
+    floats.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_and_expected_are_POSITIVE_INFINITY() {
+    floats.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+    thrown.expectAssertionError();
+    floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_and_expected_are_NEGATIVE_INFINITY() {
+    floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_is_POSITVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+    thrown.expectAssertionError();
+    floats.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITVE_INFINITY() {
+    thrown.expectAssertionError();
+    floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
   }
 }

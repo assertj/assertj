@@ -20,6 +20,9 @@ import org.junit.runner.RunWith;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
+import static java.lang.Float.NEGATIVE_INFINITY;
+import static java.lang.Float.NaN;
+import static java.lang.Float.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
@@ -86,5 +89,43 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_NaN() {
+    thrown.expectAssertionError();
+    floats.assertIsNotCloseTo(someInfo(), NaN, NaN, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
+    thrown.expectAssertionError();
+    floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
+    thrown.expectAssertionError();
+    floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+    floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+    floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+    floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
+    floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
   }
 }

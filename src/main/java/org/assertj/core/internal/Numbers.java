@@ -197,7 +197,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     checkNumberIsNotNull(expected);
 
     NUMBER diff = absDiff(actual, expected);
-    if (!isGreaterThan(diff, offset.value))
+    if (!isGreaterThan(diff, offset.value) || Objects.areEqual(actual, expected))
       throw failures.failure(info, shouldNotBeEqual(actual, expected, offset, diff));
   }
 
@@ -214,8 +214,11 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     assertNotNull(info, actual);
     checkPercentageIsNotNull(percentage);
     checkNumberIsNotNull(other);
+
+    if (Objects.areEqual(actual, other)) return;
     double acceptableDiff = abs(percentage.value * other.doubleValue() / 100d);
-    if (absDiff(actual, other).doubleValue() > acceptableDiff)
+    double actualDiff = absDiff(actual, other).doubleValue();
+    if (actualDiff > acceptableDiff || Double.isNaN(actualDiff) || Double.isInfinite(actualDiff))
       throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
   }
 
@@ -232,8 +235,11 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     assertNotNull(info, actual);
     checkPercentageIsNotNull(percentage);
     checkNumberIsNotNull(other);
+
     double diff = abs(percentage.value * other.doubleValue() / 100d);
-    if (absDiff(actual, other).doubleValue() <= diff)
+    boolean areEqual = Objects.areEqual(actual, other);
+    if (!areEqual && Double.isInfinite(diff)) return;
+    if (absDiff(actual, other).doubleValue() <= diff || areEqual)
       throw failures.failure(info, shouldNotBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
   }
 
