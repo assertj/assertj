@@ -12,9 +12,6 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Double.NaN;
-import static java.lang.Double.POSITIVE_INFINITY;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -99,50 +96,5 @@ public class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_is_NaN_and_expected_is_not() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseToPercentage(someInfo(), NaN, ONE, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_expected_are_NaN() {
-    doubles.assertIsCloseToPercentage(someInfo(), NaN, Double.NaN, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseToPercentage(someInfo(), POSITIVE_INFINITY, ONE, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_expteced_are_POSITIVE_INFINITY() {
-    doubles.assertIsCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseToPercentage(someInfo(), NEGATIVE_INFINITY, ONE, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_expted_are_NEGATIVE_INFINITY() {
-    doubles.assertIsCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseToPercentage(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseToPercentage(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
   }
 }

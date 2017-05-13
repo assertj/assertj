@@ -12,9 +12,13 @@
  */
 package org.assertj.core.internal.floats;
 
-import static java.lang.Float.NEGATIVE_INFINITY;
-import static java.lang.Float.NaN;
-import static java.lang.Float.POSITIVE_INFINITY;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.FloatsBaseTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -23,14 +27,6 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FloatsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 @RunWith(DataProviderRunner.class)
 public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
@@ -105,43 +101,5 @@ public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_and_expected_are_NaN() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
-    floats.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, ONE, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
-    floats.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
-    floats.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, ONE, withPercentage(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
-    floats.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
   }
 }

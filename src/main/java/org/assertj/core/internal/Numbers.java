@@ -14,8 +14,8 @@ package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
 import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
@@ -173,11 +173,11 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @param offset the given positive offset.
    */
   public void assertIsCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
-                              final Offset<NUMBER> offset) {
+                                       final Offset<NUMBER> offset) {
     assertNotNull(info, actual);
     checkOffsetIsNotNull(offset);
     checkNumberIsNotNull(expected);
-
+    
     if (Objects.areEqual(actual, expected)) return; // handles correctly NaN comparison
     if (isGreaterThan(absDiff(actual, expected), offset.value))
       throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
@@ -197,7 +197,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     checkNumberIsNotNull(expected);
 
     NUMBER diff = absDiff(actual, expected);
-    if (!isGreaterThan(diff, offset.value) || Objects.areEqual(actual, expected))
+    if (!isGreaterThan(diff, offset.value))
       throw failures.failure(info, shouldNotBeEqual(actual, expected, offset, diff));
   }
 
@@ -214,11 +214,8 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     assertNotNull(info, actual);
     checkPercentageIsNotNull(percentage);
     checkNumberIsNotNull(other);
-
-    if (Objects.areEqual(actual, other)) return;
     double acceptableDiff = abs(percentage.value * other.doubleValue() / 100d);
-    double actualDiff = absDiff(actual, other).doubleValue();
-    if (actualDiff > acceptableDiff || Double.isNaN(actualDiff) || Double.isInfinite(actualDiff))
+    if (absDiff(actual, other).doubleValue() > acceptableDiff)
       throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
   }
 
@@ -235,16 +232,13 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     assertNotNull(info, actual);
     checkPercentageIsNotNull(percentage);
     checkNumberIsNotNull(other);
-
     double diff = abs(percentage.value * other.doubleValue() / 100d);
-    boolean areEqual = Objects.areEqual(actual, other);
-    if (!areEqual && Double.isInfinite(diff)) return;
-    if (absDiff(actual, other).doubleValue() <= diff || areEqual)
+    if (absDiff(actual, other).doubleValue() <= diff)
       throw failures.failure(info, shouldNotBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
   }
 
   protected abstract NUMBER absDiff(final NUMBER actual, final NUMBER other);
-
+  
   protected abstract boolean isGreaterThan(final NUMBER value, final NUMBER other);
-
+  
 }

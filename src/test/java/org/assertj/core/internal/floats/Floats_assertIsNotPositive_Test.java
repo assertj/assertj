@@ -15,6 +15,7 @@ package org.assertj.core.internal.floats;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.FloatsBaseTest;
+
 import org.junit.Test;
 
 /**

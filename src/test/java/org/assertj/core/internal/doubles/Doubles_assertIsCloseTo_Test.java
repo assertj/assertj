@@ -12,9 +12,6 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Double.NaN;
-import static java.lang.Double.POSITIVE_INFINITY;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
@@ -61,7 +58,7 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
     doubles.assertIsCloseTo(someInfo(), ONE, ZERO, within(ONE));
     doubles.assertIsCloseTo(someInfo(), ONE, TWO, within(ONE));
   }
-
+  
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
@@ -72,50 +69,5 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_is_NaN_and_expected_is_not() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseTo(someInfo(), NaN, ONE, within(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_expected_are_NaN() {
-    doubles.assertIsCloseTo(someInfo(), NaN, NaN, within(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    doubles.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
   }
 }

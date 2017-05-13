@@ -12,12 +12,12 @@
  */
 package org.assertj.core.internal.floats;
 
-import static org.assertj.core.test.TestData.someInfo;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.Test;
+
+import static org.assertj.core.test.TestData.someInfo;
 
 /**
  * Tests for <code>{@link Floats#assertIsOne(AssertionInfo, Float)}}</code>.
