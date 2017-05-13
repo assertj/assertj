@@ -54,7 +54,7 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
       throw new RuntimeException("Fail to find a constructor matching " + value
                                  + " class to build the expected Assert class");
     } catch (Exception e) {
-      throw new RuntimeException("Fail to build an assert object with " + value, e);
+      throw new RuntimeException("Fail to build an assert object with " + value + ": " + e.getMessage(), e);
     }
   }
 }
