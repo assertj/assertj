@@ -431,16 +431,6 @@ public class BDDAssertions extends Assertions {
     return assertThat(actual);
   }
 
-  /**
-   * Creates a new instance of {@link PathAssert}
-   *
-   * @param actual the path to test
-   * @return the created assertion object
-   */
-  @CheckReturnValue
-  public static AbstractPathAssert<?> then(Path actual) {
-    return assertThat(actual);
-  }
 
   /**
    * Creates a new instance of {@link FutureAssert}
