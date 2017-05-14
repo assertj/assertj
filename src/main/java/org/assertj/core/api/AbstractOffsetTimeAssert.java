@@ -23,6 +23,7 @@ import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.OffsetTime;
+import java.time.format.DateTimeParseException;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -528,6 +529,132 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
       throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
     }
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link OffsetTime} is in the [start, end] period (start and end included).
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetTime offsetTime = OffsetTime.now();
+   * 
+   * // assertions succeed:
+   * assertThat(offsetTime).isBetween(offsetTime.minusSeconds(1), offsetTime.plusSeconds(1))
+   *                       .isBetween(offsetTime, offsetTime.plusSeconds(1))
+   *                       .isBetween(offsetTime.minusSeconds(1), offsetTime)
+   *                       .isBetween(offsetTime, offsetTime);
+   * 
+   * // assertions fail:
+   * assertThat(offsetTime).isBetween(offsetTime.minusSeconds(10), offsetTime.minusSeconds(1));
+   * assertThat(offsetTime).isBetween(offsetTime.plusSeconds(1), offsetTime.plusSeconds(10));</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(OffsetTime startInclusive, OffsetTime endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isBetween(OffsetTime, OffsetTime)} but here you pass {@link OffsetTime} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_TIME">ISO OffsetTime format</a> 
+   * to allow calling {@link OffsetTime#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetTime oneAm = OffsetTime.parse("01:00:00+02:00");
+   * 
+   * // assertions succeed:
+   * assertThat(oneAm).isBetween("00:59:59+02:00", "01:00:01+02:00")
+   *                  .isBetween("01:00:00+02:00", "01:00:01+02:00")
+   *                  .isBetween("00:59:59+02:00", "01:00:00+02:00")
+   *                  .isBetween("01:00:00+02:00", "01:00:00+02:00")
+   *                               
+   * // assertion fails:
+   * assertThat(oneAm).isBetween("01:00:01+02:00", "02:00:01+02:00");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link OffsetTime}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(String startInclusive, String endInclusive) {
+    return isBetween(parse(startInclusive), parse(endInclusive));
+  }
+
+  /**
+   * Verifies that the actual {@link OffsetTime} is in the ]start, end[ period (start and end excluded).
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetTime offsetTime = OffsetTime.now();
+   * 
+   * // assertion succeeds:
+   * assertThat(offsetTime).isStrictlyBetween(offsetTime.minusSeconds(1), offsetTime.plusSeconds(1));
+   * 
+   * // assertions fail:
+   * assertThat(offsetTime).isStrictlyBetween(offsetTime.minusSeconds(10), offsetTime.minusSeconds(1));
+   * assertThat(offsetTime).isStrictlyBetween(offsetTime.plusSeconds(1), offsetTime.plusSeconds(10));
+   * assertThat(offsetTime).isStrictlyBetween(offsetTime, offsetTime.plusSeconds(1));
+   * assertThat(offsetTime).isStrictlyBetween(offsetTime.minusSeconds(1), offsetTime);</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(OffsetTime startInclusive, OffsetTime endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isStrictlyBetween(OffsetTime, OffsetTime)} but here you pass {@link OffsetTime} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_TIME">ISO OffsetTime format</a> 
+   * to allow calling {@link OffsetTime#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetTime oneAm = OffsetTime.parse("01:00:00+02:00");
+   * 
+   * // assertion succeeds:
+   * assertThat(oneAm).isStrictlyBetween("00:59:59+02:00", "01:00:01+02:00");
+   * 
+   * // assertions fail:
+   * assertThat(oneAm).isStrictlyBetween("02:00:00+02:00", "03:00:00+02:00");
+   * assertThat(oneAm).isStrictlyBetween("00:59:59+02:00", "01:00:00+02:00");
+   * assertThat(oneAm).isStrictlyBetween("01:00:00+02:00", "01:00:01+02:00");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link OffsetTime}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
+    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
   }
 
   /**

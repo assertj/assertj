@@ -24,6 +24,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -574,6 +575,132 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   public SELF isNotIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
     return isNotIn(convertToDateTimeArray(dateTimesAsString));
+  }
+
+  /**
+   * Verifies that the actual {@link ZonedDateTime} is in the [start, end] period (start and end included).
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime zonedDateTime = ZonedDateTime.now();
+   * 
+   * // assertions succeed:
+   * assertThat(zonedDateTime).isBetween(zonedDateTime.minusSeconds(1), zonedDateTime.plusSeconds(1))
+   *                           .isBetween(zonedDateTime, zonedDateTime.plusSeconds(1))
+   *                           .isBetween(zonedDateTime.minusSeconds(1), zonedDateTime)
+   *                           .isBetween(zonedDateTime, zonedDateTime);
+   * 
+   * // assertions fail:
+   * assertThat(zonedDateTime).isBetween(zonedDateTime.minusSeconds(10), zonedDateTime.minusSeconds(1));
+   * assertThat(zonedDateTime).isBetween(zonedDateTime.plusSeconds(1), zonedDateTime.plusSeconds(10));</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(ZonedDateTime startInclusive, ZonedDateTime endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a> 
+   * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime firstOfJanuary2000 = ZonedDateTime.parse("2000-01-01T00:00:00Z");
+   * 
+   * // assertions succeed:
+   * assertThat(firstOfJanuary2000).isBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:01Z")         
+   *                               .isBetween("2000-01-01T00:00:00Z", "2000-01-01T00:00:01Z")         
+   *                               .isBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:00Z")         
+   *                               .isBetween("2000-01-01T00:00:00Z", "2000-01-01T00:00:00Z");
+   *                               
+   * // assertion fails:
+   * assertThat(firstOfJanuary2000).isBetween("1999-01-01T00:00:01Z", "1999-12-31T23:59:59Z");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link ZonedDateTime}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(String startInclusive, String endInclusive) {
+    return isBetween(parse(startInclusive), parse(endInclusive));
+  }
+
+  /**
+   * Verifies that the actual {@link ZonedDateTime} is in the ]start, end[ period (start and end excluded).
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime zonedDateTime = ZonedDateTime.now();
+   * 
+   * // assertion succeeds:
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(1), zonedDateTime.plusSeconds(1));
+   * 
+   * // assertions fail:
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(10), zonedDateTime.minusSeconds(1));
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.plusSeconds(1), zonedDateTime.plusSeconds(10));
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime, zonedDateTime.plusSeconds(1));
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(1), zonedDateTime);</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(ZonedDateTime startInclusive, ZonedDateTime endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isStrictlyBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a> 
+   * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime firstOfJanuary2000 = ZonedDateTime.parse("2000-01-01T00:00:00Z");
+   * 
+   * // assertion succeeds:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:01Z");
+   * 
+   * // assertions fail:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01T00:00:01Z", "1999-12-31T23:59:59Z");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("2000-01-01T00:00:00Z", "2000-01-01T00:00:01Z");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:00Z");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link ZonedDateTime}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
+    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
   }
 
   private ZonedDateTime[] convertToDateTimeArray(String... dateTimesAsString) {

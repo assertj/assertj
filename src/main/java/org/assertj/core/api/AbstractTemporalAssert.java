@@ -19,6 +19,7 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
 import org.assertj.core.data.TemporalOffset;
+import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
@@ -29,6 +30,9 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert<SELF, TEMPORAL>, TEMPORAL extends Temporal>
     extends AbstractAssert<SELF, TEMPORAL> {
+
+  @VisibleForTesting
+  Comparables comparables = new Comparables();
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractTemporalAssert}</code>.

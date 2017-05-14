@@ -14,14 +14,15 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 import org.assertj.core.internal.Comparables;
 
-public abstract class ZonedDateTimeAssertBaseTest extends BaseTestTemplate<ZonedDateTimeAssert, ZonedDateTime> {
+
+public abstract class LocalDateAssertBaseTest extends BaseTestTemplate<LocalDateAssert, LocalDate> {
 
   protected Comparables comparables;
-  protected ZonedDateTime now = ZonedDateTime.now();
+  protected LocalDate now = LocalDate.now();
 
   @Override
   protected void inject_internal_objects() {
@@ -31,8 +32,8 @@ public abstract class ZonedDateTimeAssertBaseTest extends BaseTestTemplate<Zoned
   }
 
   @Override
-  protected ZonedDateTimeAssert create_assertions() {
-    return new ZonedDateTimeAssert(now);
+  protected LocalDateAssert create_assertions() {
+    return new LocalDateAssert(now);
   }
 
 }

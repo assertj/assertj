@@ -12,18 +12,18 @@
  */
 package org.assertj.core.api;
 
-
-import org.assertj.core.error.ShouldBeAfter;
-import org.assertj.core.error.ShouldBeAfterOrEqualsTo;
-import org.assertj.core.error.ShouldBeBefore;
-import org.assertj.core.error.ShouldBeBeforeOrEqualsTo;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
+import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
+import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
+import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
-import static org.assertj.core.util.Preconditions.checkArgument;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Objects;
 
 /**
  * Assertions for {@link Instant} type from new Date &amp; Time API introduced in Java 8.
@@ -31,7 +31,8 @@ import static org.assertj.core.util.Preconditions.checkArgument;
  * @param <SELF> the "self" type of this assertion class.
  * @since 3.7.0
  */
-public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> extends AbstractTemporalAssert<SELF, Instant> {
+public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
+    extends AbstractTemporalAssert<SELF, Instant> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractInstantAssert}</code>.
@@ -42,7 +43,6 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
   protected AbstractInstantAssert(Instant actual, Class<?> selfType) {
     super(actual, selfType);
   }
-
 
   /**
    * Verifies that the actual {@code Instant} is <b>strictly</b> before the given one.
@@ -61,7 +61,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
     assertNotNull(info, actual);
     assertInstantParameterIsNotNull(other);
     if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, ShouldBeBefore.shouldBeBefore(actual, other));
+      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
     }
     return myself;
   }
@@ -79,7 +79,8 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * @param instantAsString String representing a {@link Instant}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
+   * @throws IllegalArgumentException if given String is null.
+   * @throws DateTimeParseException if given String can't be converted to a {@link Instant}.
    * @throws AssertionError if the actual {@code Instant} is not strictly before the {@link Instant} built
    *           from given String.
    * @since 3.7.0
@@ -107,7 +108,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
     assertNotNull(info, actual);
     assertInstantParameterIsNotNull(other);
     if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo(actual, other));
+      throw Failures.instance().failure(info, shouldBeBeforeOrEqualsTo(actual, other));
     }
     return myself;
   }
@@ -126,7 +127,8 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * @param instantAsString String representing a {@link Instant}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
+   * @throws IllegalArgumentException if given String is null.
+   * @throws DateTimeParseException if given String can't be converted to a {@link Instant}.
    * @throws AssertionError if the actual {@code Instant} is not before or equals to the {@link Instant} built from
    *           given String.
    * @since 3.7.0
@@ -154,7 +156,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
     assertNotNull(info, actual);
     assertInstantParameterIsNotNull(other);
     if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo(actual, other));
+      throw Failures.instance().failure(info, shouldBeAfterOrEqualsTo(actual, other));
     }
     return myself;
   }
@@ -173,7 +175,8 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * @param instantAsString String representing a {@link Instant}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
+   * @throws IllegalArgumentException if given String is null.
+   * @throws DateTimeParseException if given String can't be converted to a {@link Instant}.
    * @throws AssertionError if the actual {@code Instant} is not after or equals to the {@link Instant} built from
    *           given String.
    * @since 3.7.0
@@ -200,7 +203,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
     assertNotNull(info, actual);
     assertInstantParameterIsNotNull(other);
     if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, ShouldBeAfter.shouldBeAfter(actual, other));
+      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
     }
     return myself;
   }
@@ -218,8 +221,9 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * @param instantAsString String representing a {@link Instant}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
-   * @throws AssertionError if the actual {@code LocalDate} is not strictly after the {@link Instant} built
+   * @throws IllegalArgumentException if given String is null.
+   * @throws DateTimeParseException if given String can't be converted to a {@link Instant}.
+   * @throws AssertionError if the actual {@code Instant} is not strictly after the {@link Instant} built
    *           from given String.
    * @since 3.7.0
    */
@@ -241,7 +245,8 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * @param instantAsString String representing a {@link Instant}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
+   * @throws IllegalArgumentException if given String is null.
+   * @throws DateTimeParseException if given String can't be converted to a {@link Instant}.
    * @throws AssertionError if the actual {@code Instant} is not equal to the {@link Instant} built from
    *           given String.
    * @since 3.7.0
@@ -264,7 +269,8 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * @param instantAsString String representing a {@link Instant}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
+   * @throws IllegalArgumentException if given String is null.
+   * @throws DateTimeParseException if given String can't be converted to a {@link Instant}.
    * @throws AssertionError if the actual {@code Instant} is equal to the {@link Instant} built from given
    *           String.
    * @since 3.7.0
@@ -281,13 +287,14 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use String based representation of LocalDate
+   * <pre><code class='java'> // use String based representation of Instant
    * assertThat(parse("2007-12-03T10:15:30.00Z")).isIn("2007-12-03T10:15:30.00Z", "2007-12-03T10:15:35.00Z");</code></pre>
    *
    * @param instantsAsString String array representing {@link Instant}s.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
+   * @throws IllegalArgumentException if given Strings are null or empty.
+   * @throws DateTimeParseException if one of the given String can't be converted to a {@link Instant}.
    * @throws AssertionError if the actual {@code Instant} is not in the {@link Instant}s built from given
    *           Strings.
    * @since 3.7.0
@@ -304,13 +311,14 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // use String based representation of LocalDate
+   * <pre><code class='java'> // use String based representation of Instant
    * assertThat(parse("2007-12-03T10:15:30.00Z")).isNotIn("2007-12-03T10:15:35.00Z", "2007-12-03T10:15:25.00Z");</code></pre>
    *
    * @param instantsAsString Array of String representing a {@link Instant}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link Instant}.
+   * @throws IllegalArgumentException if given Strings are null or empty.
+   * @throws DateTimeParseException if one of the given String can't be converted to a {@link Instant}.
    * @throws AssertionError if the actual {@code Instant} is in the {@link Instant}s built from given
    *           Strings.
    * @since 3.7.0
@@ -320,13 +328,140 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
     return isNotIn(convertToInstantArray(instantsAsString));
   }
 
-  private static Object[] convertToInstantArray(String[] instantsAsString) {
-    return Arrays.stream(instantsAsString).map(Instant::parse).toArray();
+  /**
+   * Verifies that the actual {@link Instant} is in the [start, end] period (start and end included).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Instant instant = Instant.now();
+   * 
+   * // assertions succeed:
+   * assertThat(instant).isBetween(instant.minusSeconds(1), instant.plusSeconds(1))
+   *                    .isBetween(instant, instant.plusSeconds(1))
+   *                    .isBetween(instant.minusSeconds(1), instant)
+   *                    .isBetween(instant, instant);
+   * 
+   * // assertions fail:
+   * assertThat(instant).isBetween(instant.minusSeconds(10), instant.minusSeconds(1));
+   * assertThat(instant).isBetween(instant.plusSeconds(1), instant.plusSeconds(10));</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] range.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(Instant startInclusive, Instant endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isBetween(Instant, Instant)} but here you pass {@link Instant} String representations 
+   * that must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT">ISO Instant format</a> 
+   * to allow calling {@link Instant#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Instant firstOfJanuary2000 = Instant.parse("2000-01-01T00:00:00.00Z");
+   * 
+   * // assertions succeed:
+   * assertThat(firstOfJanuary2000).isBetween("1999-01-01T00:00:00.00Z", "2001-01-01T00:00:00.00Z")
+   *                               .isBetween("2000-01-01T00:00:00.00Z", "2001-01-01T00:00:00.00Z")
+   *                               .isBetween("1999-01-01T00:00:00.00Z", "2000-01-01T00:00:00.00Z")
+   *                               .isBetween("2000-01-01T00:00:00.00Z", "2000-01-01T00:00:00.00Z");
+   * 
+   * // assertion fails:
+   * assertThat(firstOfJanuary2000).isBetween("1999-01-01T00:00:00.00Z", "1999-12-31T23:59:59.59Z");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link Instant}.
+   * @throws AssertionError if the actual value is not in [start, end] range.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(String startInclusive, String endInclusive) {
+    return isBetween(parse(startInclusive), parse(endInclusive));
+  }
+
+  /**
+   * Verifies that the actual {@link Instant} is in the ]start, end[ period (start and end excluded).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Instant instant = Instant.now();
+   * 
+   * // assertion succeeds:
+   * assertThat(instant).isStrictlyBetween(instant.minusSeconds(1), instant.plusSeconds(1));
+   * 
+   * // assertions fail:
+   * assertThat(instant).isStrictlyBetween(instant.minusSeconds(10), instant.minusSeconds(1));
+   * assertThat(instant).isStrictlyBetween(instant.plusSeconds(1), instant.plusSeconds(10));
+   * assertThat(instant).isStrictlyBetween(instant, instant.plusSeconds(1));
+   * assertThat(instant).isStrictlyBetween(instant.minusSeconds(1), instant);</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ range.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(Instant startInclusive, Instant endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isStrictlyBetween(Instant, Instant)} but here you pass {@link Instant} String representations 
+   * that must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT">ISO Instant format</a> 
+   * to allow calling {@link Instant#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Instant firstOfJanuary2000 = Instant.parse("2000-01-01T00:00:00.00Z");
+   * 
+   * // assertion succeeds:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01T00:00:00.00Z", "2001-01-01T00:00:00.00Z");
+   * 
+   * // assertions fail:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01T00:00:00.00Z", "1999-12-31T23:59:59.59Z");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("2000-01-01T00:00:00.00Z", "2001-01-01T00:00:00.00Z");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01T00:00:00.00Z", "2000-01-01T00:00:00.00Z");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link Instant}.
+   * @throws AssertionError if the actual value is not in ]start, end[ range.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
+    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
   }
 
   @Override
   protected Instant parse(String instantAsString) {
     return Instant.parse(instantAsString);
+  }
+
+  private static Object[] convertToInstantArray(String[] instantsAsString) {
+    return Arrays.stream(instantsAsString).map(Instant::parse).toArray();
   }
 
   private static void assertNotNull(AssertionInfo info, Instant actual) {
@@ -347,7 +482,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>> ext
    */
   private static void assertInstantAsStringParameterIsNotNull(String instantAsString) {
     checkArgument(instantAsString != null,
-      "The String representing the Instant to compare actual with should not be null");
+                  "The String representing the Instant to compare actual with should not be null");
   }
 
   private static void assertInstantParameterIsNotNull(Instant instant) {

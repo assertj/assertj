@@ -50,7 +50,7 @@ public class Comparables {
   final ComparisonStrategy comparisonStrategy;
 
   @VisibleForTesting
-  Comparables() {
+  public Comparables() {
     this(StandardComparisonStrategy.instance());
   }
 

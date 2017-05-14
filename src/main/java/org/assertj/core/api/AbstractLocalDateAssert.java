@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
 import org.assertj.core.internal.Failures;
@@ -325,6 +326,132 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
     Objects.instance().assertNotNull(info, actual);
     if (!actual.isEqual(LocalDate.now())) throw Failures.instance().failure(info, shouldBeToday(actual));
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link LocalDate} is in the [start, end] period (start and end included).
+   * <p>
+   * Example:
+   * <pre><code class='java'> LocalDate localDate = LocalDate.now();
+   * 
+   * // assertions succeed:
+   * assertThat(localDate).isBetween(localDate.minusDays(1), localDate.plusDays(1))
+   *                      .isBetween(localDate, localDate.plusDays(1))
+   *                      .isBetween(localDate.minusDays(1), localDate)
+   *                      .isBetween(localDate, localDate);
+   * 
+   * // assertions fail:
+   * assertThat(localDate).isBetween(localDate.minusDays(10), localDate.minusDays(1));
+   * assertThat(localDate).isBetween(localDate.plusDays(1), localDate.plusDays(10));</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(LocalDate startInclusive, LocalDate endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a> 
+   * to allow calling {@link LocalDate#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> LocalDate firstOfJanuary2000 = LocalDate.parse("2000-01-01");
+   * 
+   * // assertions succeed:
+   * assertThat(firstOfJanuary2000).isBetween("1999-01-01", "2001-01-01")
+   *                               .isBetween("2000-01-01", "2001-01-01")
+   *                               .isBetween("1999-01-01", "2000-01-01")
+   *                               .isBetween("2000-01-01", "2000-01-01");
+   * 
+   * // assertion fails:
+   * assertThat(firstOfJanuary2000).isBetween("1999-01-01", "1999-12-31");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link LocalDate}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(String startInclusive, String endInclusive) {
+    return isBetween(parse(startInclusive), parse(endInclusive));
+  }
+
+  /**
+   * Verifies that the actual {@link LocalDate} is in the ]start, end[ period (start and end excluded).
+   * <p>
+   * Example:
+   * <pre><code class='java'> LocalDate localDate = LocalDate.now();
+   * 
+   * // assertion succeeds:
+   * assertThat(localDate).isStrictlyBetween(localDate.minusDays(1), localDate.plusDays(1));
+   * 
+   * // assertions fail:
+   * assertThat(localDate).isStrictlyBetween(localDate.minusDays(10), localDate.minusDays(1));
+   * assertThat(localDate).isStrictlyBetween(localDate.plusDays(1), localDate.plusDays(10));
+   * assertThat(localDate).isStrictlyBetween(localDate, localDate.plusDays(1));
+   * assertThat(localDate).isStrictlyBetween(localDate.minusDays(1), localDate);</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(LocalDate startInclusive, LocalDate endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isStrictlyBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a> 
+   * to allow calling {@link LocalDate#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> LocalDate firstOfJanuary2000 = LocalDate.parse("2000-01-01");
+   * 
+   * // assertion succeeds:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01", "2001-01-01");
+   * 
+   * // assertions fail:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01", "1999-12-31");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("2000-01-01", "2001-01-01");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01", "2000-01-01");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link LocalDate}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
+    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
   }
 
   /**
