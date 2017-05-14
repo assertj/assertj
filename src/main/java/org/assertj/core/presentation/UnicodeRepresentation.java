@@ -44,15 +44,15 @@ public class UnicodeRepresentation extends StandardRepresentation {
 
   private static String escapeUnicode(String input) {
     StringBuilder b = new StringBuilder(input.length());
-    Formatter formatter = new Formatter(b);
-    for (char c : input.toCharArray()) {
-      if (c < 128) {
-        b.append(c);
-      } else {
-        formatter.format("\\u%04x", (int) c);
+    try (Formatter formatter = new Formatter(b)) {
+      for (char c : input.toCharArray()) {
+        if (c < 128) {
+          b.append(c);
+        } else {
+          formatter.format("\\u%04x", (int) c);
+        }
       }
+      return b.toString();
     }
-    formatter.close();
-    return b.toString();
   }
 }
