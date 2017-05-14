@@ -63,4 +63,26 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
     }
     return null;
   }
+  
+  /**
+   * Catch given throwable if any was thrown
+   *
+   * @param throwableType throwable class to catch
+   * @param callable method to catch for throwable
+   * @param <T> Throwable type
+   * @return catched throwable if any was thrown
+   * @throws Exception rethrow all unexpected throwables
+   */
+  private static <T extends Throwable> T catchThrowable(Class<T> throwableType, Callable<?> callable) throws Exception {
+    try {
+      callable.call();
+    } catch (Throwable throwable) {
+      if (throwableType != null && !throwableType.isInstance(throwable)) {
+        throw throwable;
+      }
+      //noinspection unchecked
+      return (T) throwable;
+    }
+  	return null;
+  }
 }
