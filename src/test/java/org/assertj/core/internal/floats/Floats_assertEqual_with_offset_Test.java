@@ -17,6 +17,7 @@ import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -64,6 +65,22 @@ public class Floats_assertEqual_with_offset_Test extends FloatsBaseTest {
   }
 
   @Test
+  public void should_fail_if_first_float_is_null_but_not_the_second() {
+    thrown.expectAssertionError(actualIsNull());
+    floats.assertEqual(someInfo(), null, 8f, offset(1f));
+  }
+
+  @Test
+  public void should_fail_if_second_float_is_null_but_not_the_first() {
+    AssertionInfo info = someInfo();
+    Offset<Float> offset = offset(1f);
+
+    thrown.expectNullPointerException("The given number should not be null");
+
+    floats.assertEqual(info, 6f, null, offset);
+  }
+
+  @Test
   public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(offsetIsNull());
     floatsWithAbsValueComparisonStrategy.assertEqual(someInfo(), new Float(8f), new Float(8f), null);
@@ -90,5 +107,21 @@ public class Floats_assertEqual_with_offset_Test extends FloatsBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_first_float_is_null_but_not_the_second_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    floatsWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8f, offset(1f));
+  }
+
+  @Test
+  public void should_fail_if_second_float_is_null_but_not_the_first_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    Offset<Float> offset = offset(1f);
+
+    thrown.expectNullPointerException("The given number should not be null");
+
+    floatsWithAbsValueComparisonStrategy.assertEqual(info, 6f, null, offset);
   }
 }

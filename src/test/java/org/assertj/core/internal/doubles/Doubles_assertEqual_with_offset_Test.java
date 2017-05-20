@@ -64,6 +64,16 @@ public class Doubles_assertEqual_with_offset_Test extends DoublesBaseTest {
   }
 
   @Test
+  public void should_fail_if_second_double_is_null_but_not_the_first() {
+    AssertionInfo info = someInfo();
+    Offset<Double> offset = offset(1d);
+
+    thrown.expectNullPointerException("The given number should not be null");
+
+    doubles.assertEqual(info, 6d, null, offset);
+  }
+
+  @Test
   public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(offsetIsNull());
     doublesWithAbsValueComparisonStrategy.assertEqual(someInfo(), new Double(8d), new Double(8d), null);
@@ -90,5 +100,15 @@ public class Doubles_assertEqual_with_offset_Test extends DoublesBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_second_double_is_null_but_not_the_first_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    Offset<Double> offset = offset(1d);
+
+    thrown.expectNullPointerException("The given number should not be null");
+
+    doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, null, offset);
   }
 }
