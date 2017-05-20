@@ -936,20 +936,20 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
- /**
+  /**
    * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring whitespace differences
    * <p>
    * Examples :
    * <pre><code class='java'> // assertions will pass
-   * assertThat(&quot;my foo bar&quot;).isEqualToIgnoringWhitespace(&quot;myfoobar&quot;);
-   * assertThat(&quot;my      foo bar&quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
-   * assertThat(&quot;  my foo bar  &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
-   * assertThat(&quot; my     foo bar &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
-   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foo bar&quot;);
-   * assertThat(&quot;my foo bar&quot;).isEqualToIgnoringWhitespace(&quot;   my foo bar   &quot;);
+   * assertThat("Game of Thrones").isEqualToIgnoringWhitespace("Game   of   Thrones")
+   *                              .isEqualToIgnoringWhitespace("  Game of   Thrones  ")
+   *                              .isEqualToIgnoringWhitespace("  Game of Thrones  ")
+   *                              .isEqualToIgnoringWhitespace("Gameof      Thrones")
+   *                              .isEqualToIgnoringWhitespace("Game of\tThrones")
+   *                              .isEqualToIgnoringWhitespace("GameofThrones");
    *
    * // assertion will fail
-   * assertThat(&quot;myfoobar&quot;).isEqualToIgnoringWhitespace(&quot;myfoo&quot;);</code></pre>
+   * assertThat("Game of Thrones").isEqualToIgnoringWhitespace("Game OF Thrones");</code></pre>
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
@@ -998,14 +998,18 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass
-   * assertThat(&quot;my      foo bar&quot;).isEqualToNormalizingWhitespace(&quot;my foo bar&quot;);
-   * assertThat(&quot;  my foo bar  &quot;).isEqualToNormalizingWhitespace(&quot;my foo bar&quot;);
-   * assertThat(&quot; my     foo bar &quot;).isEqualToNormalizingWhitespace(&quot;my foo bar&quot;);
-   * assertThat(&quot; my\tfoo bar &quot;).isEqualToNormalizingWhitespace(&quot; my foo bar&quot;);
-   * assertThat(&quot;my foo bar&quot;).isEqualToNormalizingWhitespace(&quot;   my foo bar   &quot;);
+   * assertThat("Game of Thrones").isEqualToNormalizingWhitespace("Game   of   Thrones")
+   *                              .isEqualToNormalizingWhitespace("Game of     Thrones")
+   *                              .isEqualToNormalizingWhitespace("Game     of Thrones")
+   *                              .isEqualToNormalizingWhitespace("  Game of Thrones  ")
+   *                              .isEqualToNormalizingWhitespace("  Game of   Thrones  ")
+   *                              .isEqualToNormalizingWhitespace("Game of\tThrones")
+   *                              .isEqualToNormalizingWhitespace("Game of Thrones");
    *
-   * // assertion will fail
-   * assertThat(&quot; my\tfoo bar &quot;).isEqualToNormalizingWhitespace(&quot; my foobar&quot;);</code></pre>
+   * // assertions will fail
+   * assertThat("Game of Thrones").isEqualToNormalizingWhitespace("Game ofThrones");
+   * assertThat("Game of Thrones").isEqualToNormalizingWhitespace("Gameo fThrones");
+   * assertThat("Game of Thrones").isEqualToNormalizingWhitespace("Gameof Thrones");</code></pre>
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
