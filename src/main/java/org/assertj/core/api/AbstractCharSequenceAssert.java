@@ -950,6 +950,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * // assertion will fail
    * assertThat("Game of Thrones").isEqualToIgnoringWhitespace("Game OF Thrones");</code></pre>
+   * <p>
+   * This assertion behavior has changed in 2.8.0 to really ignore all whitespaces, 
+   * the old behaviour has been kept in the better named {@link #isEqualToNormalizingWhitespace(CharSequence)}.  
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
