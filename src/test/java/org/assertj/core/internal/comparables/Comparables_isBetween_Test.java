@@ -72,6 +72,17 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
     comparables.assertIsBetween(someInfo(), 8, 10, null, true, true);
   }
 
+  @Test
+  public void should_fail_if_end_is_less_than_start() {
+    thrown.expectIllegalArgumentException("The end value <8> must not be less than the start value <10>!");
+    comparables.assertIsBetween(someInfo(), 8, 10, 8, true, true);
+  }
+
+  @Test
+  public void succeeds_if_end_is_equal_to_start() {
+    comparables.assertIsBetween(someInfo(), 8, 8, 8, true, true);
+  }
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
@@ -103,6 +114,12 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void fails_if_end_is_less_than_start_according_to_custom_comparison_strategy() {
+    thrown.expectIllegalArgumentException("The end value <8> must not be less than the start value <-10> (using 'AbsValueComparator')!");
+    comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), 8, -10, 8, true, true);
   }
 
 }
