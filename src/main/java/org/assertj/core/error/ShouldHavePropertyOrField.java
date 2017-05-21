@@ -20,7 +20,7 @@ package org.assertj.core.error;
 public class ShouldHavePropertyOrField extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHavePropertyOrField}</code>.
+   * Creates a new <code>{@link ShouldHavePropertyOrField}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param name expected name of field for this class

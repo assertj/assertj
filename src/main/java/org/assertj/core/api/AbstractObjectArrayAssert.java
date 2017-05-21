@@ -273,7 +273,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
    * given {@code Iterable} and nothing else, <b>in any order</b>.
-   * </p>
+   * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
    *
@@ -919,7 +919,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * String[] abcc = {"a", "b", "cc"};
    *
    * Condition&lt;String&gt; singleCharacterString
-   *      = new Condition&lt;&gt;(s -> s.length() == 1, "single character String");
+   *      = new Condition&lt;&gt;(s -&gt; s.length() == 1, "single character String");
    *
    * // assertion will pass
    * assertThat(abc).are(singleCharacterString);
@@ -947,7 +947,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * String[] abcc = {"a", "b", "cc"};
    *
    * Condition&lt;String&gt; moreThanOneCharacter =
-   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() &gt; 1, "more than one character");
    *
    * // assertion will pass
    * assertThat(abc).areNot(moreThanOneCharacter);
@@ -975,7 +975,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * String[] abcc = {"a", "b", "cc"};
    *
    * Condition&lt;String&gt; onlyOneCharacter =
-   *     = new Condition&lt;&gt;(s -> s.length() == 1, "only one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() == 1, "only one character");
    *
    * // assertion will pass
    * assertThat(abc).have(onlyOneCharacter);
@@ -1003,7 +1003,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * String[] abcc = {"a", "b", "cc"};
    *
    * Condition&lt;String&gt; moreThanOneCharacter =
-   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() &gt; 1, "more than one character");
    *
    * // assertion will pass
    * assertThat(abc).doNotHave(moreThanOneCharacter);
@@ -1326,7 +1326,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
    * <p>
    * Example:
-   * <p>
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private double height;
@@ -1340,7 +1339,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -1367,7 +1366,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
    *                    .usingFieldByFieldElementComparator()
    *                    .containsExactly(reallyTallFrodo);</code></pre>
-   * </p>
    *
    * @param comparator the {@link java.util.Comparator} to use
    * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
@@ -1411,7 +1409,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -1438,7 +1436,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
    *                    .usingFieldByFieldElementComparator()
    *                    .contains(reallyTallFrodo);</code></pre>
-   * </p>
+   *
    * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance 
    * chain to the given {@code type} is chosen in the following order:
    * <ol>
@@ -1471,7 +1469,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
-   * </p>
+   * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -1553,7 +1551,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
-   * </p>
+   * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
@@ -1586,7 +1584,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
    * to the other field/property using its <code>equals</code> method.
-   * </p>
+   * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
@@ -2017,19 +2015,19 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * With standard error message:
    * <pre><code class='java'> Expecting:
-   *  <[16, 32]>
+   *  &lt;[16, 32]&gt;
    * to contain:
-   *  <[48]>
+   *  &lt;[48]&gt;
    * but could not find:
-   *  <[48]></code></pre>
+   *  &lt;[48]&gt;</code></pre>
    *
    * With Hexadecimal error message:
    * <pre><code class='java'> Expecting:
-   *  <[0x10, 0x20]>
+   *  &lt;[0x10, 0x20]&gt;
    * to contain:
-   *  <[0x30]>
+   *  &lt;[0x30]&gt;
    * but could not find:
-   *  <[0x30]></code></pre>
+   *  &lt;[0x30]&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -2072,7 +2070,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Nested properties/fields are supported:
    * <pre><code class='java'> // Name is bean class with 'first' and 'last' String properties
    *
-   * // name is null for noname => it does not match the filter on "name.first"
+   * // name is null for noname =&gt; it does not match the filter on "name.first"
    * assertThat(employees).filteredOn("name.first", "Luke")
    *                      .containsOnly(luke);
    *
@@ -2230,7 +2228,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * Filter the array under test keeping only elements matching the given {@link Condition}.
    * <p>
-   * Let's check old employees whose age > 100:
+   * Let's check old employees whose age &gt; 100:
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -2243,7 +2241,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Condition&lt;Employee&gt; oldEmployees = new Condition&lt;Employee&gt;("old employees") {
    *       {@literal @}Override
    *       public boolean matches(Employee employee) {
-   *         return employee.getAge() > 100;
+   *         return employee.getAge() &gt; 100;
    *       }
    *     };
    *   }

@@ -67,7 +67,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertions will fail
    * assertThat(tmpFile).exists();
    * assertThat(tmpDir).exists();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} does not exist.
@@ -95,7 +95,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertions will fail
    * assertThat(tmpFile).doesNotExist();
    * assertThat(tmpDir).doesNotExist();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} exists.
@@ -120,7 +120,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertions will fail
    * assertThat(tmpFile).isFile();
    * assertThat(tmpDir).isFile();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
@@ -145,7 +145,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertions will fail
    * assertThat(tmpFile).isDirectory();
    * assertThat(tmpDir).isDirectory();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
@@ -168,7 +168,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * 
    * // assertion will fail
    * assertThat(relativeFile).isAbsolute();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an absolute path.
@@ -191,7 +191,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * 
    * // assertion will fail
    * assertThat(absoluteFile).isRelative();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not a relative path.
@@ -291,7 +291,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * 
    * // The following assertion fails:
    * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
-   * </p>
+   *
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @param expectedCharset the {@code Charset} used to read the content of the expected file.
    * @return {@code this} assertion object.
@@ -320,7 +320,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertions will fail
    * assertThat(bin).hasBinaryContent(new byte[] { });
    * assertThat(bin).hasBinaryContent(new byte[] {0, 0});</code></pre>
-   * </p> 
+   *
    * @param expected the expected binary content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
@@ -361,7 +361,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one.<br/>
+   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one.<br>
    * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
@@ -386,7 +386,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * 
    * // The following assertion fails :
    * assertThat(xFileTurkish).usingCharset(StandardCharsets.UTF_8).hasContent(&quot;Gerçek&quot;);</code></pre>
-   * </p>
+   *
    * @param expected the expected text content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
@@ -417,7 +417,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertions will fail
    * assertThat(tmpFile).canWrite();
    * assertThat(tmpDir).canWrite();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be modified by the application.
@@ -444,7 +444,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertions will fail
    * assertThat(tmpFile).canRead();
    * assertThat(tmpDir).canRead();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be read by the application.
@@ -466,8 +466,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(xFile).hasParent(new File(&quot;scully&quot;));</code></pre>
-   * 
-   * </p>
    * 
    * @param expected the expected parent {@code File}.
    * @return {@code this} assertion object.
@@ -496,7 +494,8 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertion will fail
    * assertThat(xFile).hasParent(&quot;scully&quot;);</code></pre>
    * 
-   * </p>
+   * @param expected the expected parent file path.
+   * @return {@code this} assertion object.
    */
   public SELF hasParent(String expected) {
     files.assertHasParent(info, actual, expected != null ? new File(expected) : null);
@@ -515,8 +514,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * 
    * // assertion will fail
    * assertThat(xFile).hasExtension(&quot;png&quot;);</code></pre>
-   * 
-   * </p>
    * 
    * @param expected the expected extension, it does not contains the {@code '.'}
    * @return {@code this} assertion object.
@@ -548,8 +545,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * assertThat(xFile).hasName(&quot;xFile&quot;);
    * assertThat(xDirectory).hasName(&quot;somewhere&quot;);</code></pre>
    * 
-   * </p>
-   * 
    * @param expected the expected {@code File} name.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected name is {@code null}.
@@ -576,8 +571,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * 
    * // assertion will fail
    * assertThat(xFile).hasNoParent();</code></pre>
-   * 
-   * </p>
    * 
    * @return {@code this} assertion object.
    * 

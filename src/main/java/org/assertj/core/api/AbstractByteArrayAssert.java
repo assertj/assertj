@@ -58,8 +58,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3, 4 }).hasSize(3);</code></pre>
-   *
-   * </p>
    */
   @Override
   public SELF hasSize(int expected) {
@@ -96,8 +94,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).contains((byte) 1, (byte) 4);
    * assertThat(new byte[] { 1, 2, 3 }).contains((byte) 4, (byte) 7);</code></pre>
    *
-   * </p>
-   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException     if the given argument is {@code null}.
@@ -123,8 +119,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, 4);
    * assertThat(new byte[] { 1, 2, 3 }).contains(4, 7);</code></pre>
    *
-   * </p>
-   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException     if the given argument is {@code null}.
@@ -149,8 +143,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly((byte) 1, (byte) 2, (byte) 3, (byte) 4);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly((byte) 4, (byte) 7);</code></pre>
-   *
-   * </p>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -178,8 +170,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(1, 2, 3, 4);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(4, 7);</code></pre>
-   *
-   * </p>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -265,8 +255,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence((byte) 1, (byte) 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence((byte) 4, (byte) 7);</code></pre>
    *
-   * </p>
-   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -290,8 +278,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence(1, 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence(4, 7);</code></pre>
-   *
-   * </p>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -319,8 +305,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence((byte) 2, (byte) 1);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence((byte) 4, (byte) 7);</code></pre>
    *
-   * </p>
-   *
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -346,8 +330,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(2, 1);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(4, 7);</code></pre>
    *
-   * </p>
-   *
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -371,8 +353,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).contains((byte) 1, atIndex(1));
    * assertThat(new byte[] { 1, 2, 3 }).contains((byte) 4, atIndex(2));</code></pre>
-   *
-   * </p>
    *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -400,8 +380,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, atIndex(1));
    * assertThat(new byte[] { 1, 2, 3 }).contains(4, atIndex(2));</code></pre>
    *
-   * </p>
-   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -427,8 +405,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain((byte) 2);</code></pre>
    *
-   * </p>
-   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException     if the given argument is {@code null}.
@@ -450,8 +426,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(2);</code></pre>
-   *
-   * </p>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -478,8 +452,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain((byte) 1, atIndex(0));
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain((byte) 2, atIndex(1));</code></pre>
    *
-   * </p>
-   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -504,8 +476,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(1, atIndex(0));
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(2, atIndex(1));</code></pre>
    *
-   * </p>
-   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -529,8 +499,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 1, 1, 2, 3 }).doesNotHaveDuplicates();</code></pre>
    *
-   * </p>
-   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
@@ -551,8 +519,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).startsWith((byte) 2, (byte) 3);</code></pre>
-   *
-   * </p>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -577,8 +543,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).startsWith(2, 3);</code></pre>
-   *
-   * </p>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -605,8 +569,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).endsWith((byte) 3, (byte) 4);</code></pre>
    *
-   * </p>
-   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException     if the given argument is {@code null}.
@@ -630,8 +592,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).endsWith(3, 4);</code></pre>
-   *
-   * </p>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.

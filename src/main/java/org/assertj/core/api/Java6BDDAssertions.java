@@ -809,7 +809,7 @@ public class Java6BDDAssertions {
    * Java 8 example :
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
-   *    thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *    thenThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                        .hasMessageContaining("boom");
    *  }</code></pre>
    *
@@ -926,7 +926,7 @@ public class Java6BDDAssertions {
   }
 
   /**
-   * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
+   * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected Java6BDDAssertions() {}
 }

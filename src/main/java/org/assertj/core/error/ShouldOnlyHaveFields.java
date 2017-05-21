@@ -26,7 +26,7 @@ import java.util.Collection;
 public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldOnlyHaveFields}</code>.
+   * Creates a new <code>{@link ShouldOnlyHaveFields}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected expected fields for this class
@@ -41,7 +41,7 @@ public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldOnlyHaveFields}</code>.
+   * Creates a new <code>{@link ShouldOnlyHaveFields}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected expected fields for this class

@@ -22,7 +22,7 @@ import java.util.SortedSet;
 public class ShouldHaveMethods extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveMethods}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldHaveMethods}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param declared {@code true} if the expected methods are declared ones, {@code false} otherwise.

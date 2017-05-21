@@ -20,7 +20,7 @@ import org.assertj.core.api.Condition;
 public class ShouldContainKey extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainKey}</code>.
+   * Creates a new <code>{@link ShouldContainKey}</code>.
    *
    * @param actual the actual map in the failed assertion.
    * @param keyCondition key condition.

@@ -25,7 +25,7 @@ import java.util.Date;
 public class ShouldBeInSameHourWindow extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeInSameHourWindow}</code>.
+   * Creates a new <code>{@link ShouldBeInSameHourWindow}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param other  the value used in the failed assertion to compare the actual value to.

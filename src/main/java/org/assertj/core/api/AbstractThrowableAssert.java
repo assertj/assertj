@@ -73,8 +73,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * // These assertions fail:
    * assertThat(throwable).hasMessage("%s is not a valid input", "bar");
    * assertThat(throwable).hasMessage("%s is not a valid input", 12);
-   * assertThat(null).hasMessage("%s is not a valid input", "foo");
-   * </p>
+   * assertThat(null).hasMessage("%s is not a valid input", "foo");</code></pre>
    *
    * @param message a format string representing the expected message
    * @param parameters argument referenced by the format specifiers in the format string
@@ -237,8 +236,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(throwable).hasCauseExactlyInstanceOf(RuntimeException.class);
    * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);</code></pre>
    *
-   * </p>
-   *
    * @param type the expected cause type.
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
@@ -265,8 +262,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * // assertion will fail
    * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);</code></pre>
    *
-   * </p>
-   *
    * @param type the expected cause type.
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
@@ -292,8 +287,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
    * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);</code></pre>
    *
-   * </p>
-   *
    * @param type the expected cause type.
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
@@ -318,7 +311,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * Throwable throwableWithSuppressedException = new Throwable();
    * throwableWithSuppressedException.addSuppressed(new IllegalArgumentException());
    * assertThat(throwableWithSuppressedException).hasNoSuppressedExceptions();</code></pre>
-   * </p>
+   *
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has any suppressed exceptions.

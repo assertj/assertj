@@ -915,18 +915,18 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * 
    * java.lang.AssertionError:
    * Expecting:
-   *   <"µµµ">
+   *   &lt;"µµµ"&gt;
    * to contain:
-   *   <"μμμ"></code></pre>
+   *   &lt;"μμμ"&gt;</code></pre>
    *
    * With Hexadecimal message:
    * <pre><code class='java'> assertThat("µµµ").inUnicode().contains("μμμ");
    * 
    * java.lang.AssertionError:
    * Expecting:
-   *   <\u00b5\u00b5\u00b5>
+   *   &lt;\u00b5\u00b5\u00b5&gt;
    * to contain:
-   *   <\u03bc\u03bc\u03bc></code></pre>
+   *   &lt;\u03bc\u03bc\u03bc&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -992,7 +992,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one, after the whitespace
-   * of both strings has been normalized.<br/>
+   * of both strings has been normalized.<br>
    * To be exact, the following rules are applied:
    * <ul>
    * <li>all leading and trailing whitespace of both actual and expected strings are ignored</li>
@@ -1027,7 +1027,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   /**
    * Verifies that the actual {@code CharSequence} is not equal to the given one, after the whitespace
-   * of both strings has been normalized.<br/>
+   * of both strings has been normalized.<br>
    * To be exact, the following rules are applied:
    * <ul>
    * <li>all leading and trailing whitespace of both actual and expected strings are ignored</li>

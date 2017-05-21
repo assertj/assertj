@@ -26,7 +26,7 @@ import org.assertj.core.internal.*;
 public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotContainAtIndex}</code>.
+   * Creates a new <code>{@link ShouldNotContainAtIndex}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected value expected to be in {@code actual}.
    * @param index the index of the expected value.
@@ -39,7 +39,7 @@ public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldNotContainAtIndex}</code>.
+   * Creates a new <code>{@link ShouldNotContainAtIndex}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected value expected to be in {@code actual}.
    * @param index the index of the expected value.

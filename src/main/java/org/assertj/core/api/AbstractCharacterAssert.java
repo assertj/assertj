@@ -53,7 +53,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * // assertions will fail
    * assertThat('a').isEqualTo('b');
    * assertThat('a').isEqualTo('A');</code></pre>
-   * </p>
+   *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -74,7 +74,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    *
    * // assertion will fail
    * assertThat('a').isNotEqualTo('a');</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -97,8 +97,6 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * assertThat('a').isLessThan('A');
    * assertThat('b').isLessThan('a');</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -119,8 +117,6 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    *
    * // assertion will fail
    * assertThat('b').isLessThanOrEqualTo('a');</code></pre>
-   * 
-   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -143,8 +139,6 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * // assertion will fail
    * assertThat('A').isGreaterThan('a');
    * assertThat('a').isGreaterThan('b');</code></pre>
-   * 
-   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -195,8 +189,6 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * // assertion will fail
    * assertThat('a').isGreaterThanOrEqualTo('b');</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -217,8 +209,6 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * // assertion will fail
    * assertThat('A').isLowerCase();</code></pre>
    *
-   * </p>
-   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a lowercase character.
@@ -238,8 +228,6 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * 
    * // assertion will fail
    * assertThat('a').isLowerCase();</code></pre>
-   * 
-   * </p>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

@@ -42,7 +42,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
  *   
  * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
  *   public boolean matches(Player player) {
- *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+ *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
  *   };
  * };
  * 
@@ -87,7 +87,7 @@ public class Filters<E> {
    * With {@link Condition} :
    * <pre><code class='java'>
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 
@@ -120,7 +120,7 @@ public class Filters<E> {
    * With {@link Condition} :
    * <pre><code class='java'> Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 
@@ -153,7 +153,7 @@ public class Filters<E> {
    *   
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP") {
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 
@@ -177,7 +177,7 @@ public class Filters<E> {
    *   
    * Condition&lt;Player&gt; mvpStats = new Condition&lt;Player&gt;("is a possible MVP") {
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 

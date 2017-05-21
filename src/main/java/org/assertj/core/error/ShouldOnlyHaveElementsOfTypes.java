@@ -23,7 +23,7 @@ import org.assertj.core.presentation.StandardRepresentation;
 public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldOnlyHaveElementsOfTypes}</code>.
+   * Creates a new <code>{@link ShouldOnlyHaveElementsOfTypes}</code>.
    * 
    * @param actual the object value in the failed assertion.
    * @param types the expected classes and interfaces.

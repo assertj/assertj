@@ -147,7 +147,7 @@ public interface ComparableAssert<SELF extends ComparableAssert<SELF, ACTUAL>, A
 
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
    * assertThat('b').isBetween('a', 'c');
@@ -172,7 +172,7 @@ public interface ComparableAssert<SELF extends ComparableAssert<SELF, ACTUAL>, A
 
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertion succeeds
    * assertThat('b').isStrictlyBetween('a', 'c');

@@ -20,7 +20,7 @@ package org.assertj.core.error;
 public class ShouldBeAnnotation extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldBeAnnotation}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldBeAnnotation}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
@@ -30,7 +30,7 @@ public class ShouldBeAnnotation extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldBeAnnotation}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldBeAnnotation}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.

@@ -22,7 +22,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 public class ShouldNotBeInstance extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotBeInstance}</code>.
+   * Creates a new <code>{@link ShouldNotBeInstance}</code>.
    * @param actual the actual value in the failed assertion.
    * @param type the type {@code actual} is expected to belong to.
    * @return the created {@code ErrorMessageFactory}.

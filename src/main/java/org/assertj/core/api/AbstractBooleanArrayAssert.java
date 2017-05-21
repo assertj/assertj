@@ -56,9 +56,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true }).hasSize(2);</code></pre>
-   * 
-   * </p>
-   * 
    */
   @Override
   public SELF hasSize(int expected) {
@@ -75,8 +72,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
-   * 
-   * </p>
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
@@ -95,8 +90,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    *
    * // assertion will fail
    * assertThat(new boolean[] { true, true }).contains(false);</code></pre>
-   * 
-   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -120,8 +113,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).containsOnly(false);</code></pre>
-   * 
-   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -172,8 +163,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).containsSequence(false, true);</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -195,8 +184,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).containsSubsequence(false, true);</code></pre>
-   * 
-   * </p>
    * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
@@ -220,8 +207,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).contains(false, atIndex(0));
    * assertThat(new boolean[] { true, false }).contains(true, atIndex(1));</code></pre>
-   * 
-   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -247,8 +232,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).doesNotContain(false);</code></pre>
    * 
-   * </p>
-   * 
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -272,8 +255,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).doesNotContain(false, atIndex(1));
    * assertThat(new boolean[] { true, false }).doesNotContain(true, atIndex(0));</code></pre>
-   *
-   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -297,8 +278,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).doesNotHaveDuplicates();</code></pre>
    * 
-   * </p>
-   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
@@ -319,8 +298,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, false, false, true }).startsWith(false, false, true);</code></pre>
-   * 
-   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -346,7 +323,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * // assertion will fail
    * assertThat(new boolean[] { true, false, false, true }).endsWith(true, false);</code></pre>
    *
-   * </p>
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.

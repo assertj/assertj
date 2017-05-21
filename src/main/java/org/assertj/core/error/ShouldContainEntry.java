@@ -22,7 +22,7 @@ import org.assertj.core.api.Condition;
 public class ShouldContainEntry extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainEntry}</code>.
+   * Creates a new <code>{@link ShouldContainEntry}</code>.
    *
    * @param actual the actual map in the failed assertion.
    * @param entryCondition entry condition.
@@ -33,7 +33,7 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainEntry}</code>.
+   * Creates a new <code>{@link ShouldContainEntry}</code>.
    *
    * @param actual the actual map in the failed assertion.
    * @param keyCondition key condition.

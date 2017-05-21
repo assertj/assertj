@@ -21,7 +21,7 @@ package org.assertj.core.error;
 public class ShouldHaveCauseExactlyInstance extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link BasicErrorMessageFactory}</code>.
+   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expectedCauseType the expected cause instance.

@@ -414,7 +414,7 @@ public class Iterables {
   }
 
   /**
-   * Verifies that the actual <code>Iterable</code> is a subset of values <code>Iterable</code>. <br/>
+   * Verifies that the actual <code>Iterable</code> is a subset of values <code>Iterable</code>. <br>
    * Both actual and given iterable are treated as sets, therefore duplicates on either of them are ignored.
    * 
    * @param info contains information about the assertion.

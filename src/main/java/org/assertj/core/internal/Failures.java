@@ -162,7 +162,7 @@ public class Failures {
    * <p>
    * See example below :
    * <pre><code class='java'> --------------- stack trace not filtered -----------------
-  org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -177,7 +177,7 @@ public class Failures {
   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)
   
   --------------- stack trace filtered -----------------
-  org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)

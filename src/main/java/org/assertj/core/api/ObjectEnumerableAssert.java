@@ -508,9 +508,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
-   * Condition&lt;String&gt; moreThanOneCharacter = new Condition&lt;String&gt() {
+   * Condition&lt;String&gt; moreThanOneCharacter = new Condition&lt;String&gt;() {
    *   public boolean matches(String value) {
-   *     return value.length() > 1;
+   *     return value.length() &gt; 1;
    *   }
    * });
    *
@@ -562,9 +562,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
-   * Condition&lt;String&gt; moreThanOneCharacter = new Condition&lt;String&gt() {
+   * Condition&lt;String&gt; moreThanOneCharacter = new Condition&lt;String&gt;() {
    *   public boolean matches(String value) {
-   *     return value.length() > 1;
+   *     return value.length() &gt; 1;
    *   }
    * });
    *
@@ -618,6 +618,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> // jedi is a Condition&lt;String&gt;
    * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);</code></pre>
    *
+   * @return {@code this} assertion object.
    * @see #haveAtLeast(int, Condition)
    */
   SELF areAtLeastOne(Condition<? super ELEMENT> condition);
@@ -689,6 +690,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // potentialMvp is a Condition&lt;BasketBallPlayer&gt;
    * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);</code></pre>
    *
+   * @return {@code this} assertion object.
    * @see #haveAtLeast(int, Condition)
    */
   SELF haveAtLeastOne(Condition<? super ELEMENT> condition);
@@ -712,6 +714,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
    *
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
+   *
+   * @return {@code this} assertion object.
    */
   SELF haveAtLeast(int n, Condition<? super ELEMENT> condition);
 
@@ -735,6 +739,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * oneTwoThree.haveAtMost(1, odd);</code></pre>
    *
    * This method is an alias {@link #areAtMost(int, Condition)}.
+   *
+   * @return {@code this} assertion object.
    */
   SELF haveAtMost(int n, Condition<? super ELEMENT> condition);
 
@@ -758,6 +764,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
    *
    * This method is an alias {@link #areExactly(int, Condition)}.
+   *
+   * @return {@code this} assertion object.
    */
   SELF haveExactly(int n, Condition<? super ELEMENT> condition);
 
@@ -861,6 +869,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.
+   *
+   * @return {@code this} assertion object.
    */
   SELF containsExactlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
@@ -881,13 +891,15 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));</code></pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
+   *
+   * @return {@code this} assertion object.
    */
   SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
    * given iterable and nothing else, <b>in any order</b>.
-   * </p>
+   * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 

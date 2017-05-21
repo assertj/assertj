@@ -29,7 +29,7 @@ public class ShouldBeEqualToIgnoringFields extends BasicErrorMessageFactory {
   private static final String EXCLUDING = " but <%s>";
 
   /**
-   * Creates a new </code>{@link ShouldBeEqualToIgnoringFields}</code>.
+   * Creates a new <code>{@link ShouldBeEqualToIgnoringFields}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param rejectedFields fields name not matching

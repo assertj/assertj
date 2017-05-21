@@ -46,7 +46,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isZero();</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -65,7 +64,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(BigInteger.ZERO).isNotZero();</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -84,7 +82,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isOne();</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -103,7 +100,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;-8&quot;)).isPositive();</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -122,7 +118,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isNegative();</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -141,7 +136,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;-8&quot;)).isNotNegative();</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -160,7 +154,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isNotPositive();</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -188,7 +181,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // but if difference is greater than given offset value assertion will fail :
    * assertThat(actual).isCloseTo(other, within(new BigInteger("1")));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -222,7 +214,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // the assertion fails if the difference is greater than the given offset value
    * assertThat(actual).isNotCloseTo(other, byLessThan(new BigInteger("3")));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -254,7 +245,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger("11")).isCloseTo(BigInteger.TEN, withinPercentage(5));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
@@ -288,7 +278,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(eleven).isNotCloseTo(BigInteger.TEN, withinPercentage(20));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
@@ -316,7 +305,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isBetween(new BigInteger(&quot;6&quot;), new BigInteger(&quot;7&quot;));</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -337,7 +325,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * // assertions will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isStrictlyBetween(new BigInteger(&quot;8&quot;), new BigInteger(&quot;9&quot;));
    * assertThat(new BigInteger(&quot;8&quot;)).isStrictlyBetween(new BigInteger(&quot;7&quot;), new BigInteger(&quot;8&quot;));</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -357,7 +344,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isEqualTo(&quot;2&quot;);</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -375,7 +361,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isEqualTo(2);</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -393,7 +378,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isEqualTo(2L);</code></pre>
-   * </p>
    *
    * @since 2.7.0 / 3.7.0
    */

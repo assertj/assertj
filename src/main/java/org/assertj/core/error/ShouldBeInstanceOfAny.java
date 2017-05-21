@@ -24,7 +24,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 public class ShouldBeInstanceOfAny extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeInstanceOfAny}</code>.
+   * Creates a new <code>{@link ShouldBeInstanceOfAny}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param types contains the type or types {@code actual} is expected to belong to.

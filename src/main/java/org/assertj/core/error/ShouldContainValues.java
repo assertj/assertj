@@ -24,7 +24,7 @@ import java.util.Set;
 public class ShouldContainValues extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainValues}</code>.
+   * Creates a new <code>{@link ShouldContainValues}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.

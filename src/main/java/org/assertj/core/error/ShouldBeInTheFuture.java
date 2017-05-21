@@ -25,7 +25,7 @@ import org.assertj.core.internal.*;
 public class ShouldBeInTheFuture extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeInTheFuture}</code>.
+   * Creates a new <code>{@link ShouldBeInTheFuture}</code>.
    * @param actual the actual value in the failed assertion.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
@@ -35,7 +35,7 @@ public class ShouldBeInTheFuture extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeInTheFuture}</code>.
+   * Creates a new <code>{@link ShouldBeInTheFuture}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

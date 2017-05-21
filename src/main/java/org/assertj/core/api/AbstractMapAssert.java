@@ -64,7 +64,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Map&lt;String, String&gt; keyToValue = new HashMap();
    * keyToValue.put(&quot;key&quot;, &quot;value&quot;);
    * assertThat(keyToValue).isNullOrEmpty()</code></pre>
-   * </p>
+   *
    * @throws AssertionError if the {@link Map} is not {@code null} or not empty.
    */
   @Override
@@ -83,7 +83,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Map&lt;String, String&gt; map = new HashMap();
    * map.put(&quot;key&quot;, &quot;value&quot;);
    * assertThat(map).isEmpty();</code></pre>
-   * </p>
+   *
    * @throws AssertionError if the {@link Map} of values is not empty.
    */
   @Override
@@ -103,7 +103,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * // assertion will fail
    * assertThat(new HashMap()).isNotEmpty();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the {@link Map} is empty.
    */
@@ -127,7 +127,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * // assertions will fail
    * assertThat(map).hasSize(0);
    * assertThat(map).hasSize(2);</code></pre>
-   * </p>
+   *
    * @param expected the expected number of values in the {@link Map}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the {@link Map} is not equal to the given one.
@@ -369,7 +369,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
    * 
-   * Condition&lt;TolkienCharacter&gt elfBearer = new Condition&lt;&gt;(&quot;an elf bearer&quot;) {
+   * Condition&lt;TolkienCharacter&gt; elfBearer = new Condition&lt;&gt;(&quot;an elf bearer&quot;) {
    *   public boolean matches(TolkienCharacter character) {
    *     return character.getRace() == ELF;
    *   }
@@ -630,6 +630,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).containsKey(oneRing);</code></pre>
    * 
    * @param key the given key
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given key.
    */
@@ -655,6 +656,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).containsKeys(vilya, oneRing);</code></pre>
    * 
    * @param keys the given keys
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given key.
    * @throws IllegalArgumentException if the given argument is an empty array.
@@ -681,6 +683,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(elvesRingBearers).doesNotContainKey(vilya);</code></pre>
    * 
    * @param key the given key
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
    */
@@ -706,6 +709,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(elvesRingBearers).doesNotContainKeys(vilya, oneRing);</code></pre>
    * 
    * @param keys the given keys
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
    */
@@ -732,6 +736,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).containsOnlyKeys(oneRing, nenya);</code></pre>
    * 
    * @param keys the given keys that should be in the actual map.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given keys, i.e. the actual map contains some or none
    *           of the given keys, or the actual map contains more entries than the given ones.
@@ -760,6 +765,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).containsValue(sauron);</code></pre>
    * 
    * @param value the value to look for.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given value.
    */
@@ -786,6 +792,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).containsValues(sauron, frodo);</code></pre>
    *
    * @param values the values to look for in the actual map.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given values.
    */
@@ -812,6 +819,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).doesNotContainValue(frodo);</code></pre>
    * 
    * @param value the value that should not be in actual map.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given value.
    */
@@ -838,6 +846,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
    * 
    * @param entries the entries that should be in the actual map.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
@@ -870,6 +879,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *                                         entry(oneRing, frodo));</code></pre>
    * 
    * @param entries the given entries.
+   * @return {@code this} assertions object
    * @throws NullPointerException if the given entries array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given entries array is empty.
@@ -1123,7 +1133,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * If a given key is not present in the map under test, a null value is extracted.
    * <p>
    * Example:
-   * <pre><code class='java'> Map<String, Object> map = new HashMap&lt;&gt;(); 
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;(); 
    * map.put("name", "kawhi");                  
    * map.put("age", 25);                        
    *                                            

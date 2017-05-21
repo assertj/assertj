@@ -81,6 +81,7 @@ public interface Descriptable<SELF extends Descriptable<SELF>> {
    * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
    * 
    * @param description the new description to set.
+   * @param args optional parameter if description is a format String.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */

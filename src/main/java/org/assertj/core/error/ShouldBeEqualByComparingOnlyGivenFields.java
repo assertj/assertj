@@ -24,7 +24,7 @@ import java.util.List;
 public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeEqualByComparingOnlyGivenFields}</code>.
+   * Creates a new <code>{@link ShouldBeEqualByComparingOnlyGivenFields}</code>.
    *
    *
    * @param actual the actual value in the failed assertion.

@@ -24,7 +24,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 public class ShouldBeInstance extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeInstance}</code>.
+   * Creates a new <code>{@link ShouldBeInstance}</code>.
    * 
    * @param object the object value in the failed assertion.
    * @param type the type {@code object} is \nExpecting:\n to belong to.
@@ -36,7 +36,7 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeInstance}</code> when object we want to check type is null.
+   * Creates a new <code>{@link ShouldBeInstance}</code> when object we want to check type is null.
    * 
    * @param objectDescription the description of the null object we wanted to check type.
    * @param type the \nExpecting:\n type.

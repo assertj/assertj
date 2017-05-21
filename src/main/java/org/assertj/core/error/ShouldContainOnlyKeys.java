@@ -26,7 +26,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainOnlyKeys}</code>.
+   * Creates a new <code>{@link ShouldContainOnlyKeys}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
@@ -40,7 +40,7 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainOnlyKeys}</code>.
+   * Creates a new <code>{@link ShouldContainOnlyKeys}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.

@@ -26,7 +26,7 @@ import org.assertj.core.internal.*;
 public class ShouldBeToday extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeToday}</code>.
+   * Creates a new <code>{@link ShouldBeToday}</code>.
    * @param actual the actual value in the failed assertion.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
@@ -36,7 +36,7 @@ public class ShouldBeToday extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeToday}</code>.
+   * Creates a new <code>{@link ShouldBeToday}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

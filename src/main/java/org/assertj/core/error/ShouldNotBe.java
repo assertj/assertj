@@ -24,7 +24,7 @@ import org.assertj.core.api.Condition;
 public class ShouldNotBe extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotBe}</code>.
+   * Creates a new <code>{@link ShouldNotBe}</code>.
    * @param <T> guarantees that the type of the actual value and the generic type of the {@code Condition} are the same.
    * @param actual the actual value in the failed assertion.
    * @param condition the {@code Condition}.

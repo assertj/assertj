@@ -23,7 +23,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 public class ShouldBeExactlyInstanceOf extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeExactlyInstanceOf}</code>.
+   * Creates a new <code>{@link ShouldBeExactlyInstanceOf}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param type the type {@code actual} is expected to be.

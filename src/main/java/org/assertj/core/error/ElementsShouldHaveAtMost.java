@@ -25,7 +25,7 @@ import org.assertj.core.api.Condition;
 public class ElementsShouldHaveAtMost extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ElementsShouldHaveAtMost}</code>.
+   * Creates a new <code>{@link ElementsShouldHaveAtMost}</code>.
    * @param actual the actual value in the failed assertion.
    * @param times least time the condition should be verify.
    * @param condition the {@code Condition}.

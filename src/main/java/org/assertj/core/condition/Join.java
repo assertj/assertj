@@ -35,7 +35,7 @@ public abstract class Join<T> extends Condition<T> {
   final Collection<Condition<? super T>> conditions;
 
   /**
-   * Creates a new </code>{@link Join}</code>.
+   * Creates a new <code>{@link Join}</code>.
    * @param conditions the conditions to join.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
@@ -49,7 +49,7 @@ public abstract class Join<T> extends Condition<T> {
   }
 
   /**
-   * Creates a new </code>{@link Join}</code>.
+   * Creates a new <code>{@link Join}</code>.
    * @param conditions the conditions to join.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.

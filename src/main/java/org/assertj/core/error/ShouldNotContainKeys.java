@@ -24,7 +24,7 @@ import java.util.Set;
 public class ShouldNotContainKeys  extends BasicErrorMessageFactory {
 
     /**
-     * Creates a new </code>{@link ShouldNotContainKeys}</code>.
+     * Creates a new <code>{@link ShouldNotContainKeys}</code>.
      *
      * @param actual the actual value in the failed assertion.
      * @return the created {@code ErrorMessageFactory}.

@@ -63,10 +63,10 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReference
    *
    * Examples:
    * <pre><code class='java'> // this assertion succeeds:
-   * assertThat(new AtomicStampedReference<>("actual", 1234)).hasStamp(1234);
+   * assertThat(new AtomicStampedReference&lt;&gt;("actual", 1234)).hasStamp(1234);
    *
    * // this assertion fails:
-   * assertThat(new AtomicStampedReference<>("actual", 1234)).hasStamp(5678);</code></pre>
+   * assertThat(new AtomicStampedReference&lt;&gt;("actual", 1234)).hasStamp(5678);</code></pre>
    *
    * @param expectedStamp the expected stamp inside the {@link AtomicStampedReference}.
    * @return this assertion object.

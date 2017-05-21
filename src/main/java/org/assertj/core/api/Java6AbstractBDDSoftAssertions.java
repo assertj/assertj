@@ -174,7 +174,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
 
   /**
    * Creates a new instance of <code>{@link ClassAssert}</code>
-   * </p>
+   * <p>
    * We don't return {@link ClassAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
@@ -429,7 +429,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
 
   /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
-   * </p>
+   * <p>
    * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
@@ -678,7 +678,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    BDDSoftAssertions softly = new BDDSoftAssertions();
-   *    softly.thenThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *    softly.thenThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                               .hasMessageContaining("boom");
    *  }</code></pre>
    *

@@ -55,7 +55,6 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * 
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;-1&quot;)).isEqualTo((short) 1);</code></pre>
-   * </p>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -76,7 +75,6 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * 
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;1&quot;)).isNotEqualTo((short) 1);</code></pre>
-   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -147,7 +145,6 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 0);
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 1);</code></pre>
-   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -168,7 +165,6 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * 
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 0);</code></pre>
-   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -190,7 +186,6 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * // assertions will fail:
    * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 1);
    * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 0);</code></pre>
-   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -211,7 +206,6 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * 
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThanOrEqualTo((short) 1);</code></pre>
-   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.

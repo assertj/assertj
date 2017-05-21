@@ -21,7 +21,7 @@ import org.junit.runners.model.Statement;
 import java.util.List;
 
 /**
- * Same as {@link SoftAssertions}, but with the following differences: <br/>
+ * Same as {@link SoftAssertions}, but with the following differences: <br>
  * First, it's a junit rule, which can be used without having to call {@link SoftAssertions#assertAll() assertAll()},
  * example:
  * <pre><code class='java'> public class SoftlyTest {

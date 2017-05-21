@@ -45,6 +45,7 @@ public class AbstractSoftAssertions {
    * Fails with the given message built like {@link String#format(String, Object...)}.
    * 
    * @param failureMessage error message.
+   * @param args Arguments referenced by the format specifiers in the format string.
    * @since 2.6.0 / 3.6.0
    */
   public void fail(String failureMessage, Object... args) {

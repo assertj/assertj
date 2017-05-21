@@ -24,7 +24,7 @@ import org.assertj.core.api.Condition;
 public class ElementsShouldBe extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ElementsShouldBe}</code>.
+   * Creates a new <code>{@link ElementsShouldBe}</code>.
    * @param actual the actual value in the failed assertion.
    * @param notSatisfies elements that not satisfies the condition
    * @param condition the {@code Condition}.

@@ -30,7 +30,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
   Description description;
 
   /**
-   * Creates a new </code>{@link Condition}</code>. The default description of this condition will the simple name of the
+   * Creates a new <code>{@link Condition}</code>. The default description of this condition will the simple name of the
    * condition's class.
    */
   public Condition() {
@@ -38,7 +38,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /**
-   * Creates a new </code>{@link Condition}</code>.
+   * Creates a new <code>{@link Condition}</code>.
    * @param description the description of this condition.
    * @throws NullPointerException if the given description is {@code null}.
    */
@@ -47,7 +47,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /**
-   * Creates a new </code>{@link Condition}</code>.
+   * Creates a new <code>{@link Condition}</code>.
    * @param description the description of this condition.
    * @throws NullPointerException if the given description is {@code null}.
    */

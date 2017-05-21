@@ -58,7 +58,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * // assertions will fail:
    * assertThat(1L).isEqualTo(2L);
    * assertThat(1L).isEqualTo(-1L);</code></pre>
-   * </p>
+   *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -79,7 +79,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * 
    * // assertion will fail:
    * assertThat(1L).isNotEqualTo(1L);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -150,7 +150,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * // assertions will fail:
    * assertThat(1L).isLessThan(0L);
    * assertThat(1L).isLessThan(1L);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -173,7 +173,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * // assertions will fail:
    * assertThat(1L).isLessThanOrEqualTo(2L);
    * assertThat(-1L).isLessThanOrEqualTo(-2L);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -195,7 +195,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * // assertions will fail:
    * assertThat(1L).isGreaterThan(2L);
    * assertThat(1L).isGreaterThan(1L);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -217,7 +217,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * // assertions will fail:
    * assertThat(1L).isGreaterThanOrEqualTo(2L);
    * assertThat(-1L).isGreaterThanOrEqualTo(1L);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

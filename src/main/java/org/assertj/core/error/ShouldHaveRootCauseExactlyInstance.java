@@ -23,7 +23,7 @@ import org.assertj.core.util.Throwables;
 public class ShouldHaveRootCauseExactlyInstance extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.BasicErrorMessageFactory}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.BasicErrorMessageFactory}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expectedCauseType the expected cause instance.

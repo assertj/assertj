@@ -58,7 +58,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * // assertions will fail:
    * assertThat(1).isEqualTo(2);
    * assertThat(1).isEqualTo(-1);</code></pre>
-   * </p>
+   *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -79,7 +79,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * 
    * // assertion will fail:
    * assertThat(1).isNotEqualTo(1);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -150,7 +150,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * // assertions will fail:
    * assertThat(1).isLessThan(0);
    * assertThat(1).isLessThan(1);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -173,7 +173,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * // assertions will fail:
    * assertThat(1).isLessThanOrEqualTo(2);
    * assertThat(-1).isLessThanOrEqualTo(-2);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -195,7 +195,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * // assertions will fail:
    * assertThat(1).isGreaterThan(2);
    * assertThat(1).isGreaterThan(1);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -217,7 +217,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * // assertions will fail:
    * assertThat(1).isGreaterThanOrEqualTo(2);
    * assertThat(-1).isGreaterThanOrEqualTo(1);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

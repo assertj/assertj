@@ -1161,7 +1161,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
    * <p>
    * Example:
-   * <p>
+   *
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private double height;
@@ -1175,7 +1175,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -1243,7 +1243,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -1268,7 +1268,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(Arrays.asList(frodo)).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
    *                                 .usingFieldByFieldElementComparator()
    *                                 .contains(reallyTallFrodo);</code></pre>
-   * </p>
    *
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
@@ -1443,24 +1442,24 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <pre><code class='java'> final List&lt;Byte&gt; bytes = newArrayList((byte) 0x10, (byte) 0x20);</code></pre>
    *
    * With standard error message:
-   * <pre><code class='java'> assertThat(bytes).contains((byte)0x30);
+   * <pre><code class='java'> assertThat(bytes).contains((byte) 0x30);
    *
    * Expecting:
-   *  <[16, 32]>
+   *  &lt;[16, 32]&gt;
    * to contain:
-   *  <[48]>
+   *  &lt;[48]&gt;
    * but could not find:
-   *  <[48]></code></pre>
+   *  &lt;[48]&gt;</code></pre>
    *
    * With Hexadecimal error message:
    * <pre><code class='java'> assertThat(bytes).inHexadecimal().contains((byte)0x30);
    *
    * Expecting:
-   *  <[0x10, 0x20]>
+   *  &lt;[0x10, 0x20]&gt;
    * to contain:
-   *  <[0x30]>
+   *  &lt;[0x30]&gt;
    * but could not find:
-   *  <[0x30]></code></pre>
+   *  &lt;[0x30]&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -1477,24 +1476,24 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <pre><code class='java'> final List&lt;Byte&gt; bytes = newArrayList((byte) 0x10, (byte) 0x20);</code></pre>
    *
    * With standard error message:
-   * <pre><code class='java'> assertThat(bytes).contains((byte)0x30);
+   * <pre><code class='java'> assertThat(bytes).contains((byte) 0x30);
    *
    * Expecting:
-   *  <[16, 32]>
+   *  &lt;[16, 32]&gt;
    * to contain:
-   *  <[48]>
+   *  &lt;[48]&gt;
    * but could not find:
-   *  <[48]></code></pre>
+   *  &lt;[48]&gt;</code></pre>
    *
    * With binary error message:
-   * <pre><code class='java'> assertThat(bytes).inBinary().contains((byte)0x30);
+   * <pre><code class='java'> assertThat(bytes).inBinary().contains((byte) 0x30);
    *
    * Expecting:
-   *  <[0b00010000, 0b00100000]>
+   *  &lt;[0b00010000, 0b00100000]&gt;
    * to contain:
-   *  <[0b00110000]>
+   *  &lt;[0b00110000]&gt;
    * but could not find:
-   *  <[0b00110000]></code></pre>
+   *  &lt;[0b00110000]&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -1531,7 +1530,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Nested properties/fields are supported:
    * <pre><code class='java'> // Name is bean class with 'first' and 'last' String properties
    *
-   * // name is null for noname => it does not match the filter on "name.first"
+   * // name is null for noname =&gt; it does not match the filter on "name.first"
    * assertThat(employees).filteredOn("name.first", "Luke")
    *                      .containsOnly(luke);
    *
@@ -1692,7 +1691,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Filter the iterable under test keeping only elements matching the given {@link Condition}.
    * <p>
-   * Example : check old employees whose age > 100:
+   * Example : check old employees whose age &gt; 100:
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -1705,7 +1704,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Condition&lt;Employee&gt; oldEmployees = new Condition&lt;Employee&gt;("old employees") {
    *       {@literal @}Override
    *       public boolean matches(Employee employee) {
-   *         return employee.getAge() > 100;
+   *         return employee.getAge() &gt; 100;
    *       }
    *     };
    *   }
@@ -1741,7 +1740,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * </ul>
    * <p>
    * Example: default {@code Object} assertions
-   * <pre><code class='java'> // default iterable assert => element assert is ObjectAssert
+   * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
    * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
    *
    * // assertion succeeds, only Object assertions are available after first()
@@ -1788,7 +1787,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * </ul>
    * <p>
    * Example: default {@code Object} assertions
-   * <pre><code class='java'> // default iterable assert => element assert is ObjectAssert
+   * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
    * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
    *
    * // assertion succeeds, only Object assertions are available after last()
@@ -1848,7 +1847,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * </ul>
    * <p>
    * Example: default {@code Object} assertions
-   * <pre><code class='java'> // default iterable assert => element assert is ObjectAssert
+   * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
    * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
    *
    * // assertion succeeds, only Object assertions are available after element(index)
