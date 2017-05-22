@@ -12,6 +12,7 @@
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
     <version>2.1.6</version>
+    <relativePath />
   </parent>
   <mailingLists>
     <mailingList>
