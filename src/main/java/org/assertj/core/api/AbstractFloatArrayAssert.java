@@ -810,7 +810,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * // assertion will pass
    * assertThat(values).containsExactly(new float[] {1.0f, 1.98f, 3.01f}, withPrecision(0.05f));
    *
-   * // assertion fails because |1.0 - 1.1| > 0.05 (precision)
+   * // assertion fails because |1.0 - 1.1| &gt; 0.05 (precision)
    * assertThat(values).containsExactly(new float[] {1.1f, 2.0f, 3.01f}, withPrecision(0.05f));
    * 
    * // assertion will fail as actual and expected order differ

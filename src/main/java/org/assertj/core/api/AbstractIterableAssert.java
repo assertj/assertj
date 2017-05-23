@@ -968,7 +968,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    &commat;Override
+   *    {@literal@}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
    *    }
@@ -1008,7 +1008,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fred.getChildren().add(pebbles);
    *
    * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonChildren, List&lt;CartoonChildren&gt;&gt;() {
-   *    &commat;Override
+   *    {@literal@}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
    *    }

@@ -1853,7 +1853,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date2 = parseDatetime("2003-01-01T12:01:30");
    *
-   * // succeeds because date time difference < 1 min
+   * // succeeds because date time difference &lt; 1 min
    * assertThat(date1).isInSameMinuteWindowAs(date2);</code></pre>
    * 
    * Two dates can have different minute fields and yet be in the same chronological minute, example:
@@ -1863,11 +1863,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // succeeds as time difference == 1s even though minutes fields differ
    * assertThat(date1).isInSameMinuteWindowAs(date3);</code></pre>
    * 
-   * This assertion fails as time difference is >= one minute:
+   * This assertion fails as time difference is &gt;= one minute:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date2 = parseDatetime("2003-01-01T12:02:00");
    *
-   * // fails, time difference should hae been < 1 min
+   * // fails, time difference should hae been &lt; 1 min
    * assertThat(date1).isInSameMinuteWindowAs(date2); // ERROR</code></pre>
    * 
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
@@ -1990,20 +1990,20 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Verifies that actual and given {@code Date} are chronologically strictly in the same second (i.e. their time
-   * difference < 1 second).
+   * difference &lt; 1 second).
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:02.123");
    * Date date2 = parseDatetimeWithMs("2003-04-26T13:01:02.456");
    *
-   * // succeeds as time difference is < 1s
+   * // succeeds as time difference is &lt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date2);</code></pre>
    * 
    * Two dates can have different second fields and yet be in the same chronological second, example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:02.999");
    * Date date2 = parseDatetimeWithMs("2003-04-26T13:01:03.000");
    *
-   * // succeeds as time difference is 1ms < 1s
+   * // succeeds as time difference is 1ms &lt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date2);</code></pre>
    * 
    * Those assertions fail as time difference is greater or equal to one second:
@@ -2014,7 +2014,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date1).isInSameSecondWindowAs(date2); // ERROR
    *
    * Date date3 = parseDatetimeWithMs("2003-04-26T13:01:02.001");
-   * // fails as time difference > 1s
+   * // fails as time difference &gt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date3); // ERROR</code></pre>
    * 
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.

@@ -434,6 +434,8 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * <p>
    * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */

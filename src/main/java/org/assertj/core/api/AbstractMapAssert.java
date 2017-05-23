@@ -31,8 +31,8 @@ import org.assertj.core.util.VisibleForTesting;
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <ACTUAL> the type of the "actual" value.
- * @param <K> the type of keys in map.
- * @param <V> the type of values in map.
+ * @param <K> the type of keys in the map.
+ * @param <V> the type of values in the map.
  * 
  * @author David DIDIER
  * @author Yvonne Wang
@@ -408,7 +408,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Condition&lt;Map.Entry&lt;TolkienCharacter, Ring&gt;&gt; oneRingManBearer =
    *   new Condition&lt;Map.Entry&lt;TolkienCharacter, Ring&gt;&gt;("One ring man bearer") {
    *     public boolean matches(Map.Entry&lt;TolkienCharacter, Ring&gt; entry) {
-   *       return entry.getKey().getRace() == MAN && entry.getValue() == oneRing;
+   *       return entry.getKey().getRace() == MAN &amp;&amp; entry.getValue() == oneRing;
    *     }
    *   };
    *

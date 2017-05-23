@@ -1910,7 +1910,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    @Override
+   *    {@literal@}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
    *    }
@@ -1952,7 +1952,7 @@ public class AtomicReferenceArrayAssert<T>
    * fred.getChildren().add(pebbles);
    *
    * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
-   *    &commat;Override
+   *    {@literal@}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
    *    }

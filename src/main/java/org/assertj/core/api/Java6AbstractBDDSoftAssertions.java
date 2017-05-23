@@ -271,6 +271,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Creates a new instance of <code>{@link FutureAssert}</code>.
    *
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -432,6 +433,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * <p>
    * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */

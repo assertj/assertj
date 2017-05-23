@@ -291,6 +291,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
    *
    * @param other the object to compare {@code actual} to.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.

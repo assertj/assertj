@@ -838,7 +838,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * // assertion will pass
    * assertThat(values).containsExactly(new double[] {1.0, 1.98, 3.01}, withPrecision(0.05));
    *
-   * // assertion fails because |1.0 -1.1| > 0.05 (precision).
+   * // assertion fails because |1.0 -1.1| &gt; 0.05 (precision).
    * assertThat(values).containsExactly(new double[] {1.1, 2.0, 3.01}, withPrecision(0.05));
    * 
    * // assertion will fail as actual and expected order differ

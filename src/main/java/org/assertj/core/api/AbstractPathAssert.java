@@ -790,6 +790,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * // The following assertion fails:
    * assertThat(symlinkToExistingFile).isCanonical();</code></pre>
    *
+   * @return self
    * @throws PathsException an I/O error occurred while evaluating the path
    *
    * @see Path#toRealPath(LinkOption...)

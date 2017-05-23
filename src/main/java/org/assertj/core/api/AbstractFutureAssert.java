@@ -34,7 +34,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
    *                                                                        
    * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
-   *   &commat;Override                                                            
+   *   {@literal@}Override                                                            
    *   public String call() throws Exception {                              
    *     return "done";                                                     
    *   }                                                                    
@@ -64,7 +64,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
    *                                                                        
    * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
-   *   &commat;Override                                                            
+   *   {@literal@}Override                                                            
    *   public String call() throws Exception {                              
    *     return "done";                                                     
    *   }                                                                    
@@ -94,7 +94,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
    *                                                                        
    * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
-   *   &commat;Override                                                            
+   *   {@literal@}Override                                                            
    *   public String call() throws Exception {                              
    *     return "done";                                                     
    *   }                                                                    
@@ -104,7 +104,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).isDone();
    *
    * future = executorService.submit(new Callable&lt;String&gt;() {
-   *   &commat;Override                                                            
+   *   {@literal@}Override                                                            
    *   public String call() throws Exception {                              
    *     Thread.sleep(1000);
    *     return "done";                                                     
@@ -131,7 +131,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
    *                                                                        
    * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
-   *   &commat;Override                                                            
+   *   {@literal@}Override                                                            
    *   public String call() throws Exception {                              
    *     Thread.sleep(1000);
    *     return "done";                                                     
@@ -142,7 +142,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).isNotDone();
    *                                                                        
    * future = executorService.submit(new Callable&lt;String&gt;() {
-   *   &commat;Override                                                            
+   *   {@literal@}Override                                                            
    *   public String call() throws Exception {                              
    *     return "done";                                                     
    *   }                                                                    

@@ -851,6 +851,8 @@ public class Java6Assertions {
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
    * annoying warnings.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1243,6 +1245,9 @@ public class Java6Assertions {
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = ... // init omitted
    *
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
+   *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);

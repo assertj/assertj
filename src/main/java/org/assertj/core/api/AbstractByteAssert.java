@@ -253,8 +253,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) 2).isGreaterThanOrEqualTo((byte) 3);</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

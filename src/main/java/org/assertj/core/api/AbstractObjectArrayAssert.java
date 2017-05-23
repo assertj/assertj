@@ -1562,6 +1562,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // ... but not when comparing both name and race
    * assertThat(array(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL</code></pre>
    *
+   * @param fields the name of the fields to use the element comparator on
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
@@ -1595,6 +1596,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // ... but not when comparing both name and race
    * assertThat(array(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL</code></pre>
    *
+   * @param fields the name of the fields to ignore
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
@@ -1790,7 +1792,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    &commat;Override
+   *    {@literal@}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
    *    }
@@ -1831,7 +1833,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * fred.getChildren().add(pebbles);
    *
    * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
-   *    &commat;Override
+   *    {@literal@}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
    *    }
