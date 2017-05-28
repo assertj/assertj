@@ -95,13 +95,8 @@ public class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_in_range_end() {
+    thrown.expectIllegalArgumentException("The end value <0.0> must not be less than or equal to the start value <0.0>!");
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, false, false));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    floats.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
   }
 }

@@ -78,6 +78,11 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
     comparables.assertIsBetween(someInfo(), 8, 10, 8, true, true);
   }
 
+  @Test
+  public void succeeds_if_end_is_equal_to_start() {
+    comparables.assertIsBetween(someInfo(), 8, 8, 8, true, true);
+  }
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------

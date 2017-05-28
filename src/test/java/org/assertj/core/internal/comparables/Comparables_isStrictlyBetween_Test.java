@@ -74,6 +74,18 @@ public class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
     comparables.assertIsBetween(someInfo(), 8, 10, null, false, false);
   }
 
+  @Test
+  public void should_fail_if_end_is_less_than_start() {
+    thrown.expectIllegalArgumentException("The end value <7> must not be less than or equal to the start value <8>!");
+    comparables.assertIsBetween(someInfo(), 8, 8, 7, false, false);
+  }
+
+  @Test
+  public void should_fail_if_end_is_equal_to_start() {
+    thrown.expectIllegalArgumentException("The end value <8> must not be less than or equal to the start value <8>!");
+    comparables.assertIsBetween(someInfo(), 8, 8, 8, false, false);
+  }
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------

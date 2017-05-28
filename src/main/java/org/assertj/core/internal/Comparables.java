@@ -263,8 +263,9 @@ public class Comparables {
     assertNotNull(info, actual);
     checkNotNull(start, "The start range to compare actual with should not be null");
     checkNotNull(end, "The end range to compare actual with should not be null");
-    checkArgument(comparisonStrategy.isLessThanOrEqualTo(start, end),
-      String.format("The end value <%s> must not be less than the start value <%s>%s!", end, start,
+    checkArgument(inclusiveEnd && inclusiveStart && comparisonStrategy.isLessThanOrEqualTo(start, end) ||
+      !inclusiveEnd && !inclusiveStart && comparisonStrategy.isLessThan(start, end),
+      String.format("The end value <%s> must not be %s the start value <%s>%s!", end, (inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to" ), start,
       (comparisonStrategy.isStandard() ?  "" : " (using " + comparisonStrategy + ")")));
     boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual)
         : isLessThan(start, actual);
