@@ -1339,6 +1339,30 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
+  /**
+   * Verifies that all the elements in the actual AtomicReferenceArray do not belong to the specified types (including subclasses).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Number&gt; numbers = new AtomicReferenceArray&lt;&gt;(new Number[]{ 2, 6, 8.0 });
+   *
+   * // successful assertion:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Float.class);
+   *
+   * // assertion failure:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Integer.class);</code></pre>
+   *
+   * @param unexpectedTypes the not expected types.
+   * @return this assertion object.
+   * @throws NullPointerException if the given types is {@code null}.
+   * @throws AssertionError if one element's type matches the given types.
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes) {
+    arrays.assertDoesNotHaveAnyElementsOfTypes(info, array, unexpectedTypes);
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public AtomicReferenceArrayAssert<T> isSorted() {
