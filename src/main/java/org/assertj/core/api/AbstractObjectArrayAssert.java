@@ -1225,6 +1225,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /** {@inheritDoc} */
   @Override
+  public SELF doesNotHaveElementsOfType(Class<?> notExpectedType) {
+    arrays.assertDoesNotHaveElementsOfType(info, actual, notExpectedType);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
