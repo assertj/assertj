@@ -856,6 +856,27 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF hasOnlyElementsOfType(Class<?> expectedType);
 
   /**
+   * Verifies that all the elements in the actual {@code Object} group do not belong to the specified type (matching
+   * includes subclasses of the given type).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Number[] numbers = { 2, 6, 8 };
+   *
+   * // successful assertion:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class);
+   *
+   * // assertion failure:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Integer.class);</code></pre>
+   *
+   * @param notExpectedType the not expected type.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if one element is of the not expected type.
+   * @since 2.9.0 / 3.9.0
+   */
+  SELF doesNotHaveAnyElementsOfTypes(Class<?>... notExpectedType);
+
+  /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
    * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
    * <p>

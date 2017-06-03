@@ -536,6 +536,34 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /**
+   * Verifies that all elements in the actual {@code Iterable} do not have the specified type (matching includes
+   * subclasses of the given type).
+   * <p>
+   * Example:
+   * <pre><code class='java'> List&lt;Number&gt; numbers = new ArrayList&lt;Number&gt;();
+   * numbers.add(1);
+   * numbers.add(2);
+   * numbers.add(3);
+   *
+   * // successful assertions:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Float.class, Double.class);
+   *
+   * // assertion failure:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Integer.class);</code></pre>
+   *
+   * @param notExpectedType the not expected type.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if one element is of the not expected type.
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public SELF doesNotHaveAnyElementsOfTypes(Class<?>... notExpectedType) {
+    ObjectArrays.instance().assertDoesNotHaveAnyElementsOfTypes(info, toArray(actual), notExpectedType);
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public SELF hasOnlyElementsOfTypes(Class<?>... types) {
