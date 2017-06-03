@@ -17,9 +17,9 @@ import java.util.List;
 /**
  * Creates an error message indicating that a group have elements of the given types.
  */
-public class ShouldNotHaveElementsOfType extends BasicErrorMessageFactory {
+public class ShouldNotHaveAnyElementsOfTypes extends BasicErrorMessageFactory {
 
-  private ShouldNotHaveElementsOfType(Object actual, Class<?>[] notExpectedTypes, List<Class<?>> notExpectedTypesOccurred) {
+  private ShouldNotHaveAnyElementsOfTypes(Object actual, Class<?>[] notExpectedTypes, List<Class<?>> notExpectedTypesOccurred) {
     super("%n" +
      "Expecting:%n" +
      "  <%s>%n" +
@@ -29,13 +29,13 @@ public class ShouldNotHaveElementsOfType extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new <code>{@link ShouldNotHaveElementsOfType}</code>.
+   * Creates a new <code>{@link ShouldNotHaveAnyElementsOfTypes}</code>.
    * @param actual array or Iterable
    * @param notExpectedTypes the not expected types of all elements
    * @param notExpectedTypeOccurred the types of elements that are not expected or it's subclasses.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ShouldNotHaveElementsOfType shouldNotHaveElementsOfType(Object actual, Class<?> []notExpectedTypes, List<Class<?>> notExpectedTypeOccurred) {
-    return new ShouldNotHaveElementsOfType(actual, notExpectedTypes, notExpectedTypeOccurred);
+  public static ShouldNotHaveAnyElementsOfTypes shouldNotHaveAnyElementsOfTypes(Object actual, Class<?> []notExpectedTypes, List<Class<?>> notExpectedTypeOccurred) {
+    return new ShouldNotHaveAnyElementsOfTypes(actual, notExpectedTypes, notExpectedTypeOccurred);
   }
 }

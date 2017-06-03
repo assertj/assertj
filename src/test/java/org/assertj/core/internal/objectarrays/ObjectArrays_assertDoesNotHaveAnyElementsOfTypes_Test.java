@@ -16,7 +16,7 @@ import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
-import static org.assertj.core.error.ShouldNotHaveElementsOfType.shouldNotHaveElementsOfType;
+import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -43,7 +43,7 @@ public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends Objec
 
   @Test
   public void should_fail_if_one_element_in_actual_does_belong_to_the_not_expected_type() {
-    thrown.expectAssertionError(shouldNotHaveElementsOfType(array, new Class[] { Long.class },
+    thrown.expectAssertionError(shouldNotHaveAnyElementsOfTypes(array, new Class[] { Long.class },
       Lists.<Class<?>>newArrayList(Long.class)).create());
     arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Long.class);
   }

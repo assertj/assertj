@@ -23,13 +23,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 
 
-public class ShouldNotHaveElementsOfType_create_Test {
+public class ShouldNotHaveAnyElementsOfTypes_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Before
   public void setUp() {
-    factory = ShouldNotHaveElementsOfType.shouldNotHaveElementsOfType(newArrayList(1, 2, 3),
+    factory = ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes(newArrayList(1, 2, 3),
       new Class[] {Integer.class, Float.class}, Lists.<Class<?>>newArrayList(Integer.class));
   }
 

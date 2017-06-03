@@ -547,8 +547,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * numbers.add(3);
    *
    * // successful assertions:
-   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class);
-   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Float.class);
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Float.class, Double.class);
    *
    * // assertion failure:
    * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Integer.class);</code></pre>

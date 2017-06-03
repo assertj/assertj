@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
 import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
-import static org.assertj.core.error.ShouldNotHaveElementsOfType.shouldNotHaveElementsOfType;
+import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -547,7 +547,7 @@ public class ObjectArrays {
       }
     }
     if (!nonMatchingElements.isEmpty()) {
-      throw failures.failure(info, shouldNotHaveElementsOfType(actual, notExpectedType, nonMatchingElements));
+      throw failures.failure(info, shouldNotHaveAnyElementsOfTypes(actual, notExpectedType, nonMatchingElements));
     }
   }
 
