@@ -855,10 +855,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Number[] numbers = { 2, 6, 8 };
    *
    * // successful assertion:
-   * assertThat(numbers).doesNotHaveElementsOfType(Long.class);
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class);
    *
    * // assertion failure:
-   * assertThat(numbers).doesNotHaveElementsOfType(Integer.class);</code></pre>
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Integer.class);</code></pre>
    *
    * @param notExpectedType the not expected type.
    * @return this assertion object.
@@ -866,7 +866,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if one element is of the not expected type.
    * @since 2.9.0 / 3.9.0
    */
-  SELF doesNotHaveElementsOfType(Class<?> notExpectedType);
+  SELF doesNotHaveAnyElementsOfTypes(Class<?>... notExpectedType);
 
   /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that

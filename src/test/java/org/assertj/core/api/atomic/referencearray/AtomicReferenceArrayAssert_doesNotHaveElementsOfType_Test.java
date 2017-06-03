@@ -19,17 +19,17 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link AtomicReferenceArrayAssert#doesNotHaveElementsOfType(Class)}.
+ * Tests for {@link AtomicReferenceArrayAssert#doesNotHaveAnyElementsOfTypes(Class)}.
  */
 public class AtomicReferenceArrayAssert_doesNotHaveElementsOfType_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
-    return assertions.doesNotHaveElementsOfType(String.class);
+    return assertions.doesNotHaveAnyElementsOfTypes(String.class);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertDoesNotHaveElementsOfType(info(), internalArray(), String.class);
+    verify(arrays).assertDoesNotHaveAnyElementsOfTypes(info(), internalArray(), String.class);
   }
 }

@@ -1347,10 +1347,10 @@ public class AtomicReferenceArrayAssert<T>
    * <pre><code class='java'> AtomicReferenceArray&lt;Number&gt; numbers = new AtomicReferenceArray&lt;&gt;(new Number[]{ 2, 6, 8 });
    *
    * // successful assertion:
-   * assertThat(numbers).doesNotHaveElementsOfType(Long.class);
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class);
    *
    * // assertion failure:
-   * assertThat(numbers).doesNotHaveElementsOfType(Integer.class);</code></pre>
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Integer.class);</code></pre>
    *
    * @param notExpectedType the not expected type.
    * @return this assertion object.
@@ -1359,8 +1359,8 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.9.0 / 3.9.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> doesNotHaveElementsOfType(Class<?> notExpectedType) {
-    arrays.assertDoesNotHaveElementsOfType(info, array, notExpectedType);
+  public AtomicReferenceArrayAssert<T> doesNotHaveAnyElementsOfTypes(Class<?>... notExpectedType) {
+    arrays.assertDoesNotHaveAnyElementsOfTypes(info, array, notExpectedType);
     return myself;
   }
 

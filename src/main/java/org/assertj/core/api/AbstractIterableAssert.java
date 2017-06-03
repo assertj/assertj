@@ -547,11 +547,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * numbers.add(3);
    *
    * // successful assertions:
-   * assertThat(numbers).doesNotHaveElementsOfType(Long.class);
-   * assertThat(numbers).doesNotHaveElementsOfType(Float.class);
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class);
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Float.class);
    *
    * // assertion failure:
-   * assertThat(numbers).doesNotHaveElementsOfType(Integer.class);</code></pre>
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Integer.class);</code></pre>
    *
    * @param notExpectedType the not expected type.
    * @return this assertion object.
@@ -560,8 +560,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 2.9.0 / 3.9.0
    */
   @Override
-  public SELF doesNotHaveElementsOfType(Class<?> notExpectedType) {
-    ObjectArrays.instance().assertDoesNotHaveElementsOfType(info, toArray(actual), notExpectedType);
+  public SELF doesNotHaveAnyElementsOfTypes(Class<?>... notExpectedType) {
+    ObjectArrays.instance().assertDoesNotHaveAnyElementsOfTypes(info, toArray(actual), notExpectedType);
     return myself;
   }
 

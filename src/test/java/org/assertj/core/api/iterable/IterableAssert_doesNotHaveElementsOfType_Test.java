@@ -22,14 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 
 /**
- * Tests for {@link AbstractIterableAssert#doesNotHaveElementsOfType(Class)}.
+ * Tests for {@link AbstractIterableAssert#doesNotHaveAnyElementsOfTypes(Class)}.
  */
 public class IterableAssert_doesNotHaveElementsOfType_Test {
 
   @Test
   public void should_pass_if_actual_has_one_element_of_the_expected_type() {
     List<Integer> list = newArrayList(1, 2);
-    assertThat(list).doesNotHaveElementsOfType(Long.class).doesNotHaveElementsOfType(Float.class);
+    assertThat(list).doesNotHaveAnyElementsOfTypes(Long.class).doesNotHaveAnyElementsOfTypes(Float.class);
   }
 
 }

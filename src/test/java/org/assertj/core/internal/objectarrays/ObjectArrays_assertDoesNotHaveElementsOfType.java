@@ -13,6 +13,7 @@
 package org.assertj.core.internal.objectarrays;
 
 import org.assertj.core.internal.ObjectArraysBaseTest;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import static org.assertj.core.error.ShouldNotHaveElementsOfType.shouldNotHaveElementsOfType;
@@ -25,24 +26,25 @@ public class ObjectArrays_assertDoesNotHaveElementsOfType extends ObjectArraysBa
 
   @Test
   public void should_pass_if_actual_does_not_have_elements_of_the_not_expected_type() {
-    arrays.assertDoesNotHaveElementsOfType(someInfo(), array, Float.class);
+    arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, new Class[] { Float.class } );
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotHaveElementsOfType(someInfo(), null, Integer.class);
+    arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), null, Integer.class);
   }
 
   @Test
   public void should_throw_exception_if_expected_type_is_null() {
     thrown.expectNullPointerException();
-    arrays.assertDoesNotHaveElementsOfType(someInfo(), array, null);
+    arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, null);
   }
 
   @Test
   public void should_fail_if_one_element_in_actual_does_belong_to_the_not_expected_type() {
-    thrown.expectAssertionError(shouldNotHaveElementsOfType(array, Long.class, Long.class).create());
-    arrays.assertDoesNotHaveElementsOfType(someInfo(), array, Long.class);
+    thrown.expectAssertionError(shouldNotHaveElementsOfType(array, new Class[] { Long.class },
+      Lists.<Class<?>>newArrayList(Long.class)).create());
+    arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Long.class);
   }
 }

@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,8 +29,8 @@ public class ShouldNotHaveElementsOfType_create_Test {
 
   @Before
   public void setUp() {
-    factory = ShouldNotHaveElementsOfType.shouldNotHaveElementsOfType(newArrayList(1, 2, 3), Integer.class,
-     Integer.class);
+    factory = ShouldNotHaveElementsOfType.shouldNotHaveElementsOfType(newArrayList(1, 2, 3),
+      new Class[] {Integer.class, Float.class}, Lists.<Class<?>>newArrayList(Integer.class));
   }
 
   @Test
@@ -38,9 +39,9 @@ public class ShouldNotHaveElementsOfType_create_Test {
     assertThat(message).isEqualTo(format("[Test] %n" +
       "Expecting:%n" +
       "  <[1, 2, 3]>%n" +
-      "to not have elements of type:%n" +
-      "  <java.lang.Integer>%n" +
+      "to not have any elements of the following types:%n" +
+      "  <[java.lang.Integer, java.lang.Float]>%n" +
       "but found:%n" +
-      "  <java.lang.Integer>"));
+      "  <[java.lang.Integer]>"));
   }
 }

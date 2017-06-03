@@ -12,28 +12,30 @@
  */
 package org.assertj.core.error;
 
+import java.util.List;
+
 /**
- * Creates an error message indicating that a group have an element of the given type.
+ * Creates an error message indicating that a group have elements of the given types.
  */
 public class ShouldNotHaveElementsOfType extends BasicErrorMessageFactory {
 
-  private ShouldNotHaveElementsOfType(Object actual, Class<?> notExpectedType, Class<?> notExpectedTypeOccurred) {
+  private ShouldNotHaveElementsOfType(Object actual, Class<?>[] notExpectedTypes, List<Class<?>> notExpectedTypesOccurred) {
     super("%n" +
      "Expecting:%n" +
      "  <%s>%n" +
-     "to not have elements of type:%n" +
+     "to not have any elements of the following types:%n" +
      "  <%s>%nbut found:%n" +
-     "  <%s>", actual, notExpectedType, notExpectedTypeOccurred);
+     "  <%s>", actual, notExpectedTypes, notExpectedTypesOccurred);
   }
 
   /**
    * Creates a new <code>{@link ShouldNotHaveElementsOfType}</code>.
    * @param actual array or Iterable
-   * @param notExpectedType the not expected type of all elements
-   * @param notExpectedTypeOccurred the type of one element that is not expected or it's subclasses.
+   * @param notExpectedTypes the not expected types of all elements
+   * @param notExpectedTypeOccurred the types of elements that are not expected or it's subclasses.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ShouldNotHaveElementsOfType shouldNotHaveElementsOfType(Object actual, Class<?> notExpectedType, Class<?> notExpectedTypeOccurred) {
-    return new ShouldNotHaveElementsOfType(actual, notExpectedType, notExpectedTypeOccurred);
+  public static ShouldNotHaveElementsOfType shouldNotHaveElementsOfType(Object actual, Class<?> []notExpectedTypes, List<Class<?>> notExpectedTypeOccurred) {
+    return new ShouldNotHaveElementsOfType(actual, notExpectedTypes, notExpectedTypeOccurred);
   }
 }

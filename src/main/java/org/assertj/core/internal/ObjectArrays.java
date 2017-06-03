@@ -537,12 +537,17 @@ public class ObjectArrays {
     arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
   }
 
-  public <E> void assertDoesNotHaveElementsOfType(AssertionInfo info, E[] actual, Class<?> notExpectedType) {
+  public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... notExpectedType) {
     Objects.instance().assertNotNull(info, actual);
+    List<Class<?>> nonMatchingElements = newArrayList();
     for (Object o : actual) {
-      if (notExpectedType.isInstance(o)) {
-        throw failures.failure(info, shouldNotHaveElementsOfType(actual, notExpectedType, o.getClass()));
+      for (Class<?> type : notExpectedType)
+      if (type.isInstance(o)) {
+        nonMatchingElements.add(o.getClass());
       }
+    }
+    if (!nonMatchingElements.isEmpty()) {
+      throw failures.failure(info, shouldNotHaveElementsOfType(actual, notExpectedType, nonMatchingElements));
     }
   }
 

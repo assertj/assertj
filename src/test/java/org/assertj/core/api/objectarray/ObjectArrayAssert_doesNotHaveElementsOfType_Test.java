@@ -18,17 +18,17 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link ObjectArrayAssert#doesNotHaveElementsOfType(Class)}.
+ * Tests for {@link ObjectArrayAssert#doesNotHaveAnyElementsOfTypes(Class)}.
  */
 public class ObjectArrayAssert_doesNotHaveElementsOfType_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.doesNotHaveElementsOfType(String.class);
+    return assertions.doesNotHaveAnyElementsOfTypes(String.class);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertDoesNotHaveElementsOfType(getInfo(assertions), getActual(assertions), String.class);
+    verify(arrays).assertDoesNotHaveAnyElementsOfTypes(getInfo(assertions), getActual(assertions), String.class);
   }
 }
