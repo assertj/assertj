@@ -19,9 +19,9 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link AtomicReferenceArrayAssert#doesNotHaveAnyElementsOfTypes(Class)}.
+ * Tests for {@link AtomicReferenceArrayAssert#doesNotHaveAnyElementsOfTypes(Class[])}.
  */
-public class AtomicReferenceArrayAssert_doesNotHaveElementsOfType_Test extends AtomicReferenceArrayAssertBaseTest {
+public class AtomicReferenceArrayAssert_doesNotHaveAnyElementsOfTypes_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

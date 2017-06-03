@@ -20,7 +20,7 @@ import static org.assertj.core.error.ShouldNotHaveElementsOfType.shouldNotHaveEl
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class ObjectArrays_assertDoesNotHaveElementsOfType extends ObjectArraysBaseTest {
+public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArraysBaseTest {
 
   private static final Object[] array = { 6, 7.0, 8L };
 

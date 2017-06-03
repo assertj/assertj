@@ -18,9 +18,9 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link ObjectArrayAssert#doesNotHaveAnyElementsOfTypes(Class)}.
+ * Tests for {@link ObjectArrayAssert#doesNotHaveAnyElementsOfTypes(Class[])}.
  */
-public class ObjectArrayAssert_doesNotHaveElementsOfType_Test extends ObjectArrayAssertBaseTest {
+public class ObjectArrayAssert_doesNotHaveAnyElementsOfTypes_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
