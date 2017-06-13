@@ -56,6 +56,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -800,6 +802,18 @@ public class Objects {
 
   private <A> Object extractPropertyOrField(A actual, String name) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(name, actual);
+  }
+  
+  public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
+    assertNotNull(info, actual);
+
+    if (other == null) {
+      throw failures.failure(info, new BasicErrorMessageFactory("%nExpecting other not to be null"));
+    }
+
+    if (actual.hashCode() != other.hashCode()) {
+      throw failures.failure(info, new BasicErrorMessageFactory("%nExpecting%n  <%s>%nto have the same hashCode as <%s>", actual, other));
+    }
   }
 
   public static class ByFieldsComparison {
