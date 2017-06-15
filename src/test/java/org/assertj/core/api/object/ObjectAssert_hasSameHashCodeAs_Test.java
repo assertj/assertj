@@ -17,6 +17,7 @@ import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -53,14 +54,14 @@ public class ObjectAssert_hasSameHashCodeAs_Test extends ObjectAssertBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError("\nExpecting actual not to be null");
+    thrown.expectAssertionError(format("%nExpecting actual not to be null"));
 
     assertThat((Jedi) null).hasSameHashCodeAs(OTHER_JEDI);
   }
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectAssertionError("\nExpecting other not to be null");
+    thrown.expectAssertionError(format("%nExpecting other not to be null"));
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     assertThat(jedi).hasSameHashCodeAs(null);
