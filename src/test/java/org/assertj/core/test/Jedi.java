@@ -43,4 +43,27 @@ public class Jedi extends Person {
     return strangeNotReadablePrivateField;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!super.equals(obj)) return false;
+    if (getClass() != obj.getClass()) return false;
+    Jedi other = (Jedi) obj;
+    if (lightSaberColor == null) {
+      if (other.lightSaberColor != null) return false;
+    } else if (!lightSaberColor.equals(other.lightSaberColor)) return false;
+    if (getName() == null) {
+      if (other.getName() != null) return false;
+    } else if (!getName().equals(other.getName())) return false;
+    return true;
+  }
+
 }
