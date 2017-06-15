@@ -55,7 +55,7 @@ public class ObjectAssert_hasSameHashCodeAs_Test extends ObjectAssertBaseTest {
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError("\nExpecting actual not to be null");
 
-    assertThat((Jedi)null).hasSameHashCodeAs(OTHER_JEDI);
+    assertThat((Jedi) null).hasSameHashCodeAs(OTHER_JEDI);
   }
 
   @Test

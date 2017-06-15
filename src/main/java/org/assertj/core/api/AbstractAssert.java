@@ -542,6 +542,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     AbstractAssert.customRepresentation = customRepresentation;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public SELF hasSameHashCodeAs(Object other) {
     objects.assertHasSameHashCodeAs(info, actual, other);
     return myself;

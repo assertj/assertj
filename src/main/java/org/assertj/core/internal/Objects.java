@@ -803,17 +803,36 @@ public class Objects {
   private <A> Object extractPropertyOrField(A actual, String name) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(name, actual);
   }
-  
+
+  /**
+   * Asserts that the actual object has the same hashCode as the given object.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to check hashCode against.
+   *
+   * @throws AssertionError if the actual object is null.
+   * @throws AssertionError if the given object is null.
+   * @throws AssertionError if the actual object has not the same hashCode as the given object.
+   */
   public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
 
     if (other == null) {
-      throw failures.failure(info, new BasicErrorMessageFactory("%nExpecting other not to be null"));
+      throw failures.failure(info, otherShouldNotBeNull());
     }
 
     if (actual.hashCode() != other.hashCode()) {
-      throw failures.failure(info, new BasicErrorMessageFactory("%nExpecting%n  <%s>%nto have the same hashCode as <%s>", actual, other));
+      throw failures.failure(info, shouldHaveSameHashCode(actual, other));
     }
+  }
+
+  private BasicErrorMessageFactory otherShouldNotBeNull() {
+    return new BasicErrorMessageFactory("%nExpecting other not to be null");
+  }
+
+  private <A> BasicErrorMessageFactory shouldHaveSameHashCode(A actual, Object other) {
+    return new BasicErrorMessageFactory("%nExpecting%n  <%s>%nto have the same hashCode as <%s>", actual, other);
   }
 
   public static class ByFieldsComparison {
