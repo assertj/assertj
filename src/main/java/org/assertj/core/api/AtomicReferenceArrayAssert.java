@@ -1679,7 +1679,7 @@ public class AtomicReferenceArrayAssert<T>
 
   /**
    * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1713,7 +1713,7 @@ public class AtomicReferenceArrayAssert<T>
 
   /**
    * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1736,6 +1736,7 @@ public class AtomicReferenceArrayAssert<T>
    * // ... but not when comparing both name and race
    * assertThat(atomicArray(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL</code></pre>
    *
+   * @param fields the names of the fields/properties to ignore
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
@@ -1934,7 +1935,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    {@literal@}Override
+   *    {@literal @}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
    *    }
@@ -1976,7 +1977,7 @@ public class AtomicReferenceArrayAssert<T>
    * fred.getChildren().add(pebbles);
    *
    * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
-   *    {@literal@}Override
+   *    {@literal @}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
    *    }

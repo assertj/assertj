@@ -995,7 +995,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    {@literal@}Override
+   *    {@literal @}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
    *    }
@@ -1035,7 +1035,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fred.getChildren().add(pebbles);
    *
    * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonChildren, List&lt;CartoonChildren&gt;&gt;() {
-   *    {@literal@}Override
+   *    {@literal @}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
    *    }
@@ -1391,7 +1391,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1414,6 +1414,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // ... but not when comparing both name and race
    * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL</code></pre>
    *
+   * @param the fields/properties to compare using element comparators
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
@@ -1429,7 +1430,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1479,7 +1480,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *  &lt;[48]&gt;</code></pre>
    *
    * With Hexadecimal error message:
-   * <pre><code class='java'> assertThat(bytes).inHexadecimal().contains((byte)0x30);
+   * <pre><code class='java'> assertThat(bytes).inHexadecimal().contains((byte) 0x30);
    *
    * Expecting:
    *  &lt;[0x10, 0x20]&gt;

@@ -828,6 +828,7 @@ public class Java6Assertions {
    *
    * @param component
    *          the component that creates its own assert
+   * @param <T> the type of the assert provided by the {@link AssertProvider}
    * @return the associated {@link Assert} of the given component
    */
   public static <T> T assertThat(final AssertProvider<T> component) {
@@ -1330,7 +1331,7 @@ public class Java6Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1411,7 +1412,7 @@ public class Java6Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, byLessThan((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
    */
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);

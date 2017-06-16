@@ -618,6 +618,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> // jedi is a Condition&lt;String&gt;
    * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);</code></pre>
    *
+   * @param condition the given condition.
    * @return {@code this} assertion object.
    * @see #haveAtLeast(int, Condition)
    */
@@ -690,6 +691,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // potentialMvp is a Condition&lt;BasketBallPlayer&gt;
    * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);</code></pre>
    *
+   * @param condition the given condition.
    * @return {@code this} assertion object.
    * @see #haveAtLeast(int, Condition)
    */
@@ -715,6 +717,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    *
+   * @param n the minimum number of times the condition must hold.
+   * @param condition the given condition.
    * @return {@code this} assertion object.
    */
   SELF haveAtLeast(int n, Condition<? super ELEMENT> condition);
@@ -740,6 +744,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * This method is an alias {@link #areAtMost(int, Condition)}.
    *
+   * @param n the maximum number of times the condition must hold.
+   * @param condition the given condition.
    * @return {@code this} assertion object.
    */
   SELF haveAtMost(int n, Condition<? super ELEMENT> condition);
@@ -765,6 +771,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * This method is an alias {@link #areExactly(int, Condition)}.
    *
+   * @param n the exact number of times the condition must hold.
+   * @param condition the given condition.
    * @return {@code this} assertion object.
    */
   SELF haveExactly(int n, Condition<? super ELEMENT> condition);

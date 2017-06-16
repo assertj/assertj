@@ -1546,7 +1546,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /**
    * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1580,7 +1580,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /**
    * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1799,7 +1799,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    {@literal@}Override
+   *    {@literal @}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
    *    }
@@ -1840,7 +1840,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * fred.getChildren().add(pebbles);
    *
    * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
-   *    {@literal@}Override
+   *    {@literal @}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
    *    }

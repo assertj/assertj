@@ -237,13 +237,13 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((short)5).isCloseTo((short)7, within((short)3));
+   * assertThat((short) 5).isCloseTo((short) 7, within((short) 3));
    *
    * // if difference is exactly equals to the offset, it's ok
-   * assertThat((short)5).isCloseTo((short)7, within((short)2));
+   * assertThat((short) 5).isCloseTo((short) 7, within((short) 2));
    *
    * // assertion will fail
-   * assertThat((short)5).isCloseTo((short)7, within((short)1));</code></pre>
+   * assertThat((short) 5).isCloseTo((short) 7, within((short) 1));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
@@ -262,11 +262,11 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
-   * assertThat((short)5).isNotCloseTo((short)7, byLessThan((short)1));
+   * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 1));
    *
    * // assertion will fail
-   * assertThat((short)5).isNotCloseTo((short)7, byLessThan((short)2));
-   * assertThat((short)5).isNotCloseTo((short)7, byLessThan((short)3));</code></pre>
+   * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 2));
+   * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 3));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
@@ -287,13 +287,13 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)3));
+   * assertThat((short) 5).isCloseTo(Short.valueOf(7), within((short) 3));
    *
    * // if difference is exactly equals to the offset, it's ok
-   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)2));
+   * assertThat((short) 5).isCloseTo(Short.valueOf(7), within((short) 2));
    *
    * // assertion will fail
-   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)1));</code></pre>
+   * assertThat((short) 5).isCloseTo(Short.valueOf(7), within((short) 1));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
@@ -313,11 +313,11 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
-   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), byLessThan((short)1));
+   * assertThat((short) 5).isNotCloseTo(Short.valueOf(7), byLessThan((short) 1));
    *
    * // assertions will fail
-   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), byLessThan((short)2));
-   * assertThat((short)5).isNotCloseTo(Short.valueOf(7), byLessThan((short)3));</code></pre>
+   * assertThat((short) 5).isNotCloseTo(Short.valueOf(7), byLessThan((short) 2));
+   * assertThat((short) 5).isNotCloseTo(Short.valueOf(7), byLessThan((short) 3));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
@@ -339,13 +339,13 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example with short:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)20));
+   * assertThat((short) 11).isCloseTo(Short.valueOf(10), withinPercentage((short) 20));
    *
    * // if difference is exactly equals to the computed offset (1), it's ok
-   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)10));
+   * assertThat((short) 11).isCloseTo(Short.valueOf(10), withinPercentage((short) 10));
    *
    * // assertion will fail
-   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)5));</code></pre>
+   * assertThat((short) 11).isCloseTo(Short.valueOf(10), withinPercentage((short) 5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
@@ -366,11 +366,11 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example with short:
    * <pre><code class='java'> // assertion will pass:
-   * assertThat((short)11).isNotCloseTo(Short.valueOf(10), withinPercentage((short)5));
+   * assertThat((short) 11).isNotCloseTo(Short.valueOf(10), withinPercentage((short) 5));
    *
    * // assertions will fail
-   * assertThat((short)11).isNotCloseTo(Short.valueOf(10), withinPercentage((short)10));
-   * assertThat((short)11).isNotCloseTo(Short.valueOf(10), withinPercentage((short)20));</code></pre>
+   * assertThat((short) 11).isNotCloseTo(Short.valueOf(10), withinPercentage((short) 10));
+   * assertThat((short) 11).isNotCloseTo(Short.valueOf(10), withinPercentage((short) 20));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
@@ -392,13 +392,13 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example with short:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)20));
+   * assertThat((short) 11).isCloseTo((short) 10, withinPercentage((short) 20));
    *
    * // if difference is exactly equals to the computed offset (1), it's ok
-   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)10));
+   * assertThat((short) 11).isCloseTo((short) 10, withinPercentage((short) 10));
    *
    * // assertion will fail
-   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)5));</code></pre>
+   * assertThat((short) 11).isCloseTo((short) 10, withinPercentage((short) 5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
@@ -418,11 +418,11 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * <p>
    * Example with short:
    * <pre><code class='java'> // assertion will pass:
-   * assertThat((short)11).isNotCloseTo((short)10, withinPercentage((short)5));
+   * assertThat((short) 11).isNotCloseTo((short) 10, withinPercentage((short) 5));
    *
    * // assertions will fail
-   * assertThat((short)11).isNotCloseTo((short)10, withinPercentage((short)10));
-   * assertThat((short)11).isNotCloseTo((short)10, withinPercentage((short)20));</code></pre>
+   * assertThat((short) 11).isNotCloseTo((short) 10, withinPercentage((short) 10));
+   * assertThat((short) 11).isNotCloseTo((short) 10, withinPercentage((short) 20));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.

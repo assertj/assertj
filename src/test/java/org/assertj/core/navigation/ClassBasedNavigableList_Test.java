@@ -14,7 +14,6 @@ package org.assertj.core.navigation;
 
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ClassBasedNavigableListAssert;
 import org.assertj.core.test.IllegalVehicleAssert;
 import org.assertj.core.test.Vehicle;

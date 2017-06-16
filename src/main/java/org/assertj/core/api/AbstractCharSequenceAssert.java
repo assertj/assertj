@@ -370,13 +370,13 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> // assertions will pass
    * assertThat("Gandalf").isNotEqualToIgnoringCase("Hobbit");
    * assertThat("Gandalf").isNotEqualToIgnoringCase("HOBit");
-   * assertThat((String)null).isNotEqualToIgnoringCase("Gandalf");
+   * assertThat((String) null).isNotEqualToIgnoringCase("Gandalf");
    * assertThat("Gandalf").isNotEqualToIgnoringCase(null);
    *
    * // assertions will fail
    * assertThat("Gandalf").isNotEqualToIgnoringCase("Gandalf");
    * assertThat("Gandalf").isNotEqualToIgnoringCase("GaNDalf");
-   * assertThat((String)null).isNotEqualToIgnoringCase(null);</code></pre>
+   * assertThat((String) null).isNotEqualToIgnoringCase(null);</code></pre>
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.

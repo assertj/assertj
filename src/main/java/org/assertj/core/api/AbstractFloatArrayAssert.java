@@ -163,7 +163,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * assertThat(values).containsOnly(4.0f, 7.0f);
    * assertThat(values).containsOnly(1.1f, 2.1f, 3.1f);
    * assertThat(values).usingComparatorWithPrecision(0.01f)
-   *                   .containsOnly(1.1f, 2.1f, 3.1)f;</code></pre>
+   *                   .containsOnly(1.1f, 2.1f, 3.1f);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

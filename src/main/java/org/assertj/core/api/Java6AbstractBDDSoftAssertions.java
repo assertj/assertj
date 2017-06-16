@@ -408,6 +408,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param actual the actual value.
+   * @param <T> the type of the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
@@ -587,6 +588,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicLongFieldUpdater}.
    *
    * @param actual the actual value.
+   * @param <OBJECT> the type of the object holding the updatable field
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
@@ -600,6 +602,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicReference}.
    *
    * @param actual the actual value.
+   * @param <VALUE> the type of object referred to by this reference
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */

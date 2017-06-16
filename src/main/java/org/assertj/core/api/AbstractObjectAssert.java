@@ -408,6 +408,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type the comparator should be used for
+   * @param <T> the type of objects that the comparator should be used for
    * @return {@code this} assertions object
    */
   @CheckReturnValue

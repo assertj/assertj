@@ -631,6 +631,7 @@ public class Assertions {
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param actual the actual value.
+   * @param <T> the type of the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
@@ -1388,7 +1389,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1502,7 +1503,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, byLessThan((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
    */
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);
