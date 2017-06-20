@@ -226,6 +226,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
+  public SELF containsExactlyInAnyOrderElementsOf(Iterable<? extends ELEMENT> values) {
+    return containsExactlyInAnyOrder(toArray(values));
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF isSubsetOf(Iterable<? extends ELEMENT> values) {
     iterables.assertIsSubsetOf(info, actual, values);
     return myself;

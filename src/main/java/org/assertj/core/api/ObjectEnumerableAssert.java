@@ -150,6 +150,32 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsExactlyInAnyOrder(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   *
+   * <p>
+   * Example :
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya, vilya);
+   * Iterable&lt;Ring&gt; elvesRingsSomeMissing = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRingsDifferentOrder = newArrayList(nenya, narya, vilya, vilya);
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsDifferentOrder);
+   *
+   * // assertion will fail as vilya is contained twice in elvesRings.
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsSomeMissing);</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.9.0 / 3.9.0
+   */
+  SELF containsExactlyInAnyOrderElementsOf(Iterable<? extends ELEMENT> values);
+
+  /**
    * Verifies that the actual group contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
    * <p> 
    * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.

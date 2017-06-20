@@ -440,6 +440,35 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the actual AtomicReferenceArray contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   *
+   * <p>
+   * Example :
+   * <pre><code class='java'>
+   * AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray(new Ring[]{vilya, nenya, narya, vilya});
+   * AtomicReferenceArray&lt;Ring&gt; elvesRingsSomeMissing = new AtomicReferenceArray(new Ring[]{vilya, nenya, narya});
+   * AtomicReferenceArray&lt;Ring&gt; elvesRingsDifferentOrder = new AtomicReferenceArray(new Ring[]{nenya, narya, vilya, vilya});
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsDifferentOrder);
+   *
+   * // assertion will fail as vilya is contained twice in elvesRings.
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsSomeMissing);</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsExactlyInAnyOrderElementsOf(Iterable<? extends T> values) {
+    return containsExactlyInAnyOrder(toArray(values));
+  }
+
+  /**
    * Same as {@link #containsExactly(Object...)} but handles the {@link Iterable} to array conversion : verifies that
    * actual contains all elements of the given {@code Iterable} and nothing else <b>in the same order</b>.
    * <p>

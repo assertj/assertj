@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -104,6 +105,14 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     AtomicReferenceArray<Animal> array1 = new AtomicReferenceArray<>(array(new Bird("White"), snake, snake));
     assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15), new Bird("White"),
                                                                                       new Snake(15));
+  }
+
+  @Test
+  public void successful_containsExactlyInAnyOrderElementsOf_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+    Snake snake = new Snake(15);
+    AtomicReferenceArray<Animal> array1 = new AtomicReferenceArray<>(array(new Bird("White"), snake, snake));
+    assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrderElementsOf(
+      newArrayList(new Snake(15), new Bird("White"), new Snake(15)));
   }
 
   @Test
