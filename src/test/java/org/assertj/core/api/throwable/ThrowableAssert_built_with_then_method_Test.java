@@ -49,7 +49,7 @@ public class ThrowableAssert_built_with_then_method_Test {
 
   @Test
   public void should_fail_if_nothing_is_thrown_by_callable_code() {
-    thrown.expectAssertionError("Expecting code to raise a throwable.");
+    thrown.expectAssertionError("%nExpecting code to raise a throwable.");
     thenThrownBy(new ThrowingCallable() {
       @Override
       public void call() {

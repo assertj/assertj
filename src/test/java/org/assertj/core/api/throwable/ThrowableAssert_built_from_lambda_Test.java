@@ -45,7 +45,7 @@ public class ThrowableAssert_built_from_lambda_Test {
 
   @Test
   public void should_fail_if_nothing_is_thrown_by_lambda() {
-    thrown.expectAssertionError("Expecting code to raise a throwable.");
+    thrown.expectAssertionError("%nExpecting code to raise a throwable.");
     assertThatThrownBy(() -> {});
   }
 

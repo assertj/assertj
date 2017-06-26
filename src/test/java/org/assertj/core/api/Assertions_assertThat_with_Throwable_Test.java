@@ -45,7 +45,7 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_fail_if_no_throwable_was_thrown() {
-    thrown.expectAssertionError("Expecting code to raise a throwable.");
+    thrown.expectAssertionError("%nExpecting code to raise a throwable.");
     assertThatThrownBy(() -> {}).hasMessage("yo");
   }
 
