@@ -35,6 +35,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1128,6 +1129,19 @@ public class BDDAssertions extends Assertions {
    */
   @CheckReturnValue
   public static <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> future) {
+    return assertThat(future);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletionStage}.
+   *
+   * @param future the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <RESULT> CompletionStageAssert<RESULT> then(CompletionStage<RESULT> future) {
     return assertThat(future);
   }
 

@@ -36,6 +36,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -82,6 +83,19 @@ public class AssertionsForClassTypes {
   @CheckReturnValue
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return new CompletableFutureAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletionStage}.
+   *
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <RESULT> CompletionStageAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+    return new CompletionStageAssert<>(actual);
   }
 
   /**
