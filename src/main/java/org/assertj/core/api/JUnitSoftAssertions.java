@@ -37,14 +37,15 @@ import org.junit.runners.model.Statement;
  */
 public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implements TestRule {
 
+  @Override
   public Statement apply(final Statement base, Description description) {
-	return new Statement() {
-	  @Override
-	  public void evaluate() throws Throwable {
-		base.evaluate();
-		MultipleFailureException.assertEmpty(errorsCollected());
-	  }
-	};
+    return new Statement() {
+      @Override
+      public void evaluate() throws Throwable {
+        base.evaluate();
+        MultipleFailureException.assertEmpty(errorsCollected());
+      }
+    };
   }
 
 }

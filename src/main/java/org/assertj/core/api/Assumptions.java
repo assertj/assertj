@@ -39,6 +39,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -906,6 +907,23 @@ public class Assumptions {
   @CheckReturnValue
   public static <RESULT> CompletableFutureAssert<RESULT> assumeThat(CompletableFuture<RESULT> actual) {
     return asAssumption(CompletableFutureAssert.class, CompletableFuture.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link CompletableFutureAssert} assumption for a {@link java.util.concurrent.CompletionStage} 
+   * by converting it to a {@link CompletableFuture} and returning a {@link CompletableFutureAssert}.
+   * <p>
+   * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
+   *
+   * @param <RESULT> the CompletableFuture wrapped type.
+   * @param actual the CompletableFuture to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public static <RESULT> CompletableFutureAssert<RESULT> assumeThat(CompletionStage<RESULT> actual) {
+    return asAssumption(CompletableFutureAssert.class, CompletionStage.class, actual);
   }
 
   /**

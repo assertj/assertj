@@ -26,6 +26,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -190,6 +191,22 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
   @CheckReturnValue
   public <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletionStage} by converting it to a {@link CompletableFuture} and returning a {@link CompletableFutureAssert}.
+   * <p>
+   * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
+   *
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
+   *
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+    return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
   }
 
   /**

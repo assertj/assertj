@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
@@ -41,6 +42,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -644,6 +646,16 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(IntStream.of(1, 2, 3)).contains(1, 2, 3);
     softly.assertThat(LongStream.of(1, 2, 3)).contains(1L, 2L, 3L);
     softly.assertThat(DoubleStream.of(1, 2, 3)).contains(1.0, 2.0, 3.0);
+    softly.assertAll();
+  }
+
+  @Test
+  public void should_work_with_CompletionStage() {
+    CompletionStage<String> completionStage = completedFuture("done");
+    softly.assertThat(completionStage).isDone();
+    softly.assertThat(completionStage).hasNotFailed();
+    completionStage = null;
+    softly.assertThat(completionStage).isNull();
     softly.assertAll();
   }
 

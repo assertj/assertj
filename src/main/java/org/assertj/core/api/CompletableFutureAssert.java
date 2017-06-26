@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 /**
  * Assertions for {@link CompletableFuture}.
@@ -23,6 +24,10 @@ public class CompletableFutureAssert<RESULT> extends AbstractCompletableFutureAs
 
   protected CompletableFutureAssert(CompletableFuture<RESULT> actual) {
     super(actual, CompletableFutureAssert.class);
+  }
+
+  protected CompletableFutureAssert(CompletionStage<RESULT> actual) {
+    super(actual == null ? null : actual.toCompletableFuture(), CompletableFutureAssert.class);
   }
 
 }
