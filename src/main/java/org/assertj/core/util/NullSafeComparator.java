@@ -12,9 +12,18 @@
  */
 package org.assertj.core.util;
 
-public abstract class AbstractComparableNumberComparator<T extends Number & Comparable<T>> extends NullSafeComparator<T> {
+import java.util.Comparator;
+
+abstract class NullSafeComparator<T> implements Comparator<T> {
+
   @Override
-  public int compareNonNull(T number1, T number2) {
-    return number1.compareTo(number2);
+  public int compare(T o1, T o2) {
+    if (o1 == o2) return 0;
+    if (o1 == null) return -1;
+    if (o2 == null) return 1;
+
+    return compareNonNull(o1, o2);
   }
+
+  protected abstract int compareNonNull(T o1, T o2);
 }
