@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.io.InputStream;
@@ -2140,9 +2140,13 @@ public class Assertions {
   }
 
   /**
-   * Register a {@link Representation} that will be used in all following assertions.
+   * Register a {@link Representation} that will be used in all following assertions (globally).
    * <p>
    * {@link Representation} are used to format types in assertions error messages.
+   * <p>
+   * An alternative way of using a different representation is to register one as a service, 
+   * this approach is described in {@link Representation}, it requires more work than this method 
+   * but has the advantage of not having to do do anything in your tests. 
    * <p>
    * Example :
    * <pre><code class='java'> private class Example {}
@@ -2186,12 +2190,12 @@ public class Assertions {
   }
 
   /**
-   * Fallback to use {@link StandardRepresentation} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   * Fallback to use {@link StandardRepresentation} or the one registered as a service (see {@link Representation}) to revert the effect of calling {@link #useRepresentation(Representation)}.
    * 
    * @since 2.5.0 / 3.5.0
    */
   public static void useDefaultRepresentation() {
-    AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
+    AbstractAssert.setCustomRepresentation(CONFIGURATION_PROVIDER.representation());
   }
 
   /**

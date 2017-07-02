@@ -58,16 +58,11 @@ public class ChangeDelta<T> extends Delta<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void verify(List<T> target) throws IllegalStateException {
     getOriginal().verify(target);
     checkState(getOriginal().getPosition() <= target.size(),
                "Incorrect patch for delta: delta original position > target size");
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n",
-                         lineNumber(), formatLines(getOriginal().getLines()), formatLines(getRevised().getLines()));
   }
 
   @Override

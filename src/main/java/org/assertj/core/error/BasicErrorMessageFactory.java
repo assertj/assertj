@@ -13,8 +13,8 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
@@ -25,7 +25,6 @@ import java.util.Arrays;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -113,13 +112,13 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   /** {@inheritDoc} */
   @Override
   public String create(Description d) {
-    return formatter.format(d, STANDARD_REPRESENTATION, format, arguments);
+    return formatter.format(d, CONFIGURATION_PROVIDER.representation(), format, arguments);
   }
 
   /** {@inheritDoc} */
   @Override
   public String create() {
-    return formatter.format(emptyDescription(), STANDARD_REPRESENTATION, format, arguments);
+    return formatter.format(emptyDescription(), CONFIGURATION_PROVIDER.representation(), format, arguments);
   }
 
   /**
@@ -160,7 +159,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   @Override
   public String toString() {
     return format("%s[format=%s, arguments=%s]", getClass().getSimpleName(), quote(format),
-        StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(arguments));
+                  CONFIGURATION_PROVIDER.representation().toStringOf(arguments));
   }
 
 }

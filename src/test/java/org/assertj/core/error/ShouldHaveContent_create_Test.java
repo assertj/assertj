@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +41,7 @@ public class ShouldHaveContent_create_Test {
     List<Delta<String>> diffs = Lists.newArrayList(delta);
 
     ErrorMessageFactory factory = shouldHaveContent(file, defaultCharset(), diffs);
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n"
                                          + "File:%n"
                                          + "  <xyz>%n"

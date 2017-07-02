@@ -12,14 +12,14 @@
  */
 package org.assertj.core.util.diff;
 
-import org.assertj.core.util.diff.myers.MyersDiff;
-
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.assertj.core.util.diff.myers.MyersDiff;
 
 /**
  * Copy from https://code.google.com/p/java-diff-utils/.
@@ -126,10 +126,8 @@ public class DiffUtils {
               newChunkLines.add(rest);
             }
           }
-          patch.addDelta(new ChangeDelta<>(new Chunk<>(
-                                                       old_ln - 1, oldChunkLines),
-                                           new Chunk<>(
-                                                       new_ln - 1, newChunkLines)));
+          patch.addDelta(new ChangeDelta<>(new Chunk<>(old_ln - 1, oldChunkLines),
+                                           new Chunk<>(new_ln - 1, newChunkLines)));
           rawChunk.clear();
         }
         // Parse the @@ header

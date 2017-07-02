@@ -12,11 +12,11 @@
  */
 package org.assertj.core.util.diff;
 
-import static org.assertj.core.presentation.StandardRepresentation.ELEMENT_SEPARATOR_WITH_NEWLINE;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.List;
+
+import org.assertj.core.configuration.ConfigurationProvider;
 
 /**
  * Initially copied from https://code.google.com/p/java-diff-utils/.
@@ -131,12 +131,13 @@ public abstract class Delta<T> {
     return true;
   }
 
-  int lineNumber() {
+  public int lineNumber() {
     return getOriginal().getPosition() + 1;
   }
 
-  String formatLines(List<T> lines) {
-    return STANDARD_REPRESENTATION.format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
+  @Override
+  public String toString() {
+    return ConfigurationProvider.CONFIGURATION_PROVIDER.representation().toStringOf(this);
   }
 
 }

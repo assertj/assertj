@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.description.TextDescription;
@@ -35,7 +35,7 @@ public class ShouldContainsAnyOf_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
                                          "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +
@@ -48,7 +48,7 @@ public class ShouldContainsAnyOf_create_Test {
   public void should_create_error_message_with_custom_comparison_strategy() {
     ErrorMessageFactory factory = shouldContainAnyOf(newArrayList("Yoda", "Han", "Han"), newArrayList("Vador", "Leia"),
                                                      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
                                          "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +

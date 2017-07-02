@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
@@ -33,7 +33,7 @@ public class ShouldHaveReference_create_Test {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>("foo", true);
     // WHEN
     String message = shouldHaveReference(actual, actual.getReference(), "bar").create(TEST_DESCRIPTION,
-                                                                                      STANDARD_REPRESENTATION);
+                                                                                      CONFIGURATION_PROVIDER.representation());
     // THEN
     assertThat(message).isEqualTo(format("[TEST] %n" +
                                          "Expecting%n" +
@@ -50,7 +50,7 @@ public class ShouldHaveReference_create_Test {
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("foo", 123);
     // WHEN
     String message = shouldHaveReference(actual, actual.getReference(), "bar").create(TEST_DESCRIPTION,
-                                                                                      STANDARD_REPRESENTATION);
+                                                                                      CONFIGURATION_PROVIDER.representation());
     // THEN
     assertThat(message).isEqualTo(format("[TEST] %n" +
                                          "Expecting%n" +
