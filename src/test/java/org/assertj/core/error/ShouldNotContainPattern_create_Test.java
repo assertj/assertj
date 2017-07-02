@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class ShouldNotContainPattern_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
                                          "  \"Frodo\"%n" +

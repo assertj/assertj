@@ -14,10 +14,10 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Sets.newTreeSet;
 
@@ -37,7 +37,7 @@ public class ShouldHaveMethods_create_Test {
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, false,
                                                     newTreeSet("getName", "getAddress"),
                                                     newTreeSet("getAddress"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
@@ -52,7 +52,7 @@ public class ShouldHaveMethods_create_Test {
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, true,
                                                     newTreeSet("getName", "getAddress"),
                                                     newTreeSet("getAddress"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
@@ -67,7 +67,7 @@ public class ShouldHaveMethods_create_Test {
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class,
                                                        Modifier.toString(Modifier.PUBLIC), true,
                                                        newTreeSet("getName"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
@@ -80,7 +80,7 @@ public class ShouldHaveMethods_create_Test {
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class,
                                                        Modifier.toString(Modifier.PUBLIC), false,
                                                        newTreeSet("getName"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
@@ -91,7 +91,7 @@ public class ShouldHaveMethods_create_Test {
   @Test
   public void should_create_error_message_for_shouldNotHave_Declared_Methods() {
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class, true, newTreeSet("getName"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
@@ -102,7 +102,7 @@ public class ShouldHaveMethods_create_Test {
   @Test
   public void should_create_error_message_for_shouldNotHaveMethods() {
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class, false, newTreeSet("getName"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +
@@ -116,7 +116,7 @@ public class ShouldHaveMethods_create_Test {
                                                     newTreeSet("finalize"),
                                                     Modifier.toString(Modifier.PUBLIC),
                                                     mapOf(entry("finalize", Modifier.toString(Modifier.PROTECTED))));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting%n" +
                                          "  <org.assertj.core.test.Person>%n" +

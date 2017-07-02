@@ -15,8 +15,8 @@ package org.assertj.core.internal.objects;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
@@ -162,7 +162,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                                                                    asList(new Difference(asList("name"),
                                                                                                          "John",
                                                                                                          "Jack")),
-                                                                                   STANDARD_REPRESENTATION));
+                                                                                   CONFIGURATION_PROVIDER.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -189,7 +189,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                                                              asList(new Difference(asList("home.address.number"),
                                                                                                    1,
                                                                                                    2)),
-                                                                             STANDARD_REPRESENTATION));
+                                                                             CONFIGURATION_PROVIDER.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -261,7 +261,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                                                              asList(new Difference(asList("home.address.number"),
                                                                                                    1,
                                                                                                    2)),
-                                                                             STANDARD_REPRESENTATION));
+                                                                             CONFIGURATION_PROVIDER.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
