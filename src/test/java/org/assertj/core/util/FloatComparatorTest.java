@@ -25,11 +25,11 @@ public class FloatComparatorTest {
 
   private static FloatComparator comparator = new FloatComparator(0.01f);
 
-  public static boolean nearlyEqual(float a, float b) {
+  public static boolean nearlyEqual(Float a, Float b) {
     return comparator.compare(a, b) == 0;
   }
 
-  public static boolean nearlyEqual(float a, float b, float epsilon) {
+  public static boolean nearlyEqual(Float a, Float b, float epsilon) {
     return new FloatComparator(epsilon).compare(a, b) == 0;
   }
 
@@ -42,7 +42,8 @@ public class FloatComparatorTest {
     "0.001, 0.0",
     "0.0, 0.001",
     "-1.001, -1.0",
-    "-1.0, -1.001"
+    "-1.0, -1.001",
+    "null, null"
   })
   // @format:on
   public void should_be_equal_if_difference_is_less_than_or_equal_to_epsilon(Float actual, Float other) {
@@ -60,7 +61,9 @@ public class FloatComparatorTest {
     "0.01, 0.0",
     "0.0, 0.010001",
     "-1.010001, -1.0",
-    "-1.0, -1.010001"
+    "-1.0, -1.010001",
+    "null, 1.0",
+    "1.0, null"
   })
   // @format:on
   public void should_not_be_equal_if_difference_is_more_than_epsilon(Float actual, Float other) {

@@ -12,9 +12,7 @@
  */
 package org.assertj.core.util;
 
-import java.util.Comparator;
-
-public class DoubleComparator implements Comparator<Double> {
+public class DoubleComparator extends NullSafeComparator<Double> {
 
   private double epsilon;
 
@@ -23,7 +21,7 @@ public class DoubleComparator implements Comparator<Double> {
   }
 
   @Override
-  public int compare(Double x, Double y) {
+  protected int compareNonNull(Double x, Double y) {
     if (closeEnough(x, y, epsilon)) return 0;
     return x < y ? -1 : 1;
   }
@@ -53,9 +51,6 @@ public class DoubleComparator implements Comparator<Double> {
   }
 
   private static boolean closeEnough(Double x, Double y, double epsilon) {
-    // x == y handles infinities
-    if (x == y) return true;
-    if (x == null || y == null) return false;
     return Math.abs(x - y) < epsilon;
   }
 
