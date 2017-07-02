@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.io.InputStream;
@@ -2126,7 +2126,7 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   public static void useDefaultRepresentation() {
-    AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
+    AbstractAssert.setCustomRepresentation(CONFIGURATION_PROVIDER.representation());
   }
 
   /**

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import java.util.Comparator;
@@ -135,13 +135,13 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   @Override
   public String asText() {
-	return "when comparing values using " + STANDARD_REPRESENTATION.toStringOf(comparator);
+    return "when comparing values using " + CONFIGURATION_PROVIDER.representation().toStringOf(comparator);
 	// return "according to " + this;
   }
 
   @Override
   public String toString() {
-	return STANDARD_REPRESENTATION.toStringOf(comparator);
+    return CONFIGURATION_PROVIDER.representation().toStringOf(comparator);
   }
 
   public Comparator<?> getComparator() {

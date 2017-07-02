@@ -57,6 +57,10 @@ import org.assertj.core.util.DateUtil;
  */
 public class StandardRepresentation implements Representation {
 
+  /**
+   * @deprecated use {@link org.assertj.core.configuration.ConfigurationProvider#representation()} instead
+   */
+  @Deprecated
   // can share this as StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
@@ -138,13 +142,24 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
-    return object == null ? null : object.toString();
+    return object == null ? null : fallbackToStringOf(object);
   }
 
   @Override
   public String unambiguousToStringOf(Object obj) {
     return obj == null ? null
         : String.format("%s (%s@%s)", toStringOf(obj), obj.getClass().getSimpleName(), toHexString(obj.hashCode()));
+  }
+
+  /**
+   * Returns the {@code String} representation of the given object. This method is used as a last resort if none of
+   * the {@link StandardRepresentation} predefined string representations were not called.
+   *
+   * @param object the object to represent (never {@code null}
+   * @return to {@code toString} representation for the given object
+   */
+  protected String fallbackToStringOf(Object object) {
+    return object.toString();
   }
 
   protected String toStringOf(Number number) {
