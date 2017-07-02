@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.description.Description;
+import org.assertj.core.util.CheckReturnValue;
+
 /**
  * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named 
  * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>.
@@ -422,4 +425,19 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
     return this;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableAssertAlternative<T> describedAs(String description, Object... args) {
+    delegate.describedAs(description, args);
+    return super.describedAs(description, args);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableAssertAlternative<T> describedAs(Description description) {
+    delegate.describedAs(description);
+    return super.describedAs(description);
+  }
 }

@@ -16,6 +16,7 @@ import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 
 import java.util.IllegalFormatException;
 
+import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
@@ -44,7 +45,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   protected SELF hasBeenThrown() {
-    if (actual == null) throw Failures.instance().failure("Expecting code to raise a throwable.");
+    if (actual == null) {
+      throw Failures.instance().failure(info, new BasicErrorMessageFactory("%nExpecting code to raise a throwable."));
+    }
     return myself;
   }
 

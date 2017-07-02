@@ -17,15 +17,13 @@ import org.assertj.core.description.Description;
 /**
  * An object that has a description.
  * 
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <SELF> the "self" type of this assertion class.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public interface Descriptable<SELF extends Descriptable<SELF>> {
+public interface Descriptable<SELF> {
 
   /**
    * Sets the description of the assertion that is going to be called after. 

@@ -54,7 +54,7 @@ public class ExpectThrowableAssert_isThrownBy_Test {
 
   @Test
   public void should_fail_if_nothing_is_thrown_by_lambda() {
-    thrown.expectAssertionError("Expecting code to raise a throwable.");
+    thrown.expectAssertionError("%nExpecting code to raise a throwable.");
     assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {});
   }
 }

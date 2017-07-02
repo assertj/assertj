@@ -16,6 +16,9 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -25,10 +28,13 @@ import org.assertj.core.util.VisibleForTesting;
  *
  * @param <T> type of throwable to be thrown.
  */
-public class ThrowableTypeAssert<T extends Throwable> {
+public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
 
   @VisibleForTesting
   final Class<? extends T> expectedThrowableType;
+
+  @VisibleForTesting
+  private Description description;
 
   /**
    * Default constructor.
@@ -52,10 +58,39 @@ public class ThrowableTypeAssert<T extends Throwable> {
    */
   public ThrowableAssertAlternative<T> isThrownBy(final ThrowingCallable throwingCallable) {
     Throwable throwable = ThrowableAssert.catchThrowable(throwingCallable);
-    assertThat(throwable).hasBeenThrown().isInstanceOf(expectedThrowableType);
+    assertThat(throwable).as(description).hasBeenThrown().isInstanceOf(expectedThrowableType);
     @SuppressWarnings("unchecked")
     T c = (T) throwable;
-    return new ThrowableAssertAlternative<>(c);
+    return new ThrowableAssertAlternative<>(c).as(description);
   }
 
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableTypeAssert<T> as(String description, Object... args) {
+    return describedAs(description, args);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableTypeAssert<T> as(Description description) {
+    return describedAs(description);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableTypeAssert<T> describedAs(String description, Object... args) {
+    this.description = new TextDescription(description, args);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableTypeAssert<T> describedAs(Description description) {
+    this.description = description;
+    return this;
+  }
 }
