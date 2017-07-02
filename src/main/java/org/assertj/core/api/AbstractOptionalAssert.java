@@ -405,6 +405,34 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     return assertThat(actual.map(mapper));
   }
 
+  /**
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty,
+   * and returns an Object assertion, to allow chaining of object-specific
+   * assertions from this call.
+   * <p>
+   * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.  
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, null);
+   *
+   * // assertion succeeds since all frodo's fields are set
+   * assertThat(Optional.of(frodo)).get().hasNoNullFields();
+   *
+   * // assertion does not succeed because sam does not have its race set
+   * assertThat(Optional.of(sam)).get().hasNoNullFields();</code></pre>
+   *
+   * @return a new {@link AbstractObjectAssert} for assertions chaining on the value of the Optional.
+   * @throws AssertionError if the actual {@link Optional} is null.
+   * @throws AssertionError if the actual {@link Optional} is empty.
+   * @since 3.9.0
+   */
+  @CheckReturnValue
+  public AbstractObjectAssert<?, VALUE> get() {
+    isPresent();
+    return assertThat(actual.get());
+  }
+
   private void checkNotNull(Object expectedValue) {
     checkArgument(expectedValue != null, "The expected value should not be <null>.");
   }
