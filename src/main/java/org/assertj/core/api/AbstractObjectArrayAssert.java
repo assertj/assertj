@@ -358,8 +358,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
+
   /**
-   * {@inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public SELF containsExactlyInAnyOrderElementsOf(Iterable<? extends ELEMENT> values) {

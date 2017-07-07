@@ -826,9 +826,9 @@ public class Java6Assertions {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    *
+   * @param <T> the generic type of the assert provided by the component.
    * @param component
    *          the component that creates its own assert
-   * @param <T> the type of the assert provided by the {@link AssertProvider}
    * @return the associated {@link Assert} of the given component
    */
   public static <T> T assertThat(final AssertProvider<T> component) {
@@ -1186,6 +1186,9 @@ public class Java6Assertions {
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;,
    * &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;);</code></pre>
+   *
+   * @param propertyName the name of the property to extract
+   * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
@@ -1249,6 +1252,9 @@ public class Java6Assertions {
    *
    * @param <K> the type of keys in the map.
    * @param <V> the type of values in the map.
+   * @param key the key of the entry to create.
+   * @param value the value of the entry to create.
+   * @return the created {@code MapEntry}.
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
@@ -1261,6 +1267,8 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));</code></pre>
+   *
+   * @return the created {@code Index}.
    */
   public static Index atIndex(int index) {
     return Index.atIndex(index);
@@ -1271,6 +1279,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
    */
   public static Offset<Double> offset(Double value) {
     return Offset.offset(value);
@@ -1281,6 +1291,9 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
+   *
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
    */
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
@@ -1291,6 +1304,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Double> within(Double value) {
     return Offset.offset(value);
@@ -1301,6 +1316,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Float> within(Float value) {
     return Offset.offset(value);
@@ -1311,6 +1328,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
     return Offset.offset(value);
@@ -1321,6 +1340,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
+   * 
+   * @return the created {@code Offset}.
    * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> within(BigInteger value) {
@@ -1332,6 +1353,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1342,6 +1365,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
@@ -1352,6 +1377,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
@@ -1362,6 +1389,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
@@ -1372,6 +1401,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, byLessThan(0.1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Double> byLessThan(Double value) {
     return Offset.offset(value);
@@ -1382,6 +1413,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.2f));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Float> byLessThan(Float value) {
     return Offset.offset(value);
@@ -1392,6 +1425,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), byLessThan(BigDecimal.ONE));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
     return Offset.offset(value);
@@ -1402,6 +1437,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
+   *
+   * @return the created {@code Offset}.
    * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> byLessThan(BigInteger value) {
@@ -1413,6 +1450,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);
@@ -1423,6 +1462,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Integer> byLessThan(Integer value) {
     return Offset.offset(value);
@@ -1433,6 +1474,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Short> byLessThan(Short value) {
     return Offset.offset(value);
@@ -1443,6 +1486,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(2l));</code></pre>
+   *
+   * @return the created {@code Offset}.
    */
   public static Offset<Long> byLessThan(Long value) {
     return Offset.offset(value);
@@ -1454,6 +1499,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
+   *
+   * @return the created {@code Percentage}.
    */
   public static Percentage withinPercentage(Double value) {
     return withPercentage(value);
@@ -1465,6 +1512,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
+   *
+   * @return the created {@code Percentage}.
    */
   public static Percentage withinPercentage(Integer value) {
     return withPercentage(value);
@@ -1476,6 +1525,8 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
+   *
+   * @return the created {@code Percentage}.
    */
   public static Percentage withinPercentage(Long value) {
     return withPercentage(value);
@@ -1573,6 +1624,9 @@ public class Java6Assertions {
    * and with filter language based on java bean property :
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
    *     .greaterThan(7).get()).containsOnly(james, rose);</code></pre>
+   *
+   * @param array the array to filter.
+   * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(E[] array) {
     return Filters.filter(array);
@@ -1590,6 +1644,9 @@ public class Java6Assertions {
    * and with filter language based on java bean property :
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
    *     .greaterThan(7).get()).containsOnly(james, rose);</code></pre>
+   *
+   * @param iterable the {@code Iterable} to filter.
+   * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);

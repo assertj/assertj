@@ -1422,7 +1422,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // ... but not when comparing both name and race
    * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL</code></pre>
    *
-   * @param the fields/properties to compare using element comparators
+   * @param fields the fields/properties to compare using element comparators
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
