@@ -40,7 +40,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
 
   /**
    * Verifies that the actual atomic has a value in [start, end] range (start included, end included).
-   * <p/>
+   * <p>
    * Example:
    * <pre><code class='java'> AtomicInteger actual =  new AtomicInteger(5);
    *  
@@ -78,7 +78,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    * // assertions will fail:
    * assertThat(new AtomicInteger(1)).hasValueLessThan(0);
    * assertThat(new AtomicInteger(1)).hasValueLessThan(1);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
@@ -103,7 +103,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    * 
    * // assertion will fail:
    * assertThat(new AtomicInteger(1)).hasValueLessThanOrEqualTo(0);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
@@ -128,7 +128,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    * // assertions will fail:
    * assertThat(new AtomicInteger(1)).hasValueGreaterThan(2)
    *                                 .hasValueGreaterThan(1);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if actual is {@code null}.
@@ -153,7 +153,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    * 
    * // assertion will fail:
    * assertThat(new AtomicInteger(1)).hasValueGreaterThanOrEqualTo(2);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.

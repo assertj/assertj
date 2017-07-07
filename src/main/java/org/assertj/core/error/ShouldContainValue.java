@@ -22,7 +22,7 @@ import org.assertj.core.api.Condition;
 public class ShouldContainValue extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainValue}</code>.
+   * Creates a new <code>{@link ShouldContainValue}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -31,7 +31,7 @@ public class ShouldContainValue extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainValue}</code>.
+   * Creates a new <code>{@link ShouldContainValue}</code>.
    *
    * @param actual the actual map in the failed assertion.
    * @param valueCondition value condition.

@@ -25,7 +25,7 @@ import org.assertj.core.api.Condition;
 public class ElementsShouldHaveAtLeast extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ElementsShouldHaveAtLeast}</code>.
+   * Creates a new <code>{@link ElementsShouldHaveAtLeast}</code>.
    * @param actual the actual value in the failed assertion.
    * @param times least time the condition should be verify.
    * @param condition the {@code Condition}.

@@ -23,7 +23,7 @@ import org.assertj.core.internal.*;
 public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeLessOrEqual}</code>.
+   * Creates a new <code>{@link ShouldBeLessOrEqual}</code>.
    * @param <T> guarantees that the values used in this factory have the same type.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
@@ -34,7 +34,7 @@ public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeLessOrEqual}</code>.
+   * Creates a new <code>{@link ShouldBeLessOrEqual}</code>.
    * @param <T> guarantees that the values used in this factory have the same type.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.

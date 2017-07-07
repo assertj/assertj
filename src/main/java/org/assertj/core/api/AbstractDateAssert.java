@@ -698,7 +698,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * 
    * // assertion will fail
    * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;1990-12-01&quot;));</code></pre>
-   * </p>
+   *
    * @param other the given Date.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -830,7 +830,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * 
    * // assertion will fail
    * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));</code></pre>
-   * </p>
+   *
    * @param other the given Date.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -968,7 +968,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertions will fail
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;), false, true);
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;), true, false);</code></pre>
-   * </p>
+   *
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
    * @param inclusiveStart whether to include start date in period.
@@ -1047,7 +1047,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("2000-01-01"), format.parse("2100-12-01"), true, true);
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2000-01-01"), true, true);
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2100-01-01"), false, false);</code></pre>
-   * </p>
+   *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
    * @param inclusiveStart whether to include start date in period.
@@ -1123,7 +1123,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertions will fail
    * assertThat(format.parse(&quot;2001-12-24&quot;)).isNotBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-01-01&quot;));
    * assertThat(format.parse(&quot;1900-01-01&quot;)).isNotBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;));</code></pre>
-   * </p>
+   *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
    * @return this assertion object.
@@ -1705,7 +1705,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same hour (i.e. their time difference <= 1
+   * Verifies that actual and given {@code Date} are chronologically in the same hour (i.e. their time difference &lt;= 1
    * hour).
    * <p>
    * This assertion succeeds as time difference is exactly = 1h:
@@ -1846,14 +1846,14 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same minute (i.e. their time difference <= 1
+   * Verifies that actual and given {@code Date} are chronologically in the same minute (i.e. their time difference &lt;= 1
    * minute).
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date2 = parseDatetime("2003-01-01T12:01:30");
    *
-   * // succeeds because date time difference < 1 min
+   * // succeeds because date time difference &lt; 1 min
    * assertThat(date1).isInSameMinuteWindowAs(date2);</code></pre>
    * 
    * Two dates can have different minute fields and yet be in the same chronological minute, example:
@@ -1863,11 +1863,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // succeeds as time difference == 1s even though minutes fields differ
    * assertThat(date1).isInSameMinuteWindowAs(date3);</code></pre>
    * 
-   * This assertion fails as time difference is >= one minute:
+   * This assertion fails as time difference is &gt;= one minute:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date2 = parseDatetime("2003-01-01T12:02:00");
    *
-   * // fails, time difference should hae been < 1 min
+   * // fails, time difference should hae been &lt; 1 min
    * assertThat(date1).isInSameMinuteWindowAs(date2); // ERROR</code></pre>
    * 
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
@@ -1990,20 +1990,20 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Verifies that actual and given {@code Date} are chronologically strictly in the same second (i.e. their time
-   * difference < 1 second).
+   * difference &lt; 1 second).
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:02.123");
    * Date date2 = parseDatetimeWithMs("2003-04-26T13:01:02.456");
    *
-   * // succeeds as time difference is < 1s
+   * // succeeds as time difference is &lt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date2);</code></pre>
    * 
    * Two dates can have different second fields and yet be in the same chronological second, example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:02.999");
    * Date date2 = parseDatetimeWithMs("2003-04-26T13:01:03.000");
    *
-   * // succeeds as time difference is 1ms < 1s
+   * // succeeds as time difference is 1ms &lt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date2);</code></pre>
    * 
    * Those assertions fail as time difference is greater or equal to one second:
@@ -2014,7 +2014,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date1).isInSameSecondWindowAs(date2); // ERROR
    *
    * Date date3 = parseDatetimeWithMs("2003-04-26T13:01:02.001");
-   * // fails as time difference > 1s
+   * // fails as time difference &gt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date3); // ERROR</code></pre>
    * 
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
@@ -2467,7 +2467,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
+   * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
    * Beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2492,7 +2492,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
+   * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
    * Beware that the default formats are expressed in the current local timezone.
    * <p>

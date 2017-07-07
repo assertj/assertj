@@ -121,7 +121,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) -1).isPositive();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isPositive() {
@@ -139,7 +138,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) 1).isNegative();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isNegative() {
@@ -157,7 +155,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) -1).isNotNegative();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isNotNegative() {
@@ -175,7 +172,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) 1).isNotPositive();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isNotPositive() {
@@ -193,8 +189,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) 1).isLessThan((byte) 0);
    * assertThat((byte) 1).isLessThan((byte) 1);</code></pre>
-   * 
-   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -217,8 +211,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) 1).isLessThanOrEqualTo((byte) 0);</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -240,8 +232,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * assertThat((byte) 2).isGreaterThan((byte) 3);
    * assertThat((byte) 2).isGreaterThan((byte) 2);</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -262,8 +252,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat((byte) 2).isGreaterThanOrEqualTo((byte) 3);</code></pre>
-   * 
-   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -288,7 +276,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * // assertion will fail
    * assertThat((byte) 1).isBetween((byte) 2, (byte) 3);</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isBetween(Byte start, Byte end) {
@@ -309,7 +296,6 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * assertThat((byte) 1).isStrictlyBetween((byte) 0, (byte) 1);
    * assertThat((byte) 1).isStrictlyBetween((byte) 2, (byte) 3);</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isStrictlyBetween(Byte start, Byte end) {

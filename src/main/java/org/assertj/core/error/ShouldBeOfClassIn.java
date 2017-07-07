@@ -20,7 +20,7 @@ package org.assertj.core.error;
 public class ShouldBeOfClassIn extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeOfClassIn}</code>.
+   * Creates a new <code>{@link ShouldBeOfClassIn}</code>.
    * @param actual the actual value in the failed assertion.
    * @param types contains the types {@code actual} is expected to be in.
    * @return the created {@code ErrorMessageFactory}.

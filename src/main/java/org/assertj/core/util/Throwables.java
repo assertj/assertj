@@ -62,7 +62,7 @@ public final class Throwables {
   /**
    * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
    * end user. Therefore, instead of seeing this:
-   * <pre><code class='java'> org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+   * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
    *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -77,7 +77,7 @@ public final class Throwables {
    *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)</code></pre>
    *
    * We get this:
-   * <pre><code class='java'> org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+   * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
    *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)

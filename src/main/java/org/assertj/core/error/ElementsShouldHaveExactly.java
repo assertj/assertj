@@ -25,7 +25,7 @@ import org.assertj.core.api.Condition;
 public class ElementsShouldHaveExactly extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ElementsShouldHaveExactly}</code>.
+   * Creates a new <code>{@link ElementsShouldHaveExactly}</code>.
    * @param actual the actual value in the failed assertion.
    * @param times exactly times the condition should be verify.
    * @param condition the {@code Condition}.

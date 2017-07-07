@@ -35,7 +35,7 @@ public class TextDescription extends Description {
   final Object[] args;
 
   /**
-   * Creates a new </code>{@link TextDescription}</code>.
+   * Creates a new <code>{@link TextDescription}</code>.
    *
    * @param value the value of this description.
    * @throws NullPointerException if the given value is {@code null}.

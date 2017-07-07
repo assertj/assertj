@@ -24,7 +24,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 public class ShouldBeGreater extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeGreater}</code>.
+   * Creates a new <code>{@link ShouldBeGreater}</code>.
    * 
    * @param <T> guarantees that the values used in this factory have the same type.
    * @param actual the actual value in the failed assertion.
@@ -36,7 +36,7 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeGreater}</code>.
+   * Creates a new <code>{@link ShouldBeGreater}</code>.
    * 
    * @param <T> guarantees that the values used in this factory have the same type.
    * @param actual the actual value in the failed assertion.

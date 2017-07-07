@@ -20,7 +20,7 @@ package org.assertj.core.error;
 public class ShouldHaveSameClass extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHaveSameClass}</code>.
+   * Creates a new <code>{@link ShouldHaveSameClass}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the type {@code actual} is expected to be.
    * @return the created {@code ErrorMessageFactory}.

@@ -125,7 +125,7 @@ public class Lists {
    * <li>a list composed of Rectangle {r1, r2, r3} is <b>NOT ok</b> because Rectangle is not Comparable</li>
    * <li>a list composed of {True, "abc", False} is <b>NOT ok</b> because elements are not mutually comparable</li>
    * </ul>
-   * Empty lists are considered sorted.</br> Unique element lists are considered sorted unless the element type is not Comparable.
+   * Empty lists are considered sorted.<br> Unique element lists are considered sorted unless the element type is not Comparable.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.
@@ -161,8 +161,8 @@ public class Lists {
   }
 
   /**
-   * Verifies that the actual list is sorted according to the given comparator.</br> Empty lists are considered sorted whatever
-   * the comparator is.</br> One element lists are considered sorted if the element is compatible with comparator.
+   * Verifies that the actual list is sorted according to the given comparator.<br> Empty lists are considered sorted whatever
+   * the comparator is.<br> One element lists are considered sorted if the element is compatible with comparator.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.

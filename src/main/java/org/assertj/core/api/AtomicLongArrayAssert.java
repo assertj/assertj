@@ -47,7 +47,7 @@ public class AtomicLongArrayAssert
    * 
    * // assertion will fail
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 3 })).isNullOrEmpty();</code></pre>
-   * </p>
+   
    * @throws AssertionError if the AtomicLongArray is not {@code null} or not empty.
    * @since 2.7.0 / 3.7.0
    */
@@ -65,7 +65,7 @@ public class AtomicLongArrayAssert
    * 
    * // assertion will fail
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 3 })).isEmpty();</code></pre>
-   * </p>
+   
    * @throws AssertionError if the AtomicLongArray is not empty.
    * @since 2.7.0 / 3.7.0
    */
@@ -82,7 +82,7 @@ public class AtomicLongArrayAssert
    * 
    * // assertion will fail
    * assertThat(new AtomicLongArray(new long[0])).isNotEmpty();</code></pre>
-   * </p>
+   
    * @return {@code this} assertion object.
    * @throws AssertionError if the AtomicLongArray is empty.
    * @since 2.7.0 / 3.7.0
@@ -103,7 +103,7 @@ public class AtomicLongArrayAssert
    * 
    * // assertion will fail
    * assertThat(atomicLongArray).hasArray(new long[] { 2, 3, 4 });</code></pre>
-   * </p>
+   
    * @param expected the long[] array expected to be in the actual AtomicLongArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the AtomicLongArray does not have the given array.
@@ -124,7 +124,7 @@ public class AtomicLongArrayAssert
    * 
    * // assertion will fail
    * assertThat(atomicLongArray).hasSize(1);</code></pre>
-   * </p>
+   
    * @param expected the expected number of values in the actual AtomicLongArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the AtomicLongArray is not equal to the given one.
@@ -175,7 +175,7 @@ public class AtomicLongArrayAssert
    * // assertions will fail
    * assertThat(atomicLongArray).contains(2, 3, 4);
    * assertThat(atomicLongArray).contains(4, 5, 6);</code></pre>
-   * </p>
+   
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -202,7 +202,7 @@ public class AtomicLongArrayAssert
    * // assertions will fail
    * assertThat(atomicLongArray).containsOnly(1, 2, 3, 4);
    * assertThat(atomicLongArray).containsOnly(4, 7);</code></pre>
-   * </p>
+   
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -256,7 +256,6 @@ public class AtomicLongArrayAssert
    * // assertion will fail
    * assertThat(atomicLongArray).containsSequence(1, 3);
    * assertThat(atomicLongArray).containsSequence(2, 1);</code></pre>
-   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -282,7 +281,6 @@ public class AtomicLongArrayAssert
    * 
    * // assertion will fail
    * assertThat(atomicLongArray).containsSubsequence(2, 1);</code></pre>
-   * </p>
    * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
@@ -309,7 +307,7 @@ public class AtomicLongArrayAssert
    * // assertions will fail
    * assertThat(atomicLongArray).contains(1, atIndex(1));
    * assertThat(atomicLongArray).contains(4, atIndex(2));</code></pre>
-   * </p>
+   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual atomic array.
    * @return myself assertion object.
@@ -336,7 +334,7 @@ public class AtomicLongArrayAssert
    *
    * // assertion will fail
    * assertThat(atomicLongArray).doesNotContain(2);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -363,7 +361,7 @@ public class AtomicLongArrayAssert
    * // assertions will fail
    * assertThat(atomicLongArray).doesNotContain(1, atIndex(0));
    * assertThat(atomicLongArray).doesNotContain(2, atIndex(1));</code></pre>
-   * </p>
+   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual atomic array.
    * @return myself assertion object.
@@ -388,7 +386,7 @@ public class AtomicLongArrayAssert
    *
    * // assertion will fail
    * assertThat(new AtomicLongArray(new long[] { 1, 1, 2, 3 })).doesNotHaveDuplicates();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic array is {@code null}.
    * @throws AssertionError if the actual atomic array contains duplicates.
@@ -412,7 +410,7 @@ public class AtomicLongArrayAssert
    *
    * // assertion will fail
    * assertThat(atomicLongArray).startsWith(2, 3);</code></pre>
-   * </p>
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -439,7 +437,7 @@ public class AtomicLongArrayAssert
    *
    * // assertion will fail
    * assertThat(atomicLongArray).endsWith(3, 4);</code></pre>
-   * </p>
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -497,7 +495,7 @@ public class AtomicLongArrayAssert
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
    * 
    * // absolute value comparator 
-   * Comparator&lt;Long&gt absComparator = ...; 
+   * Comparator&lt;Long&gt; absComparator = ...; 
    * assertThat(invoiceList).usingComparator(absComparator).contains(-1, -2, 3);</code></pre>
    * 
    * @param customComparator the comparator to use for incoming assertion checks.

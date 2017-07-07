@@ -22,7 +22,7 @@ import static java.lang.String.format;
 public class ShouldHaveSameSizeAs extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHaveSameSizeAs}</code>.
+   * Creates a new <code>{@link ShouldHaveSameSizeAs}</code>.
    * @param actual the actual value in the failed assertion.
    * @param actualSize the size of {@code actual}.
    * @param expectedSize the expected size.

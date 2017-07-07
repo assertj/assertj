@@ -34,7 +34,6 @@ import org.hamcrest.Matcher;
  *     }
  *   })
  * );</code></pre>
- * </p>
  * 
  * @param <T> the type of the object to test
  *

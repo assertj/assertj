@@ -75,7 +75,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, 4L);
    * assertThat(new long[] { 1L, 2L, 3L }).contains(4L, 7L);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -99,7 +99,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(1L, 2L, 3L, 4L);
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(4L, 7L);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -149,8 +149,6 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * assertThat(new long[] { 1, 2, 3 }).containsSequence(1, 3);
    * assertThat(new long[] { 1, 2, 3 }).containsSequence(2, 1);</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -172,8 +170,6 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * 
    * // assertion will fail
    * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(2, 1);</code></pre>
-   * 
-   * </p>
    * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
@@ -197,7 +193,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, atIndex(1));
    * assertThat(new long[] { 1L, 2L, 3L }).contains(4L, atIndex(2));</code></pre>
-   * </p>
+   * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -221,7 +217,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(2L);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -245,7 +241,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(1L, atIndex(0));
    * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(2L, atIndex(1));</code></pre>
-   * </p>
+   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -267,7 +263,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 1L, 2L, 3L }).doesNotHaveDuplicates();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
@@ -288,7 +284,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 2L, 3L }).startsWith(2L, 3L);</code></pre>
-   * </p>
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -312,7 +308,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 2L, 3L }).endsWith(3L, 4L);</code></pre>
-   * </p>
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.

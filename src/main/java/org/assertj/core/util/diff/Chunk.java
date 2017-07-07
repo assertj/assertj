@@ -29,7 +29,7 @@ import java.util.List;
  * differencing using this library.
  * </p>
  * 
- * @author <a href="dm.naumenko@gmail.com>Dmitry Naumenko</a>
+ * @author Dmitry Naumenko
  * @param <T> The type of the compared elements in the 'lines'.
  */
 public class Chunk<T> {

@@ -78,7 +78,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /**
    * Verifies that the actual value is equal to zero.
    * <p>
-   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.</br>
+   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -103,7 +103,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /**
    * Verifies that the actual value is not equal to zero.
    * <p>
-   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.</br>
+   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -398,7 +398,6 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * // assertions will fail:
    * assertThat(0.0).isEqualTo(1.0);
    * assertThat(-1.0).isEqualTo(1.0);</code></pre>
-   * </p>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -457,7 +456,6 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * // assertions will fail:
    * assertThat(1.0).isNotEqualTo(1.0);
    * assertThat(1D).isNotEqualTo(1.0);</code></pre>
-   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -479,7 +477,6 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * // assertions will fail:
    * assertThat(2.0).isLessThan(1.0);
    * assertThat(1.0).isLessThan(1.0);</code></pre>
-   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -501,7 +498,6 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * 
    * // assertion will fail:
    * assertThat(2.0).isLessThanOrEqualTo(1.0);</code></pre>
-   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -523,7 +519,6 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * // assertions will fail:
    * assertThat(1.0).isGreaterThan(1.0);
    * assertThat(1.0).isGreaterThan(2.0);</code></pre>
-   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -545,7 +540,6 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * 
    * // assertion will fail:
    * assertThat(1.0).isGreaterThanOrEqualTo(2.0);</code></pre>
-   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.

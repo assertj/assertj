@@ -32,7 +32,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   private final Comparator comparator;
 
   /**
-   * Creates a new </code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given
+   * Creates a new <code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given
    * comparator.
    * 
    * @param comparator the comparison strategy to use.

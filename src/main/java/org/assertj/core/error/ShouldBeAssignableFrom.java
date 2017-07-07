@@ -22,7 +22,7 @@ import java.util.Set;
 public class ShouldBeAssignableFrom extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeAssignableFrom}</code>.
+   * Creates a new <code>{@link ShouldBeAssignableFrom}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expectedAssignableFrom the expected assignable.

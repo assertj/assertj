@@ -59,8 +59,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c', 'd' }).hasSize(3);</code></pre>
    * 
-   * </p>
-   * 
    */
   @Override
   public SELF hasSize(int expected) {
@@ -78,7 +76,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
@@ -98,8 +95,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', 'd');
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', 'f');</code></pre>
-   * 
-   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -124,8 +119,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * // assertion will fail
    * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c', 'd');
    * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('d', 'f');</code></pre>
-   * 
-   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -178,8 +171,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('c', 'a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('d', 'f');</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -205,8 +196,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('c', 'a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('d', 'f');</code></pre>
    * 
-   * </p>
-   * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -229,8 +218,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', atIndex(1));
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', atIndex(2));</code></pre>
-   * 
-   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -256,8 +243,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b');</code></pre>
    * 
-   * </p>
-   * 
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -279,10 +264,8 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(0));
    *
    * // assertion will fail
-   * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(0));
-   * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(1));</code></pre>
-   * 
-   * </p>
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(0));
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(1));</code></pre>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -306,8 +289,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * // assertion will fail
    * assertThat(new char[] { 'a', 'a', 'b', 'c' }).doesNotHaveDuplicates();</code></pre>
    * 
-   * </p>
-   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
@@ -328,8 +309,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * 
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).startsWith('b', 'c');</code></pre>
-   * 
-   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -354,8 +333,6 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * 
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).endsWith('c', 'd');</code></pre>
-   * 
-   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.

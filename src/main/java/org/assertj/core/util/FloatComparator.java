@@ -12,9 +12,7 @@
  */
 package org.assertj.core.util;
 
-import java.util.Comparator;
-
-public class FloatComparator implements Comparator<Float> {
+public class FloatComparator extends NullSafeComparator<Float> {
 
   private float epsilon;
 
@@ -27,15 +25,12 @@ public class FloatComparator implements Comparator<Float> {
   }
 
   @Override
-  public int compare(Float x, Float y) {
+  public int compareNonNull(Float x, Float y) {
     if (closeEnough(x, y, epsilon)) return 0;
     return x < y ? -1 : 1;
   }
 
   private boolean closeEnough(Float x, Float y, float epsilon) {
-    // x == y handles infinities
-    if (x == y) return true;
-    if (x == null || y == null) return false;
     return Math.abs(x - y) < epsilon;
   }
 

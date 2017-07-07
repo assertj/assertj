@@ -26,7 +26,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 public class ShouldBeBeforeYear extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeBeforeYear}</code>.
+   * Creates a new <code>{@link ShouldBeBeforeYear}</code>.
    * @param actual the actual value in the failed assertion.
    * @param year the year to compare the actual date's year to.
    * @return the created {@code ErrorMessageFactory}.
@@ -36,7 +36,7 @@ public class ShouldBeBeforeYear extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeBeforeYear}</code>.
+   * Creates a new <code>{@link ShouldBeBeforeYear}</code>.
    * @param actual the actual value in the failed assertion.
    * @param year the year to compare the actual date's year to.
    * @return the created {@code ErrorMessageFactory}.

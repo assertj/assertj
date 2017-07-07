@@ -716,6 +716,7 @@ public class Assertions {
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param actual the actual value.
+   * @param <T> the type of the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
@@ -792,6 +793,8 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ZonedDateTimeAssert}</code>.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1034,23 +1037,21 @@ public class Assertions {
    * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>
-   * Example :
-   * </p>
-   *
-   * <pre><code class='java'>{@literal @}Test
-   * public void testException() {
-   *   assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
-   *                                                              .hasMessageContaining("boom");
+   * Java 8 example :
+   * <pre><code class='java'>  {@literal @}Test
+   *  public void testException() {
+   *    assertThatThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *                                                               .hasMessageContaining("boom");
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
-   * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
+   * assertThatThrownBy(() -&gt; { // do nothing }).as("display me").isInstanceOf(Exception.class);
    *
    * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(() -> { // do nothing });
+   * Throwable thrown = catchThrowable(() -&gt; { // do nothing });
    * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -1275,8 +1276,7 @@ public class Assertions {
    * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
    * is less than this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length < 80
-   *
+   * The following array will be formatted on one line as its length &lt; 80:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    *
    * // formatted as:
@@ -1305,7 +1305,7 @@ public class Assertions {
    *
    * E.q. When this method is called with a value of {@code 3}.
    * <p>
-   * The following array will be formatted entirely as it's length is <= 3:
+   * The following array will be formatted entirely as it's length is &lt;= 3:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    *
    * // formatted as:
@@ -1408,7 +1408,7 @@ public class Assertions {
    * The following (incomplete) list of methods will be impacted by this change :
    * <ul>
    * <li>
-   * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
+   * <code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
    * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
@@ -1433,9 +1433,11 @@ public class Assertions {
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
    * <p>
    *
-   * <pre><code class='java'> Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = ... // init omitted
    *
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
@@ -1544,8 +1546,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1679,7 +1680,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, byLessThan((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
    */
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);
@@ -1804,7 +1805,7 @@ public class Assertions {
   }
 
   /**
-   * Creates a new </code>{@link DoesNotHave}</code>.
+   * Creates a new <code>{@link DoesNotHave}</code>.
    *
    * @param condition the condition to inverse.
    * @return The Not condition created.
@@ -1814,7 +1815,7 @@ public class Assertions {
   }
 
   /**
-   * Creates a new </code>{@link Not}</code>.
+   * Creates a new <code>{@link Not}</code>.
    *
    * @param condition the condition to inverse.
    * @return The Not condition created.
@@ -2263,7 +2264,7 @@ public class Assertions {
   }
 
   /**
-   * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
+   * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
    * Beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2491,15 +2492,15 @@ public class Assertions {
    * // this assertion fails ...
    * assertThat(new Example()).isNull();
    * // ... with error :
-   * // "expected:<[null]> but was:<[Example]>"
+   * // "expected:&lt;[null]&gt; but was:&lt;[Example]&gt;"
    *
    * // this one fails ...
    * assertThat("foo").startsWith("bar");
    * // ... with error :
    * // Expecting:
-   * //   <$foo$>
+   * //   &lt;$foo$&gt;
    * // to start with:
-   * //   <$bar$></code></pre>
+   * //   &lt;$bar$&gt;</code></pre>
    *
    * @since 2.5.0 / 3.5.0
    */
@@ -2554,7 +2555,7 @@ public class Assertions {
   }
 
   /**
-   * Creates a new </code>{@link Assertions}</code>.
+   * Creates a new <code>{@link Assertions}</code>.
    */
   protected Assertions() {}
 

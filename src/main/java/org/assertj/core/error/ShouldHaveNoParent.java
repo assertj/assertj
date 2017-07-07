@@ -31,7 +31,7 @@ public class ShouldHaveNoParent extends BasicErrorMessageFactory {
   public static final String FILE_HAS_PARENT = "%nExpecting file (or directory):%n  <%s>%nnot to have a parent, but parent was:%n  <%s>";
 
   /**
-   * Creates a new </code>{@link ShouldHaveNoParent}</code>.
+   * Creates a new <code>{@link ShouldHaveNoParent}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.

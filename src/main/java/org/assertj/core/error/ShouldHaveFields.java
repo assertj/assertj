@@ -23,7 +23,7 @@ import java.util.Set;
 public class ShouldHaveFields extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveFields}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldHaveFields}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected expected fields for this class
@@ -35,7 +35,7 @@ public class ShouldHaveFields extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveFields}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldHaveFields}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected expected fields for this class

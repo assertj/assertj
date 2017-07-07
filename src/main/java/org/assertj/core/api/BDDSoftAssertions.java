@@ -33,7 +33,6 @@ import java.util.List;
  *   then(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
  *   then(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  * }</code></pre>
- * </p>
  *
  * <p>
  * After running the test, JUnit provides us with the following exception message:
@@ -98,7 +97,6 @@ import java.util.List;
  * <p>
  * It is recommended to use {@link AbstractAssert#as(String, Object...)} so that the multiple failed assertions can be
  * easily distinguished from one another.
- * </p>
  *
  * @author Brian Laframboise
  *

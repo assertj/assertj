@@ -26,7 +26,7 @@ import static org.assertj.core.util.IterableUtil.*;
 public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainExactlyInAnyOrder}</code>.
+   * Creates a new <code>{@link ShouldContainExactlyInAnyOrder}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.

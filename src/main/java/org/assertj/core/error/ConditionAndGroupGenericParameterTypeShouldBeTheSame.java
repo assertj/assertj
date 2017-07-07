@@ -28,7 +28,7 @@ public class ConditionAndGroupGenericParameterTypeShouldBeTheSame extends BasicE
   }
 
   /**
-   * Creates a new </code>{@link ConditionAndGroupGenericParameterTypeShouldBeTheSame}</code>
+   * Creates a new <code>{@link ConditionAndGroupGenericParameterTypeShouldBeTheSame}</code>
    * @param actual the actual value in the failed assertion.
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.

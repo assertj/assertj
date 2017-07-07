@@ -116,7 +116,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * // assertions will fail
    * assertThat(1.0).isNaN();
    * assertThat(-1.0F).isNaN();</code></pre>
-   * </p>
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
@@ -134,7 +134,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * assertThat(Double.NaN).isNotNaN();
    * assertThat(0.0 / 0.0).isNotNaN();
    * assertThat(0.0F * Float.POSITIVE_INFINITY).isNotNaN();</code></pre>
-   * </p>
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */

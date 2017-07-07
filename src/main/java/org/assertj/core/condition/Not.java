@@ -23,7 +23,7 @@ import org.assertj.core.api.Condition;
 public class Not<T> extends Negative<T> {
 
   /**
-   * Creates a new </code>{@link Not}</code>.
+   * Creates a new <code>{@link Not}</code>.
    * 
    * @param condition the condition to inverse.
    * @return The Not condition created.

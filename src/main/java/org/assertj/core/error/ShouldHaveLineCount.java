@@ -22,7 +22,7 @@ import static java.lang.String.format;
 public class ShouldHaveLineCount extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHaveLineCount}</code>.
+   * Creates a new <code>{@link ShouldHaveLineCount}</code>.
    * @param actual the actual value in the failed assertion.
    * @param actualSize the lines count of {@code actual}.
    * @param expectedSize the expected lines count.

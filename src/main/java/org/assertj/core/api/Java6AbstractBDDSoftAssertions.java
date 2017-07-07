@@ -175,7 +175,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
 
   /**
    * Creates a new instance of <code>{@link ClassAssert}</code>
-   * </p>
+   * <p>
    * We don't return {@link ClassAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
@@ -272,6 +272,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Creates a new instance of <code>{@link FutureAssert}</code>.
    *
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -408,6 +409,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param actual the actual value.
+   * @param <T> the type of the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
@@ -430,9 +432,11 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
 
   /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
-   * </p>
+   * <p>
    * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -585,6 +589,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicLongFieldUpdater}.
    *
    * @param actual the actual value.
+   * @param <OBJECT> the type of the object holding the updatable field
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
@@ -598,6 +603,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Create assertion for {@link AtomicReference}.
    *
    * @param actual the actual value.
+   * @param <VALUE> the type of object referred to by this reference
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
@@ -679,7 +685,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    BDDSoftAssertions softly = new BDDSoftAssertions();
-   *    softly.thenThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *    softly.thenThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                               .hasMessageContaining("boom");
    *  }</code></pre>
    *

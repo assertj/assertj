@@ -20,7 +20,7 @@ package org.assertj.core.error;
 public class ShouldNotContainKey extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotContainKey}</code>.
+   * Creates a new <code>{@link ShouldNotContainKey}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

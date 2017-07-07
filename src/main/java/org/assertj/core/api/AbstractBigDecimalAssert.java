@@ -57,7 +57,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isZero();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isZero() {
@@ -75,7 +74,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(BigDecimal.ZERO).isNotZero();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isNotZero() {
@@ -93,7 +91,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isOne();</code></pre>
    *
-   * </p>
    */
   @Override
   public SELF isOne() {
@@ -111,7 +108,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;-8.0&quot;)).isPositive();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isPositive() {
@@ -129,7 +125,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isNegative();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isNegative() {
@@ -147,7 +142,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotPositive();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isNotPositive() {
@@ -165,7 +159,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;-8.0&quot;)).isNotNegative();</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isNotNegative() {
@@ -188,7 +181,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * 
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
    * considered equal in value (not like {@link BigDecimal#equals(Object)}.
-   * </p>
    */
   @Override
   public SELF isBetween(BigDecimal start, BigDecimal end) {
@@ -208,7 +200,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;9.0&quot;));
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;8.0&quot;));</code></pre>
    * 
-   * </p>
    */
   @Override
   public SELF isStrictlyBetween(BigDecimal start, BigDecimal end) {
@@ -227,7 +218,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail because 8.00 is not equals to 8.0
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isEqualTo(&quot;8.0&quot;);</code></pre>
    * 
-   * </p>
    */
   public SELF isEqualTo(String expected) {
     return isEqualTo(new BigDecimal(expected));

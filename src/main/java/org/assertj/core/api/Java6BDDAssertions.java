@@ -718,6 +718,8 @@ public class Java6BDDAssertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.MapAssert}</code>.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -810,7 +812,7 @@ public class Java6BDDAssertions {
    * Java 8 example :
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
-   *    thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *    thenThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                        .hasMessageContaining("boom");
    *  }</code></pre>
    *
@@ -927,7 +929,7 @@ public class Java6BDDAssertions {
   }
 
   /**
-   * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
+   * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected Java6BDDAssertions() {}
 }

@@ -94,7 +94,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link BasicErrorMessageFactory}</code>.
+   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
    * 
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.

@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqu
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Comparator;
@@ -255,12 +256,17 @@ public class Comparables {
    * @throws AssertionError if the actual value is not between start and end.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
+   * @throws IllegalArgumentException if end value is less than start value.
    */
   public <T extends Comparable<? super T>> void assertIsBetween(AssertionInfo info, T actual, T start, T end,
       boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
     checkNotNull(start, "The start range to compare actual with should not be null");
     checkNotNull(end, "The end range to compare actual with should not be null");
+    checkArgument(inclusiveEnd && inclusiveStart && comparisonStrategy.isLessThanOrEqualTo(start, end) ||
+      !inclusiveEnd && !inclusiveStart && comparisonStrategy.isLessThan(start, end),
+      String.format("The end value <%s> must not be %s the start value <%s>%s!", end, (inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to" ), start,
+      (comparisonStrategy.isStandard() ?  "" : " (using " + comparisonStrategy + ")")));
     boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual)
         : isLessThan(start, actual);
     boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end)

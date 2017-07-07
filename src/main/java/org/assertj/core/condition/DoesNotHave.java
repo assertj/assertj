@@ -24,7 +24,7 @@ import org.assertj.core.api.Condition;
 public class DoesNotHave<T> extends Negative<T> {
 
   /**
-   * Creates a new </code>{@link DoesNotHave}</code>.
+   * Creates a new <code>{@link DoesNotHave}</code>.
    * 
    * @param condition the condition to inverse.
    * @return The Not condition created.

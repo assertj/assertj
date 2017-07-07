@@ -24,7 +24,7 @@ package org.assertj.core.api;
  *   } 
  * }
  * 
- * public class ButtonAssert extends Assert<ButtonAssert, Button> {
+ * public class ButtonAssert extends Assert&lt;ButtonAssert, Button&gt; {
  *   public ButtonAssert containsText(String text) {
  *     ...
  *   }

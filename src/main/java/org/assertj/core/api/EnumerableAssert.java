@@ -41,7 +41,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * // assertions will fail
    * assertThat(new String[] { &quot;a&quot;, &quot;b&quot;}).isNullOrEmpty();
    * assertThat(Arrays.asList(1, 2, 3)).isNullOrEmpty();</code></pre>
-   * </p>
+   *
    * @throws AssertionError if the actual group of values is not {@code null} or not empty.
    */
   void isNullOrEmpty();
@@ -57,7 +57,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * // assertions will fail
    * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).isEmpty();
    * assertThat(Arrays.asList(1, 2, 3)).isEmpty();</code></pre>
-   * </p>
+   *
    * @throws AssertionError if the actual group of values is not empty.
    */
   void isEmpty();
@@ -73,7 +73,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * // assertions will fail
    * assertThat(new ArrayList()).isNotEmpty();
    * assertThat(new int[] { }).isNotEmpty();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group of values is empty.
    */
@@ -90,7 +90,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * // assertions will fail
    * assertThat(new ArrayList()).hasSize(1);
    * assertThat(new int[] { 1, 2, 3 }).hasSize(2);</code></pre>
-   * </p>
+   *
    * @param expected the expected number of values in the actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
@@ -123,7 +123,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * Verifies that the actual group has the same size as given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
-   * <p>
+   * </p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
@@ -149,7 +149,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * <p>
    * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
    * comparison strategy.
-   * <p>
+   * </p>
    * Examples :
    * <pre><code class='java'> // compares invoices by payee
    * assertThat(invoiceList).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceList);

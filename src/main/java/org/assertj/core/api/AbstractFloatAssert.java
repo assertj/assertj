@@ -76,7 +76,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual value is equal to zero.
    * <p>
-   * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.</br>
+   * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -111,7 +111,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual value is not equal to zero.
    * <p>
-   * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.</br>
+   * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -181,7 +181,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * // assertions will fail:
    * assertThat(0.0f).isEqualTo(1.0f);
    * assertThat(-1.0f).isEqualTo(1.0f);</code></pre>
-   * </p>
+   *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -477,7 +477,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * // assertions will fail:
    * assertThat(1.0f).isNotEqualTo(1.0f);
    * assertThat(1f).isNotEqualTo(1.0f);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -499,7 +499,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * // assertions will fail:
    * assertThat(2.0f).isLessThan(1.0f);
    * assertThat(1.0f).isLessThan(1.0f);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -520,7 +520,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * 
    * // assertion will fail:
    * assertThat(2.0f).isLessThanOrEqualTo(1.0f);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -542,7 +542,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * // assertions will fail:
    * assertThat(1.0f).isGreaterThan(1.0f);
    * assertThat(1.0f).isGreaterThan(2.0f);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -564,7 +564,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * // assertions will fail:
    * assertThat(1.0f).isGreaterThanOrEqualTo(2.0f);
    * assertThat(1.0f).isGreaterThanOrEqualTo(0.99f);</code></pre>
-   * </p>
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

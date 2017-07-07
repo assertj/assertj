@@ -828,6 +828,7 @@ public class Java6Assertions {
    *
    * @param component
    *          the component that creates its own assert
+   * @param <T> the type of the assert provided by the {@link AssertProvider}
    * @return the associated {@link Assert} of the given component
    */
   public static <T> T assertThat(final AssertProvider<T> component) {
@@ -851,6 +852,8 @@ public class Java6Assertions {
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
    * annoying warnings.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -943,7 +946,7 @@ public class Java6Assertions {
    * Java 8 example :
    * <pre><code class='java'>  {@literal @}Test
    *  public void testException() {
-   *    assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *    assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                              .hasMessageContaining("boom");
    *  }</code></pre>
    *
@@ -963,10 +966,10 @@ public class Java6Assertions {
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored. 
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.  
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error 
-   * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
+   * assertThatThrownBy(() -&gt; { // do nothing }).as("display me").isInstanceOf(Exception.class);
    * 
    * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(() -> { // do nothing });
+   * Throwable thrown = catchThrowable(() -&gt; { // do nothing });
    * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -1039,9 +1042,9 @@ public class Java6Assertions {
    * <p>
    * Java 8 example:
    * <pre><code class='java'> {@literal @}Test
-   * public void testException() {
-   *   // when
-   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
+   *  public void testException() {
+   *    // when
+   *    Throwable thrown = catchThrowable(() -&gt; { throw new Exception("boom!"); });
    *
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
@@ -1138,7 +1141,7 @@ public class Java6Assertions {
    * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
    * is less than this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length < 80:
+   * The following array will be formatted on one line as its length &lt; 80:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    *
    * // formatted as:
@@ -1167,7 +1170,7 @@ public class Java6Assertions {
    *
    * E.q. When this method is called with a value of {@code 3}.
    * <p>
-   * The following array will be formatted entirely as it's length is <= 3:
+   * The following array will be formatted entirely as it's length is &lt;= 3:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    *
    * // formatted as:
@@ -1269,7 +1272,7 @@ public class Java6Assertions {
    * The following (incomplete) list of methods will be impacted by this change :
    * <ul>
    * <li>
-   * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
+   * <code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
    * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
@@ -1292,9 +1295,12 @@ public class Java6Assertions {
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
-   * <pre><code class='java'> Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = ... // init omitted
    *
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
+   *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
@@ -1377,7 +1383,7 @@ public class Java6Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1458,7 +1464,7 @@ public class Java6Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, byLessThan((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
    */
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);
@@ -1584,7 +1590,7 @@ public class Java6Assertions {
   }
 
   /**
-   * Creates a new </code>{@link DoesNotHave}</code>.
+   * Creates a new <code>{@link DoesNotHave}</code>.
    *
    * @param condition the condition to inverse.
    * @return The Not condition created.
@@ -1594,7 +1600,7 @@ public class Java6Assertions {
   }
 
   /**
-   * Creates a new </code>{@link Not}</code>.
+   * Creates a new <code>{@link Not}</code>.
    *
    * @param condition the condition to inverse.
    * @return The Not condition created.
@@ -2028,7 +2034,7 @@ public class Java6Assertions {
   }
 
   /**
-   * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
+   * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
    * Beware that the default formats are expressed in the current local timezone.
    * <p>

@@ -75,7 +75,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * // assertions will fail
    * assertThat(new short[] { 1, 2, 3 }).contains((short) 1, (short) 4);
    * assertThat(new short[] { 1, 2, 3 }).contains((short) 4, (short) 7);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -99,7 +99,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * // assertions will fail
    * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 1, (short) 2, (short) 3, (short) 4);
    * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 4, (short) 7);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -149,8 +149,6 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 1, (short) 3);
    * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 2, (short) 1);</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -172,8 +170,6 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * 
    * // assertion will fail
    * assertThat(new short[] { 1, 2, 3 }).containsSubsequence((short) 2, (short) 1);</code></pre>
-   * 
-   * </p>
    * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.

@@ -126,7 +126,7 @@ public class DeepDifference {
    * Object graph and perform either a field-by-field comparison on each
    * object (if not .equals() method has been overridden from Object), or it
    * will call the customized .equals() method if it exists.
-   * </p>
+   * <p>
    *
    * This method handles cycles correctly, for example A-&gt;B-&gt;C-&gt;A.
    * Suppose a and a' are two separate instances of the A with the same values

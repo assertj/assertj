@@ -232,7 +232,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   /**
    * Verifies that the text content of the actual {@code Path} (which must be a readable file) is <b>exactly</b> equal
-   * to the given one.<br/>
+   * to the given one.<br>
    * The charset to use when reading the actual path should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
@@ -789,6 +789,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * // The following assertion fails:
    * assertThat(symlinkToExistingFile).isCanonical();</code></pre>
    *
+   * @return self
    * @throws PathsException an I/O error occurred while evaluating the path
    *
    * @see Path#toRealPath(LinkOption...)

@@ -27,7 +27,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 public class ShouldContainExactly extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainExactly}</code>.
+   * Creates a new <code>{@link ShouldContainExactly}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
@@ -42,7 +42,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainExactly}</code>.
+   * Creates a new <code>{@link ShouldContainExactly}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
@@ -62,7 +62,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainExactly}</code>.
+   * Creates a new <code>{@link ShouldContainExactly}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
@@ -76,7 +76,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainExactly}</code>.
+   * Creates a new <code>{@link ShouldContainExactly}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
@@ -150,7 +150,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainExactly}</code> for the case where actual and expected have the same
+   * Creates a new <code>{@link ShouldContainExactly}</code> for the case where actual and expected have the same
    * elements in different order according to the given {@link ComparisonStrategy}.
    * 
    * @param actualElement the actual element at indexOfDifferentElements index.
@@ -166,7 +166,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainExactly}</code> for the case where actual and expected have the same
+   * Creates a new <code>{@link ShouldContainExactly}</code> for the case where actual and expected have the same
    * elements in different order.
    * 
    * @param actualElement the actual element at indexOfDifferentElements index.

@@ -19,7 +19,7 @@ package org.assertj.core.error;
 public class ShouldHaveMessage extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHaveMessage}</code>.
+   * Creates a new <code>{@link ShouldHaveMessage}</code>.
    * @param actual the actual {@link Throwable} in the failed assertion.
    * @param expectedMessage the expected message of actual {@link Throwable}.
    * @return the created {@code ErrorMessageFactory}.

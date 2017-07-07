@@ -23,7 +23,7 @@ import java.util.Date;
 public class ShouldHaveDateField extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHaveDateField}</code>.
+   * Creates a new <code>{@link ShouldHaveDateField}</code>.
    * @param actual the actual value in the failed assertion.
    * @param fieldDescription the fieldDescription of value : year, month, day, ...
    * @param fieldValue the field value used in the failed assertion to compare the actual date field value to.

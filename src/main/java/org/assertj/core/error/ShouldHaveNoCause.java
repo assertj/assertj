@@ -20,7 +20,7 @@ package org.assertj.core.error;
 public class ShouldHaveNoCause extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHaveNoCause}</code>.
+   * Creates a new <code>{@link ShouldHaveNoCause}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

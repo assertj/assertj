@@ -86,7 +86,7 @@ public class Properties<T> {
    * 
    * instead of:
    * <pre><code class='java'> extractProperty("name", String.class).from(fellowshipOfTheRing);</code></pre>
-   * </p>
+   *
    * @param propertyType the type of property to extract.
    * @return a new {@code Properties} with the given type.
    */

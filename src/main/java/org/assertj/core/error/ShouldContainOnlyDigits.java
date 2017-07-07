@@ -18,7 +18,7 @@ package org.assertj.core.error;
 public class ShouldContainOnlyDigits extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainOnlyDigits}</code>.
+   * Creates a new <code>{@link ShouldContainOnlyDigits}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param character first non-digit character found in {@code actual}.
@@ -30,7 +30,7 @@ public class ShouldContainOnlyDigits extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldContainOnlyDigits}</code>.
+   * Creates a new <code>{@link ShouldContainOnlyDigits}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.

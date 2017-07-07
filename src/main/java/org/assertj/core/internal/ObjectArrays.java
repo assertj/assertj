@@ -14,11 +14,15 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
 import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
+import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
@@ -534,6 +538,24 @@ public class ObjectArrays {
 
   public <E> void assertHasOnlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
     arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
+  }
+
+  public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... unexpectedTypes) {
+    Objects.instance().assertNotNull(info, actual);
+    Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
+    for (E element : actual) {
+      for (Class<?> type : unexpectedTypes) {
+        if (type.isInstance(element)) {
+          if (!nonMatchingElementsByType.containsKey(type)) {
+            nonMatchingElementsByType.put(type, new ArrayList<>());
+          }
+          nonMatchingElementsByType.get(type).add(element);
+        }
+      }
+    }
+    if (!nonMatchingElementsByType.isEmpty()) {
+      throw failures.failure(info, shouldNotHaveAnyElementsOfTypes(actual, unexpectedTypes, nonMatchingElementsByType));
+    }
   }
 
   /**

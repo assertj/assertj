@@ -145,7 +145,6 @@ public class DateUtil {
    * <p> 
    * Example:
    * <pre><code class='java'> Date date = parseDatetime("2003-04-26T03:01:02");</code></pre>
-   * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT}
    * @return the corresponding Date with time details or null if the given String is null.
@@ -165,7 +164,6 @@ public class DateUtil {
    * <p>
    * Example:
    * <pre><code class='java'> Date date = parseDatetimeWithMs("2003-04-26T03:01:02.999");</code></pre>
-   * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}
    * @return the corresponding Date with time details or null if the given String is null.

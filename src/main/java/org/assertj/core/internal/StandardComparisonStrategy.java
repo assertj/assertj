@@ -42,7 +42,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   /**
-   * Creates a new </code>{@link StandardComparisonStrategy}</code>, comparison strategy being based on
+   * Creates a new <code>{@link StandardComparisonStrategy}</code>, comparison strategy being based on
    * {@link Objects#areEqual(Object, Object)}.
    */
   protected StandardComparisonStrategy() {

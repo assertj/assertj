@@ -152,6 +152,32 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsExactlyInAnyOrder(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   *
+   * <p>
+   * Example :
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya, vilya);
+   * Iterable&lt;Ring&gt; elvesRingsSomeMissing = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRingsDifferentOrder = newArrayList(nenya, narya, vilya, vilya);
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsDifferentOrder);
+   *
+   * // assertion will fail as vilya is contained twice in elvesRings.
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsSomeMissing);</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.9.0 / 3.9.0
+   */
+  SELF containsExactlyInAnyOrderElementsOf(Iterable<? extends ELEMENT> values);
+
+  /**
    * Verifies that the actual group contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
    * <p> 
    * Use {@link #containsSubsequence(Object...)} to allow values between the expected sequence values.
@@ -508,7 +534,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
    * Condition&lt;String&gt; moreThanOneCharacter = 
-   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() &gt; 1, "more than one character");
    *
    * // assertion will pass
    * assertThat(abc).areNot(moreThanOneCharacter);
@@ -556,7 +582,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
    * Condition&lt;String&gt; moreThanOneCharacter = 
-   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() &gt; 1, "more than one character");
    *
    * // assertion will pass
    * assertThat(abc).doNotHave(moreThanOneCharacter);
@@ -604,6 +630,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> // jedi is a Condition&lt;String&gt;
    * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);</code></pre>
    *
+   * @param condition the given condition.
+   * @return {@code this} assertion object.
    * @see #haveAtLeast(int, Condition)
    */
   SELF areAtLeastOne(Condition<? super ELEMENT> condition);
@@ -667,6 +695,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // potentialMvp is a Condition&lt;BasketBallPlayer&gt;
    * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);</code></pre>
    *
+   * @param condition the given condition.
+   * @return {@code this} assertion object.
    * @see #haveAtLeast(int, Condition)
    */
   SELF haveAtLeastOne(Condition<? super ELEMENT> condition);
@@ -686,6 +716,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
    *
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
+   *
+   * @param n the minimum number of times the condition must hold.
+   * @param condition the given condition.
+   * @return {@code this} assertion object.
    */
   SELF haveAtLeast(int n, Condition<? super ELEMENT> condition);
 
@@ -705,6 +739,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * oneTwoThree.haveAtMost(1, oddNumber);</code></pre>
    *
    * This method is an alias {@link #areAtMost(int, Condition)}.
+   *
+   * @param n the maximum number of times the condition must hold.
+   * @param condition the given condition.
+   * @return {@code this} assertion object.
    */
   SELF haveAtMost(int n, Condition<? super ELEMENT> condition);
 
@@ -724,6 +762,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
    *
    * This method is an alias {@link #areExactly(int, Condition)}.
+   *
+   * @param n the exact number of times the condition must hold.
+   * @param condition the given condition.
+   * @return {@code this} assertion object.
    */
   SELF haveExactly(int n, Condition<? super ELEMENT> condition);
 
@@ -814,6 +856,26 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF hasOnlyElementsOfType(Class<?> expectedType);
 
   /**
+   * Verifies that all the elements in the actual {@code Object} group do not belong to the specified types (including subclasses).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Number[] numbers = { 2, 6, 8.0 };
+   *
+   * // successful assertion:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Float.class);
+   *
+   * // assertion failure:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Integer.class);</code></pre>
+   *
+   * @param unexpectedTypes the not expected types.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if one element's type matches the given types.
+   * @since 2.9.0 / 3.9.0
+   */
+  SELF doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes);
+
+  /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
    * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
    * <p>
@@ -827,6 +889,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.
+   *
+   * @return {@code this} assertion object.
    */
   SELF containsExactlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
@@ -847,13 +911,15 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));</code></pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
+   *
+   * @return {@code this} assertion object.
    */
   SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
    * given iterable and nothing else, <b>in any order</b>.
-   * </p>
+   * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 

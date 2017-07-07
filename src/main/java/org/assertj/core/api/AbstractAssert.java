@@ -80,7 +80,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Exposes the {@link WritableAssertionInfo} used in the current assertion for better extensibility.</br> When writing
+   * Exposes the {@link WritableAssertionInfo} used in the current assertion for better extensibility.<br> When writing
    * your own assertion class, you can use the returned {@link WritableAssertionInfo} to change the error message and
    * still keep the description set by the assertion user.
    *
@@ -477,7 +477,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
-   * @throws Exception see {@link String#format(String, Object...)} exception clause.
    */
   @CheckReturnValue
   public SELF overridingErrorMessage(String newErrorMessage, Object... args) {
@@ -491,7 +490,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
-   * @throws Exception see {@link String#format(String, Object...)} exception clause.
    */
   @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {

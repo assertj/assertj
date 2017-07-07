@@ -716,6 +716,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.MapAssert}</code>.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -960,8 +962,8 @@ public class BDDAssertions extends Assertions {
    * Java 8 example :
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
-   *    thenThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
-   *                                                         .hasMessageContaining("boom");
+   *    thenThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *                                                        .hasMessageContaining("boom");
    *  }</code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -1220,7 +1222,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
+   * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected BDDAssertions() {}
 }

@@ -173,7 +173,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
 
   /**
    * Creates a new instance of <code>{@link ClassAssert}</code>
-   * </p>
+   * <p>
    * We don't return {@link ClassAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
@@ -410,6 +410,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param actual the actual value.
+   * @param <T> the type of the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
@@ -422,6 +423,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
    * @param actual the actual value.
+   * @param <T> the type values of the actual array.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
@@ -435,6 +437,8 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * <p>
    * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -685,7 +689,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * <pre><code class='java'>  {@literal @}Test
    *  public void testException() {
    *    SoftAssertions softly = new SoftAssertions();
-   *    softly.assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *    softly.assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                                     .hasMessageContaining("boom");
    *  }</code></pre>
    *

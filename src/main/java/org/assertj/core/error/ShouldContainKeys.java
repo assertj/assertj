@@ -23,7 +23,7 @@ import java.util.Set;
 public class ShouldContainKeys extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainKeys}</code>.
+   * Creates a new <code>{@link ShouldContainKeys}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.

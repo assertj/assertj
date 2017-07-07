@@ -24,7 +24,7 @@ import java.util.Collection;
 public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveAnnotations}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldHaveAnnotations}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected expected annotations for this class

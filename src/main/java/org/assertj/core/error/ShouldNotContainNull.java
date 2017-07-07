@@ -21,7 +21,7 @@ package org.assertj.core.error;
 public class ShouldNotContainNull extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotContainNull}</code>.
+   * Creates a new <code>{@link ShouldNotContainNull}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

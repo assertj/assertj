@@ -106,7 +106,7 @@ public class AtomicReferenceArrayAssert<T>
    * 
    * // assertion will fail
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[] {"a", "b", "c"})).isNullOrEmpty();</code></pre>
-   * </p>
+   *
    * @throws AssertionError if the AtomicReferenceArray is not {@code null} or not empty.
    * @since 2.7.0 / 3.7.0
    */
@@ -125,7 +125,7 @@ public class AtomicReferenceArrayAssert<T>
    * 
    * // assertion will fail
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"})).isEmpty();</code></pre>
-   * </p>
+   *
    * @throws AssertionError if the AtomicReferenceArray is not empty.
    * @since 2.7.0 / 3.7.0
    */
@@ -143,7 +143,7 @@ public class AtomicReferenceArrayAssert<T>
    * 
    * // assertion will fail
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[0])).isNotEmpty();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the AtomicReferenceArray is empty.
    * @since 2.7.0 / 3.7.0
@@ -165,7 +165,7 @@ public class AtomicReferenceArrayAssert<T>
    * 
    * // assertion will fail
    * assertThat(atomicArray).hasArray(new String[]{"a", "b", "c", "d"});</code></pre>
-   * </p>
+   *
    * @param expected the array expected to be in the actual AtomicReferenceArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the AtomicReferenceArray does not have the given array.
@@ -186,7 +186,7 @@ public class AtomicReferenceArrayAssert<T>
    * 
    * // assertion will fail
    * assertThat(atomicArray).hasSize(1);</code></pre>
-   * </p>
+   *
    * @param expected the expected number of values in the actual AtomicReferenceArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the AtomicReferenceArray is not equal to the given one.
@@ -336,7 +336,7 @@ public class AtomicReferenceArrayAssert<T>
   /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
    * given {@code Iterable} and nothing else, <b>in any order</b>.
-   * </p>
+   * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
    *
@@ -443,6 +443,35 @@ public class AtomicReferenceArrayAssert<T>
   public AtomicReferenceArrayAssert<T> containsExactlyInAnyOrder(@SuppressWarnings("unchecked") T... values) {
     arrays.assertContainsExactlyInAnyOrder(info, array, values);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   *
+   * <p>
+   * Example :
+   * <pre><code class='java'>
+   * AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray(new Ring[]{vilya, nenya, narya, vilya});
+   * AtomicReferenceArray&lt;Ring&gt; elvesRingsSomeMissing = new AtomicReferenceArray(new Ring[]{vilya, nenya, narya});
+   * AtomicReferenceArray&lt;Ring&gt; elvesRingsDifferentOrder = new AtomicReferenceArray(new Ring[]{nenya, narya, vilya, vilya});
+   *
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsDifferentOrder);
+   *
+   * // assertion will fail as vilya is contained twice in elvesRings.
+   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsSomeMissing);</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsExactlyInAnyOrderElementsOf(Iterable<? extends T> values) {
+    return containsExactlyInAnyOrder(toArray(values));
   }
 
   /**
@@ -1005,7 +1034,7 @@ public class AtomicReferenceArrayAssert<T>
    * AtomicReferenceArray&lt;String&gt; abcc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "cc"});
    *
    * Condition&lt;String&gt; singleCharacterString
-   *      = new Condition&lt;&gt;(s -> s.length() == 1, "single character String");
+   *      = new Condition&lt;&gt;(s -&gt; s.length() == 1, "single character String");
    *
    * // assertion will pass
    * assertThat(abc).are(singleCharacterString);
@@ -1033,7 +1062,7 @@ public class AtomicReferenceArrayAssert<T>
    * AtomicReferenceArray&lt;String&gt; abcc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "cc"});
    *
    * Condition&lt;String&gt; moreThanOneCharacter =
-   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() &gt; 1, "more than one character");
    *
    * // assertion will pass
    * assertThat(abc).areNot(moreThanOneCharacter);
@@ -1061,7 +1090,7 @@ public class AtomicReferenceArrayAssert<T>
    * AtomicReferenceArray&lt;String&gt; abcc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "cc"});
    *
    * Condition&lt;String&gt; onlyOneCharacter =
-   *     = new Condition&lt;&gt;(s -> s.length() == 1, "only one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() == 1, "only one character");
    *
    * // assertion will pass
    * assertThat(abc).have(onlyOneCharacter);
@@ -1089,7 +1118,7 @@ public class AtomicReferenceArrayAssert<T>
    * AtomicReferenceArray&lt;String&gt; abcc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "cc"});
    *
    * Condition&lt;String&gt; moreThanOneCharacter =
-   *     = new Condition&lt;&gt;(s -> s.length() > 1, "more than one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() &gt; 1, "more than one character");
    *
    * // assertion will pass
    * assertThat(abc).doNotHave(moreThanOneCharacter);
@@ -1345,6 +1374,30 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
+  /**
+   * Verifies that all the elements in the actual AtomicReferenceArray do not belong to the specified types (including subclasses).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Number&gt; numbers = new AtomicReferenceArray&lt;&gt;(new Number[]{ 2, 6, 8.0 });
+   *
+   * // successful assertion:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Float.class);
+   *
+   * // assertion failure:
+   * assertThat(numbers).doesNotHaveAnyElementsOfTypes(Long.class, Integer.class);</code></pre>
+   *
+   * @param unexpectedTypes the not expected types.
+   * @return this assertion object.
+   * @throws NullPointerException if the given types is {@code null}.
+   * @throws AssertionError if one element's type matches the given types.
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes) {
+    arrays.assertDoesNotHaveAnyElementsOfTypes(info, array, unexpectedTypes);
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public AtomicReferenceArrayAssert<T> isSorted() {
@@ -1460,7 +1513,7 @@ public class AtomicReferenceArrayAssert<T>
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -1487,7 +1540,6 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
    *                    .usingFieldByFieldElementComparator()
    *                    .containsExactly(reallyTallFrodo);</code></pre>
-   * </p>
    *
    * @param comparator the {@link java.util.Comparator} to use
    * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
@@ -1531,7 +1583,7 @@ public class AtomicReferenceArrayAssert<T>
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -1558,7 +1610,7 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
    *                    .usingFieldByFieldElementComparator()
    *                    .contains(reallyTallFrodo);</code></pre>
-   * </p>
+   *
    * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance 
    * chain to the given {@code type} is chosen in the following order:
    * <ol>
@@ -1663,7 +1715,7 @@ public class AtomicReferenceArrayAssert<T>
 
   /**
    * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1697,7 +1749,7 @@ public class AtomicReferenceArrayAssert<T>
 
   /**
    * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
-   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
+   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
@@ -1720,6 +1772,7 @@ public class AtomicReferenceArrayAssert<T>
    * // ... but not when comparing both name and race
    * assertThat(atomicArray(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL</code></pre>
    *
+   * @param fields the names of the fields/properties to ignore
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
@@ -1918,7 +1971,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // this extracts the race
    * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
-   *    &commat;Override
+   *    {@literal @}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
    *    }
@@ -2005,7 +2058,7 @@ public class AtomicReferenceArrayAssert<T>
    * fred.getChildren().add(pebbles);
    *
    * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
-   *    &commat;Override
+   *    {@literal @}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
    *    }
@@ -2138,11 +2191,11 @@ public class AtomicReferenceArrayAssert<T>
    * It allows you to test a method results of the array's elements instead of testing the elements themselves, which can be
    * much less work!
    * <p>
-   * It is especially useful for classes that does not conform to the Java Bean's getter specification (i.e. public AtomicReferenceArrayAssert<T>tring
-   * toString() or public AtomicReferenceArrayAssert<T>tring status() instead of public AtomicReferenceArrayAssert<T>tring getStatus()).
+   * It is especially useful for classes that does not conform to the Java Bean's getter specification (i.e. public String
+   * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
-   * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public AtomicReferenceArrayAssert<T>tring sayTheWords()
+   * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    * AtomicReferenceArray&lt;WesterosHouse&gt; greatHousesOfWesteros = new AtomicReferenceArray&lt;&gt;(new WesterosHouse[]{ 
    *     new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;),
    *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), 
@@ -2187,11 +2240,11 @@ public class AtomicReferenceArrayAssert<T>
    * It allows you to test a method results of the array's elements instead of testing the elements themselves, which can be
    * much less work!
    * <p>
-   * It is especially useful for classes that do not conform to the Java Bean's getter specification (i.e. public AtomicReferenceArrayAssert<T>tring
-   * toString() or public AtomicReferenceArrayAssert<T>tring status() instead of public AtomicReferenceArrayAssert<T>tring getStatus()).
+   * It is especially useful for classes that do not conform to the Java Bean's getter specification (i.e. public String
+   * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
-   * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public AtomicReferenceArrayAssert<T>tring sayTheWords()
+   * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    * AtomicReferenceArray&lt;WesterosHouse&gt; greatHousesOfWesteros = new AtomicReferenceArray&lt;&gt;(new WesterosHouse[]{ 
    *     new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;),
    *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), 
@@ -2244,19 +2297,19 @@ public class AtomicReferenceArrayAssert<T>
    *
    * With standard error message:
    * <pre><code class='java'> Expecting:
-   *  <[16, 32]>
+   *  &lt;[16, 32]&gt;
    * to contain:
-   *  <[48]>
+   *  &lt;[48]&gt;
    * but could not find:
-   *  <[48]></code></pre>
+   *  &lt;[48]&gt;</code></pre>
    *
    * With Hexadecimal error message:
    * <pre><code class='java'> Expecting:
-   *  <[0x10, 0x20]>
+   *  &lt;[0x10, 0x20]&gt;
    * to contain:
-   *  <[0x30]>
+   *  &lt;[0x30]&gt;
    * but could not find:
-   *  <[0x30]></code></pre>
+   *  &lt;[0x30]&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
@@ -2300,7 +2353,7 @@ public class AtomicReferenceArrayAssert<T>
    * Nested properties/fields are supported:
    * <pre><code class='java'> // Name is bean class with 'first' and 'last' String properties
    *
-   * // name is null for noname => it does not match the filter on "name.first"
+   * // name is null for noname =&gt; it does not match the filter on "name.first"
    * assertThat(employees).filteredOn("name.first", "Luke")
    *                      .containsOnly(luke);
    *
@@ -2459,7 +2512,7 @@ public class AtomicReferenceArrayAssert<T>
   /**
    * Filter the array under test keeping only elements matching the given {@link Condition}.
    * <p>
-   * Let's check old employees whose age > 100:
+   * Let's check old employees whose age &gt; 100:
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -2472,7 +2525,7 @@ public class AtomicReferenceArrayAssert<T>
    * Condition&lt;Employee&gt; oldEmployees = new Condition&lt;Employee&gt;("old employees") {
    *       {@literal @}Override
    *       public boolean matches(Employee employee) {
-   *         return employee.getAge() > 100;
+   *         return employee.getAge() &gt; 100;
    *       }
    *     };
    *   }

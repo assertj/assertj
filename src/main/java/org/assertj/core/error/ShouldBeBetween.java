@@ -26,7 +26,7 @@ import org.assertj.core.internal.*;
 public class ShouldBeBetween extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeBetween}</code>.
+   * Creates a new <code>{@link ShouldBeBetween}</code>.
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of date period.
    * @param end the lower boundary of date period.
@@ -41,7 +41,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeBetween}</code>.
+   * Creates a new <code>{@link ShouldBeBetween}</code>.
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of date period.
    * @param end the lower boundary of date period.
@@ -55,7 +55,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeBetween}</code>.
+   * Creates a new <code>{@link ShouldBeBetween}</code>.
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of range.
    * @param end the lower boundary of range.
@@ -70,7 +70,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeBetween}</code>.
+   * Creates a new <code>{@link ShouldBeBetween}</code>.
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of range.
    * @param end the lower boundary of range.

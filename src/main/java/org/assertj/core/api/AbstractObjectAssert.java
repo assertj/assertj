@@ -110,6 +110,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL</code></pre>
    *
    * @param other the object to compare {@code actual} to.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the actual or other object is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
@@ -151,6 +152,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param other the object to compare {@code actual} to.
    * @param propertiesOrFieldsUsedInComparison properties/fields used in comparison.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the actual or other is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field on given fields.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
@@ -191,6 +193,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param other the object to compare {@code actual} to.
    * @param propertiesOrFieldsToIgnore ignored properties/fields to ignore in comparison.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the actual or given object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
@@ -221,6 +224,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // assertion succeeds because sam does not have its race set
    * assertThat(sam).hasNoNullFields();</code></pre>
    *
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some fields or properties of the actual object are null.
    * 
@@ -251,6 +255,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).hasNoNullFieldsExcept("name", "age");</code></pre>
    *
    * @param propertiesOrFieldsToIgnore properties/fields that won't be checked for null.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are null.
    * 
@@ -290,6 +295,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
    *
    * @param other the object to compare {@code actual} to.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
@@ -308,7 +314,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
    * <p>
    * Example:
-   * <p>
+   *
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private double height;
@@ -321,7 +327,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -341,7 +347,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // assertion will fail
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
-   * </p>
+   *
    * @param comparator the {@link java.util.Comparator} to use
    * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
    * @return {@code this} assertions object
@@ -375,7 +381,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
    *   double precision = 0.5;
    *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) <= precision ? 0 : 1;
+   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
    *   }
    * };
    *
@@ -395,7 +401,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // assertion will fail
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
-   * </p>
+   *
    * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance 
    * chain to the given {@code type} is chosen in the following order:
    * <ol>
@@ -403,9 +409,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <li>The comparator of a superclass of the given {@code type}</li>
    * <li>The comparator of an interface implemented by the given {@code type}</li>
    * </ol>
-   * <p>
+   *
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type the comparator should be used for
+   * @param <T> the type of objects that the comparator should be used for
    * @return {@code this} assertions object
    */
   @CheckReturnValue
@@ -446,6 +453,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).hasFieldOrProperty("age"); </code></pre>
    *
    * @param name the field/property name to check
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
    * @throws AssertionError if the actual object has not the given field/property
@@ -491,6 +499,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param name the field/property name to check
    * @param value the field/property expected value
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
    * @throws AssertionError if the actual object has not the given field/property
@@ -639,6 +648,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                 .isEqualToComparingFieldByFieldRecursively(jackClone);</code></pre>
    *
    * @param other the object to compare {@code actual} to.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
    * @throws IntrospectionError if one property/field to compare can not be found.

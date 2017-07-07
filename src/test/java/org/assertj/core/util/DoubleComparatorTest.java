@@ -25,11 +25,11 @@ public class DoubleComparatorTest {
 
   private static DoubleComparator comparator = new DoubleComparator(0.01d);
 
-  public static boolean nearlyEqual(double a, double b) {
+  public static boolean nearlyEqual(Double a, Double b) {
     return comparator.compare(a, b) == 0;
   }
 
-  public static boolean nearlyEqual(double a, double b, double epsilon) {
+  public static boolean nearlyEqual(Double a, Double b, double epsilon) {
     return new DoubleComparator(epsilon).compare(a, b) == 0;
   }
 
@@ -42,7 +42,8 @@ public class DoubleComparatorTest {
     "0.001, 0.0",
     "0.0, 0.001",
     "-1.001, -1.0",
-    "-1.0, -1.001"
+    "-1.0, -1.001",
+    "null, null"
   })
   // @format:on
   public void should_be_equal_if_difference_is_less_than_or_equal_to_epsilon(Double actual, Double other) {
@@ -60,7 +61,9 @@ public class DoubleComparatorTest {
     "0.01, 0.0",
     "0.0, 0.010001",
     "-1.010001, -1.0",
-    "-1.0, -1.010001"
+    "-1.0, -1.010001",
+    "null, 1.0",
+    "1.0, null"
   })
   // @format:on
   public void should_not_be_equal_if_difference_is_more_than_epsilon(Double actual, Double other) {

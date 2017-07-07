@@ -14,16 +14,27 @@ package org.assertj.core.navigation;
 
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ClassBasedNavigableListAssert;
+import org.assertj.core.test.IllegalVehicleAssert;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
+import org.assertj.core.test.VehicleFactory;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
 
   @Override
   protected ClassBasedNavigableListAssert<?, List<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
-    return Assertions.assertThat(expectedVehicles, VehicleAssert.class);
+    return assertThat(expectedVehicles, VehicleAssert.class);
+  }
+
+  @Test
+  public void do_not_swallow_reflection_problem() {
+    thrown.expectWithMessageContaining(RuntimeException.class, "can not access a member of class org.assertj.core.test.IllegalVehicleAssert");
+    assertThat(expectedVehicles, IllegalVehicleAssert.class)
+      .toAssert(new VehicleFactory.Car("car"), "unused");
   }
 
 }

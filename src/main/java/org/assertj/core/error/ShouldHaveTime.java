@@ -24,7 +24,7 @@ import java.util.Date;
 public class ShouldHaveTime extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldHaveTime}</code>.
+   * Creates a new <code>{@link ShouldHaveTime}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expectedTimestamp the expected timestamp.
    * @return the created {@code ErrorMessageFactory}.

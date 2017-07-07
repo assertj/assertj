@@ -24,7 +24,7 @@ import org.assertj.core.internal.*;
 public class ShouldNotContain extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotContain}</code>.
+   * Creates a new <code>{@link ShouldNotContain}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected values expected not to be contained in {@code actual}.
    * @param found the values in {@code expected} found in {@code actual}.
@@ -37,7 +37,7 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldNotContain}</code>.
+   * Creates a new <code>{@link ShouldNotContain}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected values expected not to be contained in {@code actual}.
    * @param found the values in {@code expected} found in {@code actual}.

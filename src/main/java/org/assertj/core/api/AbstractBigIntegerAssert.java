@@ -46,8 +46,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isZero();</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -65,8 +65,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(BigInteger.ZERO).isNotZero();</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -84,8 +84,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isOne();</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -103,8 +103,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;-8&quot;)).isPositive();</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -122,8 +122,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isNegative();</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -141,8 +141,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;-8&quot;)).isNotNegative();</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -160,8 +160,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isNotPositive();</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -188,10 +188,10 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // but if difference is greater than given offset value assertion will fail :
    * assertThat(actual).isCloseTo(other, within(new BigInteger("1")));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
@@ -222,10 +222,10 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // the assertion fails if the difference is greater than the given offset value
    * assertThat(actual).isNotCloseTo(other, byLessThan(new BigInteger("3")));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one within the offset value.
@@ -254,7 +254,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger("11")).isCloseTo(BigInteger.TEN, withinPercentage(5));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
@@ -288,7 +287,6 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(eleven).isNotCloseTo(BigInteger.TEN, withinPercentage(20));</code></pre>
-   * </p>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage.
@@ -316,8 +314,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isBetween(new BigInteger(&quot;6&quot;), new BigInteger(&quot;7&quot;));</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -337,8 +335,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * // assertions will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isStrictlyBetween(new BigInteger(&quot;8&quot;), new BigInteger(&quot;9&quot;));
    * assertThat(new BigInteger(&quot;8&quot;)).isStrictlyBetween(new BigInteger(&quot;7&quot;), new BigInteger(&quot;8&quot;));</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -357,8 +355,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isEqualTo(&quot;2&quot;);</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   public SELF isEqualTo(String expected) {
@@ -375,8 +373,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isEqualTo(2);</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   public SELF isEqualTo(int expected) {
@@ -393,8 +391,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    *
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isEqualTo(2L);</code></pre>
-   * </p>
    *
+   * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
   public SELF isEqualTo(long expected) {

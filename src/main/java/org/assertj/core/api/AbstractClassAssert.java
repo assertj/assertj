@@ -50,7 +50,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * 
    * @see Class#isAssignableFrom(Class)
    * @param others {@code Class} who can be assignable from.
-   * @return this assertion object.
+   * @return {@code this} assertions object
    * @throws AssertionError if the actual {@code Class} is {@code null}.
    * @throws IllegalArgumentException if no {@code others} classes have been specified.
    * @throws AssertionError if the actual {@code Class} is not assignable from all of the {@code others} classes.
@@ -73,6 +73,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails:
    * assertThat(Jedi.class).isNotInterface();</code></pre>
    * 
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
@@ -94,6 +95,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails:
    * assertThat(HumanJedi.class).isInterface();</code></pre>
    * 
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
@@ -116,6 +118,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails:
    * assertThat(String.class).isAnnotation();</code></pre>
    * 
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an annotation.
    */
@@ -138,6 +141,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(Override.class).isNotAnnotation();
    * assertThat(Deprecated.class).isNotAnnotation();</code></pre>
    * 
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is an annotation.
    */
@@ -158,6 +162,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(Object.class).isFinal();
    * assertThat(Throwable.class).isFinal();</code></pre>
    *
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not final.
    */
@@ -178,6 +183,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(String.class).isNotFinal();
    * assertThat(Math.class).isNotFinal();</code></pre>
    *
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is final.
    */
@@ -199,6 +205,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // This assertion fails:
    * assertThat(MyClass.class).isPublic();</code></pre>
    *
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not public.
    *
@@ -222,6 +229,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(String.class).isProtected();
    * assertThat(Math.class).isProtected();</code></pre>
    *
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not protected.
    *
@@ -258,6 +266,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);</code></pre>
    * 
    * @param annotations annotations who must be attached to the class
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
@@ -283,6 +292,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
    * 
    * @param annotation annotations who must be attached to the class
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
@@ -324,6 +334,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * 
    * @see Class#getField(String)
    * @param fields the fields who must be in the class.
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contain all of the fields.
    */
@@ -354,6 +365,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @see Class#getField(String)
    * @param fields all the fields that are expected to be in the class.
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the actual {@code Class}'s accessible public fields.
    *
@@ -383,6 +395,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * 
    * @see Class#getDeclaredField(String)
    * @param fields the fields who must be declared in the class.
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
@@ -413,6 +426,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @see Class#getField(String)
    * @param fields all the fields that are expected to be in the class.
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the declared fields of the actual {@code Class}.
    *
@@ -444,6 +458,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasMethods("methodThree");</code></pre>
    *
    * @param methodNames the method names which must be in the class.
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
    *
@@ -477,6 +492,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * The assertion succeeds if no given methods are passed and the actual {@code Class} has no declared methods.
    *
    * @param methodNames the method names which must be declared in the class.
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the given methods.
    *
@@ -506,6 +522,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPublicMethods("methodThree");</code></pre>
    *
    * @param methodNames the public method names which must be in the class.
+   * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the given public methods.
    *
