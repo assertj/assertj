@@ -38,6 +38,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -2269,6 +2270,22 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public <OTHER_ELEMENT> SELF allSatisfy(Iterable<OTHER_ELEMENT> target, BiConsumer<? super ELEMENT, OTHER_ELEMENT> requirements) {
+    // TODO: null / empty checks. Here or in Iterables?
+    Iterator<? extends ELEMENT> i1 = actual.iterator();
+    Iterator<OTHER_ELEMENT> i2 = target.iterator();
+    while (i1.hasNext()) {
+      assertThat(i2.hasNext()).withFailMessage("target collection does not have enough elements to compare").isTrue();
+      requirements.accept(i1.next(), i2.next());
+    }
+    assertThat(i2.hasNext()).withFailMessage("target collection still have more elements to compare").isTrue();
     return myself;
   }
 

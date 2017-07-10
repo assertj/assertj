@@ -12,12 +12,15 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Maps;
@@ -591,6 +594,77 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   public SELF hasValueSatisfying(Condition<? super V> valueCondition) {
     maps.assertHasValueSatisfying(info, actual, valueCondition);
+    return myself;
+  }
+
+  /**
+   * Verifies that all the elements satisfy given requirements expressed as a {@link BiConsumer}.
+   * <p>
+   * This is useful to perform a group of assertions on elements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(myIcelanderNumbers).allSatisfy((name, number) -&gt; {
+   *                                 assertThat(name).isEqualTo("Iceland");
+   *                                 assertThat(number).isEqualTo("+354");
+   *                               });</code></pre>
+   *
+   * @param requirements the given {@link BiConsumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link BiConsumer} is {@code null}.
+   * @throws AssertionError if one or more elements don't satisfy given requirements.
+   * @since 3.9.0
+   */
+  public SELF allSatisfy(BiConsumer<K, V> requirements) {
+    actual.forEach(requirements);
+    return myself;
+  }
+
+  /**
+   * Verifies that all the elements, when compared to another Map, satisfy given requirements expressed as a {@link BiConsumer}.
+   * <p>
+   * This is useful to compare Maps of similar but not same Objects, like DTOs and domain objects.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(birthdays).allSatisfy(date -> date.toString(), (person, employee) -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo(employee.getBornIn());
+   *                                 assertThat(person.getGivenName()).isEqualTo(employee.getFirstname());
+   *                               });</code></pre>
+   *
+   * @param target the given {@link Iterable}.
+   * @param keyMapper the given {@link Function} that maps from actual map keys to target Map keys
+   * @param requirements the given {@link BiConsumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link BiConsumer} is {@code null}.
+   * @throws AssertionError if one or more elements don't satisfy given requirements.
+   * @since 3.9.0
+   */
+  public <K2, V2> SELF allSatisfy(Function<K, K2> keyMapper, Map<K2, V2> target, BiConsumer<V, V2> requirements) {
+    actual.forEach((k, v) ->
+      requirements.accept(v, target.get(keyMapper.apply(k))));
+    assertThat(actual.keySet().size()).isEqualTo(target.keySet().size()); // TODO: add usefule mesage
+    return myself;
+  }
+
+  /**
+   * Verifies that all the entrie, when compared to another Map, satisfy given requirements expressed as a {@link BiConsumer}.
+   * <p>
+   * This is useful to compare Maps of similar but not same Objects, like DTOs and domain objects.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(birthdays).allSatisfy((person, employee) -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo(employee.getBornIn());
+   *                                 assertThat(person.getGivenName()).isEqualTo(employee.getFirstname());
+   *                               });</code></pre>
+   *
+   * @param target the given {@link Iterable}.
+   * @param requirements the given {@link BiConsumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link BiConsumer} is {@code null}.
+   * @throws AssertionError if one or more entries don't satisfy given requirements.
+   * @since 3.9.0
+   */
+  public <V2> SELF allSatisfy(Map<K, V2> target, BiConsumer<V, V2> requirements) {
+    allSatisfy(Function.identity(), target, requirements);
     return myself;
   }
 
