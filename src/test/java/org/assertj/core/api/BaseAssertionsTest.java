@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.test.TypeCanonizer.canonize;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -67,15 +69,16 @@ public class BaseAssertionsTest {
         // static vs not static is not important Soft vs Not Soft assertions
         boolean equal = (ACCESS_MODIFIERS & method1.getModifiers() & method2.getModifiers()) != 0;
         equal = equal && (ignoreDeclaringClass || method1.getDeclaringClass().equals(method2.getDeclaringClass()));
-        equal = equal && (ignoreReturnType || method1.getReturnType().equals(method2.getReturnType()));
+        equal = equal && (ignoreReturnType || canonize(method1.getGenericReturnType())
+          .equals(canonize(method2.getGenericReturnType())));
         equal = equal && (ignoreMethodName || method1.getName().equals(method2.getName()));
 
-        Class<?>[] pTypes1 = method1.getParameterTypes();
-        Class<?>[] pTypes2 = method2.getParameterTypes();
+        Type[] pTypes1 = method1.getGenericParameterTypes();
+        Type[] pTypes2 = method2.getGenericParameterTypes();
         equal = equal && pTypes1.length == pTypes2.length;
         if (equal) {
           for (int i = 0; i < pTypes1.length; i++) {
-            equal = equal && pTypes1[i].equals(pTypes2[i]);
+            equal = equal && canonize(pTypes1[i]).equals(canonize(pTypes2[i]));
           }
         }
         return equal ? 0 : 1;

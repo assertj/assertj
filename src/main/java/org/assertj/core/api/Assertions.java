@@ -325,7 +325,7 @@ public class Assertions {
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
+  public static <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return new FutureAssert<>(actual);
   }
 

@@ -23,6 +23,7 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -138,6 +139,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
+    if (object instanceof Method) { return ((Method) object).toGenericString(); }
     return object == null ? null : object.toString();
   }
 
