@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 /**
  * Creates an error message indicating that an assertion that verifies {@link CharSequence}
- * is not {@code Null}, not empty or contains not only whitespace.
+ * is not blank.
  */
 public class ShouldNotBeBlank extends BasicErrorMessageFactory {
 
