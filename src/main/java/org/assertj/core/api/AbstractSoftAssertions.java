@@ -101,7 +101,16 @@ public class AbstractSoftAssertions {
    * @return a copy of list of soft assertions collected errors.
    */
   public List<Throwable> errorsCollected() {
-    return addLineNumberToErrorMessages(proxies.errorsCollected());
+    return decorateErrorsCollected(proxies.errorsCollected());
+  }
+  
+  /**
+   * Modifies collected errors. Override to customize modification.
+   * @param errors list of errors to decorate
+   * @return decorated list
+  */
+  protected List<Throwable> decorateErrorsCollected(List<Throwable> errors) {
+    return addLineNumberToErrorMessages(errors);
   }
 
   /**
