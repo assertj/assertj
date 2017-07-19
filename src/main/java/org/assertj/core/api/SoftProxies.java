@@ -16,14 +16,18 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.function.Consumer;
 
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
 
 class SoftProxies {
-
-  private final ErrorCollector collector = new ErrorCollector();
+  private final ErrorCollector collector;
+  
+  SoftProxies(Consumer<Throwable> errorProcessor) {
+	  collector = new ErrorCollector(errorProcessor);
+  }
 
   void collectError(Throwable error) {
     collector.addError(error);

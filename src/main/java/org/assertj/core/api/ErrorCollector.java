@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -31,6 +32,16 @@ public class ErrorCollector implements MethodInterceptor {
   private final List<Throwable> errors = new ArrayList<>();
   // scope : the last assertion call (might be nested)
   private final LastResult lastResult = new LastResult();
+  
+  private final Consumer<Throwable> errorProcessor;
+  
+  public ErrorCollector() {
+	  this(t -> {});
+  }
+  
+  public ErrorCollector(Consumer<Throwable> errorProcessor) {
+	  this.errorProcessor = errorProcessor;
+  }
 
   @Override
   public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
@@ -45,6 +56,7 @@ public class ErrorCollector implements MethodInterceptor {
       }
       lastResult.setSuccess(false);
       errors.add(e);
+      errorProcessor.accept(e);
     }
     return result;
   }

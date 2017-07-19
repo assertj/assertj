@@ -16,6 +16,7 @@ import static java.lang.String.format;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.assertj.core.internal.Failures;
 
@@ -24,7 +25,7 @@ public class AbstractSoftAssertions {
   protected final SoftProxies proxies;
 
   public AbstractSoftAssertions() {
-    proxies = new SoftProxies();
+    proxies = new SoftProxies(errorProcessor());
   }
 
   public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
@@ -111,6 +112,10 @@ public class AbstractSoftAssertions {
   */
   protected List<Throwable> decorateErrorsCollected(List<Throwable> errors) {
     return addLineNumberToErrorMessages(errors);
+  }
+  
+  protected Consumer<Throwable> errorProcessor() {
+	  return t -> {};
   }
 
   /**
