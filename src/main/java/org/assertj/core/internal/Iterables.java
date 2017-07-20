@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
@@ -61,6 +62,7 @@ import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -905,6 +907,29 @@ public class Iterables {
                            shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
   }
 
+  /**
+   * Asserts that the given {@code Iterable} contains at least one of the given {@code values}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param values the values that, at least one of which is expected to be in the given {@code Iterable}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and given {@code Iterable} is not empty.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not contain any of given {@code values}.
+   */
+  public void assertContainsAnyOf(AssertionInfo info, Iterable<?> actual, Object[] values) {
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
+      return;
+
+    Set<Object> valuesToSearchFor = newTreeSet(values);
+    for (Object element : actual) {
+      if (iterableContains(valuesToSearchFor, element))
+        return;
+    }
+    throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
+  }
+
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
@@ -918,9 +943,7 @@ public class Iterables {
       }
     }
 
-    if (notExpected.isEmpty() && notFound.isEmpty()) {
-      return;
-    }
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
 
     throw failures.failure(info,
                            shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
