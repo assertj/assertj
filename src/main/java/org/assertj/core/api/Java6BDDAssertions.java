@@ -405,7 +405,8 @@ public class Java6BDDAssertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
-//@format:off
+  //@format:off
+  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
                                                                                AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -437,6 +438,7 @@ public class Java6BDDAssertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    */
+  @CheckReturnValue      
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
                                                                              Class<ELEMENT_ASSERT> assertClass) {
@@ -476,6 +478,7 @@ public class Java6BDDAssertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
+  @CheckReturnValue      
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                            AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -507,6 +510,7 @@ public class Java6BDDAssertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    */
+  @CheckReturnValue      
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                          Class<ELEMENT_ASSERT> assertClass) {
@@ -923,6 +927,7 @@ public class Java6BDDAssertions {
    *          the component that creates its own assert
    * @return the associated {@link Assert} of the given component
    */
+  @CheckReturnValue
   public static <T> T then(final AssertProvider<T> component) {
     return component.assertThat();
   }

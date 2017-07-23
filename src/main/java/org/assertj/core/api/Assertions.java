@@ -479,6 +479,7 @@ public class Assertions {
    */
   //@format:off
   @SuppressWarnings({ "unchecked", "rawtypes" })
+  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
          FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual, 
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -512,6 +513,7 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
+  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual, 
                                                                                           Class<ELEMENT_ASSERT> assertClass) {
@@ -553,6 +555,7 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
+  @CheckReturnValue
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual, 
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -586,6 +589,7 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
+  @CheckReturnValue
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                       Class<ELEMENT_ASSERT> assertClass) {
@@ -705,6 +709,7 @@ public class Assertions {
    *          the component that creates its own assert
    * @return the associated {@link Assert} of the given component
    */
+  @CheckReturnValue
   public static <T> T assertThat(final AssertProvider<T> component) {
     return component.assertThat();
   }
@@ -848,7 +853,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
-    return new AtomicIntegerFieldUpdaterAssert<OBJECT>(actual);
+    return new AtomicIntegerFieldUpdaterAssert<>(actual);
   }
 
   /**
@@ -885,7 +890,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
-    return new AtomicLongFieldUpdaterAssert<OBJECT>(actual);
+    return new AtomicLongFieldUpdaterAssert<>(actual);
   }
 
   /**
@@ -898,7 +903,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
-    return new AtomicReferenceAssert<VALUE>(actual);
+    return new AtomicReferenceAssert<>(actual);
   }
 
   /**
@@ -1046,6 +1051,7 @@ public class Assertions {
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
+  @CheckReturnValue
   public static Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
   }
