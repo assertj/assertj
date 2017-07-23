@@ -636,7 +636,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws AssertionError if the {@code Iterable} under test is {@code null}.
    * @throws AssertionError if the {@code Iterable} under test does not contain any of the given {@code values}.
    */
-  @CheckReturnValue
   public SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values) {
     iterables.assertContainsAnyOf(info, actual, values);
     return myself;
@@ -666,7 +665,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws AssertionError if the {@code Iterable} under test is {@code null}.
    * @throws AssertionError if the {@code Iterable} under test does not contain any of elements from the given {@code Iterable}.
    */
-  @CheckReturnValue
   public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable) {
     containsAnyOf(toArray(iterable));
     return myself;
