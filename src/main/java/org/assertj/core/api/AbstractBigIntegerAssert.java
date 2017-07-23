@@ -356,6 +356,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * // assertion will fail
    * assertThat(new BigInteger(&quot;8&quot;)).isEqualTo(&quot;2&quot;);</code></pre>
    *
+   * @param expected the given number to compare the actual value to.
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */

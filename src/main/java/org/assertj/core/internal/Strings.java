@@ -151,8 +151,7 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains only
-   * whitespace.
+   * Asserts that the given {@code CharSequence} consists of one or more whitespace characters.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
@@ -163,8 +162,7 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is not {@code Null}, not empty
-   * and contains not only whitespace.
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains at least one non-whitespace character.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
@@ -183,8 +181,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains only
-   * whitespace according to {@link Character#isWhitespace(char)}.
+   * Asserts that the given {@code CharSequence} consists of one or more whitespace characters
+   * according to {@link Character#isWhitespace(char)}.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
@@ -195,8 +193,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is not {@code Null}, 
-   * not empty or contains not only whitespace according to {@link Character#isWhitespace(char)}.
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains at least one non-whitespace character
+   * according to {@link Character#isWhitespace(char)}.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.

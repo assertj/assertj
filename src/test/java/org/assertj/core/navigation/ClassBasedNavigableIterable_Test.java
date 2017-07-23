@@ -30,7 +30,7 @@ public class ClassBasedNavigableIterable_Test extends BaseNavigableIterableAsser
 
   @Test
   public void do_not_swallow_reflection_problem() {
-    thrown.expectWithMessageContaining(RuntimeException.class, "can not access a member of class org.assertj.core.test.IllegalVehicleAssert");
+    thrown.expectWithMessageContaining(RuntimeException.class, "not access a member of class org.assertj.core.test.IllegalVehicleAssert");
     assertThat(expectedVehicles, IllegalVehicleAssert.class)
       .toAssert(new VehicleFactory.Car("car"), "unused");
   }

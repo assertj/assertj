@@ -13,8 +13,7 @@
 package org.assertj.core.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies {@link CharSequence} is {@code Null},
- * empty or contains only whitespace.
+ * Creates an error message indicating that an assertion that verifies a {@link CharSequence} is blank.
  */
 public class ShouldBeBlank extends BasicErrorMessageFactory {
 

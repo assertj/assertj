@@ -218,6 +218,8 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail because 8.00 is not equals to 8.0
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isEqualTo(&quot;8.0&quot;);</code></pre>
    * 
+   * @param expected the given number to compare the actual value to.
+   * @return {@code this} assertion object.
    */
   public SELF isEqualTo(String expected) {
     return isEqualTo(new BigDecimal(expected));

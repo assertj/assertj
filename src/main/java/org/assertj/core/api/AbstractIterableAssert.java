@@ -93,6 +93,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mikhail Mazursky
  * @author Mateusz Haligowski
  * @author Lovro Pandzic
+ * @author Marko Bekhta
  */
 //@format:off
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
@@ -128,7 +129,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * to build the appropriate list assert (eg: {@link ListAssert} versus {@link SoftAssertionListAssert}).
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
-   * 
+   *
    * @param newActual new value
    * @return a new {@link AbstractListAssert}.
    */
@@ -673,6 +674,64 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public SELF usingDefaultElementComparator() {
     usingDefaultComparator();
     this.iterables = Iterables.instance();
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link Iterable} contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = Arrays.asList("a", "b", "c");
+   *
+   * // assertions will pass
+   * assertThat(abc).containsAnyOf("b")
+   *                .containsAnyOf("b", "c")
+   *                .containsAnyOf("a", "b", "c")
+   *                .containsAnyOf("a", "b", "c", "d")
+   *                .containsAnyOf("e", "f", "g", "b");
+   *
+   * // assertions will fail
+   * assertThat(abc).containsAnyOf("d");
+   * assertThat(abc).containsAnyOf("d", "e", "f", "g");</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the {@code Iterable} under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the {@code Iterable} under test is not empty.
+   * @throws AssertionError if the {@code Iterable} under test is {@code null}.
+   * @throws AssertionError if the {@code Iterable} under test does not contain any of the given {@code values}.
+   */
+  public SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values) {
+    iterables.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the {@link Iterable} under test contains at least one of the given {@link Iterable} elements.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = Arrays.asList("a", "b", "c");
+   *
+   * // assertions will pass
+   * assertThat(abc).containsAnyElementsOf(Arrays.asList("b"))
+   *                .containsAnyElementsOf(Arrays.asList("b", "c"))
+   *                .containsAnyElementsOf(Arrays.asList("a", "b", "c"))
+   *                .containsAnyElementsOf(Arrays.asList("a", "b", "c", "d"))
+   *                .containsAnyElementsOf(Arrays.asList("e", "f", "g", "b"));
+   *
+   * // assertions will fail
+   * assertThat(abc).containsAnyElementsOf(Arrays.asList("d"));
+   * assertThat(abc).containsAnyElementsOf(Arrays.asList("d", "e", "f", "g"));</code></pre>
+   *
+   * @param iterable the iterable whose at least one element is expected to be in the {@code Iterable} under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the iterable of expected values is {@code null}.
+   * @throws IllegalArgumentException if the iterable of expected values is empty and the {@code Iterable} under test is not empty.
+   * @throws AssertionError if the {@code Iterable} under test is {@code null}.
+   * @throws AssertionError if the {@code Iterable} under test does not contain any of elements from the given {@code Iterable}.
+   */
+  public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable) {
+    containsAnyOf(toArray(iterable));
     return myself;
   }
 
@@ -1716,7 +1775,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // ... but not when comparing both name and race
    * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL</code></pre>
    *
-   * @param the fields/properties to compare using element comparators
+   * @param fields the fields/properties to compare using element comparators
    * @return {@code this} assertion object.
    */
   @CheckReturnValue

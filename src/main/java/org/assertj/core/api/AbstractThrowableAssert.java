@@ -107,6 +107,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(throwable).hasCause(new NullPointerException());
    * assertThat(throwable).hasCause(null); // prefer hasNoCause()</code></pre>
    * 
+   * @param cause the expected cause
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.

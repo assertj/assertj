@@ -50,10 +50,10 @@ public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableI
           return newAssert.as(description);
         }
       }
-      throw new RuntimeException("Fail to find a constructor matching " + value
+      throw new RuntimeException("Failed to find a constructor matching " + value
                                  + " class to build the expected Assert class");
     } catch (Exception e) {
-      throw new RuntimeException("Fail to build an assert object with " + value + ": " + e.getMessage(), e);
+      throw new RuntimeException("Failed to build an assert object with " + value + ": " + e.getMessage(), e);
     }
   }
 }
