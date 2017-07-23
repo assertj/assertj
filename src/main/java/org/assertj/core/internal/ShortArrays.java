@@ -50,7 +50,12 @@ public class ShortArrays {
   }
 
   public ShortArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -334,5 +339,9 @@ public class ShortArrays {
   public void assertIsSortedAccordingToComparator(AssertionInfo info, short[] actual,
       Comparator<? super Short> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+  }
+
+  public <E> void assertContainsAnyOf(AssertionInfo info, short[] actual, short[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }

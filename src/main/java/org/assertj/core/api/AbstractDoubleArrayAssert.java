@@ -870,4 +870,34 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
     return usingElementComparator(doubleComparator.doubleComparatorWithPrecision(precision));
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> double[] oneTwoThree = { 1.0, 2.0, 3.0 }; 
+   *
+   * // assertions will pass
+   * assertThat(oneTwoThree).containsAnyOf(2.0)
+   *                        .containsAnyOf(2.0, 3.0)
+   *                        .containsAnyOf(1.0, 2.0, 3.0)
+   *                        .containsAnyOf(1.0, 2.0, 3.0, 4.0)
+   *                        .containsAnyOf(5.0, 6.0, 7.0, 2.0);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf(4.0);
+   * assertThat(oneTwoThree).containsAnyOf(4.0, 5.0, 6.0, 7.0);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(double... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
+
 }

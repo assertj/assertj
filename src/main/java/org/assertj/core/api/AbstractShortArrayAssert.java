@@ -402,4 +402,34 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
     return myself;
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> short[] oneTwoThree = { 1, 2, 3 }; 
+   *
+   * // assertions will pass
+   * assertThat(abc).containsAnyOf((short) 2)
+   *                .containsAnyOf((short) 2, (short) 3)
+   *                .containsAnyOf((short) 1, (short) 2, (short) 3)
+   *                .containsAnyOf((short) 1, (short) 2, (short) 3, (short) 4)
+   *                .containsAnyOf((short) 5, (short) 6, (short) 7, (short) 2);
+   *
+   * // assertions will fail
+   * assertThat(abc).containsAnyOf((short) 4);
+   * assertThat(abc).containsAnyOf((short) 4, (short) 5, (short) 6, (short) 7);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(short... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
+
 }

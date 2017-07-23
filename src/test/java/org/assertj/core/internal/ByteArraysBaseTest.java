@@ -14,15 +14,10 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.test.ByteArrays.arrayOf;
 import static org.assertj.core.test.ExpectedException.none;
-
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import org.assertj.core.internal.ByteArrays;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
@@ -71,6 +66,10 @@ public class ByteArraysBaseTest {
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return absValueComparator;
+  }
+
+  protected void setArrays(Arrays internalArrays) {
+    arrays.setArrays(internalArrays);
   }
 
 }

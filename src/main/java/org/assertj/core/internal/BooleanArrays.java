@@ -40,13 +40,19 @@ public class BooleanArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays = Arrays.instance();
+  private Arrays arrays;
 
   @VisibleForTesting
   Failures failures = Failures.instance();
 
   @VisibleForTesting
   BooleanArrays() {
+    setArrays(Arrays.instance());
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   /**
@@ -327,4 +333,7 @@ public class BooleanArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  public void assertContainsAnyOf(AssertionInfo info, boolean[] actual, boolean[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
+  }
 }

@@ -51,7 +51,12 @@ public class IntArrays {
   }
 
   public IntArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -337,4 +342,7 @@ public class IntArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  public <E> void assertContainsAnyOf(AssertionInfo info, int[] actual, int[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
+  }
 }

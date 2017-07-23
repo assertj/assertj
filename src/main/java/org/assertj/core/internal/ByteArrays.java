@@ -50,7 +50,12 @@ public class ByteArrays {
   }
 
   public ByteArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -474,5 +479,9 @@ public class ByteArrays {
       bytes[i] = (byte) ints[i];
     }
     return bytes;
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, byte[] actual, byte[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }

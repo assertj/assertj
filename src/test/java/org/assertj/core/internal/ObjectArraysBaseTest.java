@@ -14,17 +14,10 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
-
-
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Conditions;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
@@ -77,6 +70,10 @@ public class ObjectArraysBaseTest {
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return caseInsensitiveStringComparator;
+  }
+
+  protected void setArrays(Arrays internalArrays) {
+    arrays.setArrays(internalArrays);
   }
 
 }

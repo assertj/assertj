@@ -739,4 +739,64 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     return myself;
   }
   
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> byte[] oneTwoThree = { 1, 2, 3 }; 
+   *
+   * // assertions will pass
+   * assertThat(oneTwoThree).containsAnyOf((byte)2)
+   *                        .containsAnyOf((byte)2, (byte)3)
+   *                        .containsAnyOf((byte)1, (byte)2, (byte)3)
+   *                        .containsAnyOf((byte)1, (byte)2, (byte)3, (byte)4)
+   *                        .containsAnyOf((byte)5, (byte)6, (byte)7, (byte)2);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf((byte)4);
+   * assertThat(oneTwoThree).containsAnyOf((byte)4, (byte)5, (byte)6, (byte)7);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(byte... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> byte[] oneTwoThree = { 1, 2, 3 }; 
+   *
+   * // assertions will pass
+   * assertThat(oneTwoThree).containsAnyOf(2)
+   *                        .containsAnyOf(2, 3)
+   *                        .containsAnyOf(1, 2, 3)
+   *                        .containsAnyOf(1, 2, 3, 4)
+   *                        .containsAnyOf(5, 6, 7, 2);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf(4);
+   * assertThat(oneTwoThree).containsAnyOf(4, 5, 6, 7);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(int... values) {
+    arrays.assertContainsAnyOf(info, actual, arrays.toByteArray(values));
+    return myself;
+  }
+
 }

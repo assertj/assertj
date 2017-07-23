@@ -12,42 +12,33 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.test.ExpectedException;
+import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Rule;
 
-
-/**
- * Base class for testing <code>{@link BooleanArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
- * another with {@link ComparatorBasedComparisonStrategy}.
- * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BooleanArrays#failures} appropriately.
- * 
- * @author Joel Costigliola
- */
-public class BooleanArraysBaseTest {
+public class BaseArraysTest {
 
   @Rule
   public ExpectedException thrown = none();
 
-  protected boolean[] actual;
+  protected Arrays arrays;
   protected Failures failures;
-  protected BooleanArrays arrays;
+  protected String[] actual;
+  protected ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy;
+  protected Arrays arraysWithCustomComparisonStrategy;
 
   @Before
   public void setUp() {
-    actual = arrayOf(true, false);
+    actual = array("Luke", "Yoda", "Leia");
     failures = spy(new Failures());
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
-  }
-
-  protected void setArrays(Arrays internalArrays) {
-    arrays.setArrays(internalArrays);
+    arrays = Arrays.instance();
+    caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(new CaseInsensitiveStringComparator());
+    arraysWithCustomComparisonStrategy = new Arrays(caseInsensitiveStringComparisonStrategy);
   }
 
 }

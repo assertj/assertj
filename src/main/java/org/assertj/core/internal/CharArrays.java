@@ -56,7 +56,12 @@ public class CharArrays {
   }
 
   public CharArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   /**
@@ -335,5 +340,9 @@ public class CharArrays {
   public void assertIsSortedAccordingToComparator(AssertionInfo info, char[] actual,
       Comparator<? super Character> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, char[] actual, char[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }
