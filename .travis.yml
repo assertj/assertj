@@ -9,5 +9,6 @@ addons:
       - oracle-java8-installer
 
 jdk:  
-   - oraclejdk8
-   - openjdk8
+  - oraclejdk8
+  - openjdk8
+  - oraclejdk9
