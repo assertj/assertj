@@ -136,6 +136,7 @@ public abstract class Delta<T> {
   }
 
   String formatLines(List<T> lines) {
+    //TODO see what we should use here
     return STANDARD_REPRESENTATION.format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
   }
 

@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveStamp.shouldHaveStamp;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.atomic.AtomicStampedReference;
 
@@ -29,7 +29,7 @@ public class ShouldHaveStamp_create_Test {
     // GIVEN
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("foo", 1234);
     // WHEN
-    String message = shouldHaveStamp(actual, 5678).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
+    String message = shouldHaveStamp(actual, 5678).create(new TestDescription("TEST"), CONFIGURATION_PROVIDER.representation());
     // THEN
     assertThat(message).isEqualTo(format("[TEST] %n" +
                                          "Expecting%n" +

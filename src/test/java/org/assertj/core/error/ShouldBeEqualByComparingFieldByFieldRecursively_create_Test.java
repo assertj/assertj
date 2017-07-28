@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -47,8 +47,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     String message = shouldBeEqualByComparingFieldByFieldRecursive(withSortedSet,
                                                                    withHashSet,
                                                                    differences,
-                                                                   STANDARD_REPRESENTATION)
-        .create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+                                                                   CONFIGURATION_PROVIDER.representation())
+        .create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -79,8 +79,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     String message = shouldBeEqualByComparingFieldByFieldRecursive(withTreeMap,
                                                                    withLinkedHashMap,
                                                                    differences,
-                                                                   STANDARD_REPRESENTATION)
-                                                          .create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+                                                                   CONFIGURATION_PROVIDER.representation())
+                                                          .create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class Maps {
    */
   @Deprecated
   public static String format(Map<?, ?> map) {
-    return STANDARD_REPRESENTATION.toStringOf(map);
+    return CONFIGURATION_PROVIDER.representation().toStringOf(map);
   }
 
   /**
@@ -53,7 +53,7 @@ public class Maps {
    */
   @Deprecated
   public static String format(Representation p, Map<?, ?> map) {
-    return STANDARD_REPRESENTATION.toStringOf(map);
+    return CONFIGURATION_PROVIDER.representation().toStringOf(map);
   }
 
   public static <K, V> Map<K, V> newHashMap(K key, V value) {

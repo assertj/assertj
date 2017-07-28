@@ -12,6 +12,8 @@
  */
 package org.assertj.core.test;
 
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+
 import static java.lang.String.format;
 
 import java.util.ArrayList;
@@ -19,7 +21,6 @@ import java.util.List;
 
 import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -65,7 +66,7 @@ public class ExpectedException implements TestRule {
   }
 
   public void expectAssertionError(AssertionErrorFactory assertionErrorFactory) {
-    AssertionError assertionError = assertionErrorFactory.newAssertionError(null, StandardRepresentation.STANDARD_REPRESENTATION);
+    AssertionError assertionError = assertionErrorFactory.newAssertionError(null, CONFIGURATION_PROVIDER.representation());
     delegate.expect(new ThrowableMatcher<>(AssertionError.class, assertionError.getMessage()));
   }
 

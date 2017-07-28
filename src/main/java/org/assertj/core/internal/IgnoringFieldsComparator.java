@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -53,6 +53,6 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   @Override
   public String toString() {
     return "field/property by field/property comparator on all fields/properties except "
-           + STANDARD_REPRESENTATION.toStringOf(fields);
+           + CONFIGURATION_PROVIDER.representation().toStringOf(fields);
   }
 }
