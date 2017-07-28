@@ -27,16 +27,14 @@ import java.util.Set;
 /**
  * @author Filip Hrisafov
  */
-public class BaseAssertionsTest {
+public abstract class BaseAssertionsTest {
 
   private static final int ACCESS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 
-  protected static final Comparator<Method> IGNORING_DECLARING_CLASS_AND_METHOD_NAME = internalMethodComparator(true,
-                                                                                                                false,
+  protected static final Comparator<Method> IGNORING_DECLARING_CLASS_AND_METHOD_NAME = internalMethodComparator(false,
                                                                                                                 true);
 
   protected static final Comparator<Method> IGNORING_DECLARING_CLASS_AND_RETURN_TYPE = internalMethodComparator(true,
-                                                                                                                true,
                                                                                                                 false);
 
   // Object is ignored because of the AssertProvider
@@ -58,8 +56,7 @@ public class BaseAssertionsTest {
     return matchingMethods.toArray(new Method[matchingMethods.size()]);
   }
 
-  private static Comparator<Method> internalMethodComparator(final boolean ignoreDeclaringClass,
-                                                             final boolean ignoreReturnType,
+  private static Comparator<Method> internalMethodComparator(final boolean ignoreReturnType,
                                                              final boolean ignoreMethodName) {
     return new Comparator<Method>() {
       @Override
@@ -68,21 +65,67 @@ public class BaseAssertionsTest {
         // the methods should be with the same access type
         // static vs not static is not important Soft vs Not Soft assertions
         boolean equal = (ACCESS_MODIFIERS & method1.getModifiers() & method2.getModifiers()) != 0;
-        equal = equal && (ignoreDeclaringClass || method1.getDeclaringClass().equals(method2.getDeclaringClass()));
-        equal = equal && (ignoreReturnType || canonize(method1.getGenericReturnType())
-          .equals(canonize(method2.getGenericReturnType())));
-        equal = equal && (ignoreMethodName || method1.getName().equals(method2.getName()));
+        equal = equal && (ignoreReturnType || sameGenericReturnType(method1, method2));
+        equal = equal && (ignoreMethodName || sameMethodName(method1, method2));
 
-        Type[] pTypes1 = method1.getGenericParameterTypes();
-        Type[] pTypes2 = method2.getGenericParameterTypes();
-        equal = equal && pTypes1.length == pTypes2.length;
-        if (equal) {
-          for (int i = 0; i < pTypes1.length; i++) {
-            equal = equal && canonize(pTypes1[i]).equals(canonize(pTypes2[i]));
-          }
-        }
+        equal = equal && sameGenericParameterTypes(method1, method2);
         return equal ? 0 : 1;
       }
     };
+  }
+
+  /**
+   * Checks if the methods have same generic parameter types.
+   *
+   * @param method1 the first method
+   * @param method2 the second method
+   * @return {@code true} if the methods have same generic parameters, {@code false} otherwise
+   */
+  private static boolean sameGenericParameterTypes(Method method1, Method method2) {
+    Type[] pTypes1 = method1.getGenericParameterTypes();
+    Type[] pTypes2 = method2.getGenericParameterTypes();
+    if (pTypes1.length != pTypes2.length) {
+      return false;
+    }
+
+    for (int i = 0; i < pTypes1.length; i++) {
+      if (!sameType(pTypes1[i], pTypes2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Checks if the methods have the same name.
+   *
+   * @param method1 the first method
+   * @param method2 the second method
+   * @return {@code true} if the methods have the same name, {@code false} otherwise
+   */
+  private static boolean sameMethodName(Method method1, Method method2) {
+    return method1.getName().equals(method2.getName());
+  }
+
+  /**
+   * Checks if the methods have same generic return type.
+   *
+   * @param method1 the first method
+   * @param method2 the second method
+   * @return {@code true} if the methods have same generic return type, {@code false} otherwise.
+   */
+  private static boolean sameGenericReturnType(Method method1, Method method2) {
+    return sameType(method1.getGenericReturnType(), method2.getGenericReturnType());
+  }
+
+  /**
+   * Checks if the types are equal.
+   *
+   * @param type1 the first type
+   * @param type2 the second type
+   * @return {@code true} if the types are equal, {@code false} otherwise
+   */
+  private static boolean sameType(Type type1, Type type2) {
+    return canonize(type1).equals(canonize(type2));
   }
 }
