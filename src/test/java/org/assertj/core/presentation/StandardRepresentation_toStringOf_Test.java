@@ -22,6 +22,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -291,6 +292,20 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
     assertThat(toStringOf(entry)).isEqualTo("MapEntry[key=\"A\", value=1]");
   }
 
+  @Test
+  public void should_return_toStringOf_method() {
+    Method method = null;
+    for (Method m : GenericClass.class.getMethods()) {
+      if (m.getName().equals("someGenericMethod")) {
+        method = m;
+        break;
+      }
+    }
+
+    assertThat(method).as("someGenericMethod in GenericClass").isNotNull();
+    assertThat(STANDARD_REPRESENTATION.toStringOf(method)).isEqualTo(method.toGenericString());
+  }
+
   private String toStringOf(Object o) {
     return STANDARD_REPRESENTATION.toStringOf(o);
   }
@@ -303,6 +318,13 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
     @Override
     public String toString() {
       return format("Person [name=%s, age=%s, account=%s]", name, age, account);
+    }
+  }
+
+  private static class GenericClass<T> {
+
+    public <R extends Integer> T someGenericMethod(R input, List<? extends R> list, T input2) {
+      return input2;
     }
   }
 
