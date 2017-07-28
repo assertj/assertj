@@ -14,6 +14,8 @@ package org.assertj.core.configuration;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A simple locator for SPI implementations.
@@ -21,6 +23,8 @@ import java.util.ServiceLoader;
  * @author Filip Hrisafov
  */
 class Services {
+
+  private static final Logger logger = Logger.getLogger(Services.class.getCanonicalName());
 
   private Services() {
   }
@@ -36,8 +40,10 @@ class Services {
       result = defaultValue;
     }
     if (services.hasNext()) {
-      throw new IllegalStateException(
-        "Multiple implementations have been found for the service provider interface");
+      result = defaultValue;
+      logger
+        .log(Level.WARNING, "Found multiple implementations for the service provider {0}. Using the default: {1}",
+             new Object[] { serviceType, result.getClass() });
     }
     return result;
   }
