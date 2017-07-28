@@ -1,2 +1,11 @@
 language: java
+
+# trusty is required for oraclejdk9
+dist: trusty
+
+jdk:
+  - openjdk7
+  - oraclejdk8
+  - oraclejdk9
+
 script: mvn clean verify
