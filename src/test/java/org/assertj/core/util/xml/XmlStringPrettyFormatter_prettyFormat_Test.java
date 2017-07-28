@@ -35,34 +35,51 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
   @Rule
   public ExpectedException thrown = none();
 
+  private String expected_formatted_xml;
+
   @Before
   public void before() {
-	// Set locale to be able to check exception message in English.
-	Locale.setDefault(ENGLISH);
+    // Set locale to be able to check exception message in English.
+    Locale.setDefault(ENGLISH);
+    if (System.getProperty("java.specification.version").equals("9")) {
+      // seems to be a bug in java 9
+      expected_formatted_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\">\n"
+                               + "    <channel>\n"
+                               + "        <title>Java Tutorials and Examples 1</title>\n"
+                               + "        <language>en-us</language>\n"
+                               + "    </channel>\n"
+                               + "</rss>\n";
+    } else {
+      expected_formatted_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                               + "<rss version=\"2.0\">\n"
+                               + "    <channel>\n"
+                               + "        <title>Java Tutorials and Examples 1</title>\n"
+                               + "        <language>en-us</language>\n"
+                               + "    </channel>\n"
+                               + "</rss>\n";
+    }
   }
-
-  private static final String EXPECTED_FORMATTED_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\">\n    <channel>\n"
-      + "        <title>Java Tutorials and Examples 1</title>\n"
-      + "        <language>en-us</language>\n"
-      + "    </channel>\n</rss>\n";
 
   @Test
   public void should_format_xml_string_prettily() {
     String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
-    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(EXPECTED_FORMATTED_XML);
+    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml);
   }
 
   @Test
   public void should_format_xml_string_without_xml_declaration_prettily() {
     String xmlString = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
-    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(
-        EXPECTED_FORMATTED_XML.substring("<?xml version='1.0' encoding='UTF-8'?>\n".length()));
+    if (System.getProperty("java.specification.version").equals("9")) {
+      assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml.substring("<?xml version='1.0' encoding='UTF-8'?>".length()));
+    } else {
+      assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml.substring("<?xml version='1.0' encoding='UTF-8'?>\n".length()));
+    }
   }
 
   @Test
   public void should_format_xml_string_with_space_and_newline_prettily() {
     String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel>  <title>Java Tutorials and Examples 1</title>  \n\n<language>en-us</language>  </channel></rss>";
-    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(EXPECTED_FORMATTED_XML);
+    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml);
   }
 
   @Test
