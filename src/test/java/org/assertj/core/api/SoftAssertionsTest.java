@@ -23,7 +23,6 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -569,15 +568,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_have_the_same_methods_as_in_bdd_soft_assertions() {
-    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
-    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
-
-    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
-                                 .containsExactlyInAnyOrder(thenMethods);
-  }
-
-  @Test
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(asList()).first();
@@ -708,7 +698,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(new AtomicBoolean(true)).isTrue();
     softly.assertThat(new AtomicInteger(1)).hasValueGreaterThan(0);
     softly.assertThat(new AtomicLong(1L)).hasValueGreaterThan(0L);
-    softly.assertThat(new AtomicReference<String>("abc")).hasValue("abc");
+    softly.assertThat(new AtomicReference<>("abc")).hasValue("abc");
     // atomic array value
     softly.assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3);
     softly.assertThat(new AtomicLongArray(new long[] {1L, 2L, 3L})).containsExactly(1L, 2L, 3L);
