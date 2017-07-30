@@ -51,6 +51,7 @@ public class AtomicLongArrayAssert
    * @throws AssertionError if the AtomicLongArray is not {@code null} or not empty.
    * @since 2.7.0 / 3.7.0
    */
+  @Override
   public void isNullOrEmpty() {
     if (actual == null) return;
     isEmpty();
@@ -69,6 +70,7 @@ public class AtomicLongArrayAssert
    * @throws AssertionError if the AtomicLongArray is not empty.
    * @since 2.7.0 / 3.7.0
    */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, array);
   }
@@ -87,6 +89,8 @@ public class AtomicLongArrayAssert
    * @throws AssertionError if the AtomicLongArray is empty.
    * @since 2.7.0 / 3.7.0
    */
+  @Override
+  @CheckReturnValue
   public AtomicLongArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, array);
     return myself;
@@ -113,7 +117,7 @@ public class AtomicLongArrayAssert
     arrays.assertContainsExactly(info, array, expected);
     return myself;
   }
-  
+
   /**
    * Verifies that the number of values in the AtomicLongArray is equal to the given one.
    * <p>
@@ -130,6 +134,7 @@ public class AtomicLongArrayAssert
    * @throws AssertionError if the number of values of the AtomicLongArray is not equal to the given one.
    * @since 2.7.0 / 3.7.0
    */
+  @Override
   public AtomicLongArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, array, expected);
     return myself;
@@ -156,6 +161,7 @@ public class AtomicLongArrayAssert
    * @throws AssertionError if actual AtomicLongArray and given {@code Iterable} don't have the same size.
    * @since 2.7.0 / 3.7.0
    */
+  @Override
   public AtomicLongArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, array, other);
     return myself;
@@ -567,4 +573,34 @@ public class AtomicLongArrayAssert
     return myself;
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> AtomicLongArray oneTwoThree = new AtomicLongArray(new long[] { 1L, 2L, 3L }); 
+   *
+   * // assertions will pass
+   * assertThat(oneTwoThree).containsAnyOf(2L)
+   *                        .containsAnyOf(2L, 3L)
+   *                        .containsAnyOf(1L, 2L, 3L)
+   *                        .containsAnyOf(1L, 2L, 3L, 4L)
+   *                        .containsAnyOf(5L, 6L, 7L, 2L);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf(4L);
+   * assertThat(oneTwoThree).containsAnyOf(4L, 5L, 6L, 7L);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public AtomicLongArrayAssert containsAnyOf(long... values) {
+    arrays.assertContainsAnyOf(info, array, values);
+    return myself;
   }
+
+}

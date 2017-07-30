@@ -221,7 +221,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> SoftAssertionIterableAssert<T> then(Iterator<T> actual) {
+  public <T> SoftAssertionIterableAssert<T> then(Iterator<? extends T> actual) {
     return proxy(SoftAssertionIterableAssert.class, Iterator.class, actual);
   }
 

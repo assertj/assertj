@@ -451,7 +451,7 @@ public class Assertions {
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
+  public static <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return new FutureAssert<>(actual);
   }
 
@@ -567,6 +567,7 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   //@format:off
+  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -599,6 +600,7 @@ public class Assertions {
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
                                                                                           Class<ELEMENT_ASSERT> assertClass) {
@@ -639,6 +641,7 @@ public class Assertions {
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -671,6 +674,7 @@ public class Assertions {
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                       Class<ELEMENT_ASSERT> assertClass) {
@@ -765,22 +769,6 @@ public class Assertions {
    */
   @CheckReturnValue
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
-    return AssertionsForClassTypes.assertThat(actual);
-  }
-
-  /**
-   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#assertThat()} of the given component.
-   *
-   * <p>
-   * Read the comments on {@link AssertProvider} for an example of its usage.
-   * </p>
-   * @param <T> the generic type of the assert provided by the component.
-   * @param component
-   *          the component that creates its own assert
-   * @return the associated {@link Assert} of the given component
-   */
-  @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1127,7 +1115,7 @@ public class Assertions {
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
    *   // when
-   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
+   *   Throwable thrown = catchThrowable(() -&gt; { throw new Exception("boom!"); });
    *
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
@@ -2376,6 +2364,17 @@ public class Assertions {
   @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}from a {@link String}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
+    return AssertionsForClassTypes.assertThat(actual);
   }
 
   /**

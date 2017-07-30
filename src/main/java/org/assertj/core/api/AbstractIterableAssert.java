@@ -700,7 +700,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if the array of values is empty and the {@code Iterable} under test is not empty.
    * @throws AssertionError if the {@code Iterable} under test is {@code null}.
    * @throws AssertionError if the {@code Iterable} under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
    */
+  @Override
   public SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values) {
     iterables.assertContainsAnyOf(info, actual, values);
     return myself;
@@ -729,10 +731,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if the iterable of expected values is empty and the {@code Iterable} under test is not empty.
    * @throws AssertionError if the {@code Iterable} under test is {@code null}.
    * @throws AssertionError if the {@code Iterable} under test does not contain any of elements from the given {@code Iterable}.
+   * @since 2.9.0 / 3.9.0
    */
+  @Override
   public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable) {
-    containsAnyOf(toArray(iterable));
-    return myself;
+    return containsAnyOf(toArray(iterable));
   }
 
   /**

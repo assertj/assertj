@@ -41,14 +41,21 @@ public class DoubleArrays {
 
   private Arrays arrays = Arrays.instance();
 
-  private Failures failures = Failures.instance();
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
-  private DoubleArrays() {
+  @VisibleForTesting
+  DoubleArrays() {
     this(StandardComparisonStrategy.instance());
   }
 
   public DoubleArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -332,5 +339,9 @@ public class DoubleArrays {
   public void assertIsSortedAccordingToComparator(AssertionInfo info, double[] actual,
                                                   Comparator<? super Double> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, double[] actual, double[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }

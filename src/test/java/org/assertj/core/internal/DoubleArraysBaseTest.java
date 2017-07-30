@@ -14,12 +14,10 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.test.DoubleArrays.arrayOf;
 import static org.assertj.core.test.ExpectedException.none;
+import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.DoubleArrays;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
@@ -44,6 +42,7 @@ public class DoubleArraysBaseTest {
    */
   protected double[] actual;
   protected DoubleArrays arrays;
+  protected Failures failures;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected DoubleArrays arraysWithCustomComparisonStrategy;
@@ -52,9 +51,12 @@ public class DoubleArraysBaseTest {
 
   @Before
   public void setUp() {
-    arrays = DoubleArrays.instance();
+    failures = spy(new Failures());
+    arrays = new DoubleArrays();
+    arrays.failures = failures;
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     arraysWithCustomComparisonStrategy = new DoubleArrays(absValueComparisonStrategy);
+    arraysWithCustomComparisonStrategy.failures = failures;
     initActualArray();
   }
 
@@ -64,6 +66,10 @@ public class DoubleArraysBaseTest {
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return absValueComparator;
+  }
+
+  protected void setArrays(Arrays internalArrays) {
+    arrays.setArrays(internalArrays);
   }
 
 }

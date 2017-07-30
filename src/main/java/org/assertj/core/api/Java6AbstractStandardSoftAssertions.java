@@ -222,7 +222,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> SoftAssertionIterableAssert<T> assertThat(Iterator<T> actual) {
+  public <T> SoftAssertionIterableAssert<T> assertThat(Iterator<? extends T> actual) {
     return proxy(SoftAssertionIterableAssert.class, Iterator.class, actual);
   }
 
@@ -278,7 +278,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    */
   @CheckReturnValue
   @SuppressWarnings("unchecked")
-  public <RESULT> FutureAssert<RESULT> assertThat(Future<? extends RESULT> actual) {
+  public <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return proxy(FutureAssert.class, Future.class, actual);
   }
 

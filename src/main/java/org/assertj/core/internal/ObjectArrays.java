@@ -59,7 +59,12 @@ public class ObjectArrays {
   }
 
   public ObjectArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -593,6 +598,10 @@ public class ObjectArrays {
    */
   public <E> void assertContainsAll(AssertionInfo info, E[] actual, Iterable<? extends E> other) {
     arrays.assertcontainsAll(info, failures, actual, other);
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, Object[] actual, Object[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 
 }

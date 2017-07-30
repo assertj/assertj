@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElements
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
@@ -41,9 +42,7 @@ import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContai
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
-import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
-import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -51,6 +50,8 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
+import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
+import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
@@ -100,7 +101,7 @@ public class Arrays {
    * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
-  static Arrays instance() {
+  public static Arrays instance() {
     return INSTANCE;
   }
 
@@ -561,6 +562,19 @@ public class Arrays {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
     if (matchingElements.size() != times)
       throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, Failures failures, Object actual, Object values) {
+    if (commonChecks(info, actual, values)) return;
+    assertIsArray(info, actual);
+    assertIsArray(info, values);
+
+    List<Object> valuesToSearchFor = asList(values);
+    for (Object element : asList(actual)) {
+      if (iterableContains(valuesToSearchFor, element)) return;
+    }
+    throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
+
   }
 
   private <E> List<E> getElementsMatchingCondition(AssertionInfo info, Failures failures, Conditions conditions,

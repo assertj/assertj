@@ -50,7 +50,12 @@ public class FloatArrays {
   }
 
   public FloatArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -320,4 +325,7 @@ public class FloatArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  public <E> void assertContainsAnyOf(AssertionInfo info, float[] actual, float[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
+  }
 }

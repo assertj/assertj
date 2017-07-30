@@ -14,13 +14,8 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.ExpectedException.none;
-
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.internal.BooleanArrays;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,6 +44,10 @@ public class BooleanArraysBaseTest {
     failures = spy(new Failures());
     arrays = new BooleanArrays();
     arrays.failures = failures;
+  }
+
+  protected void setArrays(Arrays internalArrays) {
+    arrays.setArrays(internalArrays);
   }
 
 }

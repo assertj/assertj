@@ -868,4 +868,34 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
     return usingElementComparator(floatComparator.floatComparatorWithPrecision(precision));
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> float[] oneTwoThree = { 1.0f, 2.0f, 3.0f }; 
+   *
+   * // assertions will pass
+   * assertThat(oneTwoThree).containsAnyOf(2.0f)
+   *                        .containsAnyOf(2.0f, 3.0f)
+   *                        .containsAnyOf(1.0f, 2.0f, 3.0f)
+   *                        .containsAnyOf(1.0f, 2.0f, 3.0f, 4.0f)
+   *                        .containsAnyOf(5.0f, 6.0f, 7.0f, 2.0f);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf(4.0f);
+   * assertThat(oneTwoThree).containsAnyOf(4.0f, 5.0f, 6.0f, 7.0f);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(float... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
+
 }

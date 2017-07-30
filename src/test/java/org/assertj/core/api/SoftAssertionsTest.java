@@ -25,7 +25,6 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -138,7 +137,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
-      assertThat(e.getMessage()).contains(String.format("%nExpecting:%n"
+      List<String> errors = e.getErrors();
+      assertThat(errors).contains(String.format("%nExpecting:%n"
                                                         + " <{\"54\"=\"55\"}>%n"
                                                         + "to contain:%n"
                                                         + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
@@ -567,10 +567,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
-      List<String> errors = e.getErrors();
-      assertThat(errors.get(0)).startsWith("error 1");
-      assertThat(errors.get(1)).startsWith("error 2");
-      assertThat(errors.get(2)).startsWith("error 3");
+      assertThat(e.getErrors()).containsExactly("error 1", "error 2", "error 3");
     }
   }
 
@@ -590,16 +587,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
-      List<String> errors = e.getErrors();
-      assertThat(errors.get(0)).startsWith("error 1");
-      assertThat(errors.get(1)).startsWith("error 2");
+      assertThat(e.getErrors()).containsExactly("error 1", "error 2");
     }
   }
 
   @Test
   public void should_collect_all_errors_when_using_filtering() throws Exception {
 
-    softly.assertThat(newLinkedHashSet(homer, fred))
+    softly.assertThat(asList(homer, fred))
           .filteredOn("name", "Homer Simpson")
           .hasSize(10)
           .isEmpty();
@@ -608,9 +603,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
-      List<String> errors = e.getErrors();
-      assertThat(errors.get(0)).startsWith(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"));
-      assertThat(errors.get(1)).startsWith(format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
+      assertThat(e.getErrors()).containsOnly(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"),
+                                             format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
     }
   }
 
@@ -738,15 +732,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
     assertThat(softly.errorsCollected()).hasSize(4);
-  }
-
-  @Test
-  public void bdd_soft_assertions_should_have_the_same_methods_as_in_standard_soft_assertions() {
-    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
-    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
-
-    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
-                                 .containsExactlyInAnyOrder(thenMethods);
   }
 
   private static Name name(String first, String last) {

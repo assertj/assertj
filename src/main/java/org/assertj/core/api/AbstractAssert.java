@@ -13,9 +13,8 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Comparator;

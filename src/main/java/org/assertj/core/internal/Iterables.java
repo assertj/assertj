@@ -476,7 +476,8 @@ public class Iterables {
     return failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
-  private AssertionError actualDoesContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence, int index) {
+  private AssertionError actualDoesContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence,
+                                                   int index) {
     return failures.failure(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
   }
 
@@ -991,8 +992,7 @@ public class Iterables {
 
     Set<Object> valuesToSearchFor = newTreeSet(values);
     for (Object element : actual) {
-      if (iterableContains(valuesToSearchFor, element))
-        return;
+      if (iterableContains(valuesToSearchFor, element)) return;
     }
     throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
   }

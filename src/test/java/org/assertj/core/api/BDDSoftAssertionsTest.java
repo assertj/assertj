@@ -20,7 +20,6 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -297,7 +296,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(new AtomicBoolean(true)).isTrue();
     softly.then(new AtomicInteger(1)).hasValueGreaterThan(0);
     softly.then(new AtomicLong(1L)).hasValueGreaterThan(0L);
-    softly.then(new AtomicReference<String>("abc")).hasValue("abc");
+    softly.then(new AtomicReference<>("abc")).hasValue("abc");
     // atomic array value
     softly.then(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3);
     softly.then(new AtomicLongArray(new long[] {1L, 2L, 3L})).containsExactly(1L, 2L, 3L);
@@ -305,13 +304,4 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.assertAll();
   }
   
-  @Test
-  public void should_have_the_same_methods_as_in_standard_soft_assertions() {
-    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
-    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
-
-    assertThat(thenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
-                           .containsExactlyInAnyOrder(assertThatMethods);
-  }
-
 }
