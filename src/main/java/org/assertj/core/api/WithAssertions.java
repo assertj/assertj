@@ -568,7 +568,7 @@ public interface WithAssertions {
    * @since 3.7.0
    */
   @CheckReturnValue
-  default <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
+  default <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -640,7 +640,7 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
   @CheckReturnValue
-  default <T> ListAssert<? extends T> assertThat(final List<? extends T> actual) {
+  default <T> ListAssert<T> assertThat(final List<? extends T> actual) {
     return Assertions.assertThat(actual);
   }
 
