@@ -54,7 +54,10 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-import java.util.stream.BaseStream;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
@@ -665,8 +668,31 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
   @CheckReturnValue
-  default <ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> AbstractListAssert<?, ? extends List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(
-      final BaseStream<? extends ELEMENT, STREAM> actual) {
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(DoubleStream)}
+   */
+  @CheckReturnValue
+  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LongStream)}
+   */
+  @CheckReturnValue
+  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(IntStream)}
+   */
+  @CheckReturnValue
+  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
     return Assertions.assertThat(actual);
   }
   

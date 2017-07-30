@@ -19,6 +19,9 @@ import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.BaseStream;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Failures;
@@ -45,9 +48,23 @@ public class ListAssert<ELEMENT> extends
     super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
 
-  @SuppressWarnings("unchecked")
-  protected <STREAM extends BaseStream<ELEMENT, STREAM>> ListAssert(BaseStream<? extends ELEMENT, STREAM> actual) {
-    this(actual == null ? null : new ListFromStream<>((BaseStream<ELEMENT, STREAM>) actual));
+  protected ListAssert(Stream<? extends ELEMENT> actual) {
+    this(actual == null ? null : new ListFromStream<>(actual));
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  protected ListAssert(IntStream actual) {
+    this(actual == null ? null : new ListFromStream(actual));
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  protected ListAssert(LongStream actual) {
+    this(actual == null ? null : new ListFromStream(actual));
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  protected ListAssert(DoubleStream actual) {
+    this(actual == null ? null : new ListFromStream(actual));
   }
 
   @Override

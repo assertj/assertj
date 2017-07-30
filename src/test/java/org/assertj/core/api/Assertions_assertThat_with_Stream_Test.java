@@ -167,6 +167,14 @@ public class Assertions_assertThat_with_Stream_Test {
                                            .isEqualTo(stream2);
   }
 
+  @Test
+  public void stream_with_upper_bound_assertions() {
+    // GIVEN
+    Stream<? extends Foo> foos = Stream.of();
+    // THEN
+    assertThat(foos).hasSize(0);
+  }
+
   public static class Foo {
     private String id;
     private int bar;

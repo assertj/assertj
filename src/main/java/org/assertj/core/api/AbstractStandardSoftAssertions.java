@@ -30,7 +30,10 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-import java.util.stream.BaseStream;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import org.assertj.core.util.CheckReturnValue;
 
@@ -242,22 +245,67 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
   }
 
   /**
-   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link BaseStream}.
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link BaseStream} is consumed so it won't be
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link BaseStream}.
+   * interacts with the {@link List} built from the {@link Stream}.
    *
-   * <p>This method accepts {@link java.util.stream.Stream} and primitive stream variants
-   * {@link java.util.stream.IntStream}, {@link java.util.stream.LongStream} and {@link java.util.stream.DoubleStream}.
-   *
-   * @param actual the actual {@link BaseStream} value.
+   * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
-  public <ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> ListAssert<ELEMENT> assertThat(BaseStream<? extends ELEMENT, STREAM> actual) {
-    return proxy(ListAssert.class, BaseStream.class, actual);
+  @CheckReturnValue
+  public <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+    return proxy(ListAssert.class, Stream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link DoubleStream}.
+   *
+   * @param actual the actual {@link DoubleStream} value.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+    return proxy(ListAssert.class, DoubleStream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link LongStream}.
+   *
+   * @param actual the actual {@link LongStream} value.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+    return proxy(ListAssert.class, LongStream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link IntStream}.
+   *
+   * @param actual the actual {@link IntStream} value.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
+    return proxy(ListAssert.class, IntStream.class, actual);
   }
 
 }

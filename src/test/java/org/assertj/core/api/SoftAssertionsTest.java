@@ -51,6 +51,9 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -636,8 +639,10 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_work_with_stream() {
-    Stream<String> stream = Stream.of("a", "b", "c");
-    softly.assertThat(stream).contains("a", "b", "c");
+    softly.assertThat(Stream.of("a", "b", "c")).contains("a", "b", "c");
+    softly.assertThat(IntStream.of(1, 2, 3)).contains(1, 2, 3);
+    softly.assertThat(LongStream.of(1, 2, 3)).contains(1L, 2L, 3L);
+    softly.assertThat(DoubleStream.of(1, 2, 3)).contains(1.0, 2.0, 3.0);
     softly.assertAll();
   }
 
