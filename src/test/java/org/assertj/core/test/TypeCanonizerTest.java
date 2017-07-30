@@ -34,6 +34,7 @@ public class TypeCanonizerTest {
   private interface Asssert<T> {
   }
 
+  @SuppressWarnings("unused")
   private static class Api {
 
     public static <T> Asssert<T> m(List<? extends T> in) {

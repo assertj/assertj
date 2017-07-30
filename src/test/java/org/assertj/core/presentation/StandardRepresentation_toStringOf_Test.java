@@ -323,7 +323,8 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   private static class GenericClass<T> {
 
-    public <R extends Integer> T someGenericMethod(R input, List<? extends R> list, T input2) {
+    @SuppressWarnings("unused")
+    public <R extends File> T someGenericMethod(R input, List<? extends R> list, T input2) {
       return input2;
     }
   }
