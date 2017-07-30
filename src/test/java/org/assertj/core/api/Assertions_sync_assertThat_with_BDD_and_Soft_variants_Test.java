@@ -45,6 +45,19 @@ public class Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends 
   }
 
   @Test
+  public void standard_assertions_and_with_assertions_should_have_the_same_non_assertions_methods() {
+
+    Set<Method> nonAssertionsMethods = newHashSet(Arrays.asList(Assertions.class.getDeclaredMethods()));
+    nonAssertionsMethods.removeIf(method -> method.getName().equals("assertThat"));
+
+    Set<Method> nonWithAssertionsMethods = newHashSet(Arrays.asList(WithAssertions.class.getDeclaredMethods()));
+    nonWithAssertionsMethods.removeIf(method -> method.getName().equals("assertThat"));
+
+    assertThat(nonWithAssertionsMethods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+                                        .containsExactlyInAnyOrderElementsOf(nonAssertionsMethods);
+  }
+
+  @Test
   public void standard_assertions_and_soft_assertions_should_have_the_same_assertions_methods() {
     // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
     // the soft assertions we need to ignore them
