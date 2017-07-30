@@ -12,6 +12,13 @@
  */
 package org.assertj.core.api.throwable;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.test.ExpectedException.none;
+
+import java.util.NoSuchElementException;
+import java.util.function.Function;
+
 import org.assertj.core.api.ThrowableTypeAssert;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.test.ExpectedException;
@@ -20,13 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import java.util.NoSuchElementException;
-import java.util.function.Function;
-
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.test.ExpectedException.none;
 
 @RunWith(Parameterized.class)
 public class ThrowableTypeAssert_description_Test {
@@ -43,10 +43,10 @@ public class ThrowableTypeAssert_description_Test {
   @Parameters
   public static Object[][] getParameters() {
     return new Function[][] {
-        { t -> ((ThrowableTypeAssert) t).as("test description") },
-        { t -> ((ThrowableTypeAssert) t).describedAs("test description") },
-        { t -> ((ThrowableTypeAssert) t).as(new TextDescription("%s description", "test")) },
-        { t -> ((ThrowableTypeAssert) t).describedAs(new TextDescription("%s description", "test")) }
+        { t -> ((ThrowableTypeAssert<?>) t).as("test description") },
+        { t -> ((ThrowableTypeAssert<?>) t).describedAs("test description") },
+        { t -> ((ThrowableTypeAssert<?>) t).as(new TextDescription("%s description", "test")) },
+        { t -> ((ThrowableTypeAssert<?>) t).describedAs(new TextDescription("%s description", "test")) }
     };
   }
 
