@@ -13,8 +13,11 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Sets.newHashSet;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -30,6 +33,28 @@ public class Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends 
 
     assertThat(thenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
                            .containsExactlyInAnyOrder(assertThatMethods);
+  }
+
+  @Test
+  public void standard_assertions_and_with_assertions_should_have_the_same_assertions_methods() {
+    Method[] assertionsMethods = findMethodsWithName(Assertions.class, "assertThat");
+    Method[] withAssertionsMethods = findMethodsWithName(WithAssertions.class, "assertThat");
+
+    assertThat(withAssertionsMethods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+                                     .containsExactlyInAnyOrder(assertionsMethods);
+  }
+
+  @Test
+  public void standard_assertions_and_with_assertions_should_have_the_same_non_assertions_methods() {
+
+    Set<Method> nonAssertionsMethods = newHashSet(Arrays.asList(Assertions.class.getDeclaredMethods()));
+    nonAssertionsMethods.removeIf(method -> method.getName().equals("assertThat"));
+
+    Set<Method> nonWithAssertionsMethods = newHashSet(Arrays.asList(WithAssertions.class.getDeclaredMethods()));
+    nonWithAssertionsMethods.removeIf(method -> method.getName().equals("assertThat"));
+
+    assertThat(nonWithAssertionsMethods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+                                        .containsExactlyInAnyOrderElementsOf(nonAssertionsMethods);
   }
 
   @Test

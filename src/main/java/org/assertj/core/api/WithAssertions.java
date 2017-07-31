@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -28,6 +29,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +53,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.function.DoublePredicate;
+import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
@@ -61,13 +64,19 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -112,6 +121,14 @@ public interface WithAssertions {
    */
   default void fail(final String failureMessage) {
     Assertions.fail(failureMessage);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#fail(String, Object...)}
+   * @since 3.9.0
+   */
+  default void fail(String failureMessage, Object... args) {
+    Assertions.fail(failureMessage, args);
   }
 
   /**
@@ -568,7 +585,7 @@ public interface WithAssertions {
    * @since 3.7.0
    */
   @CheckReturnValue
-  default <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
+  default <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -640,7 +657,7 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
   @CheckReturnValue
-  default <T> ListAssert<? extends T> assertThat(final List<? extends T> actual) {
+  default <T> ListAssert<T> assertThat(final List<? extends T> actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -754,6 +771,174 @@ public interface WithAssertions {
   }
 
   /**
+   * Delegate call to {@link Assertions#within(Double)}
+   * @since 3.9.0
+   */
+  default Offset<Double> withPrecision(Double value) {
+    return Assertions.offset(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#within(Float)}
+   * @since 3.9.0
+   */
+  default Offset<Float> withPrecision(Float value) {
+    return Assertions.offset(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#within(BigInteger)}
+   * @since 3.9.0
+   */
+  default Offset<BigInteger> within(BigInteger value) {
+    return Assertions.within(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#within(Byte)}
+   * @since 3.9.0
+   */
+  default Offset<Byte> within(Byte value) {
+    return Assertions.within(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#within(Integer)}
+   * @since 3.9.0
+   */
+  default Offset<Integer> within(Integer value) {
+    return Assertions.within(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#within(Short)}
+   * @since 3.9.0
+   */
+  default Offset<Short> within(Short value) {
+    return Assertions.within(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#within(Long)}
+   * @since 3.9.0
+   */
+  default Offset<Long> within(Long value) {
+    return Assertions.within(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#within(long, TemporalUnit)}
+   * @since 3.9.0
+   */
+  default TemporalUnitOffset within(long value, TemporalUnit unit) {
+    return Assertions.within(value, unit);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#withinPercentage(Double)}
+   * @since 3.9.0
+   */
+  default Percentage withinPercentage(Double value) {
+    return Assertions.withinPercentage(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#withinPercentage(Integer)}
+   * @since 3.9.0
+   */
+  default Percentage withinPercentage(Integer value) {
+    return Assertions.withinPercentage(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#withinPercentage(Long)}
+   * @since 3.9.0
+   */
+  default Percentage withinPercentage(Long value) {
+    return Assertions.withinPercentage(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(Double)}
+   * @since 3.9.0
+   */
+  default Offset<Double> byLessThan(Double value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(Float)}
+   * @since 3.9.0
+   */
+  default Offset<Float> byLessThan(Float value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(BigDecimal)}
+   * @since 3.9.0
+   */
+  default Offset<BigDecimal> byLessThan(BigDecimal value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(BigInteger)}
+   * @since 3.9.0
+   */
+  default Offset<BigInteger> byLessThan(BigInteger value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(Byte)}
+   * @since 3.9.0
+   */
+  default Offset<Byte> byLessThan(Byte value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(Integer)}
+   * @since 3.9.0
+   */
+  default Offset<Integer> byLessThan(Integer value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(Short)}
+   * @since 3.9.0
+   */
+  default Offset<Short> byLessThan(Short value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(Long)}
+   * @since 3.9.0
+   */
+  default Offset<Long> byLessThan(Long value) {
+    return Assertions.byLessThan(value);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#byLessThan(long, TemporalUnit)}
+   * @since 3.9.0
+   */
+  default TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
+    return Assertions.byLessThan(value, unit);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#from(Function)}
+   * @since 3.9.0
+   */
+  default <F, T> Function<F, T> from(Function<F, T> extractor) {
+    return Assertions.from(extractor);
+  }
+
+  /**
    * Delegate call to {@link org.assertj.core.api.Assertions#anyOf(Iterable)}
    */
   default <T> Condition<T> anyOf(final Iterable<? extends Condition<? super T>> conditions) {
@@ -831,10 +1016,50 @@ public interface WithAssertions {
   }
 
   /**
+   * Delegate call to {@link Assertions#shouldHaveThrown(Class)}
+   * @since 3.9.0
+   */
+  default void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+    Assertions.shouldHaveThrown(throwableClass);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#setMaxLengthForSingleLineDescription(int)}
+   * @since 3.9.0
+   */
+  default void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
+    Assertions.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#setMaxElementsForPrinting(int)}
+   * @since 3.9.0
+   */
+  default void setMaxElementsForPrinting(int maxElementsForPrinting) {
+    Assertions.setMaxElementsForPrinting(maxElementsForPrinting);
+  }
+  
+  /**
    * Delegate call to {@link org.assertj.core.api.Assertions#setAllowExtractingPrivateFields}
    */
   default void setAllowExtractingPrivateFields(final boolean actual) {
     Assertions.setAllowExtractingPrivateFields(actual);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#setAllowComparingPrivateFields(boolean)}
+   * @since 3.9.0
+   */
+  default void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
+    Assertions.setAllowComparingPrivateFields(allowComparingPrivateFields);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#setLenientDateParsing(boolean)}
+   * @since 3.9.0
+   */
+  default void setLenientDateParsing(boolean value) {
+    Assertions.setLenientDateParsing(value);
   }
 
   /**
@@ -1021,6 +1246,50 @@ public interface WithAssertions {
   }
 
   /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.9.0
+   */
+  @CheckReturnValue
+  default ThrowableTypeAssert<NullPointerException> assertThatNullPointerException() {
+    return assertThatExceptionOfType(NullPointerException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.9.0
+   */
+  @CheckReturnValue
+  default ThrowableTypeAssert<IllegalArgumentException> assertThatIllegalArgumentException() {
+    return assertThatExceptionOfType(IllegalArgumentException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.9.0
+   */
+  @CheckReturnValue
+  default ThrowableTypeAssert<IOException> assertThatIOException() {
+    return assertThatExceptionOfType(IOException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.9.0
+   */
+  @CheckReturnValue
+  default ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
+    return assertThatExceptionOfType(IllegalStateException.class);
+  }
+
+  /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Predicate)}
    */
   default <T> PredicateAssert<T> assertThat(final Predicate<T> actual) {
@@ -1085,5 +1354,105 @@ public interface WithAssertions {
    */
   default <E> Filters<E> filter(final Iterable<E> iterableToFilter) {
     return Assertions.filter(iterableToFilter);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#in(Object...)}
+   * @since 3.9.0
+   */
+  default InFilter in(Object... values) {
+    return Assertions.in(values);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#notIn(Object...)}
+   * @since 3.9.0
+   */
+  default NotInFilter notIn(Object... valuesNotToMatch) {
+    return Assertions.notIn(valuesNotToMatch);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#not(Object)}
+   * @since 3.9.0
+   */
+  default NotFilter not(Object valueNotToMatch) {
+    return Assertions.not(valueNotToMatch);
+  }
+
+  // --------------------------------------------------------------------------------------------------
+  // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.
+  // --------------------------------------------------------------------------------------------------
+
+  /**
+   * Delegate call to {@link Assertions#contentOf(URL, Charset)}
+   * @since 3.9.0
+   */
+  default String contentOf(URL url, Charset charset) {
+    return Assertions.contentOf(url, charset);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#contentOf(URL, String)}
+   * @since 3.9.0
+   */
+  default String contentOf(URL url, String charsetName) {
+    return Assertions.contentOf(url, charsetName);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#contentOf(URL)}
+   * @since 3.9.0
+   */
+  default String contentOf(URL url) {
+    return Assertions.contentOf(url);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#linesOf(URL)}
+   * @since 3.9.0
+   */
+  default List<String> linesOf(URL url) {
+    return Assertions.linesOf(url);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#linesOf(URL, Charset)}
+   * @since 3.9.0
+   */
+  default List<String> linesOf(URL url, Charset charset) {
+    return Assertions.linesOf(url, charset);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#linesOf(URL, String)}
+   * @since 3.9.0
+   */
+  default List<String> linesOf(URL url, String charsetName) {
+    return Assertions.linesOf(url, charsetName);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#useRepresentation(Representation)}
+   * @since 3.9.0
+   */
+  default void useRepresentation(Representation customRepresentation) {
+    Assertions.useRepresentation(customRepresentation);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#registerFormatterForType(Class, Function)}
+   * @since 3.9.0
+   */
+  default <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
+    Assertions.registerFormatterForType(type, formatter);
+  }
+
+  /**
+   * Delegate call to {@link Assertions#useDefaultRepresentation()}
+   * @since 3.9.0
+   */
+  default void useDefaultRepresentation() {
+    Assertions.useDefaultRepresentation();
   }
 }
