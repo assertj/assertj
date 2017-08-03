@@ -30,6 +30,7 @@ import org.junit.Test;
  * @author Filip Hrisafov
  * @author Clement Mathieu
  */
+@SuppressWarnings("unused")
 public class TypeCanonizerTest {
   private interface Asssert<T> {
   }

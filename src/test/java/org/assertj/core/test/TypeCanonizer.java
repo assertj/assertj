@@ -12,8 +12,6 @@
  */
 package org.assertj.core.test;
 
-import com.google.common.reflect.TypeResolver;
-
 import java.io.InputStream;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -27,6 +25,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import com.google.common.reflect.TypeResolver;
 
 /**
  * A Type canonizar that helps with the resolving of a {@link Type} so it can be compared to a similar one
@@ -54,7 +54,7 @@ public class TypeCanonizer {
     ReplacementClassSupplier replacementClassSupplier = new ReplacementClassSupplier();
     TypeResolver typeResolver = new TypeResolver();
 
-    for (TypeVariable typeVariable : findAllTypeVariables(initialType)) {
+    for (TypeVariable<?> typeVariable : findAllTypeVariables(initialType)) {
       // Once we have all TypeVariable we need to resolve them with actual classes so the typeResolver can resolve
       // them properly
       typeResolver = typeResolver.where(typeVariable, replacementClassSupplier.get());
@@ -74,8 +74,8 @@ public class TypeCanonizer {
    * @param type the type for which all type variables need to be extracted
    * @return all {@code type}'s {@link TypeVariable}
    */
-  private static Set<TypeVariable> findAllTypeVariables(Type type) {
-    Set<TypeVariable> typeVariables = new LinkedHashSet<>();
+  private static Set<TypeVariable<?>> findAllTypeVariables(Type type) {
+    Set<TypeVariable<?>> typeVariables = new LinkedHashSet<>();
     populateAllTypeVariables(typeVariables, type);
     return typeVariables;
   }
@@ -86,7 +86,7 @@ public class TypeCanonizer {
    * @param typeVariables that need to be populated
    * @param types the types for which the {@link TypeVariable}(s) need to be extracted
    */
-  private static void populateAllTypeVariables(Set<TypeVariable> typeVariables, Type... types) {
+  private static void populateAllTypeVariables(Set<TypeVariable<?>> typeVariables, Type... types) {
     for (Type type : types) {
       if (type instanceof ParameterizedType) {
         populateAllTypeVariables(typeVariables, ((ParameterizedType) type).getActualTypeArguments());
@@ -96,7 +96,7 @@ public class TypeCanonizer {
       } else if (type instanceof GenericArrayType) {
         populateAllTypeVariables(typeVariables, ((GenericArrayType) type).getGenericComponentType());
       } else if (type instanceof TypeVariable) {
-        typeVariables.add((TypeVariable) type);
+        typeVariables.add((TypeVariable<?>) type);
       }
     }
   }
