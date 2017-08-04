@@ -12,30 +12,19 @@
  */
 package org.assertj.core.api.assumptions;
 
-import org.junit.AfterClass;
-import org.junit.Test;
+abstract class AssumptionRunner<T> {
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
+  protected final T actual;
 
-public class Assumptions_assumeThat_String_Test {
-
-  private static int ranTests = 0;
-
-  @Test
-  public void should_ignore_test_when_assumption_fails() {
-    assumeThat("test").isNotBlank().isEqualTo("other");
-    assertThat(true).isFalse();
+  protected AssumptionRunner() {
+    this.actual = null;
   }
 
-  @Test
-  public void should_run_test_when_assumption_passes() {
-    assumeThat("test").isNotBlank().isEqualTo("test");
-    ranTests++;
+  protected AssumptionRunner(T actual) {
+    this.actual = actual;
   }
 
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).isEqualTo(1);
-  }
+  protected abstract void runFailingAssumption();
+
+  protected abstract void runPassingAssumption();
 }

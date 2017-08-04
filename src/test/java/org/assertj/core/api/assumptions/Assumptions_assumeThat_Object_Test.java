@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.assumptions;
 
+import org.assertj.core.test.Jedi;
 import org.junit.AfterClass;
 import org.junit.Test;
 
@@ -46,6 +47,13 @@ public class Assumptions_assumeThat_Object_Test {
   public void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
     Object listObject = asList(1, 2, 3);
     assumeThat(listObject).isNotNull().asList().hasSize(2);
+    assertThat(true).isFalse();
+  }
+
+  @Test
+  public void should_ignore_test_when_assumption_for_extracted_fields_fails() {
+    Jedi jedi = new Jedi("Yoda", "green");
+    assumeThat(jedi).isNotNull().extracting("name").contains("Luke");
     assertThat(true).isFalse();
   }
 
