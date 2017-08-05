@@ -26,6 +26,7 @@ public class IterableSizeAssert<T> extends AbstractIterableSizeAssert<IterableAs
     this.source = source;
   }
 
+  @Override
   @CheckReturnValue
   public AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> returnToIterable() {
     return source;
