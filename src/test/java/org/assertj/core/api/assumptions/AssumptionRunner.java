@@ -16,11 +16,11 @@ abstract class AssumptionRunner<T> {
 
   protected final T actual;
 
-  protected AssumptionRunner() {
+  AssumptionRunner() {
     this.actual = null;
   }
 
-  protected AssumptionRunner(T actual) {
+  AssumptionRunner(T actual) {
     this.actual = actual;
   }
 

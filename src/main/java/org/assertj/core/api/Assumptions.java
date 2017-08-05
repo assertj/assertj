@@ -45,6 +45,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.util.Arrays.array;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
@@ -62,7 +63,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <T> AbstractObjectAssert<?, T> assumeThat(T actual) {
-    return enhanceAsAssumption(ObjectAssert.class, Object.class, actual);
+    return asAssumption(ObjectAssert.class, Object.class, actual);
   }
 
   /**
@@ -73,7 +74,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractCharSequenceAssert<?, String> assumeThat(String actual) {
-    return enhanceAsAssumption(StringAssert.class, String.class, actual);
+    return asAssumption(StringAssert.class, String.class, actual);
   }
 
   /**
@@ -84,7 +85,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractBigDecimalAssert<?> assumeThat(BigDecimal actual) {
-    return enhanceAsAssumption(BigDecimalAssert.class, BigDecimal.class, actual);
+    return asAssumption(BigDecimalAssert.class, BigDecimal.class, actual);
   }
 
   /**
@@ -95,7 +96,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractBigIntegerAssert<?> assumeThat(BigInteger actual) {
-    return enhanceAsAssumption(BigIntegerAssert.class, BigInteger.class, actual);
+    return asAssumption(BigIntegerAssert.class, BigInteger.class, actual);
   }
 
   /**
@@ -106,7 +107,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractUriAssert<?> assumeThat(URI actual) {
-    return enhanceAsAssumption(UriAssert.class, URI.class, actual);
+    return asAssumption(UriAssert.class, URI.class, actual);
   }
 
   /**
@@ -117,7 +118,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractUrlAssert<?> assumeThat(URL actual) {
-    return enhanceAsAssumption(UrlAssert.class, URL.class, actual);
+    return asAssumption(UrlAssert.class, URL.class, actual);
   }
 
   /**
@@ -128,7 +129,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractBooleanAssert<?> assumeThat(boolean actual) {
-    return enhanceAsAssumption(BooleanAssert.class, Boolean.class, actual);
+    return asAssumption(BooleanAssert.class, Boolean.class, actual);
   }
 
   /**
@@ -139,7 +140,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractBooleanAssert<?> assumeThat(Boolean actual) {
-    return enhanceAsAssumption(BooleanAssert.class, Boolean.class, actual);
+    return asAssumption(BooleanAssert.class, Boolean.class, actual);
   }
 
   /**
@@ -150,7 +151,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractBooleanArrayAssert<?> assumeThat(boolean[] actual) {
-    return enhanceAsAssumption(BooleanArrayAssert.class, boolean[].class, actual);
+    return asAssumption(BooleanArrayAssert.class, boolean[].class, actual);
   }
 
   /**
@@ -161,7 +162,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractByteAssert<?> assumeThat(byte actual) {
-    return enhanceAsAssumption(ByteAssert.class, Byte.class, actual);
+    return asAssumption(ByteAssert.class, Byte.class, actual);
   }
 
   /**
@@ -172,7 +173,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractByteAssert<?> assumeThat(Byte actual) {
-    return enhanceAsAssumption(ByteAssert.class, Byte.class, actual);
+    return asAssumption(ByteAssert.class, Byte.class, actual);
   }
 
   /**
@@ -183,7 +184,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractByteArrayAssert<?> assumeThat(byte[] actual) {
-    return enhanceAsAssumption(ByteArrayAssert.class, byte[].class, actual);
+    return asAssumption(ByteArrayAssert.class, byte[].class, actual);
   }
 
   /**
@@ -194,7 +195,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractCharacterAssert<?> assumeThat(char actual) {
-    return enhanceAsAssumption(CharacterAssert.class, Character.class, actual);
+    return asAssumption(CharacterAssert.class, Character.class, actual);
   }
 
   /**
@@ -205,7 +206,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractCharacterAssert<?> assumeThat(Character actual) {
-    return enhanceAsAssumption(CharacterAssert.class, Character.class, actual);
+    return asAssumption(CharacterAssert.class, Character.class, actual);
   }
 
   /**
@@ -216,7 +217,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractCharArrayAssert<?> assumeThat(char[] actual) {
-    return enhanceAsAssumption(CharArrayAssert.class, char[].class, actual);
+    return asAssumption(CharArrayAssert.class, char[].class, actual);
   }
 
   /**
@@ -227,7 +228,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(CharSequence actual) {
-    return enhanceAsAssumption(CharSequenceAssert.class, CharSequence.class, actual);
+    return asAssumption(CharSequenceAssert.class, CharSequence.class, actual);
   }
 
   /**
@@ -238,7 +239,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractShortAssert<?> assumeThat(short actual) {
-    return enhanceAsAssumption(ShortAssert.class, Short.class, actual);
+    return asAssumption(ShortAssert.class, Short.class, actual);
   }
 
   /**
@@ -249,7 +250,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractShortAssert<?> assumeThat(Short actual) {
-    return enhanceAsAssumption(ShortAssert.class, Short.class, actual);
+    return asAssumption(ShortAssert.class, Short.class, actual);
   }
 
   /**
@@ -260,7 +261,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractShortArrayAssert<?> assumeThat(short[] actual) {
-    return enhanceAsAssumption(ShortArrayAssert.class, short[].class, actual);
+    return asAssumption(ShortArrayAssert.class, short[].class, actual);
   }
 
   /**
@@ -271,7 +272,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractIntegerAssert<?> assumeThat(int actual) {
-    return enhanceAsAssumption(IntegerAssert.class, Integer.class, actual);
+    return asAssumption(IntegerAssert.class, Integer.class, actual);
   }
 
   /**
@@ -282,7 +283,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractIntegerAssert<?> assumeThat(Integer actual) {
-    return enhanceAsAssumption(IntegerAssert.class, Integer.class, actual);
+    return asAssumption(IntegerAssert.class, Integer.class, actual);
   }
 
   /**
@@ -293,7 +294,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractIntArrayAssert<?> assumeThat(int[] actual) {
-    return enhanceAsAssumption(IntArrayAssert.class, int[].class, actual);
+    return asAssumption(IntArrayAssert.class, int[].class, actual);
   }
 
   /**
@@ -304,7 +305,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractLongAssert<?> assumeThat(long actual) {
-    return enhanceAsAssumption(LongAssert.class, Long.class, actual);
+    return asAssumption(LongAssert.class, Long.class, actual);
   }
 
   /**
@@ -315,7 +316,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractLongAssert<?> assumeThat(Long actual) {
-    return enhanceAsAssumption(LongAssert.class, Long.class, actual);
+    return asAssumption(LongAssert.class, Long.class, actual);
   }
 
   /**
@@ -326,7 +327,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractLongArrayAssert<?> assumeThat(long[] actual) {
-    return enhanceAsAssumption(LongArrayAssert.class, long[].class, actual);
+    return asAssumption(LongArrayAssert.class, long[].class, actual);
   }
 
   /**
@@ -337,7 +338,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractFloatAssert<?> assumeThat(float actual) {
-    return enhanceAsAssumption(FloatAssert.class, Float.class, actual);
+    return asAssumption(FloatAssert.class, Float.class, actual);
   }
 
   /**
@@ -348,7 +349,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractFloatAssert<?> assumeThat(Float actual) {
-    return enhanceAsAssumption(FloatAssert.class, Float.class, actual);
+    return asAssumption(FloatAssert.class, Float.class, actual);
   }
 
   /**
@@ -359,7 +360,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractFloatArrayAssert<?> assumeThat(float[] actual) {
-    return enhanceAsAssumption(FloatArrayAssert.class, float[].class, actual);
+    return asAssumption(FloatArrayAssert.class, float[].class, actual);
   }
 
   /**
@@ -370,7 +371,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractDoubleAssert<?> assumeThat(double actual) {
-    return enhanceAsAssumption(DoubleAssert.class, Double.class, actual);
+    return asAssumption(DoubleAssert.class, Double.class, actual);
   }
 
   /**
@@ -381,7 +382,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractDoubleAssert<?> assumeThat(Double actual) {
-    return enhanceAsAssumption(DoubleAssert.class, Double.class, actual);
+    return asAssumption(DoubleAssert.class, Double.class, actual);
   }
 
   /**
@@ -392,7 +393,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractDoubleArrayAssert<?> assumeThat(double[] actual) {
-    return enhanceAsAssumption(DoubleArrayAssert.class, double[].class, actual);
+    return asAssumption(DoubleArrayAssert.class, double[].class, actual);
   }
 
   /**
@@ -403,7 +404,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AtomicBooleanAssert assumeThat(AtomicBoolean actual) {
-    return enhanceAsAssumption(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
+    return asAssumption(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
   }
 
   /**
@@ -414,7 +415,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AtomicIntegerAssert assumeThat(AtomicInteger actual) {
-    return enhanceAsAssumption(AtomicIntegerAssert.class, AtomicInteger.class, actual);
+    return asAssumption(AtomicIntegerAssert.class, AtomicInteger.class, actual);
   }
 
   /**
@@ -425,7 +426,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AtomicIntegerArrayAssert assumeThat(AtomicIntegerArray actual) {
-    return enhanceAsAssumption(AtomicIntegerArrayAssert.class, AtomicIntegerArray.class, actual);
+    return asAssumption(AtomicIntegerArrayAssert.class, AtomicIntegerArray.class, actual);
   }
 
   /**
@@ -438,7 +439,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assumeThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
-    return enhanceAsAssumption(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+    return asAssumption(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
   }
 
   /**
@@ -449,7 +450,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AtomicLongAssert assumeThat(AtomicLong actual) {
-    return enhanceAsAssumption(AtomicLongAssert.class, AtomicLong.class, actual);
+    return asAssumption(AtomicLongAssert.class, AtomicLong.class, actual);
   }
 
   /**
@@ -460,7 +461,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AtomicLongArrayAssert assumeThat(AtomicLongArray actual) {
-    return enhanceAsAssumption(AtomicLongArrayAssert.class, AtomicLongArray.class, actual);
+    return asAssumption(AtomicLongArrayAssert.class, AtomicLongArray.class, actual);
   }
 
   /**
@@ -473,7 +474,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assumeThat(AtomicLongFieldUpdater<OBJECT> actual) {
-    return enhanceAsAssumption(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
+    return asAssumption(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
   }
 
   /**
@@ -486,7 +487,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <VALUE> AtomicReferenceAssert<VALUE> assumeThat(AtomicReference<VALUE> actual) {
-    return enhanceAsAssumption(AtomicReferenceAssert.class, AtomicReference.class, actual);
+    return asAssumption(AtomicReferenceAssert.class, AtomicReference.class, actual);
   }
 
   /**
@@ -499,7 +500,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assumeThat(AtomicReferenceArray<ELEMENT> actual) {
-    return enhanceAsAssumption(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
+    return asAssumption(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
   }
 
   /**
@@ -513,7 +514,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assumeThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
-    return enhanceAsAssumption(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
+    return asAssumption(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
   }
 
   /**
@@ -526,7 +527,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> assumeThat(AtomicMarkableReference<VALUE> actual) {
-    return enhanceAsAssumption(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
+    return asAssumption(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
   }
 
   /**
@@ -539,7 +540,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> assumeThat(AtomicStampedReference<VALUE> actual) {
-    return enhanceAsAssumption(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);
+    return asAssumption(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);
   }
 
   /**
@@ -550,7 +551,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractClassAssert<?> assumeThat(Class<?> actual) {
-    return enhanceAsAssumption(ClassAssert.class, Class.class, actual);
+    return asAssumption(ClassAssert.class, Class.class, actual);
   }
 
   /**
@@ -561,7 +562,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractDateAssert<?> assumeThat(Date actual) {
-    return enhanceAsAssumption(DateAssert.class, Date.class, actual);
+    return asAssumption(DateAssert.class, Date.class, actual);
   }
 
   /**
@@ -572,7 +573,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractFileAssert<?> assumeThat(File actual) {
-    return enhanceAsAssumption(FileAssert.class, File.class, actual);
+    return asAssumption(FileAssert.class, File.class, actual);
   }
 
   /**
@@ -583,7 +584,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractPathAssert<?> assumeThat(Path actual) {
-    return enhanceAsAssumption(PathAssert.class, Path.class, actual);
+    return asAssumption(PathAssert.class, Path.class, actual);
   }
 
   /**
@@ -594,7 +595,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractInputStreamAssert<?, ? extends InputStream> assumeThat(InputStream actual) {
-    return enhanceAsAssumption(InputStreamAssert.class, InputStream.class, actual);
+    return asAssumption(InputStreamAssert.class, InputStream.class, actual);
   }
 
   /**
@@ -608,7 +609,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assumeThat(Future<RESULT> actual) {
-    return (FutureAssert<RESULT>) enhanceAsAssumption(FutureAssert.class, Future.class, actual);
+    return (FutureAssert<RESULT>) asAssumption(FutureAssert.class, Future.class, actual);
   }
 
   /**
@@ -620,7 +621,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Iterable<? extends ELEMENT> actual) {
-    return enhanceAsAssumption(IterableAssert.class, Iterable.class, actual);
+    return asAssumption(IterableAssert.class, Iterable.class, actual);
   }
 
   /**
@@ -632,7 +633,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Iterator<? extends ELEMENT> actual) {
-    return enhanceAsAssumption(IterableAssert.class, Iterator.class, actual);
+    return asAssumption(IterableAssert.class, Iterator.class, actual);
   }
 
   /**
@@ -644,7 +645,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> actual) {
-    return enhanceAsAssumption(ListAssert.class, List.class, actual);
+    return asAssumption(ListAssert.class, List.class, actual);
   }
 
   /**
@@ -656,7 +657,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <T> AbstractObjectArrayAssert<?, T> assumeThat(T[] actual) {
-    return enhanceAsAssumption(ObjectArrayAssert.class, Object[].class, actual);
+    return asAssumption(ObjectArrayAssert.class, Object[].class, actual);
   }
 
   /**
@@ -670,7 +671,19 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <K, V> AbstractMapAssert<?, ?, K, V> assumeThat(Map<K, V> actual) {
-    return enhanceAsAssumption(MapAssert.class, Map.class, actual);
+    return asAssumption(MapAssert.class, Map.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   */
+  @CheckReturnValue
+  @SuppressWarnings("unchecked")
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assumeThat(T actual) {
+    return asAssumption(GenericComparableAssert.class, Comparable.class, actual);
   }
 
   /**
@@ -681,7 +694,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThat(Throwable actual) {
-    return enhanceAsAssumption(ThrowableAssert.class, Throwable.class, actual);
+    return asAssumption(ThrowableAssert.class, Throwable.class, actual);
   }
 
   /**
@@ -692,64 +705,65 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
-    return enhanceAsAssumption(ThrowableAssert.class, Throwable.class, catchThrowable(shouldRaiseThrowable));
+    return asAssumption(ThrowableAssert.class, Throwable.class, catchThrowable(shouldRaiseThrowable));
   }
 
   @SuppressWarnings("unchecked")
-  private static <ASSERTION, ACTUAL> ASSERTION enhanceAsAssumption(Class<ASSERTION> assertionType,
-                                                                   Class<ACTUAL> actualType,
-                                                                   Object actual) {
+  private static <ASSERTION, ACTUAL> ASSERTION asAssumption(Class<ASSERTION> assertionType,
+                                                            Class<ACTUAL> actualType,
+                                                            Object actual) {
     Enhancer enhancer = new Enhancer();
     enhancer.setSuperclass(assertionType);
     enhancer.setCallback(new MethodInterceptor() {
       @Override
-      public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+      public Object intercept(Object assertion, Method method, Object[] args,
+                              MethodProxy methodProxy) throws Throwable {
         try {
-          Object result = methodProxy.invokeSuper(o, args);
-          if (result != o && result instanceof AbstractAssert) {
-            return enhanceAsAssumption(result);
+          Object result = methodProxy.invokeSuper(assertion, args);
+          if (result != assertion && result instanceof AbstractAssert) {
+            return asAssumption(result);
           }
           return result;
         } catch (AssertionError e) {
-          throw createAssumptionViolatedException(e);
+          throw assumptionNotMet(e);
         }
       }
     });
 
-    return (ASSERTION) enhancer.create(new Class[] { actualType }, new Object[] { actual });
+    return (ASSERTION) enhancer.create(array(actualType), array(actual));
   }
 
-  private static RuntimeException createAssumptionViolatedException(AssertionError e) throws ReflectiveOperationException {
+  private static RuntimeException assumptionNotMet(AssertionError e) throws ReflectiveOperationException {
     try {
-      return createAssumptionViolatedException(Class.forName("org.junit.AssumptionViolatedException"), e);
+      return assumptionNotMet(Class.forName("org.junit.AssumptionViolatedException"), e);
     } catch (ClassNotFoundException junitClassNotFound) {
       try {
-        return createAssumptionViolatedException(Class.forName("org.testng.SkipException"), e);
+        return assumptionNotMet(Class.forName("org.testng.SkipException"), e);
       } catch (ClassNotFoundException testngClassNotFound) {
         throw new IllegalStateException("Assumptions require JUnit or TestNG in the classpath");
       }
     }
   }
 
-  private static RuntimeException createAssumptionViolatedException(Class<?> exceptionClass,
-                                                                    AssertionError e) throws ReflectiveOperationException {
+  private static RuntimeException assumptionNotMet(Class<?> exceptionClass,
+                                                   AssertionError e) throws ReflectiveOperationException {
     return (RuntimeException) exceptionClass.getConstructor(String.class, Throwable.class)
-                                            .newInstance("assumption failed due to assertion error", e);
+                                            .newInstance("assumption was not met due to: " + e.getMessage(), e);
   }
 
-  private static Object enhanceAsAssumption(Object assertion) {
+  private static Object asAssumption(Object assertion) {
     if (assertion instanceof StringAssert) {
-      return enhanceAsAssumption(StringAssert.class, String.class, ((StringAssert) assertion).actual);
+      return asAssumption(StringAssert.class, String.class, ((StringAssert) assertion).actual);
     }
     if (assertion instanceof ListAssert) {
-      return enhanceAsAssumption(ListAssert.class, List.class, ((ListAssert) assertion).actual);
+      return asAssumption(ListAssert.class, List.class, ((ListAssert<?>) assertion).actual);
     }
     if (assertion instanceof ObjectArrayAssert) {
-      return enhanceAsAssumption(ObjectArrayAssert.class, Object[].class, ((ObjectArrayAssert) assertion).actual);
+      return asAssumption(ObjectArrayAssert.class, Object[].class, ((ObjectArrayAssert<?>) assertion).actual);
     }
     if (assertion instanceof ObjectAssert) {
-      return enhanceAsAssumption(ObjectAssert.class, Object.class,
-        ((ObjectAssert)assertion).actual).as(((ObjectAssert) assertion).descriptionText());
+      return asAssumption(ObjectAssert.class, Object.class,
+                          ((ObjectAssert<?>) assertion).actual).as(((ObjectAssert<?>) assertion).descriptionText());
     }
 
     throw new IllegalArgumentException("Unsupported assumption creation for " + assertion.getClass());

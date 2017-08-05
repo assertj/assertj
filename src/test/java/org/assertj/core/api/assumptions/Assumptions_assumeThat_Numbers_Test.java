@@ -31,9 +31,9 @@ public class Assumptions_assumeThat_Numbers_Test {
 
   private static int ranTests = 0;
 
-  private AssumptionRunner assumptionRunner;
+  private AssumptionRunner<?> assumptionRunner;
 
-  public Assumptions_assumeThat_Numbers_Test(AssumptionRunner assumptionRunner) {
+  public Assumptions_assumeThat_Numbers_Test(AssumptionRunner<?> assumptionRunner) {
     this.assumptionRunner = assumptionRunner;
   }
 
@@ -264,6 +264,11 @@ public class Assumptions_assumeThat_Numbers_Test {
     };
   }
 
+  @AfterClass
+  public static void afterClass() {
+    assertThat(ranTests).as("number of tests run").isEqualTo(provideAssumptionsRunners().length);
+  }
+
   @Test
   public void should_ignore_test_when_assumption_fails() {
     assumptionRunner.runFailingAssumption();
@@ -274,10 +279,5 @@ public class Assumptions_assumeThat_Numbers_Test {
   public void should_run_test_when_assumption_passes() {
     assumptionRunner.runPassingAssumption();
     ranTests++;
-  }
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).isEqualTo(provideAssumptionsRunners().length);
   }
 }

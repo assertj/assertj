@@ -13,6 +13,7 @@
 package org.assertj.core.api.assumptions;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.util.Maps;
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -46,9 +47,9 @@ public class Assumptions_assumeThat_Test {
 
   private static int ranTests = 0;
 
-  private AssumptionRunner assumptionRunner;
+  private AssumptionRunner<?> assumptionRunner;
 
-  public Assumptions_assumeThat_Test(AssumptionRunner assumptionRunner) {
+  public Assumptions_assumeThat_Test(AssumptionRunner<?> assumptionRunner) {
     this.assumptionRunner = assumptionRunner;
   }
 
@@ -143,7 +144,7 @@ public class Assumptions_assumeThat_Test {
             assumeThat(actual).containsOnlyOnce('4');
           }
         } },
-        { new AssumptionRunner<Class>(Comparable.class) {
+        { new AssumptionRunner<Class<?>>(Comparable.class) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isNotInterface();
@@ -323,6 +324,17 @@ public class Assumptions_assumeThat_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsKeys(2);
           }
+        } },
+        { new AssumptionRunner<ComparableExample>(new ComparableExample(4)) {
+          @Override
+          public void runFailingAssumption() {
+            assumeThat(actual).isLessThan(new ComparableExample(2));
+          }
+
+          @Override
+          public void runPassingAssumption() {
+            assumeThat(actual).isGreaterThan(new ComparableExample(2));
+          }
         } }
     };
   }
@@ -335,6 +347,11 @@ public class Assumptions_assumeThat_Test {
     }
   }
 
+  @AfterClass
+  public static void afterClass() {
+    assertThat(ranTests).as("number of tests run").isEqualTo(provideAssumptionsRunners().length);
+  }
+
   @Test
   public void should_ignore_test_when_assumption_fails() {
     assumptionRunner.runFailingAssumption();
@@ -345,10 +362,5 @@ public class Assumptions_assumeThat_Test {
   public void should_run_test_when_assumption_passes() {
     assumptionRunner.runPassingAssumption();
     ranTests++;
-  }
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).isEqualTo(provideAssumptionsRunners().length);
   }
 }

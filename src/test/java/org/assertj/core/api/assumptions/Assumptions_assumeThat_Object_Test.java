@@ -25,6 +25,12 @@ public class Assumptions_assumeThat_Object_Test {
   private static final Object STRING_OBJECT = "test";
   private static int ranTests = 0;
 
+
+  @AfterClass
+  public static void afterClass() {
+    assertThat(ranTests).as("number of tests run").isEqualTo(1);
+  }
+
   @Test
   public void should_ignore_test_when_assumption_fails() {
     assumeThat(STRING_OBJECT).isNotNull().isEqualTo("other");
@@ -55,10 +61,5 @@ public class Assumptions_assumeThat_Object_Test {
     Jedi jedi = new Jedi("Yoda", "green");
     assumeThat(jedi).isNotNull().extracting("name").contains("Luke");
     assertThat(true).isFalse();
-  }
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).isEqualTo(1);
   }
 }
