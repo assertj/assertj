@@ -155,7 +155,8 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
+  @VisibleForTesting
+  public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
     int valueCount = sizeOf(values);
@@ -295,7 +296,7 @@ public class Arrays {
   }
 
   void assertDoesNotContainSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    if(commonChecks(info, actual, sequence)) return;
+    if (commonChecks(info, actual, sequence)) return;
 
     // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
@@ -346,7 +347,7 @@ public class Arrays {
     if (subsequenceIndex < sizeOfSubsequence)
       throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
   }
- 
+
   void assertHasOnlyElementsOfTypes(AssertionInfo info, Failures failures, Object actual, Class<?>[] expectedTypes) {
     checkIsNotNull(expectedTypes);
     assertNotNull(info, actual);
@@ -359,7 +360,7 @@ public class Arrays {
       }
       if (!matching) nonMatchingElements.add(value);
     }
-    
+
     if (!nonMatchingElements.isEmpty()) {
       throw failures.failure(info, shouldOnlyHaveElementsOfTypes(actual, expectedTypes, nonMatchingElements));
     }
@@ -389,7 +390,8 @@ public class Arrays {
       actualIndex++;
 
       if (subsequenceIndex == sizeOfSubsequence) {
-        throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy, subsequenceStartIndex));
+        throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy,
+                                                                 subsequenceStartIndex));
       }
     }
   }

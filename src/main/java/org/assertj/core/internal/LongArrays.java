@@ -204,13 +204,13 @@ public class LongArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, long[] actual, long[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, long[] actual, long[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -337,7 +337,8 @@ public class LongArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, long[] actual, Comparator<? super Long> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, long[] actual,
+                                                  Comparator<? super Long> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

@@ -13,12 +13,10 @@
 package org.assertj.core.api.booleanarray;
 
 import static org.assertj.core.test.BooleanArrays.arrayOf;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
-
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#contains(boolean...)}</code>.

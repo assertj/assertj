@@ -19,7 +19,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for arrays of {@code float}s.
  * 
@@ -193,13 +192,13 @@ public class FloatArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, float[] actual, float[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, float[] actual, float[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -321,7 +320,8 @@ public class FloatArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, float[] actual, Comparator<? super Float> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, float[] actual,
+                                                  Comparator<? super Float> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

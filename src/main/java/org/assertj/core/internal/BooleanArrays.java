@@ -195,13 +195,13 @@ public class BooleanArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, boolean[] actual, boolean[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, boolean[] actual, boolean[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -329,7 +329,7 @@ public class BooleanArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, boolean[] actual,
-      Comparator<? super Boolean> comparator) {
+                                                  Comparator<? super Boolean> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

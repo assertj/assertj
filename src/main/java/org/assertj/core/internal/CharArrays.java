@@ -204,13 +204,13 @@ public class CharArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, char[] actual, char[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, char[] actual, char[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -338,7 +338,7 @@ public class CharArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, char[] actual,
-      Comparator<? super Character> comparator) {
+                                                  Comparator<? super Character> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

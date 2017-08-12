@@ -19,7 +19,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for arrays of {@code byte}s.
  * 
@@ -239,7 +238,7 @@ public class ByteArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, byte[] actual, byte[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactly(AssertionInfo info, byte[] actual, int[] values) {
@@ -466,7 +465,8 @@ public class ByteArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, byte[] actual, Comparator<? super Byte> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, byte[] actual,
+                                                  Comparator<? super Byte> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
