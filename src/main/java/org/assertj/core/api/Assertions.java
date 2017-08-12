@@ -789,8 +789,6 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ZonedDateTimeAssert}</code>.
    *
-   * @param <K> the type of keys in the map.
-   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */

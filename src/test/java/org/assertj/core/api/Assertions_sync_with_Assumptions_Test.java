@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 public class Assertions_sync_with_Assumptions_Test extends BaseAssertionsTest {
 
@@ -28,4 +28,14 @@ public class Assertions_sync_with_Assumptions_Test extends BaseAssertionsTest {
     assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
                                  .containsExactlyInAnyOrder(assumeThatMethods);
   }
+
+  @Test
+  public void standard_assumptions_and_with_assumptions_should_have_the_same_assertions_methods() {
+    Method[] assumptionsMethods = findMethodsWithName(Assumptions.class, "assumeThat");
+    Method[] withAssumptionsMethods = findMethodsWithName(WithAssumptions.class, "assumeThat");
+
+    assertThat(withAssumptionsMethods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+                                      .containsExactlyInAnyOrder(assumptionsMethods);
+  }
+
 }
