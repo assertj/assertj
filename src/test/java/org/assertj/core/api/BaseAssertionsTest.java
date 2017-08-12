@@ -37,6 +37,8 @@ public abstract class BaseAssertionsTest {
 
   static final Comparator<Method> IGNORING_DECLARING_CLASS_ONLY = internalMethodComparator(false, false);
 
+  static final Comparator<Method> IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME = internalMethodComparator(true,
+                                                                                                                  true);
   // Object is ignored because of the AssertProvider
   static final Class<?>[] SPECIAL_IGNORED_RETURN_TYPES = array(AssertDelegateTarget.class,
                                                                FactoryBasedNavigableListAssert.class,

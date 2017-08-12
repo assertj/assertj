@@ -23,40 +23,45 @@ import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.util.Lists;
 
 /**
- * 
  * Understands how to retrieve fields or values from a collection/array of objects.
  * <p>
  * You just have to give the field/property name or an {@link Extractor} implementation, a collection/array of objects
  * and it will extract the list of field/values from the given objects.
- * 
+ *
  * @author Joel Costigliola
  * @author Mateusz Haligowski
- * 
+ *
  */
 public class FieldsOrPropertiesExtractor {
-  
+
   /**
    * Call {@link #extract(Iterable, Extractor)} after converting objects to an iterable.
    * <p>
    * Behavior is described in javadoc {@link AbstractObjectArrayAssert#extracting(Extractor)}
    */
-  public static <F, T> T[] extract(F[] objects, Extractor<? super F, T> extractor) {    
+  public static <F, T> T[] extract(F[] objects, Extractor<? super F, T> extractor) {
+    checkObjectToExtractFromIsNotNull(objects);
     List<T> result = extract(newArrayList(objects), extractor);
     return toArray(result);
   }
 
   /**
-   * Behavior is described in {@link AbstractIterableAssert#extracting(Extractor)} 
+   * Behavior is described in {@link AbstractIterableAssert#extracting(Extractor)}
    */
   public static <F, T> List<T> extract(Iterable<? extends F> objects, Extractor<? super F, T> extractor) {
+    checkObjectToExtractFromIsNotNull(objects);
     List<T> result = Lists.newArrayList();
-    
+
     for (F object : objects) {
       final T newValue = extractor.extract(object);
       result.add(newValue);
     }
-    
+
     return result;
+  }
+
+  private static void checkObjectToExtractFromIsNotNull(Object object) {
+    if (object == null) throw new AssertionError("Expecting actual not to be null");
   }
 
 }
