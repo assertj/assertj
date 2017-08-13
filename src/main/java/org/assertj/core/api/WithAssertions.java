@@ -80,7 +80,6 @@ import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
- *
  * A unified entry point to all non-deprecated assertions from both the new Java 8 core API and the pre-Java 8 core API.
  *
  * As a convenience, the methods are defined in an interface so that no static imports are necessary if the test class
