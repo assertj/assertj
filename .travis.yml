@@ -3,10 +3,9 @@ script: mvn clean verify
 
 sudo: false
 
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
+# trusty is required for oraclejdk9
+dist: trusty
 
 jdk:  
-   - oraclejdk8
+  - oraclejdk8
+  - oraclejdk9
