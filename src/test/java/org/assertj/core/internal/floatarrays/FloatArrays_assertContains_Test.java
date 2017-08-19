@@ -12,17 +12,13 @@
  */
 package org.assertj.core.internal.floatarrays;
 
-import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.internal.ErrorMessages.*;
-import static org.assertj.core.test.FloatArrays.*;
+import static org.assertj.core.test.FloatArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.Test;
@@ -35,123 +31,19 @@ import org.junit.Test;
  */
 public class FloatArrays_assertContains_Test extends FloatArraysBaseTest {
 
-  @Test
-  public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(someInfo(), actual, arrayOf(6f));
+  private Arrays internalArrays;
+
+  @Override
+  public void setUp() {
+    super.setUp();
+    internalArrays = mock(Arrays.class);
+    setArrays(internalArrays);
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(someInfo(), actual, arrayOf(8f, 10f));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_all_given_values() {
+  public void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(6f, 8f, 10f));
+    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(6f, 8f, 10f));
   }
 
-  @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = arrayOf(6f, 8f, 10f, 10f, 8f);
-    arrays.assertContains(someInfo(), actual, arrayOf(8f));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(someInfo(), actual, arrayOf(6f, 6f));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
-    actual = emptyArray();
-    arrays.assertContains(someInfo(), actual, emptyArray());
-  }
-
-  @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertContains(someInfo(), actual, emptyArray());
-  }
-
-  @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContains(someInfo(), actual, null);
-  }
-
-  @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, arrayOf(8f));
-  }
-
-  @Test
-  public void should_fail_if_actual_does_not_contain_values() {
-    AssertionInfo info = someInfo();
-    float[] expected = { 6f, 8f, 9f };
-    try {
-      arrays.assertContains(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet(9f)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6f));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(-8f, 10f));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6f, -8f, 10f));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
-    actual = arrayOf(6f, -8f, 10f, 10f, -8f);
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(-8f));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6f, 6f));
-  }
-
-  @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError();
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, emptyArray());
-  }
-
-  @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, null);
-  }
-
-  @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, arrayOf(-8f));
-  }
-
-  @Test
-  public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    float[] expected = { 6f, -8f, 9f };
-    try {
-      arraysWithCustomComparisonStrategy.assertContains(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet(9f), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
 }

@@ -155,7 +155,8 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
+  @VisibleForTesting
+  public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
     int valueCount = sizeOf(values);
