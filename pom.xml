@@ -169,6 +169,8 @@
         <configuration>
           <excludes>
             <exclude>**/*cglib*/**</exclude>
+            <!-- exclude hamcrest as its classes are compiled in target/classes for an unknown reason related to hancrest dependency being optional -->
+            <exclude>**/*hamcrest*/**</exclude>
           </excludes>
         </configuration>
         <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine code coverage 
