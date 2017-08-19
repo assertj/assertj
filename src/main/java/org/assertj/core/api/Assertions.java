@@ -2146,7 +2146,7 @@ public class Assertions {
    * <p>
    * An alternative way of using a different representation is to register one as a service, 
    * this approach is described in {@link Representation}, it requires more work than this method 
-   * but has the advantage of not having to do do anything in your tests. 
+   * but has the advantage of not having to do anything in your tests and it would be applied to all the tests globally
    * <p>
    * Example :
    * <pre><code class='java'> private class Example {}

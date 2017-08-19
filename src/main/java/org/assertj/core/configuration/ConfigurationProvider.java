@@ -30,7 +30,7 @@ public final class ConfigurationProvider {
 
   private final Representation defaultRepresentation;
 
-  public ConfigurationProvider() {
+  private ConfigurationProvider() {
     defaultRepresentation = Services.get(Representation.class, STANDARD_REPRESENTATION);
   }
 

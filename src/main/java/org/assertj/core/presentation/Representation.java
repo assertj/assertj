@@ -28,9 +28,11 @@ import org.assertj.core.api.Assertions;
  * <p>
  * To register a {@link Representation}, you need to do several things:
  * <ul>
- * <li>create a file named in {@code org.assertj.core.presentation.Representation} file in META-INF/services directory</li>
+ * <li>create a file named {@code org.assertj.core.presentation.Representation} file in META-INF/services directory</li>
  * <li>put the fully qualified class name of your {@link Representation} in it</li>   
- * <li>make sure {@code META-INF/services/org.assertj.core.presentation.Representation} is in the runtime classpath, usually putting it in {@code src/main/resources} is enough</li>  
+ * <li>make sure {@code META-INF/services/org.assertj.core.presentation.Representation} is in the runtime classpath, usually putting it in {@code src/test/resources} is enough</li>
+ * <li>we recommend that you extend from the {@link StandardRepresentation} and override the
+ * {@link StandardRepresentation#fallbackToStringOf(Object)}. By doing this all the defaults of AssertJ would be applied and you can apply your own customization</li>
  * </ul>
  * <p>
  * The <a href="https://github.com/joel-costigliola/assertj-examples/tree/master/assertions-examples">assertj-examples</a> project provides a working example of registering a custom representation.
