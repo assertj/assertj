@@ -105,8 +105,8 @@ public class Files {
         // compute a binary diff, if there is a binary diff, it it shows the offset of the malformed input
         BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
         if (binaryDiffResult.hasNoDiff()) {
-          // fall back to the RuntimeIOException : not throwing an error is wrong as there was one in the first place.
-          throw e;
+          // Both files are binary equal
+          return;
         }
         throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
       } catch (IOException ioe) {

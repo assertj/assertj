@@ -19,9 +19,12 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
@@ -70,6 +73,23 @@ public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
     assertThat(actual).hasSameContentAs(expected, turkishCharset);
   }
 
+  @Test
+  public void should_allow_binary_content() throws Exception {
+
+    File actual = copyResourceToFile("/diffs/random-data.bin");
+    File expected = actual;
+
+    assertThat(actual).hasSameContentAs(expected);
+  }
+  
+  private File copyResourceToFile(String resource) throws IOException {
+    InputStream in = this.getClass().getResourceAsStream(resource);
+    Path tempFile = Files.createTempFile("test", "test");
+    tempFile.toFile().deleteOnExit();
+    Files.copy(in, tempFile, StandardCopyOption.REPLACE_EXISTING);
+    return tempFile.toFile();
+  }
+  
   private File createDeleteOnExitTempFileWithContent(String content, Charset charset) throws IOException {
     Path tempFile = Files.createTempFile("test", "test");
     tempFile.toFile().deleteOnExit();
