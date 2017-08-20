@@ -73,7 +73,7 @@ public class TypeComparators {
    * @param comparator the comparator it self
    * @param <T> the type of the objects for the comparator
    */
-  public <T> void put(Class<T> clazz, Comparator<T> comparator) {
+  public <T> void put(Class<T> clazz, Comparator<? super T> comparator) {
     typeComparators.put(clazz, comparator);
   }
 

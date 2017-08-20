@@ -412,7 +412,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertions object
    */
   @CheckReturnValue
-  public <T> SELF usingComparatorForType(Comparator<T> comparator, Class<T> type) {
+  public <T> SELF usingComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     comparatorByType.put(type, comparator);
     return myself;
   }
