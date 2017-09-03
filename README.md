@@ -26,7 +26,7 @@ AssertJ's ambition is to provide a rich and intuitive set of strongly-typed asse
 
 The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects
 we are checking. If you're checking the value of a `String`, you use String-specific assertions. Checking the value of
-a `Map`? Use Map-specific assertions, which makes it easy to check the contents of the map.
+a `Map`? Use Map-specific assertions, which make it easy to check the contents of the map.
 
 AssertJ is composed of several modules:
 * A core module (this one) to provide assertions for JDK types (`String`, `Iterable`, `Stream`, `Path`, `File`, `Map`...) - see [AssertJ Core documentation](http://joel-costigliola.github.io/assertj/assertj-core.html) and [javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
