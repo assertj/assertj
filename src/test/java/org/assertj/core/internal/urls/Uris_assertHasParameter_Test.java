@@ -178,4 +178,9 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   public void should_pass_if_parameter_with_value_is_found() throws URISyntaxException {
     uris.assertHasParameter(info, new URI("http://assertj.org/news?article=10"), "article", "10");
   }
+
+  @Test
+  public void should_correctly_unescape_values() throws URISyntaxException {
+    uris.assertHasParameter(info, new URI("http://assertj.org/news?article=abc%26page%3D5"), "article", "abc&page=5");
+  }
 }
