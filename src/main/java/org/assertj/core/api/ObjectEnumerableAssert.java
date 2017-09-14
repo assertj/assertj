@@ -77,6 +77,26 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsOnly(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
+   * Verifies that the actual group contains only null elements and nothing else.
+   * <p>
+   * Example :
+   * <pre><code class='java> Iterable&lt;String&gt; items = Arrays.asList(null, null, null);
+   *  Iterable&lt;String&gt; items2 = Arrays.asList(null, null, "notNullElement");
+   *
+   * // assertion will pass
+   * assertThat(items).containsOnlyNulls();
+   *
+   * // assertion will fail because items2 contains not null element
+   * assertThat(items2).containsOnlyNulls();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain at least a null element or if
+   *           the actual group contains values that are not null elements.
+   */
+  SELF containsOnlyNulls();
+
+  /**
    * Verifies that the actual group contains the given values only once.
    * <p>
    * Examples :

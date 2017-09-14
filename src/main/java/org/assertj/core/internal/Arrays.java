@@ -41,6 +41,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -210,6 +211,26 @@ public class Arrays {
       throw failures.failure(info, shouldContainOnly(actual, values,
                                                      diff.missing, diff.unexpected,
                                                      comparisonStrategy));
+  }
+
+  void assertContainsOnlyNulls(AssertionInfo info, Failures failures, Object actual) {
+    assertNotNull(info,actual);
+    List<Object> actualAsList = asList(actual);
+    List<Object> notExpectedList = new ArrayList<>();
+    // no any element found
+    if (actualAsList.size() == 0) {
+      throw failures.failure(info, shouldContainOnlyNulls(actual, notExpectedList));
+    }
+    // check all elements are null
+    for (Object element : actualAsList) {
+      if (element != null) {
+        notExpectedList.add(element);
+      }
+    }
+    // not null element found
+    if (notExpectedList.size() > 0) {
+      throw failures.failure(info, shouldContainOnlyNulls(actual, notExpectedList));
+    }
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {

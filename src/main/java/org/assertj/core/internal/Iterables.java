@@ -35,6 +35,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -64,15 +65,11 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newTreeSet;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ShouldContainOnlyNulls;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -300,6 +297,35 @@ public class Iterables {
     if (!notFound.isEmpty() || !notOnlyOnce.isEmpty())
       throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
     // assertion succeeded
+  }
+
+  /**
+   * Asserts that the given {@code Iterable} contains only null elements and nothing else.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not contain at least a null element or if the given
+   *           {@code Iterable} contains values that are not null elements.
+   */
+  public void assertContainsOnlyNulls(AssertionInfo info, Iterable<?> actual) {
+    assertNotNull(info, actual);
+    List<?> actualAsList = newArrayList(actual);
+    List<Object> notExpectedList = new ArrayList<>();
+    // No any element found
+    if (actualAsList.size() == 0) {
+      throw failures.failure(info, shouldContainOnlyNulls(actual, notExpectedList));
+    }
+    // check all elements are null
+    for (Object element : actualAsList) {
+      if (element != null) {
+        notExpectedList.add(element);
+      }
+    }
+    // not null element found
+    if (notExpectedList.size() > 0) {
+      throw failures.failure(info, shouldContainOnlyNulls(actual, notExpectedList));
+    }
   }
 
   /**
@@ -804,7 +830,7 @@ public class Iterables {
                                                  int times) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
     return satisfiesCondition.size() == times;
-  }
+}
 
   /**
    * An alias method of {@link #assertAreAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
