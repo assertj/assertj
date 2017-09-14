@@ -271,6 +271,31 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies that the actual array contains only null elements.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Person[] persons1 = {null, null, null};
+   * Person[] persons2 = {null, null, person};
+   *
+   * // assertion will pass
+   * assertThat(persons1).containsOnlyNulls();
+   *
+   * // assertions will fail
+   * assertThat(persons2).containsOnlyNulls();
+   * assertThat(new Person[0]).containsOnlyNulls();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array is empty or contains a non null element
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public SELF containsOnlyNulls() {
+    arrays.assertContainsOnlyNulls(info, actual);
+    return myself;
+  }
+
+  /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
    * given {@code Iterable} and nothing else, <b>in any order</b>.
    * <p>

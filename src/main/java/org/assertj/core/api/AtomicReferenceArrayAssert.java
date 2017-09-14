@@ -22,7 +22,6 @@ import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -326,6 +325,33 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   public AtomicReferenceArrayAssert<T> containsOnlyElementsOf(Iterable<? extends T> iterable) {
     return containsOnly(toArray(iterable));
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray contains only null elements and nothing else.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * AtomicReferenceArray&lt;String&gt; items = new AtomicReferenceArray&lt;&gt;(new String[]{null, null, null});
+   * assertThat(items).containsOnlyNulls();
+   *
+   * // assertion will fail because items2 contains not null element
+   * AtomicReferenceArray&lt;String&gt; items2 = new AtomicReferenceArray&lt;&gt;(new String[]{null, null, "notNull"});
+   * assertThat(items2).containsOnlyNulls();
+   * 
+   * // assertion will fail since an empty array does not contain any element and therefore no null ones.
+   * AtomicReferenceArray&lt;String&gt; empty = new AtomicReferenceArray&lt;&gt;(new String[0]);
+   * assertThat(empty).containsOnlyNulls();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray is empty or contains non null elements.
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsOnlyNulls() {
+    arrays.assertContainsOnlyNulls(info, array);
+    return myself;
   }
 
   /**

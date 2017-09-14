@@ -211,6 +211,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
+  public SELF containsOnlyNulls() {
+    iterables.assertContainsOnlyNulls(info, actual);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF containsExactly(@SuppressWarnings("unchecked") ELEMENT... values) {
     iterables.assertContainsExactly(info, actual, values);
     return myself;
@@ -368,7 +377,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF endsWith(@SuppressWarnings("unchecked") ELEMENT[] sequence) {
+  public SELF endsWith(ELEMENT[] sequence) {
     iterables.assertEndsWith(info, actual, sequence);
     return myself;
   }

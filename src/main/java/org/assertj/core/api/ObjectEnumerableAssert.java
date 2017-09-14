@@ -82,6 +82,29 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsOnly(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
+   * Verifies that the actual group contains only null elements and nothing else.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * Iterable&lt;String&gt; items = Arrays.asList(null, null, null);
+   * assertThat(items).containsOnlyNulls();
+   *
+   * // assertion will fail because items2 contains a not null element
+   * Iterable&lt;String&gt; items2 = Arrays.asList(null, null, "notNull");
+   * assertThat(items2).containsOnlyNulls();
+   * 
+   * // assertion will fail since an empty iterable does not contain any element and therefore no null ones.
+   * Iterable&lt;String&gt; empty = new ArrayList&lt;&gt;();
+   * assertThat(empty).containsOnlyNulls();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group is empty or contains non null elements.
+   * @since 2.9.0 / 3.9.0
+   */
+  SELF containsOnlyNulls();
+
+  /**
    * Verifies that the actual group contains the given values only once.
    * <p>
    * Examples :
@@ -491,7 +514,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
-  SELF endsWith(@SuppressWarnings("unchecked") ELEMENT[] sequence);
+  SELF endsWith(ELEMENT[] sequence);
 
   /**
    * Verifies that the actual group contains at least a null element.
