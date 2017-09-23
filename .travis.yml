@@ -10,3 +10,4 @@ addons:
 
 jdk:  
    - oraclejdk8
+   - openjdk8
