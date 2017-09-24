@@ -27,7 +27,9 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
+import org.junit.ComparisonFailure;
 import org.junit.Test;
+import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for
@@ -56,7 +58,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-    assertThat(error).hasMessage("[my test] expected:<42.0[]> but was:<42.0[f]>");
+    assertThat(error)
+      .isInstanceOf(ComparisonFailure.class)
+      .hasMessage("[my test] expected:<42.0[]> but was:<42.0[f]>");
   }
 
   @Test
@@ -69,7 +73,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-    assertThat(error).hasMessage("[my test] %n" +
+    assertThat(error)
+      .isInstanceOf(AssertionFailedError.class)
+      .hasMessage("[my test] %n" +
                                  "Expecting:%n" +
                                  " <\"Person[name=Jake] (Person@%s)\">%n" +
                                  "to be equal to:%n" +
@@ -89,7 +95,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-    assertThat(error).hasMessage("[my test] %n" +
+    assertThat(error)
+      .isInstanceOf(AssertionFailedError.class)
+      .hasMessage("[my test] %n" +
                                  "Expecting:%n" +
                                  " <\"Person[name=Jake] (Person@%s)\">%n" +
                                  "to be equal to:%n" +
@@ -108,7 +116,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-    assertThat(error).hasMessage("[my test] %n" +
+    assertThat(error)
+      .isInstanceOf(AssertionFailedError.class)
+      .hasMessage("[my test] %n" +
                                  "Expecting:%n" +
                                  " <null>%n" +
                                  "to be equal to:%n" +
@@ -126,7 +136,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-    assertThat(error).hasMessage("[my test] %n" +
+    assertThat(error)
+      .isInstanceOf(AssertionFailedError.class)
+      .hasMessage("[my test] %n" +
                                  "Expecting:%n" +
                                  " <\"null (ToStringIsNull@%s)\">%n" +
                                  "to be equal to:%n" +
