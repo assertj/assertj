@@ -65,6 +65,7 @@ import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.internal.IterableDiff.diff;
+import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -93,6 +94,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Maciej Jaskowski
  * @author Nicolas François
  * @author Joel Costigliola
+ * @author Florent Biville
  */
 public class Iterables {
 
@@ -584,6 +586,25 @@ public class Iterables {
    *
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
+   * @param first the first element of the end sequence.
+   * @param rest the optional next elements of the end sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not end with the given sequence of objects.
+   */
+  public void assertEndsWith(AssertionInfo info, Iterable<?> actual, Object first, Object[] rest) {
+    Object[] sequence = prepend(first, rest);
+    assertEndsWith(info, actual, sequence);
+  }
+
+  /**
+   * Verifies that the given {@code Iterable} ends with the given sequence of objects, without any other objects between
+   * them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>, but it also
+   * verifies that the last element in the sequence is also the last element of the given {@code Iterable}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
    * @param sequence the sequence of objects to look for.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
@@ -591,7 +612,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not end with the given sequence of objects.
    */
   public void assertEndsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
+    checkNotNullIterables(info, actual, sequence);
 
     int sizeOfActual = sizeOf(actual);
     if (sizeOfActual < sequence.length) throw actualDoesNotEndWithSequence(info, actual, sequence);
@@ -606,12 +627,16 @@ public class Iterables {
   }
 
   private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
+    checkNotNullIterables(info, actual, sequence);
     // if both actual and values are empty, then assertion passes.
     if (!actual.iterator().hasNext() && sequence.length == 0) return true;
     failIfEmptySinceActualIsNotEmpty(sequence);
     return false;
+  }
+
+  private void checkNotNullIterables(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+    checkIsNotNull(sequence);
+    assertNotNull(info, actual);
   }
 
   /**

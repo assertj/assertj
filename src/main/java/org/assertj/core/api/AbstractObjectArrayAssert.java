@@ -890,22 +890,49 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"};
    *
+   * // assertions will pass
+   * assertThat(abc).endsWith(new String[0])
+   *                .endsWith(new String[] {"b", "c"});
+   *
+   * // assertion will fail
+   * assertThat(abc).endsWith(new String[] {"a"});</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   */
+  @Override
+  public SELF endsWith(ELEMENT[] sequence) {
+    arrays.assertEndsWith(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array ends with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual array.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = {"a", "b", "c"};
+   *
    * // assertion will pass
    * assertThat(abc).endsWith("b", "c");
    *
    * // assertion will fail
    * assertThat(abc).endsWith("a");</code></pre>
    *
-   * @param sequence the sequence of objects to look for.
+   * @param first the first element of the end sequence of objects to look for.
+   * @param sequence the rest of the end sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
   @Override
-  public SELF endsWith(@SuppressWarnings("unchecked") ELEMENT... sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
+  public SELF endsWith(ELEMENT first, @SuppressWarnings("unchecked") ELEMENT... sequence) {
+    arrays.assertEndsWith(info, actual, first, sequence);
     return myself;
   }
 
