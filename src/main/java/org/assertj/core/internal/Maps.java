@@ -600,9 +600,7 @@ public class Maps {
       }
     }
     // All remaining keys from actual copy are not expected entries.
-    for (K key : actualEntries.keySet()) {
-      notExpected.add(key);
-    }
+    notExpected.addAll(actualEntries.keySet());
   }
 
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual,

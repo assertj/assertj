@@ -37,14 +37,10 @@ public class TextFileWriter {
   }
 
   public void write(File file, Charset charset, String... content) throws IOException {
-    PrintWriter writer = null;
-    try {
-      writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), charset))) {
       for (String line : content) {
         writer.println(line);
       }
-    } finally {
-      closeQuietly(writer);
     }
   }
 

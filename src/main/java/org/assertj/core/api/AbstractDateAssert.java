@@ -80,12 +80,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * It keeps the insertion order so first format added will be first format used.
    */
   @VisibleForTesting
-  static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = new ThreadLocal<LinkedHashSet<DateFormat>>() {
-    @Override
-    protected LinkedHashSet<DateFormat> initialValue() {
-      return new LinkedHashSet<>();
-    }
-  };
+  static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = ThreadLocal.withInitial(LinkedHashSet::new);
   @VisibleForTesting
   Dates dates = Dates.instance();
 

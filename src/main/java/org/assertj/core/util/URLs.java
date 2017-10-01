@@ -102,8 +102,9 @@ public class URLs {
   private static String loadContents(InputStream stream, Charset charset) throws IOException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset));
     boolean threw = true;
-    try {
-      StringWriter writer = new StringWriter();
+    try (
+      StringWriter writer = new StringWriter()
+    ) {
       int c;
       while ((c = reader.read()) != -1) {
         writer.write(c);

@@ -91,8 +91,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
   }
 
   private static String valueDescription(List<String> actualValues) {
-    return multipleValues(actualValues) ? actualValues.toString()
-        : actualValues.get(0) == null ? null : actualValues.get(0).toString();
+    return multipleValues(actualValues) ? actualValues.toString() : actualValues.get(0);
   }
 
   private static boolean multipleValues(List<String> values) {
