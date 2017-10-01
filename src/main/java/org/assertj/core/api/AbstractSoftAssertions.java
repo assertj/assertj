@@ -158,6 +158,7 @@ public class AbstractSoftAssertions {
     for (StackTraceElement element : stacktrace) {
       String className = element.getClassName();
       if (className.startsWith("sun.reflect")
+          || className.startsWith("jdk.internal.reflect")
           || className.startsWith("java.")
           || className.startsWith("javax.")
           || className.startsWith("org.junit.")
