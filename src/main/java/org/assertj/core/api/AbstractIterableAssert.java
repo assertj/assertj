@@ -424,7 +424,16 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF endsWith(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+  public SELF endsWith(ELEMENT first, @SuppressWarnings("unchecked") ELEMENT... rest) {
+    iterables.assertEndsWith(info, actual, first, rest);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF endsWith(@SuppressWarnings("unchecked") ELEMENT[] sequence) {
     iterables.assertEndsWith(info, actual, sequence);
     return myself;
   }

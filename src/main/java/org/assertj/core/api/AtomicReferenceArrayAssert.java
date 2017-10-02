@@ -22,6 +22,7 @@ import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -917,15 +918,42 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * assertThat(abc).endsWith("a");</code></pre>
    *
-   * @param sequence the sequence of objects to look for.
+   * @param first the first element of the end sequence of objects to look for.
+   * @param sequence the rest of the end sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
    * @throws AssertionError if the actual AtomicReferenceArray does not end with the given sequence of objects.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> endsWith(@SuppressWarnings("unchecked") T... sequence) {
+  public AtomicReferenceArrayAssert<T> endsWith(T first, @SuppressWarnings("unchecked") T... sequence) {
+    arrays.assertEndsWith(info, array, first, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray ends with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual AtomicReferenceArray.
+   * <p>
+   * Example :
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
+   *
+   * // assertions will pass
+   * assertThat(abc).endsWith(new String[0])
+   *                .endsWith(new String[] {"b", "c"});
+   *
+   * // assertion will fail
+   * assertThat(abc).endsWith(new String[] {"a"});</code></pre>
+   *
+   * @param sequence the (possibly empty) sequence of objects to look for.
+   * @return this assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not end with the given sequence of objects.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> endsWith(T[] sequence) {
     arrays.assertEndsWith(info, array, sequence);
     return myself;
   }

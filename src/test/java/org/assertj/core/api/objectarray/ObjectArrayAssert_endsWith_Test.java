@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  * @author Mikhail Mazursky
+ * @author Florent Biville
  */
 public class ObjectArrayAssert_endsWith_Test extends ObjectArrayAssertBaseTest {
 
@@ -35,6 +36,6 @@ public class ObjectArrayAssert_endsWith_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertEndsWith(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+    verify(arrays).assertEndsWith(getInfo(assertions), getActual(assertions), "Luke", array("Yoda"));
   }
 }

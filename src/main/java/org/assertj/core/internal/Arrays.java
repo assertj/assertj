@@ -64,6 +64,7 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -90,6 +91,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
+ * @author Florent Biville
  */
 public class Arrays {
 
@@ -441,12 +443,17 @@ public class Arrays {
   }
 
   private static boolean commonChecks(AssertionInfo info, Object actual, Object sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
+    checkNulls(info, actual, sequence);
     // if both actual and values are empty arrays, then assertion passes.
     if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return true;
     failIfEmptySinceActualIsNotEmpty(sequence);
     return false;
+
+  }
+
+  private static void checkNulls(AssertionInfo info, Object actual, Object sequence) {
+    checkIsNotNull(sequence);
+    assertNotNull(info, actual);
   }
 
   private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
@@ -454,8 +461,13 @@ public class Arrays {
     return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
+  void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object first, Object rest) {
+    Object[] sequence = prepend(first, rest);
+    assertEndsWith(info, failures, actual, sequence);
+  }
+
   void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    if (commonChecks(info, actual, sequence)) return;
+    checkNulls(info, actual, sequence);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(actual);
     if (arraySize < sequenceSize) throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);

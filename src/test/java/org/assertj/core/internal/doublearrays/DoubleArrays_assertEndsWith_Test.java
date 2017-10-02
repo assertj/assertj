@@ -30,6 +30,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Florent Biville
  */
 public class DoubleArrays_assertEndsWith_Test extends DoubleArraysBaseTest {
 
@@ -51,8 +52,7 @@ public class DoubleArrays_assertEndsWith_Test extends DoubleArraysBaseTest {
   }
   
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
+  public void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     arrays.assertEndsWith(someInfo(), actual, emptyArray());
   }
 
@@ -100,8 +100,7 @@ public class DoubleArrays_assertEndsWith_Test extends DoubleArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError();
+  public void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, emptyArray());
   }
 

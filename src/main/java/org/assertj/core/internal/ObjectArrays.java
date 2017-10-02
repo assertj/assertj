@@ -364,12 +364,28 @@ public class ObjectArrays {
    * Verifies that the given array ends with the given sequence of objects, without any other objects between them.
    * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
    * that the last element in the sequence is also the last element of the given array.
-   * 
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param first the first element of the end sequence of objects to look for.
+   * @param sequence the rest of the end sequence of objects to look for.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given array does not end with the given sequence of objects.
+   */
+  public void assertEndsWith(AssertionInfo info, Object[] actual, Object first, Object[] sequence) {
+    arrays.assertEndsWith(info, failures, actual, first, sequence);
+  }
+
+  /**
+   * Verifies that the given array ends with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
+   * that the last element in the sequence is also the last element of the given array.
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of objects to look for.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not end with the given sequence of objects.
    */

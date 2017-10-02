@@ -30,6 +30,7 @@ import java.util.function.Predicate;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  * @author Nicolas François
+ * @author Florent Biville
  */
 public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT>
     extends EnumerableAssert<SELF, ELEMENT> {
@@ -462,7 +463,33 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
-  SELF endsWith(@SuppressWarnings("unchecked") ELEMENT... sequence);
+  SELF endsWith(ELEMENT first, @SuppressWarnings("unchecked") ELEMENT... sequence);
+
+  /**
+   * Verifies that the actual group ends with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual group.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
+   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   *
+   * // assertions will pass
+   * assertThat(abc).endsWith(new String[0])
+   *                .endsWith(new String[] {"c"})
+   *                .endsWith(new String[] {"b", "c"});
+   *
+   * // assertions will fail
+   * assertThat(abc).endsWith(new String[] {"a"});
+   * assertThat(abc).endsWith(new String[] {"a", "b"});</code></pre>
+   *
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   */
+  SELF endsWith(@SuppressWarnings("unchecked") ELEMENT[] sequence);
 
   /**
    * Verifies that the actual group contains at least a null element.

@@ -28,6 +28,6 @@ public class AtomicReferenceArrayAssert_endsWith_Test extends AtomicReferenceArr
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertEndsWith(info(), internalArray(), array("Luke", "Yoda"));
+    verify(arrays).assertEndsWith(info(), internalArray(), "Luke", array("Yoda"));
   }
 }
