@@ -57,6 +57,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   /**
    * Verifies that the actual group contains only the given values and nothing else, in any order.
    * <p>
+   * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable
+   * <p>
    * Example :
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
@@ -64,7 +66,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(abc).containsOnly("c", "b", "a");
    * 
    * // assertion will fail because "c" is missing
-   * assertThat(abc).containsOnly("a", "b");</code></pre>
+   * assertThat(abc).containsOnly("a", "b");
+   * // assertion will fail because "d" is missing in abc
+   * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -931,6 +935,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
    * iterable and nothing else, <b>in any order</b>.
+   * <p>
+   * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable
    * <p>
    * Example :
    * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
