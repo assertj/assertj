@@ -761,10 +761,7 @@ public class Objects {
    */
   private static Set<Field> getDeclaredFieldsIgnoringSyntheticAndStatic(Class<?> clazz) {
     final Set<Field> fields = newLinkedHashSet(clazz.getDeclaredFields());
-    for (Iterator<Field> iterator = fields.iterator(); iterator.hasNext();) {
-      final Field next = iterator.next();
-      if (next.isSynthetic() || Modifier.isStatic(next.getModifiers())) iterator.remove();
-    }
+    fields.removeIf(next -> next.isSynthetic() || Modifier.isStatic(next.getModifiers()));
     return fields;
   }
 

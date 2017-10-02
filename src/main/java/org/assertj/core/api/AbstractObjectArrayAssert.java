@@ -2034,7 +2034,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
-    Tuple[] tuples = stream(actual).map(tupleExtractor).toArray(size -> new Tuple[size]);
+    Tuple[] tuples = stream(actual).map(tupleExtractor).toArray(Tuple[]::new);
     return new ObjectArrayAssert<>(tuples);
   }
 
