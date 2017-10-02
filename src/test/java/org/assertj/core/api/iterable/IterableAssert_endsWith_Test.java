@@ -26,6 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Florent Biville
  */
 public class IterableAssert_endsWith_Test extends IterableAssertBaseTest {
 
@@ -36,6 +37,6 @@ public class IterableAssert_endsWith_Test extends IterableAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertEndsWith(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+    verify(iterables).assertEndsWith(getInfo(assertions), getActual(assertions), "Luke", array("Yoda"));
   }
 }

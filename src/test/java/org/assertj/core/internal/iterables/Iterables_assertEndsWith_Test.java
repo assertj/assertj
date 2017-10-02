@@ -32,10 +32,11 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Iterables#assertEndsWith(AssertionInfo, Collection, Object[])}</code>.
- * 
+ * Tests for <code>{@link Iterables#assertEndsWith(AssertionInfo, Iterable, Object[])}</code>.
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Florent Biville
  */
 public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
 
@@ -59,8 +60,7 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
   
   @Test
-  public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
+  public void should_pass_if_sequence_to_look_for_is_empty_and_actual_is_not() {
     iterables.assertEndsWith(someInfo(), actual, emptyArray());
   }
 

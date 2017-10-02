@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Florent Biville
  */
 public class Arrays {
 
@@ -161,6 +162,14 @@ public class Arrays {
 
   public static IllegalArgumentException notAnArrayOfPrimitives(Object o) {
     return new IllegalArgumentException(String.format("<%s> is not an array of primitives", o));
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T[] prepend(T first, T... rest) {
+    T[] result = (T[]) new Object[1 + rest.length];
+    result[0] = first;
+    System.arraycopy(rest, 0, result, 1, rest.length);
+    return result;
   }
 
   private Arrays() {}
