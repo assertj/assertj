@@ -42,7 +42,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "%nExpecting:%n <%s>%nto be equal to:%n " +
                                                                           "<%s>%n%s but was not.";
-  private static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
+  private static final Class<?>[] MSG_ARG_TYPES = array(String.class, String.class, String.class);
+  private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
+                                                                                   Object.class);
   protected final Object actual;
   protected final Object expected;
   @VisibleForTesting
@@ -97,6 +99,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * {@link #expected} string representation were different), this method will instead create a
    * org.junit.ComparisonFailure that highlights the difference(s) between the expected and actual objects.
    * </p>
+   * <p>
+   *   If opentest4j is on the classpath then {@code org.opentest4j.AssertionFailedError} would be used.
+   * </p>
    * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
    * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
    *
@@ -106,25 +111,19 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    */
   @Override
   public AssertionError newAssertionError(Description description, Representation representation) {
-    if (actualAndExpectedHaveSameStringRepresentation()) {
-      // Example : actual = 42f and expected = 42d gives actual : "42" and expected : "42" and
-      // JUnit 4 manages this case even worst, it will output something like :
-      // "java.lang.String expected:java.lang.String<42.0> but was: java.lang.String<42.0>"
-      // which does not solve the problem and makes things even more confusing since we lost the fact that 42 was a
-      // float or a double, it is then better to built our own description, with the drawback of not using a
-      // ComparisonFailure (which looks nice in eclipse)
-      return Failures.instance().failure(defaultDetailedErrorMessage(description, representation));
-    }
-    // only use JUnit error message if comparison strategy was standard, otherwise we need to mention it in the
-    // assertion error message to make it clear to the user it was used.
-    if (comparisonStrategy.isStandard()) {
-      // comparison strategy is standard -> try to build a JUnit ComparisonFailure that is nicely displayed in IDE.
+    // only use JUnit error message if the comparison strategy used was standard, otherwise we need to mention
+    // comparison strategy in the assertion error message to make it clear to the user it was used.
+    if (comparisonStrategy.isStandard() && !actualAndExpectedHaveSameStringRepresentation()) {
+      // comparison strategy is standard -> try to build a JUnit ComparisonFailure that is nicely displayed in IDEs.
       AssertionError error = comparisonFailure(description);
-      // error ==null means that JUnit was not in the classpath
+      // error != null means that JUnit 4 was in the classpath and we were to build a ComparisonFailure.
       if (error != null) return error;
     }
+    String message = smartErrorMessage(description, representation);
+    AssertionError assertionFailedError = assertionFailedError(message);
+    if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to default error message
-    return Failures.instance().failure(defaultErrorMessage(description, representation));
+    return Failures.instance().failure(message);
   }
 
   private boolean actualAndExpectedHaveSameStringRepresentation() {
@@ -132,15 +131,26 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Builds and returns an error message from description using {@link #expected} and {@link #actual} basic
-   * representation.
+   * Builds and returns an error message from the given description using {@link #expected} and {@link #actual} basic
+   * representation if their description differ otherwise use 
+   * {@link #defaultDetailedErrorMessage(Description, Representation)} to represent them differently.
    *
    * @param description the {@link Description} used to build the returned error message
    * @param representation the {@link org.assertj.core.presentation.Representation} used to build String representation
    *          of object
-   * @return the error message from description using {@link #expected} and {@link #actual} basic representation.
+   * @return the error message from description using {@link #expected} and {@link #actual} "smart" representation.
    */
-  private String defaultErrorMessage(Description description, Representation representation) {
+  private String smartErrorMessage(Description description, Representation representation) {
+    if (actualAndExpectedHaveSameStringRepresentation()) {
+      // This happens for example when actual = 42f and expected = 42d, which will give this error:
+      // actual : "42" and expected : "42".
+      // JUnit 4 manages this case even worst, it will output something like :
+      // "java.lang.String expected:java.lang.String<42.0> but was: java.lang.String<42.0>"
+      // which makes things even more confusing since we lost the fact that 42 was a float or a double.
+      // It is therefore better to built our own description without using ComparisonFailure, the
+      // only drawbacj is that it won't look nice in IDEs.
+      return defaultDetailedErrorMessage(description, representation);
+    }
     return comparisonStrategy.isStandard()
         ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, actual, expected)
         : messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
@@ -164,6 +174,20 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                      detailedExpected(), comparisonStrategy);
     return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedActual(),
                                    detailedExpected());
+  }
+
+  private AssertionError assertionFailedError(String message) {
+    try {
+      Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
+                                                MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
+                                                message,
+                                                expected,
+                                                actual);
+      if (o instanceof AssertionError) return (AssertionError) o;
+      return null;
+    } catch (Throwable e) {
+      return null;
+    }
   }
 
   private AssertionError comparisonFailure(Description description) {
