@@ -76,13 +76,13 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   private void check(AssertionError error) throws Exception {
     verify(constructorInvoker)
       .newInstance(ComparisonFailure.class.getName(), new Class<?>[] { String.class, String.class, String.class },
-                   array("[Jedi]", "\"Yoda\"", "\"Luke\""));
+                   "[Jedi]", "\"Yoda\"", "\"Luke\"");
     verify(constructorInvoker)
       .newInstance(AssertionFailedError.class.getName(), new Class<?>[] { String.class, Object.class, Object.class },
-                   array(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
-                         "Yoda", "Luke"));
-    assertThat(error).isNotInstanceOf(ComparisonFailure.class);
-    assertThat(error).isInstanceOf(AssertionFailedError.class);
+                   String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
+                   "Yoda", "Luke");
+    assertThat(error).isNotInstanceOf(ComparisonFailure.class)
+                     .isInstanceOf(AssertionFailedError.class);
     AssertionFailedError assertionFailedError = (AssertionFailedError) error;
     assertThat(assertionFailedError.getActual().getValue()).isEqualTo("Luke");
     assertThat(assertionFailedError.getExpected().getValue()).isEqualTo("Yoda");

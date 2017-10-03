@@ -20,57 +20,6 @@ import java.util.List;
 public class ClassUtils {
 
   /**
-   * Determine whether the {@link Class} identified by the supplied name is present
-   * and can be loaded. Will return {@code false} if either the class or
-   * one of its dependencies is not present or cannot be loaded.
-   *
-   * @param className   the name of the class to check
-   * @param classLoader the class loader to use
-   *                    (may be {@code null}, which indicates the default class loader)
-   * @return whether the specified class is present
-   */
-  public static boolean isPresent(String className, ClassLoader classLoader) {
-    ClassLoader classLoaderToUse = classLoader;
-    if (classLoaderToUse == null) {
-      classLoaderToUse = getDefaultClassLoader();
-    }
-
-    try {
-      classLoaderToUse.loadClass(className);
-      return true;
-    } catch (Throwable e) {
-      return false;
-    }
-  }
-
-  /**
-   * Return the default ClassLoader to use: typically the thread context
-   * ClassLoader, if available; the ClassLoader that loaded the ClassUtils
-   * class will be used as fallback.
-   * <p>Call this method if you intend to use the thread context ClassLoader
-   * in a scenario where you absolutely need a non-null ClassLoader reference:
-   * for example, for class path resource loading (but not necessarily for
-   * {@code Class.forName}, which accepts a {@code null} ClassLoader
-   * reference as well).
-   *
-   * @return the default ClassLoader (never {@code null})
-   * @see Thread#getContextClassLoader()
-   */
-  private static ClassLoader getDefaultClassLoader() {
-    ClassLoader cl = null;
-    try {
-      cl = Thread.currentThread().getContextClassLoader();
-    } catch (Throwable ex) {
-      // Cannot access thread context ClassLoader - falling back to system class loader...
-    }
-    if (cl == null) {
-      // No thread context class loader -> use class loader of this class.
-      cl = ClassUtils.class.getClassLoader();
-    }
-    return cl;
-  }
-
-  /**
    * <p>Gets a {@code List} of superclasses for the given class.</p>
    *
    * @param cls the class to look up, may be {@code null}

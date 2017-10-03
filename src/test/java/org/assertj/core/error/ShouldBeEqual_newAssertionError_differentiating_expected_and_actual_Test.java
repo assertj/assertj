@@ -76,11 +76,11 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     assertThat(error)
       .isInstanceOf(AssertionFailedError.class)
       .hasMessage("[my test] %n" +
-                                 "Expecting:%n" +
-                                 " <\"Person[name=Jake] (Person@%s)\">%n" +
-                                 "to be equal to:%n" +
-                                 " <\"Person[name=Jake] (Person@%s)\">%n"
-                                 + "but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
+                  "Expecting:%n" +
+                  " <\"Person[name=Jake] (Person@%s)\">%n" +
+                  "to be equal to:%n" +
+                  " <\"Person[name=Jake] (Person@%s)\">%n"
+                  + "but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
   }
 
   @Test
@@ -98,12 +98,12 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     assertThat(error)
       .isInstanceOf(AssertionFailedError.class)
       .hasMessage("[my test] %n" +
-                                 "Expecting:%n" +
-                                 " <\"Person[name=Jake] (Person@%s)\">%n" +
-                                 "to be equal to:%n" +
-                                 " <\"Person[name=Jake] (Person@%s)\">%n" +
-                                 "when comparing values using 'PersonComparator'" +
-                                 " but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
+                  "Expecting:%n" +
+                  " <\"Person[name=Jake] (Person@%s)\">%n" +
+                  "to be equal to:%n" +
+                  " <\"Person[name=Jake] (Person@%s)\">%n" +
+                  "when comparing values using 'PersonComparator'" +
+                  " but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
   }
 
   @Test
@@ -119,11 +119,11 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     assertThat(error)
       .isInstanceOf(AssertionFailedError.class)
       .hasMessage("[my test] %n" +
-                                 "Expecting:%n" +
-                                 " <null>%n" +
-                                 "to be equal to:%n" +
-                                 " <\"null (ToStringIsNull@%s)\">%n" +
-                                 "but was not.", toHexString(expected.hashCode()));
+                  "Expecting:%n" +
+                  " <null>%n" +
+                  "to be equal to:%n" +
+                  " <\"null (ToStringIsNull@%s)\">%n" +
+                  "but was not.", toHexString(expected.hashCode()));
   }
 
   @Test
@@ -139,11 +139,11 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     assertThat(error)
       .isInstanceOf(AssertionFailedError.class)
       .hasMessage("[my test] %n" +
-                                 "Expecting:%n" +
-                                 " <\"null (ToStringIsNull@%s)\">%n" +
-                                 "to be equal to:%n" +
-                                 " <null>%n" +
-                                 "but was not.", toHexString(actual.hashCode()));
+                  "Expecting:%n" +
+                  " <\"null (ToStringIsNull@%s)\">%n" +
+                  "to be equal to:%n" +
+                  " <null>%n" +
+                  "but was not.", toHexString(actual.hashCode()));
   }
 
   private static class Person {

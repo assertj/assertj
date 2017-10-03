@@ -148,8 +148,10 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    *          of object
    * @return the error message from description using {@link #expected} and {@link #actual} basic representation.
    */
-  protected String defaultErrorMessage(Description description, Representation representation) {
+  private String defaultErrorMessage(Description description, Representation representation) {
     if (actualAndExpectedHaveSameStringRepresentation()) {
+      // Example : actual = 42f and expected = 42d gives actual : "42" and expected : "42" therefore we need
+      // to create a detailed error message`
       return defaultDetailedErrorMessage(description, representation);
     }
     return comparisonStrategy.isStandard()
@@ -180,7 +182,10 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   private AssertionError assertionFailedError(String message) {
     try {
       Object o = constructorInvoker
-        .newInstance("org.opentest4j.AssertionFailedError", MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR, message, expected,
+        .newInstance("org.opentest4j.AssertionFailedError",
+                     MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
+                     message,
+                     expected,
                      actual);
       if (o instanceof AssertionError) {
         return (AssertionError) o;
