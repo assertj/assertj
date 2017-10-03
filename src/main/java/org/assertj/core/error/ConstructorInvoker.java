@@ -23,7 +23,7 @@ import java.security.*;
  */
 class ConstructorInvoker {
 
-  Object newInstance(String className, Class<?>[] parameterTypes, Object[] parameterValues) throws Exception {
+  Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws Exception {
     Class<?> targetType = Class.forName(className);
     Constructor<?> constructor = targetType.getConstructor(parameterTypes);
     boolean accessible = constructor.isAccessible();
