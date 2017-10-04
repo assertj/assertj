@@ -56,7 +56,7 @@ public class Patch<T> {
    * @return the deltas
    */
   public List<Delta<T>> getDeltas() {
-    deltas.sort(DeltaComparator.INSTANCE);
+    Collections.sort(deltas, DeltaComparator.INSTANCE);
     return deltas;
   }
 }
