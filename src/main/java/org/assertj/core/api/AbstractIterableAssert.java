@@ -1418,7 +1418,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
    * @return {@code this} assertions object
-   * @since 2.7.0 / 3.7.0
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   public <T> SELF usingComparatorForType(Comparator<T> comparator, Class<T> type) {
