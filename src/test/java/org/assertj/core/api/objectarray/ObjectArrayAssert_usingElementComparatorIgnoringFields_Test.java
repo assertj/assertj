@@ -21,6 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Jedi;
@@ -47,8 +48,9 @@ public class ObjectArrayAssert_usingElementComparatorIgnoringFields_Test extends
     assertThat(iterables).isNotSameAs(arraysBefore);
     assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
-    assertThat(strategy.getComparator()).isInstanceOf(IgnoringFieldsComparator.class);
-    assertThat(((IgnoringFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
+    assertThat(((IgnoringFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator())
+      .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test

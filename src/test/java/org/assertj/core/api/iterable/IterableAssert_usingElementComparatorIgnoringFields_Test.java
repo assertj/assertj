@@ -21,6 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.test.Jedi;
@@ -47,8 +48,8 @@ public class IterableAssert_usingElementComparatorIgnoringFields_Test extends It
     assertThat(iterables).isNotSameAs(iterablesBefore);
     assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
-    assertThat(strategy.getComparator()).isInstanceOf(IgnoringFieldsComparator.class);
-    assertThat(((IgnoringFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
+    assertThat(((IgnoringFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator()).getComparator()).getFields()).containsOnly("field");
   }
 
   @Test
@@ -64,6 +65,7 @@ public class IterableAssert_usingElementComparatorIgnoringFields_Test extends It
   @Test
   public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_using_element_comparator_ignoring_fields() {
     Comparator<String> comparator = new Comparator<String>() {
+      @Override
       public int compare(String o1, String o2) {
         return o1.compareTo(o2);
       }

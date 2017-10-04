@@ -25,4 +25,9 @@ public class AlwaysEqualComparator<T> implements Comparator<T> {
   public int compare(T o1, T o2) {
     return 0;
   }
+
+  @Override
+  public String toString() {
+    return "AlwaysEqualComparator";
+  }
 }

@@ -43,7 +43,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Joel Costigliola
  * @author Libor Ondrusek
  */
-public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL> extends AbstractAssert<SELF, ACTUAL> {
+public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
+    extends AbstractAssert<SELF, ACTUAL> {
 
   private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
