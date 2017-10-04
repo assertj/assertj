@@ -329,6 +329,30 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the actual AtomicReferenceArray contains only null elements and nothing else.
+   * <p>
+   * Example :
+   * <pre><code class='java> AtomicReferenceArray&lt;String&gt; items = new AtomicReferenceArray&lt;&gt;(new String[]{"null", "null", "null"});
+   *  AtomicReferenceArray&lt;String&gt; items2 = new AtomicReferenceArray&lt;&gt;(new String[]{"null", "null", "notNullElement"});
+   *
+   * // assertion will pass
+   * assertThat(items).containsOnlyNulls();
+   *
+   * // assertion will fail because items2 contains not null element
+   * assertThat(items2).containsOnlyNulls();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray does not contain at least a null element or if
+   *           the actual AtomicReferenceArray contains values that are not null elements.
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsOnlyNulls() {
+    arrays.assertContainsOnlyNulls(info, array);
+    return myself;
+  }
+
+  /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
    * given {@code Iterable} and nothing else, <b>in any order</b>.
    * <p>

@@ -211,6 +211,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
+  public SELF containsOnlyNulls() {
+    iterables.assertContainsOnlyNulls(info, actual);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF containsExactly(@SuppressWarnings("unchecked") ELEMENT... values) {
     iterables.assertContainsExactly(info, actual, values);
     return myself;
