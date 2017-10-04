@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 public class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest {
@@ -42,7 +42,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-    return assertions.usingComparatorForType(ALWAY_EQUALS, String.class);
+    return assertions.usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
   }
 
   @Override
@@ -57,35 +57,35 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   @Test
   public void should_be_able_to_use_a_comparator_for_specified_types() {
     assertThat(asList("some", "other", new BigDecimal(42)))
-      .usingComparatorForType(ALWAY_EQUALS, String.class)
+      .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
       .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
       .contains("other", "any", new BigDecimal("42.0"));
   }
 
   @Test
   public void should_use_comparator_for_type_when_using_element_comparator_ignoring_fields() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
       .usingElementComparatorIgnoringFields("name")
       .contains(other, "any");
   }
 
   @Test
   public void should_use_comparator_for_type_when_using_element_comparator_on_fields() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
       .usingElementComparatorOnFields("name", "lightSaberColor")
       .contains(other, "any");
   }
 
   @Test
   public void should_use_comparator_for_type_when_using_field_by_field_element_comparator() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
       .usingFieldByFieldElementComparator()
       .contains(other, "any");
   }
 
   @Test
   public void should_use_comparator_for_type_when_using_recursive_field_by_field_element_comparator() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
       .usingRecursiveFieldByFieldElementComparator()
       .contains(other, "any");
   }
@@ -100,7 +100,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
       " <[\"any\"]>%n" +
       "when comparing values using 'field/property by field/property comparator on all fields/properties except [\"name\"]'");
 
-    assertThat(asList(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
       .usingElementComparatorIgnoringFields("name")
       .contains(other, "any");
   }
