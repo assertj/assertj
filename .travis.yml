@@ -1,5 +1,6 @@
 language: java
-script: mvn clean verify sonar:sonar
+script:
+  - mvn clean verify sonar:sonar
 
 sudo: false
 
@@ -8,9 +9,9 @@ addons:
     packages:
       - oracle-java8-installer
   sonarcloud:
-    organization: "default"
+    organization: "btrajkovski-github"
     token:
-      secure: "jCe1bGGbx0kwEDy9PDcXBlX5YAkjbEX2moL93L8U+UwkmDRbilsSQQYKQtzgUJ4drUU8g0BJywndUBcR0DSF1dW9YjPGgazCrCbiSimXy3IFMwLI5kU2BnJXTHzcQDJDxWr4P5UttL1KsXi72dRTmeTa9XvXckTCkggAPsprTTA/aurYBuh5C8JbK3WKLwctEmC8RcYLg92cK9H09493h+Txk/jmRoS9wisXwPEbJu5+XspUOgBfrfGYMhKs+cJfaIJs7nRdb7nu65opb+SfgiFurYpKKQ1VJuJp9VAHlQ3Uu6XxItDq4Q0wSHI9an5QjzFuQNxsBORTvB6R99PZlgcAtV6jWRRUhn7QKh+7ibviBcKBCwUw+1j57cxIPXEu5CaG9KyCZQSzLpFCx7zk2mKsPatnHc8ucaDCxBRJnkT9ZfVg5V8ac4wqwqfzmoiNUpHQZ1V0pWHdH9iPChMW1+cYmCmxOMDscE5vx4E4aTKySFgfsZQRwDhMm1zm7WPiUNPy2rez5GAhNLKIGhBV3+6DFYdaitrNDet68uvthaRbrzOrhJ8WUAvW2qCnqPJ3FUecOoJCrTxpthIBjsA9EXFaly70DeINdTY6TM5Jyv8OzLTG3xYPlL6OgFoFPKG90pQLVvAgI4pSccERFOqcf57wuxymQWy2aHLjLMyeX+s="
+      secure: "MOIASst1ITkZm87tDdsaXXLLGjihTuI1sTzOnGijWdXZzTRiocfP7Dgvh/+IBFfjO9XhnirUkRECNJBVOwzQmDoHtYlS2Caxp9UVhId0/IExrwXbQGceieiWWynks/9HGvsAYtneddl2aa8kx6NaBqanr7TTCsHROQcMPGJERzreQcp39lZnIOmZDq+RNcGsCgS3t5g3MS0osGDG9wwNpLElPfHGeUfzIGJezRpGaOKBbIPfEOwcACnxaOisj7A0lKgwzzm2jvP6tG+trUjpMMYfOjDthshQ78DbqQ4l/SyPwlzXXaode+mGAKqDVb2Gwsj9HanWyCne90qSWyhSeMrCxVmbvwJsaZAHuyG7pdjwYrUxul5hEdVZ24tGNrUVdsUdvfmNZN58UP5ghgxGs7fyj5YLIsi+dvfKg1ULUj9eJQRlndgSWXNegmGzB9xZANVn35cm6jQ/6ZTs9PRPSmKWQmom0YfbodrzaneUImfLiY1g9kvmYWddn90fD8I1LD9xnSq2BN8aOR4/A/GbHeu0eYsd6fz7jIzflhDPOB1AXeukbms9cK4xZU26S9ajGIeV4B8ahE+FJYSvULPKY3zkz3b9737Jjgdo5OnphNPs0M+OI5LokQJsmgMKT/dp0hQYtlxRMJ6hyCTfbYffIk9ShjWwiqHvT52Zep7Xwn0="
 
 jdk:  
   - oraclejdk8
