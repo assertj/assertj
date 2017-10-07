@@ -1,5 +1,7 @@
 language: java
-script: mvn clean verify sonar:sonar
+script:
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn clean verify; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn clean verify sonar:sonar; fi'
 
 sudo: false
 
@@ -11,6 +13,8 @@ addons:
     organization: "default"
     token:
       secure: "jCe1bGGbx0kwEDy9PDcXBlX5YAkjbEX2moL93L8U+UwkmDRbilsSQQYKQtzgUJ4drUU8g0BJywndUBcR0DSF1dW9YjPGgazCrCbiSimXy3IFMwLI5kU2BnJXTHzcQDJDxWr4P5UttL1KsXi72dRTmeTa9XvXckTCkggAPsprTTA/aurYBuh5C8JbK3WKLwctEmC8RcYLg92cK9H09493h+Txk/jmRoS9wisXwPEbJu5+XspUOgBfrfGYMhKs+cJfaIJs7nRdb7nu65opb+SfgiFurYpKKQ1VJuJp9VAHlQ3Uu6XxItDq4Q0wSHI9an5QjzFuQNxsBORTvB6R99PZlgcAtV6jWRRUhn7QKh+7ibviBcKBCwUw+1j57cxIPXEu5CaG9KyCZQSzLpFCx7zk2mKsPatnHc8ucaDCxBRJnkT9ZfVg5V8ac4wqwqfzmoiNUpHQZ1V0pWHdH9iPChMW1+cYmCmxOMDscE5vx4E4aTKySFgfsZQRwDhMm1zm7WPiUNPy2rez5GAhNLKIGhBV3+6DFYdaitrNDet68uvthaRbrzOrhJ8WUAvW2qCnqPJ3FUecOoJCrTxpthIBjsA9EXFaly70DeINdTY6TM5Jyv8OzLTG3xYPlL6OgFoFPKG90pQLVvAgI4pSccERFOqcf57wuxymQWy2aHLjLMyeX+s="
+    branches:
+      - master
 
 jdk:  
   - oraclejdk8
