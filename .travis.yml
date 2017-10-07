@@ -1,6 +1,6 @@
 language: java
 script:
-  - mvn clean verify sonar:sonar
+  - mvn clean verify
 
 sudo: false
 
@@ -13,7 +13,10 @@ addons:
     token:
       secure: "MOIASst1ITkZm87tDdsaXXLLGjihTuI1sTzOnGijWdXZzTRiocfP7Dgvh/+IBFfjO9XhnirUkRECNJBVOwzQmDoHtYlS2Caxp9UVhId0/IExrwXbQGceieiWWynks/9HGvsAYtneddl2aa8kx6NaBqanr7TTCsHROQcMPGJERzreQcp39lZnIOmZDq+RNcGsCgS3t5g3MS0osGDG9wwNpLElPfHGeUfzIGJezRpGaOKBbIPfEOwcACnxaOisj7A0lKgwzzm2jvP6tG+trUjpMMYfOjDthshQ78DbqQ4l/SyPwlzXXaode+mGAKqDVb2Gwsj9HanWyCne90qSWyhSeMrCxVmbvwJsaZAHuyG7pdjwYrUxul5hEdVZ24tGNrUVdsUdvfmNZN58UP5ghgxGs7fyj5YLIsi+dvfKg1ULUj9eJQRlndgSWXNegmGzB9xZANVn35cm6jQ/6ZTs9PRPSmKWQmom0YfbodrzaneUImfLiY1g9kvmYWddn90fD8I1LD9xnSq2BN8aOR4/A/GbHeu0eYsd6fz7jIzflhDPOB1AXeukbms9cK4xZU26S9ajGIeV4B8ahE+FJYSvULPKY3zkz3b9737Jjgdo5OnphNPs0M+OI5LokQJsmgMKT/dp0hQYtlxRMJ6hyCTfbYffIk9ShjWwiqHvT52Zep7Xwn0="
 
-jdk:  
+script:
+  - sonar-scanner
+
+jdk:
   - oraclejdk8
   - openjdk8
   - oraclejdk9
