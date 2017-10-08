@@ -12,8 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Closeables.closeQuietly;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
