@@ -13,11 +13,10 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 
 /**
@@ -31,11 +30,11 @@ public class ObjectArrayAssert_endsWith_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.endsWith("Luke", "Yoda");
+    return assertions.endsWith("Luke", "Yoda", "Leia");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertEndsWith(getInfo(assertions), getActual(assertions), "Luke", array("Yoda"));
+    verify(arrays).assertEndsWith(getInfo(assertions), getActual(assertions), "Luke", array("Yoda", "Leia"));
   }
 }

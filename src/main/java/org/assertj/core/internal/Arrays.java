@@ -476,7 +476,7 @@ public class Arrays {
     return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
-  void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object first, Object rest) {
+  void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object first, Object[] rest) {
     Object[] sequence = prepend(first, rest);
     assertEndsWith(info, failures, actual, sequence);
   }
