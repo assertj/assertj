@@ -19,13 +19,13 @@ import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
+
 /**
  * Compares objects field/property by field/property including private fields unless
  * {@link Assertions#setAllowComparingPrivateFields(boolean)} has been called with false.
  */
 public class FieldByFieldComparator implements Comparator<Object> {
-
-  private static final int NOT_EQUAL = -1;
 
   protected final Map<String, Comparator<?>> comparatorByPropertyOrField;
   protected final TypeComparators comparatorByType;
@@ -43,10 +43,10 @@ public class FieldByFieldComparator implements Comparator<Object> {
 
   @Override
   public int compare(Object actual, Object other) {
-	if (actual == null && other == null) return 0;
-	if (actual == null || other == null) return NOT_EQUAL;
-	// value returned is not relevant for ordering if objects are not equal.
-	return areEqual(actual, other) ? 0 : NOT_EQUAL;
+    if (actual == null && other == null) return 0;
+    if (actual == null || other == null) return NOT_EQUAL;
+    // value returned is not relevant for ordering if objects are not equal.
+    return areEqual(actual, other) ? 0 : NOT_EQUAL;
   }
 
   protected boolean areEqual(Object actual, Object other) {
