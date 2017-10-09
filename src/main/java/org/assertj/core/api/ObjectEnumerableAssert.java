@@ -45,6 +45,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * 
    * // assertion will fail
    * assertThat(abc).contains("d");</code></pre>
+   * <p>
+   * If you want to specify the elements to check with an {@link Iterable}, use {@link #containsAll(Iterable) containsAll(Iterable)} instead.
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -58,8 +60,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   /**
    * Verifies that the actual group contains only the given values and nothing else, in any order.
    * <p>
-   * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable
-   * <p>
    * Example :
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
@@ -68,8 +68,12 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * 
    * // assertion will fail because "c" is missing
    * assertThat(abc).containsOnly("a", "b");
-   * // assertion will fail because "d" is missing in abc
+   * // assertion will fail because "d" is missing in abc (use isSubsetOf if you want this assertion to pass)
    * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>
+   * <p>
+   * If you need to check that actual is a subset of the given values, use {@link #isSubsetOf(Object...)}.
+   * <p>
+   * If you want to specify the elements to check with an {@link Iterable}, use {@link #containsOnlyElementsOf(Iterable) containsOnlyElementsOf(Iterable)} instead.
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -143,6 +147,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * 
    * // assertion will fail as actual and expected order differ
    * assertThat(elvesRings).containsExactly(nenya, vilya, narya);</code></pre>
+   * <p>
+   * If you want to specify the elements to check with an {@link Iterable}, use {@link #containsExactlyElementsOf(Iterable) containsExactlyElementsOf(Iterable)} instead.
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -167,6 +173,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail as vilya is contained twice in elvesRings.
    * assertThat(elvesRings).containsExactlyInAnyOrder(nenya, vilya, narya);</code></pre>
+   * <p>
+   * If you want to specify the elements to check with an {@link Iterable}, use {@link #containsExactlyInAnyOrderElementsOf(Iterable) containsExactlyInAnyOrderElementsOf(Iterable)} instead.
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -192,6 +200,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail as vilya is contained twice in elvesRings.
    * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsSomeMissing);</code></pre>
+   * <p>
+   * If you want to directly specify the elements to check, use {@link #containsExactlyInAnyOrder(Object...) containsExactlyInAnyOrder(Object...)} instead.
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -219,6 +229,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail, the elements order is correct but there is a value between them (nenya) 
    * assertThat(elvesRings).containsSequence(vilya, narya);  
    * assertThat(elvesRings).containsSequence(nenya, vilya);</code></pre>
+   * <p>
+   * If you want to specify the sequence to check with an {@link Iterable}, use {@link #containsSequence(Iterable) containsSequence(Iterable)} instead.
    * 
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -243,6 +255,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail, the elements order is correct but there is a value between them (nenya)
    * assertThat(elvesRings).containsSequence(newArrayList(vilya, narya));
    * assertThat(elvesRings).containsSequence(newArrayList(nenya, vilya));</code></pre>
+   * <p>
+   * If you want to directly specify the elements of the sequence to check, use {@link #containsSequence(Object...) containsSequence(Object...)} instead.
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -269,6 +283,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail
    * assertThat(elvesRings).doesNotContainSequence(vilya, nenya);
    * assertThat(elvesRings).doesNotContainSequence(nenya, narya);</code></pre>
+   * <p>
+   * If you want to specify the sequence not to find with an {@link Iterable}, use {@link #doesNotContainSequence(Iterable) doesNotContainSequence(Iterable)} instead.
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -295,6 +311,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail
    * assertThat(elvesRings).doesNotContainSequence(newArrayList(vilya, nenya));
    * assertThat(elvesRings).doesNotContainSequence(newArrayList(nenya, narya));</code></pre>
+   * <p>
+   * If you want to directly specify the elements of the sequence not to find, use {@link #doesNotContainSequence(Object...) doesNotContainSequence(Object...)} instead.
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -317,7 +335,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * 
    * // assertion will fail
    * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
-   * 
+   * <p>
+   * If you want to specify the elements of the subsequence to check with an {@link Iterable}, use {@link #containsSubsequence(Iterable) containsSubsequence(Iterable)} instead.
+  
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -338,6 +358,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * assertThat(elvesRings).containsSubsequence(newArrayList(nenya, vilya));</code></pre>
+   * <p>
+   * If you want to directly specify the subsequence to check, use {@link #containsSubsequence(Object...) containsSubsequence(Object...)} instead.
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -362,6 +384,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertion will fail
    * assertThat(elvesRings).doesNotContainSubsequence(vilya, nenya);
    * assertThat(elvesRings).doesNotContainSubsequence(vilya, narya);</code></pre>
+   * <p>
+   * If you want to specify the subsequence not to find with an {@link Iterable}, use {@link #doesNotContainSubsequence(Iterable) doesNotContainSubsequence(Iterable)} instead.
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -385,6 +409,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertion will fail
    * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, nenya));
    * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(vilya, narya));</code></pre>
+   * <p>
+   * If you want to directly specify the elements of the subsequence not to find, use {@link #doesNotContainSubsequence(Object...) doesNotContainSubsequence(Object...)} instead.
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -409,6 +435,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(abc).doesNotContain("a");
    * assertThat(abc).doesNotContain("a", "b");
    * assertThat(abc).doesNotContain("c", "d");</code></pre>
+   * <p>
+   * If you want to specify the elements not to find with an {@link Iterable}, use {@link #doesNotContainAnyElementsOf(Iterable) doesNotContainAnyElementsOf(Iterable)} instead.
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -870,6 +898,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail
    * assertThat(abc).containsAll(Arrays.asList("d"));
    * assertThat(abc).containsAll(Arrays.asList("a", "b", "c", "d"));</code></pre>
+   * <p>
+   * If you want to directly specify the elements to check, use {@link #contains(Object...) contains(Object...)} instead.
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
@@ -975,6 +1005,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * 
    * // assertion will fail as actual and expected order differ
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
+   * <p>
+   * If you want to directly specify the elements to check, use {@link #containsExactly(Object...) containsExactly(Object...)} instead.
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    *
@@ -999,6 +1031,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
    * // assertion will fail as actual contains nenya
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));</code></pre>
+   * <p>
+   * If you want to directly specify the elements to check, use {@link #containsOnly(Object...) containsOnly(Object...)} instead.
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    *
@@ -1041,6 +1075,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * 
    * // assertion fails:
    * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("d", "e", "a"));</code></pre>
+   * <p>
+   * If you want to directly specify the elements not to find, use {@link #doesNotContain(Object...) doesNotContain(Object...)} instead.
    *
    * @param iterable the {@link Iterable} whose elements must not be in the actual group.
    * @return {@code this} assertion object.
@@ -1064,6 +1100,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * 
    * // assertion will fail:
    * assertThat(elvesRings).isSubsetOf(newArrayList(nenya, narya));</code></pre>
+   * <p>
+   * If you want to directly specify the set of elements, use {@link #isSubsetOf(Object...) isSubsetOf(Object...)} instead.
    * 
    * @param values the {@code Iterable} that should contain all actual elements.
    * @return this assertion object.
@@ -1087,6 +1125,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail:
    * assertThat(elvesRings).isSubsetOf(vilya, nenya);
    * assertThat(elvesRings).isSubsetOf(vilya, nenya, dwarfRing);</code></pre>
+   * <p>
+   * If you want to specify the set of elements an {@link Iterable}, use {@link #isSubsetOf(Iterable) isSubsetOf(Iterable)} instead.
    * 
    * @param values the values that should be used for checking the elements of actual.
    * @return this assertion object.
@@ -1111,6 +1151,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail
    * assertThat(abc).containsAnyOf("d");
    * assertThat(abc).containsAnyOf("d", "e", "f", "g");</code></pre>
+   * <p>
+   * If you want to specify the elements to check with an {@link Iterable}, use {@link #containsAnyElementsOf(Iterable) containsAnyElementsOf(Iterable)} instead.
    *
    * @param values the values whose at least one which is expected to be in the {@code Iterable} under test.
    * @return {@code this} assertion object.
@@ -1138,6 +1180,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail
    * assertThat(abc).containsAnyElementsOf(Arrays.asList("d"));
    * assertThat(abc).containsAnyElementsOf(Arrays.asList("d", "e", "f", "g"));</code></pre>
+   * <p>
+   * If you want to directly specify the elements to check, use {@link #containsAnyOf(Object...) containsAnyOf(Object...)} instead.
    *
    * @param iterable the iterable whose at least one element is expected to be in the {@code Iterable} under test.
    * @return {@code this} assertion object.
