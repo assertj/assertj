@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
@@ -35,7 +35,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
     for (String field : fields) {
       checkArgument(!isNullOrEmpty(field) && !isNullOrEmpty(field.trim()),
                     "Null/blank fields/properties are invalid, fields/properties were %s",
-                    STANDARD_REPRESENTATION.toStringOf(fields));
+                    CONFIGURATION_PROVIDER.representation().toStringOf(fields));
     }
     this.fields = fields;
   }
@@ -62,10 +62,12 @@ public class OnFieldsComparator extends FieldByFieldComparator {
 
   @Override
   public String toString() {
-    if (fields.length == 1)
-      return "single field/property comparator on field/property " + STANDARD_REPRESENTATION.toStringOf(fields[0]);
+    if (fields.length == 1) {
+      return "single field/property comparator on field/property " + CONFIGURATION_PROVIDER.representation()
+                                                                                           .toStringOf(fields[0]);
+    }
     return "field/property by field/property comparator on fields/properties "
-           + STANDARD_REPRESENTATION.toStringOf(fields);
+           + CONFIGURATION_PROVIDER.representation().toStringOf(fields);
   }
 
 }

@@ -41,6 +41,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -71,6 +72,7 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newTreeSet;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -314,6 +316,27 @@ public class Iterables {
     if (!notFound.isEmpty() || !notOnlyOnce.isEmpty())
       throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
     // assertion succeeded
+  }
+
+  /**
+   * Asserts that the given {@code Iterable} contains only null elements and nothing else.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not contain at least a null element or if the given
+   *           {@code Iterable} contains values that are not null elements.
+   */
+  public void assertContainsOnlyNulls(AssertionInfo info, Iterable<?> actual) {
+    assertNotNull(info, actual);
+    // empty => no null elements => failure
+    if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
+    // look for any non null elements
+    List<Object> nonNullElements = new ArrayList<>();
+    for (Object element : actual) {
+      if (element != null) nonNullElements.add(element);
+    }
+    if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   /**

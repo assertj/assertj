@@ -303,8 +303,8 @@ public class ListAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
-  public final ListAssert<ELEMENT> endsWith(ELEMENT... sequence) {
-    return super.endsWith(sequence);
+  public final ListAssert<ELEMENT> endsWith(ELEMENT first, ELEMENT... rest) {
+    return super.endsWith(first, rest);
   }
 
 }

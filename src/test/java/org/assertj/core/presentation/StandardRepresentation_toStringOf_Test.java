@@ -17,7 +17,6 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -52,6 +51,8 @@ import org.junit.Test;
  * @author Joel Costigliola
  */
 public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationTest {
+
+  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
   public void should_return_null_if_object_is_null() {

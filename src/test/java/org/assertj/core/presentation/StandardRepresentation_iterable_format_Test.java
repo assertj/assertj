@@ -15,7 +15,6 @@ package org.assertj.core.presentation;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,8 @@ import java.util.List;
 import org.junit.Test;
 
 public class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresentationTest {
+
+  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
   public void should_return_null_if_iterable_is_null() {

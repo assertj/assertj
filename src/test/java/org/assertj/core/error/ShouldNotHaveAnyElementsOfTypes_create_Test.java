@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class ShouldNotHaveAnyElementsOfTypes_create_Test {
                                                                                                       unexpectedTypes,
                                                                                                       nonMatchingElementsByType);
     // WHEN
-    String message = shouldNotHaveAnyElementsOfTypes.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    String message = shouldNotHaveAnyElementsOfTypes.create(new TestDescription("Test"), CONFIGURATION_PROVIDER.representation());
 
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +

@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.io.IOException;
@@ -1447,7 +1447,6 @@ public class Assertions {
    * features (but you can use {@link Index} if you prefer).
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));</code></pre>
    *
@@ -1462,7 +1461,6 @@ public class Assertions {
    * Assertions entry point for double {@link Offset}.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1475,7 +1473,6 @@ public class Assertions {
    * Assertions entry point for float {@link Offset}.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1488,7 +1485,6 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1513,7 +1509,6 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1538,7 +1533,6 @@ public class Assertions {
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1576,7 +1570,6 @@ public class Assertions {
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1589,7 +1582,6 @@ public class Assertions {
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1602,7 +1594,6 @@ public class Assertions {
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
@@ -1630,7 +1621,6 @@ public class Assertions {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
@@ -1644,7 +1634,6 @@ public class Assertions {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
@@ -1658,7 +1647,6 @@ public class Assertions {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
@@ -1931,7 +1919,6 @@ public class Assertions {
    * value matches one of the given values.
    * <p>
    * As often, an example helps:
-   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -1955,7 +1942,6 @@ public class Assertions {
    * value matches does not match any of the given values.
    * <p>
    * As often, an example helps:
-   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -1979,7 +1965,6 @@ public class Assertions {
    * value matches does not match the given value.
    * <p>
    * As often, an example helps:
-   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -2198,8 +2183,6 @@ public class Assertions {
    *
    * <p>
    * Example:
-   * </p>
-   *
    * <pre><code class='java'> final Date date = Dates.parse("2001-02-03");
    * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
    * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
@@ -2247,7 +2230,6 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p>
    * Code examples:
-   *
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
@@ -2293,7 +2275,6 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p>
    * Code examples:
-   *
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
@@ -2575,6 +2556,10 @@ public class Assertions {
    * <p>
    * {@link Representation} are used to format types in assertions error messages.
    * <p>
+   * An alternative way of using a different representation is to register one as a service, 
+   * this approach is described in {@link Representation}, it requires more work than this method 
+   * but has the advantage of not having to do anything in your tests and it would be applied to all the tests globally
+   * <p>
    * Example :
    * <pre><code class='java'> private class Example {}
    *
@@ -2658,8 +2643,7 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   public static void useDefaultRepresentation() {
-    StandardRepresentation.removeAllRegisteredFormatters();
-    AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
+    AbstractAssert.setCustomRepresentation(CONFIGURATION_PROVIDER.representation());
   }
 
   /**

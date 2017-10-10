@@ -14,6 +14,7 @@ package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
+import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.verify;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
@@ -93,11 +95,37 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     // Jedi is a subclass of Person
     assertThat(yoda1).usingComparatorForType(new PersonCaseInsensitiveNameComparator(), Person.class)
                      .isEqualToComparingFieldByField(yoda2);
+    assertThat(yoda2).usingComparatorForType(new PersonCaseInsensitiveNameComparator(), Person.class)
+                     .isEqualToComparingFieldByField(yoda1);
+  }
+
+  @Test
+  public void should_be_able_to_use_a_date_comparator_for_timestamp() {
+
+    JediMaster yoda1 = new JediMaster("Yoda", new Jedi("luke", "Green"));
+    yoda1.dateOfBirth = new Timestamp(1000L);
+    JediMaster yoda2 = new JediMaster("Yoda", new Jedi("LUKE", null));
+    yoda2.dateOfBirth = new Date(1000L);
+
+    // use a date comparator to compare either Date or Timestamp
+    assertThat(yoda1).usingComparatorForType(new PersonCaseInsensitiveNameComparator(), Person.class)
+                     .usingComparatorForType(SYMMETRIC_DATE_COMPARATOR, Date.class)
+                     .isEqualToComparingFieldByField(yoda2);
+    assertThat(yoda2).usingComparatorForType(new PersonCaseInsensitiveNameComparator(), Person.class)
+                     .usingComparatorForType(SYMMETRIC_DATE_COMPARATOR, Date.class)
+                     .isEqualToComparingFieldByField(yoda1);
+    assertThat(yoda1).usingComparatorForType(new PersonCaseInsensitiveNameComparator(), Person.class)
+                     .usingComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
+                     .isEqualToComparingFieldByField(yoda2);
+    assertThat(yoda2).usingComparatorForType(new PersonCaseInsensitiveNameComparator(), Person.class)
+                     .usingComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
+                     .isEqualToComparingFieldByField(yoda1);
   }
 
   static class JediMaster {
     private Jedi padawan;
     private String name;
+    public Date dateOfBirth;
 
     JediMaster(String name, Jedi padawan) {
       this.name = name;

@@ -51,6 +51,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.Iterables;
@@ -76,6 +77,7 @@ public class AtomicReferenceArrayAssert<T>
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
+  private TypeComparators comparatorsByType = new TypeComparators();
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
 
@@ -332,6 +334,33 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   public AtomicReferenceArrayAssert<T> containsOnlyElementsOf(Iterable<? extends T> iterable) {
     return containsOnly(toArray(iterable));
+  }
+
+  /**
+   * Verifies that the actual AtomicReferenceArray contains only null elements and nothing else.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * AtomicReferenceArray&lt;String&gt; items = new AtomicReferenceArray&lt;&gt;(new String[]{null, null, null});
+   * assertThat(items).containsOnlyNulls();
+   *
+   * // assertion will fail because items2 contains not null element
+   * AtomicReferenceArray&lt;String&gt; items2 = new AtomicReferenceArray&lt;&gt;(new String[]{null, null, "notNull"});
+   * assertThat(items2).containsOnlyNulls();
+   * 
+   * // assertion will fail since an empty array does not contain any element and therefore no null ones.
+   * AtomicReferenceArray&lt;String&gt; empty = new AtomicReferenceArray&lt;&gt;(new String[0]);
+   * assertThat(empty).containsOnlyNulls();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError if the actual AtomicReferenceArray is empty or contains non null elements.
+   * @since 2.9.0 / 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsOnlyNulls() {
+    arrays.assertContainsOnlyNulls(info, array);
+    return myself;
   }
 
   /**
@@ -1503,6 +1532,11 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
+
+  private AtomicReferenceArrayAssert<T> usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
+    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, comparatorsByType));
+  }
+
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
@@ -1660,6 +1694,44 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Allows to set a specific comparator for the given type of elements or their fields.
+   * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
+   * to elements themselves, not only to their fields.
+   * <p>
+   * Usage of this method affects comparators set by next methods:
+   * <ul>
+   * <li>{@link #usingFieldByFieldElementComparator}</li>
+   * <li>{@link #usingElementComparatorOnFields}</li>
+   * <li>{@link #usingElementComparatorIgnoringFields}</li>
+   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
+   * </ul>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new AtomicReferenceArray<>(new Object[] { "some", new BigDecimal("4.2") }))
+   *       .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+   *       .contains(new BigDecimal("4.20"));
+   * </code></pre>
+   * </p>
+   *
+   * @param comparator the {@link java.util.Comparator} to use
+   * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
+   * @return {@code this} assertions object
+   * @since 2.9.0 / 3.9.0
+   */
+  @CheckReturnValue
+  public <C> AtomicReferenceArrayAssert<T> usingComparatorForType(Comparator<C> comparator, Class<C> type) {
+    if (arrays.getComparator() == null) {
+      usingElementComparator(new ExtendedByTypesComparator(comparatorsByType));
+    }
+
+    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
+    comparatorsByType.put(type, comparator);
+
+    return myself;
+  }
+
+  /**
    * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
    * actual type A <code>equals</code> method to compare AtomicReferenceArray elements for incoming assertion checks. Private fields
    * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
@@ -1688,7 +1760,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingFieldByFieldElementComparator() {
-    return usingElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                              comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1737,7 +1809,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator() {
-    return usingElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                                       comparatorsForElementPropertyOrFieldTypes));
   }
 
@@ -1771,7 +1843,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorOnFields(String... fields) {
-    return usingElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                          comparatorsForElementPropertyOrFieldTypes, fields));
   }
 
@@ -1806,7 +1878,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorIgnoringFields(String... fields) {
-    return usingElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+    return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
                                                                comparatorsForElementPropertyOrFieldTypes, fields));
   }
 

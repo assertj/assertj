@@ -13,14 +13,12 @@
 package org.assertj.core.presentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
@@ -31,6 +29,7 @@ import org.junit.Test;
  * @author gabga
  */
 public class StandardRepresentation_map_format_Test extends AbstractBaseRepresentationTest {
+  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
   public void should_return_null_if_Map_is_null() {

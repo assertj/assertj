@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import java.util.Comparator;
@@ -26,6 +26,8 @@ import java.util.TreeSet;
  * @author Joel Costigliola
  */
 public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrategy {
+
+  static final int NOT_EQUAL = -1;
 
   // A raw type is necessary because we can't make assumptions on object to be compared.
   @SuppressWarnings("rawtypes")
@@ -135,13 +137,13 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   @Override
   public String asText() {
-	return "when comparing values using " + STANDARD_REPRESENTATION.toStringOf(comparator);
+    return "when comparing values using " + CONFIGURATION_PROVIDER.representation().toStringOf(comparator);
 	// return "according to " + this;
   }
 
   @Override
   public String toString() {
-	return STANDARD_REPRESENTATION.toStringOf(comparator);
+    return CONFIGURATION_PROVIDER.representation().toStringOf(comparator);
   }
 
   public Comparator<?> getComparator() {

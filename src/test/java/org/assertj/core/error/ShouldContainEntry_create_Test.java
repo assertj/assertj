@@ -13,9 +13,9 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.Maps.mapOf;
 
 import java.util.Map;
@@ -34,7 +34,7 @@ public class ShouldContainEntry_create_Test {
   public void should_create_error_message_with_entry_condition() {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainEntry(map, new TestCondition<>("test condition"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(String.format("[Test] %n" +
                                                 "Expecting:%n" +
                                                 " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
@@ -47,7 +47,7 @@ public class ShouldContainEntry_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainEntry(map, new TestCondition<>("test key condition"),
                                                      new TestCondition<>("test value condition"));
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     assertThat(message).isEqualTo(String.format("[Test] %n" +
                                                 "Expecting:%n" +
                                                 " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +

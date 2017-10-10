@@ -15,8 +15,9 @@ package org.assertj.core.internal.objects;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
@@ -28,6 +29,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -39,6 +43,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.test.Patient;
 import org.junit.Test;
 
@@ -162,7 +167,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                                                                    asList(new Difference(asList("name"),
                                                                                                          "John",
                                                                                                          "Jack")),
-                                                                                   STANDARD_REPRESENTATION));
+                                                                                   CONFIGURATION_PROVIDER.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -189,7 +194,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                                                              asList(new Difference(asList("home.address.number"),
                                                                                                    1,
                                                                                                    2)),
-                                                                             STANDARD_REPRESENTATION));
+                                                                             CONFIGURATION_PROVIDER.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -259,9 +264,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
       verify(failures).failure(info,
                                shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
                                                                              asList(new Difference(asList("home.address.number"),
-                                                                                                   1,
-                                                                                                   2)),
-                                                                             STANDARD_REPRESENTATION));
+                                                                                                   1, 2)),
+                                                                             CONFIGURATION_PROVIDER.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -378,6 +382,56 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                     .isEqualToComparingFieldByFieldRecursively(eve);
   }
 
+  @Test
+  public void should_treat_date_as_equal_to_timestamp() {
+    Person actual = new Person();
+    actual.name = "Fred";
+    actual.dateOfBirth = new Date(1000L);
+
+    Person other = new Person();
+    other.name = "Fred";
+    other.dateOfBirth = new Timestamp(1000L);
+
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                            defaultTypeComparators());
+  }
+
+  @Test
+  public void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator() {
+    Person actual = new Person();
+    actual.name = "Fred";
+    actual.dateOfBirth = new Timestamp(1000L);
+
+    Person other = new Person();
+    other.name = "Fred";
+    other.dateOfBirth = new Date(1000L);
+
+
+    TypeComparators typeComparators = new TypeComparators();
+    typeComparators.put(Timestamp.class, SYMMETRIC_DATE_COMPARATOR);
+
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                            typeComparators);
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), other, actual, noFieldComparators(),
+                                                            typeComparators);
+  }
+
+  @Test
+  public void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator_for_field() {
+    Person actual = new Person();
+    actual.name = "Fred";
+    actual.dateOfBirth = new Timestamp(1000L);
+
+    Person other = new Person();
+    other.name = "Fred";
+    other.dateOfBirth = new Date(1000L);
+
+    Map<String, Comparator<?>> fieldComparators = new HashMap<>();
+    fieldComparators.put("dateOfBirth", SYMMETRIC_DATE_COMPARATOR);
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, fieldComparators,
+                                                            defaultTypeComparators());
+  }
+
   public static class WithMap<K, V> {
     public Map<K, V> map;
 
@@ -407,6 +461,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   public static class Person {
+    public Date dateOfBirth;
     public String name;
     public Home home = new Home();
     public Person neighbour;

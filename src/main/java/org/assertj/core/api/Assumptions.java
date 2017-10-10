@@ -70,6 +70,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
+ * @since 2.9.0 / 3.9.0
  */
 public class Assumptions {
 

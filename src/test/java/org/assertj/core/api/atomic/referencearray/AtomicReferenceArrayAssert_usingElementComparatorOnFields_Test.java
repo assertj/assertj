@@ -20,6 +20,7 @@ import java.util.Comparator;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.test.Jedi;
@@ -46,8 +47,9 @@ public class AtomicReferenceArrayAssert_usingElementComparatorOnFields_Test exte
     assertThat(arrays).isNotSameAs(arraysBefore);
     assertThat(arrays.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) arrays.getComparisonStrategy();
-    assertThat(strategy.getComparator()).isInstanceOf(OnFieldsComparator.class);
-    assertThat(((OnFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
+    assertThat(((OnFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator())
+      .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test

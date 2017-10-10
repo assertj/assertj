@@ -13,13 +13,11 @@
 package org.assertj.core.internal.bytearrays;
 
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.internal.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -27,7 +25,6 @@ import org.assertj.core.internal.ByteArraysBaseTest;
 import org.assertj.core.test.ByteArrays;
 import org.assertj.core.test.IntArrays;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link ByteArrays#assertContains(AssertionInfo, byte[], int[])}</code>.
@@ -65,7 +62,7 @@ public class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteA
     actual = ByteArrays.emptyArray();
     arrays.assertContains(someInfo(), actual, IntArrays.emptyArray());
   }
-  
+
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expectAssertionError();
@@ -147,7 +144,8 @@ public class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteA
     try {
       arraysWithCustomComparisonStrategy.assertContains(info, actual, IntArrays.arrayOf(6, -8, 9));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, ByteArrays.arrayOf(6, -8, 9), newLinkedHashSet((byte) 9), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContain(actual, ByteArrays.arrayOf(6, -8, 9), newLinkedHashSet((byte) 9),
+                                                   absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

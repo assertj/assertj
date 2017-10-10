@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.presentation.StandardRepresentation;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains elements that
@@ -54,7 +54,7 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
         builder.append(", ");
       }
 
-      String formatted = StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(element);
+      String formatted = CONFIGURATION_PROVIDER.representation().toStringOf(element);
       builder.append(formatted);
 
       if (element != null && !formatted.contains(element.getClass().getName())) {

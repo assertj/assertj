@@ -288,8 +288,8 @@ public class IterableAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
-  public final IterableAssert<ELEMENT> endsWith(ELEMENT... sequence) {
-    return super.endsWith(sequence);
+  public final IterableAssert<ELEMENT> endsWith(ELEMENT first, ELEMENT... rest) {
+    return super.endsWith(first, rest);
   }
 
 }

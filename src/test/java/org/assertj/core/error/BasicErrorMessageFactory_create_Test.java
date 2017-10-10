@@ -13,8 +13,10 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -53,10 +55,20 @@ public class BasicErrorMessageFactory_create_Test {
   }
 
   @Test
-  public void should_create_error_with_StandardRepresentation() {
+  public void should_create_error_with_configured_representation() {
     Description description = new TestDescription("Test");
     String formattedMessage = "[Test] Hello Yoda";
-    when(formatter.format(eq(description), any(StandardRepresentation.class), eq("Hello %s"), eq("Yoda"))).thenReturn(formattedMessage);
+    when(formatter.format(eq(description), same(CONFIGURATION_PROVIDER.representation()), eq("Hello %s"), eq("Yoda")))
+      .thenReturn(formattedMessage);
     assertThat(factory.create(description)).isEqualTo(formattedMessage);
+  }
+
+  @Test
+  public void should_create_error_with_empty_description_and_configured_representation() {
+    Description description = emptyDescription();
+    String formattedMessage = "[] Hello Yoda";
+    when(formatter.format(eq(description), same(CONFIGURATION_PROVIDER.representation()), eq("Hello %s"), eq("Yoda")))
+      .thenReturn(formattedMessage);
+    assertThat(factory.create()).isEqualTo(formattedMessage);
   }
 }

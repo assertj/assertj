@@ -57,6 +57,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
@@ -106,6 +107,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private static final String ASSERT = "Assert";
 
+  private TypeComparators comparatorsByType = new TypeComparators();
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
 
@@ -276,6 +278,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
+  public SELF containsOnlyNulls() {
+    iterables.assertContainsOnlyNulls(info, actual);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF containsExactly(@SuppressWarnings("unchecked") ELEMENT... values) {
     iterables.assertContainsExactly(info, actual, values);
     return myself;
@@ -433,7 +444,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF endsWith(@SuppressWarnings("unchecked") ELEMENT[] sequence) {
+  public SELF endsWith(ELEMENT[] sequence) {
     iterables.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -673,6 +684,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     // elements with elementComparator parameter
     objects = new Objects(new IterableElementComparisonStrategy<>(elementComparator));
     return myself;
+  }
+
+  @CheckReturnValue
+  private SELF usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
+    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, comparatorsByType));
   }
 
   /**
@@ -1681,6 +1697,45 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * Allows to set a specific comparator for the given type of elements or their fields.
+   * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
+   * to elements themselves, not only to their fields.
+   * <p>
+   * Usage of this method affects comparators set by next methods:
+   * <ul>
+   * <li>{@link #usingFieldByFieldElementComparator}</li>
+   * <li>{@link #usingElementComparatorOnFields}</li>
+   * <li>{@link #usingElementComparatorIgnoringFields}</li>
+   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
+   * </ul>
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   *     // assertion will pass
+   *     assertThat(asList("some", new BigDecimal("4.2")))
+   *         .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+   *         .contains(new BigDecimal("4.20"));
+   * </code></pre>
+   * </p>
+   *
+   * @param comparator the {@link java.util.Comparator} to use
+   * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
+   * @return {@code this} assertions object
+   * @since 2.9.0 / 3.9.0
+   */
+  @CheckReturnValue
+  public <T> SELF usingComparatorForType(Comparator<T> comparator, Class<T> type) {
+    if (iterables.getComparator() == null) {
+      usingElementComparator(new ExtendedByTypesComparator(comparatorsByType));
+    }
+
+    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
+    comparatorsByType.put(type, comparator);
+
+    return myself;
+  }
+
+  /**
    * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
    * actual type A <code>equals</code> method to compare group elements for incoming assertion checks. Private fields
    * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
@@ -1708,8 +1763,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public SELF usingFieldByFieldElementComparator() {
-    return usingElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                             comparatorsForElementPropertyOrFieldTypes));
+    return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+                                                                            comparatorsForElementPropertyOrFieldTypes));
   }
 
   /**
@@ -1758,8 +1813,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
-    return usingElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                      comparatorsForElementPropertyOrFieldTypes));
+    return usingExtendedByTypesElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
+                                                                                     comparatorsForElementPropertyOrFieldTypes));
   }
 
   /**
@@ -1792,8 +1847,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public SELF usingElementComparatorOnFields(String... fields) {
-    return usingElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                         comparatorsForElementPropertyOrFieldTypes, fields));
+    return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+                                                                        comparatorsForElementPropertyOrFieldTypes,
+                                                                        fields));
   }
 
   protected SELF usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
@@ -1802,7 +1858,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
+   * Use field/property by field/property comparison on all fields/properties <b>except</b> the given ones (including inherited
    * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
    * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
@@ -1830,8 +1886,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public SELF usingElementComparatorIgnoringFields(String... fields) {
-    return usingElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                               comparatorsForElementPropertyOrFieldTypes, fields));
+    return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
+                                                                              comparatorsForElementPropertyOrFieldTypes,
+                                                                              fields));
   }
 
   /**

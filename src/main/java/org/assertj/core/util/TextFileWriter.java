@@ -12,8 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Closeables.closeQuietly;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,14 +35,10 @@ public class TextFileWriter {
   }
 
   public void write(File file, Charset charset, String... content) throws IOException {
-    PrintWriter writer = null;
-    try {
-      writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), charset))) {
       for (String line : content) {
         writer.println(line);
       }
-    } finally {
-      closeQuietly(writer);
     }
   }
 

@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
@@ -44,7 +44,7 @@ public class ShouldHaveValue_create_Test {
     // GIVEN
     AtomicIntegerFieldUpdater<Person> updater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
     // WHEN
-    String message = shouldHaveValue(updater, 33, 20, joe).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+    String message = shouldHaveValue(updater, 33, 20, joe).create(TEST_DESCRIPTION, CONFIGURATION_PROVIDER.representation());
     // THEN
     assertThat(message).isEqualTo(format("[TEST] %n" +
                                          "Expecting <AtomicIntegerFieldUpdater> to have value:%n" +
@@ -60,7 +60,7 @@ public class ShouldHaveValue_create_Test {
     // GIVEN
     AtomicLongFieldUpdater<Person> updater = AtomicLongFieldUpdater.newUpdater(Person.class, "account");
     // WHEN
-    String message = shouldHaveValue(updater, 123456789L, 0L, joe).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+    String message = shouldHaveValue(updater, 123456789L, 0L, joe).create(TEST_DESCRIPTION, CONFIGURATION_PROVIDER.representation());
     // THEN
     assertThat(message).isEqualTo(format("[TEST] %n" +
                                          "Expecting <AtomicLongFieldUpdater> to have value:%n" +
@@ -76,7 +76,7 @@ public class ShouldHaveValue_create_Test {
     // GIVEN
     AtomicReferenceFieldUpdater<Person, String> updater = newUpdater(Person.class, String.class, "name");
     // WHEN
-    String message = shouldHaveValue(updater, "Joe", "Jack", joe).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+    String message = shouldHaveValue(updater, "Joe", "Jack", joe).create(TEST_DESCRIPTION, CONFIGURATION_PROVIDER.representation());
     // THEN
     assertThat(message).isEqualTo(format("[TEST] %n" +
                                          "Expecting <AtomicReferenceFieldUpdater> to have value:%n" +

@@ -41,6 +41,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -157,7 +158,8 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
+  @VisibleForTesting
+  public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
     int valueCount = sizeOf(values);
@@ -211,6 +213,18 @@ public class Arrays {
       throw failures.failure(info, shouldContainOnly(actual, values,
                                                      diff.missing, diff.unexpected,
                                                      comparisonStrategy));
+  }
+
+  void assertContainsOnlyNulls(AssertionInfo info, Failures failures, Object[] actual) {
+    assertNotNull(info, actual);
+    // empty => no null elements => failure
+    if (actual.length == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
+    // look for any non null elements
+    List<Object> nonNullElements = new ArrayList<>();
+    for (Object element : actual) {
+      if (element != null) nonNullElements.add(element);
+    }
+    if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -297,7 +311,7 @@ public class Arrays {
   }
 
   void assertDoesNotContainSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    if(commonChecks(info, actual, sequence)) return;
+    if (commonChecks(info, actual, sequence)) return;
 
     // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
@@ -348,7 +362,7 @@ public class Arrays {
     if (subsequenceIndex < sizeOfSubsequence)
       throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
   }
- 
+
   void assertHasOnlyElementsOfTypes(AssertionInfo info, Failures failures, Object actual, Class<?>[] expectedTypes) {
     checkIsNotNull(expectedTypes);
     assertNotNull(info, actual);
@@ -361,7 +375,7 @@ public class Arrays {
       }
       if (!matching) nonMatchingElements.add(value);
     }
-    
+
     if (!nonMatchingElements.isEmpty()) {
       throw failures.failure(info, shouldOnlyHaveElementsOfTypes(actual, expectedTypes, nonMatchingElements));
     }
@@ -391,7 +405,8 @@ public class Arrays {
       actualIndex++;
 
       if (subsequenceIndex == sizeOfSubsequence) {
-        throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy, subsequenceStartIndex));
+        throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy,
+                                                                 subsequenceStartIndex));
       }
     }
   }
@@ -461,7 +476,7 @@ public class Arrays {
     return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
-  void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object first, Object rest) {
+  void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object first, Object[] rest) {
     Object[] sequence = prepend(first, rest);
     assertEndsWith(info, failures, actual, sequence);
   }

@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
@@ -41,11 +41,11 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Representation representation;
 
   public WritableAssertionInfo(Representation customRepresentation) {
-    useRepresentation(customRepresentation == null ? STANDARD_REPRESENTATION : customRepresentation);
+    useRepresentation(customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation);
   }
 
   public WritableAssertionInfo() {
-    useRepresentation(STANDARD_REPRESENTATION);
+    useRepresentation(CONFIGURATION_PROVIDER.representation());
   }
 
   /**

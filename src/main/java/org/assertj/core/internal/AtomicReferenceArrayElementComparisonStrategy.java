@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.Arrays.isArray;
 
 import java.util.Comparator;
@@ -46,12 +46,14 @@ public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardCo
 
   @Override
   public String toString() {
-    return "AtomicReferenceArrayElementComparisonStrategy using " + STANDARD_REPRESENTATION.toStringOf(elementComparator);
+    return "AtomicReferenceArrayElementComparisonStrategy using " + CONFIGURATION_PROVIDER.representation()
+                                                                                          .toStringOf(
+                                                                                            elementComparator);
   }
 
   @Override
   public String asText() {
-    return "when comparing elements using " + STANDARD_REPRESENTATION.toStringOf(elementComparator);
+    return "when comparing elements using " + CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator);
   }
 
   @Override

@@ -55,7 +55,8 @@ public abstract class AtomicReferenceArrayAssertBaseTest
     return array(getActual(assertions));
   }
 
-  protected static <T> AtomicReferenceArray<T> atomicArrayOf(T actual) {
+  @SafeVarargs
+  protected static <T> AtomicReferenceArray<T> atomicArrayOf(T... actual) {
     return new AtomicReferenceArray<>(array(actual));
   }
 

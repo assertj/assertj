@@ -14,12 +14,13 @@ package org.assertj.core.test;
 
 import java.util.Comparator;
 
-public class NeverEqualComparator implements Comparator<Object> {
+public class NeverEqualComparator<T> implements Comparator<T> {
 
-  public static final NeverEqualComparator NEVER_EQUALS = new NeverEqualComparator();
+  public static final NeverEqualComparator<Object> NEVER_EQUALS = new NeverEqualComparator<>();
+  public static final NeverEqualComparator<String> NEVER_EQUALS_STRING = new NeverEqualComparator<>();
 
   @Override
-  public int compare(Object o1, Object o2) {
+  public int compare(T o1, T o2) {
     return -1;
   }
 }

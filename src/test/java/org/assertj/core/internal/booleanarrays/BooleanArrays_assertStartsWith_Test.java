@@ -13,20 +13,18 @@
 package org.assertj.core.internal.booleanarrays;
 
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.internal.ErrorMessages.*;
-import static org.assertj.core.test.BooleanArrays.*;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.BooleanArrays.arrayOf;
+import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link BooleanArrays#assertStartsWith(AssertionInfo, boolean[], boolean[])}</code>.
@@ -47,7 +45,7 @@ public class BooleanArrays_assertStartsWith_Test extends BooleanArraysBaseTest {
     actual = emptyArray();
     arrays.assertContains(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expectAssertionError();

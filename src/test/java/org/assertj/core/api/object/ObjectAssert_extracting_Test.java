@@ -14,6 +14,7 @@ package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
@@ -22,6 +23,8 @@ import org.assertj.core.test.Name;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 /**
  * Tests for <code>{@link ObjectAssert#extracting(String[])}</code>.
@@ -73,5 +76,29 @@ public class ObjectAssert_extracting_Test {
     thrown.expectAssertionErrorWithMessageContaining("[check luke first name]");
 
     assertThat(luke).as("check luke first name").extracting("name.first").isEmpty();
+  }
+
+  @Test
+  public void should_allow_to_specify_type_comparator_after_using_extracting_on_object() {
+    Person obiwan = new Person("Obi-Wan");
+    obiwan.setHeight(new BigDecimal("1.820"));
+
+    assertThat(obiwan).extracting("name", "height")
+      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+      .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+  }
+
+  private static class Person {
+
+    private final String name;
+    private BigDecimal height;
+
+    public Person(String name) {
+      this.name = name;
+    }
+
+    public void setHeight(BigDecimal height) {
+      this.height = height;
+    }
   }
 }

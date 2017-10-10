@@ -43,6 +43,13 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>org.opentest4j</groupId>
+      <artifactId>opentest4j</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-core</artifactId>
       <version>1.3</version>
@@ -174,6 +181,11 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <configuration>
+          <excludes>
+            <exclude>**/*cglib*/**</exclude>
+            <!-- exclude hamcrest as its classes are compiled in target/classes for an unknown reason related to hancrest dependency being optional -->
+            <exclude>**/*hamcrest*/**</exclude>
+          </excludes>
         </configuration>
         <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine code coverage 
           of the unpacked shaded classes -->

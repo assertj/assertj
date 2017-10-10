@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldHaveNoNullFields.shouldHaveNoNullFiel
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
+import static org.assertj.core.error.ShouldHaveSameHashCode.shouldHaveSameHashCode;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
@@ -800,6 +801,23 @@ public class Objects {
 
   private <A> Object extractPropertyOrField(A actual, String name) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(name, actual);
+  }
+
+  /**
+   * Asserts that the actual object has the same hashCode as the given object.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to check hashCode against.
+   *
+   * @throws AssertionError if the actual object is null.
+   * @throws AssertionError if the given object is null.
+   * @throws AssertionError if the actual object has not the same hashCode as the given object.
+   */
+  public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
+    assertNotNull(info, actual);
+    checkNotNull(other, "The object used to compare actual's hash code with should not be null");
+    if (actual.hashCode() != other.hashCode()) throw failures.failure(info, shouldHaveSameHashCode(actual, other));
   }
 
   public static class ByFieldsComparison {

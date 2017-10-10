@@ -203,13 +203,13 @@ public class ShortArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, short[] actual, short[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, short[] actual, short[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -337,7 +337,7 @@ public class ShortArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, short[] actual,
-      Comparator<? super Short> comparator) {
+                                                  Comparator<? super Short> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

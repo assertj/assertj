@@ -61,8 +61,4 @@ public class DeleteDelta<T> extends Delta<T> {
     getOriginal().verify(target);
   }
 
-  @Override
-  public String toString() {
-    return String.format("Missing content at line %s:%n  %s%n", lineNumber(), formatLines(getOriginal().getLines()));
-  }
 }

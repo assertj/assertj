@@ -60,13 +60,9 @@ public class InsertDelta<T> extends Delta<T> {
                "Incorrect patch for delta: delta original position > target size");
   }
 
+  @Override
   public TYPE getType() {
     return Delta.TYPE.INSERT;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Extra content at line %s:%n  %s%n", lineNumber(), formatLines(getRevised().getLines()));
   }
 
 }

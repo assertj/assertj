@@ -247,6 +247,19 @@ public class ObjectArrays {
   }
 
   /**
+   * Asserts that the given array contains only null elements.
+   *
+   * @param info contains information about the assertion
+   * @param actual the given array
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given array does not contain at least a null element
+   *           or contains values that are not null elements.
+   */
+  public void assertContainsOnlyNulls(AssertionInfo info, Object[] actual) {
+    arrays.assertContainsOnlyNulls(info, failures, actual);
+  }
+
+  /**
    * Verifies that the given array contains the given sequence of objects, without any other objects between them.
    * 
    * @param info contains information about the assertion.
@@ -368,13 +381,13 @@ public class ObjectArrays {
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param first the first element of the end sequence of objects to look for.
-   * @param sequence the rest of the end sequence of objects to look for.
+   * @param rest the rest of the end sequence of objects to look for.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not end with the given sequence of objects.
    */
-  public void assertEndsWith(AssertionInfo info, Object[] actual, Object first, Object[] sequence) {
-    arrays.assertEndsWith(info, failures, actual, first, sequence);
+  public void assertEndsWith(AssertionInfo info, Object[] actual, Object first, Object[] rest) {
+    arrays.assertEndsWith(info, failures, actual, first, rest);
   }
 
   /**

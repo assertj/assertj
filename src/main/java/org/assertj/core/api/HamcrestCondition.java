@@ -28,6 +28,7 @@ import org.hamcrest.StringDescription;
  * 
  * // assertion will fail
  * assertThat(&quot;bc&quot;).is(aStringContainingA);</code></pre>
+ * @since 2.9.0 / 3.9.0
 */
 public class HamcrestCondition<T> extends Condition<T> {
 

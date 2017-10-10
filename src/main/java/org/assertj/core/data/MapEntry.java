@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 import java.util.Map;
 import java.util.Objects;
@@ -63,7 +63,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
 
   @Override
   public String toString() {
-    return STANDARD_REPRESENTATION.toStringOf(this);
+    return CONFIGURATION_PROVIDER.representation().toStringOf(this);
   }
 
   @Override

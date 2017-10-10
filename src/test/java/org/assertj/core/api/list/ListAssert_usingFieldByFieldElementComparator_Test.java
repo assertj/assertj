@@ -19,6 +19,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.Lists;
@@ -42,16 +43,18 @@ public class ListAssert_usingFieldByFieldElementComparator_Test extends ListAsse
 
   @Override
   protected void verify_internal_effects() {
-	Lists lists = getLists(assertions);
-	Iterables iterables = getIterables(assertions);
-	assertThat(lists).isNotSameAs(listsBefore);
-	assertThat(iterables).isNotSameAs(iterablesBefore);
-	assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
-	assertThat(lists.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
-	Comparator<?> listsElementComparator = ((ComparatorBasedComparisonStrategy) lists.getComparisonStrategy()).getComparator();
-	assertThat(listsElementComparator).isInstanceOf(FieldByFieldComparator.class);
-	Comparator<?> iterablesElementComparator = ((ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy()).getComparator();
-	assertThat(iterablesElementComparator).isInstanceOf(FieldByFieldComparator.class);
+    Lists lists = getLists(assertions);
+    Iterables iterables = getIterables(assertions);
+    assertThat(lists).isNotSameAs(listsBefore);
+    assertThat(iterables).isNotSameAs(iterablesBefore);
+    assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    assertThat(lists.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    Comparator<?> listsElementComparator = ((ExtendedByTypesComparator) ((ComparatorBasedComparisonStrategy) lists
+      .getComparisonStrategy()).getComparator()).getComparator();
+    assertThat(listsElementComparator).isInstanceOf(FieldByFieldComparator.class);
+    Comparator<?> iterablesElementComparator = ((ExtendedByTypesComparator) ((ComparatorBasedComparisonStrategy)
+      iterables.getComparisonStrategy()).getComparator()).getComparator();
+    assertThat(iterablesElementComparator).isInstanceOf(FieldByFieldComparator.class);
   }
 
 }

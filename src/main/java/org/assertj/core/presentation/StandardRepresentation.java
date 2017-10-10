@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -55,6 +56,9 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.Compatibility;
 import org.assertj.core.util.DateUtil;
+import org.assertj.core.util.diff.ChangeDelta;
+import org.assertj.core.util.diff.DeleteDelta;
+import org.assertj.core.util.diff.InsertDelta;
 
 /**
  * Standard java object representation.
@@ -168,8 +172,11 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
-    if (object instanceof Method) { return ((Method) object).toGenericString(); }
-    return object == null ? null : object.toString();
+    if (object instanceof Method) return ((Method) object).toGenericString();
+    if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
+    if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
+    if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
+    return object == null ? null : fallbackToStringOf(object);
   }
 
   @SuppressWarnings("unchecked")
@@ -187,6 +194,17 @@ public class StandardRepresentation implements Representation {
   public String unambiguousToStringOf(Object obj) {
     return obj == null ? null
         : String.format("%s (%s@%s)", toStringOf(obj), obj.getClass().getSimpleName(), toHexString(obj.hashCode()));
+  }
+
+  /**
+   * Returns the {@code String} representation of the given object. This method is used as a last resort if none of
+   * the {@link StandardRepresentation} predefined string representations were not called.
+   *
+   * @param object the object to represent (never {@code null}
+   * @return to {@code toString} representation for the given object
+   */
+  protected String fallbackToStringOf(Object object) {
+    return object.toString();
   }
 
   protected String toStringOf(Number number) {
@@ -325,6 +343,27 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
     return String.format("AtomicStampedReference[stamp=%s, reference=%s]", atomicStampedReference.getStamp(),
                          toStringOf(atomicStampedReference.getReference()));
+  }
+
+  private String toStringOf(ChangeDelta<?> changeDelta) {
+    return String.format("Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n",
+                         changeDelta.lineNumber(),
+                         formatLines(changeDelta.getOriginal().getLines()),
+                         formatLines(changeDelta.getRevised().getLines()));
+  }
+
+  private String toStringOf(DeleteDelta<?> deleteDelta) {
+    return String.format("Missing content at line %s:%n  %s%n", deleteDelta.lineNumber(),
+                         formatLines(deleteDelta.getOriginal().getLines()));
+  }
+
+  private String toStringOf(InsertDelta<?> insertDelta) {
+    return String.format("Extra content at line %s:%n  %s%n", insertDelta.lineNumber(),
+                         formatLines(insertDelta.getRevised().getLines()));
+  }
+
+  private String formatLines(List<?> lines) {
+    return format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
   }
 
   @Override
