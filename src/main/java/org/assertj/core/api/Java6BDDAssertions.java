@@ -840,6 +840,46 @@ public class Java6BDDAssertions {
   }
 
   /**
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
+   *   throw new Exception("boom!");
+   * };
+   * 
+   * // assertion succeeds
+   * thenCode(callable).isInstanceOf(Exception.class)
+   *                   .hasMessageContaining("boom");
+   *                                                      
+   * // assertion fails
+   * thenCode(callable).doesNotThrowAnyException();</code></pre>
+   *
+   * Contrary to {@link #thenThrownBy(ThrowingCallable)} the test description provided with 
+   * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
+   * 
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
+   *   // do nothing 
+   * }; 
+   * 
+   * // assertion fails and "display me" appears in the assertion error
+   * thenCode(doNothing).as("display me")
+   *                    .isInstanceOf(Exception.class);</code></pre>
+   * <p>
+   * This method was not named {@code then} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   *
+   * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public AbstractThrowableAssert<?, ? extends Throwable> thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+    return then(catchThrowable(shouldRaiseOrNotThrowable));
+  }
+
+  /**
    * Creates a new instance of <code>{@link UriAssert}</code>.
    *
    * @param actual the actual value.
