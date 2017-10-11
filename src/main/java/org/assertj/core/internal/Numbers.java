@@ -139,6 +139,8 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * 
    * @param info contains information about the assertion.
    * @param actual the actual value.
+   * @param start range start value
+   * @param end range end value
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is positive.
    * @throws NullPointerException if start value is {@code null}.
@@ -170,6 +172,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    *
    * @param info contains information about the assertion.
    * @param actual the actual value.
+   * @param expected the value to compare actual too.
    * @param offset the given positive offset.
    */
   public void assertIsCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
@@ -188,6 +191,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    *
    * @param info contains information about the assertion.
    * @param actual the actual value.
+   * @param expected the value to compare actual too.
    * @param offset the given positive offset.
    */
   public void assertIsNotCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,

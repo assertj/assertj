@@ -24,6 +24,7 @@ public class ShouldContainValue extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldContainValue}</code>.
    * @param actual the actual value in the failed assertion.
+   * @param value the value not found
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainValue(Object actual, Object value) {

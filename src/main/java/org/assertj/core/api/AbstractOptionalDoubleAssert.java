@@ -12,17 +12,17 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.data.Offset;
-import org.assertj.core.internal.Doubles;
-import org.assertj.core.util.VisibleForTesting;
-
-import java.util.OptionalDouble;
-
 import static java.lang.Math.abs;
 import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+
+import java.util.OptionalDouble;
+
+import org.assertj.core.data.Offset;
+import org.assertj.core.internal.Doubles;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link java.util.OptionalDouble}.
@@ -43,15 +43,11 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.OptionalDouble}.
-   * </p>
-   * Assertion will pass :
    * <p>
-   * 
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalDouble.of(10.0)).isPresent();</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(OptionalDouble.empty()).isPresent();</code></pre>
    *
    * @return this assertion object.
@@ -66,7 +62,7 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
 
   /**
    * Verifies that the actual {@link java.util.Optional} is empty (alias of {@link #isEmpty()}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalDouble.empty()).isNotPresent();</code></pre>
    * 
@@ -81,15 +77,11 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   
   /**
    * Verifies that the actual {@link java.util.OptionalDouble} is empty.
-   * </p>
-   * Assertion will pass :
    * <p>
-   * 
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalDouble.empty()).isEmpty();</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(OptionalDouble.of(10.0)).isEmpty();</code></pre>
    *
    * @return this assertion object.
@@ -104,15 +96,11 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.OptionalDouble}, it's an alias of {@link #isPresent()}.
-   * </p>
-   * Assertion will pass :
    * <p>
-   *
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalDouble.of(10.0)).isNotEmpty();</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   *
    * <pre><code class='java'> assertThat(OptionalDouble.empty()).isNotEmpty();</code></pre>
    *
    * @return this assertion object.
@@ -125,17 +113,13 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
 
   /**
    * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument.
-   * </p>
-   * Assertion will pass :
    * <p>
-   * 
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
    * assertThat(OptionalDouble.of(8.0)).hasValue(Double.valueOf(8.0));
    * assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN); </code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(OptionalDouble.empty()).hasValue(8.0);
    * assertThat(OptionalDouble.of(7)).hasValue(8.0);</code></pre>
    *
@@ -154,17 +138,13 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
 
   /**
    * Verifies that the actual {@link java.util.OptionalDouble} has the value close to the argument.
-   * </p>
-   * Assertion will pass :
    * <p>
-   * 
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalDouble.of(8)).hasValueCloseTo(8.0, within(0d));
    * assertThat(OptionalDouble.of(8)).hasValueCloseTo(8.0, within(1d));
    * assertThat(OptionalDouble.of(7)).hasValueCloseTo(8.0, within(1d));</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(OptionalDouble.empty()).hasValueCloseTo(8.0, within(1d));
    * assertThat(OptionalDouble.of(7)).hasValueCloseTo(1.0, within(1d));
    * assertThat(OptionalDouble.of(7)).hasValueCloseTo(1.0, null);

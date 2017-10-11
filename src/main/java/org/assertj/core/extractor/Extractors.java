@@ -32,6 +32,7 @@ import org.assertj.core.util.Strings;
 public class Extractors {
   /**
    * Provides extractor for extracting {@link java.lang.Object#toString} from any object
+   * @return the built {@link Extractor}
    */
   public static Extractor<Object, String> toStringMethod() {
     return new ToStringExtractor();
@@ -39,6 +40,9 @@ public class Extractors {
   
   /**
    * Provides extractor for extracting single field or property from any object using reflection
+   * @param <F> type to extract property from
+   * @param fieldOrProperty the name of the field/property to extract 
+   * @return the built {@link Extractor}
    */
   public static <F> Extractor<F, Object> byName(String fieldOrProperty) {
     return new ByNameSingleExtractor<>(fieldOrProperty);
@@ -46,6 +50,9 @@ public class Extractors {
   
   /**
    * Provides extractor for extracting multiple fields or properties from any object using reflection
+   * @param <F> type to extract property from
+   * @param fieldsOrProperties the name of the fields/properties to extract 
+   * @return the built {@link Extractor}
    */
   public static <F> Extractor<F, Tuple> byName(String... fieldsOrProperties) {
     return new ByNameMultipleExtractor<>(fieldsOrProperties);
@@ -53,6 +60,9 @@ public class Extractors {
 
   /**
    * Provides extractor for extracting values by method name from any object using reflection
+   * @param <F> type to extract property from
+   * @param methodName the name of the method to execute
+   * @return the built {@link Extractor}
    */
   public static <F> Extractor<F, Object> resultOf(String methodName) {
     return new ResultOfExtractor<>(methodName);

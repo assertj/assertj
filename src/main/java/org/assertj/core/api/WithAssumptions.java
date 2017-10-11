@@ -71,7 +71,12 @@ import org.assertj.core.util.CheckReturnValue;
 public interface WithAssumptions {
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Object[])}
+   * Creates a new instance of <code>{@link ObjectArrayAssert}</code> assumption.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default <T> AbstractObjectArrayAssert<?, T> assumeThat(final T[] actual) {
@@ -79,7 +84,13 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Map)}
+   * Creates a new instance of <code>{@link MapAssert}</code> assumption.
+   *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default <K, V> AbstractMapAssert<?, ?, K, V> assumeThat(final Map<K, V> actual) {
@@ -87,7 +98,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(short)}
+   * Creates a new instance of <code>{@link ShortAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractShortAssert<?> assumeThat(final short actual) {
@@ -95,7 +110,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(long)}
+   * Creates a new instance of <code>{@link LongAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractLongAssert<?> assumeThat(final long actual) {
@@ -103,7 +122,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Long)}
+   * Creates a new instance of <code>{@link LongAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractLongAssert<?> assumeThat(final Long actual) {
@@ -111,7 +134,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(long[])}
+   * Creates a new instance of <code>{@link LongArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractLongArrayAssert<?> assumeThat(final long[] actual) {
@@ -119,7 +146,12 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Object)}
+   * Creates a new instance of <code>{@link ObjectAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default <T> AbstractObjectAssert<?, T> assumeThat(final T actual) {
@@ -127,7 +159,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(String)}
+   * Creates a new instance of <code>{@link StringAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractCharSequenceAssert<?, String> assumeThat(final String actual) {
@@ -135,7 +171,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Date)}
+   * Creates a new instance of <code>{@link DateAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractDateAssert<?> assumeThat(final Date actual) {
@@ -143,7 +183,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Throwable)}
+   * Creates a new instance of <code>{@link ThrowableAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractThrowableAssert<?, ? extends Throwable> assumeThat(final Throwable actual) {
@@ -151,7 +195,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(BigDecimal)}
+   * Creates a new instance of <code>{@link BigDecimalAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractBigDecimalAssert<?> assumeThat(final BigDecimal actual) {
@@ -159,11 +207,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code> assumption.
    *
    * @param actual the actual value.
-   * @return the created assertion object.
-   * @since 2.7.0 / 3.7.0
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractBigIntegerAssert<?> assumeThat(BigInteger actual) {
@@ -171,18 +219,18 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicBoolean}.
+   * Creates a new instance of <code>{@link AtomicBooleanAssert}</code> assumption.
    *
    * @param actual the actual value.
-   *
-   * @return the created assertion object.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AtomicBooleanAssert assumeThat(AtomicBoolean actual) {
     return Assumptions.assumeThat(actual);
   }
 
   /**
-   * Create assertion for {@link AtomicInteger}.
+   * Creates a new instance of <code>{@link AtomicIntegerAssert}</code> assumption.
    *
    * @param actual the actual value.
    *
@@ -193,18 +241,18 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create int[] assertion for {@link AtomicIntegerArray}.
+   * Creates int[] assumption for {@link AtomicIntegerArray}.
    *
    * @param actual the actual value.
-   *
-   * @return the created assertion object.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AtomicIntegerArrayAssert assumeThat(AtomicIntegerArray actual) {
     return Assumptions.assumeThat(actual);
   }
 
   /**
-   * Create assertion for {@link AtomicIntegerFieldUpdater}.
+   * Creates a new instance of <code>{@link AtomicIntegerFieldUpdaterAssert}</code> assumption.
    *
    * @param actual the actual value.
    *
@@ -216,7 +264,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicLong}.
+   * Creates a new instance of <code>{@link AtomicLongAssert}</code> assumption.
    *
    * @param actual the actual value.
    *
@@ -227,7 +275,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicLongArray}.
+   * Creates a new instance of <code>{@link AtomicLongArrayAssert}</code> assumption.
    *
    * @param actual the actual value.
    *
@@ -238,7 +286,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicLongFieldUpdater}.
+   * Creates a new instance of <code>{@link AtomicLongFieldUpdaterAssert}</code> assumption.
    *
    * @param actual the actual value.
    *
@@ -250,7 +298,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicReference}.
+   * Creates a new instance of <code>{@link AtomicReferenceAssert}</code> assumption.
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
@@ -262,7 +310,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicReferenceArray}.
+   * Creates a new instance of <code>{@link AtomicReferenceArrayAssert}</code> assumption.
    *
    * @param actual the actual value.
    * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
@@ -274,7 +322,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicReferenceFieldUpdater}.
+   * Creates a new instance of <code>{@link AtomicReferenceFieldUpdaterAssert}</code> assumption.
    *
    * @param actual the actual value.
    * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
@@ -287,7 +335,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicMarkableReference}.
+   * Creates a new instance of <code>{@link AtomicMarkableReferenceAssert}</code> assumption.
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
@@ -299,7 +347,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Create assertion for {@link AtomicStampedReference}.
+   * Creates a new instance of <code>{@link AtomicStampedReferenceAssert}</code> assumption.
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
@@ -311,7 +359,11 @@ public interface WithAssumptions {
   }
   
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(CharSequence)}
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(final CharSequence actual) {
@@ -319,7 +371,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(short[])}
+   * Creates a new instance of <code>{@link ShortArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractShortArrayAssert<?> assumeThat(final short[] actual) {
@@ -327,7 +383,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Short)}
+   * Creates a new instance of <code>{@link ShortAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractShortAssert<?> assumeThat(final Short actual) {
@@ -335,7 +395,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Class)}
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractClassAssert<?> assumeThat(final Class<?> actual) {
@@ -343,7 +407,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Character)}
+   * Creates a new instance of <code>{@link CharacterAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractCharacterAssert<?> assumeThat(final Character actual) {
@@ -351,7 +419,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(char[])}
+   * Creates a new instance of <code>{@link CharArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractCharArrayAssert<?> assumeThat(final char[] actual) {
@@ -359,7 +431,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(char)}
+   * Creates a new instance of <code>{@link CharacterAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractCharacterAssert<?> assumeThat(final char actual) {
@@ -367,7 +443,12 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Comparable)}
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> assumption.
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assumeThat(final T actual) {
@@ -375,7 +456,12 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Iterable)}
+   * Creates a new instance of <code>{@link IterableAssert}</code> assumption.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default <ELEMENT> FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(final Iterable<? extends ELEMENT> actual) {
@@ -383,7 +469,12 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Iterator)}
+   * Creates a new instance of <code>{@link IterableAssert}</code> assumption.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default <ELEMENT> FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(final Iterator<? extends ELEMENT> actual) {
@@ -391,7 +482,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Boolean)}
+   * Creates a new instance of <code>{@link BooleanAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractBooleanAssert<?> assumeThat(final Boolean actual) {
@@ -399,7 +494,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(boolean)}
+   * Creates a new instance of <code>{@link BooleanArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractBooleanArrayAssert<?> assumeThat(final boolean[] actual) {
@@ -407,7 +506,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(byte)}
+   * Creates a new instance of <code>{@link ByteAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractByteAssert<?> assumeThat(final byte actual) {
@@ -415,7 +518,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Byte)}
+   * Creates a new instance of <code>{@link ByteAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractByteAssert<?> assumeThat(final Byte actual) {
@@ -423,7 +530,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(byte[])}
+   * Creates a new instance of <code>{@link ByteArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractByteArrayAssert<?> assumeThat(final byte[] actual) {
@@ -431,7 +542,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(boolean)}
+   * Creates a new instance of <code>{@link BooleanAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractBooleanAssert<?> assumeThat(final boolean actual) {
@@ -439,7 +554,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(float)}
+   * Creates a new instance of <code>{@link FloatAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractFloatAssert<?> assumeThat(final float actual) {
@@ -447,7 +566,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(InputStream)}
+   * Creates a new instance of <code>{@link InputStreamAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractInputStreamAssert<?, ? extends InputStream> assumeThat(final InputStream actual) {
@@ -455,7 +578,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(File)}
+   * Creates a new instance of <code>{@link FileAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractFileAssert<?> assumeThat(final File actual) {
@@ -463,9 +590,13 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Future)}
-   * 
-   * @since 3.7.0
+   * Create assertion for {@link FutureAssert} assumption.
+   *
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
+   *
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assumeThat(Future<RESULT> actual) {
@@ -473,7 +604,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Path)}
+   * Creates a new instance of <code>{@link PathAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractPathAssert<?> assumeThat(final Path actual) {
@@ -481,7 +616,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(int[])}
+   * Creates a new instance of <code>{@link IntArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractIntArrayAssert<?> assumeThat(final int[] actual) {
@@ -489,7 +628,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Float)}
+   * Creates a new instance of <code>{@link FloatAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractFloatAssert<?> assumeThat(final Float actual) {
@@ -497,7 +640,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(int)}
+   * Creates a new instance of <code>{@link IntegerAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractIntegerAssert<?> assumeThat(final int actual) {
@@ -505,7 +652,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(float[])}
+   * Creates a new instance of <code>{@link FloatArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractFloatArrayAssert<?> assumeThat(final float[] actual) {
@@ -513,7 +664,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Integer)}
+   * Creates a new instance of <code>{@link IntegerAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractIntegerAssert<?> assumeThat(final Integer actual) {
@@ -521,7 +676,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(double)}
+   * Creates a new instance of <code>{@link DoubleAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractDoubleAssert<?> assumeThat(final double actual) {
@@ -529,7 +688,11 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Double)}
+   * Creates a new instance of <code>{@link DoubleAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractDoubleAssert<?> assumeThat(final Double actual) {
@@ -537,47 +700,73 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(List)}
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param list the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
-  default <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> actual) {
-    return Assumptions.assumeThat(actual);
+  default <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> list) {
+    return Assumptions.assumeThat(list);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(List)}
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link Stream}.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param stream the Stream to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
   @CheckReturnValue
-  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Stream<? extends ELEMENT> actual) {
-    return Assumptions.assumeThat(actual);
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Stream<? extends ELEMENT> stream) {
+    return Assumptions.assumeThat(stream);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(DoubleStream)}
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link DoubleStream}.
+   *
+   * @param doubleStream the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
-  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assumeThat(DoubleStream actual) {
-    return Assumptions.assumeThat(actual);
+  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assumeThat(DoubleStream doubleStream) {
+    return Assumptions.assumeThat(doubleStream);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(LongStream)}
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link LongStream}.
+   *
+   * @param longStream the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
-  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assumeThat(LongStream actual) {
-    return Assumptions.assumeThat(actual);
+  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assumeThat(LongStream longStream) {
+    return Assumptions.assumeThat(longStream);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(IntStream)}
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link IntStream}.
+   *
+   * @param intStream the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
-  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assumeThat(IntStream actual) {
-    return Assumptions.assumeThat(actual);
+  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assumeThat(IntStream intStream) {
+    return Assumptions.assumeThat(intStream);
   }
   
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(double[])}
+   * Creates a new instance of <code>{@link DoubleArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractDoubleArrayAssert<?> assumeThat(final double[] actual) {
@@ -585,92 +774,152 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(ZonedDateTime)}
+   * Creates a new instance of <code>{@link ZonedDateTimeAssert}</code> assumption.
+   *
+   * @param zonedDateTime the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
-  default AbstractZonedDateTimeAssert<?> assumeThat(final ZonedDateTime actual) {
-    return Assumptions.assumeThat(actual);
+  default AbstractZonedDateTimeAssert<?> assumeThat(final ZonedDateTime zonedDateTime) {
+    return Assumptions.assumeThat(zonedDateTime);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(CompletableFuture)}
+   * Creates a new instance of {@link CompletableFutureAssert} assumption.
+   *
+   * @param <RESULT> the CompletableFuture wrapped type.
+   * @param future the CompletableFuture to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
   default <RESULT> CompletableFutureAssert<RESULT> assumeThat(final CompletableFuture<RESULT> future) {
     return Assumptions.assumeThat(future);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Optional)}
+   * Creates a new instance of {@link OptionalAssert} assumption.
+   *
+   * @param <VALUE> the Optional wrapped type.
+   * @param optional the Optional to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
   default <VALUE> OptionalAssert<VALUE> assumeThat(final Optional<VALUE> optional) {
     return Assumptions.assumeThat(optional);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(java.util.OptionalDouble)}
+   * Creates a new instance of <code>{@link OptionalDoubleAssert}</code> assumption.
+   *
+   * @param optionalDouble the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
-  default OptionalDoubleAssert assumeThat(final OptionalDouble optional) {
-    return Assumptions.assumeThat(optional);
+  default OptionalDoubleAssert assumeThat(final OptionalDouble optionalDouble) {
+    return Assumptions.assumeThat(optionalDouble);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(java.util.OptionalInt)}
+   * Creates a new instance of <code>{@link OptionalIntAssert}</code> assumption.
+   *
+   * @param optionalInt the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
-  default OptionalIntAssert assumeThat(final OptionalInt optional) {
-    return Assumptions.assumeThat(optional);
+  default OptionalIntAssert assumeThat(final OptionalInt optionalInt) {
+    return Assumptions.assumeThat(optionalInt);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(java.util.OptionalLong)}
+   * Creates a new instance of <code>{@link OptionalLongAssert}</code> assumption.
+   *
+   * @param optionalLong the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
-  default OptionalLongAssert assumeThat(final OptionalLong optional) {
-    return Assumptions.assumeThat(optional);
+  default OptionalLongAssert assumeThat(final OptionalLong optionalLong) {
+    return Assumptions.assumeThat(optionalLong);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(LocalDateTime)}
+   * Creates a new instance of <code>{@link LocalDateTimeAssert}</code> assumption.
+   *
+   * @param localDateTime the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AbstractLocalDateTimeAssert<?> assumeThat(final LocalDateTime localDateTime) {
     return Assumptions.assumeThat(localDateTime);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(LocalDate)}
+   * Creates a new instance of <code>{@link LocalDateAssert}</code> assumption.
+   *
+   * @param localDate the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AbstractLocalDateAssert<?> assumeThat(final LocalDate localDate) {
     return Assumptions.assumeThat(localDate);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(LocalTime)}
+   * Creates a new instance of <code>{@link LocalTimeAssert}</code> assumption.
+   *
+   * @param localTime the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AbstractLocalTimeAssert<?> assumeThat(final LocalTime localTime) {
     return Assumptions.assumeThat(localTime);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(java.time.Instant)}
-   * @since 3.7.0
+   * Creates a new instance of <code>{@link InstantAssert}</code> assumption.
+   *
+   * @param instant the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
-  default AbstractInstantAssert<?> assumeThat(final Instant actual) {
-    return Assumptions.assumeThat(actual);
+  default AbstractInstantAssert<?> assumeThat(final Instant instant) {
+    return Assumptions.assumeThat(instant);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(OffsetTime)}
+   * Creates a new instance of <code>{@link OffsetTimeAssert}</code> assumption.
+   *
+   * @param offsetTime the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AbstractOffsetTimeAssert<?> assumeThat(final OffsetTime offsetTime) {
     return Assumptions.assumeThat(offsetTime);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(OffsetDateTime)}
+   * Creates a new instance of <code>{@link OffsetDateTimeAssert}</code> assumption.
+   *
+   * @param offsetDateTime the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AbstractOffsetDateTimeAssert<?> assumeThat(final OffsetDateTime offsetDateTime) {
     return Assumptions.assumeThat(offsetDateTime);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThatThrownBy(ThrowableAssert.ThrowingCallable)}
+   * Allows to capture and then assume on a {@link Throwable} (easier done with lambdas).
+   * <p>
+   * Example :
+   * <pre><code class='java'>  {@literal @}Test
+   *  public void testException() {
+   *    assumeThatThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *                                                              .hasMessageContaining("boom");
+   * }</code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assumeThatThrownBy(
       final ThrowingCallable shouldRaiseThrowable) {
@@ -678,13 +927,10 @@ public interface WithAssumptions {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
-   *
+   * Allows to capture and then assume on a {@link Throwable} (easier done with lambdas).
    * <p>
    * Example :
-   * </p>
-   *
-   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
    * 
@@ -694,29 +940,12 @@ public interface WithAssumptions {
    *                                                      
    * // assertion fails
    * assumeThatCode(callable).doesNotThrowAnyException();</code></pre>
-   *
-   * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
-   *   // do nothing 
-   * }; 
-   * 
-   * // assertion fails and "display me" appears in the assertion error
-   * assumeThatCode(doNothing).as("display me")
-   *                          .isInstanceOf(Exception.class);
-   *
-   * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(doNothing);
-   * assumeThatCode(thrown).as("display me")
-   *                       .isInstanceOf(Exception.class); </code></pre>
    * <p>
    * This method was not named {@code assumeThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @since 3.7.0
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
   default AbstractThrowableAssert<?, ? extends Throwable> assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
@@ -724,45 +953,70 @@ public interface WithAssumptions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(Predicate)}
+   * Creates a new instance of {@link PredicateAssert} assumption.
+   *
+   * @param <T> the {@link Predicate} type.
+   * @param predicate the Predicate to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
-  default <T> PredicateAssert<T> assumeThat(final Predicate<T> actual) {
-    return Assumptions.assumeThat(actual);
+  default <T> PredicateAssert<T> assumeThat(final Predicate<T> predicate) {
+    return Assumptions.assumeThat(predicate);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(IntPredicate)}
+   * Creates a new instance of {@link IntPredicateAssert} assumption.
+   *
+   * @param intPredicate the IntPredicate to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
-  default IntPredicateAssert assumeThat(final IntPredicate actual) {
-    return Assumptions.assumeThat(actual);
+  default IntPredicateAssert assumeThat(final IntPredicate intPredicate) {
+    return Assumptions.assumeThat(intPredicate);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(LongPredicate)}
+   * Creates a new instance of {@link LongPredicateAssert} assumption.
+   *
+   * @param longPredicate the LongPredicate to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
-  default LongPredicateAssert assumeThat(final LongPredicate actual) {
-    return Assumptions.assumeThat(actual);
+  default LongPredicateAssert assumeThat(final LongPredicate longPredicate) {
+    return Assumptions.assumeThat(longPredicate);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(DoublePredicate)}
+   * Creates a new instance of {@link DoublePredicateAssert} assumption.
+   *
+   * @param doublePredicate the DoublePredicate to test
+   * @return the created assumption for assertion object.
+   * @since 3.9.0
    */
-  default DoublePredicateAssert assumeThat(final DoublePredicate actual) {
-    return Assumptions.assumeThat(actual);
+  default DoublePredicateAssert assumeThat(final DoublePredicate doublePredicate) {
+    return Assumptions.assumeThat(doublePredicate);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(URL)}
+   * Creates a new instance of <code>{@link UrlAssert}</code> assumption.
+   *
+   * @param url the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
-  default AbstractUrlAssert<?> assumeThat(final URL actual) {
-    return Assumptions.assumeThat(actual);
+  default AbstractUrlAssert<?> assumeThat(final URL url) {
+    return Assumptions.assumeThat(url);
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assumptions#assumeThat(URI)}
+   * Creates a new instance of <code>{@link UriAssert}</code> assumption.
+   *
+   * @param uri the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
    */
-  default AbstractUriAssert<?> assumeThat(final URI actual) {
-    return Assumptions.assumeThat(actual);
+  default AbstractUriAssert<?> assumeThat(final URI uri) {
+    return Assumptions.assumeThat(uri);
   }
 
 }

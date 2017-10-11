@@ -22,6 +22,7 @@ public class ShouldNotContainValue extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldNotContainValue}</code>.
    * @param actual the actual value in the failed assertion.
+   * @param value the unexpected value.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContainValue(Object actual, Object value) {

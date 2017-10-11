@@ -41,11 +41,9 @@ public class InsertDelta<T> extends Delta<T> {
 
   /**
    * {@inheritDoc}
-   *
-   * @throws IllegalStateException
    */
   @Override
-  public void applyTo(List<T> target) throws IllegalStateException {
+  public void applyTo(List<T> target) {
     verify(target);
     int position = this.getOriginal().getPosition();
     List<T> lines = this.getRevised().getLines();

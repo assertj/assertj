@@ -29,6 +29,7 @@ public class ShouldNotContainSubsequence extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param subsequence the subsequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @param index the index of the unexpected subsequence.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContainSubsequence(Object actual, Object subsequence,
@@ -41,6 +42,7 @@ public class ShouldNotContainSubsequence extends BasicErrorMessageFactory {
    *
    * @param actual the actual value in the failed assertion.
    * @param subsequence the subsequence of values expected to be in {@code actual}.
+   * @param index the index of the unexpected subsequence.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContainSubsequence(Object actual, Object subsequence, int index) {

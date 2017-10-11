@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that an <code>Iterable</code> is a subset of an other set
@@ -26,6 +27,7 @@ public class ShouldBeSubsetOf extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldBeSubsetOf}</code>
    * @param actual the actual set
    * @param values the expected superset
+   * @param unexpected the unexpected value
    * @param comparisonStrategy the <code>{@link ComparisonStrategy}</code> used
    * @return the created <code>{@link ErrorMessageFactory}</code>
    */
@@ -38,6 +40,7 @@ public class ShouldBeSubsetOf extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldBeSubsetOf}</code>.
    * @param actual the actual set
    * @param values the expected superset
+   * @param unexpected the unexpected value
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected) {

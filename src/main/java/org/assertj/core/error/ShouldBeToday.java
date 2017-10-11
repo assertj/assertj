@@ -46,7 +46,7 @@ public class ShouldBeToday extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeToday}</code>.
+   * Creates a new <code>{@link ShouldBeToday}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

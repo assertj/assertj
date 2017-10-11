@@ -21,21 +21,22 @@ import java.util.Set;
  *
  * @author dorzey
  */
-public class ShouldNotContainKeys  extends BasicErrorMessageFactory {
+public class ShouldNotContainKeys extends BasicErrorMessageFactory {
 
-    /**
-     * Creates a new <code>{@link ShouldNotContainKeys}</code>.
-     *
-     * @param actual the actual value in the failed assertion.
-     * @return the created {@code ErrorMessageFactory}.
-     */
-    public static <K> ErrorMessageFactory shouldNotContainKeys(Object actual, Set<K> keys) {
-        if (keys.size() == 1) return shouldNotContainKey(actual, keys.iterator().next());
-        return new ShouldNotContainKeys(actual, keys);
-    }
+  /**
+   * Creates a new <code>{@link ShouldNotContainKeys}</code>.
+   *
+   * @param <K> key type
+   * @param actual the actual value in the failed assertion.
+   * @param keys the unexpected keys
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <K> ErrorMessageFactory shouldNotContainKeys(Object actual, Set<K> keys) {
+    if (keys.size() == 1) return shouldNotContainKey(actual, keys.iterator().next());
+    return new ShouldNotContainKeys(actual, keys);
+  }
 
-    private <K> ShouldNotContainKeys(Object actual, Set<K> key) {
-        super("%nExpecting:%n  <%s>%nnot to contain keys:%n  <%s>", actual, key);
-    }
+  private <K> ShouldNotContainKeys(Object actual, Set<K> key) {
+    super("%nExpecting:%n  <%s>%nnot to contain keys:%n  <%s>", actual, key);
+  }
 }
-

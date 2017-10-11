@@ -56,6 +56,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
+   * @param notFound the values not found.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -70,6 +71,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
+   * @param notFound the values not found.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence[] strings, Set<? extends CharSequence> notFound) {

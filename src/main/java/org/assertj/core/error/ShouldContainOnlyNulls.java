@@ -26,7 +26,6 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldContainOnlyNulls}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param nonNullElements the values that are not null elements in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainOnlyNulls(Object actual) {

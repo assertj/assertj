@@ -79,12 +79,17 @@ public class Chunk<T> {
     return lines;
   }
 
+  /**
+   * Return the chunk size
+   * @return the chunk size
+   */
   public int size() {
     return lines.size();
   }
 
   /**
    * Returns the index of the last line of the chunk.
+   * @return the index of the last line of the chunk.
    */
   public int last() {
     return getPosition() + size() - 1;

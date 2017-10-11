@@ -38,8 +38,6 @@ public class DeleteDelta<T> extends Delta<T> {
 
   /**
    * {@inheritDoc}
-   *
-   * @throws IllegalStateException
    */
   @Override
   public void applyTo(List<T> target) throws IllegalStateException {

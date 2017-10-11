@@ -40,7 +40,7 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link ShouldBeCloseTo}</code>.
+   * Creates a new <code>{@link ShouldBeCloseTo}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param differenceDescription detailed difference description message.

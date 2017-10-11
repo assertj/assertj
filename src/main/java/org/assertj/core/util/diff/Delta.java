@@ -75,7 +75,7 @@ public abstract class Delta<T> {
    * Applies this delta as the patch for a given target
    * 
    * @param target the given target
-   * @throws IllegalStateException
+   * @throws IllegalStateException if {@link #verify(List)} fails
    */
   public abstract void applyTo(List<T> target) throws IllegalStateException;
 

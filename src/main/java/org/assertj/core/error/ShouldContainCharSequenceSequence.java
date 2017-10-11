@@ -29,6 +29,7 @@ public class ShouldContainCharSequenceSequence extends BasicErrorMessageFactory 
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
+   * @param firstBadOrderIndex the first incorrect value's index.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainSequence(CharSequence actual, CharSequence[] strings, int firstBadOrderIndex) {
@@ -41,6 +42,7 @@ public class ShouldContainCharSequenceSequence extends BasicErrorMessageFactory 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @param badOrderIndex the incorrect value's index.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainSequence(CharSequence actual, CharSequence[] strings, int badOrderIndex,

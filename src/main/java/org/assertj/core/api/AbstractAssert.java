@@ -558,7 +558,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * Example :
    *
-   * <pre><code class='java'> assertThat(player).matches(p -> p.isRookie());</code></pre>
+   * <pre><code class='java'> assertThat(player).matches(p -&gt; p.isRookie());</code></pre>
    *
    * @param predicate the {@link Predicate} to match
    * @return {@code this} assertion object.
@@ -576,7 +576,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * Example :
    *
-   * <pre><code class='java'> assertThat(player).matches(p -> p.isRookie(), "is rookie");</code></pre>
+   * <pre><code class='java'> assertThat(player).matches(p -&gt; p.isRookie(), "is rookie");</code></pre>
    *
    * The error message contains the predicate description, if the previous assertion fails, it will be:
    *
@@ -605,7 +605,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Jedi yoda = new Jedi("Yoda", "Green");
    * Jedi luke = new Jedi("Luke Skywalker", "Green");
    *
-   * Consumer&lt;Jedi&gt; jediRequirements = jedi -> {
+   * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
    *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
    *   assertThat(jedi.getName()).doesNotContain("Dark");
    * };
@@ -620,7 +620,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * In the following example, {@code satisfies} prevents the need of define a local variable in order to run multiple assertions:
    * <pre><code class='java'> // no need to define team.getPlayers().get(0).getStats() as a local variable
-   * assertThat(team.getPlayers().get(0).getStats()).satisfies(stats -> {
+   * assertThat(team.getPlayers().get(0).getStats()).satisfies(stats -&gt; {
    *   assertThat(stats.pointPerGame).isGreaterThan(25.7);
    *   assertThat(stats.assistsPerGame).isGreaterThan(7.2);
    *   assertThat(stats.reboundsPerGame).isBetween(9, 12);

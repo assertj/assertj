@@ -52,8 +52,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Verifies that the actual {@code OffsetTime} is <b>strictly</b> before the given one.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(parse("12:00:00Z")).isBefore(parse("13:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
@@ -79,8 +77,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("12:59Z")).isBefore("13:00Z");</code></pre>
    *
@@ -101,8 +97,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Verifies that the actual {@code OffsetTime} is before or equals to the given one.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(parse("12:00:00Z")).isBeforeOrEqualTo(parse("12:00:00Z"))
    *                               .isBeforeOrEqualTo(parse("12:00:01Z"));</code></pre>
    *
@@ -129,8 +123,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("12:00:00Z")).isBeforeOrEqualTo("12:00:00Z")
    *                               .isBeforeOrEqualTo("13:00:00Z");</code></pre>
@@ -151,8 +143,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Verifies that the actual {@code OffsetTime} is after or equals to the given one.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(parse("13:00:00Z")).isAfterOrEqualTo(parse("13:00:00Z"))
    *                               .isAfterOrEqualTo(parse("12:00:00Z"));</code></pre>
    *
@@ -179,8 +169,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("13:00:00Z")).isAfterOrEqualTo("13:00:00Z")
    *                               .isAfterOrEqualTo("12:00:00Z");</code></pre>
@@ -202,8 +190,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Verifies that the actual {@code OffsetTime} is <b>strictly</b> after the given one.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(parse("13:00:00Z")).isAfter(parse("12:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
@@ -229,8 +215,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("13:00:00Z")).isAfter("12:00:00Z");</code></pre>
    *
@@ -254,8 +238,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("13:00:00Z")).isEqualTo("13:00:00Z");</code></pre>
    *
@@ -279,8 +261,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("13:00:00Z")).isNotEqualTo("12:00:00Z");</code></pre>
    *
@@ -304,8 +284,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTimes as String (AssertJ taking care of the conversion)
    * assertThat(parse("13:00:00Z")).isIn("12:00:00Z", "13:00:00Z");</code></pre>
    *
@@ -329,8 +307,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * >ISO OffsetTime format</a> to allow calling {@link java.time.OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <p>
-   * 
    * <pre><code class='java'> // you can express expected OffsetTimes as String (AssertJ taking care of the conversion)
    * assertThat(parse("13:00:00Z")).isNotIn("12:00:00Z", "14:00:00Z");</code></pre>
    *
@@ -394,8 +370,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Assertion fails as second fields differ even if time difference is only 1ns.
    * <p>
    * Code example :
-   * <p>
-   * 
    * <pre><code class='java'> // successful assertions
    * OffsetTime OffsetTime1 = OffsetTime.of(12, 0, 1, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(12, 0, 1, 456, ZoneOffset.UTC);
@@ -433,8 +407,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Assertion fails as minute fields differ even if time difference is only 1s.
    * <p>
    * Code example :
-   * <p>
-   * 
    * <pre><code class='java'> // successful assertions
    * OffsetTime OffsetTime1 = OffsetTime.of(23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(23, 50, 10, 456, ZoneOffset.UTC);
@@ -465,8 +437,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Verifies that actual and given {@link java.time.OffsetTime} have same hour, minute, second and nanosecond fields).
    * <p>
    * Code examples :
-   * <p>
-   * 
    * <pre><code class='java'> // successful assertions
    * OffsetTime offsetTime = OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC);
    * OffsetTime offsetTime2 = OffsetTime.of(12, 0, 0, 0, ZoneOffset.MAX);
@@ -503,8 +473,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * Time difference is only 1s but hour fields differ.
    * <p>
    * Code example :
-   * <p>
-   * 
    * <pre><code class='java'> // successful assertions
    * OffsetTime OffsetTime1 = OffsetTime.of(23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(23, 00, 2, 7, ZoneOffset.UTC);

@@ -94,6 +94,7 @@ public class Filters<E> {
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * 
+   * @param <E> the iterable elements type.
    * @param iterable the {@code Iterable} to filter.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @return the created <code>{@link Filters}</code>.
@@ -127,6 +128,7 @@ public class Filters<E> {
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * 
+   * @param <E> the array elements type.
    * @param array the array to filter.
    * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.

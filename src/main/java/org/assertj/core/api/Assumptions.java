@@ -465,7 +465,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicBoolean}.
+   * Create assumption for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
@@ -477,7 +477,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicInteger}.
+   * Create assumption for {@link AtomicInteger}.
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
@@ -501,7 +501,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicIntegerFieldUpdater}.
+   * Create assumption for {@link AtomicIntegerFieldUpdater}.
    *
    * @param actual the actual value.
    * @param <OBJECT> the type of the object holding the updatable field.
@@ -515,7 +515,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicLong}.
+   * Create assumption for {@link AtomicLong}.
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
@@ -527,7 +527,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicLongArray}.
+   * Create assumption for {@link AtomicLongArray}.
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
@@ -539,7 +539,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicLongFieldUpdater}.
+   * Create assumption for {@link AtomicLongFieldUpdater}.
    *
    * @param actual the actual value.
    * @param <OBJECT> the type of the object holding the updatable field.
@@ -553,7 +553,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicReference}.
+   * Create assumption for {@link AtomicReference}.
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
@@ -567,7 +567,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicReferenceArray}.
+   * Create assumption for {@link AtomicReferenceArray}.
    *
    * @param actual the actual value.
    * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
@@ -581,7 +581,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicReferenceFieldUpdater}.
+   * Create assumption for {@link AtomicReferenceFieldUpdater}.
    *
    * @param actual the actual value.
    * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
@@ -596,7 +596,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicMarkableReference}.
+   * Create assumption for {@link AtomicMarkableReference}.
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
@@ -610,7 +610,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates assumption for {@link AtomicStampedReference}.
+   * Create assumption for {@link AtomicStampedReference}.
    *
    * @param actual the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
@@ -684,9 +684,9 @@ public class Assumptions {
   }
 
   /**
-   * Create assertion for {@link java.util.concurrent.Future} assumption.
+   * Create assertion for {@link FutureAssert} assumption.
    *
-   * @param actual the actual value.
+   * @param future the actual value.
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
    *
    * @return the created assumption for assertion object.
@@ -694,13 +694,14 @@ public class Assumptions {
    */
   @CheckReturnValue
   @SuppressWarnings("unchecked")
-  public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assumeThat(Future<RESULT> actual) {
-    return asAssumption(FutureAssert.class, Future.class, actual);
+  public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assumeThat(Future<RESULT> future) {
+    return asAssumption(FutureAssert.class, Future.class, future);
   }
 
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code> assumption.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
@@ -714,6 +715,7 @@ public class Assumptions {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code> assumption.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
@@ -727,6 +729,7 @@ public class Assumptions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> assumption.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
@@ -740,6 +743,7 @@ public class Assumptions {
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code> assumption.
    *
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
@@ -768,6 +772,7 @@ public class Assumptions {
   /**
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> assumption.
    *
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
@@ -812,11 +817,10 @@ public class Assumptions {
   /**
    * Allows to capture and then assume on a {@link Throwable} (easier done with lambdas).
    * <p>
-   * The main difference with {@link #assumeThatThrownBy(ThrowingCallable) assumeThatThrownBy} is that 
-   * this method does not fail if no exception was thrown.
+   * The main difference with {@code assumeThatThrownBy(ThrowingCallable)} is that this method does not fail if no exception was thrown.
    * <p>
    * Example :
-   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
    * 
@@ -826,23 +830,6 @@ public class Assumptions {
    *                                                      
    * // assertion fails
    * assumeThatCode(callable).doesNotThrowAnyException();</code></pre>
-   *
-   * If the provided {@link ThrowingCallable} does not validate against next assumptions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
-   *   // do nothing 
-   * }; 
-   * 
-   * // assertion fails and "display me" appears in the assertion error
-   * assumeThatCode(doNothing).as("display me")
-   *                          .isInstanceOf(Exception.class);
-   *
-   * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(doNothing);
-   * assumeThatCode(thrown).as("display me")
-   *                       .isInstanceOf(Exception.class); </code></pre>
    * <p>
    * This method was not named {@code assumeThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
    *
@@ -860,6 +847,7 @@ public class Assumptions {
   /**
    * Creates a new instance of {@link PredicateAssert} assumption.
    *
+   * @param <T> the {@link Predicate} type.
    * @param actual the Predicate to test
    * @return the created assumption for assertion object.
    * @since 3.9.0
@@ -871,7 +859,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link IntPredicate} assumption.
+   * Creates a new instance of {@link IntPredicateAssert} assumption.
    *
    * @param actual the IntPredicate to test
    * @return the created assumption for assertion object.
@@ -883,7 +871,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link LongPredicate} assumption.
+   * Creates a new instance of {@link LongPredicateAssert} assumption.
    *
    * @param actual the LongPredicate to test
    * @return the created assumption for assertion object.
@@ -895,7 +883,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link DoublePredicate} assumption.
+   * Creates a new instance of {@link DoublePredicateAssert} assumption.
    *
    * @param actual the DoublePredicate to test
    * @return the created assumption for assertion object.
@@ -907,8 +895,9 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link CompletableFuture} assumption.
+   * Creates a new instance of {@link CompletableFutureAssert} assumption.
    *
+   * @param <RESULT> the CompletableFuture wrapped type.
    * @param actual the CompletableFuture to test
    * @return the created assumption for assertion object.
    * @since 3.9.0
@@ -920,8 +909,9 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link Optional} assumption.
+   * Creates a new instance of {@link OptionalAssert} assumption.
    *
+   * @param <VALUE> the Optional wrapped type.
    * @param actual the Optional to test
    * @return the created assumption for assertion object.
    * @since 3.9.0
@@ -933,7 +923,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link OptionalDouble} assumption.
+   * Creates a new instance of {@link OptionalDoubleAssert} assumption.
    *
    * @param actual the OptionalDouble to test
    * @return the created assumption for assertion object.
@@ -945,7 +935,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link OptionalInt} assumption.
+   * Creates a new instance of {@link OptionalIntAssert} assumption.
    *
    * @param actual the OptionalInt to test
    * @return the created assumption for assertion object.
@@ -957,7 +947,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link OptionalLong} assumption.
+   * Creates a new instance of {@link OptionalLongAssert} assumption.
    *
    * @param actual the OptionalLong to test
    * @return the created assumption for assertion object.
@@ -969,7 +959,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link ZonedDateTime} assumption.
+   * Creates a new instance of {@link ZonedDateTimeAssert} assumption.
    *
    * @param actual the ZonedDateTime to test
    * @return the created assumption for assertion object.
@@ -981,7 +971,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link LocalDateTime} assumption.
+   * Creates a new instance of {@link LocalDateTimeAssert} assumption.
    *
    * @param actual the LocalDateTime to test
    * @return the created assumption for assertion object.
@@ -993,7 +983,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link OffsetDateTime} assumption.
+   * Creates a new instance of {@link OffsetDateTimeAssert} assumption.
    *
    * @param actual the OffsetDateTime to test
    * @return the created assumption for assertion object.
@@ -1005,7 +995,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link OffsetTime} assumption.
+   * Creates a new instance of {@link OffsetTimeAssert} assumption.
    *
    * @param actual the LocalTime to test
    * @return the created assumption for assertion object.
@@ -1017,7 +1007,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link LocalTime} assumption.
+   * Creates a new instance of {@link LocalTimeAssert} assumption.
    *
    * @param actual the LocalTime to test
    * @return the created assumption for assertion object.
@@ -1029,7 +1019,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link LocalDate} assumption.
+   * Creates a new instance of {@link LocalDateAssert} assumption.
    *
    * @param actual the LocalDate to test
    * @return the created assumption for assertion object.
@@ -1041,7 +1031,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link Instant} assumption.
+   * Creates a new instance of {@link InstantAssert} assumption.
    *
    * @param actual the Instant to test
    * @return the created assumption for assertion object.
@@ -1053,8 +1043,9 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link Stream} assumption.
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link Stream}. 
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the Stream to test
    * @return the created assumption for assertion object.
    * @since 3.9.0
@@ -1066,7 +1057,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link DoubleStream} assumption.
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link DoubleStream}.
    *
    * @param actual the DoubleStream to test
    * @return the created assumption for assertion object.
@@ -1079,7 +1070,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link LongStream} assumption.
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link LongStream}.
    *
    * @param actual the LongStream to test
    * @return the created assumption for assertion object.
@@ -1092,7 +1083,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of {@link LongStream} assumption.
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link IntStream}.
    *
    * @param actual the LongStream to test
    * @return the created assumption for assertion object.

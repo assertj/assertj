@@ -1300,6 +1300,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * @deprecated use {@link #hasYear(int)} instead.
+   * @param year the year to compare actual year to
+   * @return this assertion object.
    */
   @Deprecated
   public SELF isWithinYear(int year) {
@@ -1333,6 +1335,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * @deprecated use {@link #hasMonth(int)} instead.
+   * @param month the month to compare actual month to, <b>month value starting at 1</b> (January=1, February=2, ...).
+   * @return this assertion object.
    */
   @Deprecated
   public SELF isWithinMonth(int month) {
@@ -1365,6 +1369,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * @deprecated use {@link #hasDayOfMonth(int)} instead.
+   * @param dayOfMonth the day of month to compare actual day of month to
+   * @return this assertion object.
    */
   @Deprecated
   public SELF isWithinDayOfMonth(int dayOfMonth) {
@@ -1398,6 +1404,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   
   /**
    * @deprecated use {@link #hasDayOfWeek(int)} instead.
+   * @param dayOfWeek the day of week to compare actual day of week to, see {@link Calendar#DAY_OF_WEEK} for valid
+   *          values
+   * @return this assertion object.
    */
   @Deprecated
   public SELF isWithinDayOfWeek(int dayOfWeek) {
@@ -1429,6 +1438,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   
   /**
    * @deprecated use {@link #hasHourOfDay(int)} instead.
+   * @param hourOfDay the hour of day to compare actual hour of day to (24-hour clock)
+   * @return this assertion object.
    */
   @Deprecated
   public SELF isWithinHourOfDay(int hourOfDay) {
@@ -1460,6 +1471,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   
   /**
    * @deprecated use {@link #hasMinute(int)} instead.
+   * @param minute the minute to compare actual minute to
+   * @return this assertion object.
    */
   @Deprecated
   public SELF isWithinMinute(int minute) {
@@ -1491,6 +1504,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   
   /**
    * @deprecated use {@link #hasSecond(int)} instead.
+   * @param second the second to compare actual second to
+   * @return this assertion object.
    */
   @Deprecated
   public SELF isWithinSecond(int second) {
@@ -1522,10 +1537,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   
   /**
    * @deprecated use {@link #hasMillisecond(int)} instead.
+   * @param millisecond the millisecond to compare actual millisecond to
+   * @return this assertion object.
    */
   @Deprecated
-  public SELF isWithinMillisecond(int second) {
-    dates.assertHasMillisecond(info, actual, second);
+  public SELF isWithinMillisecond(int millisecond) {
+    dates.assertHasMillisecond(info, actual, millisecond);
     return myself;
   }
   
@@ -2054,6 +2071,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    *
    * @param dateAsString the given Date represented as String.
+   * @return this assertion object.
    * @throws NullPointerException if dateAsString parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not in the same second.
@@ -2121,6 +2139,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * @param dateAsString the given Date represented as String.
+   * @return this assertion object.
    */
   public SELF isInSameSecondAs(String dateAsString) {
     return isInSameSecondAs(parse(dateAsString));

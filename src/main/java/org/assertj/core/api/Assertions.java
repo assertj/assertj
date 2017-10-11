@@ -107,10 +107,10 @@ import org.assertj.core.util.introspection.FieldSupport;
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);</code></pre>
- * <p/>
+ * <p>
  * This class only contains all <code>assertThat</code> methods, if you have ambiguous method compilation error, use either {@link AssertionsForClassTypes} or {@link AssertionsForInterfaceTypes}
  * and if you need both, fully qualify you assertThat method.
- * <p/>
+ * <p>
  * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded,
  * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve
  * the proper <code>assertThat</code> method (normally <code>assertThat(Throwable)</code> as foo might implement an interface like List,
@@ -150,6 +150,7 @@ public class Assertions {
   /**
    * Create assertion for {@link IntPredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -162,6 +163,7 @@ public class Assertions {
   /**
    * Create assertion for {@link LongPredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -174,6 +176,7 @@ public class Assertions {
   /**
    * Create assertion for {@link DoublePredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -564,6 +567,9 @@ public class Assertions {
    *                                         .startsWith("fro")
    *                                         .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -598,6 +604,9 @@ public class Assertions {
    *                                        .startsWith("fro")
    *                                        .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -639,6 +648,9 @@ public class Assertions {
    *                                         .startsWith("fro")
    *                                         .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -672,6 +684,9 @@ public class Assertions {
    *                                        .startsWith("fro")
    *                                        .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -722,8 +737,8 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
-   * @param actual the actual value.
    * @param <T> the type of the actual value.
+   * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
@@ -734,6 +749,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
+   * @param <T> the actual's elements type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1038,15 +1054,18 @@ public class Assertions {
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
-   * assertThatThrownBy(() -&gt; { // do nothing }).as("display me").isInstanceOf(Exception.class);
+   * assertThatThrownBy(() -&gt; { }).as("display me")
+   *                                 .isInstanceOf(Exception.class);
    *
    * // assertion will fail AND "display me" will appear in the error
    * Throwable thrown = catchThrowable(() -&gt; { // do nothing });
    * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   * 
+   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
+   * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return the created {@link ThrowableAssert}.
@@ -1059,37 +1078,31 @@ public class Assertions {
   /**
    * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
    * <p>
-   * The main difference with {@link #assertThatThrownBy(ThrowingCallable) assertThatThrownBy} is that 
+   * The main difference with {@code assertThatThrownBy(ThrowingCallable)} is that 
    * this method does not fail if no exception was thrown.
    * <p>
    * Example :
-   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   * <pre><code class='java'> ThrowingCallable boomCode = () -&gt; {
    *   throw new Exception("boom!");
    * };
+   * ThrowingCallable doNothing = () -&gt; { }; 
    * 
-   * // assertion succeeds
-   * assertThatCode(callable).isInstanceOf(Exception.class)
+   * // assertions succeed
+   * assertThatCode(doNothing).doesNotThrowAnyException();
+   * assertThatCode(boomCode).isInstanceOf(Exception.class)
    *                         .hasMessageContaining("boom");
    *                                                      
    * // assertion fails
-   * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
+   * assertThatCode(boomCode).doesNotThrowAnyException();</code></pre>
    *
-   * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
+   * Contrary to <code>assertThatThrownBy(ThrowingCallable)</code> the test description provided with 
+   * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
    * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
-   *   // do nothing 
-   * }; 
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; { }; 
    * 
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")
-   *                          .isInstanceOf(Exception.class);
-   *
-   * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(doNothing);
-   * assertThatCode(thrown).as("display me")
-   *                       .isInstanceOf(Exception.class); </code></pre>
+   *                          .isInstanceOf(Exception.class);</code></pre>
    * <p>
    * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
    *
@@ -1136,11 +1149,12 @@ public class Assertions {
    * <p>
    * Example:
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
-   *           .isThrownBy(() -> { throw new IOException("boom!"); })
+   *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
    *           .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
-   * @param exceptionType the exception type.
+   * @param <T> the the exception type.
+   * @param exceptionType the exception type class.
    * @return the created {@link ThrowableTypeAssert}.
    */
   @CheckReturnValue
@@ -1344,6 +1358,13 @@ public class Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing))
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);</code></pre>
+   * @param <T> the type of value to extract.
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @param propertyType the type of property to extract
+   * @return the created {@code Properties}.
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
@@ -1369,7 +1390,10 @@ public class Assertions {
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;, &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;); </code></pre>
    *
-   * @param propertyName the name of the property to extract
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
    * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
@@ -1452,6 +1476,7 @@ public class Assertions {
    *
    * @param index the value of the index.
    * @return the created {@code Index}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Index atIndex(int index) {
     return Index.atIndex(index);
@@ -1462,8 +1487,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
+   * 
    * @param value the allowed offset
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> offset(Double value) {
     return Offset.offset(value);
@@ -1474,8 +1502,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
+   * 
    * @param value the allowed offset
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
@@ -1486,8 +1517,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> within(Double value) {
     return Offset.offset(value);
@@ -1498,8 +1532,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, withPrecision(0.1));</code></pre>
+   * 
    * @param value the required precision
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> withPrecision(Double value) {
     return Offset.offset(value);
@@ -1510,8 +1547,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> within(Float value) {
     return Offset.offset(value);
@@ -1522,8 +1562,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isEqualTo(8.0f, withPrecision(0.2f));</code></pre>
+   * 
    * @param value the required precision
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> withPrecision(Float value) {
     return Offset.offset(value);
@@ -1534,8 +1577,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
     return Offset.offset(value);
@@ -1546,9 +1592,12 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
-   * @since 2.7.0 / 3.7.0
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
+   * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> within(BigInteger value) {
     return Offset.offset(value);
@@ -1559,8 +1608,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1571,8 +1623,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
@@ -1583,8 +1638,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
@@ -1595,8 +1653,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
@@ -1610,6 +1671,10 @@ public class Assertions {
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
    * LocalTime _07_12 = LocalTime.of(7, 12); 
    * assertThat(_07_10).isCloseTo(_07_12, within(5, ChronoUnit.MINUTES));</code></pre>
+   * 
+   * @param value the allowed offset
+   * @param unit the {@link TemporalUnit} of the offset
+   * @return the created {@code Offset}.
    * @since 3.7.0
    */
   public static TemporalUnitOffset within(long value, TemporalUnit unit) {
@@ -1622,8 +1687,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
+   * 
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Double value) {
     return withPercentage(value);
@@ -1635,8 +1703,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
+   * 
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Integer value) {
     return withPercentage(value);
@@ -1648,8 +1719,11 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
+   * 
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Long value) {
     return withPercentage(value);
@@ -1661,7 +1735,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, byLessThan(0.1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> byLessThan(Double value) {
     return Offset.offset(value);
@@ -1673,7 +1750,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.2f));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> byLessThan(Float value) {
     return Offset.offset(value);
@@ -1685,7 +1765,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), byLessThan(BigDecimal.ONE));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
     return Offset.offset(value);
@@ -1697,7 +1780,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
    * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> byLessThan(BigInteger value) {
@@ -1710,7 +1796,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);
@@ -1722,7 +1811,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> byLessThan(Integer value) {
     return Offset.offset(value);
@@ -1734,7 +1826,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> byLessThan(Short value) {
     return Offset.offset(value);
@@ -1746,7 +1841,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(2l));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> byLessThan(Long value) {
     return Offset.offset(value);
@@ -1760,6 +1858,10 @@ public class Assertions {
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
    * LocalTime _07_12 = LocalTime.of(7, 12); 
    * assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, ChronoUnit.MINUTES));</code></pre>
+   * 
+   * @param value the value of the offset.
+   * @param unit the {@link TemporalUnit} of the offset.
+   * @return the created {@code Offset}.
    * @since 3.7.0
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
@@ -1848,8 +1950,9 @@ public class Assertions {
   /**
    * Creates a new <code>{@link DoesNotHave}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
-   * @return The Not condition created.
+   * @return The DoesNotHave condition created.
    */
   public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
     return DoesNotHave.doesNotHave(condition);
@@ -1858,6 +1961,7 @@ public class Assertions {
   /**
    * Creates a new <code>{@link Not}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -1884,6 +1988,7 @@ public class Assertions {
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *           .containsOnly(james, rose);</code></pre>
    *
+   * @param <E> the array elements type.
    * @param array the array to filter.
    * @return the created <code>{@link Filters}</code>.
    */
@@ -1903,10 +2008,12 @@ public class Assertions {
    * <p>
    * and with filter language based on java bean property :
    *
-   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
-   *            .containsOnly(james, rose);</code></pre>
+   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
+   *                           .and(&quot;assistsPerGame&quot;).greaterThan(7).get())
+   *           .containsOnly(james, rose);</code></pre>
    *
-   * @param iterable the {@code Iterable} to filter.
+   * @param <E> the {@link Iterable} elements type.
+   * @param iterableToFilter the {@code Iterable} to filter.
    * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
@@ -2331,6 +2438,7 @@ public class Assertions {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    *
+   * @param <T> the AssertProvider wrapped type.
    * @param component
    *          the component that creates its own assert
    * @return the associated {@link Assert} of the given component
@@ -2364,6 +2472,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -2379,6 +2488,7 @@ public class Assertions {
    * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
    * cached by IterableAssert first time Iterator is consumed.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -2390,6 +2500,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -2405,6 +2516,7 @@ public class Assertions {
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
    * interacts with the {@link List} built from the {@link Stream}.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
@@ -2425,6 +2537,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+    // TODO remove ? extends Double
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
@@ -2475,6 +2588,8 @@ public class Assertions {
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
    * annoying warnings.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -2487,6 +2602,7 @@ public class Assertions {
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -2595,6 +2711,7 @@ public class Assertions {
    * // to start with:
    * //   &lt;$bar$&gt;</code></pre>
    *
+   * @param customRepresentation the {@link Representation} to use
    * @since 2.5.0 / 3.5.0
    */
   public static void useRepresentation(Representation customRepresentation) {
@@ -2620,16 +2737,17 @@ public class Assertions {
    * assertThat(STANDARD_REPRESENTATION.toStringOf(123L)).isEqualTo("123L");
    *
    * // register a formatter for Long
-   * Assertions.registerFormatterForType(Long.class, value -> "$" + value + "$");
+   * Assertions.registerFormatterForType(Long.class, value -&gt; "$" + value + "$");
    *
    * // now Long will be formatted between in $$ in error message.
    * assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
    *
-   * // fails with error : expected:<$456$> but was:<$123$>
+   * // fails with error : expected:&lt;$456$&gt; but was:&lt;$123$&gt; 
    * assertThat(123L).isEqualTo(456L);</code></pre>
    *
-   * @param type
-   * @param formatter
+   * @param <T> the type of format.
+   * @param type the class of the type to format
+   * @param formatter the formatter {@link Function}
    *
    * @since 3.5.0
    */

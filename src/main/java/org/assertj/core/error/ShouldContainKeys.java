@@ -25,7 +25,9 @@ public class ShouldContainKeys extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldContainKeys}</code>.
    * 
+   * @param <K> key type
    * @param actual the actual value in the failed assertion.
+   * @param keys the expected keys
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <K> ErrorMessageFactory shouldContainKeys(Object actual, Set<K> keys) {

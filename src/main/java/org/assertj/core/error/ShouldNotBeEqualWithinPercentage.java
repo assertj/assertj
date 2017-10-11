@@ -25,6 +25,7 @@ public class ShouldNotBeEqualWithinPercentage extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldNotBeEqualWithinPercentage}</code>.
    *
+   * @param <T> the type of the actual value and the type of values that given {@code Condition} takes.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @param percentage the given positive percentage.

@@ -53,7 +53,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.Optional}.
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).isPresent();</code></pre>
    *
@@ -69,7 +69,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.Optional}, it's an alias of {@link #isPresent()}.
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).isNotEmpty();</code></pre>
    *
@@ -84,7 +84,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   /**
    * Verifies that the actual {@link java.util.Optional} is empty.
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.empty()).isEmpty();</code></pre>
    *
@@ -101,7 +101,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   /**
    * Verifies that the actual {@link java.util.Optional} is empty (alias of {@link #isEmpty()}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.empty()).isNotPresent();</code></pre>
    *
@@ -116,7 +116,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #hasValue(Object)}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).contains("something");
    * assertThat(Optional.of(10)).contains(10);</code></pre>
@@ -141,25 +141,25 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
    * {@link java.util.function.Consumer} for further assertions. Should be used as a way of deeper asserting on the
    * containing object, as further requirement(s) for the value.
-   * </p>
+   * <p>
    * Assertions will pass :
    * <pre><code class='java'> // one requirement 
-   * assertThat(Optional.of(10)).hasValueSatisfying(i -> { assertThat(i).isGreaterThan(9); });
+   * assertThat(Optional.of(10)).hasValueSatisfying(i -&gt; { assertThat(i).isGreaterThan(9); });
    *
    * // multiple requirements
-   * assertThat(Optional.of(someString)).hasValueSatisfying(s -> {
+   * assertThat(Optional.of(someString)).hasValueSatisfying(s -&gt; {
    *   assertThat(s).isEqualTo("something");
    *   assertThat(s).startsWith("some");
    *   assertThat(s).endsWith("thing");
    * }); </code></pre>
    *
    * Assertions will fail :
-   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueSatisfying(s -> {
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueSatisfying(s -&gt; {
    *     assertThat(s).isEqualTo("something else");
    *   });
    *
    * // fail because optional is empty, there is no value to perform assertion on  
-   * assertThat(Optional.empty()).hasValueSatisfying(o -> {});</code></pre>
+   * assertThat(Optional.empty()).hasValueSatisfying(o -&gt; {});</code></pre>
    *
    * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
    * @return this assertion object.
@@ -174,7 +174,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Verifies that the actual {@link Optional} contains a value which satisfies the given {@link Condition}.
    * <p>
    * Examples:
-   * <pre><code class='java'> Condition&lt;TolkienCharacter&gt isAnElf = new Condition&lt;&gt;(character -> character.getRace() == ELF, "an elf"); 
+   * <pre><code class='java'> Condition&lt;TolkienCharacter&gt; isAnElf = new Condition&lt;&gt;(character -&gt; character.getRace() == ELF, "an elf"); 
    * 
    * TolkienCharacter legolas = new TolkienCharacter("Legolas", 1000, ELF);
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -200,7 +200,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something");
    * assertThat(Optional.of(10)).contains(10);</code></pre>
@@ -218,7 +218,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   /**
    * Verifies that the actual {@link Optional} contains a value that is an instance of the argument.
-   * </p>
+   * <p>
    * Assertions will pass:
    *
    * <pre><code class='java'> assertThat(Optional.of("something")).containsInstanceOf(String.class)
@@ -315,7 +315,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument (i.e. it must be the
    * same instance).
-   * </p>
+   * <p>
    * Assertion will pass :
    *
    * <pre><code class='java'> String someString = "something";
@@ -367,6 +367,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .contains("something");</code></pre>
    *
+   * @param <U> the type wrapped in the {@link Optional} after the {@link Optional#flatMap(Function) flatMap} operation.
    * @param mapper the {@link Function} to use in the {@link Optional#flatMap(Function) flatMap} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the flatMap of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
@@ -394,6 +395,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * assertThat(Optional.of("42")).map(String::length)
    *                              .contains(3);</code></pre>
    *
+   * @param <U> the type wrapped in the {@link Optional} after the {@link Optional#map(Function) map} operation.
    * @param mapper the {@link Function} to use in the {@link Optional#map(Function) map} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the map of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.

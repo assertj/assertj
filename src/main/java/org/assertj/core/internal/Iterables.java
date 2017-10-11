@@ -539,6 +539,7 @@ public class Iterables {
   /**
    * Asserts that the given {@code Iterable} does not contain the given values.
    *
+   * @param <T> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param iterable the values that are expected not to be in the given {@code Iterable}.
@@ -691,6 +692,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} satisfies the given condition.
    *
+   * @param <T> the type of actual elements 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -713,6 +715,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} not satisfies the given condition.
    *
+   * @param <E> the type of actual elements 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -735,6 +738,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} satisfies the given condition.
    *
+   * @param <E> the type of actual elements 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -757,6 +761,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} not satisfies the given condition.
    *
+   * @param <E> the type of actual elements 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -780,6 +785,7 @@ public class Iterables {
    * Assert that there are <b>at least</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
+   * @param <E> the type of actual elements 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param times the minimum number of times the condition should be verified.
@@ -810,6 +816,7 @@ public class Iterables {
    * Assert that there are <b>at most</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
+   * @param <E> the type of actual elements 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the number of times the condition should be at most verified.
@@ -840,6 +847,7 @@ public class Iterables {
    * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
+   * @param <E> the type of actual elements 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param times the exact number of times the condition should be verified.
@@ -869,6 +877,15 @@ public class Iterables {
   /**
    * An alias method of {@link #assertAreAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
+   * 
+   * @param <E> the type of actual elements 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param times the minimum number of times the condition should be verified.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to E.
+   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   public <E> void assertHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
                                     Condition<? super E> condition) {
@@ -885,6 +902,15 @@ public class Iterables {
   /**
    * An alias method of {@link #assertAreAtMost(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api
    * (same logic, only error message differs).
+   *
+   * @param <E> the type of actual elements 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param times the number of times the condition should be at most verified.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to E.
+   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   public <E> void assertHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times,
                                    Condition<? super E> condition) {
@@ -901,6 +927,15 @@ public class Iterables {
   /**
    * An alias method of {@link #assertAreExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
+   * 
+   * @param <E> the type of actual elements 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param times the exact number of times the condition should be verified.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if an element cannot be cast to E.
+   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   public <E> void assertHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
                                     Condition<? super E> condition) {

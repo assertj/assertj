@@ -25,6 +25,7 @@ public class AnyOf<T> extends Join<T> {
 
   /**
    * Creates a new <code>{@link AnyOf}</code>
+   * 
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.

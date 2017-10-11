@@ -50,6 +50,7 @@ public class DateUtil {
 
   /**
    * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
+   * @return a {@code yyyy-MM-dd} {@link DateFormat}
    */
   public static DateFormat newIsoDateFormat() {
     return strictDateFormatForPattern("yyyy-MM-dd");
@@ -57,6 +58,7 @@ public class DateUtil {
 
   /**
    * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ss} {@link DateFormat}
    */
   public static DateFormat newIsoDateTimeFormat() {
     return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -65,6 +67,7 @@ public class DateUtil {
   /**
    * ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
    * <code>2003-04-26T03:01:02.999</code>
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSS} {@link DateFormat}
    */
   public static DateFormat newIsoDateTimeWithMsFormat() {
     return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -73,6 +76,7 @@ public class DateUtil {
   /**
    * {@link Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
    * <code>2003-04-26 03:01:02.999</code>
+   * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}
    */
   public static DateFormat newTimestampDateFormat() {
     return strictDateFormatForPattern("yyyy-MM-dd HH:mm:ss.SSS");
@@ -331,8 +335,8 @@ public class DateUtil {
   /**
    * Utility method to display a human readable time difference.
    *
-   * @param date1
-   * @param date2
+   * @param date1 the first date
+   * @param date2 the second date
    * @return a human readable time difference.
    */
   public static String formatTimeDifference(final Date date1, final Date date2) {

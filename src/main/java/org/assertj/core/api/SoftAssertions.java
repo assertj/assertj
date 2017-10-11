@@ -86,7 +86,7 @@ import java.util.function.Consumer;
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
  *   mansion.hostPotentiallyMurderousDinnerParty();
- *   SoftAssertions.assertSoftly(softly -> {
+ *   SoftAssertions.assertSoftly(softly -&gt; {
  *     softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
  *     softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
  *     softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
@@ -141,7 +141,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   * public void host_dinner_party_where_nobody_dies() {
   *   Mansion mansion = new Mansion();
   *   mansion.hostPotentiallyMurderousDinnerParty();
-  *   SoftAssertions.assertSoftly(softly -> {
+  *   SoftAssertions.assertSoftly(softly -&gt; {
   *     softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
   *     softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
   *     softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);

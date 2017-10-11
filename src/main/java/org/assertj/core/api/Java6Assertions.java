@@ -394,6 +394,7 @@ public class Java6Assertions {
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the type of the actual value.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -405,6 +406,7 @@ public class Java6Assertions {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -420,6 +422,7 @@ public class Java6Assertions {
    * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
    * cached by IterableAssert first time Iterator is consumed.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -475,8 +478,8 @@ public class Java6Assertions {
   /**
    * Create assertion for {@link java.util.concurrent.Future}.
    *
-   * @param actual the actual value.
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
+   * @param actual the actual value.
    *
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -566,6 +569,7 @@ public class Java6Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -603,6 +607,9 @@ public class Java6Assertions {
    *                                         .startsWith("fro")
    *                                         .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -636,6 +643,9 @@ public class Java6Assertions {
    *                                        .startsWith("fro")
    *                                        .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -676,6 +686,9 @@ public class Java6Assertions {
    *                                         .startsWith("fro")
    *                                         .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -708,6 +721,9 @@ public class Java6Assertions {
    *                                        .startsWith("fro")
    *                                        .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -755,6 +771,7 @@ public class Java6Assertions {
   /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
+   * @param <T> the actual type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -838,6 +855,7 @@ public class Java6Assertions {
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -963,7 +981,7 @@ public class Java6Assertions {
    *   .hasMessageContaining("boom");</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised, 
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored. 
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br> 
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.  
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error 
    * assertThatThrownBy(() -&gt; { // do nothing }).as("display me").isInstanceOf(Exception.class);
@@ -1002,7 +1020,7 @@ public class Java6Assertions {
    * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
    * <pre><code class='java'> ThrowingCallable doNothing = new ThrowingCallable() {
@@ -1214,6 +1232,14 @@ public class Java6Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;
    * Hobbit&quot;, &quot;Elf&quot;)
    *     .doesNotContain(&quot;Orc&quot;);</code></pre>
+   *     
+   * @param <T> the type of value to extract.
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @param propertyType the type of property to extract
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
+   * @return the created {@code Properties}.
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
@@ -1240,6 +1266,12 @@ public class Java6Assertions {
    * &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;);</code></pre>
    *
    * @param propertyName the name of the property to extract
+   * @return the created {@code Properties}.
+   * 
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
    * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
@@ -1320,7 +1352,9 @@ public class Java6Assertions {
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));</code></pre>
    *
+   * @param index the value of the index.
    * @return the created {@code Index}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Index atIndex(int index) {
     return Index.atIndex(index);
@@ -1331,8 +1365,11 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
-   * @param value the allowed offset
+   * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> offset(Double value) {
     return Offset.offset(value);
@@ -1344,8 +1381,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
    *
-   * @param value the allowed offset
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
@@ -1357,7 +1396,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> within(Double value) {
     return Offset.offset(value);
@@ -1369,7 +1411,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> within(Float value) {
     return Offset.offset(value);
@@ -1381,7 +1426,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
     return Offset.offset(value);
@@ -1393,7 +1441,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
    * 
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> within(BigInteger value) {
@@ -1406,7 +1457,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1418,7 +1472,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
@@ -1430,7 +1487,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
@@ -1442,7 +1502,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
@@ -1454,7 +1517,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, byLessThan(0.1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> byLessThan(Double value) {
     return Offset.offset(value);
@@ -1466,7 +1532,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.2f));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> byLessThan(Float value) {
     return Offset.offset(value);
@@ -1478,7 +1547,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), byLessThan(BigDecimal.ONE));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
     return Offset.offset(value);
@@ -1490,7 +1562,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> byLessThan(BigInteger value) {
@@ -1503,6 +1578,7 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
    *
+   * @param value the allowed offset
    * @return the created {@code Offset}.
    */
   public static Offset<Byte> byLessThan(Byte value) {
@@ -1515,7 +1591,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> byLessThan(Integer value) {
     return Offset.offset(value);
@@ -1527,7 +1606,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> byLessThan(Short value) {
     return Offset.offset(value);
@@ -1539,7 +1621,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(2l));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> byLessThan(Long value) {
     return Offset.offset(value);
@@ -1552,7 +1637,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
    *
+   * @param value the value of the percentage.
    * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Double value) {
     return withPercentage(value);
@@ -1565,7 +1653,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
    *
+   * @param value the value of the percentage.
    * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Integer value) {
     return withPercentage(value);
@@ -1578,7 +1669,10 @@ public class Java6Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
    *
+   * @param value the value of the percentage.
    * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Long value) {
     return withPercentage(value);
@@ -1621,6 +1715,12 @@ public class Java6Assertions {
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
+   * 
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AnyOf}.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
   @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
@@ -1643,6 +1743,7 @@ public class Java6Assertions {
   /**
    * Creates a new <code>{@link DoesNotHave}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -1653,6 +1754,7 @@ public class Java6Assertions {
   /**
    * Creates a new <code>{@link Not}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -1677,7 +1779,9 @@ public class Java6Assertions {
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
    *     .greaterThan(7).get()).containsOnly(james, rose);</code></pre>
    *
+   * @param <E> the array elements type.
    * @param array the array to filter.
+   * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(E[] array) {
@@ -1694,10 +1798,13 @@ public class Java6Assertions {
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p>
    * and with filter language based on java bean property :
-   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
-   *     .greaterThan(7).get()).containsOnly(james, rose);</code></pre>
+   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
+   *                           .and(&quot;assistsPerGame&quot;).greaterThan(7).get())
+   *           .containsOnly(james, rose);</code></pre>
    *
-   * @param iterable the {@code Iterable} to filter.
+   * @param <E> the iterable elements type.
+   * @param iterableToFilter the {@code Iterable} to filter.
+   * @throws NullPointerException if the given iterable is {@code null}.
    * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {

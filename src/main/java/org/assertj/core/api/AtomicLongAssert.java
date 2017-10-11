@@ -325,6 +325,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    * // assertion will fail
    * assertThat(new AtomicLong(42)).hasValue(0);</code></pre>
    * 
+   * @param expectedValue the value not expected .
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic value is not non negative.
@@ -350,6 +351,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    * // assertion will fail
    * assertThat(new AtomicLong(42)).doesNotHaveValue(42);</code></pre>
    * 
+   * @param expectedValue the value not expected .
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic value is not non negative.

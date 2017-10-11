@@ -251,6 +251,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
    * interacts with the {@link List} built from the {@link Stream}.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */

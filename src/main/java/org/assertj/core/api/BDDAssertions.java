@@ -111,6 +111,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link IntPredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -123,6 +124,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link LongPredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -135,6 +137,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link DoublePredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -147,8 +150,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link java.util.Optional}.
    *
-   * @param optional the actual value.
    * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
+   * @param optional the actual value.
    *
    * @return the created assertion object.
    */
@@ -330,6 +333,7 @@ public class BDDAssertions extends Assertions {
    * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the actual type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -341,6 +345,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.IterableAssert}</code>.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -355,6 +360,7 @@ public class BDDAssertions extends Assertions {
    * converted
    * into an <code>{@link Iterable}</code>
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -392,6 +398,9 @@ public class BDDAssertions extends Assertions {
    *                                   .startsWith("fro")
    *                                   .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -425,6 +434,9 @@ public class BDDAssertions extends Assertions {
    *                                  .startsWith("fro")
    *                                  .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -465,6 +477,9 @@ public class BDDAssertions extends Assertions {
    *                                   .startsWith("fro")
    *                                   .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -497,6 +512,9 @@ public class BDDAssertions extends Assertions {
    *                                  .startsWith("fro")
    *                                  .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -568,6 +586,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of {@link FutureAssert}
    *
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
    * @param actual the future to test
    * @return the created assertion object
    * @since 2.7.0 / 3.7.0
@@ -657,6 +676,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ListAssert}</code>.
    *
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -701,6 +721,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ObjectAssert}</code>.
    *
+   * @param <T> the type of the actual value.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -712,6 +733,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ObjectArrayAssert}</code>.
    *
+   * @param <T> the actual's elements type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -988,7 +1010,7 @@ public class BDDAssertions extends Assertions {
    * Example :
    * </p>
    *
-   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
    * 
@@ -1000,10 +1022,10 @@ public class BDDAssertions extends Assertions {
    * thenCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
    *   // do nothing 
    * }; 
    * 
@@ -1202,6 +1224,7 @@ public class BDDAssertions extends Assertions {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    *
+   * @param <T> the AssertProvider wrapped type.
    * @param component
    *          the component that creates its own assert
    * @return the associated {@link Assert} of the given component
@@ -1218,6 +1241,7 @@ public class BDDAssertions extends Assertions {
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
    * interacts with the {@link List} built from the {@link Stream}.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */

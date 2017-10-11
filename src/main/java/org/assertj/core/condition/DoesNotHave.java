@@ -26,6 +26,7 @@ public class DoesNotHave<T> extends Negative<T> {
   /**
    * Creates a new <code>{@link DoesNotHave}</code>.
    * 
+   * @param <T> the type of value the {@link Condition} applies to.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */

@@ -14,7 +14,8 @@ package org.assertj.core.error;
 
 import java.util.Date;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 
 /**
@@ -56,6 +57,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeBetween}</code>.
+   * @param <T> the type of values to compare.
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of range.
    * @param end the lower boundary of range.
@@ -71,6 +73,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeBetween}</code>.
+   * @param <T> the type of values to compare.
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of range.
    * @param end the lower boundary of range.

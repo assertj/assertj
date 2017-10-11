@@ -54,6 +54,7 @@ public final class Preconditions {
   /**
    * Verifies that the given array is not {@code null} or empty.
    * 
+   * @param <T> the type of elements of the array.
    * @param array the given array.
    * @return the validated array.
    * @throws NullPointerException if the given array is {@code null}.
@@ -68,6 +69,7 @@ public final class Preconditions {
   /**
    * Verifies that the given object reference is not {@code null}.
    * 
+   * @param <T> the type of the reference to check.
    * @param reference the given object reference.
    * @return the non-{@code null} reference that was validated.
    * @throws NullPointerException if the given object reference is {@code null}.
@@ -80,6 +82,7 @@ public final class Preconditions {
   /**
    * Verifies that the given object reference is not {@code null}.
    * 
+   * @param <T> the type of the reference to check.
    * @param reference the given object reference.
    * @param message error message in case of null reference.
    * @return the non-{@code null} reference that was validated.
@@ -93,6 +96,7 @@ public final class Preconditions {
   /**
    * Verifies that the given {@link FilterOperator} reference is not {@code null}.
    * 
+   * @param <T> the type of the FilterOperator to check.
    * @param filterOperator the given {@link FilterOperator} reference.
    * @throws IllegalArgumentException if the given {@link FilterOperator} reference is {@code null}.
    */

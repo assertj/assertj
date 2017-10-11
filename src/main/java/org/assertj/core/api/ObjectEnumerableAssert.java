@@ -511,7 +511,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(abc).endsWith("a");
    * assertThat(abc).endsWith("a", "b");</code></pre>
    * 
-   * @param sequence the sequence of objects to look for.
+   * @param first the first element of the sequence of objects to look for.
+   * @param sequence the rest of the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
@@ -592,7 +593,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    * 
    * Condition&lt;String&gt; singleCharacterString 
-   *      = new Condition&lt;&gt;(s -> s.length() == 1, "single character String");
+   *      = new Condition&lt;&gt;(s -&gt; s.length() == 1, "single character String");
    *
    * // assertion will pass
    * assertThat(abc).are(singleCharacterString);
@@ -640,7 +641,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
    * Condition&lt;String&gt; onlyOneCharacter = 
-   *     = new Condition&lt;&gt;(s -> s.length() == 1, "only one character");
+   *     = new Condition&lt;&gt;(s -&gt; s.length() == 1, "only one character");
    *
    * // assertion will pass
    * assertThat(abc).have(onlyOneCharacter);
@@ -1140,9 +1141,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting all elements of:
-   *  <["a", "b", "cc"]>
+   *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length of 1' predicate but this element did not:
-   *  <"cc"></code></pre>
+   *  &lt;"cc"&gt;</code></pre>
    *
    *
    * @param predicate the given {@link Predicate}.

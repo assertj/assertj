@@ -12,9 +12,9 @@
  */
 package org.assertj.core.error;
 
-import java.util.Optional;
-
 import static java.lang.String.format;
+
+import java.util.Optional;
 
 /**
  * Build an error message when a value should be instance of a specific class.
@@ -31,6 +31,7 @@ public class OptionalShouldContainInstanceOf extends BasicErrorMessageFactory {
    * Indicates that a value should be present in an empty {@link java.util.Optional}.
    *
    * @param value Optional to be checked.
+   * @param clazz the class to check the optional value against
    * @return an error message factory.
    * @throws java.lang.NullPointerException if optional is null.
    */

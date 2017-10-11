@@ -22,7 +22,6 @@ import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -1561,7 +1560,6 @@ public class AtomicReferenceArrayAssert<T>
    * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
    * <p>
    * Example:
-   * <p>
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private double height;
@@ -1603,6 +1601,7 @@ public class AtomicReferenceArrayAssert<T>
    *                    .usingFieldByFieldElementComparator()
    *                    .containsExactly(reallyTallFrodo);</code></pre>
    *
+   * @param <C> the type to compare.
    * @param comparator the {@link java.util.Comparator} to use
    * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
    * @return {@code this} assertions object
@@ -1681,6 +1680,7 @@ public class AtomicReferenceArrayAssert<T>
    * <li>The comparator of an interface implemented by the given {@code type}</li>
    * </ol>
    *
+   * @param <C> the type to compare.
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
    * @return {@code this} assertions object
@@ -1708,12 +1708,12 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new AtomicReferenceArray<>(new Object[] { "some", new BigDecimal("4.2") }))
+   * assertThat(new AtomicReferenceArray&lt;&gt;(new Object[] { "some", new BigDecimal("4.2") }))
    *       .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
    *       .contains(new BigDecimal("4.20"));
    * </code></pre>
-   * </p>
    *
+   * @param <C> the type to compare.
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
    * @return {@code this} assertions object
@@ -1838,6 +1838,7 @@ public class AtomicReferenceArrayAssert<T>
    * // ... but not when comparing both name and race
    * assertThat(atomicArray(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL</code></pre>
    *
+   * @param fields the fields to compare field/property by field/property.
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
    */
@@ -1971,6 +1972,7 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Note that the order of extracted field/property values is consistent with the order of the array under test.
    *
+   * @param <P> the extracted type
    * @param fieldOrProperty the field/property to extract from the array under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the array of extracted field/property values.
@@ -2084,6 +2086,7 @@ public class AtomicReferenceArrayAssert<T>
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
+   * @param <U> the extracted values type
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 2.7.0 / 3.7.0
@@ -2118,9 +2121,9 @@ public class AtomicReferenceArrayAssert<T>
    *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
    * };
    *
-   * assertThat(fellowshipOfTheRing).extracting(input -> {
-   *   if (input.getAge() < 20) {
-   *     throw new Exception("age < 20");
+   * assertThat(fellowshipOfTheRing).extracting(input -&gt; {
+   *   if (input.getAge() &lt; 20) {
+   *     throw new Exception("age &lt; 20");
    *   }
    *   return input.getName();
    * }).contains("Frodo");</code></pre>
@@ -2129,6 +2132,8 @@ public class AtomicReferenceArrayAssert<T>
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
+   * @param <U> the extracted values type
+   * @param <EXCEPTION> the exception type
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
@@ -2172,6 +2177,8 @@ public class AtomicReferenceArrayAssert<T>
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
    * collections.
    *
+   * @param <U> the type of elements to extract.
+   * @param <C> the type of collection to flat/extract.
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 2.7.0 / 3.7.0
@@ -2201,7 +2208,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * AtomicReferenceArray&lt;CartoonCharacter&gt; parents = new AtomicReferenceArray&lt;&gt;(new CartoonCharacter[]{ homer, fred });
    * // check children
-   * assertThat(parents).flatExtracting(input -> {
+   * assertThat(parents).flatExtracting(input -&gt; {
    *   if (input.getChildren().size() == 0) {
    *     throw new Exception("no children");
    *   }
@@ -2211,6 +2218,9 @@ public class AtomicReferenceArrayAssert<T>
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
    * collections.
    *
+   * @param <U> the type of elements to extract.
+   * @param <C> the type of collection to flat/extract.
+   * @param <EXCEPTION> the exception type
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
@@ -2368,6 +2378,7 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Note that the order of extracted values is consistent with the order of the array under test.
    *
+   * @param <P> the extracted type
    * @param method the name of the method which result is to be extracted from the array under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the array of extracted values.
@@ -2692,9 +2703,9 @@ public class AtomicReferenceArrayAssert<T>
    *
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting all elements of:
-   *  <["a", "b", "cc"]>
+   *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length of 1' predicate but this element did not:
-   *  <"cc"></code></pre>
+   *  &lt;"cc"&gt;</code></pre>
    *
    *
    * @param predicate the given {@link Predicate}.

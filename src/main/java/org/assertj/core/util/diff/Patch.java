@@ -30,6 +30,7 @@ public class Patch<T> {
 
   /**
    * Apply this patch to the given target
+   * @param target the list to patch
    * @return the patched text
    * @throws IllegalStateException if can't apply patch
    */

@@ -437,6 +437,7 @@ public class ObjectArrays {
   /**
    * Assert that each element of given array satisfies the given condition.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param condition the given {@code Condition}.
@@ -450,6 +451,7 @@ public class ObjectArrays {
   /**
    * Assert that each element of given array not satisfies the given condition.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param condition the given {@code Condition}.
@@ -463,6 +465,7 @@ public class ObjectArrays {
   /**
    * Assert that each element of given array satisfies the given condition.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param condition the given {@code Condition}.
@@ -476,6 +479,7 @@ public class ObjectArrays {
   /**
    * Assert that each element of given array not satisfies the given condition.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param condition the given {@code Condition}.
@@ -489,6 +493,7 @@ public class ObjectArrays {
   /**
    * Assert that there are <b>at least</b> <i>n</i> array elements satisfying the given condition.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param n the minimum number of times the condition should be verified.
@@ -503,6 +508,7 @@ public class ObjectArrays {
   /**
    * Assert that there are <b>at most</b> <i>n</i> array elements satisfying the given condition.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param n the number of times the condition should be at most verified.
@@ -517,6 +523,7 @@ public class ObjectArrays {
   /**
    * Verifies that there are <b>exactly</b> <i>n</i> array elements satisfying the given condition.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param n the exact number of times the condition should be verified.
@@ -531,6 +538,14 @@ public class ObjectArrays {
   /**
    * An alias method of {@link #assertAreAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
+   * 
+   * @param <E> element type
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times the minimum number of times the condition should be verified.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   public <E> void assertHaveAtLeast(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveAtLeast(info, failures, conditions, actual, times, condition);
@@ -539,6 +554,14 @@ public class ObjectArrays {
   /**
    * An alias method of {@link #assertAreAtMost(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api
    * (same logic, only error message differs).
+   * 
+   * @param <E> element type
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times the number of times the condition should be at most verified.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   public <E> void assertHaveAtMost(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveAtMost(info, failures, conditions, actual, times, condition);
@@ -547,6 +570,14 @@ public class ObjectArrays {
   /**
    * An alias method of {@link #assertAreExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
+   * 
+   * @param <E> element type
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times the exact number of times the condition should be verified.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   public <E> void assertHaveExactly(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveExactly(info, failures, conditions, actual, times, condition);
@@ -605,6 +636,7 @@ public class ObjectArrays {
   /**
    * Concrete implementation of {@link ArraySortedAssert#isSortedAccordingTo(Comparator)}.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
@@ -617,6 +649,7 @@ public class ObjectArrays {
   /**
    * Asserts that the given array contains all the elements of the given {@code Iterable}, in any order.
    * 
+   * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the other {@code Iterable}.

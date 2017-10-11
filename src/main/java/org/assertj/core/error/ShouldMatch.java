@@ -38,7 +38,7 @@ public class ShouldMatch extends BasicErrorMessageFactory {
   // @format:on
 
   /**
-   * Creates a new </code>{@link ShouldMatch}</code>.
+   * Creates a new <code>{@link ShouldMatch}</code>.
    * 
    * @param <T> guarantees that the type of the actual value and the generic type of the {@code Predicate} are the same.
    * @param actual the actual value in the failed assertion.

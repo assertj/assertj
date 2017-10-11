@@ -217,6 +217,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValue("something else");</code></pre>
    *
+   * @param expected the expected result value of the {@link CompletableFuture}.
    * @return this assertion object.
    */
   public SELF isCompletedWithValue(RESULT expected) {
@@ -234,12 +235,13 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result.equals("something"));</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result.equals("something"));</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result.equals("something else"));</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result.equals("something else"));</code></pre>
    *
+   * @param predicate the {@link Predicate} to apply.
    * @return this assertion object.
    */
   public SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate) {
@@ -252,16 +254,18 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result != null, "expected not null");</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result != null, "expected not null");</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result == null, "expected null");</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result == null, "expected null");</code></pre>
    * Error message is:            
    * <pre><code class='java'> Expecting:
-   *   <"something">
+   *   &lt;"something"&gt;
    * to match 'expected null' predicate.</code></pre>
    *
+   * @param predicate the {@link Predicate} to apply on the resulting value.
+   * @param description the {@link Predicate} description.
    * @return this assertion object.
    */
   public SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate, String description) {

@@ -37,7 +37,7 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    * Verifies that {@link DoublePredicate} evaluates all the given values to {@code true}.
    * <p>
    * Example :
-   * <pre><code class='java'> DoublePredicate tallSize = size -> size > 1.90;
+   * <pre><code class='java'> DoublePredicate tallSize = size -&gt; size &gt; 1.90;
    *
    * // assertion succeeds:
    * assertThat(tallSize).accepts(1.95, 2.00, 2.05);
@@ -57,9 +57,8 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
   /**
    * Verifies that {@link DoublePredicate} evaluates all the given values to {@code false}.
    * <p>
-   * <p>
    * Example :
-   * <pre><code class='java'> DoublePredicate tallSize = size -> size > 1.90;
+   * <pre><code class='java'> DoublePredicate tallSize = size -&gt; size &gt; 1.90;
    *
    * // assertion succeeds:
    * assertThat(tallSize).rejects(1.75, 1.80, 1.85);

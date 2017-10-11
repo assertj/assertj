@@ -93,6 +93,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * Example :
    * <pre><code class='java'> assertThat(LocalTime.parse("07:10:30")).isCloseTo("07:12:11", within(5, ChronoUnit.MINUTES));</code></pre>
    * @param otherAsString String representing a {@code TEMPORAL}.
+   * @param offset the offset used for comparison
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Temporal} is {@code null}.
    * @throws NullPointerException if temporal string representation or {@code TemporalOffset} parameter is {@code null}.

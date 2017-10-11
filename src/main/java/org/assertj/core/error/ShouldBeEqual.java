@@ -61,6 +61,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    *
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
+   * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
   public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected, Representation representation) {
@@ -73,6 +74,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to compare actual with expected.
+   * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
   public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected,
@@ -106,7 +108,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
    *
    * @param description the description of the failed assertion.
-   * @param representation
+   * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionError}.
    */
   @Override

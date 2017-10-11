@@ -89,6 +89,7 @@ public final class Lists {
   }
 
   /**
+   * @param <T> the generic type of the {@code List}.
    * @return an empty, <em>immutable</em> {@code List}.
    */
   public static <T> List<T> emptyList() {

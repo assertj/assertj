@@ -44,7 +44,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given values to {@code true}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).accepts("football")
@@ -69,7 +69,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given values to {@code false}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).rejects("curling")
@@ -94,7 +94,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given {@link Iterable}'s elements to {@code true}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).acceptsAll(list("football", "basketball", "handball"));
@@ -116,7 +116,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given {@link Iterable}'s elements to {@code false}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).rejectsAll(list("curling", "judo", "marathon"));

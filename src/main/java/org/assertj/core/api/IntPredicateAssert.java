@@ -37,7 +37,7 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * Verifies that {@link IntPredicate} evaluates all the given values to {@code true}.
    * <p>
    * Example :
-   * <pre><code class='java'> IntPredicate evenNumber = n -> n % 2 == 0;
+   * <pre><code class='java'> IntPredicate evenNumber = n -&gt; n % 2 == 0;
    *
    * // assertion succeeds:
    * assertThat(evenNumber).accepts(2, 4, 6);
@@ -58,7 +58,7 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * Verifies that {@link IntPredicate} evaluates all the given values to {@code false}.
    * <p>
    * Example :
-   * <pre><code class='java'> IntPredicate evenNumber = n -> n % 2 == 0;
+   * <pre><code class='java'> IntPredicate evenNumber = n -&gt; n % 2 == 0;
    *
    * // assertion succeeds:
    * assertThat(evenNumber).rejects(1, 3, 5);

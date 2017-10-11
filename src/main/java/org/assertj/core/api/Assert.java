@@ -287,7 +287,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Object yoda = new Jedi("Yoda", "Green");
    * Object luke = new Jedi("Luke Skywalker", "Green");
    *
-   * Consumer&lt;Jedi&gt; jediRequirements = jedi -> {
+   * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
    *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
    *   assertThat(jedi.getName()).doesNotContain("Dark");
    * };
@@ -302,7 +302,9 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * // not a Jedi !
    * assertThat("foo").isInstanceOfSatisfying(Jedi.class, jediRequirements);</code></pre>
    * 
+   * @param <T> the generic type to check the actual value against.
    * @param type the type to check the actual value against.
+   * @param requirements the requirements expressed as a {@link Consumer}.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
    * @throws NullPointerException if the given Consumer is {@code null}.

@@ -98,6 +98,7 @@ public class Arrays {
   /** 
    * Returns an T[] from the {@link AtomicReferenceArray}, null if the given atomic array is null.
    * 
+   * @param <T> the type of elements of the array.
    * @param atomicReferenceArray the {@link AtomicReferenceArray} to convert to T[].
    * @return an T[].
    */

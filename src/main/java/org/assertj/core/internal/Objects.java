@@ -197,6 +197,7 @@ public class Objects {
    *
    * @param info contains information about the assertion.
    * @param actual the given object.
+   * @param other the object to check type against.
    * @throws AssertionError if the actual has not the same type has the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
@@ -508,9 +509,12 @@ public class Objects {
    * Assert that the given object is lenient equals by ignoring null fields value on other object (including inherited
    * fields).
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @throws NullPointerException if the actual type is {@code null}.
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
@@ -548,9 +552,12 @@ public class Objects {
   /**
    * Assert that the given object is lenient equals to other object by comparing given fields value only.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @param fields accepted fields
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if actual is {@code null}.
@@ -598,9 +605,12 @@ public class Objects {
    * Assert that the given object is lenient equals to the other by comparing all fields (including inherited fields)
    * unless given ignored ones.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @param fields the fields to ignore in comparison
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if actual is {@code null}.
@@ -672,6 +682,7 @@ public class Objects {
   /**
    * Assert that the given object has no null fields except the given ones.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param propertiesOrFieldsToIgnore the fields to ignore in comparison
@@ -699,8 +710,11 @@ public class Objects {
   /**
    * Assert that the given object is "deeply" equals to other by comparing all fields recursively.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @param other the object to compare {@code actual} to.
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if the actual and the given object are not "deeply" equal.
@@ -721,6 +735,7 @@ public class Objects {
    * <p>
    * This method supports nested field/property (e.g. "address.street.number").
    *
+   * @param <A> the actual type
    * @param a the object to get field value from
    * @param fieldName Field name to read, can be nested
    * @return (nested) field value or property value if field was not accessible.
@@ -806,6 +821,7 @@ public class Objects {
   /**
    * Asserts that the actual object has the same hashCode as the given object.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to check hashCode against.

@@ -360,7 +360,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * Verifies that the {@link org.assertj.core.api.ThrowableAssert.ThrowingCallable} didn't raise a throwable.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThatCode(() -> foo.bar()).doesNotThrowAnyException();</code></pre>
+   * <pre><code class='java'> assertThatCode(() -&gt; foo.bar()).doesNotThrowAnyException();</code></pre>
    *
    * @throws AssertionError if the actual statement raised a {@code Throwable}.
    * @since 3.7.0

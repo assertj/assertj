@@ -348,6 +348,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    *
+   * @param <T> the type of values to compare.
    * @param comparator the {@link java.util.Comparator} to use
    * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
    * @return {@code this} assertions object
@@ -565,8 +566,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * 
    * // let's verify Frodo's name, age and race name:
    * assertThat(frodo).extracting(TolkienCharacter::getName, 
-   *                              character -> character.age, // public field
-   *                              character -> character.getRace().getName())
+   *                              character -&gt; character.age, // public field
+   *                              character -&gt; character.getRace().getName())
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
    * <p>
    * Note that the order of extracted values is consistent with the iteration order of the array under test.

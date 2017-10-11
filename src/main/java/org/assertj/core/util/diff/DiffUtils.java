@@ -37,6 +37,7 @@ public class DiffUtils {
    * Computes the difference between the original and revised list of elements
    * with default diff algorithm
    * 
+   * @param <T> the type of elements.
    * @param original
    *            The original text. Must not be {@code null}.
    * @param revised
@@ -52,6 +53,7 @@ public class DiffUtils {
    * Computes the difference between the original and revised list of elements
    * with default diff algorithm
    *
+   * @param <T> the type of elements.
    * @param original
    *            The original text. Must not be {@code null}.
    * @param revised
@@ -72,6 +74,7 @@ public class DiffUtils {
   /**
    * Patch the original text with given patch
    *
+   * @param <T> the type of elements.
    * @param original
    *            the original text
    * @param patch

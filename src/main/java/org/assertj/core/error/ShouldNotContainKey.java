@@ -22,6 +22,7 @@ public class ShouldNotContainKey extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldNotContainKey}</code>.
    * @param actual the actual value in the failed assertion.
+   * @param key the unexpected key.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContainKey(Object actual, Object key) {

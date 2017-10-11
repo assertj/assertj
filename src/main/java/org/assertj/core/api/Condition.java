@@ -64,7 +64,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * <p>
    * Example:
    * <pre><code class='java'> // build condition with Predicate&lt;String&gt; and set description using String#format pattern.
-   * Condition&lt;String&gt; fairyTale = new Condition&lt;String&gt;(s -> s.startsWith("Once upon a time"), "a %s tale", "fairy");
+   * Condition&lt;String&gt; fairyTale = new Condition&lt;String&gt;(s -&gt; s.startsWith("Once upon a time"), "a %s tale", "fairy");
    * 
    * String littleRedCap = "Once upon a time there was a dear little girl ...";
    * assertThat(littleRedCap).is(fairyTale);</code></pre>
@@ -90,7 +90,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /**
-   * Creates a new </code>{@link Condition}</code>.
+   * Creates a new <code>{@link Condition}</code>.
    * 
    * @param description the description of this condition.
    * @throws NullPointerException if the given description is {@code null}.

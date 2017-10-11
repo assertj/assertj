@@ -325,6 +325,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    * // assertion will fail
    * assertThat(new AtomicInteger(42)).hasValue(0);</code></pre>
    * 
+   * @param expectedValue the expected value.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic does not have the given value.
@@ -350,6 +351,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    * // assertion will fail
    * assertThat(new AtomicInteger(42)).doesNotHaveValue(42);</code></pre>
    * 
+   * @param expectedValue the value not expected .
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic has the given value.

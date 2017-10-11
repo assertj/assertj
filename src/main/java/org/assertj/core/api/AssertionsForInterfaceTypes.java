@@ -68,8 +68,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    * 
-   * @param component
-   *          the component that creates its own assert
+   * @param <T> the AssertProvider wrapped type.
+   * @param component the component that creates its own assert
    * @return the associated {@link Assert} of the given component
    */
   public static <T> T assertThat(final AssertProvider<T> component) {
@@ -77,7 +77,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new </code>{@link Assertions}</code>.
+   * Creates a new <code>{@link Assertions}</code>.
    */
   protected AssertionsForInterfaceTypes() {}
 
@@ -95,6 +95,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -110,6 +111,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
    * cached by IterableAssert first time Iterator is consumed.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -121,6 +123,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -136,6 +139,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
    * interacts with the {@link List} built from the {@link Stream}.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
@@ -192,7 +196,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
+   * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
 //@format:off
@@ -242,6 +250,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
    * annoying warnings.
    * 
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -254,6 +264,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    */

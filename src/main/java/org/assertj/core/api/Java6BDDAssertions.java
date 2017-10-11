@@ -341,6 +341,7 @@ public class Java6BDDAssertions {
    * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the actual type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -352,6 +353,7 @@ public class Java6BDDAssertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.IterableAssert}</code>.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -366,6 +368,7 @@ public class Java6BDDAssertions {
    * converted
    * into an <code>{@link Iterable}</code>
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -403,6 +406,9 @@ public class Java6BDDAssertions {
    *                                   .startsWith("fro")
    *                                   .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -436,6 +442,9 @@ public class Java6BDDAssertions {
    *                                  .startsWith("fro")
    *                                  .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -476,6 +485,9 @@ public class Java6BDDAssertions {
    *                                   .startsWith("fro")
    *                                   .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
@@ -508,6 +520,9 @@ public class Java6BDDAssertions {
    *                                  .startsWith("fro")
    *                                  .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
@@ -568,6 +583,7 @@ public class Java6BDDAssertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.FutureAssert}</code>.
    *
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
    * @param actual the future to test
    * @return the created assertion object
    * @since 2.7.0 / 3.7.0
@@ -657,6 +673,7 @@ public class Java6BDDAssertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ListAssert}</code>.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -701,6 +718,7 @@ public class Java6BDDAssertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ObjectAssert}</code>.
    *
+   * @param <T> the actual type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -712,6 +730,7 @@ public class Java6BDDAssertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ObjectArrayAssert}</code>.
    *
+   * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -831,6 +850,20 @@ public class Java6BDDAssertions {
    *
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
+   *   
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
+   * To use a test description, use {@link Assertions#catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
+   * thenThrownBy(() -&gt; { }).as("display me")
+   *                        .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error
+   * Throwable thrown = catchThrowable(() -&gt; { });
+   * then(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   * 
+   * Alternatively you can also use {@code thenCode(ThrowingCallable)} for the test description provided 
+   * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -858,7 +891,7 @@ public class Java6BDDAssertions {
    * // assertion fails
    * thenCode(callable).doesNotThrowAnyException();</code></pre>
    *
-   * Contrary to {@link #thenThrownBy(ThrowingCallable)} the test description provided with 
+   * Contrary to {@code thenThrownBy(ThrowingCallable)} the test description provided with 
    * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
    * 
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
@@ -965,6 +998,7 @@ public class Java6BDDAssertions {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    *
+   * @param <T> the AssertProvider wrapped type.
    * @param component
    *          the component that creates its own assert
    * @return the associated {@link Assert} of the given component

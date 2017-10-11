@@ -190,6 +190,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -202,6 +203,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -216,6 +218,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * converted
    * into an <code>{@link Iterable}</code>
    *
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -363,6 +366,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -421,6 +425,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -551,6 +556,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Create assertion for {@link AtomicIntegerFieldUpdater}.
    *
+   * @param <OBJECT> The type of the object holding the updatable field
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -630,6 +636,8 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Create assertion for {@link AtomicReferenceFieldUpdater}.
    *
+   * @param <FIELD> The type of the field
+   * @param <OBJECT> the type of the object holding the updatable field
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -643,6 +651,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Create assertion for {@link AtomicMarkableReference}.
    *
+   * @param <VALUE> the type of object referred to by this reference
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -656,6 +665,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   /**
    * Create assertion for {@link AtomicStampedReference}.
    *
+   * @param <VALUE> the type of value referred to by this reference
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -700,6 +710,20 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
+   *   
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
+   * To use a test description, use {@link Assertions#catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
+   * softly.thenThrownBy(() -&gt; { }).as("display me")
+   *                               .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error
+   * Throwable thrown = catchThrowable(() -&gt; { });
+   * softly.then(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   * 
+   * Alternatively you can also use {@code thenCode(ThrowingCallable)} for the test description provided 
+   * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -716,7 +740,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * Example :
    * </p>
    *
-   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
    * 
@@ -727,22 +751,16 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * // assertion fails
    * thenCode(callable).doesNotThrowAnyException();</code></pre>
    *
-   * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
-   * To use a test description, use {@link #thenCode(ThrowableAssert.ThrowingCallable)} as shown below.
+   * Contrary to {@code thenThrownBy(ThrowingCallable)} the test description provided with 
+   * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
    * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
    *   // do nothing 
    * }; 
    * 
    * // assertion fails and "display me" appears in the assertion error
    * thenCode(doNothing).as("display me")
-   *                    .isInstanceOf(Exception.class);
-   *
-   * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(doNothing);
-   * thenCode(thrown).as("display me")
-   *                 .isInstanceOf(Exception.class); </code></pre>
+   *                    .isInstanceOf(Exception.class);</code></pre>
    * <p>
    * This method was not named {@code then} because the java compiler reported it ambiguous when used directly with a lambda :(  
    *

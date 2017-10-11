@@ -38,6 +38,7 @@ public class TextDescription extends Description {
    * Creates a new <code>{@link TextDescription}</code>.
    *
    * @param value the value of this description.
+   * @param args the replacements parameters of this description.
    * @throws NullPointerException if the given value is {@code null}.
    */
   public TextDescription(String value, Object... args) {

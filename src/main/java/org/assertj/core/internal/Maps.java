@@ -178,6 +178,8 @@ public class Maps {
   /**
    * Asserts that the given {@code Map} contains the given entries, in any order.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that are expected to be in the given {@code Map}.
@@ -218,6 +220,8 @@ public class Maps {
   /**
    * Verifies that the given {@code Map} contains the value for given {@code key} that satisfy given {@code valueCondition}.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param key he given key to check.
@@ -240,6 +244,8 @@ public class Maps {
   /**
    * Verifies that the {@code Map} contains the value for given {@code key} that satisfy given {@code valueRequirements}.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param key he given key to check.
@@ -260,6 +266,8 @@ public class Maps {
   /**
    * Verifies that the given {@code Map} contains an entry satisfying given {@code entryCondition}.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entryCondition the condition for searching entry.
@@ -283,6 +291,8 @@ public class Maps {
    * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition}
    * and value satisfying {@code valueCondition}.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keyCondition the condition for entry key.
@@ -309,6 +319,7 @@ public class Maps {
   /**
    * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition}.
    *
+   * @param <K> key type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keyCondition the condition for key search.
@@ -331,6 +342,7 @@ public class Maps {
   /**
    * Verifies that the given {@code Map} contains an entry with value satisfying {@code valueCondition}.
    *
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param valueCondition the condition for value search.
@@ -353,6 +365,8 @@ public class Maps {
   /**
    * Asserts that the given {@code Map} does not contain the given entries.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that are expected to be in the given {@code Map}.
@@ -379,6 +393,8 @@ public class Maps {
   /**
    * Verifies that the actual map contain the given key.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keys the given keys
@@ -401,6 +417,8 @@ public class Maps {
   /**
    * Verifies that the actual map not contains the given key.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param key the given key
@@ -415,6 +433,8 @@ public class Maps {
   /**
    * Verifies that the actual map not contains all the given keys.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keys the given keys
@@ -436,6 +456,8 @@ public class Maps {
   /**
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keys the keys that are expected to be in the given {@code Map}.
@@ -466,6 +488,8 @@ public class Maps {
   /**
    * Verifies that the actual map contain the given value.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param value the given value
@@ -480,6 +504,8 @@ public class Maps {
   /**
    * Verifies that the actual map contain the given values.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param values the given values
@@ -503,6 +529,8 @@ public class Maps {
   /**
    * Verifies that the actual map not contains the given value.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param value the given value
@@ -517,6 +545,8 @@ public class Maps {
   /**
    * Verifies that the actual map contains only the given entries and nothing else, in any order.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that should be in the actual map.
@@ -548,6 +578,8 @@ public class Maps {
    * This assertion should only be used with map that have a consistent iteration order (i.e. don't use it with
    * {@link java.util.HashMap}).
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the given entries.

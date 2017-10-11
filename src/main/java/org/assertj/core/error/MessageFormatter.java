@@ -50,6 +50,7 @@ public class MessageFormatter {
    * </ol>
    * 
    * @param d the description of the failed assertion, may be {@code null}.
+   * @param p the Representation used
    * @param format the format string.
    * @param args arguments referenced by the format specifiers in the format string.
    * @throws NullPointerException if the format string is {@code null}.

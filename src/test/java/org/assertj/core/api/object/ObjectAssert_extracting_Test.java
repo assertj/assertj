@@ -16,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
+import java.math.BigDecimal;
+
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
@@ -23,8 +25,6 @@ import org.assertj.core.test.Name;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 /**
  * Tests for <code>{@link ObjectAssert#extracting(String[])}</code>.
@@ -88,6 +88,7 @@ public class ObjectAssert_extracting_Test {
       .containsExactly("Obi-Wan", new BigDecimal("1.82"));
   }
 
+  @SuppressWarnings("unused")
   private static class Person {
 
     private final String name;

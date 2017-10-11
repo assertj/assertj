@@ -398,11 +398,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
-
+  
    * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueRequirements}.
    * <p>
    * Example:
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap<>();
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
@@ -1152,6 +1152,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * // assertion will fail:
    * assertThat(ringBearers).size().isGreaterThan(5);</code></pre>
    * 
+   * @return {@code this} assertions object
    * @throws NullPointerException if the given map is {@code null}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })

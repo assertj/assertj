@@ -26,7 +26,7 @@ public interface ErrorMessageFactory {
   /**
    * Creates a new error message as a result of a failed assertion.
    * @param d the description of the failed assertion.
-   * @param p
+   * @param p the representation used
    * @return the created error message.
    */
   String create(Description d, Representation p);

@@ -68,7 +68,10 @@ public class Failures {
     this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
   }
 
-  /** Returns whether or not we remove elements related to AssertJ from assertion error stack trace. */
+  /** 
+   * Returns whether or not we remove elements related to AssertJ from assertion error stack trace. 
+   * @return whether or not we remove elements related to AssertJ from assertion error stack trace.
+   */
   public boolean isRemoveAssertJRelatedElementsFromStackTrace() {
     return removeAssertJRelatedElementsFromStackTrace;
   }

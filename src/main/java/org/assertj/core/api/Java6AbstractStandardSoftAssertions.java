@@ -188,6 +188,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the actual type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -202,6 +203,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * <p>
    * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
+   * @param <T> the actual element's type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -217,6 +219,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * <p>
    * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
+   * @param <T> the actual element's type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -273,6 +276,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   /**
    * Creates a new instance of <code>{@link FutureAssert}</code>.
    *
+   * @param <RESULT> the {@link Future} element type.
    * @param actual the actual value
    * @return the created assertion object
    */
@@ -364,6 +368,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * <p>
    * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    * 
+   * @param <T> the actual element's type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -619,9 +624,8 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   /**
    * Create assertion for {@link AtomicReferenceArray}.
    *
-   * @param actual the actual value.
-   *
    * @param <ELEMENT> the type of object referred to by the {@link AtomicReferenceArray}.
+   * @param actual the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
@@ -648,8 +652,8 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   /**
    * Create assertion for {@link AtomicMarkableReference}.
    *
+   * @param <VALUE> The type of object referred to by this reference
    * @param actual the actual value.
-   *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
@@ -661,8 +665,8 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   /**
    * Create assertion for {@link AtomicStampedReference}.
    *
+   * @param <VALUE> The type of object referred to by this reference
    * @param actual the actual value.
-   *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
@@ -720,7 +724,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * Example :
    * </p>
    *
-   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
    * 
@@ -732,10 +736,10 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #assertThatCode(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
    *   // do nothing 
    * }; 
    * 

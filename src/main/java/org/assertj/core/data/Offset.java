@@ -12,7 +12,9 @@
  */
 package org.assertj.core.data;
 
-import static org.assertj.core.util.Objects.*;
+import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
+import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -30,6 +32,7 @@ public class Offset<T extends Number> {
   /**
    * Creates a new {@link Offset}.
    *
+   * @param <T> the type of value of the {@link Offset}.
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.

@@ -31,7 +31,7 @@ public class ElementsShouldHaveExactly extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <E> ErrorMessageFactory elementsShouldHaveExactly(Object actual, int times, Condition<?> condition) {
+  public static ErrorMessageFactory elementsShouldHaveExactly(Object actual, int times, Condition<?> condition) {
     return new ElementsShouldHaveExactly(actual, times, condition);
   }
 

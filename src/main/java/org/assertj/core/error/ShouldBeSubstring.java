@@ -20,7 +20,7 @@ public class ShouldBeSubstring extends BasicErrorMessageFactory {
    * Creates a new <code>{@link org.assertj.core.error.ShouldBeSubstring}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
-   * @param comparisonStrategy 
+   * @param comparisonStrategy the {@link ComparisonStrategy} used
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeSubstring(CharSequence actual, CharSequence expected,

@@ -46,6 +46,7 @@ public class Maps {
   /**
    * Returns the {@code String} representation of the given map, or {@code null} if the given map is {@code null}.
    *
+   * @param p the {@link Representation} to use.
    * @param map the map to format.
    * @return the {@code String} representation of the given map.
    * 

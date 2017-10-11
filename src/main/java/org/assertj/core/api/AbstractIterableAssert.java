@@ -132,6 +132,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
    *
+   * @param <E> the type of elements.
    * @param newActual new value
    * @return a new {@link AbstractListAssert}.
    */
@@ -183,31 +184,31 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // assertions will pass
    *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Y"));
    *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
    *   assertThat(yoda.getName()).isEqualTo("Yoda");
    *   assertThat(yoda.getLightSaberColor()).isEqualTo("red");
    * });
    *
    * // assertions will fail
    *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Vad"));
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Vad"));
    *
    * // fail as one the assertions is not satisfied
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
    *   assertThat(yoda.getName()).isEqualTo("Yoda");
    *   assertThat(yoda.getLightSaberColor()).isEqualTo("purple");
    * });
    *
    * // fail but only report the first error
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
    *   assertThat(yoda.getName()).isEqualTo("Luke");
    *   assertThat(yoda.getLightSaberColor()).isEqualTo("green");
    * });
    *
    * // fail and reports the errors thanks to Soft assertions
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
    *   SoftAssertions softly = new SoftAssertions();
    *   softly.assertThat(yoda.getName()).isEqualTo("Luke");
    *   softly.assertThat(yoda.getLightSaberColor()).isEqualTo("green");
@@ -216,7 +217,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // even if the assertion is correct, there are too many jedis !
    * jedis.add(new Jedi("Luke", "green"));
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
    *
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
@@ -934,6 +935,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions of the extracted values
    * order.
    *
+   * @param <P> the type of elements extracted.
    * @param method the name of the method which result is to be extracted from the array under test
    * @param extractedType type of element of the extracted List
    * @return a new assertion object whose object under test is the Iterable of extracted values.
@@ -1024,6 +1026,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // unknown keys leads to null (map behavior)
    * assertThat(maps).extracting("bad key").containsExactly(null, null);</code></pre>
    *
+   * @param <P> the type of elements extracted.
    * @param propertyOrField the property/field to extract from the Iterable under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the list of extracted property/field values.
@@ -1168,6 +1171,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
+   * @param <V> the type of elements extracted.
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    */
@@ -1200,9 +1204,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
-   * assertThat(fellowshipOfTheRing).extracting(input -> {
-   *   if (input.getAge() < 20) {
-   *     throw new Exception("age < 20");
+   * assertThat(fellowshipOfTheRing).extracting(input -&gt; {
+   *   if (input.getAge() &lt; 20) {
+   *     throw new Exception("age &lt; 20");
    *   }
    *   return input.getName();
    * }).contains("Frodo");</code></pre>
@@ -1211,6 +1215,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
+   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
+   * @param <V> the type of elements extracted.
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
@@ -1253,6 +1259,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The order of extracted values is consistent with both the order of the collection itself, as well as the extracted
    * collections.
    *
+   * @param <V> the type of elements extracted.
    * @param extractor the object transforming input object to an {@code Iterable} of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @throws NullPointerException if one of the {@code Iterable}'s element is null.
@@ -1282,7 +1289,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * List&lt;CartoonCharacter&gt; parents = newArrayList(homer, fred);
    * // check children
-   * assertThat(parent).flatExtracting((ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>)input -> {
+   * assertThat(parent).flatExtracting((ThrowingExtractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;, Exception&gt;)input -&gt; {
    *   if (input.getChildren().size() == 0) {
    *     throw new Exception("no children");
    *   }
@@ -1292,6 +1299,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The order of extracted values is consistent with both the order of the collection itself, as well as the extracted
    * collections.
    *
+   * @param <V> the type of elements extracted.
+   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractor the object transforming input object to an {@code Iterable} of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @throws NullPointerException if one of the {@code Iterable}'s element is null.
@@ -1361,14 +1370,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
    *
    * // values are extracted in order and flattened : age1, name1, age2, name2, age3 ...
-   * assertThat(fellowshipOfTheRing).flatExtracting(input -> {
-   *   if (input.getAge() < 20) {
-   *     throw new Exception("age < 20");
+   * assertThat(fellowshipOfTheRing).flatExtracting(input -&gt; {
+   *   if (input.getAge() &lt; 20) {
+   *     throw new Exception("age &lt; 20");
    *   }
    *   return input.getName();
-   * }, input2 -> {
-   *   if (input2.getAge() < 20) {
-   *     throw new Exception("age < 20");
+   * }, input2 -&gt; {
+   *   if (input2.getAge() &lt; 20) {
+   *     throw new Exception("age &lt; 20");
    *   }
    *   return input2.getAge();
    * }).contains(33 ,"Frodo",
@@ -1378,6 +1387,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The resulting extracted values list is ordered by {@code Iterable}'s element first and then extracted values,
    * this is why is in the example that age values come before names.
    *
+   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    * @since 3.7.0
@@ -1473,7 +1483,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing :
    * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
-   *                                            character -> character.getAge(),
+   *                                            character &gt; character.getAge(),
    *                                            TolkienCharacter::getRace)
    *                                .containsOnly(tuple(&quot;Frodo&quot;, 33, HOBBIT),
    *                                              tuple(&quot;Sam&quot;, 38, HOBBIT),
@@ -1617,6 +1627,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                          .usingFieldByFieldElementComparator()
    *                          .containsExactly(reallyTallFrodo);</code></pre>
    *
+   * @param <T> the type of elements to compare.
    * @param comparator the {@link java.util.Comparator} to use
    * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
    * @return {@code this} assertions object
@@ -1685,6 +1696,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                                 .usingFieldByFieldElementComparator()
    *                                 .contains(reallyTallFrodo);</code></pre>
    *
+   * @param <T> the type of elements to compare.
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
    * @return {@code this} assertions object
@@ -1716,8 +1728,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *         .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
    *         .contains(new BigDecimal("4.20"));
    * </code></pre>
-   * </p>
    *
+   * @param <T> the type of elements to compare.
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
    * @return {@code this} assertions object
@@ -1882,6 +1894,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // ... but not when comparing both name and race
    * assertThat(newArrayList(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL</code></pre>
    *
+   * @param fields the fields/properties to compare using element comparators
    * @return {@code this} assertion object.
    */
   @CheckReturnValue
@@ -2330,6 +2343,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(hobbits, StringAssert.class).element(1)
    *                                        .startsWith("fro");</code></pre>
    *
+   * @param index the element's index
    * @return the assertion on the given element
    * @throws AssertionError if the given index is out of bound.
    * @since 2.5.0 / 3.5.0
@@ -2371,7 +2385,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Filter the iterable under test keeping only elements matching the given {@link Predicate}.
    * <p>
-   * Example : check old employees whose age > 100:
+   * Example : check old employees whose age &gt; 100:
    *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
@@ -2379,7 +2393,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan);
    *
-   * assertThat(employees).filteredOn(employee -> employee.getAge() > 100)
+   * assertThat(employees).filteredOn(employee -&gt; employee.getAge() &gt; 100)
    *                      .containsOnly(yoda, obiwan);</code></pre>
    *
    * @param predicate the filter predicate

@@ -12,13 +12,13 @@
  */
 package org.assertj.core.data;
 
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
-
 import static java.lang.Math.abs;
 import static java.lang.String.format;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 
 /**
  * Base class for {@link TemporalOffset} on basis of {@link TemporalUnit}.
@@ -57,6 +57,10 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
 
   /**
    * Returns absolute value of the difference according to time unit.
+   * 
+   * @param temporal1 the first {@link Temporal}
+   * @param temporal2 the second {@link Temporal}
+   * @return absolute value of the difference according to time unit.
    */
   protected long getDifference(Temporal temporal1, Temporal temporal2) {
     return abs(unit.between(temporal1, temporal2));

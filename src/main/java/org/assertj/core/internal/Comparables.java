@@ -80,6 +80,7 @@ public class Comparables {
   /**
    * Asserts that two T instances are equal.
    * 
+   * @param <T> the type of actual and expected
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
@@ -90,8 +91,7 @@ public class Comparables {
    */
   public <T> void assertEqual(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
-    if (areEqual(actual, expected))
-      return;
+    if (areEqual(actual, expected)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
@@ -102,6 +102,7 @@ public class Comparables {
   /**
    * Asserts that two T instances are not equal.
    * 
+   * @param <T> the type of actual and expected
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the value to compare the actual value to.
@@ -259,14 +260,15 @@ public class Comparables {
    * @throws IllegalArgumentException if end value is less than start value.
    */
   public <T extends Comparable<? super T>> void assertIsBetween(AssertionInfo info, T actual, T start, T end,
-      boolean inclusiveStart, boolean inclusiveEnd) {
+                                                                boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
     checkNotNull(start, "The start range to compare actual with should not be null");
     checkNotNull(end, "The end range to compare actual with should not be null");
     checkArgument(inclusiveEnd && inclusiveStart && comparisonStrategy.isLessThanOrEqualTo(start, end) ||
-      !inclusiveEnd && !inclusiveStart && comparisonStrategy.isLessThan(start, end),
-      String.format("The end value <%s> must not be %s the start value <%s>%s!", end, (inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to" ), start,
-      (comparisonStrategy.isStandard() ?  "" : " (using " + comparisonStrategy + ")")));
+                  !inclusiveEnd && !inclusiveStart && comparisonStrategy.isLessThan(start, end),
+                  String.format("The end value <%s> must not be %s the start value <%s>%s!", end,
+                                (inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to"), start,
+                                (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")")));
     boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual)
         : isLessThan(start, actual);
     boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end)

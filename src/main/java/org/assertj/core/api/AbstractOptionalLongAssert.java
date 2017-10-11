@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api;
 
-import java.util.OptionalLong;
-
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+
+import java.util.OptionalLong;
 
 /**
  * Assertions for {@link java.util.OptionalLong}.
@@ -34,15 +34,11 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.OptionalLong}.
-   * </p>
-   * Assertion will pass :
    * <p>
-   * 
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalLong.of(10)).isPresent();</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(OptionalLong.empty()).isPresent();</code></pre>
    *
    * @return this assertion object.
@@ -57,7 +53,7 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
 
   /**
    * Verifies that the actual {@link java.util.OptionalLong} is empty (alias of {@link #isEmpty()}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalLong.empty()).isNotPresent();</code></pre>
    * 
@@ -69,18 +65,14 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
   public SELF isNotPresent() {
     return isEmpty();
   }
-  
+
   /**
    * Verifies that the actual {@link java.util.OptionalLong} is empty.
-   * </p>
-   * Assertion will pass :
    * <p>
-   * 
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalLong.empty()).isEmpty();</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(OptionalLong.of(10)).isEmpty();</code></pre>
    *
    * @return this assertion object.
@@ -95,15 +87,11 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.OptionalLong}, it's an alias of {@link #isPresent()}.
-   * </p>
-   * Assertion will pass :
    * <p>
-   *
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalLong.of(10)).isNotEmpty();</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   *
    * <pre><code class='java'> assertThat(OptionalLong.empty()).isNotEmpty();</code></pre>
    *
    * @return this assertion object.
@@ -116,16 +104,12 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
 
   /**
    * Verifies that the actual {@link java.util.OptionalLong} has the value in argument.
-   * </p>
-   * Assertion will pass :
    * <p>
-   * 
+   * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalLong.of(8)).hasValue(8);
    * assertThat(OptionalLong.of(8)).hasValue(Integer.valueOf(8));</code></pre>
    * <p>
    * Assertion will fail :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(OptionalLong.empty()).hasValue(8);
    * assertThat(OptionalLong.of(7)).hasValue(8);</code></pre>
    *

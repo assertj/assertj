@@ -25,6 +25,7 @@ public class ShouldBeEqualWithinPercentage extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link org.assertj.core.error.ShouldBeEqualWithinPercentage}</code>.
    *
+   * @param <T> the type of values to compare.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @param percentage the given positive percentage.

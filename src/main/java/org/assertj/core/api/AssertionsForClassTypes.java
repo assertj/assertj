@@ -433,6 +433,7 @@ public class AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
+   * @param <T> the actual value type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -444,6 +445,7 @@ public class AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
+   * @param <T> the actual elements type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -606,7 +608,7 @@ public class AssertionsForClassTypes {
    * 
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
-   *   assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *   assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                              .hasMessageContaining("boom");
    * }</code></pre>
    * 
@@ -626,12 +628,13 @@ public class AssertionsForClassTypes {
    * <p>
    * Example:
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
-   *              .isThrownBy(() -> { throw new IOException("boom!"); })
+   *              .isThrownBy(() -&gt; { throw new IOException("boom!"); })
    *              .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
    * 
-   * @param exceptionType the actual value.
+   * @param <T> the exception type.
+   * @param exceptionType the class of exception type.
    * @return the created {@link ThrowableTypeAssert}.
    */
   @CheckReturnValue
@@ -646,7 +649,7 @@ public class AssertionsForClassTypes {
    * Example :
    * </p>
    *
-   * <pre><code class='java'> ThrowingCallable callable = () -> {
+   * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
    * 
@@ -658,10 +661,10 @@ public class AssertionsForClassTypes {
    * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.</br>
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
    * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -> {
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
    *   // do nothing 
    * }; 
    * 
@@ -699,7 +702,7 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
    *   // when
-   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
+   *   Throwable thrown = catchThrowable(() -&gt; { throw new Exception("boom!"); });
    *
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
@@ -720,6 +723,8 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#setRemoveAssertJRelatedElementsFromStackTrace(boolean)} so that Assertions offers a
    * full feature entry point to all AssertJ Assert features (but you can use {@link Fail} if you prefer).
+   * 
+   * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
@@ -728,6 +733,9 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Assertj
    * Assert features (but you can use Fail if you prefer).
+   * 
+   * @param failureMessage error message.
+   * @throws AssertionError with the given message.
    */
   public static void fail(String failureMessage) {
     Fail.fail(failureMessage);
@@ -736,6 +744,10 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use Fail if you prefer).
+   * 
+   * @param failureMessage the description of the failed assertion. It can be {@code null}.
+   * @param realCause cause of the error.
+   * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   public static void fail(String failureMessage, Throwable realCause) {
     Fail.fail(failureMessage, realCause);
@@ -746,24 +758,32 @@ public class AssertionsForClassTypes {
    * entry point to all AssertJ features (but you can use Fail if you prefer).
    *
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
+   * 
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
    * Only delegate to {@link Fail#shouldHaveThrown(Class)} so that Assertions offers a full feature
    * entry point to all AssertJ features (but you can use Fail if you prefer).
+   * 
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
    */
-  public static void shouldHaveThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
    * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
    * is less than this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length < 80
+   * The following array will be formatted on one line as its length &lt; 80
    * 
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    * 
@@ -797,8 +817,6 @@ public class AssertionsForClassTypes {
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p>
-   * 
    * <pre><code class='java'> // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing))
    *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;, &quot;Legolas&quot;)
@@ -812,6 +830,14 @@ public class AssertionsForClassTypes {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing))
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);</code></pre>
+   *           
+   * @param <T> the type of value to extract.
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @param propertyType the type of property to extract
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
+   * @return the created {@code Properties}.
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
@@ -823,8 +849,6 @@ public class AssertionsForClassTypes {
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p>
-   * 
    * <pre><code class='java'> // extract simple property values, as no type has been defined the extracted property will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, String.class) instead.
    * assertThat(extractProperty(&quot;name&quot;).from(fellowshipOfTheRing))
@@ -837,6 +861,12 @@ public class AssertionsForClassTypes {
    *
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;, &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;); </code></pre>
+   * 
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
+   * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
@@ -870,9 +900,7 @@ public class AssertionsForClassTypes {
    * Globally sets whether the use of private fields is allowed for comparison.
    * The following (incomplete) list of methods will be impacted by this change :
    * <ul>
-   * <li>
-   * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
-   * </li>
+   * <li><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code></li>
    * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
@@ -894,11 +922,15 @@ public class AssertionsForClassTypes {
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
-   * <p>
-   * 
-   * <pre><code class='java'> Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = ... // init omitted
    * 
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
+   *
+   * @param <K> the type of the key of this entry.
+   * @param <V> the type of the value of this entry.
+   * @param key the key of the entry to create.
+   * @param value the value of the entry to create.
+   * @return the created {@code MapEntry}.
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
@@ -909,9 +941,12 @@ public class AssertionsForClassTypes {
    * features (but you can use {@link Index} if you prefer).
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));</code></pre>
+   *
+   * @param index the value of the index.
+   * @return the created {@code Index}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Index atIndex(int index) {
     return Index.atIndex(index);
@@ -921,8 +956,12 @@ public class AssertionsForClassTypes {
    * Assertions entry point for double {@link Offset}.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> offset(Double value) {
     return Offset.offset(value);
@@ -932,8 +971,12 @@ public class AssertionsForClassTypes {
    * Assertions entry point for float {@link Offset}.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
@@ -943,8 +986,12 @@ public class AssertionsForClassTypes {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> within(Double value) {
     return Offset.offset(value);
@@ -954,8 +1001,12 @@ public class AssertionsForClassTypes {
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> within(Float value) {
     return Offset.offset(value);
@@ -965,8 +1016,12 @@ public class AssertionsForClassTypes {
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
     return Offset.offset(value);
@@ -976,8 +1031,12 @@ public class AssertionsForClassTypes {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -987,8 +1046,12 @@ public class AssertionsForClassTypes {
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
@@ -998,8 +1061,12 @@ public class AssertionsForClassTypes {
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
@@ -1009,8 +1076,12 @@ public class AssertionsForClassTypes {
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
@@ -1021,8 +1092,12 @@ public class AssertionsForClassTypes {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
+   *
+   * @param value the value of the percentage.
+   * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Double value) {
     return withPercentage(value);
@@ -1033,8 +1108,12 @@ public class AssertionsForClassTypes {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
+   *
+   * @param value the value of the percentage.
+   * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Integer value) {
     return withPercentage(value);
@@ -1045,8 +1124,12 @@ public class AssertionsForClassTypes {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
+   *
+   * @param value the value of the percentage.
+   * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Long value) {
     return withPercentage(value);
@@ -1088,9 +1171,13 @@ public class AssertionsForClassTypes {
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
+   * 
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AnyOf}.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
   @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
@@ -1111,8 +1198,9 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new </code>{@link DoesNotHave}</code>.
+   * Creates a new <code>{@link DoesNotHave}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -1121,8 +1209,9 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new </code>{@link Not}</code>.
+   * Creates a new <code>{@link Not}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -1141,15 +1230,16 @@ public class AssertionsForClassTypes {
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p>
    * Typical usage with {@link Condition} :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p>
    * and with filter language based on java bean property :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *           .containsOnly(james, rose);</code></pre>
+   *           
+   * @param <E> the array elements type.
+   * @param array the array to filter.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(E[] array) {
     return Filters.filter(array);
@@ -1162,15 +1252,17 @@ public class AssertionsForClassTypes {
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p>
    * Typical usage with {@link Condition} :
-   * <p>
-   * 
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p>
    * and with filter language based on java bean property :
-   * <p>
-   * 
-   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
-   *            .containsOnly(james, rose);</code></pre>
+   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
+   *                           .and(&quot;assistsPerGame&quot;).greaterThan(7).get())
+   *           .containsOnly(james, rose);</code></pre>
+   *           
+   * @param <E> the iterable elements type.
+   * @param iterableToFilter the iterable to filter.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);
@@ -1570,7 +1662,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
+   * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
    * Beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1595,7 +1687,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new </code>{@link AssertionsForClassTypes}</code>.
+   * Creates a new <code>{@link AssertionsForClassTypes}</code>.
    */
   protected AssertionsForClassTypes() {}
 }

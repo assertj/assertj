@@ -24,6 +24,8 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldContainEntry}</code>.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param actual the actual map in the failed assertion.
    * @param entryCondition entry condition.
    * @return the created {@code ErrorMessageFactory}.
@@ -35,6 +37,8 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldContainEntry}</code>.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param actual the actual map in the failed assertion.
    * @param keyCondition key condition.
    * @param valueCondition value condition.

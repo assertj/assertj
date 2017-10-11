@@ -43,6 +43,7 @@ public class Properties<T> {
 
   /**
    * Creates a new <code>{@link Properties}</code>.
+   * @param <T> the type of value to extract.
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @param propertyType the type of property to extract
@@ -57,6 +58,7 @@ public class Properties<T> {
 
   /**
    * Creates a new <code>{@link Properties} with given propertyName and Object as property type.</code>.
+   * 
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @throws NullPointerException if the given property name is {@code null}.
@@ -87,6 +89,7 @@ public class Properties<T> {
    * instead of:
    * <pre><code class='java'> extractProperty("name", String.class).from(fellowshipOfTheRing);</code></pre>
    *
+   * @param <U> the type of value to extract.
    * @param propertyType the type of property to extract.
    * @return a new {@code Properties} with the given type.
    */

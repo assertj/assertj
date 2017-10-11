@@ -37,6 +37,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
@@ -46,9 +49,6 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.function.Function;
 
 import org.assertj.core.data.MapEntry;
@@ -123,7 +123,11 @@ public class StandardRepresentation implements Representation {
   }
 
   /**
-   * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.  
+   * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.
+   * 
+   * @param <T> the type to register a formatter for  
+   * @param type the class of the type to register a formatter for  
+   * @param formatter the formatter  
    */
   public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
     customFormatterByType.put(type, formatter);

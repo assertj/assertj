@@ -27,7 +27,7 @@ import org.assertj.core.presentation.PredicateDescription;
 public class ShouldNotAccept extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotAccept}</code>.
+   * Creates a new <code>{@link ShouldNotAccept}</code>.
    *
    * @param <T> guarantees that the type of the value value and the generic type of the {@code Predicate} are the same.
    * @param predicate the {@code Predicate}.

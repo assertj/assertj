@@ -237,6 +237,8 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * 
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;2.0&quot;);</code></pre>
+   * @param expected the expected {@link BigDecimal} passed as a String
+   * @return {@code this} assertion object.
    */
   public SELF isEqualByComparingTo(String expected) {
     return isEqualByComparingTo(new BigDecimal(expected));
@@ -252,9 +254,11 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualByComparingTo(&quot;8.00&quot;);</code></pre>
+   * @param notExpected the {@link BigDecimal} value passed as a String not to expect.
+   * @return {@code this} assertion object.
    */
-  public SELF isNotEqualByComparingTo(String expected) {
-    return isNotEqualByComparingTo(new BigDecimal(expected));
+  public SELF isNotEqualByComparingTo(String notExpected) {
+    return isNotEqualByComparingTo(new BigDecimal(notExpected));
   }
 
   @Override
