@@ -39,6 +39,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1093,6 +1094,13 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CompletableFuture)}
    */
   default <RESULT> CompletableFutureAssert<RESULT> assertThat(final CompletableFuture<RESULT> future) {
+    return Assertions.assertThat(future);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CompletionStage)}
+   */
+  default <RESULT> CompletionStageAssert<RESULT> assertThat(final CompletionStage<RESULT> future) {
     return Assertions.assertThat(future);
   }
 
