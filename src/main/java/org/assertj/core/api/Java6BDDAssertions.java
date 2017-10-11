@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
@@ -97,7 +98,7 @@ public class Java6BDDAssertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(AtomicIntegerFieldUpdater<OBJECT> actual) {
-    return new AtomicIntegerFieldUpdaterAssert<OBJECT>(actual);
+    return new AtomicIntegerFieldUpdaterAssert<>(actual);
   }
 
   /**
@@ -134,7 +135,7 @@ public class Java6BDDAssertions {
    */
   @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> then(AtomicLongFieldUpdater<OBJECT> actual) {
-    return new AtomicLongFieldUpdaterAssert<OBJECT>(actual);
+    return new AtomicLongFieldUpdaterAssert<>(actual);
   }
 
   /**
@@ -147,7 +148,7 @@ public class Java6BDDAssertions {
    */
   @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
-    return new AtomicReferenceAssert<VALUE>(actual);
+    return new AtomicReferenceAssert<>(actual);
   }
 
   /**

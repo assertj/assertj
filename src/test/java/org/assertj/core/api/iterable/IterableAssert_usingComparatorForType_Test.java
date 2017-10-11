@@ -59,7 +59,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   @Test
   public void should_be_able_to_use_a_comparator_for_specified_types() {
     // GIVEN
-    List<? extends Object> list = asList("some", "other", new BigDecimal(42));
+    List<Object> list = asList("some", "other", new BigDecimal(42));
     // THEN
     assertThat(list).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                     .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
