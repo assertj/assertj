@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
+import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -883,4 +884,20 @@ public class Strings {
     }
   }
 
+  /***
+   * Verifies that actual is equal to expected ignoring new lines
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence} (newlines will be ignored).
+   * @param expected the expected {@code CharSequence}.
+   */
+  public void assertIsEqualToIgnoringNewLines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    String actualWithoutNewLines = removeNewLines(actual);
+    if (!actualWithoutNewLines.equals(expected))
+      throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected));
+  }
+
+  private static String removeNewLines(CharSequence actual) {
+    String modified = normalizeNewlines(actual);
+    return modified.toString().replace("\n", "");
+  }
 }
