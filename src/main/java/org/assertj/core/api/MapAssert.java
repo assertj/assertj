@@ -89,4 +89,7 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   public final MapAssert<KEY, VALUE> doesNotContain(Map.Entry<? extends KEY, ? extends VALUE>... entries) {
     return super.doesNotContain(entries);
   }
+
+  
+
 }
