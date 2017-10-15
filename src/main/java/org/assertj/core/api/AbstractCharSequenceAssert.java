@@ -40,6 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Nicolas Francois
+ * @author Daniel Weber
  */
 public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
@@ -1143,6 +1144,35 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF isEqualToNormalizingNewlines(CharSequence expected) {
     strings.assertIsEqualToNormalizingNewlines(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one, after the new lines
+   * of both strings has been removed.<br>
+   * To be exact, the following rules are applied:
+   * <ul>
+   * <li>all new lines of both actual and expected strings are ignored</li>
+   * <li>any remaining new lines, appearing within either string, are removed before comparison</li>
+   * </ul>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewLines("Some text\nWith new lines")
+   *                              .isEqualToIgnoringNewLines("Some text\r\nWith new lines")
+   *                              .isEqualToIgnoringNewLines("Some text\n\nWith new lines");
+   *
+   * // assertions will fail
+   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewLines("Some text With new lines");
+   * assertThat("Some text\r\nWith new lines").isEqualToIgnoringNewLines("Some text With new lines");</code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
+   *           after new lines has been removed.
+   */
+  public SELF isEqualToIgnoringNewLines(CharSequence expected) {
+    strings.assertIsEqualToIgnoringNewLines(info, actual, expected);
     return myself;
   }
 }

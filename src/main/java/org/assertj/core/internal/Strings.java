@@ -892,12 +892,13 @@ public class Strings {
    */
   public void assertIsEqualToIgnoringNewLines(AssertionInfo info, CharSequence actual, CharSequence expected) {
     String actualWithoutNewLines = removeNewLines(actual);
-    if (!actualWithoutNewLines.equals(expected))
+    String expectedWithoutNewLines = removeNewLines(expected);
+    if (!actualWithoutNewLines.equals(expectedWithoutNewLines))
       throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected));
   }
 
-  private static String removeNewLines(CharSequence actual) {
-    String modified = normalizeNewlines(actual);
-    return modified.toString().replace("\n", "");
+  private static String removeNewLines(CharSequence text) {
+    String normalizedText = normalizeNewlines(text);
+    return normalizedText.toString().replace("\n", "");
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -30,10 +31,15 @@ import org.junit.Test;
 public class Strings_assertEqualsToIgnoringNewLines_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_new_lines_and_expected_has_no_new_lines() {
-    String expected = "Some textWith new lines";
-    strings.assertIsEqualToIgnoringNewLines(someInfo(), "Some text\nWith new lines", expected);
-    strings.assertIsEqualToIgnoringNewLines(someInfo(), "Some text\r\nWith new lines", expected);
+  public void should_pass_if_both_texts_contain_new_lines_of_any_kind() {
+    String actual = "Some text\nWith new lines";
+    String expectedOnLinux = "Some text\nWith new lines";
+    String expectedOnWindows = "Some text\r\nWith new lines";
+    String expectedWithConsecutiveNewlines= "Some text\n\nWith new lines";
+
+    assertThat(actual).isEqualToIgnoringNewLines(expectedOnLinux)
+      .isEqualToIgnoringNewLines(expectedOnWindows)
+      .isEqualToIgnoringNewLines(expectedWithConsecutiveNewlines);
   }
 
   @Test
