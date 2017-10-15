@@ -6,7 +6,7 @@ public class ShouldBeEqualIgnoringNewLines  extends BasicErrorMessageFactory {
 	 }
 
 	  private ShouldBeEqualIgnoringNewLines(CharSequence actual, CharSequence expected) {
-	    super("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%nignoring newline (\n, \r\n) in acutal.",
+	    super("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%nignoring newlines (\n, \r\n).",
 	          actual, expected);
 	  }
 
