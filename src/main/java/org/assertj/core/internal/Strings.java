@@ -887,8 +887,8 @@ public class Strings {
   /***
    * Verifies that actual is equal to expected ignoring new lines
    * @param info contains information about the assertion.
-   * @param actual the actual {@code CharSequence} (newlines will be ignored).
-   * @param expected the expected {@code CharSequence}.
+   * @param actual the actual {@code CharSequence} (new lines will be ignored).
+   * @param expected the expected {@code CharSequence} (new lines will be ignored).
    */
   public void assertIsEqualToIgnoringNewLines(AssertionInfo info, CharSequence actual, CharSequence expected) {
     String actualWithoutNewLines = removeNewLines(actual);
