@@ -310,8 +310,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
    * <p>
+   * When used with {@link #isEqualToComparingFieldByFieldRecursively(Object)}, the fields/properties must be specified from the root object, 
+   * for example if Foo class as a Bar field and Bar class has an id, to set a comparator for Bar's id use {@code "bar.id"}. 
+   * <p>
    * Example:
-   *
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private double height;
@@ -563,7 +565,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a name String field, it is expected the other object to also have one.
    * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
-   *
    * Example:
    * <pre><code class='java'> public class Person {
    *   public String name;

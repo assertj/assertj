@@ -1642,8 +1642,9 @@ public class Java6Assertions {
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p>
    * and with filter language based on java bean property :
-   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
-   *     .greaterThan(7).get()).containsOnly(james, rose);</code></pre>
+   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
+   *                           .and(&quot;assistsPerGame&quot;).greaterThan(7).get())
+   *           .containsOnly(james, rose);</code></pre>
    *
    * @param iterable the {@code Iterable} to filter.
    * @return the created <code>{@link Filters}</code>.
