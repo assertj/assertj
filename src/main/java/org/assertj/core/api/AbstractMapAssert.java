@@ -1175,10 +1175,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *  assertThat(map).flatExtracting("name","job","city")
                      .contains("Dave","Jeff","Plumber","Builder","Dover","Boston"); </code></pre>
    * <p>
-   * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
+   * Note that the order of extracted keys values is consistent with the iteration order of the array under test.
    * <p>
-   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract 
-   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.  
    *
    * @param keys the keys used to get values from the map under test
    * @return a new assertion object whose object under test is the array containing the extracted map values
