@@ -1169,13 +1169,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * <p>
    * Example:
    * <pre><code class='java'> Map&lt;String, List&lt;String&gt; map = new HashMap&lt;&gt;(); 
-   * List<String> nameList = newArrayList("Dave", "Jeff");
-   * List<String> jobList = newArrayList("Plumber", "Builder");
-   * List<String> cityList = newArrayList("Dover", "Boston");
-   * testMap.put("name", nameList);
-   * testMap.put("job", jobList);
-   * testMap.put("city", cityList); 
-   * assertThat(map)
+   *  map.put("name", Arrays.asList("Dave", "Jeff"));
+   *  map.put("job",  Arrays.asList("Plumber", "Builder"));
+   *  map.put("city", Arrays.asList("Dover", "Boston"));
+   *  assertThat(map)
       .flatExtracting("name","job","city")
       .contains("Dave","Jeff","Plumber","Builder","Dover","Boston"); </code></pre>     
    * <p>

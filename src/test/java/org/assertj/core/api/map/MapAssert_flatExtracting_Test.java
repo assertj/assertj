@@ -13,6 +13,8 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +40,9 @@ public class MapAssert_flatExtracting_Test {
   
   private Map<String, List<String>> createTestData(){
     Map<String, List<String>> testMap  = new HashMap<>();
-    List<String> nameList = newArrayList("Dave", "Jeff");
-    List<String> jobList = newArrayList("Plumber", "Builder");
-    List<String> cityList = newArrayList("Dover", "Boston");
-    testMap.put("name", nameList);
-    testMap.put("job", jobList);
-    testMap.put("city", cityList);   
+    testMap.put("name", Arrays.asList("Dave", "Jeff"));
+    testMap.put("job",  Arrays.asList("Plumber", "Builder"));
+    testMap.put("city", Arrays.asList("Dover", "Boston"));
     return testMap;
   }
   
