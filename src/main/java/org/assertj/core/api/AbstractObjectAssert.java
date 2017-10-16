@@ -567,7 +567,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   private static List<Object> flattenNonRecursive(Collection<? extends Object> list) {
     List<Object> result = new ArrayList<>();
     for (Object item : list) {
-      if (item instanceof List<?>) result.addAll(0,(List<?>)item);
+      if (item instanceof List<?>) result.addAll(0, (List<?>)item);
       else result.add(item);
     }
     return result;
