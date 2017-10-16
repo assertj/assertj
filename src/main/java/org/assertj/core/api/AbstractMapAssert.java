@@ -1172,9 +1172,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *  map.put("name", Arrays.asList("Dave", "Jeff"));
    *  map.put("job",  Arrays.asList("Plumber", "Builder"));
    *  map.put("city", Arrays.asList("Dover", "Boston"));
-   *  assertThat(map)
-      .flatExtracting("name","job","city")
-      .contains("Dave","Jeff","Plumber","Builder","Dover","Boston"); </code></pre>     
+   *  assertThat(map).flatExtracting("name","job","city")
+                     .contains("Dave","Jeff","Plumber","Builder","Dover","Boston"); </code></pre>
    * <p>
    * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
    * <p>

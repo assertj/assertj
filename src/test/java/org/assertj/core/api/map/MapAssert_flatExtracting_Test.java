@@ -33,9 +33,8 @@ public class MapAssert_flatExtracting_Test {
   @Test
   public void should_allow_assertions_on_flattened_values_extracted_from_given_map_keys() {
     Map<String, List<String>> map  = createTestData();
-    assertThat(map)
-      .flatExtracting("name","job","city")
-      .contains("Dave","Jeff","Plumber","Builder","Dover","Boston");
+    assertThat(map).flatExtracting("name","job","city")
+                   .contains("Dave","Jeff","Plumber","Builder","Dover","Boston");
   }
   
   private Map<String, List<String>> createTestData(){
@@ -49,9 +48,8 @@ public class MapAssert_flatExtracting_Test {
   @Test
   public void should_extract_null_from_unknown_key() {
     Map<String, List<String>> map  = createTestData();
-    assertThat(map)
-      .flatExtracting("name", "id")
-      .contains("Jeff", (Object) null);
+    assertThat(map).flatExtracting("name", "id")
+                   .contains("Jeff", (Object) null);
   }
 
 }
