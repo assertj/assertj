@@ -16,12 +16,15 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import net.bytebuddy.implementation.bind.annotation.SuperMethod;
+import net.bytebuddy.implementation.bind.annotation.This;
 
 /** Collects error messages of all AssertionErrors thrown by the proxied method. */
-public class ErrorCollector implements MethodInterceptor {
+public class ErrorCollector {
 
   private static final String INTERCEPT_METHOD_NAME = "intercept";
 
@@ -32,12 +35,13 @@ public class ErrorCollector implements MethodInterceptor {
   // scope : the last assertion call (might be nested)
   private final LastResult lastResult = new LastResult();
 
-  @Override
-  public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-    Object result = obj;
+  @RuntimeType
+  public Object intercept(@This Object obj, @SuperCall Callable<Object> proxy,
+                          @SuperMethod(nullIfImpossible = true) Method method) throws Exception {
     try {
-      result = proxy.invokeSuper(obj, args);
+      Object returnResult = proxy.call();
       lastResult.setSuccess(true);
+      return returnResult;
     } catch (AssertionError e) {
       if (isNestedErrorCollectorProxyCall()) {
         // let the most outer call handle the assertion error
@@ -46,7 +50,12 @@ public class ErrorCollector implements MethodInterceptor {
       lastResult.setSuccess(false);
       errors.add(e);
     }
-    return result;
+    if (method != null && !method.getReturnType().isInstance(obj)) {
+      // In case the object is not an instance of the return type, just return null to avoid ClassCastException
+      // with ByteBuddy
+      return null;
+    }
+    return obj;
   }
 
   public void addError(Throwable error) {
@@ -70,7 +79,7 @@ public class ErrorCollector implements MethodInterceptor {
     int nbCalls = 0;
     for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
       if (CLASS_NAME.equals(stackTraceElement.getClassName())
-          && INTERCEPT_METHOD_NAME.equals(stackTraceElement.getMethodName()))
+          && stackTraceElement.getMethodName().startsWith(INTERCEPT_METHOD_NAME))
         nbCalls++;
     }
     return nbCalls;

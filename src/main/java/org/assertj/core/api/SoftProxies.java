@@ -12,21 +12,27 @@
  */
 package org.assertj.core.api;
 
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.CallbackFilter;
-import net.sf.cglib.proxy.Enhancer;
-
-import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-import static org.assertj.core.util.Arrays.array;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.TypeCache;
+import net.bytebuddy.TypeCache.SimpleKey;
+import net.bytebuddy.TypeCache.Sort;
+import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatcher.Junction;
+import net.bytebuddy.matcher.ElementMatchers;
 
 class SoftProxies {
 
   private final ErrorCollector collector = new ErrorCollector();
+  private final TypeCache<TypeCache.SimpleKey> cache = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
 
   void collectError(Throwable error) {
-      collector.addError(error);
+    collector.addError(error);
   }
 
   List<Throwable> errorsCollected() {
@@ -34,36 +40,48 @@ class SoftProxies {
   }
 
   @SuppressWarnings("unchecked")
-  <V, T> V create(Class<V> assertClass, Class<T> actualClass, T actual) {
-    Enhancer enhancer = new Enhancer();
-    enhancer.setSuperclass(assertClass);
-    enhancer.setCallbackFilter(CollectErrorsOrCreateExtractedProxy.FILTER);
-    enhancer.setCallbacks(new Callback[] { collector, new ProxifyExtractingResult(this) });
-    return (V) enhancer.create(array(actualClass), array(actual));
+  <V, T> V create(final Class<V> assertClass, Class<T> actualClass, T actual) {
+
+    try {
+      Class<V> proxyClass = (Class<V>) cache
+        .findOrInsert(getClass().getClassLoader(), new SimpleKey(assertClass), new Callable<Class<?>>() {
+          @Override
+          public Class<?> call() {
+            return createProxy(assertClass, collector);
+          }
+        });
+
+      Constructor<? extends V> constructor = proxyClass.getConstructor(actualClass);
+      return constructor.newInstance(actual);
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    } catch (InstantiationException e) {
+      throw new RuntimeException(e);
+    } catch (InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
+    Junction<MethodDescription> extractingOrFilteredOn = ElementMatchers.<MethodDescription>nameContainsIgnoreCase(
+      "extracting")
+      .or(ElementMatchers.nameContainsIgnoreCase("filteredOn"));
+
+    return new ByteBuddy()
+      .subclass(assertClass)
+      .method(extractingOrFilteredOn)
+      .intercept(MethodDelegation.to(new ProxifyExtractingResult(this)))
+      .method(ElementMatchers.<MethodDescription>any().and(ElementMatchers.not(extractingOrFilteredOn)))
+      .intercept(MethodDelegation.to(collector))
+      .make()
+      .load(getClass().getClassLoader())
+      .getLoaded();
   }
 
   public boolean wasSuccess() {
     return collector.wasSuccess();
   }
 
-  private enum CollectErrorsOrCreateExtractedProxy implements CallbackFilter {
-    FILTER;
-
-    private static final int ERROR_COLLECTOR_INDEX = 0;
-    private static final int PROXIFY_EXTRACTING_OR_FILTEREDON_INDEX = 1;
-
-    @Override
-    public int accept(Method method) {
-      return isExtractingMethod(method) || isFilteredOnMethod(method) ? PROXIFY_EXTRACTING_OR_FILTEREDON_INDEX
-          : ERROR_COLLECTOR_INDEX;
-    }
-
-    private boolean isExtractingMethod(Method method) {
-      return method.getName().toLowerCase().contains("extracting");
-    }
-
-    private boolean isFilteredOnMethod(Method method) {
-      return method.getName().contains("filteredOn");
-    }
-  }
 }
