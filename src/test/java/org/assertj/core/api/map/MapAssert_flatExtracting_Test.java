@@ -49,7 +49,7 @@ public class MapAssert_flatExtracting_Test {
   public void should_extract_null_from_unknown_key() {
     Map<String, List<String>> map  = createTestData();
     assertThat(map).flatExtracting("name", "id")
-                   .contains("Jeff", (Object) null);
+                   .containsNull();
   }
 
 }
