@@ -1153,4 +1153,38 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   public AbstractObjectArrayAssert<?, Object> extracting(String... keys) {
     return super.extracting(keys);
   }
+
+  /**
+   * Flatten the list of values of the given keys from the actual map under test into an array, this new array becoming
+   * the object under test.
+   * <p>
+   * If a given key is not present in the map under test, a {@code null} value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, List&lt;String&gt; map = new HashMap&lt;&gt;(); 
+   * map.put("name", Arrays.asList("Dave", "Jeff"));
+   * map.put("job",  Arrays.asList("Plumber", "Builder"));
+   * map.put("city", Arrays.asList("Dover", "Boston", "Paris"));
+   * 
+   * assertThat(map).flatExtracting("name","job","city")
+   *                .containsExactly("Dave", "Jeff", "Plumber", "Builder", "Dover", "Boston", "Paris");
+   *                
+   * // order of values is the order of key then key values:                
+   * assertThat(map).flatExtracting("city", "job", "name")                
+   *                .containsExactly("Dover", "Boston", "Paris", "Plumber", "Builder", "Dave", "Jeff");
+   *                        
+   * // contains exactly null twice (one for each unknown keys)
+   * assertThat(map).flatExtracting("foo", "bar")
+   *                .containsExactly(null, null);</code></pre>
+   * <p>
+   * Note that the order of values in the resulting array is the order of the map keys iteration then key values.
+   *
+   * @param keys the keys used to get values from the map under test
+   * @return a new assertion object whose object under test is the array containing the extracted map values
+   */
+  @CheckReturnValue
+  @Override
+  public AbstractObjectArrayAssert<?, Object> flatExtracting(String... keys) {
+    return super.flatExtracting(keys);
+  }
 }
