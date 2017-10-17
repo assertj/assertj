@@ -16,44 +16,44 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains a sequence of
+ * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains a Subsequence of
  * several {@code CharSequence}s in order failed.
  * 
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ShouldContainCharSequenceSequence extends BasicErrorMessageFactory {
+public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldContainCharSequenceSequence}</code>.
+   * Creates a new <code>{@link ShouldContainSubsequenceOfCharSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSequence(CharSequence actual, CharSequence[] strings, int firstBadOrderIndex) {
-    return shouldContainSequence(actual, strings, firstBadOrderIndex, StandardComparisonStrategy.instance());
+  public static ErrorMessageFactory shouldContainSubsequence(CharSequence actual, CharSequence[] strings, int firstBadOrderIndex) {
+    return shouldContainSubsequence(actual, strings, firstBadOrderIndex, StandardComparisonStrategy.instance());
   }
 
   /**
-   * Creates a new <code>{@link ShouldContainCharSequenceSequence}</code>.
+   * Creates a new <code>{@link ShouldContainSubsequenceOfCharSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSequence(CharSequence actual, CharSequence[] strings, int badOrderIndex,
-      ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldContainSubsequence(CharSequence actual, CharSequence[] strings, int badOrderIndex,
+                                                             ComparisonStrategy comparisonStrategy) {
 
-    return new ShouldContainCharSequenceSequence(
+    return new ShouldContainSubsequenceOfCharSequence(
                                            "%nExpecting:%n <%s>%nto contain the following CharSequences in this order:%n <%s>%nbut <%s> was found before <%s>%n%s",
                                            actual, strings, strings[badOrderIndex + 1], strings[badOrderIndex],
                                            comparisonStrategy);
   }
 
-  private ShouldContainCharSequenceSequence(String format, CharSequence actual, CharSequence[] strings, CharSequence foundButBadOrder,
-      CharSequence foundButBadOrder2, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainSubsequenceOfCharSequence(String format, CharSequence actual, CharSequence[] strings, CharSequence foundButBadOrder,
+                                                 CharSequence foundButBadOrder2, ComparisonStrategy comparisonStrategy) {
     super(format, actual, strings, foundButBadOrder, foundButBadOrder2, comparisonStrategy);
   }
 

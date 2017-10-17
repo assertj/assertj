@@ -28,7 +28,8 @@ import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
-import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.*;
+import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
@@ -66,6 +67,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldContainSubsequenceOfCharSequence;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -726,38 +728,50 @@ public class Strings {
     Objects.instance().assertNotNull(info, actual);
   }
 
-  public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+  /**
+   * Verifies that the actual {@code CharSequence} contains all the given values <b>in the given order
+   * (possibly with other values between them)</b>.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param subsequence the Strings to look for, in order.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws NullPointerException if the given subsequence is {@code null}.
+   * @throws IllegalArgumentException if the given subsequence is empty.
+   * @throws AssertionError if the given {@code CharSequence} does not contain the given subsequence of objects.
+   */
+  public void assertContainsSubsequence(AssertionInfo info, CharSequence actual, CharSequence[] subsequence) {
     assertNotNull(info, actual);
-    checkIsNotNull(sequence);
-    checkIsNotEmpty(sequence);
-    checkCharSequenceArrayDoesNotHaveNullElements(sequence);
+    checkIsNotNull(subsequence);
+    checkIsNotEmpty(subsequence);
+    checkCharSequenceArrayDoesNotHaveNullElements(subsequence);
 
     Set<CharSequence> notFound = new LinkedHashSet<>();
-    for (CharSequence value : sequence) {
+    for (CharSequence value : subsequence) {
       if (!stringContains(actual, value)) notFound.add(value);
     }
 
     if (!notFound.isEmpty()) {
-      // don't bother looking for a sequence, some of the sequence elements were not found !
-      if (notFound.size() == 1 && sequence.length == 1) {
-        throw failures.failure(info, shouldContain(actual, sequence[0], comparisonStrategy));
+      // don't bother looking for a subsequence, some of the subsequence elements were not found !
+      if (notFound.size() == 1 && subsequence.length == 1) {
+        throw failures.failure(info, shouldContain(actual, subsequence[0], comparisonStrategy));
       }
-      throw failures.failure(info, shouldContain(actual, sequence, notFound, comparisonStrategy));
+      throw failures.failure(info, shouldContain(actual, subsequence, notFound, comparisonStrategy));
     }
 
     // we have found all the given values but were they in the expected order ?
-    if (sequence.length == 1) return; // no order check needed for a one element sequence
+    if (subsequence.length == 1) return; // no order check needed for a one element subsequence
 
     // convert all to one char CharSequence list to ease comparison
     String strActual = actual.toString();
-    for (int i = 1; i < sequence.length; i++) {
-      int indexOfCurrentSequenceValue = indexOf(strActual, sequence[i - 1].toString());
-      int indexOfNextSequenceValue = indexOf(strActual, sequence[i].toString());
+    for (int i = 1; i < subsequence.length; i++) {
+      int indexOfCurrentSequenceValue = indexOf(strActual, subsequence[i - 1].toString());
+      int indexOfNextSequenceValue = indexOf(strActual, subsequence[i].toString());
       if (indexOfCurrentSequenceValue > indexOfNextSequenceValue) {
-        throw failures.failure(info, shouldContainSequence(actual, sequence, i - 1, comparisonStrategy));
+        throw failures.failure(info, shouldContainSubsequence(actual, subsequence, i - 1, comparisonStrategy));
       }
-      // get rid of the start of String to properly handle duplicate sequence values
-      // ex: "a-b-c" and sequence "a", "-", "b", "-", "c" would fail as the second "-" would be found before "b"
+      // get rid of the start of String to properly handle duplicate subsequence values
+      // ex: "a-b-c" and subsequence "a", "-", "b", "-", "c" would fail as the second "-" would be found before "b"
       strActual = strActual.substring(indexOfCurrentSequenceValue + 1);
     }
   }
