@@ -118,7 +118,6 @@ public class Conditions {
   /**
    * Asserts the the given <code>{@link Condition}</code> is not null.
    * @param condition the given {@code Condition}.
-   * @param condition the given {@code Condition}.
    * @param  format as in {@link String#format(String, Object...)}
    * @param  args as in {@link String#format(String, Object...)}
    * @throws NullPointerException if the given {@code Condition} is {@code null}.

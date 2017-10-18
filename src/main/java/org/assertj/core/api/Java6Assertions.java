@@ -1265,9 +1265,6 @@ public class Java6Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;,
    * &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;);</code></pre>
    *
-   * @param propertyName the name of the property to extract
-   * @return the created {@code Properties}.
-   * 
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @throws NullPointerException if the given property name is {@code null}.
