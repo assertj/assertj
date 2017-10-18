@@ -15,7 +15,11 @@ package org.assertj.core.api;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.description.Description;
@@ -1152,5 +1156,34 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @Override
   public AbstractObjectArrayAssert<?, Object> extracting(String... keys) {
     return super.extracting(keys);
+  }
+
+  /**
+   * Flattens a list of values for given keys from the map under test into an array, this new array becoming
+   * the object under test.
+   * <p>
+   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for 
+   * these keys, you can then perform array assertions on the extracted values.
+   * <p>
+   * If a given key is not present in the map under test, a null value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, List&lt;String&gt; map = new HashMap&lt;&gt;(); 
+   *  map.put("name", Arrays.asList("Dave", "Jeff"));
+   *  map.put("job",  Arrays.asList("Plumber", "Builder"));
+   *  map.put("city", Arrays.asList("Dover", "Boston"));
+   *  assertThat(map).flatExtracting("name","job","city")
+                     .contains("Dave","Jeff","Plumber","Builder","Dover","Boston"); </code></pre>
+   * <p>
+   * Note that the order of extracted keys values is consistent with the iteration order of the array under test.
+   * <p>
+   *
+   * @param keys the keys used to get values from the map under test
+   * @return a new assertion object whose object under test is the array containing the extracted map values
+   */
+  @CheckReturnValue
+  @Override
+  public AbstractObjectArrayAssert<?, Object> flatExtracting(String... keys) {
+    return super.flatExtracting(keys);    
   }
 }

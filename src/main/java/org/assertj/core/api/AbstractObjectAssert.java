@@ -16,8 +16,12 @@ import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.description.Description;
@@ -546,10 +550,30 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).extract(actual);
+    return extracting(values.toList(), propertiesOrFields);
+  }
+  
+  private AbstractObjectArrayAssert<?, Object> extracting(List<Object> values, String...propertiesOrFields) {
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return new ObjectArrayAssert<>(values.toArray()).as(description);
   }
+  
+  @CheckReturnValue
+  public AbstractObjectArrayAssert<?, Object> flatExtracting(String... keys) {
+    Tuple values = byName(keys).extract(actual);
+    List<Object> valuesFlattened = flattenNonRecursive(values.toList());
+    return extracting(valuesFlattened,keys);    
+  }
+  
+  private static List<Object> flattenNonRecursive(Collection<? extends Object> list) {
+    List<Object> result = new ArrayList<>();
+    for (Object item : list) {
+      if (item instanceof List<?>) result.addAll(0, (List<?>)item);
+      else result.add(item);
+    }
+    return result;
+}
 
   /**
    * Assert that the object under test (actual) is equal to the given object based on recursive a property/field by property/field comparison (including
