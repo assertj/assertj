@@ -26,7 +26,7 @@ import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.*;
  * 
  * @author Joel Costigliola
  */
-public class ShouldContainSequenceString_create_Test {
+public class ShouldContainSubsequenceOfCharSequence_create_Test {
 
   private ErrorMessageFactory factory;
 
