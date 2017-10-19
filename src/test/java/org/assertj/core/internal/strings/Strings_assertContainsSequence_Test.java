@@ -68,6 +68,13 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   }
 
   @Test
+  public void should_throw_error_if_any_value_of_Sequence_is_null() {
+    String[] sequenceValues = { "author", null };
+    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
+    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+  }
+
+  @Test
   public void should_throw_error_if_Sequence_values_are_empty() {
     thrown.expectIllegalArgumentException(arrayOfValuesToLookForIsEmpty());
     strings.assertContainsSequence(someInfo(), actual, new String[0]);

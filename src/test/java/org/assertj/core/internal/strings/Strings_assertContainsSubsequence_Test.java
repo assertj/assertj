@@ -52,9 +52,16 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_sequence_values_is_null() {
+  public void should_throw_error_if_Subsequence_is_null() {
     thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
     strings.assertContainsSubsequence(someInfo(), "Yoda", null);
+  }
+
+  @Test
+  public void should_throw_error_if_any_value_of_Subsequence_is_null() {
+    String[] sequenceValues = { "author", null };
+    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
+    strings.assertContainsSubsequence(someInfo(), "'author':'George Martin'", sequenceValues);
   }
 
   @Test
@@ -66,7 +73,7 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsSubsequence(someInfo(), (CharSequence)null, array("Yo", "da"));
+    strings.assertContainsSubsequence(someInfo(), null, array("Yo", "da"));
   }
 
   @Test
