@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements contains a sequence of values
@@ -30,7 +31,8 @@ public class ShouldContainSequence extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSequence(Object actual, Object sequence, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldContainSequence(Object actual, Object sequence,
+                                                          ComparisonStrategy comparisonStrategy) {
     return new ShouldContainSequence(actual, sequence, comparisonStrategy);
   }
 
@@ -45,7 +47,10 @@ public class ShouldContainSequence extends BasicErrorMessageFactory {
   }
 
   private ShouldContainSequence(Object actual, Object sequence, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nto contain sequence:%n <%s>%n%s", actual, sequence, comparisonStrategy);
+    super("%nExpecting:%n" +
+          "  <%s>%n" +
+          "to contain sequence:%n" +
+          "  <%s>%n%s", actual, sequence, comparisonStrategy);
   }
 
 }

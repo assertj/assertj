@@ -15,25 +15,23 @@ package org.assertj.core.api.charsequence;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
-import java.util.Arrays;
-
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable<CharSequence>)}</code>.
- *
- * @author Billy Yuan
+ * Tests for <code>{@link CharSequenceAssert#containsSubsequence(CharSequence...)} <CharSequence>)}</code>.
+ * 
+ * @author Filip Hrisafov
  */
-public class CharSequenceAssert_containsSequence_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_containsSubsequence_with_var_args_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.containsSequence(Arrays.<CharSequence> asList("od", "do"));
+    return assertions.containsSubsequence("od", "do");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContainsSequence(getInfo(assertions), getActual(assertions), array("od", "do"));
+    verify(strings).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("od", "do"));
   }
 }
