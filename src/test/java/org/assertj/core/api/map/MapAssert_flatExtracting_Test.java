@@ -14,9 +14,11 @@ package org.assertj.core.api.map;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
@@ -30,31 +32,43 @@ import org.junit.Test;
  */
 public class MapAssert_flatExtracting_Test {
 
-  private Map<String, List<String>> mapOfList;
+  private Map<String, Object> map;
 
   @Before
   public void beforeEachTest() {
-    mapOfList = new LinkedHashMap<>();
-    mapOfList.put("name", asList("Dave", "Jeff"));
-    mapOfList.put("job", asList("Plumber", "Builder"));
-    mapOfList.put("city", asList("Dover", "Boston", "Paris"));
+    String[] names = array("Dave", "Jeff");
+    LinkedHashSet<String> jobs = newLinkedHashSet("Plumber", "Builder");
+    Iterable<String> cities = asList("Dover", "Boston", "Paris");
+    int[] ranks = { 1, 2, 3 };
+    map = new LinkedHashMap<>();
+    map.put("name", names);
+    map.put("job", jobs);
+    map.put("city", cities);
+    map.put("rank", ranks);
   }
 
   @Test
   public void should_allow_assertions_on_flattened_values_extracted_from_given_map_keys() {
-    assertThat(mapOfList).flatExtracting("name", "job", "city")
-                         .containsExactly("Dave", "Jeff", "Plumber", "Builder", "Dover", "Boston", "Paris");
+    assertThat(map).flatExtracting("name", "job", "city", "rank")
+                   .containsExactly("Dave", "Jeff", "Plumber", "Builder", "Dover", "Boston", "Paris", 1, 2, 3);
     // order of values is the order of key then key values
-    assertThat(mapOfList).flatExtracting("city", "job", "name")
-                         .containsExactly("Dover", "Boston", "Paris", "Plumber", "Builder", "Dave", "Jeff");
+    assertThat(map).flatExtracting("city", "job", "name")
+                   .containsExactly("Dover", "Boston", "Paris", "Plumber", "Builder", "Dave", "Jeff");
   }
 
   @Test
   public void should_extract_null_from_unknown_key() {
-    assertThat(mapOfList).flatExtracting("name", "id", "city")
-                         .containsExactly("Dave", "Jeff", null, "Dover", "Boston", "Paris");
-    assertThat(mapOfList).flatExtracting("foo", "bar")
-                         .containsOnlyNulls();
+    assertThat(map).flatExtracting("name", "id", "city")
+                   .containsExactly("Dave", "Jeff", null, "Dover", "Boston", "Paris");
+    assertThat(map).flatExtracting("foo", "bar")
+                   .containsOnlyNulls();
+  }
+
+  @Test
+  public void should_extract_but_not_flatten_non_collection_values() {
+    map.put("year", 2017);
+    assertThat(map).flatExtracting("name", "job", "year")
+                   .containsExactly("Dave", "Jeff", "Plumber", "Builder", 2017);
   }
 
 }
