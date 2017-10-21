@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -18,18 +18,19 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#containsSequence(CharSequence...)} <CharSequence>)}</code>.
- *
- * @author Billy Yuan
+ * Tests for <code>{@link CharSequenceAssert#containsSubsequence(CharSequence...)} <CharSequence>)}</code>.
+ * 
+ * @author Filip Hrisafov
  */
-public class CharSequenceAssert_containsSequence_with_var_args_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_containsSubsequence_with_var_args_Test extends CharSequenceAssertBaseTest {
+
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.containsSequence("od", "do");
+    return assertions.containsSubsequence("od", "do");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContainsSequence(getInfo(assertions), getActual(assertions), new String[] { "od", "do" });
+    verify(strings).assertContainsSubsequence(getInfo(assertions), getActual(assertions), new String[] { "od", "do" });
   }
 }

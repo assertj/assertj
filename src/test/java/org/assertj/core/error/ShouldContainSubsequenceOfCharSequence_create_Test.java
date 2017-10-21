@@ -12,23 +12,21 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
-
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.*;
 
 /**
- * Tests for <code>{@link ShouldContainCharSequenceSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for <code>{@link ShouldContainSubsequenceOfCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ShouldContainSequenceString_create_Test {
+public class ShouldContainSubsequenceOfCharSequence_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -37,7 +35,7 @@ public class ShouldContainSequenceString_create_Test {
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 
-    factory = shouldContainSequence(actual, sequenceValues, 1);
+    factory = shouldContainSubsequence(actual, sequenceValues, 1);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"" + actual + "\">%n"
@@ -52,8 +50,8 @@ public class ShouldContainSequenceString_create_Test {
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 
-    factory = shouldContainSequence(actual, sequenceValues, 1,
-                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    factory = shouldContainSubsequence(actual, sequenceValues, 1,
+                                       new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"" + actual + "\">%n"

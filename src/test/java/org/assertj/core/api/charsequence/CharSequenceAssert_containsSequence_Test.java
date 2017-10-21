@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -12,17 +12,17 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.verify;
-
-import java.util.Arrays;
-
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
+import java.util.Arrays;
+
+import static org.mockito.Mockito.verify;
+
 /**
  * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable<CharSequence>)}</code>.
- * 
- * @author André Diermann
+ *
+ * @author Billy Yuan
  */
 public class CharSequenceAssert_containsSequence_Test extends CharSequenceAssertBaseTest {
 

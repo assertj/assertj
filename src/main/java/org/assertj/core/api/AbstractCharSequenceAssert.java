@@ -12,7 +12,11 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.contentOf;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Strings;
+import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.IterableUtil;
+import org.assertj.core.util.VisibleForTesting;
 
 import java.io.File;
 import java.io.LineNumberReader;
@@ -20,11 +24,7 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Strings;
-import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.IterableUtil;
-import org.assertj.core.util.VisibleForTesting;
+import static org.assertj.core.api.Assertions.contentOf;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -468,29 +468,26 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the given values <b>in the given order</b>.
-   * <p>
-   * Note that <b>unlike</b> {@link IterableAssert#containsSequence(Object...)}, the assertion will succeed when there are values between the expected sequence values.
+   * Verifies that the actual {@code CharSequence} contains the given sequence of charSequence all,<b>without any other charSequences between them</b>.
    * <p>
    * Example:
    * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
-   * 
-   * // this assertions succeeds
+   *
+   * // this assertion succeeds
    * assertThat(book).containsSequence(&quot;'title'&quot;, &quot;:&quot;, &quot;'A Game of Thrones'&quot;);
-   * 
-   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;) 
+   *
+   * // this assertion will fail because there are values between the expected sequence (e.g &quot;'title':'&quot;)
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;);
-   * 
+   *
    * // this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);</code></pre>
    *
-   * @param values the Strings to look for, in order.
+   * @param values the sequence of charSequence to look for, in order.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given values is {@code null}.
-   * @throws IllegalArgumentException if the given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
-   *           order</b>.
+   * @throws NullPointerException if the given sequence of charSequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence of charSequence is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain the given sequence of charSequence all <b>in the given order without any other charSequences between them</b>.
    */
   public SELF containsSequence(CharSequence... values) {
     strings.assertContainsSequence(info, actual, values);
@@ -498,22 +495,47 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the values of the given Iterable <b>in the Iterable
-   * iteration order</b>.
-   * <p>
-   * Note that <b>unlike</b> {@link IterableAssert#containsSequence(Object...)}, the assertion will succeed when there are values between the expected sequence values.
+   * Verifies that the actual {@code CharSequence} contains the given sequence of charSequence all,<b>without any other charSequences between them</b>.
    * <p>
    * Example:
    * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    *
    * // this assertion succeeds
    * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
-   * 
-   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;) 
+   *
+   * // this assertion will fail because there are values between the expected sequence (e.g &quot;'title':'&quot;)
    * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;));
    *
-   * // but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
+   * // this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));</code></pre>
+   *
+   * @param values the sequence of charSequence to look for, in order.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given sequence of charSequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence of charSequence is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain the given sequence of charSequence all <b>in the given order without any other charSequences between them</b>.
+   */
+  public SELF containsSequence(Iterable<? extends CharSequence> values) {
+    strings.assertContainsSequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains all the given values <b>in the given order
+   * (possibly with other values between them)</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
+   *
+   * // this assertion succeeds
+   * assertThat(book).containsSubsequence(&quot;'title'&quot;, &quot;:&quot;, &quot;'A Game of Thrones'&quot;);
+   *
+   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;)
+   * assertThat(book).containsSubsequence(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;);
+   *
+   * // this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
+   * assertThat(book).containsSubsequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);</code></pre>
    *
    * @param values the Strings to look for, in order.
    * @return {@code this} assertion object.
@@ -523,8 +545,37 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
    *           order</b>.
    */
-  public SELF containsSequence(Iterable<? extends CharSequence> values) {
-    strings.assertContainsSequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
+  public SELF containsSubsequence(CharSequence... values) {
+    strings.assertContainsSubsequence(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains all the values of the given Iterable <b>in the Iterable
+   * iteration order (possibly with other values between them)</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
+   *
+   * // this assertion succeeds
+   * assertThat(book).containsSubsequence(asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
+   * 
+   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;) 
+   * assertThat(book).containsSubsequence(asList(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;));
+   *
+   * // but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
+   * assertThat(book).containsSubsequence(asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));</code></pre>
+   *
+   * @param values the Strings to look for, in order.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
+   *           order</b>.
+   */
+  public SELF containsSubsequence(Iterable<? extends CharSequence> values) {
+    strings.assertContainsSubsequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
     return myself;
   }
 
