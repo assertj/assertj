@@ -711,16 +711,17 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
    *   
-   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link Assertions#catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
-   * softly.thenThrownBy(() -&gt; { }).as("display me")
+   * softly.thenThrownBy(() -&gt; {}).as("display me")
    *                               .isInstanceOf(Exception.class);
    *
    * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(() -&gt; { });
-   * softly.then(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   * Throwable thrown = catchThrowable(() -&gt; {});
+   * softly.then(thrown).as("display me")
+   *                    .isInstanceOf(Exception.class); </code></pre>
    * 
    * Alternatively you can also use {@code thenCode(ThrowingCallable)} for the test description provided 
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.

@@ -1047,22 +1047,23 @@ public class Assertions {
    * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
    * <p>
    * Java 8 example :
-   * <pre><code class='java'>  {@literal @}Test
+   * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    assertThatThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                              .hasMessageContaining("boom");
    * }</code></pre>
    *
-   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
-   * assertThatThrownBy(() -&gt; { }).as("display me")
-   *                                 .isInstanceOf(Exception.class);
+   * assertThatThrownBy(() -&gt; {}).as("display me")
+   *                             .isInstanceOf(Exception.class);
    *
    * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(() -&gt; { // do nothing });
-   * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   * Throwable thrown = catchThrowable(() -&gt; {});
+   * assertThat(thrown).as("display me")
+   *                   .isInstanceOf(Exception.class);</code></pre>
    * 
    * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
@@ -1085,7 +1086,7 @@ public class Assertions {
    * <pre><code class='java'> ThrowingCallable boomCode = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * ThrowingCallable doNothing = () -&gt; { }; 
+   * ThrowingCallable doNothing = () -&gt; {}; 
    * 
    * // assertions succeed
    * assertThatCode(doNothing).doesNotThrowAnyException();
@@ -1098,7 +1099,7 @@ public class Assertions {
    * Contrary to <code>assertThatThrownBy(ThrowingCallable)</code> the test description provided with 
    * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
    * 
-   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; { }; 
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {}; 
    * 
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")

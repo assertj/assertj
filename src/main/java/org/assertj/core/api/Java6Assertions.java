@@ -980,15 +980,17 @@ public class Java6Assertions {
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
    *
-   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised, 
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown, 
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br> 
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.  
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error 
-   * assertThatThrownBy(() -&gt; { // do nothing }).as("display me").isInstanceOf(Exception.class);
+   * assertThatThrownBy(() -&gt; {}).as("display me")
+   *                             .isInstanceOf(Exception.class);
    * 
    * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(() -&gt; { // do nothing });
-   * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   * Throwable thrown = catchThrowable(() -&gt; {});
+   * assertThat(thrown).as("display me")
+   *                   .isInstanceOf(Exception.class); </code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
