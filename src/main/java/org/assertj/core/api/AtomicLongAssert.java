@@ -29,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLong> {
 
   @VisibleForTesting
-  Comparables comparables = Comparables.instance();
+  Comparables comparables = new Comparables();
 
   @VisibleForTesting
   Longs longs = Longs.instance();

@@ -34,7 +34,7 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
     extends AbstractObjectAssert<SELF, ACTUAL> implements ComparableAssert<SELF, ACTUAL> {
 
   @VisibleForTesting
-  Comparables comparables = Comparables.instance();
+  Comparables comparables = new Comparables();
 
   public AbstractComparableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -108,7 +108,7 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
   @CheckReturnValue
   public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
-    this.comparables = Comparables.instance();
+    this.comparables = new Comparables();
     return myself;
   }
 

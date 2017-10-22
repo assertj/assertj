@@ -29,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, AtomicInteger> {
 
   @VisibleForTesting
-  Comparables comparables = Comparables.instance();
+  Comparables comparables = new Comparables();
 
   @VisibleForTesting
   Integers integers = Integers.instance();

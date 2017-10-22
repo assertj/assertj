@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
+import static java.util.Objects.hash;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
@@ -35,23 +37,17 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Comparables {
 
-  private static final Comparables INSTANCE = new Comparables();
-
-  /**
-   * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
-   * 
-   * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
-   */
-  public static Comparables instance() {
-    return INSTANCE;
-  }
+  private final ComparisonStrategy comparisonStrategy;
 
   @VisibleForTesting
   Failures failures = Failures.instance();
-  final ComparisonStrategy comparisonStrategy;
 
-  @VisibleForTesting
-  Comparables() {
+  /**
+   * Returns a {@link Comparables} using a {@link StandardComparisonStrategy}.
+   * 
+   * @return a {@link Comparables} using a {@link StandardComparisonStrategy}.
+   */
+  public Comparables() {
     this(StandardComparisonStrategy.instance());
   }
 
@@ -77,6 +73,33 @@ public class Comparables {
     this.failures = Failures.instance();
   }
 
+  @Override
+  public int hashCode() {
+    return hash(comparisonStrategy, failures);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Comparables other = (Comparables) obj;
+    if (comparisonStrategy == null) {
+      if (other.comparisonStrategy != null) return false;
+    } else if (!comparisonStrategy.equals(other.comparisonStrategy)) return false;
+
+    if (failures == null) {
+      if (other.failures != null) return false;
+    } else if (!failures.equals(other.failures)) return false;
+
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return format("Comparables [comparisonStrategy=%s, failures=%s]", comparisonStrategy, failures);
+  }
+
   /**
    * Asserts that two T instances are equal.
    * 
@@ -90,8 +113,7 @@ public class Comparables {
    */
   public <T> void assertEqual(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
-    if (areEqual(actual, expected))
-      return;
+    if (areEqual(actual, expected)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
@@ -259,18 +281,17 @@ public class Comparables {
    * @throws IllegalArgumentException if end value is less than start value.
    */
   public <T extends Comparable<? super T>> void assertIsBetween(AssertionInfo info, T actual, T start, T end,
-      boolean inclusiveStart, boolean inclusiveEnd) {
+                                                                boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
     checkNotNull(start, "The start range to compare actual with should not be null");
     checkNotNull(end, "The end range to compare actual with should not be null");
     checkArgument(inclusiveEnd && inclusiveStart && comparisonStrategy.isLessThanOrEqualTo(start, end) ||
-      !inclusiveEnd && !inclusiveStart && comparisonStrategy.isLessThan(start, end),
-      String.format("The end value <%s> must not be %s the start value <%s>%s!", end, (inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to" ), start,
-      (comparisonStrategy.isStandard() ?  "" : " (using " + comparisonStrategy + ")")));
-    boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual)
-        : isLessThan(start, actual);
-    boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end)
-        : isLessThan(actual, end);
+                  !inclusiveEnd && !inclusiveStart && comparisonStrategy.isLessThan(start, end),
+                  format("The end value <%s> must not be %s the start value <%s>%s!", end,
+                         (inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to"), start,
+                         (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")")));
+    boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual) : isLessThan(start, actual);
+    boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end) : isLessThan(actual, end);
     if (checkLowerBoundaryRange && checkUpperBoundaryRange)
       return;
     throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
