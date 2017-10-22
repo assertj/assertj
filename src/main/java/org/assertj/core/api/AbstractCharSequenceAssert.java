@@ -480,8 +480,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // this assertion will fail because there are values between the expected sequence (e.g &quot;'title':'&quot;)
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;);
    *
-   * // this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
-   * assertThat(book).containsSequence(&quot;author&quot;, &quot;A Game of Thrones&quot;);</code></pre>
+   * // this one fails as &quot;:&quot; must come after &quot;'title'&quot;
+   * assertThat(book).containsSequence(&quot;:&quot;, &quot;'title'&quot;, &quot;'A Game of Thrones'&quot;);</code></pre>
    *
    * @param values the sequence of charSequence to look for, in order.
    * @return {@code this} assertion object.
@@ -503,7 +503,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    *
    * // this assertion succeeds
-   * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
+   * assertThat(book).containsSequence(asList(&quot;'title'&quot;, &quot;:&quot;, &quot;'A Game of Thrones'&quot;));
    *
    * // this assertion will fail because there are values between the expected sequence (e.g &quot;'title':'&quot;)
    * assertThat(book).containsSequence(asList(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;));
@@ -533,8 +533,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // this assertion succeeds
    * assertThat(book).containsSubsequence(&quot;'title'&quot;, &quot;:&quot;, &quot;'A Game of Thrones'&quot;);
    *
-   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;)
+   * // these ones succeed even if there are values between the given values
    * assertThat(book).containsSubsequence(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;);
+   * assertThat(book).containsSubsequence(&quot;A&quot;, &quot;Game&quot;, &quot;of&quot;, &quot;George&quot;);
    *
    * // this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSubsequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);</code></pre>
@@ -559,10 +560,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    *
    * // this assertion succeeds
-   * assertThat(book).containsSubsequence(asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
+   * assertThat(book).containsSubsequence(asList(&quot;'title'&quot;, &quot;:&quot;, &quot;'A Game of Thrones'&quot;));
    * 
-   * // this one too even if there are values between the expected sequence (e.g &quot;'title':'&quot;) 
+   * // these ones succeed even if there are values between the given values
    * assertThat(book).containsSubsequence(asList(&quot;{&quot;, &quot;A Game of Thrones&quot;, &quot;George Martin&quot;, &quot;}&quot;));
+   * assertThat(book).containsSubsequence(asList(&quot;A&quot;, &quot;Game&quot;, &quot;of&quot;, &quot;George&quot;));
    *
    * // but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSubsequence(asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));</code></pre>

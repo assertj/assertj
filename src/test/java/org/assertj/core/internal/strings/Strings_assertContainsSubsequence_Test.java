@@ -80,6 +80,8 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   @Test
   public void should_pass_if_actual_contains_subsequence_that_specifies_multiple_times_the_same_value_bug_544() {
     strings.assertContainsSubsequence(someInfo(), "a-b-c-", array("a", "-", "b", "-", "c"));
+    strings.assertContainsSubsequence(someInfo(), "{ 'title':'A Game of Thrones', 'author':'George Martin'}",
+                                      array("George", " ", "Martin"));
   }
 
   @Test

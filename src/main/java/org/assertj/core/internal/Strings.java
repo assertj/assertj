@@ -796,23 +796,29 @@ public class Strings {
     // we have found all the given values but were they in the expected order ?
     if (subsequence.length == 1) return; // no order check needed for a one element subsequence
 
-    // convert all to one char CharSequence list to ease comparison
-    String strActual = actual.toString();
+    // the values are in the correct order if after removing the start of actual up to the
+    // subsequence element included, we are able to find the next subsequence element, ex:
+    // "{ George Martin }" with subsequence ["George", " ", "Martin"]:
+    // - remove up to "George" in "{ George Martin }" -> " Martin }", does it contain " " ?
+    // - remove up to " " in " Martin }" -> "Martin }", does it contain "Martin" ?
+    // ...
+    String actualRest = removeUpTo(actual.toString(), subsequence[0]);
+    // check the subsequence second element since we already know the first is present
     for (int i = 1; i < subsequence.length; i++) {
-      int indexOfCurrentSequenceValue = indexOf(strActual, subsequence[i - 1].toString());
-      int indexOfNextSequenceValue = indexOf(strActual, subsequence[i].toString());
-      if (indexOfCurrentSequenceValue > indexOfNextSequenceValue) {
-        throw failures.failure(info, shouldContainSubsequence(actual, subsequence, i - 1, comparisonStrategy));
-      }
-      // get rid of the start of String to properly handle duplicate subsequence values
-      // ex: "a-b-c" and subsequence "a", "-", "b", "-", "c" would fail as the second "-" would be found before "b"
-      strActual = strActual.substring(indexOfCurrentSequenceValue + 1);
+      if (stringContains(actualRest, subsequence[i])) actualRest = removeUpTo(actualRest, subsequence[i]);
+      else throw failures.failure(info, shouldContainSubsequence(actual, subsequence, i - 1, comparisonStrategy));
     }
   }
 
-  private int indexOf(String string, String toFind) {
+  private String removeUpTo(String string, CharSequence toRemove) {
+    int index = indexOf(string, toRemove);
+    // remove the start of string up to toRemove included
+    return string.substring(index + toRemove.length());
+  }
+
+  private int indexOf(String string, CharSequence toFind) {
     for (int i = 0; i < string.length(); i++) {
-      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind)) return i;
+      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind.toString())) return i;
     }
     return -1;
   }
