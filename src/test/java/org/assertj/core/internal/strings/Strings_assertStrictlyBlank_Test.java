@@ -12,35 +12,21 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.verify;
-
-import org.assertj.core.api.AssertionInfo;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
+import static org.assertj.core.test.TestData.someInfo;
 
 @RunWith(DataProviderRunner.class)
-public class Strings_assertNotBlank_Test extends StringsBaseTest {
+public class Strings_assertStrictlyBlank_Test extends StringsBaseTest {
 
   @Test
   @DataProvider(value = {
       "null",
-      "",
-      "a",
-      " bc "
-  }, trimValues=false)
-  public void should_pass_string_is_not_blank(String actual) {
-    strings.assertNotBlank(someInfo(), actual);
-  }
-
-  @Test
-  @DataProvider(value = {
       " ",
       "\u005Ct", // tab
       "\u005Cn", // line feed
@@ -50,8 +36,18 @@ public class Strings_assertNotBlank_Test extends StringsBaseTest {
       "\u202F", // non-breaking space
       " \u005Cn\u005Cr  "
   }, trimValues=false)
-  public void should_fail_if_string_is_blank(String actual) {
-    thrown.expectAssertionError(shouldNotBeBlank(actual));
-    strings.assertNotBlank(someInfo(), actual);
+  public void should_pass_string_is_blank(String actual) {
+    strings.assertStrictlyBlank(someInfo(), actual);
+  }
+
+  @Test
+  @DataProvider(value = {
+      "",
+      "a",
+      " bc "
+  }, trimValues=false)
+  public void should_fail_if_string_is_not_blank(String actual) {
+    thrown.expectAssertionError(shouldBeBlank(actual));
+    strings.assertStrictlyBlank(someInfo(), actual);
   }
 }

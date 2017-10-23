@@ -160,7 +160,7 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence} is not blank.
    */
   public void assertBlank(AssertionInfo info, CharSequence actual) {
-    if (!isBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
+    if (isNull(actual) || !isBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
   }
 
   /**
@@ -171,11 +171,37 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence} is blank.
    */
   public void assertNotBlank(AssertionInfo info, CharSequence actual) {
-    if (isBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
+    if (!isNull(actual) && isBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is {@code Null} or consists of one or more whitespace characters.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is not strictly blank.
+   */
+  public void assertStrictlyBlank(AssertionInfo info, CharSequence actual) {
+    if (!isNull(actual) && !isBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is empty or contains at least one non-whitespace character.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is strictly blank.
+   */
+  public void assertNotStrictlyBlank(AssertionInfo info, CharSequence actual) {
+    if (isNull(actual) || isBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
+  }
+
+  private boolean isNull(CharSequence actual) {
+    return actual == null;
   }
 
   private boolean isBlank(CharSequence actual) {
-    if (actual == null || actual.length() == 0) return false;
+    if (actual.length() == 0) return false;
     for (int i = 0; i < actual.length(); i++) {
       if (!Whitespace.isWhitespace(actual.charAt(i))) return false;
     }
