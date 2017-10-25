@@ -397,7 +397,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * This assertion succeeds:
    * <pre><code class='java'> assertThat("10").containsOnlyDigits();</code></pre>
    *
-   * Whereas this assertion fails:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("10$").containsOnlyDigits();
    * assertThat("").containsOnlyDigits();</code></pre>
    *
