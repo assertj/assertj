@@ -362,20 +362,30 @@ public class Strings {
   }
 
   /**
-   * Verifies that the given {@code CharSequence} does not contain the given sequence.
+   * Verifies that the given {@code CharSequence} does not contain any one of the given values.
    * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
-   * @param sequence the sequence to search for.
-   * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} contains the given sequence.
+   * @param values the values to search for.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException if any one of the given values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains any one of the given values.
    */
-  public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence sequence) {
-    checkCharSequenceIsNotNull(sequence);
-    assertNotNull(info, actual);
-    if (stringContains(actual, sequence))
-      throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
+  public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    Set<CharSequence> found = new LinkedHashSet<>();
+    for (CharSequence value : values) {
+      if (stringContains(actual, value)) {
+        found.add(value);
+      }
+    }
+    if (found.isEmpty()) return;
+    if (found.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldNotContain(actual, values[0], comparisonStrategy));
+    }
+    throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
   }
 
   private void checkCharSequenceIsNotNull(CharSequence sequence) {
