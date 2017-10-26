@@ -180,6 +180,60 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} is {@code null} or blank, i.e. consists of one or more whitespace characters.
+   * <p>
+   * The whitespace definition used by this assertion follows the latest Unicode standard (which is not the same as Java whitespace definition)
+   * and is based on Guava <a href="http://google.github.io/guava/releases/19.0/api/docs/com/google/common/base/CharMatcher.html#whitespace()"> CharMatcher#whitespace</a>.
+   * <p>
+   * It uses the same whitespace definition as the {@link #isBlank()} assertion.
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> assertThat(" ").isStrictlyBlank();
+   * assertThat("     ").isStrictlyBlank();
+   * String nullString = null;
+   * assertThat(nullString).isStrictlyBlank();</code></pre>
+   *
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat("a").isStrictlyBlank();
+   * assertThat(" b").isStrictlyBlank();
+   * assertThat("").isStrictlyBlank();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not blank.
+   * @since 2.6.0 / 3.6.0
+   */
+  public SELF isStrictlyBlank() {
+    strings.assertStrictlyBlank(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is not blank, i.e. either is empty or contains at least one non-whitespace characters.
+   * <p>
+   * It uses the same whitespace definition as the {@link #isBlank()} assertion.
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> assertThat("a").isNotStrictlyBlank();
+   * assertThat(" b").isNotStrictlyBlank();
+   * assertThat(" c ").isNotStrictlyBlank();
+   * assertThat("").isNotStrictlyBlank();</code></pre>
+   *
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat(" ").isNotStrictlyBlank();
+   * assertThat("    ").isNotStrictlyBlank();
+   * String nullString = null;
+   * assertThat(nullString).isNotStrictlyBlank();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is blank.
+   * @since 2.6.0 / 3.6.0
+   */
+  public SELF isNotStrictlyBlank() {
+    strings.assertNotStrictlyBlank(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} is blank, i.e. consists of one or more whitespace characters
    * (according to {@link Character#isWhitespace(char)}).
    * <p>
