@@ -661,24 +661,49 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} does not contain the given sequence.
+   * Verifies that the actual {@code CharSequence} does not contain any of the given values.
    * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;fro&quot;);
-   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;gandalf&quot;);
-   * 
+   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;pippin&quot;)
+   *                              .doesNotContain(&quot;fro&quot;, &quot;sam&quot;);
+   *                              
+   *
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;Fro&quot;);</code></pre>
-   * 
-   * @param sequence the sequence to search for.
+   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;Fro&quot;, &quot;Gimli&quot;, &quot;Legolas&quot;);</code></pre>
+   *
+   * @param values the CharSequences to search for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} contains the given one.
+   * @throws AssertionError if the actual {@code CharSequence} contains any of the given values.
    */
-  public SELF doesNotContain(CharSequence sequence) {
-    strings.assertDoesNotContain(info, actual, sequence);
+  public SELF doesNotContain(CharSequence... values) {
+    strings.assertDoesNotContain(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain any of the given Iterable.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotContain(Arrays.asList(&quot;&quot;))
+   *                              .doesNotContain(Arrays.asList(&quot;fro&quot;, &quot;sam&quot;));
+   *
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).doesNotContain(Arrays.asList(&quot;Fro&quot;, &quot;Gimli&quot;, &quot;Legolas&quot;));</code></pre>
+   *
+   * @param values the CharSequences to search for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains any of the given values.
+   */
+  public SELF doesNotContain(Iterable<? extends CharSequence> values) {
+    strings.assertDoesNotContain(info, actual, IterableUtil.toArray(values, CharSequence.class));
     return myself;
   }
 

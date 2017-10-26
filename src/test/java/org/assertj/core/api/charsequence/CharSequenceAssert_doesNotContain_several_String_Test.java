@@ -17,21 +17,20 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-
 /**
- * Tests for <code>{@link CharSequenceAssert#doesNotContain(CharSequence)}</code>.
- * 
- * @author Alex Ruiz
+ * Tests for <code>{@link CharSequenceAssert#doesNotContain(CharSequence...)}</code>.
+ *
+ * @author Billy Yuan
  */
-public class CharSequenceAssert_doesNotContain_Test extends CharSequenceAssertBaseTest {
 
+public class CharSequenceAssert_doesNotContain_several_String_Test extends CharSequenceAssertBaseTest {
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.doesNotContain("Luke");
+    return assertions.doesNotContain("od", "do");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertDoesNotContain(getInfo(assertions), getActual(assertions), "Luke");
+    verify(strings).assertDoesNotContain(getInfo(assertions), getActual(assertions), "od", "do");
   }
 }
