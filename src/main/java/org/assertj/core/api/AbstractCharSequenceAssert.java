@@ -141,7 +141,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * assertThat(" b").isBlank();
    * assertThat("").isBlank();
    * String nullString = null;
-   * assertThat(nullString).isNotBlank();</code></pre>
+   * assertThat(nullString).isBlank();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
