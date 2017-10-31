@@ -25,6 +25,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqu
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
+import static org.assertj.core.error.ShouldBeWhitespaces.shouldBeWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
@@ -39,6 +40,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
+import static org.assertj.core.error.ShouldNotBeWhitespaces.shouldNotBeWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
@@ -153,8 +155,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} consists of one or more whitespace characters.
-   * 
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or consists of one or more whitespace characters.
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is not blank.
@@ -164,8 +166,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains at least one non-whitespace character.
-   * 
+   * Asserts that the given {@code CharSequence} contains at least one non-whitespace character.
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is blank.
@@ -175,11 +177,44 @@ public class Strings {
   }
 
   private boolean isBlank(CharSequence actual) {
-    if (actual == null || actual.length() == 0) return false;
+    return isNullOrEmpty(actual) || notNullSeqContainsOnlyWhitespaces(actual);
+  }
+
+  private boolean containsOnlyWhitespace(CharSequence actual) {
+    return !isNullOrEmpty(actual) && notNullSeqContainsOnlyWhitespaces(actual);
+  }
+
+  private boolean isNullOrEmpty(CharSequence actual) {
+    return (actual == null || actual.length() == 0);
+  }
+
+  private boolean notNullSeqContainsOnlyWhitespaces(CharSequence actual) {
     for (int i = 0; i < actual.length(); i++) {
-      if (!Whitespace.isWhitespace(actual.charAt(i))) return false;
+      if (!Character.isWhitespace(actual.charAt(i))) return false;
     }
     return true;
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} consists of one or more whitespace characters.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is not blank.
+   */
+  public void assertContainsOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
+    if (!containsOnlyWhitespace(actual)) throw failures.failure(info, shouldBeWhitespaces(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains at least one non-whitespace character.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is blank.
+   */
+  public void assertContainsNotOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
+    if (containsOnlyWhitespace(actual)) throw failures.failure(info, shouldNotBeWhitespaces(actual));
   }
 
   /**
