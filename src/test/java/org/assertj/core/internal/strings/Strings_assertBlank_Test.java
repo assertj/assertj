@@ -34,7 +34,7 @@ public class Strings_assertBlank_Test extends StringsBaseTest {
       "\u005Cr", // carriage return
       " \u005Cn\u005Cr  "
   }, trimValues=false)
-  public void should_pass_string_is_blank(String actual) {
+  public void should_pass_if_string_is_blank(String actual) {
     strings.assertBlank(someInfo(), actual);
   }
 

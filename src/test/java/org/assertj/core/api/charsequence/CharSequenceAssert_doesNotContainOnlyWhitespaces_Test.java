@@ -18,19 +18,19 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#containsNotOnlyWhitespaces()}</code>.
+ * Tests for <code>{@link CharSequenceAssert#doesNotContainOnlyWhitespaces()}</code>.
  * 
  * @author Chris Arnott
  */
-public class CharSequenceAssert_containsNotOnlyWhitespaces_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_doesNotContainOnlyWhitespaces_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.containsNotOnlyWhitespaces();
+    return assertions.doesNotContainOnlyWhitespaces();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContainsNotOnlyWhitespaces(getInfo(assertions), getActual(assertions));
+    verify(strings).assertDoesNotContainOnlyWhitespaces(getInfo(assertions), getActual(assertions));
   }
 }

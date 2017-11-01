@@ -32,7 +32,7 @@ public class Strings_assertNotBlank_Test extends StringsBaseTest {
     "\u2007", // non-breaking space
     "\u202F", // non-breaking space
   }, trimValues=false)
-  public void should_pass_string_is_not_blank(String actual) {
+  public void should_pass_if_string_is_not_blank(String actual) {
     strings.assertNotBlank(someInfo(), actual);
   }
 

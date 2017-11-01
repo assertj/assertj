@@ -125,20 +125,22 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is blank, i.e. is null, empty or consists of one or more whitespace
-   * characters (according to {@link Character#isWhitespace(char)}).
+   * Verifies that the actual {@code CharSequence} is blank, i.e. is {@code null}, empty or consists of one or more
+   * whitespace characters (according to {@link Character#isWhitespace(char)}).
+   * <p>
+   * The definition of this method has changed. The old behaviour is now under {@link #containsOnlyWhitespaces()}.
    * <p>
    * These assertions will succeed:
-   * <pre><code class='java'> assertThat(" ").isNotBlank();
-   * assertThat("").isNotBlank();
-   * assertThat("    ").isNotBlank();
+   * <pre><code class='java'> assertThat(" ").isBlank();
+   * assertThat("").isBlank();
+   * assertThat("    ").isBlank();
    * String nullString = null;
-   * assertThat(nullString).isNotBlank();</code></pre>
+   * assertThat(nullString).isBlank();</code></pre>
    * 
    * Whereas these assertions will fail:
-   * <pre><code class='java'> assertThat("a").isNotBlank();
-   * assertThat(" b").isNotBlank();
-   * assertThat(" c ").isNotBlank();</code></pre>
+   * <pre><code class='java'> assertThat("a").isBlank();
+   * assertThat(" b").isBlank();
+   * assertThat(" c ").isBlank();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
@@ -154,10 +156,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <ul>
    *   <li>not {@code null}</li>
    *   <li>not empty</li>
-   *   <li>contains at least one non-whitespace character</li>
+   *   <li>contains at least one non-whitespace character (according to {@link Character#isWhitespace(char)})</li>
    * </ul>
    * <p>
-   * It uses the same whitespace definition as the {@link #isBlank()} assertion.
+   * The definition of this method has changed. The old behaviour is now under {@link #doesNotContainOnlyWhitespaces()}.
    * <p>
    * These assertions will succeed:
    * <pre><code class='java'> assertThat("a").isNotBlank();
@@ -185,20 +187,20 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * {@link Character#isWhitespace(char)}).
    * <p>
    * These assertions will succeed:
-   * <pre><code class='java'> assertThat(" ").isNotBlank();
-   * assertThat("    ").isNotBlank();</code></pre>
+   * <pre><code class='java'> assertThat(" ").containsOnlyWhitespaces();
+   * assertThat("    ").containsOnlyWhitespaces();</code></pre>
    *
    * Whereas these assertions will fail:
-   * <pre><code class='java'> assertThat("a").isNotBlank();
-   * assertThat("").isNotBlank();
-   * assertThat(" b").isNotBlank();
-   * assertThat(" c ").isNotBlank();
+   * <pre><code class='java'> assertThat("a").containsOnlyWhitespaces();
+   * assertThat("").containsOnlyWhitespaces();
+   * assertThat(" b").containsOnlyWhitespaces();
+   * assertThat(" c ").containsOnlyWhitespaces();
    * String nullString = null;
-   * assertThat(nullString).isNotBlank();</code></pre>
+   * assertThat(nullString).containsOnlyWhitespaces();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
-   * @since 2.6.0 / 3.6.0
+   * @since 2.9.0 / 3.9.0
    */
   public SELF containsOnlyWhitespaces() {
     strings.assertContainsOnlyWhitespaces(info, actual);
@@ -210,29 +212,27 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <ul>
    *   <li>{@code null}</li>
    *   <li>empty</li>
-   *   <li>contains at least one non-whitespace character</li>
+   *   <li>contains at least one non-whitespace character (according to {@link Character#isWhitespace(char)}).</li>
    * </ul>
    * <p>
-   * It uses the same whitespace definition as the {@link #containsOnlyWhitespaces()} assertion.
-   * <p>
    * These assertions will succeed:
-   * <pre><code class='java'> assertThat("a").isNotBlank();
-   * assertThat("").isNotBlank();
-   * assertThat(" b").isNotBlank();
-   * assertThat(" c ").isNotBlank();
+   * <pre><code class='java'> assertThat("a").doesNotContainOnlyWhitespaces();
+   * assertThat("").doesNotContainOnlyWhitespaces();
+   * assertThat(" b").doesNotContainOnlyWhitespaces();
+   * assertThat(" c ").doesNotContainOnlyWhitespaces();
    * String nullString = null;
-   * assertThat(nullString).isNotBlank();</code></pre>
+   * assertThat(nullString).doesNotContainOnlyWhitespaces();</code></pre>
    *
    * Whereas these assertions will fail:
-   * <pre><code class='java'> assertThat(" ").isNotBlank();
-   * assertThat("    ").isNotBlank();</code></pre>
+   * <pre><code class='java'> assertThat(" ").doesNotContainOnlyWhitespaces();
+   * assertThat("    ").doesNotContainOnlyWhitespaces();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is blank.
-   * @since 2.6.0 / 3.6.0
+   * @since 2.9.0 / 3.9.0
    */
-  public SELF containsNotOnlyWhitespaces() {
-    strings.assertContainsNotOnlyWhitespaces(info, actual);
+  public SELF doesNotContainOnlyWhitespaces() {
+    strings.assertDoesNotContainOnlyWhitespaces(info, actual);
     return myself;
   }
 
@@ -254,7 +254,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not blank.
    * @since 2.6.0 / 3.6.0
-   * @deprecated use {@link #isBlank()} instead.
+   * @deprecated Use {@link #isBlank()} instead.
    */
   @Deprecated
   public SELF isJavaBlank() {
@@ -281,7 +281,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is blank.
    * @since 2.6.0 / 3.6.0
-   * @deprecated use {@link #isNotBlank()} instead.
+   * @deprecated Use {@link #isNotBlank()} instead.
    */
   @Deprecated
   public SELF isNotJavaBlank() {

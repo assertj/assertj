@@ -25,7 +25,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqu
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
-import static org.assertj.core.error.ShouldBeWhitespaces.shouldBeWhitespaces;
+import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
@@ -40,7 +40,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
-import static org.assertj.core.error.ShouldNotBeWhitespaces.shouldNotBeWhitespaces;
+import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
@@ -180,17 +180,17 @@ public class Strings {
     return isNullOrEmpty(actual) || notNullSeqContainsOnlyWhitespaces(actual);
   }
 
-  private boolean containsOnlyWhitespace(CharSequence actual) {
+  private boolean containsOnlyWhitespaces(CharSequence actual) {
     return !isNullOrEmpty(actual) && notNullSeqContainsOnlyWhitespaces(actual);
   }
 
   private boolean isNullOrEmpty(CharSequence actual) {
-    return (actual == null || actual.length() == 0);
+    return actual == null || actual.length() == 0;
   }
 
   private boolean notNullSeqContainsOnlyWhitespaces(CharSequence actual) {
     for (int i = 0; i < actual.length(); i++) {
-      if (!Character.isWhitespace(actual.charAt(i))) return false;
+      if (!isWhitespace(actual.charAt(i))) return false;
     }
     return true;
   }
@@ -203,7 +203,7 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence} is not blank.
    */
   public void assertContainsOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (!containsOnlyWhitespace(actual)) throw failures.failure(info, shouldBeWhitespaces(actual));
+    if (!containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldContainOnlyWhitespaces(actual));
   }
 
   /**
@@ -213,8 +213,8 @@ public class Strings {
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is blank.
    */
-  public void assertContainsNotOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (containsOnlyWhitespace(actual)) throw failures.failure(info, shouldNotBeWhitespaces(actual));
+  public void assertDoesNotContainOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
+    if (containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldNotContainOnlyWhitespaces(actual));
   }
 
   /**
@@ -244,7 +244,7 @@ public class Strings {
   private boolean isJavaBlank(CharSequence actual) {
     if (actual == null || actual.length() == 0) return false;
     for (int i = 0; i < actual.length(); i++) {
-      if (!Character.isWhitespace(actual.charAt(i))) return false;
+      if (!isWhitespace(actual.charAt(i))) return false;
     }
     return true;
   }
@@ -955,21 +955,6 @@ public class Strings {
       for (int i = 0; i < values.length; i++) {
         checkNotNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
       }
-    }
-  }
-
-  // copied from guava and adapted
-  private static final class Whitespace {
-
-    private static final String TABLE = "\u2002\u3000\r\u0085\u200A\u2005\u2000\u3000"
-                                        + "\u2029\u000B\u3000\u2008\u2003\u205F\u3000\u1680"
-                                        + "\u0009\u0020\u2006\u2001\u202F\u00A0\u000C\u2009"
-                                        + "\u3000\u2004\u3000\u3000\u2028\n\u2007\u3000";
-    private static final int MULTIPLIER = 1682554634;
-    private static final int SHIFT = Integer.numberOfLeadingZeros(TABLE.length() - 1);
-
-    public static boolean isWhitespace(char c) {
-      return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
     }
   }
 
