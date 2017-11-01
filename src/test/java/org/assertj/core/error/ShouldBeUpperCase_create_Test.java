@@ -36,6 +36,6 @@ public class ShouldBeUpperCase_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:<'a'> to be a uppercase character"));
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting uppercase but was: <'a'>"));
   }
 }

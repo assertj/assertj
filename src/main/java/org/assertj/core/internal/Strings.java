@@ -22,8 +22,10 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
+import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
+import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
@@ -786,6 +788,18 @@ public class Strings {
     checkNotNull(sequence, "Expecting CharSequence not to be null");
     if (stringContains(sequence.toString(), actual.toString())) return;
     throw failures.failure(info, shouldBeSubstring(actual, sequence, comparisonStrategy));
+  }
+
+  public void assertLowerCase(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (actual.equals(actual.toString().toLowerCase())) return;
+    throw failures.failure(info, shouldBeLowerCase(actual));
+  }
+
+  public void assertUpperCase(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (actual.equals(actual.toString().toUpperCase())) return;
+    throw failures.failure(info, shouldBeUpperCase(actual));
   }
 
   /**

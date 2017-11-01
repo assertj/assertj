@@ -10,25 +10,27 @@
  *
  * Copyright 2012-2017 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.core.api.charsequence;
+
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
+
+import static org.mockito.Mockito.verify;
 
 /**
- * Creates an error message that indicates an assertion that verifies that a character is uppercase failed.
+ * Tests for <code>{@link CharSequenceAssert#isUpperCase()} ()}</code>.
  * 
- * @author Yvonne Wang
+ * @author Marcel Overdijk
  */
-public class ShouldBeUpperCase extends BasicErrorMessageFactory {
+public class CharSequenceAssert_isUpperCase_Test extends CharSequenceAssertBaseTest {
 
-  /**
-   * Creates a new <code>{@link ShouldBeUpperCase}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldBeUpperCase(Object actual) {
-    return new ShouldBeUpperCase(actual);
+  @Override
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.isUpperCase();
   }
 
-  private ShouldBeUpperCase(Object actual) {
-    super("%nExpecting uppercase but was: <%s>", actual);
+  @Override
+  protected void verify_internal_effects() {
+    verify(strings).assertUpperCase(getInfo(assertions), getActual(assertions));
   }
 }
