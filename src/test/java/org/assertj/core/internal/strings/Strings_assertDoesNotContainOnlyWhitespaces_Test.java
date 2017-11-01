@@ -18,36 +18,36 @@ import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
+import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.test.TestData.someInfo;
 
 @RunWith(DataProviderRunner.class)
-public class Strings_assertNotBlank_Test extends StringsBaseTest {
+public class Strings_assertDoesNotContainOnlyWhitespaces_Test extends StringsBaseTest {
 
   @Test
   @DataProvider(value = {
+    "null",
+    "",
     "a",
     " bc ",
     "\u00A0", // non-breaking space
     "\u2007", // non-breaking space
     "\u202F", // non-breaking space
   }, trimValues=false)
-  public void should_pass_if_string_is_not_blank(String actual) {
-    strings.assertNotBlank(someInfo(), actual);
+  public void should_pass_if_string_does_not_contain_only_whitespaces(String actual) {
+    strings.assertDoesNotContainOnlyWhitespaces(someInfo(), actual);
   }
 
   @Test
   @DataProvider(value = {
-    "null",
-    "",
     " ",
     "\u005Ct", // tab
     "\u005Cn", // line feed
     "\u005Cr", // carriage return
     " \u005Cn\u005Cr  "
   }, trimValues=false)
-  public void should_fail_if_string_is_blank(String actual) {
-    thrown.expectAssertionError(shouldNotBeBlank(actual));
-    strings.assertNotBlank(someInfo(), actual);
+  public void should_fail_if_string_contains_only_whitespaces(String actual) {
+    thrown.expectAssertionError(shouldNotContainOnlyWhitespaces(actual));
+    strings.assertDoesNotContainOnlyWhitespaces(someInfo(), actual);
   }
 }
