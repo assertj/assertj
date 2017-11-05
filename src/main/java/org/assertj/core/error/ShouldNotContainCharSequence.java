@@ -12,40 +12,80 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
+
+import java.util.Set;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} does not contain another
  * {@code CharSequence} failed.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
 
+  private ShouldNotContainCharSequence(String format, CharSequence actual, CharSequence sequence,
+                                       ComparisonStrategy comparisonStrategy) {
+    super(format, actual, sequence, comparisonStrategy);
+  }
+
+  private ShouldNotContainCharSequence(String format, CharSequence actual, CharSequence[] values,
+                                       Set<? extends CharSequence> found,
+                                       ComparisonStrategy comparisonStrategy) {
+    super(format, actual, values, found, comparisonStrategy);
+  }
+
   /**
    * Creates a new <code>{@link ShouldNotContainCharSequence}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param sequence the sequence of values expected not to be in {@code actual}.
+   * @param sequence the charsequence expected not to be in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence) {
-    return new ShouldNotContainCharSequence(actual, sequence, StandardComparisonStrategy.instance());
+    return new ShouldNotContainCharSequence("%nExpecting:%n <%s>%nnot to contain:%n <%s> %s", actual, sequence,
+                                            StandardComparisonStrategy.instance());
   }
 
   /**
    * Creates a new <code>{@link ShouldNotContainCharSequence}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param sequence the sequence of values expected not to be in {@code actual}.
+   * @param sequence the charsequence expected not to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence, ComparisonStrategy comparisonStrategy) {
-    return new ShouldNotContainCharSequence(actual, sequence, comparisonStrategy);
+  public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence,
+                                                     ComparisonStrategy comparisonStrategy) {
+    return new ShouldNotContainCharSequence("%nExpecting:%n <%s>%nnot to contain:%n <%s> %s", actual, sequence,
+                                            comparisonStrategy);
   }
 
-  private ShouldNotContainCharSequence(CharSequence actual, CharSequence sequence, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nnot to contain:%n <%s> %s", actual, sequence, comparisonStrategy);
+  /**
+   * Creates a new <code>{@link ShouldNotContainCharSequence}</code>
+   * @param actual the actual value in the failed assertion.
+   * @param values the charsequences expected not to be in {@code actual}.
+   * @param found the charsequences unexpectedly in {@code actual}.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence[] values,
+                                                     Set<? extends CharSequence> found,
+                                                     ComparisonStrategy comparisonStrategy) {
+    return new ShouldNotContainCharSequence("%nExpecting:%n <%s>%nnot to contain:%n <%s>%nbut find:%n <%s>%n %s", actual,
+                                            values, found, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldNotContainCharSequence}</code>
+   * @param actual the actual value in the failed assertion.
+   * @param values the charsequences expected not to be in {@code actual}.
+   * @param found the charsequences unexpectedly in {@code actual}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence[] values,
+                                                     Set<? extends CharSequence> found) {
+    return shouldNotContain(actual, values, found, StandardComparisonStrategy.instance());
   }
 }

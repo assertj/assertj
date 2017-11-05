@@ -14,6 +14,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -46,5 +48,13 @@ public class ShouldNotContainString_create_Test {
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"Yoda\">%nnot to contain:%n <\"od\"> when comparing values using 'CaseInsensitiveStringComparator'"
     ));
+  }
+
+  @Test
+  public void should_create_error_message_with_several_string_values() {
+    ErrorMessageFactory factory = shouldNotContain("Yoda", array("od", "ya"), newSet("ya"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(
+      String.format("[Test] %nExpecting:%n <\"Yoda\">%nnot to contain:%n <[\"od\", \"ya\"]>%nbut find:%n <[\"ya\"]>%n "));
   }
 }
