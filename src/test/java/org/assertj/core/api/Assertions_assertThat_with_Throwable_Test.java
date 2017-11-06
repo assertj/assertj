@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -52,11 +53,39 @@ public class Assertions_assertThat_with_Throwable_Test {
   @Test
   public void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
     // when
-    Throwable boom = catchThrowable(raisingException("boom!!!!"));
+    Exception e = new Exception("boom!!");
+    Throwable boom = catchThrowable(raisingException(e));
 
     // then
-    assertThat(boom).isInstanceOf(Exception.class)
-                    .hasMessageContaining("boom");
+    assertThat(boom).isSameAs(e);
+  }
+
+  @Test
+  public void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
+    boolean failed = false;
+    try {
+      catchThrowableOfType(raisingException("boom!!"), RuntimeException.class);
+      failed = true;
+    } catch (AssertionError e) {
+      assertThat(e)
+        .hasMessageContaining(RuntimeException.class.getName())
+        .hasMessageContaining(Exception.class.getName());
+    }
+    if (failed) {
+      Fail.shouldHaveThrown(AssertionError.class);
+    }
+  }
+
+  @Test
+  public void catchThrowableOfType_should_succeed_and_return_actual_instance_with_correct_class() {
+    final Exception expected = new RuntimeException("boom!!");
+    Exception actual = null;
+    try {
+      actual = catchThrowableOfType(raisingException(expected), Exception.class);
+    } catch (AssertionError a) {
+      Fail.fail("catchThrowableOfType should not have asserted", a);
+    }
+    assertThat(actual).isSameAs(expected);
   }
 
   @Test
@@ -72,5 +101,9 @@ public class Assertions_assertThat_with_Throwable_Test {
     return () -> {
       throw new Exception(reason);
     };
+  }
+
+  private ThrowingCallable raisingException(final Throwable t) {
+	  return () -> { throw t.fillInStackTrace(); };
   }
 }

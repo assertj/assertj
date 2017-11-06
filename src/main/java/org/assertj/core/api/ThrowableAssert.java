@@ -63,4 +63,11 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
     }
     return null;
   }
+
+  @SuppressWarnings("unchecked")
+  public static <E extends Throwable> E catchThrowableOfType(ThrowingCallable shouldRaiseThrowable, Class<E> type) {
+    Throwable t = AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
+    new ThrowableAssert(t).isInstanceOf(type);
+    return (E)t;
+  }
 }

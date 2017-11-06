@@ -1139,9 +1139,45 @@ public class Assertions {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowableOfType(ThrowingCallable, Class)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
+  }
+
+  /**
+   * Allows catching an {@link Throwable} of a specific type more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * A call is made to {@link #catchThrowable(ThrowingCallable)}, and an assertion is made on the caught {@link Throwable} to ensure it is of the specified type. If
+   * the assertion passes, then the caught {@link Throwable} is cast to the correct subtype before
+   * being returned, making it convenient to perform subtype-specific assertions on the result.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * <pre><code class='java'>{@literal @}Test
+   * public void testException() {
+   *   // when
+   *   CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
+   *                                                 CustomParseException.class);
+   *
+   *   // then
+   *   assertThat(e).as("message").hasMessageContaining("boom");
+   *   assertThat(e.getLine()).as("line").isEqualTo(1);
+   *   assertThat(e.getColumn()).as("column").isEqualTo(5);
+   * } </code></pre>
+   *
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.9.0
+   */
+  public static <E extends Throwable> E catchThrowableOfType(ThrowingCallable shouldRaiseThrowable, Class<E> type) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
   /**
