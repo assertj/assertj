@@ -688,7 +688,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Allows to catch an {@link Throwable} more easily when used with Java 8 lambdas.
+   * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>
    * This caught {@link Throwable} can then be asserted.
@@ -717,7 +717,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Allows catching an {@link Throwable} of a specific type more easily when used with Java 8 lambdas.
+   * Allows catching a {@link Throwable} of a specific type more easily when used with Java 8 lambdas.
    *
    * <p>
    * A call is made to {@link #catchThrowable(ThrowingCallable)}, and an assertion is made on the caught
@@ -731,15 +731,39 @@ public class AssertionsForClassTypes {
    * </p>
    *
    * <pre><code class='java'>{@literal @}Test
+   * 
+   * class CustomParseException extends Exception {
+   *   final private int line;
+   *   final private int column;
+   *   
+   *   public CustomParseException(String msg, int l, int c) {
+   *     super(msg);
+   *     line = l;
+   *     column = c;
+   *   }
+   *   
+   *   public int getLine() {return line;}
+   *   public int getColumn() {return column;}
+   * }
+   * 
    * public void testException() {
-   *   // when
+   *   // when (assertion will pass)
    *   CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                                                 CustomParseException.class);
    *
    *   // then
-   *   assertThat(e).as("message").hasMessageContaining("boom");
-   *   assertThat(e.getLine()).as("line").isEqualTo(1);
-   *   assertThat(e.getColumn()).as("column").isEqualTo(5);
+   *   assertThat(e).hasMessageContaining("boom");
+   *   assertThat(e.getLine()).isEqualTo(1);
+   *   assertThat(e.getColumn()).isEqualTo(5);
+   * }
+   * 
+   * public void testRuntimeException() {
+   *   // when (assertion will fail)
+   *   RuntimeException e = catchThrowableOfType(() -&gt; { throw new IOException("boom!", 1, 5); },
+   *                                             RuntimeException.class);
+   *
+   *   // then
+   *   assertThat(e).hasMessageContaining("boom");
    * } </code></pre>
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.

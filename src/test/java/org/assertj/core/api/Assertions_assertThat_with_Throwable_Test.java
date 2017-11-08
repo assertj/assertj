@@ -16,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Fail.fail;
+import static org.assertj.core.api.Fail.shouldHaveThrown;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -61,6 +63,15 @@ public class Assertions_assertThat_with_Throwable_Test {
   }
 
   @Test
+  public void catchThrowable_returns_null_when_no_exception_thrown() {
+    // when
+    Throwable boom = catchThrowable(() -> {});
+
+    // then
+    assertThat(boom).isNull();
+  }
+
+  @Test
   public void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
     boolean failed = false;
     try {
@@ -72,7 +83,7 @@ public class Assertions_assertThat_with_Throwable_Test {
         .hasMessageContaining(Exception.class.getName());
     }
     if (failed) {
-      Fail.shouldHaveThrown(AssertionError.class);
+      shouldHaveThrown(AssertionError.class);
     }
   }
 
@@ -83,9 +94,21 @@ public class Assertions_assertThat_with_Throwable_Test {
     try {
       actual = catchThrowableOfType(raisingException(expected), Exception.class);
     } catch (AssertionError a) {
-      Fail.fail("catchThrowableOfType should not have asserted", a);
+      fail("catchThrowableOfType should not have asserted", a);
     }
     assertThat(actual).isSameAs(expected);
+  }
+
+  @Test
+  public void catchThrowableOfType_should_succeed_and_return_null_if_no_exception_thrown() {
+    final Exception initial = new Exception("boom!");
+    Exception actual = initial;
+    try {
+      actual = catchThrowableOfType(() -> {}, Exception.class);
+    } catch (AssertionError a) {
+      fail("catchThrowableOfType should not have asserted", a);
+    }
+    assertThat(actual).isNull();
   }
 
   @Test
