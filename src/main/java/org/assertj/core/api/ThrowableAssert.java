@@ -27,6 +27,8 @@ import java.util.concurrent.Callable;
  */
 public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Throwable> {
 
+  private static final String WRONG_EXCEPTION_TYPE = "Expecting code to throw <%s> but threw <%s> instead";
+
   public interface ThrowingCallable {
     void call() throws Throwable;
   }
@@ -62,5 +64,15 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
       return throwable;
     }
     return null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <E extends Throwable> E catchThrowableOfType(ThrowingCallable shouldRaiseThrowable, Class<E> type) {
+    Throwable throwable = catchThrowable(shouldRaiseThrowable);
+    if (throwable == null) return null;
+    // check exception type
+    new ThrowableAssert(throwable).overridingErrorMessage(WRONG_EXCEPTION_TYPE, type, throwable.getClass())
+                                  .isInstanceOf(type);
+    return (E) throwable;
   }
 }

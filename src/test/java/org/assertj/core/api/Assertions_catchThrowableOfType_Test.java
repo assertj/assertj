@@ -27,7 +27,7 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class Assertions_assertThat_with_Throwable_Test {
+public class Assertions_catchThrowableOfType_Test {
 
   @Rule
   public ExpectedException thrown = none();
