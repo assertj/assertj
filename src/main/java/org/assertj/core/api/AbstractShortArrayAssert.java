@@ -95,6 +95,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <pre><code class='java'> // assertions will pass
    * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 1, (short) 2, (short) 3);
    * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 2, (short) 3, (short) 1);
+   * assertThat(new short[] { 1, 1, 2 }).containsOnly((short) 1, (short) 2);
    *
    * // assertions will fail
    * assertThat(new short[] { 1, 2, 3 }).containsOnly((short) 1, (short) 2, (short) 3, (short) 4);

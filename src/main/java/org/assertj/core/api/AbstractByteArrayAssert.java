@@ -136,11 +136,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * Verifies that the actual array contains only the given values and nothing else, in any order.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly((byte) 1, (byte) 2, (byte) 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly((byte) 2, (byte) 3, (byte) 1);
+   * assertThat(new byte[] { 1, 1, 2 }).containsOnly((byte) 1, (byte) 2);
    *
-   * // assertion will fail
+   * // assertions will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly((byte) 1, (byte) 2, (byte) 3, (byte) 4);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly((byte) 4, (byte) 7);</code></pre>
    *
@@ -166,6 +167,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <pre><code class='java'> // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(1, 2, 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(2, 3, 1);
+   * assertThat(new byte[] { 1, 1, 2 }).containsOnly(1, 2);
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(1, 2, 3, 4);

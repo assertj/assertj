@@ -232,9 +232,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertions will pass
    * assertThat(abc).containsOnly("c", "b", "a");
    * assertThat(abc).containsOnly("a", "a", "b", "c", "c");
+   * assertThat(new String[] { "a", "a", "b" }).containsOnly("a", "b");
    *
-   * // assertion will fail because "c" is missing
-   * assertThat(abc).containsOnly("a", "b");</code></pre>
+   * // assertion will fail because the given values do not contain "c"
+   * assertThat(abc).containsOnly("a", "b");
+   * // assertion will fail because abc does not contain "d"
+   * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.

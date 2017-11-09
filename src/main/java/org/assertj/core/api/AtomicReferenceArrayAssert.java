@@ -287,8 +287,10 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(abc).containsOnly("c", "b", "a")
    *                .containsOnly("a", "a", "b", "c", "c");
    *
-   * // assertion will fail because "c" is missing
-   * assertThat(abc).containsOnly("a", "b");</code></pre>
+   * // assertion will fail because "c" is missing from the given values
+   * assertThat(abc).containsOnly("a", "b");
+   * // assertion will fail because abc does not contain "d"
+   * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.

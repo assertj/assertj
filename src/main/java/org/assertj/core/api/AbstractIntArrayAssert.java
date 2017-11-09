@@ -95,6 +95,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * <pre><code class='java'> // assertions will pass
    * assertThat(new int[] { 1, 2, 3 }).containsOnly(1, 2, 3);
    * assertThat(new int[] { 1, 2, 3 }).containsOnly(2, 3, 1);
+   * assertThat(new int[] { 1, 1, 2 }).containsOnly(1, 2);
    *
    * // assertions will fail
    * assertThat(new int[] { 1, 2, 3 }).containsOnly(1, 2, 3, 4);
