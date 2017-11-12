@@ -22,7 +22,7 @@ import org.assertj.core.data.Offset;
 public class DoubleAssert_isCloseTo_double_Test extends DoubleAssertBaseTest {
 
   private final Offset<Double> offset = offset(5.0);
-  private final Double value = 8.0;
+  private final double value = 8.0;
 
   @Override
   protected DoubleAssert invoke_api_method() {

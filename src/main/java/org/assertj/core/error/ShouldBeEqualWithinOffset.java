@@ -31,15 +31,26 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
    * @param difference the effective difference between actual and expected.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Number> ErrorMessageFactory shouldBeEqual(T actual, T expected, Offset<T> offset, T difference) {
-    return new ShouldBeEqualWithinOffset(actual, expected, offset, difference);
+  public static <T extends Number> ErrorMessageFactory shouldBeEqual(T actual, T expected, Offset<T> offset,
+                                                                     T difference) {
+    return offset.strict
+        ? new ShouldBeEqualWithinOffset(actual, expected, offset, difference)
+        : new ShouldBeEqualWithinOffset(actual, expected, offset, difference);
   }
 
   private <T extends Number> ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<T> offset,
                                                        Number difference) {
-    super("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%n" +
+    super("%n" +
+          "Expecting:%n" +
+          "  <%s>%n" +
+          "to be close to:%n" +
+          "  <%s>%n" +
           "by less than <%s> but difference was <%s>.%n" +
-          "(a difference of exactly <%s> being considered valid)",
+          "(a difference of exactly <%s> being considered " + validOrNot(offset) + ")",
           actual, expected, offset.value, difference, offset.value);
+  }
+
+  private static <T extends Number> String validOrNot(Offset<T> offset) {
+    return offset.strict ? "invalid" : "valid";
   }
 }

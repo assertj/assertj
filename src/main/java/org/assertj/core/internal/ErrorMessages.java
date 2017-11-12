@@ -72,7 +72,11 @@ public final class ErrorMessages {
   }
 
   public static String offsetValueIsNotPositive() {
-    return "The value of the offset should be greater than or equal to zero";
+    return "An offset value should be greater than or equal to zero";
+  }
+
+  public static String strictOffsetValueIsNotStrictlyPositive() {
+    return "A strict offset value should be greater than zero";
   }
 
   public static String percentageValueIsInRange(Number number) {

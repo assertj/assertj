@@ -13,40 +13,44 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.data.Offset.strictOffset;
 import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
+import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStrictlyPositive;
 import static org.assertj.core.test.ExpectedException.none;
 
-
-import org.assertj.core.data.Offset;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
-/**
- * Tests for {@link Offset#offset(Float)}.
- *
- * @author Alex Ruiz
- */
-public class Offset_offset_with_Float_Test {
+public class Offset_built_with_Long_Test {
+
   @Rule
   public ExpectedException thrown = none();
 
   @Test
   public void should_throw_error_if_value_is_null() {
     thrown.expectNullPointerException();
-    Float value = null;
-    Offset.offset(value);
+    Long value = null;
+    offset(value);
   }
 
   @Test
   public void should_throw_error_if_value_is_negative() {
     thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
-    Offset.offset(-1f);
+    offset(-1l);
+  }
+
+  @Test
+  public void should_throw_error_if_value_is_zero_strict_offset() {
+    thrown.expectIllegalArgumentException(strictOffsetValueIsNotStrictlyPositive());
+    strictOffset(0l);
   }
 
   @Test
   public void should_create_Offset() {
-    Float value = 0.8f;
-    Offset<Float> offset = Offset.offset(value);
+    Long value = 8L;
+    Offset<Long> offset = offset(value);
     assertThat(offset.value).isSameAs(value);
   }
 }

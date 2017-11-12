@@ -19,22 +19,18 @@ import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Offset;
 
+public class DoubleAssert_isCloseTo_DoubleObject_Test extends DoubleAssertBaseTest {
 
-/**
- * Tests for <code>{@link DoubleAssert#isEqualTo(double, Offset)}</code>.
- * 
- * @author Alex Ruiz
- */
-public class DoubleAssert_isEqualTo_double_with_offset_Test extends DoubleAssertBaseTest {
-  private final Offset<Double> offset = offset(5d);
+  private final Offset<Double> offset = offset(5.0);
+  private final Double value = 8.0;
 
   @Override
   protected DoubleAssert invoke_api_method() {
-    return assertions.isEqualTo(8d, offset);
+    return assertions.isCloseTo(value, offset);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(doubles).assertIsCloseTo(getInfo(assertions), getActual(assertions), 8d, offset);
+    verify(doubles).assertIsCloseTo(getInfo(assertions), getActual(assertions), value, offset);
   }
 }

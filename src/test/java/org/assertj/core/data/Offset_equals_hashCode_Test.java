@@ -14,11 +14,14 @@ package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Offset.offset;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
+import static org.assertj.core.data.Offset.strictOffset;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
-
-import org.assertj.core.data.Offset;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for {@link Offset#equals(Object)} and {@link Offset#hashCode()}.
@@ -27,44 +30,53 @@ import org.junit.*;
  */
 public class Offset_equals_hashCode_Test {
   private static Offset<Integer> offset;
+  private static Offset<Integer> strictOffset;
 
   @BeforeClass
   public static void setUpOnce() {
     offset = offset(8);
+    strictOffset = strictOffset(8);
   }
 
   @Test
   public void should_have_reflexive_equals() {
     assertEqualsIsReflexive(offset);
+    assertEqualsIsReflexive(strictOffset);
   }
 
   @Test
   public void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(offset, offset(8));
+    assertEqualsIsSymmetric(strictOffset, strictOffset(8));
   }
 
   @Test
   public void should_have_transitive_equals() {
     assertEqualsIsTransitive(offset, offset(8), offset(8));
+    assertEqualsIsTransitive(strictOffset, strictOffset(8), strictOffset(8));
   }
 
   @Test
   public void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(offset, offset(8));
+    assertMaintainsEqualsAndHashCodeContract(strictOffset, strictOffset(8));
   }
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
     assertThat(offset.equals("8")).isFalse();
+    assertThat(strictOffset.equals("8")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
     assertThat(offset.equals(null)).isFalse();
+    assertThat(strictOffset.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_Offset_with_different_value() {
     assertThat(offset.equals(offset(6))).isFalse();
+    assertThat(strictOffset.equals(strictOffset(6))).isFalse();
   }
 }

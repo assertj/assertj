@@ -13,12 +13,11 @@
 package org.assertj.core.api.float_;
 
 import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.assertj.core.data.Offset;
-
-import static org.mockito.Mockito.verify;
 
 
 /**
@@ -37,6 +36,6 @@ public class FloatAssert_isEqualTo_float_with_offset_Test extends FloatAssertBas
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertEqual(getInfo(assertions), getActual(assertions), 8f, offset);
+    verify(floats).assertIsCloseTo(getInfo(assertions), getActual(assertions), 8f, offset);
   }
 }
