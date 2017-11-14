@@ -34,6 +34,7 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
     // WHEN
     assertThat(dateAfter).isAfter(referenceDate);
     assertThat(dateAfter).isAfter(referenceDate.toString());
+    assertThat(dateAfter).isGreaterThan(referenceDate);
     // THEN
     verify_that_isAfter_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
     verify_that_isAfter_assertion_fails_and_throws_AssertionError(dateBefore, referenceDate);

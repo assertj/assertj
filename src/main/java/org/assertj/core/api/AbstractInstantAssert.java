@@ -32,7 +32,7 @@ import org.assertj.core.internal.Objects;
  * @since 3.7.0
  */
 public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
-    extends AbstractTemporalAssert<SELF, Instant> {
+    extends AbstractTemporalAssert<SELF, Instant> implements ComparableAssert<SELF, Instant> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractInstantAssert}</code>.
@@ -326,6 +326,42 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   public SELF isNotIn(String... instantsAsString) {
     checkIsNotNullAndNotEmpty(instantsAsString);
     return isNotIn(convertToInstantArray(instantsAsString));
+  }
+
+  @Override
+  public SELF isEqualByComparingTo(Instant other) {
+    comparables.assertEqualByComparison(info, actual, other);
+    return myself;
+  }
+
+  @Override
+  public SELF isNotEqualByComparingTo(Instant other) {
+    comparables.assertNotEqualByComparison(info, actual, other);
+    return myself;
+  }
+
+  @Override
+  public SELF isLessThan(Instant other) {
+    comparables.assertLessThan(info, actual, other);
+    return myself;
+  }
+
+  @Override
+  public SELF isLessThanOrEqualTo(Instant other) {
+    comparables.assertLessThanOrEqualTo(info, actual, other);
+    return myself;
+  }
+
+  @Override
+  public SELF isGreaterThan(Instant other) {
+    comparables.assertGreaterThan(info, actual, other);
+    return myself;
+  }
+
+  @Override
+  public SELF isGreaterThanOrEqualTo(Instant other) {
+    comparables.assertGreaterThanOrEqualTo(info, actual, other);
+    return myself;
   }
 
   /**

@@ -33,6 +33,7 @@ public class InstantAssert_isBefore_Test extends InstantAssertBaseTest {
     testAssumptions(referenceDate, dateBefore, dateAfter);
     // WHEN
     assertThat(dateBefore).isBefore(referenceDate);
+    assertThat(dateBefore).isLessThan(referenceDate);
     // THEN
     verify_that_isBefore_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
     verify_that_isBefore_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);

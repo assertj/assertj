@@ -33,6 +33,8 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
     // WHEN
     assertThat(dateBefore).isBeforeOrEqualTo(referenceDate);
     assertThat(referenceDate).isBeforeOrEqualTo(referenceDate);
+    assertThat(dateBefore).isLessThanOrEqualTo(referenceDate);
+    assertThat(referenceDate).isLessThanOrEqualTo(referenceDate);
     // THEN
     verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);
   }
