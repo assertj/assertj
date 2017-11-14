@@ -29,6 +29,7 @@ public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
   public void test_isEqualTo_assertion(Instant referenceDate) {
     // WHEN
     assertThat(referenceDate).isEqualTo(referenceDate.toString());
+    assertThat(referenceDate).isEqualByComparingTo(referenceDate);
     // THEN
     verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(referenceDate);
   }
