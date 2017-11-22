@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.error.ShouldNotHaveThrown;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,17 +40,14 @@ public class Assertions_assertThatCode_Test {
   @Test
   public void should_fail_when_asserting_no_exception_raised_but_exception_occurs() {
     // Given
-    ThrowingCallable boom = raisingException("boom");
+    Exception exception = new Exception("boom");
+    ThrowingCallable boom = raisingException(exception);
 
     // Expect
-    thrown.expectAssertionError(format("[Test] %n" +
-                                       "Expecting code not to raise a throwable but caught a%n" +
-                                       "  <java.lang.Exception>%n" +
-                                       "with message :%n" +
-                                       "  \"boom\""));
+    thrown.expectAssertionError(ShouldNotHaveThrown.shouldNotHaveThrown(exception));
 
     // When
-    assertThatCode(boom).as("Test").doesNotThrowAnyException();
+    assertThatCode(boom).doesNotThrowAnyException();
   }
 
   @Test
@@ -63,8 +61,12 @@ public class Assertions_assertThatCode_Test {
   }
 
   private ThrowingCallable raisingException(final String reason) {
+    return raisingException(new Exception(reason));
+  }
+
+  private ThrowingCallable raisingException(final Exception exception) {
     return () -> {
-      throw new Exception(reason);
+      throw exception;
     };
   }
 }
