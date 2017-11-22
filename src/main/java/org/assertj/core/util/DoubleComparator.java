@@ -16,6 +16,10 @@ public class DoubleComparator extends NullSafeComparator<Double> {
 
   private double epsilon;
 
+  public DoubleComparator() {
+    this.epsilon = 0.0;
+  }
+
   public DoubleComparator(double epsilon) {
     this.epsilon = epsilon;
   }
@@ -41,13 +45,10 @@ public class DoubleComparator extends NullSafeComparator<Double> {
 
     // shortcut, handles infinities
     if (a == b) return true;
-    if (a == 0 || b == 0 || diff < Double.MIN_NORMAL) {
-      // a or b is zero or both are extremely close to it
-      // relative error is less meaningful here
-      return diff < (epsilon * Double.MIN_NORMAL);
-    }
+    // a or b is zero or both are extremely close to it, relative error is less meaningful here
+    if (a == 0 || b == 0 || diff < Double.MIN_NORMAL) return diff < epsilon * Double.MIN_NORMAL;
     // use relative error
-    return diff / Math.min((absA + absB), Double.MAX_VALUE) < epsilon;
+    return diff / Math.min(absA + absB, Double.MAX_VALUE) < epsilon;
   }
 
   private static boolean closeEnough(Double x, Double y, double epsilon) {
