@@ -55,6 +55,6 @@ public class ShouldContainSequenceOfCharSequence_create_Test {
                                          "  <\"{ 'title':'A Game of Thrones', 'author':'George Martin'}\">%n" +
                                          "to contain sequence:%n" +
                                          "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
-                                         "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

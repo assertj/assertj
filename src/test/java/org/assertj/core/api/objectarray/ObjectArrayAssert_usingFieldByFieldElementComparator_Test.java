@@ -154,11 +154,15 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     Foo[] array1 = array(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 2));
 
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                " <[Foo(id=id, bar=1)]>%n" +
-                                "to be equal to:%n" +
-                                " <[Foo(id=id, bar=2)]>%n" +
-                                "when comparing elements using 'field/property by field/property comparator on all fields/properties' but was not.");
+    thrown.expectAssertionError("%nExpecting:%n"
+                                + " <[Foo(id=id, bar=1)]>%n"
+                                + "to be equal to:%n"
+                                + " <[Foo(id=id, bar=2)]>%n"
+                                + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
+                                + "Comparators used:%n"
+                                + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                + "but was not.");
 
     assertThat(array1).usingFieldByFieldElementComparator().isEqualTo(array2);
   }
@@ -168,11 +172,14 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
     Foo[] array1 = array(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 2));
 
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                " <[Foo(id=id, bar=1)]>%n" +
-                                "to be in:%n" +
-                                " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n" +
-                                "when comparing elements using 'field/property by field/property comparator on all fields/properties'");
+    thrown.expectAssertionError("%nExpecting:%n"
+                                + " <[Foo(id=id, bar=1)]>%n"
+                                + "to be in:%n"
+                                + " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n"
+                                + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
+                                + "Comparators used:%n"
+                                + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}");
 
     assertThat(array1).usingFieldByFieldElementComparator().isIn(array2, array2);
   }
@@ -190,6 +197,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   @Test
   public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
     Comparator<String> comparator = new Comparator<String>() {
+      @Override
       public int compare(String o1, String o2) {
         return o1.compareTo(o2);
       }

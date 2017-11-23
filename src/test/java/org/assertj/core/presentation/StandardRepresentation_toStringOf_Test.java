@@ -231,22 +231,22 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
         return "foo";
       }
     };
-    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("'foo'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("foo");
   }
 
   @Test
   public void toString_with_comparator_not_overriding_toString() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new StringTestComparator())).isEqualTo("'StringTestComparator'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new StringTestComparator())).isEqualTo("StringTestComparator");
   }
 
   @Test
   public void toString_with_comparator_overriding_toString() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("'other String comparator'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("other String comparator");
   }
 
   @Test
   public void toString_with_comparator_overriding_toString_and_having_at() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparatorWithAt())).isEqualTo("'other String comparator with @'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparatorWithAt())).isEqualTo("other String comparator with @");
   }
 
   @Test

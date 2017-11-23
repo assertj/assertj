@@ -13,8 +13,10 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.assertj.core.util.VisibleForTesting;
@@ -31,13 +33,12 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   }
 
   public IgnoringFieldsComparator(String... fields) {
-    super();
-    this.fields = fields;
+    this(new HashMap<String, Comparator<?>>(), defaultTypeComparators(), fields);
   }
 
   @VisibleForTesting
   public String[] getFields() {
-	return fields;
+    return fields;
   }
 
   @Override
@@ -51,7 +52,7 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   }
 
   @Override
-  public String toString() {
+  protected String description() {
     return "field/property by field/property comparator on all fields/properties except "
            + CONFIGURATION_PROVIDER.representation().toStringOf(fields);
   }

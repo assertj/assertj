@@ -48,7 +48,7 @@ public class ShouldContainString_create_Test {
                             new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nto contain:%n <\"Luke\"> when comparing values using 'CaseInsensitiveStringComparator'"
+        "[Test] %nExpecting:%n <\"Yoda\">%nto contain:%n <\"Luke\"> when comparing values using CaseInsensitiveStringComparator"
     ));
   }
 

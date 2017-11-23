@@ -57,7 +57,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamoDifmoifaabbbmotfaaa\">%nbut it did not appear when comparing values using 'CaseInsensitiveStringComparator'"
+        "[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamoDifmoifaabbbmotfaaa\">%nbut it did not appear when comparing values using CaseInsensitiveStringComparator"
     ));
   }
 
@@ -67,7 +67,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamotIFmoTifaabbbmotifaaa\">%nbut it appeared 3 times when comparing values using 'CaseInsensitiveStringComparator'"
+        "[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamotIFmoTifaabbbmotifaaa\">%nbut it appeared 3 times when comparing values using CaseInsensitiveStringComparator"
     ));
   }
 

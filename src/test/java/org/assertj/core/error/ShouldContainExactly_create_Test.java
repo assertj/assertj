@@ -83,7 +83,7 @@ public class ShouldContainExactly_create_Test {
                                                 + "  <[\"Yoda\", \"Han\"]>%n"
                                                 + "Expected was:%n"
                                                 + "  <[\"Yoda\"]>%n"
-                                                + "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                                + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -105,7 +105,7 @@ public class ShouldContainExactly_create_Test {
                                                 + "  <[\"Luke\"]>%n"
                                                 + "and others were not expected:%n"
                                                 + "  <[\"Han\"]>%n"
-                                                + "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                                + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -141,7 +141,7 @@ public class ShouldContainExactly_create_Test {
                                                 + "  <[\"Luke\", \"Yoda\"]>%n"
                                                 + "but could not find the following elements:%n"
                                                 + "  <[\"Luke\"]>%n"
-                                                + "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                                + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -167,6 +167,6 @@ public class ShouldContainExactly_create_Test {
                                                 + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:%n"
                                                 + "  <\"Luke\">%nwhereas expected element was:%n"
                                                 + "  <\"Han\">%n"
-                                                + "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                                + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

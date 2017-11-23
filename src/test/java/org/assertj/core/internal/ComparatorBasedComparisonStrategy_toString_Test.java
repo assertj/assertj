@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Comparator;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -39,7 +38,7 @@ public class ComparatorBasedComparisonStrategy_toString_Test extends AbstractTes
 
   @Test
   public void toString_with_non_anonymous_comparator() {
-    assertThat(caseInsensitiveComparisonStrategy).hasToString("'CaseInsensitiveStringComparator'");
+    assertThat(caseInsensitiveComparisonStrategy).hasToString("CaseInsensitiveStringComparator");
   }
 
 }

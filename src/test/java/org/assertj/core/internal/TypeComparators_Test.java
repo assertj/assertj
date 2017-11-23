@@ -12,12 +12,12 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Comparator;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Filip Hrisafov
@@ -97,6 +97,7 @@ public class TypeComparators_Test {
 
   @Test
   public void should_be_empty() {
+    typeComparators.typeComparators.clear();
     assertThat(typeComparators.isEmpty()).isTrue();
   }
 

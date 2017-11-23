@@ -30,4 +30,9 @@ public class BigDecimalComparator extends AbstractComparableNumberComparator<Big
    */
   public static final BigDecimalComparator BIG_DECIMAL_COMPARATOR = new BigDecimalComparator();
 
+  @Override
+  public String toString() {
+    return BigDecimalComparator.class.getName();
+  }
+
 }

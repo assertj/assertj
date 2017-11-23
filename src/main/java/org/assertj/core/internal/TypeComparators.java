@@ -12,10 +12,19 @@
  */
 package org.assertj.core.internal;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import static java.lang.String.format;
+import static org.assertj.core.util.Strings.join;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
+import org.assertj.core.util.DoubleComparator;
+import org.assertj.core.util.FloatComparator;
+import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.ClassUtils;
 
 /**
@@ -26,10 +35,29 @@ import org.assertj.core.util.introspection.ClassUtils;
  */
 public class TypeComparators {
 
-  private Map<Class<?>, Comparator<?>> typeComparators;
+  private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
+  private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
+
+  private static final Comparator<Class<?>> CLASS_COMPARATOR = new Comparator<Class<?>>() {
+
+    @Override
+    public int compare(Class<?> class1, Class<?> class2) {
+      return class1.getSimpleName().compareTo(class2.getSimpleName());
+    }
+  };
+
+  @VisibleForTesting
+  Map<Class<?>, Comparator<?>> typeComparators;
+
+  public static TypeComparators defaultTypeComparators() {
+    TypeComparators comparatorByType = new TypeComparators();
+    comparatorByType.put(Double.class, new DoubleComparator(DOUBLE_COMPARATOR_PRECISION));
+    comparatorByType.put(Float.class, new FloatComparator(FLOAT_COMPARATOR_PRECISION));
+    return comparatorByType;
+  }
 
   public TypeComparators() {
-    typeComparators = new HashMap<>();
+    typeComparators = new TreeMap<>(CLASS_COMPARATOR);
   }
 
   /**
@@ -91,11 +119,21 @@ public class TypeComparators {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof TypeComparators && typeComparators.equals(((TypeComparators) obj).typeComparators);
+    return obj instanceof TypeComparators
+           && java.util.Objects.equals(typeComparators, ((TypeComparators) obj).typeComparators);
   }
 
   @Override
   public String toString() {
-    return typeComparators.toString();
+    List<String> registeredComparatorsDescription = new ArrayList<>();
+    for (Entry<Class<?>, Comparator<?>> registeredComparator : this.typeComparators.entrySet()) {
+      registeredComparatorsDescription.add(formatRegisteredComparator(registeredComparator));
+    }
+    return format("{%s}", join(registeredComparatorsDescription).with(", "));
   }
+
+  private static String formatRegisteredComparator(Entry<Class<?>, Comparator<?>> next) {
+    return format("%s -> %s", next.getKey().getSimpleName(), next.getValue());
+  }
+
 }

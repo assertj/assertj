@@ -48,7 +48,7 @@ public class ShouldNotBeEqual_create_Test {
     factory = shouldNotBeEqual("Yoda", "Luke", new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
-        "[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%nwhen comparing values using 'CaseInsensitiveStringComparator'"
+        "[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%nwhen comparing values using CaseInsensitiveStringComparator"
     ));
   }
 }

@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.AbstractObjectAssert.defaultTypeComparators;
-import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
 
 import java.util.Comparator;
@@ -24,29 +22,14 @@ import org.assertj.core.util.introspection.IntrospectionError;
 /**
  * Compares objects field/property by field/property recursively.
  */
-public class RecursiveFieldByFieldComparator implements Comparator<Object> {
-
-  private final Map<String, Comparator<?>> comparatorByPropertyOrField;
-  private final TypeComparators comparatorByType;
+public class RecursiveFieldByFieldComparator extends FieldByFieldComparator {
 
   public RecursiveFieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
                                          TypeComparators comparatorByType) {
-    this.comparatorByPropertyOrField = comparatorByPropertyOrField;
-    this.comparatorByType = isNullOrEmpty(comparatorByType) ? defaultTypeComparators() : comparatorByType;
-  }
-
-  private boolean isNullOrEmpty(TypeComparators comparatorByType) {
-    return comparatorByType == null || comparatorByType.isEmpty();
+    super(comparatorByPropertyOrField, comparatorByType);
   }
 
   @Override
-  public int compare(Object actual, Object other) {
-    if (actual == null && other == null) return 0;
-    if (actual == null || other == null) return NOT_EQUAL;
-    // value returned is not relevant for ordering if objects are not equal.
-    return areEqual(actual, other) ? 0 : NOT_EQUAL;
-  }
-
   protected boolean areEqual(Object actual, Object other) {
     try {
       return determineDifferences(actual, other, comparatorByPropertyOrField, comparatorByType).isEmpty();
@@ -56,7 +39,7 @@ public class RecursiveFieldByFieldComparator implements Comparator<Object> {
   }
 
   @Override
-  public String toString() {
+  protected String description() {
     return "recursive field/property by field/property comparator on all fields/properties";
   }
 }

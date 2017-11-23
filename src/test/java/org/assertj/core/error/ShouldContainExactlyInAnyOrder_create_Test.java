@@ -58,7 +58,7 @@ public class ShouldContainExactlyInAnyOrder_create_Test {
                                          + "  <[\"Luke\"]>%n"
                                          + "and elements not expected:%n"
                                          + "  <[\"Han\"]>%n"
-                                         + "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -78,7 +78,7 @@ public class ShouldContainExactlyInAnyOrder_create_Test {
                                          + "  <[\"Luke\", \"Yoda\"]>%n"
                                          + "but could not find the following elements:%n"
                                          + "  <[\"Luke\"]>%n"
-                                         + "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -98,6 +98,6 @@ public class ShouldContainExactlyInAnyOrder_create_Test {
                                          + "  <[\"Yoda\"]>%n"
                                          + "but the following elements were unexpected:%n"
                                          + "  <[\"Leia\"]>%n"
-                                         + "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

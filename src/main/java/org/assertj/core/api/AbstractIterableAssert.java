@@ -21,6 +21,7 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -97,9 +98,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private static final String ASSERT = "Assert";
 
-  private TypeComparators comparatorsByType = new TypeComparators();
+  private TypeComparators comparatorsByType = defaultTypeComparators();
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
 
   protected Iterables iterables = Iterables.instance();
 

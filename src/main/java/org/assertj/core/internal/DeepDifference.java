@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
 import static org.assertj.core.internal.Objects.propertyOrFieldValuesAreEqual;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
@@ -150,7 +151,7 @@ public class DeepDifference {
     comparatorByPropertyOrField = comparatorByPropertyOrField == null
         ? new HashMap<String, Comparator<?>>()
         : comparatorByPropertyOrField;
-    comparatorByType = comparatorByType == null ? new TypeComparators() : comparatorByType;
+    comparatorByType = comparatorByType == null ? defaultTypeComparators() : comparatorByType;
     return determineDifferences(a, b, null, comparatorByPropertyOrField, comparatorByType);
   }
 

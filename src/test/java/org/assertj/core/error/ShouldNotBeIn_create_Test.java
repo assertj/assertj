@@ -60,6 +60,6 @@ public class ShouldNotBeIn_create_Test {
 	                              + " <\"Luke\">%n"
 	                              + "not to be in:%n"
 	                              + " <[\"Luke\", \"Leia\"]>%n"
-	                              + "when comparing values using 'CaseInsensitiveStringComparator'"));
+	                              + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

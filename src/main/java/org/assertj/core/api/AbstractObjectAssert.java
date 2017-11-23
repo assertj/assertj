@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,8 +26,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.DoubleComparator;
-import org.assertj.core.util.FloatComparator;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -47,21 +46,11 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
     extends AbstractAssert<SELF, ACTUAL> {
 
-  private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
-  private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
-
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
   private TypeComparators comparatorByType = defaultTypeComparators();
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
-  }
-
-  public static TypeComparators defaultTypeComparators() {
-    TypeComparators comparatorByType = new TypeComparators();
-    comparatorByType.put(Double.class, new DoubleComparator(DOUBLE_COMPARATOR_PRECISION));
-    comparatorByType.put(Float.class, new FloatComparator(FLOAT_COMPARATOR_PRECISION));
-    return comparatorByType;
   }
 
   @Override

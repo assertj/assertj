@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 
@@ -23,41 +24,42 @@ public class IterableElementComparisonStrategy<T> extends StandardComparisonStra
   private Comparator<? super T> elementComparator;
 
   public IterableElementComparisonStrategy(Comparator<? super T> elementComparator) {
-	this.elementComparator = elementComparator;
+    this.elementComparator = elementComparator;
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public boolean areEqual(Object actual, Object other) {
-	if (actual == null && other == null) return true;
-	if (actual == null || other == null) return false;
-	// expecting actual and other to be iterable<T>
-	return actual instanceof Iterable && other instanceof Iterable
-	       && compareElementsOf((Iterable<T>) actual, (Iterable<T>) other);
+    if (actual == null && other == null) return true;
+    if (actual == null || other == null) return false;
+    // expecting actual and other to be iterable<T>
+    return actual instanceof Iterable && other instanceof Iterable
+           && compareElementsOf((Iterable<T>) actual, (Iterable<T>) other);
   }
 
   private boolean compareElementsOf(Iterable<T> actual, Iterable<T> other) {
-	if (sizeOf(actual) != sizeOf(other)) return false;
-	// compare their elements with elementComparator
-	Iterator<T> iterator = other.iterator();
-	for (T actualElement : actual) {
-	  T otherElement = iterator.next();
-	  if (elementComparator.compare(actualElement, otherElement) != 0) return false;
-	}
-	return true;
+    if (sizeOf(actual) != sizeOf(other)) return false;
+    // compare their elements with elementComparator
+    Iterator<T> iterator = other.iterator();
+    for (T actualElement : actual) {
+      T otherElement = iterator.next();
+      if (elementComparator.compare(actualElement, otherElement) != 0) return false;
+    }
+    return true;
   }
 
   @Override
   public String toString() {
-    return "IterableElementComparisonStrategy using " + CONFIGURATION_PROVIDER.representation()
-                                                                              .toStringOf(elementComparator);
+    return "IterableElementComparisonStrategy using " +
+           CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator);
   }
-  
+
   @Override
   public String asText() {
-    return "when comparing elements using " + CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator);
+    return format("when comparing elements using %s",
+                  CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator));
   }
-  
+
   @Override
   public boolean isStandard() {
     return false;

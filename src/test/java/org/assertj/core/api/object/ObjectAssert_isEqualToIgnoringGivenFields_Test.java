@@ -14,7 +14,7 @@ package org.assertj.core.api.object;
 
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.mockito.Mockito.verify;
 
@@ -44,7 +44,7 @@ public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssert
   @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
     verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), other,
-        EMPTY_MAP, defaultTypeComparators(), "lightSaberColor");
+                                                       EMPTY_MAP, defaultTypeComparators(), "lightSaberColor");
   }
 
   @Test
@@ -52,12 +52,14 @@ public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssert
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Blue");
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name").isEqualToIgnoringGivenFields(other, "lightSaberColor");
+    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name")
+                      .isEqualToIgnoringGivenFields(other, "lightSaberColor");
   }
 
   @Test
   public void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
     Comparator<String> comparator = new Comparator<String>() {
+      @Override
       public int compare(String o1, String o2) {
         return o1.compareTo(o2);
       }
@@ -66,7 +68,8 @@ public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssert
     Jedi other = new Jedi("Luke", "green");
 
     assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name")
-      .usingComparatorForType(comparator, String.class).isEqualToIgnoringGivenFields(other, "lightSaberColor");
+                      .usingComparatorForType(comparator, String.class)
+                      .isEqualToIgnoringGivenFields(other, "lightSaberColor");
   }
 
   @Test
@@ -74,7 +77,8 @@ public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssert
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class).isEqualToIgnoringGivenFields(other, "lightSaberColor");
+    assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                      .isEqualToIgnoringGivenFields(other, "lightSaberColor");
   }
 
 }

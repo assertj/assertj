@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.ExpectedException.none;
@@ -119,13 +120,16 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
 
   @Test
   public void should_not_use_comparator_on_fields_level_for_elements() {
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                " <[Yoda the Jedi, \"some\"]>%n" +
-                                "to contain:%n" +
-                                " <[Luke the Jedi, \"any\"]>%n" +
-                                "but could not find:%n" +
-                                " <[\"any\"]>%n" +
-                                "when comparing values using 'field/property by field/property comparator on all fields/properties'");
+    thrown.expectAssertionError("%nExpecting:%n"
+                                + " <[Yoda the Jedi, \"some\"]>%n"
+                                + "to contain:%n"
+                                + " <[Luke the Jedi, \"any\"]>%n"
+                                + "but could not find:%n"
+                                + " <[\"any\"]>%n"
+                                + "when comparing values using field/property by field/property comparator on all fields/properties%n"
+                                + "Comparators used:%n"
+                                + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}%n"
+                                + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}");
 
     // GIVEN
     Object[] array = array(actual, "some");
@@ -148,14 +152,35 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
+  public void should_be_able_to_replace_a_registered_comparator_by_type() {
+    assertThat(asList(actual, actual)).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
+                                      .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                      .usingFieldByFieldElementComparator()
+                                      .contains(other, other);
+  }
+
+  @Test
+  public void should_be_able_to_replace_a_registered_comparator_by_field() {
+    // @format:off
+    assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithNames(NEVER_EQUALS_STRING, "name", "lightSaberColor")
+                                      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name", "lightSaberColor")
+                                      .usingFieldByFieldElementComparator()
+                                      .contains(other, other);
+    // @format:on
+  }
+
+  @Test
   public void should_fail_because_of_comparator_set_last() {
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                " <[Yoda the Jedi, Yoda the Jedi]>%n" +
-                                "to contain:%n" +
-                                " <[Luke the Jedi, Luke the Jedi]>%n" +
-                                "but could not find:%n" +
-                                " <[Luke the Jedi]>%n" +
-                                "when comparing values using 'extended field/property by field/property comparator on all fields/properties for types {class java.lang.String=AlwaysEqualComparator}'");
+    thrown.expectAssertionError("%nExpecting:%n"
+                                + " <[Yoda the Jedi, Yoda the Jedi]>%n"
+                                + "to contain:%n"
+                                + " <[Luke the Jedi, Luke the Jedi]>%n"
+                                + "but could not find:%n"
+                                + " <[Luke the Jedi]>%n"
+                                + "when comparing values using field/property by field/property comparator on all fields/properties%n"
+                                + "Comparators used:%n"
+                                + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> org.assertj.core.test.NeverEqualComparator}%n"
+                                + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}");
     // GIVEN
     AtomicReferenceArray<Jedi> atomicArray = atomicArrayOf(actual, actual);
     // THEN

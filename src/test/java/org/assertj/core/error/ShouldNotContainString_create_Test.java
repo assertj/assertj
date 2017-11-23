@@ -56,7 +56,7 @@ public class ShouldNotContainString_create_Test {
                                          " <\"Yoda\">%n" +
                                          "not to contain:%n" +
                                          " <\"od\">%n" +
-                                         "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test

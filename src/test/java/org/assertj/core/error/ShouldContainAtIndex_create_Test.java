@@ -47,7 +47,7 @@ public class ShouldContainAtIndex_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <\"Leia\">%nat index <1> but found:%n <\"Luke\">%nin:%n <[\"Yoda\", \"Luke\"]>%n"
-            + "when comparing values using 'CaseInsensitiveStringComparator'"
+            + "when comparing values using CaseInsensitiveStringComparator"
     ));
   }
 }

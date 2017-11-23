@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
@@ -405,7 +406,6 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Person other = new Person();
     other.name = "Fred";
     other.dateOfBirth = new Date(1000L);
-
 
     TypeComparators typeComparators = new TypeComparators();
     typeComparators.put(Timestamp.class, SYMMETRIC_DATE_COMPARATOR);

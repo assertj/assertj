@@ -59,6 +59,6 @@ public class ShouldContainSequence_create_Test {
                                          "  <[\"Yoda\", \"Luke\"]>%n" +
                                          "to contain sequence:%n" +
                                          "  <[\"Han\", \"Leia\"]>%n" +
-                                         "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

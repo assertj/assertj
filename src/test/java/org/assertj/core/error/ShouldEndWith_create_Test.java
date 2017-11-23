@@ -48,6 +48,6 @@ public class ShouldEndWith_create_Test {
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto end with:%n <[\"Han\", \"Leia\"]>%n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'"));
+        + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

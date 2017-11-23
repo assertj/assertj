@@ -41,7 +41,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "%nExpecting:%n <%s>%nto be equal to:%n " +
-                                                                          "<%s>%n%s but was not.";
+                                                                          "<%s>%n%s%nbut was not.";
   private static final Class<?>[] MSG_ARG_TYPES = array(String.class, String.class, String.class);
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
                                                                                    Object.class);
