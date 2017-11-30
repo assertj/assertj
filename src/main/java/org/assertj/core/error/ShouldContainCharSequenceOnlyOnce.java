@@ -48,8 +48,7 @@ public class ShouldContainCharSequenceOnlyOnce extends BasicErrorMessageFactory 
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainOnlyOnce(CharSequence actual, CharSequence sequence, int occurrences) {
-    if (occurrences == 0) return new ShouldContainCharSequenceOnlyOnce(actual, sequence, StandardComparisonStrategy.instance());
-    return new ShouldContainCharSequenceOnlyOnce(actual, sequence, occurrences, StandardComparisonStrategy.instance());
+    return shouldContainOnlyOnce(actual, sequence, occurrences, StandardComparisonStrategy.instance());
   }
 
   private ShouldContainCharSequenceOnlyOnce(CharSequence actual, CharSequence expected, int occurrences, ComparisonStrategy comparisonStrategy) {
