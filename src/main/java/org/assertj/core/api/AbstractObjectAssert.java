@@ -289,7 +289,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
    *
    * // Fail as equals compares object references
-   * assertThat(frodo).isEqualsTo(frodoClone);
+   * assertThat(frodo).isEqualTo(frodoClone);
    *
    * // frodo and frodoClone are equals when doing a field by field comparison.
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
@@ -627,7 +627,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * jackClone.bestFriend = jack;
    *
    * // will fail as equals compares object references
-   * assertThat(jack).isEqualsTo(jackClone);
+   * assertThat(jack).isEqualTo(jackClone);
    *
    * // jack and jackClone are equals when doing a recursive field by field comparison
    * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
