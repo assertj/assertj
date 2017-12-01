@@ -44,7 +44,7 @@ public class FieldByFieldComparator_toString_Test {
     // THEN
     assertThat(fieldByFieldComparator).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                                           + "Comparators used:%n"
-                                                          + "- for elements fields (by name): {weight -> org.assertj.core.util.BigDecimalComparator, name -> AlwaysEqualComparator}%n"
+                                                          + "- for elements fields (by name): {name -> AlwaysEqualComparator, weight -> org.assertj.core.util.BigDecimalComparator}%n"
                                                           + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
   }
 

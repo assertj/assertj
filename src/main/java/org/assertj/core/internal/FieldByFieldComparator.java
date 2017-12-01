@@ -19,10 +19,10 @@ import static org.assertj.core.util.Strings.join;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -39,13 +39,13 @@ public class FieldByFieldComparator implements Comparator<Object> {
   public FieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
                                 TypeComparators typeComparators) {
     this.comparatorByPropertyOrField = comparatorByPropertyOrField == null
-        ? new HashMap<String, Comparator<?>>()
+        ? new TreeMap<String, Comparator<?>>()
         : comparatorByPropertyOrField;
     this.comparatorByType = isNullOrEmpty(typeComparators) ? defaultTypeComparators() : typeComparators;
   }
 
   protected FieldByFieldComparator() {
-    this(new HashMap<String, Comparator<?>>(), defaultTypeComparators());
+    this(new TreeMap<String, Comparator<?>>(), defaultTypeComparators());
   }
 
   @Override

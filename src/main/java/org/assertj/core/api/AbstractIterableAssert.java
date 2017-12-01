@@ -31,11 +31,11 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.api.filter.FilterOperator;
@@ -99,7 +99,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   private static final String ASSERT = "Assert";
 
   private TypeComparators comparatorsByType = defaultTypeComparators();
-  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
+  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
 
   protected Iterables iterables = Iterables.instance();

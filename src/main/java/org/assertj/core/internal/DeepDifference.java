@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -149,7 +150,7 @@ public class DeepDifference {
                                                       TypeComparators comparatorByType) {
     // replace null comparators groups by empty one to simplify code afterwards
     comparatorByPropertyOrField = comparatorByPropertyOrField == null
-        ? new HashMap<String, Comparator<?>>()
+        ? new TreeMap<String, Comparator<?>>()
         : comparatorByPropertyOrField;
     comparatorByType = comparatorByType == null ? defaultTypeComparators() : comparatorByType;
     return determineDifferences(a, b, null, comparatorByPropertyOrField, comparatorByType);

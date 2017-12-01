@@ -18,9 +18,9 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
@@ -46,7 +46,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
     extends AbstractAssert<SELF, ACTUAL> {
 
-  private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
+  private Map<String, Comparator<?>> comparatorByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorByType = defaultTypeComparators();
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {

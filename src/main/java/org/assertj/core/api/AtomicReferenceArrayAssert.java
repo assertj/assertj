@@ -31,10 +31,10 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.filter.FilterOperator;
@@ -71,7 +71,7 @@ public class AtomicReferenceArrayAssert<T>
   ObjectArrays arrays = ObjectArrays.instance();
 
   private TypeComparators comparatorsByType = defaultTypeComparators();
-  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
+  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
 
   public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {
