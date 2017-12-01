@@ -646,14 +646,39 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1f).isBetween(-1f, 2f);
+   * assertThat(1f).isBetween(1f, 2f);
+   * assertThat(1f).isBetween(0f, 1f);
+   *
+   * // assertion will fail
+   * assertThat(1f).isBetween(2f, 3f);</code></pre>
+   */
   @Override
   public SELF isBetween(Float start, Float end) {
     floats.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1f).isStrictlyBetween(-1f, 2f);
+   *
+   * // assertions will fail
+   * assertThat(1f).isStrictlyBetween(1f, 2f);
+   * assertThat(1f).isStrictlyBetween(0f, 1f);
+   * assertThat(1f).isStrictlyBetween(2f, 3f);</code></pre>
+   *
+   */
   @Override
   public SELF isStrictlyBetween(Float start, Float end) {
     floats.assertIsStrictlyBetween(info, actual, start, end);

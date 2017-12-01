@@ -229,7 +229,17 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1).isBetween(-1, 2);
+   * assertThat(1).isBetween(1, 2);
+   * assertThat(1).isBetween(0, 1);
+   *
+   * // assertion will fail
+   * assertThat(1).isBetween(2, 3);</code></pre>
    */
   @Override
   public SELF isBetween(Integer start, Integer end) {
@@ -238,7 +248,17 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1).isStrictlyBetween(-1, 2);
+   *
+   * // assertions will fail
+   * assertThat(1).isStrictlyBetween(1, 2);
+   * assertThat(1).isStrictlyBetween(0, 1);
+   * assertThat(1).isStrictlyBetween(2, 3);</code></pre>
    */
   @Override
   public SELF isStrictlyBetween(Integer start, Integer end) {

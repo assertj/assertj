@@ -228,14 +228,38 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1L).isBetween(-1L, 2L);
+   * assertThat(1L).isBetween(1L, 2L);
+   * assertThat(1L).isBetween(0L, 1L);
+   *
+   * // assertion will fail
+   * assertThat(1L).isBetween(2L, 3L);</code></pre>
+   */
   @Override
   public SELF isBetween(Long start, Long end) {
     longs.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1L).isStrictlyBetween(-1L, 2L);
+   *
+   * // assertions will fail
+   * assertThat(1L).isStrictlyBetween(1L, 2L);
+   * assertThat(1L).isStrictlyBetween(0L, 1L);
+   * assertThat(1L).isStrictlyBetween(2L, 3L);</code></pre>
+   */
   @Override
   public SELF isStrictlyBetween(Long start, Long end) {
     longs.assertIsStrictlyBetween(info, actual, start, end);

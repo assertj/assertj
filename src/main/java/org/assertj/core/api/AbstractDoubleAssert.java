@@ -604,14 +604,39 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1d).isBetween(-1d, 2d);
+   * assertThat(1d).isBetween(1d, 2d);
+   * assertThat(1d).isBetween(0d, 1d);
+   *
+   * // assertion will fail
+   * assertThat(1d).isBetween(2d, 3d);</code></pre>
+   */
   @Override
   public SELF isBetween(Double start, Double end) {
     doubles.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1d).isStrictlyBetween(-1d, 2d);
+   *
+   * // assertions will fail
+   * assertThat(1d).isStrictlyBetween(1d, 2d);
+   * assertThat(1d).isStrictlyBetween(0d, 1d);
+   * assertThat(1d).isStrictlyBetween(2d, 3d);</code></pre>
+   *
+   */
   @Override
   public SELF isStrictlyBetween(Double start, Double end) {
     doubles.assertIsStrictlyBetween(info, actual, start, end);
