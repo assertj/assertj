@@ -40,7 +40,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * @param comparator the comparison strategy to use.
    */
   public ComparatorBasedComparisonStrategy(@SuppressWarnings("rawtypes") Comparator comparator) {
-	this.comparator = comparator;
+    this.comparator = comparator;
   }
 
   /**
@@ -54,15 +54,15 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @Override
   @SuppressWarnings("unchecked")
   public boolean iterableContains(Iterable<?> iterable, Object value) {
-	if (isNullOrEmpty(iterable)) return false;
-	for (Object element : iterable) {
-	  // avoid comparison when objects are the same or both null
-	  if (element == value) return true;
-	  // both objects are not null => if one is then the other is not => compare next element with value
-	  if (value == null || element == null) continue;
-	  if (comparator.compare(element, value) == 0) return true;
-	}
-	return false;
+    if (isNullOrEmpty(iterable)) return false;
+    for (Object element : iterable) {
+      // avoid comparison when objects are the same or both null
+      if (element == value) return true;
+      // both objects are not null => if one is then the other is not => compare next element with value
+      if (value == null || element == null) continue;
+      if (comparator.compare(element, value) == 0) return true;
+    }
+    return false;
   }
 
   /**
@@ -76,13 +76,13 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @Override
   @SuppressWarnings("unchecked")
   public void iterableRemoves(Iterable<?> iterable, Object value) {
-	if (iterable == null) return;
-	Iterator<?> iterator = iterable.iterator();
-	while (iterator.hasNext()) {
-	  if (comparator.compare(iterator.next(), value) == 0) {
-		iterator.remove();
-	  }
-	}
+    if (iterable == null) return;
+    Iterator<?> iterator = iterable.iterator();
+    while (iterator.hasNext()) {
+      if (comparator.compare(iterator.next(), value) == 0) {
+        iterator.remove();
+      }
+    }
   }
 
   @Override
@@ -109,11 +109,9 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @Override
   @SuppressWarnings("unchecked")
   public boolean areEqual(Object actual, Object other) {
-	if (actual == null) return other == null;
-	// actual is not null
-	if (other == null) return false;
-	// neither actual nor other are null
-	return comparator.compare(actual, other) == 0;
+    // we don't check actual or expected for null, this should be done by the comparator, the rationale being that a
+    // comparator might consider null to be equals to some special value (like blank String and null)
+    return comparator.compare(actual, other) == 0;
   }
 
   /**
@@ -126,19 +124,18 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   // overridden to write javadoc.
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
-	return super.duplicatesFrom(iterable);
+    return super.duplicatesFrom(iterable);
   }
 
   @SuppressWarnings("unchecked")
   @Override
   protected Set<Object> newSetUsingComparisonStrategy() {
-	return new TreeSet<>(comparator);
+    return new TreeSet<>(comparator);
   }
 
   @Override
   public String asText() {
     return "when comparing values using " + CONFIGURATION_PROVIDER.representation().toStringOf(comparator);
-	// return "according to " + this;
   }
 
   @Override
@@ -147,44 +144,44 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   }
 
   public Comparator<?> getComparator() {
-	return comparator;
+    return comparator;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public boolean stringStartsWith(String string, String prefix) {
-	if (string.length() < prefix.length()) return false;
-	String stringPrefix = string.substring(0, prefix.length());
-	return comparator.compare(stringPrefix, prefix) == 0;
+    if (string.length() < prefix.length()) return false;
+    String stringPrefix = string.substring(0, prefix.length());
+    return comparator.compare(stringPrefix, prefix) == 0;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public boolean stringEndsWith(String string, String suffix) {
-	if (string.length() < suffix.length()) return false;
-	String stringSuffix = string.substring(string.length() - suffix.length());
-	return comparator.compare(stringSuffix, suffix) == 0;
+    if (string.length() < suffix.length()) return false;
+    String stringSuffix = string.substring(string.length() - suffix.length());
+    return comparator.compare(stringSuffix, suffix) == 0;
   }
 
   @Override
   public boolean stringContains(String string, String sequence) {
-	int sequenceLength = sequence.length();
-	for (int i = 0; i < string.length(); i++) {
-	  String subString = string.substring(i);
-	  if (subString.length() < sequenceLength) return false;
-	  if (stringStartsWith(subString, sequence)) return true;
-	}
-	return false;
+    int sequenceLength = sequence.length();
+    for (int i = 0; i < string.length(); i++) {
+      String subString = string.substring(i);
+      if (subString.length() < sequenceLength) return false;
+      if (stringStartsWith(subString, sequence)) return true;
+    }
+    return false;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public boolean isGreaterThan(Object actual, Object other) {
-	return comparator.compare(actual, other) > 0;
+    return comparator.compare(actual, other) > 0;
   }
 
   @Override
   public boolean isStandard() {
-	return false;
+    return false;
   }
 }
