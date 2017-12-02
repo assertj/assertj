@@ -29,32 +29,37 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_build_ThrowableAssert_with_runtime_exception_thrown() {
-    assertThatThrownBy(() -> {
-      throw new IllegalArgumentException("something was wrong");
-    }).isInstanceOf(IllegalArgumentException.class)
-      .hasMessage("something was wrong");
+    assertThatThrownBy(codeThrowing(new IllegalArgumentException("boom"))).isInstanceOf(IllegalArgumentException.class)
+                                                                          .hasMessage("boom");
   }
 
   @Test
   public void should_build_ThrowableAssert_with_throwable_thrown() {
-    assertThatThrownBy(() -> {
-      throw new Throwable("something was wrong");
-    }).isInstanceOf(Throwable.class)
-      .hasMessage("something was wrong");
+    assertThatThrownBy(codeThrowing(new Throwable("boom"))).isInstanceOf(Throwable.class)
+                                                           .hasMessage("boom");
+  }
+
+  @Test
+  public void should_be_able_to_pass_a_description_to_assertThatThrownBy() {
+    Throwable assertionError = catchThrowable(() -> {
+      // make assertThatThrownBy fail to verify the description afterwards
+      assertThatThrownBy(raisingException("boom"), "Test %s", "code").hasMessage("bam");
+    });
+    assertThat(assertionError).isInstanceOf(AssertionError.class)
+                              .hasMessageContaining("[Test code]");
   }
 
   @Test
   public void should_fail_if_no_throwable_was_thrown() {
     thrown.expectAssertionError("%nExpecting code to raise a throwable.");
-    assertThatThrownBy(() -> {}).hasMessage("yo");
+    assertThatThrownBy(() -> {}).hasMessage("boom ?");
   }
 
   @Test
   public void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
-    // when
+    // WHEN
     Throwable boom = catchThrowable(raisingException("boom!!!!"));
-
-    // then
+    // THEN
     assertThat(boom).isInstanceOf(Exception.class)
                     .hasMessageContaining("boom");
   }
@@ -69,8 +74,13 @@ public class Assertions_assertThat_with_Throwable_Test {
   }
 
   private ThrowingCallable raisingException(final String reason) {
+    return codeThrowing(new Exception(reason));
+  }
+
+  protected static ThrowingCallable codeThrowing(Throwable t) {
     return () -> {
-      throw new Exception(reason);
+      throw new IllegalArgumentException("boom");
     };
   }
+
 }

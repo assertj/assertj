@@ -600,26 +600,73 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable}.
-   * 
+   * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
    * <p>
-   * Example :
-   * </p>
-   * 
-   * <pre><code class='java'>{@literal @}Test
-   * public void testException() {
-   *   assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   * Java 8 example :
+   * <pre><code class='java'> {@literal @}Test
+   *  public void testException() {
+   *    assertThatThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                              .hasMessageContaining("boom");
    * }</code></pre>
+   *
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
+   * assertThatThrownBy(() -&gt; {}).as("display me")
+   *                             .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error
+   * Throwable thrown = catchThrowable(() -&gt; {});
+   * assertThat(thrown).as("display me")
+   *                   .isInstanceOf(Exception.class);</code></pre>
    * 
-   * Another (probably more natural) way of checking that some code throws an exception is {@link #assertThatExceptionOfType(Class)}.
-   * 
+   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
+   * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
+   *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @return the created {@link ThrowableAssert}.
    */
   @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
-    return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+    return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method 
+   * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> {@literal @}Test
+   *  public void testException() {
+   *    // if this assertion failed (but it doesn't), the error message would start with [Test explosive code]
+   *    assertThatThrownBy(() -&gt; { throw new IOException("boom!") }, "Test explosive code")
+   *             .isInstanceOf(IOException.class)
+   *             .hasMessageContaining("boom");
+   * }</code></pre>
+   *
+   * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
+   * <p> 
+   * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
+   * assertThatThrownBy(() -&gt; {}).as("display me")
+   *                             .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error message
+   * assertThatThrownBy(() -&gt; {}, "display me")
+   *                             .isInstanceOf(Exception.class);</code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @param description the new description to set.
+   * @param args optional parameter if description is a format String.
+   * 
+   * @return the created {@link ThrowableAssert}.
+   * 
+   * @since 3.9.0
+   */
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
+                                                                                   String description, Object... args) {
+    return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
 
   /**

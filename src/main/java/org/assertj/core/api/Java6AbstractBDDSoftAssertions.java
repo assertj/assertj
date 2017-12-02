@@ -696,7 +696,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *  public void testException() {
    *    BDDSoftAssertions softly = new BDDSoftAssertions();
    *    softly.thenThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
-   *                                                               .hasMessageContaining("boom");
+   *                                                                .hasMessageContaining("boom");
    *  }</code></pre>
    *
    * Java 7 example :
@@ -716,7 +716,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * To use a test description, use {@link Assertions#catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
    * softly.thenThrownBy(() -&gt; {}).as("display me")
-   *                               .isInstanceOf(Exception.class);
+   *                              .isInstanceOf(Exception.class);
    *
    * // assertion will fail AND "display me" will appear in the error
    * Throwable thrown = catchThrowable(() -&gt; {});
@@ -732,6 +732,44 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   @CheckReturnValue
   public AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return then(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} like {@code thenThrownBy(ThrowingCallable)} but this method 
+   * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> {@literal @}Test
+   *  public void testException() {
+   *    BDDSoftAssertions softly = new BDDSoftAssertions();
+   *    // if this assertion failed (but it doesn't), the error message would start with [Test explosive code]
+   *    softly.thenThrownBy(() -&gt; { throw new IOException("boom!") }, "Test explosive code")
+   *             .isInstanceOf(IOException.class)
+   *             .hasMessageContaining("boom");
+   * }</code></pre>
+   *
+   * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
+   * <p> 
+   * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
+   * softly.thenThrownBy(() -&gt; {}).as("display me")
+   *                              .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error message
+   * softly.thenThrownBy(() -&gt; {}, "display me")
+   *                               .isInstanceOf(Exception.class);</code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @param description the new description to set.
+   * @param args optional parameter if description is a format String.
+   * 
+   * @return the created {@link ThrowableAssert}.
+   * 
+   * @since 3.9.0
+   */
+  public AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
+                                                                      String description, Object... args) {
+    return then(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
 
   /**

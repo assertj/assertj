@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -859,7 +860,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_assert_using_assertSoftly() {
     assertThatThrownBy(() -> {
-      SoftAssertions.assertSoftly(assertions -> {
+      assertSoftly(assertions -> {
         assertions.assertThat(true).isFalse();
         assertions.assertThat(42).isEqualTo("meaning of life");
         assertions.assertThat("red").isEqualTo("blue");

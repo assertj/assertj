@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Sets.newLinkedHashSet;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -56,6 +57,15 @@ public class WithAssertions_delegation_Test implements WithAssertions {
 
   private static final String VALUE_1 = "value1";
   private static final String KEY_1 = "key1";
+
+  private static final Condition<String> JEDI = new Condition<String>("jedi") {
+    private final Set<String> jedis = newLinkedHashSet("Luke", "Yoda", "Obiwan");
+
+    @Override
+    public boolean matches(final String value) {
+      return jedis.contains(value);
+    }
+  };
 
   /**
    * Test that the delegate method is called.
@@ -143,15 +153,6 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   public void withAssertions_fail_with_throwable_Test() {
     fail("Failed", new RuntimeException("expected"));
   }
-
-  private static final Condition<String> JEDI = new Condition<String>("jedi") {
-    private final Set<String> jedis = new LinkedHashSet<String>(Arrays.asList("Luke", "Yoda", "Obiwan"));
-
-    @Override
-    public boolean matches(final String value) {
-      return jedis.contains(value);
-    }
-  };
 
   /**
    * Test that the delegate method is called.
@@ -747,6 +748,10 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     assertThatThrownBy(() -> {
       throw new IOException("message");
     }).hasMessage("message");
+
+    assertThatThrownBy(() -> {
+      throw new IOException("message");
+    }, "Test").hasMessage("message");
   }
 
   /**
