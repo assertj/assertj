@@ -29,6 +29,8 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, ZonedDateTime> {
 
@@ -737,6 +739,14 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
     return sameInstantInActualTimeZone(zonedDateTime);
   }
+
+  @Override
+  protected ZonedDateTime convert(XMLGregorianCalendar xmlGregorianCalendar) {
+    ZonedDateTime zonedDateTime = xmlGregorianCalendar.toGregorianCalendar()
+      .toZonedDateTime();
+    return sameInstantInActualTimeZone(zonedDateTime);
+  }
+
 
   private ZonedDateTime sameInstantInActualTimeZone(ZonedDateTime zonedDateTime) {
     return zonedDateTime.withZoneSameInstant(actual.getZone());

@@ -29,6 +29,8 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * Assertions for {@link java.time.OffsetDateTime} type from new Date &amp; Time API introduced in Java 8.
  *
@@ -646,6 +648,13 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   @Override
   protected OffsetDateTime parse(String offsetDateTimeAsString) {
     return OffsetDateTime.parse(offsetDateTimeAsString);
+  }
+
+  @Override
+  protected OffsetDateTime convert(XMLGregorianCalendar xmlGregorianCalendar) {
+    return xmlGregorianCalendar.toGregorianCalendar()
+      .toZonedDateTime()
+      .toOffsetDateTime();
   }
 
   /**

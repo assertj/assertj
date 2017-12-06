@@ -40,6 +40,12 @@ public class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
+  public void test_isEqualTo_assertion_with_XmlGregorianCalendar() {
+    assertThat(localDate1).isEqualTo(xmlOfLocalDate1);
+    assertThat(localDate1).isNotEqualTo(xmlOfLocalDate2);
+  }
+
+  @Test
   public void test_isEqualTo_assertion_error_message() {
     thrown.expectAssertionError("expected:<20[12-01-01]> but was:<20[00-01-05]>");
     assertThat(LocalDate.of(2000, 1, 5)).isEqualTo(LocalDate.of(2012, 1, 1).toString());

@@ -25,6 +25,8 @@ import java.util.Arrays;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * Assertions for {@link Instant} type from new Date &amp; Time API introduced in Java 8.
  *
@@ -458,6 +460,12 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   @Override
   protected Instant parse(String instantAsString) {
     return Instant.parse(instantAsString);
+  }
+
+  @Override
+  protected Instant convert(XMLGregorianCalendar xmlGregorianCalendar) {
+    return xmlGregorianCalendar.toGregorianCalendar()
+      .toInstant();
   }
 
   private static Object[] convertToInstantArray(String[] instantsAsString) {

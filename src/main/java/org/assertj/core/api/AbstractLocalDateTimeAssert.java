@@ -29,6 +29,8 @@ import java.util.Arrays;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * Assertions for {@link LocalDateTime} type from new Date &amp; Time API introduced in Java 8.
  *
@@ -628,6 +630,13 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   @Override
   protected LocalDateTime parse(String localDateTimeAsString) {
     return LocalDateTime.parse(localDateTimeAsString);
+  }
+
+  @Override
+  protected LocalDateTime convert(XMLGregorianCalendar xmlGregorianCalendar) {
+    return xmlGregorianCalendar.toGregorianCalendar()
+      .toZonedDateTime()
+      .toLocalDateTime();
   }
 
   /**

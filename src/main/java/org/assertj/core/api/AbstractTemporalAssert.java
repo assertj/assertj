@@ -24,6 +24,8 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * Base class for all implementations of assertions for {@link Temporal}s.
  * @since 3.7.0
@@ -113,4 +115,10 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    */
   protected abstract TEMPORAL parse(String temporalAsString);
 
+  /**
+   * Obtains an instance of {@code TEMPORAL} from an XMLGregorianCalendar .
+   * @param xmlGregorianCalendar the calendar to convert, not null
+   * @return the parsed {@code TEMPORAL}, not null
+   */
+  protected abstract TEMPORAL convert(XMLGregorianCalendar xmlGregorianCalendar);
 }

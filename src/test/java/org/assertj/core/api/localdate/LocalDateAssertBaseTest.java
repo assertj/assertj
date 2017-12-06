@@ -15,10 +15,18 @@ package org.assertj.core.api.localdate;
 import static org.junit.Assume.assumeTrue;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.GregorianCalendar;
 
 import org.assertj.core.api.AbstractLocalDateAssert;
 import org.assertj.core.api.BaseTest;
+import org.junit.Before;
 import org.junit.experimental.theories.DataPoint;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -35,9 +43,29 @@ public class LocalDateAssertBaseTest extends BaseTest {
   @DataPoint
   public static LocalDate localDate3 = LocalDate.now().plusDays(10);
 
+  protected XMLGregorianCalendar xmlOfLocalDate1;
+  protected XMLGregorianCalendar xmlOfLocalDate2;
+
+
+  @Before
+  public void setup() throws DatatypeConfigurationException {
+    xmlOfLocalDate1 = toXmlGregorianCalendar(localDate1);
+    xmlOfLocalDate2 = toXmlGregorianCalendar(localDate2);
+  }
+
   protected static void testAssumptions(LocalDate reference, LocalDate dateBefore, LocalDate dateAfter) {
     assumeTrue(dateBefore.isBefore(reference));
     assumeTrue(dateAfter.isAfter(reference));
+  }
+
+  private static XMLGregorianCalendar toXmlGregorianCalendar(LocalDate date) throws DatatypeConfigurationException {
+    GregorianCalendar cal = GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()));
+    XMLGregorianCalendar xml = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+    xml.setTime(
+      DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED,
+      DatatypeConstants.FIELD_UNDEFINED);
+    xml.setTimezone(DatatypeConstants.FIELD_UNDEFINED);
+    return xml;
   }
 
 }

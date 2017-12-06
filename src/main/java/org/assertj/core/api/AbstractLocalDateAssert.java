@@ -26,6 +26,8 @@ import java.util.Arrays;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * Assertions for {@link LocalDate} type from new Date &amp; Time API introduced in Java 8.
  *
@@ -34,7 +36,8 @@ import org.assertj.core.internal.Objects;
 public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAssert<SELF>>
     extends AbstractTemporalAssert<SELF, LocalDate> {
 
-  public static final String NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE = "The LocalDate to compare actual with should not be null";
+  private static final String NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE = "The LocalDate to compare actual with should not be null";
+  private static final String NULL_XML_GREGORIAN_CALENDAR_PARAMETER_MESSAGE = "The XMLGregorianCalendar to compare actual with should not be null";
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractLocalDateAssert}</code>.
@@ -265,6 +268,26 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   }
 
   /**
+   * Same assertion as {@link #isEqualTo(Object)} (where Object is expected to be {@link javax.xml.datatype.XMLGregorianCalendar})
+   * but here you pass {@link javax.xml.datatype.XMLGregorianCalendar}
+   * <p>
+   * Example :
+   * <pre><code class='java'> // use XMLGregorianCalendar  as-is without conversion
+   * assertThat(parse("2000-01-01")).isEqualTo(xmlGregorianCalendar);</code></pre>
+   *
+   * @param xmlGregorianCalendar to compare with actual {@link LocalDate}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws IllegalArgumentException if given calendar is null.
+   * @throws AssertionError if the actual {@code LocalDate} is not equal to the {@link XMLGregorianCalendar}
+   *  year, month and day. (Time and Timezone are ignored).
+   */
+  public SELF isEqualTo(XMLGregorianCalendar xmlGregorianCalendar) {
+    assertXMLGregorianCalendarParameterIsNotNull(xmlGregorianCalendar);
+    return isEqualTo(convert(xmlGregorianCalendar));
+  }
+
+  /**
    * Same assertion as {@link #isIn(Object...)} (where Objects are expected to be {@link LocalDate}) but here you
    * pass {@link LocalDate} String representations that must follow <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
@@ -462,6 +485,16 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
     return LocalDate.parse(localDateAsString);
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected LocalDate convert(XMLGregorianCalendar xmlGregorianCalendar) {
+    return xmlGregorianCalendar.toGregorianCalendar()
+      .toZonedDateTime()
+      .toLocalDate();
+  }
+
   private static Object[] convertToLocalDateArray(String... localDatesAsString) {
     return Arrays.stream(localDatesAsString).map(LocalDate::parse).toArray();
   }
@@ -492,6 +525,17 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    */
   private static void assertLocalDateParameterIsNotNull(LocalDate other) {
     checkArgument(other != null, NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
+  }
+
+  /**
+   * Check that the {@link XMLGregorianCalendar} to compare actual {@link LocalDate} to is not null, in that case throws
+   * a {@link IllegalArgumentException} with an explicit message
+   *
+   * @param xmlGregorianCalendar the {@link XMLGregorianCalendar} to check
+   * @throws IllegalArgumentException with an explicit message if the given {@link XMLGregorianCalendar} is null
+   */
+  private static void assertXMLGregorianCalendarParameterIsNotNull(XMLGregorianCalendar xmlGregorianCalendar) {
+    checkArgument(xmlGregorianCalendar != null, NULL_XML_GREGORIAN_CALENDAR_PARAMETER_MESSAGE);
   }
 
 }
