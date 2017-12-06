@@ -18,11 +18,12 @@ import static org.assertj.core.api.filter.Filters.filter;
 import java.util.List;
 
 import org.assertj.core.api.filter.Filters;
+import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.test.Player;
 import org.junit.Test;
 
 
-public class Filter_create_Test extends AbstractTest_filter {
+public class Filter_create_Test extends WithPlayerData {
 
   @Test
   public void should_create_filter_from_iterable() {

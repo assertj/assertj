@@ -16,16 +16,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 
 import org.assertj.core.test.Player;
+import org.assertj.core.test.WithPlayerData;
 import org.junit.Test;
 
-public class Filter_on_different_properties_Test extends AbstractTest_filter {
+public class Filter_on_different_properties_Test extends WithPlayerData {
 
   @Test
   public void should_filter_iterable_elements_on_different_properties() {
     // rose and durant have 5 rebounds per game but only rose does not play in OKC
     Iterable<Player> filteredPlayers = filter(players).with("reboundsPerGame").equalsTo(5)
-                                                      .and("team").notEqualsTo("OKC").get();
-    assertThat(filteredPlayers).containsOnly(rose);
+                                                      .and("team").notEqualsTo("Chicago Bulls").get();
+    assertThat(filteredPlayers).containsOnly(kobe);
   }
 
   @Test

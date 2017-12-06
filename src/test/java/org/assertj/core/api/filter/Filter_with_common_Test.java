@@ -18,10 +18,11 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
+import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.test.Player;
 import org.junit.Test;
 
-public class Filter_with_common_Test extends AbstractTest_filter {
+public class Filter_with_common_Test extends WithPlayerData {
 
   @Test
   public void filter_does_not_modify_given_iterable() {

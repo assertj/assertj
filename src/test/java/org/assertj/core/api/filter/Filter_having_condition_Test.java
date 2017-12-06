@@ -16,17 +16,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 
 import org.assertj.core.test.Player;
+import org.assertj.core.test.PotentialMvpCondition;
+import org.assertj.core.test.WithPlayerData;
 import org.junit.Test;
 
 
-public class Filter_having_condition_Test extends AbstractTest_filter {
+public class Filter_having_condition_Test extends WithPlayerData {
 
   private PotentialMvpCondition mvpStats = new PotentialMvpCondition();
 
   @Test
   public void should_filter_iterable_elements_satisfying_condition() {
     Iterable<Player> playersHavinMvpStats = filter(players).having(mvpStats).get();
-    assertThat(playersHavinMvpStats).containsOnly(rose, james);
+    assertThat(playersHavinMvpStats).containsOnly(jordan);
     // players is not modified
     assertThat(players).hasSize(4);
   }

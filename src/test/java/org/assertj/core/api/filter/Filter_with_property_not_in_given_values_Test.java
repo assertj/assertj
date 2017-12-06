@@ -18,24 +18,25 @@ import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Player;
+import org.assertj.core.test.WithPlayerData;
 import org.junit.Rule;
 import org.junit.Test;
 
 
-public class Filter_with_property_not_in_given_values_Test extends AbstractTest_filter {
+public class Filter_with_property_not_in_given_values_Test extends WithPlayerData {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
   public void should_filter_iterable_elements_with_property_not_in_given_values() {
-    Iterable<Player> filteredPlayers = filter(players).with("team").notIn("OKC", "Miami Heat").get();
-    assertThat(filteredPlayers).containsOnly(rose, noah);
+    Iterable<Player> filteredPlayers = filter(players).with("team").notIn("Los Angeles Lakers", "Miami Heat").get();
+    assertThat(filteredPlayers).containsOnly(jordan, duncan);
     // players is not modified
     assertThat(players).hasSize(4);
 
-    filteredPlayers = filter(players).with("name.last").notIn("Rose", "Noah").get();
-    assertThat(filteredPlayers).containsOnly(durant, james);
+    filteredPlayers = filter(players).with("name.last").notIn("Jordan", "Duncan").get();
+    assertThat(filteredPlayers).containsOnly(kobe, magic);
     // players is not modified
     assertThat(players).hasSize(4);
   }

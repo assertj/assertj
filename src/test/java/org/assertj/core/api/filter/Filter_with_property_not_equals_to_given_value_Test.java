@@ -18,24 +18,25 @@ import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Player;
+import org.assertj.core.test.WithPlayerData;
 import org.junit.Rule;
 import org.junit.Test;
 
 
-public class Filter_with_property_not_equals_to_given_value_Test extends AbstractTest_filter {
+public class Filter_with_property_not_equals_to_given_value_Test extends WithPlayerData {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
   public void should_filter_iterable_elements_with_property_not_equals_to_given_value() {
-    Iterable<Player> nonOKCPlayers = filter(players).with("team").notEqualsTo("OKC").get();
-    assertThat(nonOKCPlayers).containsOnly(rose, noah, james);
+    Iterable<Player> nonOKCPlayers = filter(players).with("team").notEqualsTo("Chicago Bulls").get();
+    assertThat(nonOKCPlayers).containsOnly(kobe, duncan, magic);
     // players is not modified
     assertThat(players).hasSize(4);
 
-    Iterable<Player> filteredPlayers = filter(players).with("name.last").notEqualsTo("Rose").get();
-    assertThat(filteredPlayers).containsOnly(durant, noah, james);
+    Iterable<Player> filteredPlayers = filter(players).with("name.last").notEqualsTo("Jordan").get();
+    assertThat(filteredPlayers).containsOnly(kobe, duncan, magic);
     // players is not modified
     assertThat(players).hasSize(4);
   }

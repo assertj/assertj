@@ -10,10 +10,9 @@
  *
  * Copyright 2012-2017 the original author or authors.
  */
-package org.assertj.core.api.filter;
+package org.assertj.core.test;
 
 import org.assertj.core.api.Condition;
-import org.assertj.core.test.Player;
 
 
 /**
