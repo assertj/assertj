@@ -2018,7 +2018,7 @@ public interface WithAssertions {
    * <p>
    * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
    *
-   * @param actual the actual value.
+   * @param completionStage the actual {@link CompletionStage}.
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
    *
    * @return the created assertion object.
@@ -2307,13 +2307,15 @@ public interface WithAssertions {
    * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
    *                      RuntimeException.class);</code></pre>
    *
+   * @param <THROWABLE> the {@link Throwable} type.
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.9.0
    */
-  default <E extends Throwable> E catchThrowableOfType(final ThrowingCallable shouldRaiseThrowable, final Class<E> type) {
+  default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(final ThrowingCallable shouldRaiseThrowable,
+                                                                       final Class<THROWABLE> type) {
     return Assertions.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
