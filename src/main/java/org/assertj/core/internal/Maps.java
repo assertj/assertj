@@ -42,6 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
@@ -77,6 +78,14 @@ public class Maps {
 
   @VisibleForTesting
   Maps() {}
+
+  public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
+                                      BiConsumer<? super K, ? super V> entryRequirements) {
+    checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
+    assertNotNull(info, actual);
+    actual.entrySet().stream()
+          .forEach(entry -> entryRequirements.accept(entry.getKey(), entry.getValue()));
+  }
 
   /**
    * Asserts that the given {@code Map} is {@code null} or empty.
@@ -256,7 +265,8 @@ public class Maps {
    * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
    */
   @SuppressWarnings("unchecked")
-  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Consumer<? super V> valueRequirements) {
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
+                                              Consumer<? super V> valueRequirements) {
     assertContainsKeys(info, actual, key);
     checkNotNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
     V value = actual.get(key);

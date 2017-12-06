@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.ExpectedException;
+import org.assertj.core.test.WithPlayerData;
 import org.junit.Before;
 import org.junit.Rule;
 
@@ -33,7 +34,7 @@ import org.junit.Rule;
  * @author Joel Costigliola
  * 
  */
-public class MapsBaseTest {
+public class MapsBaseTest extends WithPlayerData {
 
   @Rule
   public ExpectedException thrown = none();

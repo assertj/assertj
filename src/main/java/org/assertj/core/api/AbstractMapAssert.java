@@ -17,6 +17,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.assertj.core.description.Description;
@@ -50,6 +51,41 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   public AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Verifies that all the actual map entries satisfy the given {@code entryRequirements} .
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;TolkienCharacter, Ring&gt; elvesRingBearers = new HashMap&lt;&gt;();
+   * elvesRingBearers.put(galadriel, nenya);                       
+   * elvesRingBearers.put(gandalf, narya);                         
+   * elvesRingBearers.put(elrond, vilya);                          
+   *                                                               
+   * // this assertion succeeds:
+   * assertThat(elvesRingBearers).allSatisfy((character, ring) -&gt; {
+   *   assertThat(character.getRace()).isIn(ELF, MAIA);            
+   *   assertThat(ring).isIn(nenya, narya, vilya);                 
+   * });  
+   * 
+   * // this assertion fails as Gandalf is a maia not an elf:
+   * assertThat(elvesRingBearers).allSatisfy((character, ring) -&gt; {  
+   *   assertThat(character.getRace()).isEqualTo(ELF);                
+   *   assertThat(ring).isIn(elvesRings);                            
+   * });</code></pre>
+   * <p>
+   * If the actual map is empty, this assertion succeeds as there is no entry to check.
+   *
+   * @param entryRequirements the given requirements that each entry must sastify.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if one or more emtries don't satisfy the given requirements.
+   * @since 3.9.0
+   */
+  public SELF allSatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
+    maps.assertAllSatisfy(info, actual, entryRequirements);
+    return myself;
   }
 
   /**
@@ -398,7 +434,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
-  
    * Verifies that the actual map contains the value for given {@code key} that satisfy given {@code valueRequirements}.
    * <p>
    * Example:

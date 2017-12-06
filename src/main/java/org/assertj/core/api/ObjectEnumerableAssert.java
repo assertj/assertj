@@ -1167,6 +1167,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *                                 assertThat(person.getPhoneCountryCode()).isEqualTo("+354");
    *                               });</code></pre>
    *
+   * <p>
+   * If the actual iterable/array is empty, this assertion succeeds as there is no elements to check.
+   * 
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.

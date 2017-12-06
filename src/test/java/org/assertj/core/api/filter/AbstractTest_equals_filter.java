@@ -19,11 +19,12 @@ import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Player;
+import org.assertj.core.test.WithPlayerData;
 import org.junit.Rule;
 import org.junit.Test;
 
 
-public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
+public abstract class AbstractTest_equals_filter extends WithPlayerData {
 
   @Rule
   public ExpectedException thrown = none();
@@ -31,12 +32,12 @@ public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
   @Test
   public void should_filter_iterable_elements_with_property_equals_to_given_value() {
     Iterable<Player> bullsPlayers = filterIterable(players, "team", "Chicago Bulls");
-    assertThat(bullsPlayers).containsOnly(rose, noah);
+    assertThat(bullsPlayers).containsOnly(jordan);
     // players is not modified
     assertThat(players).hasSize(4);
 
-    Iterable<Player> filteredPlayers = filter(players).with("name.last", "James").get();
-    assertThat(filteredPlayers).containsOnly(james);
+    Iterable<Player> filteredPlayers = filter(players).with("name.last", "Duncan").get();
+    assertThat(filteredPlayers).containsOnly(duncan);
     // players is not modified
     assertThat(players).hasSize(4);
   }
@@ -44,8 +45,8 @@ public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
   @Test
   public void should_filter_iterable_elements_with_field_equals_to_given_value() {
     setAllowExtractingPrivateFields(true);
-    Iterable<Player> bullsPlayers = filterIterable(players, "highestScore", 50);
-    assertThat(bullsPlayers).containsOnly(rose, james);
+    Iterable<Player> bullsPlayers = filterIterable(players, "highestScore", 69);
+    assertThat(bullsPlayers).containsOnly(jordan);
     // players is not modified
     assertThat(players).hasSize(4);
   }
