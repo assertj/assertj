@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.test.ExpectedException.none;
