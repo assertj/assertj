@@ -12,12 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
-import static org.assertj.core.util.Preconditions.checkNotNull;
-
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
-
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
@@ -25,6 +19,13 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
+
+import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * Base class for all implementations of assertions for {@link Temporal}s.
@@ -121,4 +122,29 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * @return the parsed {@code TEMPORAL}, not null
    */
   protected abstract TEMPORAL convert(XMLGregorianCalendar xmlGregorianCalendar);
+
+  /**
+   * Check that the {@link T} to compare actual {@link TEMPORAL} to is not null, in that case throws
+   * a {@link IllegalArgumentException} with an explicit message
+   *
+   * @param type the expected type of parameter. Used for message, not for validation
+   * @param parameter the {@link T} parameter to check
+   * @throws IllegalArgumentException with an explicit message if the given parameter is null
+   */
+  protected static <T> void assertParameterIsNotNull(Class<T> type, T parameter) {
+    checkArgument(parameter!= null, String.format("The %1$s to compare actual with should not be null", type.getSimpleName()));
+  }
+
+  /**
+   * Check that the {@link LocalDateTime} string representation to compare actual {@link LocalDateTime} to is not null,
+   * otherwise throws a {@link IllegalArgumentException} with an explicit message
+   *
+   * @param type the expected type of parameter. Used for message, not for validation
+   * @param string String representing the {@link TEMPORAL} to compare actual with
+   * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
+   */
+  protected static void assertParameterIsNotNull(Class<?> type, String string) {
+    checkArgument(string != null,
+      String.format("The String representing the %1$s to compare actual with should not be null", type.getSimpleName()));
+  }
 }
