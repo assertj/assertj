@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -39,17 +39,42 @@ public class Assertions_assertThatCode_Test {
   @Test
   public void should_fail_when_asserting_no_exception_raised_but_exception_occurs() {
     // Given
+    Exception exception = new Exception("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Expect
+    thrown.expectAssertionError(shouldNotHaveThrown(exception));
+
+    // When
+    assertThatCode(boom).doesNotThrowAnyException();
+  }
+
+  @Test
+  public void can_use_description_in_error_message() {
+    // Given
     ThrowingCallable boom = raisingException("boom");
 
     // Expect
-    thrown.expectAssertionError(format("[Test] %n" +
-                                       "Expecting code not to raise a throwable but caught a%n" +
-                                       "  <java.lang.Exception>%n" +
-                                       "with message :%n" +
-                                       "  \"boom\""));
+    thrown.expectWithMessageStartingWith(AssertionError.class, "[Test]");
 
     // When
     assertThatCode(boom).as("Test").doesNotThrowAnyException();
+  }
+
+  @Test
+  public void error_message_contains_stacktrace() {
+    // Given
+    Exception exception = new Exception("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Expect
+    thrown.expectAssertionErrorWithMessageContaining(
+      "java.lang.Exception: boom",
+      "at org.assertj.core.api.Assertions_assertThatCode_Test.error_message_contains_stacktrace"
+    );
+
+    // When
+    assertThatCode(boom).doesNotThrowAnyException();
   }
 
   @Test
@@ -63,8 +88,12 @@ public class Assertions_assertThatCode_Test {
   }
 
   private ThrowingCallable raisingException(final String reason) {
+    return raisingException(new Exception(reason));
+  }
+
+  private ThrowingCallable raisingException(final Exception exception) {
     return () -> {
-      throw new Exception(reason);
+      throw exception;
     };
   }
 }

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 public class ShouldNotHaveThrown extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldNotHaveThrown(Throwable throwable) {
@@ -19,7 +21,6 @@ public class ShouldNotHaveThrown extends BasicErrorMessageFactory {
   }
 
   private ShouldNotHaveThrown(Throwable throwable) {
-    super("%nExpecting code not to raise a throwable but caught a%n  <%s>%nwith message :%n  %s",
-          throwable.getClass(), throwable.getMessage());
+    super("%nExpecting code not to raise a throwable but caught%n  <%s>", getStackTrace(throwable));
   }
 }
