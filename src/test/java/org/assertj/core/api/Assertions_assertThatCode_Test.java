@@ -51,6 +51,34 @@ public class Assertions_assertThatCode_Test {
   }
 
   @Test
+  public void can_use_description_in_error_message() {
+    // Given
+    ThrowingCallable boom = raisingException("boom");
+
+    // Expect
+    thrown.expectWithMessageStartingWith(AssertionError.class, "[Test]");
+
+    // When
+    assertThatCode(boom).as("Test").doesNotThrowAnyException();
+  }
+
+  @Test
+  public void error_message_contains_stacktrace() {
+    // Given
+    Exception exception = new Exception("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Expect
+    thrown.expectAssertionErrorWithMessageContaining(
+      "java.lang.Exception: boom",
+      "at org.assertj.core.api.Assertions_assertThatCode_Test.error_message_contains_stacktrace"
+    );
+
+    // When
+    assertThatCode(boom).doesNotThrowAnyException();
+  }
+
+  @Test
   public void should_succeed_when_asserting_no_exception_raised_and_no_exception_occurs() {
     // Given
     ThrowingCallable silent = () -> {
