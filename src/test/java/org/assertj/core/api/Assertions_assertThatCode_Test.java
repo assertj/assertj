@@ -14,10 +14,10 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.error.ShouldNotHaveThrown;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class Assertions_assertThatCode_Test {
     ThrowingCallable boom = raisingException(exception);
 
     // Expect
-    thrown.expectAssertionError(ShouldNotHaveThrown.shouldNotHaveThrown(exception));
+    thrown.expectAssertionError(shouldNotHaveThrown(exception));
 
     // When
     assertThatCode(boom).doesNotThrowAnyException();
