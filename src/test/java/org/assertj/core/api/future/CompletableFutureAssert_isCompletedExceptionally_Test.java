@@ -18,17 +18,37 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+@RunWith(Parameterized.class)
 public class CompletableFutureAssert_isCompletedExceptionally_Test extends BaseTest {
+
+  /**
+   * Run these tests 100 times because they are prone to Race Conditions.
+   */
+  @Parameterized.Parameters
+  public static List<Object[]> data() {
+    return Arrays.asList(new Object[100][0]);
+  }
 
   @Test
   public void should_pass_if_completable_future_is_completed_exceptionally() {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
+
+    assertThat(future).isCompletedExceptionally();
+  }
+
+  @Test
+  public void should_pass_if_completable_future_will_complete_exceptionally() {
+    CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {throw new RuntimeException();});
 
     assertThat(future).isCompletedExceptionally();
   }
