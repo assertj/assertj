@@ -15,6 +15,7 @@ package org.assertj.core.error.future;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
+import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,15 +26,16 @@ public class ShouldNotBeCancelled_create_Test {
 
   @Test
   public void should_create_error_message() throws Exception {
-    CompletableFuture<Object> future = new CompletableFuture<Object>();
+    CompletableFuture<Object> future = new CompletableFuture<>();
     future.cancel(true);
 
     String error = shouldNotBeCancelled(future).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
-                                "Expecting%n" +
-                                "  <CompletableFuture[Cancelled]>%n" +
-                                "not to be cancelled"));
+                                       "Expecting%n" +
+                                       "  <CompletableFuture[Cancelled]>%n" +
+                                       "not to be cancelled.%n%s",
+                                       WARNING));
   }
 
 }

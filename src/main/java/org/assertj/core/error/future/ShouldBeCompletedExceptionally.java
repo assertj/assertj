@@ -19,7 +19,8 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldBeCompletedExceptionally extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_COMPLETED_EXCEPTIONALLY = "%nExpecting%n  <%s>%nto be completed exceptionally";
+  private static final String SHOULD_HAVE_COMPLETED_EXCEPTIONALLY = "%nExpecting%n  <%s>%nto be completed exceptionally.%n"
+                                                                    + Warning.WARNING;
 
   public static ErrorMessageFactory shouldHaveCompletedExceptionally(CompletableFuture<?> actual) {
     return new ShouldBeCompletedExceptionally(actual);

@@ -12,25 +12,27 @@
  */
 package org.assertj.core.error.future;
 
-import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
-
-import java.util.concurrent.CompletableFuture;
-
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
+import static org.assertj.core.error.future.Warning.WARNING;
+
+import java.util.concurrent.CompletableFuture;
+
+import org.assertj.core.internal.TestDescription;
+import org.junit.Test;
 
 public class ShouldBeCompleted_create_Test {
 
   @Test
   public void should_create_error_message() throws Exception {
-    String error = shouldBeCompleted(new CompletableFuture<Object>()).create(new TestDescription("TEST"));
+    String error = shouldBeCompleted(new CompletableFuture<>()).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting%n" +
                                        "  <CompletableFuture[Incomplete]>%n" +
-                                       "to be completed"));
+                                       "to be completed.%n%s",
+                                       WARNING));
   }
 
 }

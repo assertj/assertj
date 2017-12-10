@@ -19,7 +19,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldBeCompleted extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_BE_COMPLETED = "%nExpecting%n  <%s>%nto be completed";
+  private static final String SHOULD_BE_COMPLETED = "%nExpecting%n  <%s>%nto be completed.%n" + Warning.WARNING;
 
   public static ErrorMessageFactory shouldBeCompleted(CompletableFuture<?> actual) {
     return new ShouldBeCompleted(actual);

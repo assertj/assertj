@@ -12,20 +12,6 @@
  */
 package org.assertj.core.error.future;
 
-import java.util.concurrent.Future;
-
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
-
-public class ShouldBeCancelled extends BasicErrorMessageFactory {
-
-  private static final String SHOULD_BE_CANCELLED = "%nExpecting%n  <%s>%nto be cancelled.%n" + Warning.WARNING;
-
-  public static ErrorMessageFactory shouldBeCancelled(Future<?> actual) {
-    return new ShouldBeCancelled(actual);
-  }
-
-  private ShouldBeCancelled(Future<?> actual) {
-    super(SHOULD_BE_CANCELLED, actual);
-  }
+public class Warning {
+  public static final String WARNING = "Be aware that the state of the future in this message might not reflect the one at the time when the assertion was performed as it is evaluated later on";
 }

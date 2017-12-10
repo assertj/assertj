@@ -104,6 +104,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   public SELF isCompletedExceptionally() {
     isNotNull();
+    System.out.println("before assertion " + actual);
     if (!actual.isCompletedExceptionally()) throwAssertionError(shouldHaveCompletedExceptionally(actual));
     return myself;
   }

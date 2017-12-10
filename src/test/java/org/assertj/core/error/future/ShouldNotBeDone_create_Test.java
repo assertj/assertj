@@ -12,14 +12,15 @@
  */
 package org.assertj.core.error.future;
 
-import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
-
-import java.util.concurrent.CompletableFuture;
-
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
+import static org.assertj.core.error.future.Warning.WARNING;
+
+import java.util.concurrent.CompletableFuture;
+
+import org.assertj.core.internal.TestDescription;
+import org.junit.Test;
 
 public class ShouldNotBeDone_create_Test {
 
@@ -30,7 +31,8 @@ public class ShouldNotBeDone_create_Test {
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting%n" +
                                        "  <CompletableFuture[Completed: \"done\"]>%n" +
-                                       "not to be done"));
+                                       "not to be done.%n%s",
+                                       WARNING));
   }
 
 }

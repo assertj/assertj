@@ -19,7 +19,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldNotBeDone extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_NOT_BE_DONE = "%nExpecting%n  <%s>%nnot to be done";
+  private static final String SHOULD_NOT_BE_DONE = "%nExpecting%n  <%s>%nnot to be done.%n" + Warning.WARNING;
 
   public static ErrorMessageFactory shouldNotBeDone(Future<?> actual) {
     return new ShouldNotBeDone(actual);

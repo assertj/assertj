@@ -15,6 +15,7 @@ package org.assertj.core.error.future;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
+import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,12 +26,13 @@ public class ShouldNotHaveCompletedExceptionally_create_Test {
 
   @Test
   public void should_create_error_message() throws Exception {
-    String error = shouldNotHaveCompletedExceptionally(new CompletableFuture<Object>()).create(new TestDescription("TEST"));
+    String error = shouldNotHaveCompletedExceptionally(new CompletableFuture<>()).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting%n" +
                                        "  <CompletableFuture[Incomplete]>%n" +
-                                       "to not be completed exceptionally"));
+                                       "to not be completed exceptionally.%n%s",
+                                       WARNING));
   }
 
 }
