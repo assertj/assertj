@@ -2679,6 +2679,34 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies that any of the element of actual match the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = new String[] { "a", "b", "c" };
+   * String[] abcc = new String[] { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abc).anyMatch(s -&gt; s.length() == 1);
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() > 2);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areAtLeastOne(Condition) areAtLeastOne(Condition)}
+   * or {@link #haveAtLeastOne(Condition) haveAtLeastOne(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if no element satisfy the given predicate.
+   */
+  @Override
+  public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
+    iterables.assertAnyMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...  
    * all satisfy the given {@code zipRequirements}. 
    * <p>
@@ -2779,5 +2807,33 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable) {
     return containsAnyOf(toArray(iterable));
+  }
+
+  /**
+   * Verifies that no elements of actual match the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abc = new String[] { "a", "b", "c" };
+   * String[] abcc = new String[] { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abc).noneMatch(s -&gt; s.length() > 1);
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() > 1);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areNot(Condition) areNot(Condition)}
+   * or {@link #doNotHave(Condition) doNotHave(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if any element satisfy the given predicate.
+   */
+  @Override
+  public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
+    iterables.assertNoneMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
+    return myself;
   }
 }
