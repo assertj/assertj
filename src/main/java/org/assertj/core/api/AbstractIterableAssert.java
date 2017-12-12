@@ -2419,6 +2419,22 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
+  public <OTHER_ELEMENT> SELF allSatisfy(Iterable<OTHER_ELEMENT> target, BiConsumer<? super ELEMENT, OTHER_ELEMENT> requirements) {
+    // TODO: null / empty checks. Here or in Iterables?
+    Iterator<? extends ELEMENT> i1 = actual.iterator();
+    Iterator<OTHER_ELEMENT> i2 = target.iterator();
+    while (i1.hasNext()) {
+      assertThat(i2.hasNext()).withFailMessage("target collection does not have enough elements to compare").isTrue();
+      requirements.accept(i1.next(), i2.next());
+    }
+    assertThat(i2.hasNext()).withFailMessage("target collection still have more elements to compare").isTrue();
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
     iterables.assertAllMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
     return myself;

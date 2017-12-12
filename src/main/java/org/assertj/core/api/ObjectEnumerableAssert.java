@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.HashSet;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -1124,6 +1125,26 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if one or more elements don't satisfy the given predicate.
    */
   SELF allMatch(Predicate<? super ELEMENT> predicate);
+
+  /**
+   * Verifies that all the elements, when compared to another Iterable, satisfy given requirements expressed as a {@link BiConsumer}.
+   * <p>
+   * This is useful to compare Collections of similar but not same Objects, like DTOs and domain objects.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(employees).allSatisfy(persons, (employee, person) -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo(employee.getBornIn());
+   *                                 assertThat(person.getGivenName()).isEqualTo(employee.getFirstname());
+   *                               });</code></pre>
+   *
+   * @param target the given {@link Iterable}.
+   * @param requirements the given {@link BiConsumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link BiConsumer} is {@code null}.
+   * @throws AssertionError if one or more elements don't satisfy given requirements.
+   * @since 3.9.0
+   */
+  <OTHER_ELEMENT> SELF allSatisfy(Iterable<OTHER_ELEMENT> target, BiConsumer<? super ELEMENT, OTHER_ELEMENT> requirements);
 
   /**
    * Verifies that all the elements of actual match the given {@link Predicate}. The predicate description is used
