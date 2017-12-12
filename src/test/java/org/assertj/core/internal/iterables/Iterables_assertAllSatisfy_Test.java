@@ -38,7 +38,7 @@ public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_satisfy_multiple_requirements() {
-    iterables.<String>assertAllSatisfy(someInfo(), actual, s -> {
+    iterables.assertAllSatisfy(someInfo(), actual, s -> {
       assertThat(s.length()).isEqualTo(4);
       assertThat(s).doesNotContain("V");
     });

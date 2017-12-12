@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.StreamSupport.stream;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -53,6 +54,7 @@ import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSe
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
@@ -79,6 +81,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -1013,6 +1016,27 @@ public class Iterables {
         throw failures.failure(info, elementsShouldSatisfy(actual, e, ex.getMessage()));
       }
     });
+  }
+
+  public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,
+                                                               Iterable<? extends ACTUAL_ELEMENT> actual,
+                                                               Iterable<OTHER_ELEMENT> other,
+                                                               BiConsumer<? super ACTUAL_ELEMENT, OTHER_ELEMENT> zipRequirements) {
+    assertNotNull(info, actual);
+    requireNonNull(zipRequirements, "The BiConsumer expressing the assertions requirements must not be null");
+    requireNonNull(other, "The iterable to zip actual with must not be null");
+    assertHasSameSizeAs(info, actual, other);
+    Iterator<OTHER_ELEMENT> otherIterator = other.iterator();
+    for (ACTUAL_ELEMENT actualElement : actual) {
+      OTHER_ELEMENT otherElement = otherIterator.next();
+      try {
+        zipRequirements.accept(actualElement, otherElement);
+      } catch (AssertionError ex) {
+        throw failures.failure(info, zippedElementsShouldSatisfy(actual, other,
+                                                                 tuple(actualElement, otherElement),
+                                                                 ex.getMessage()));
+      }
+    }
   }
 
   public <E> void assertAnySatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {

@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -2674,6 +2675,39 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
     iterables.assertAllSatisfy(info, newArrayList(actual), requirements);
+    return myself;
+  }
+
+  /**
+   * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...  
+   * all satisfy the given {@code zipRequirements}. 
+   * <p>
+   * This assertion assumes that actual and other have the same size but they can contain different type of elements 
+   * making it handy to compare objects converted to another type, for example Domain and View/DTO objects.  
+   * <p>
+   * Example:
+   * <pre><code class='java'> Adress[] addressModels = findGoodRestaurants();
+   * AdressView[] addressViews = convertToView(addressModels);
+   * 
+   * // compare addressViews and addressModels respective paired elements. 
+   * assertThat(addressViews).zipSatisfy(addressModels, (AdressView view, Adress model) -&gt; {
+   *    assertThat(view.getZipcode() + ' ' + view.getCity()).isEqualTo(model.getCityLine());
+   *    assertThat(view.getStreet()).isEqualTo(model.getStreet().toUpperCase());
+   * });</code></pre>
+   *
+   * @param other the array to zip actual with.
+   * @param zipRequirements the given requirements that each pair must sastify.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given zipRequirements {@link BiConsumer} is {@code null}.
+   * @throws NullPointerException if the the other array to zip actual with is {@code null}.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if actual and other don't have the same size.
+   * @throws AssertionError if one or more pairs don't satisfy the given requirements.
+   * @since 3.9.0
+   */
+  public <OTHER_ELEMENT> SELF zipSatisfy(OTHER_ELEMENT[] other,
+                                         BiConsumer<? super ELEMENT, OTHER_ELEMENT> zipRequirements) {
+    iterables.assertZipSatisfy(info, newArrayList(actual), newArrayList(other), zipRequirements);
     return myself;
   }
 
