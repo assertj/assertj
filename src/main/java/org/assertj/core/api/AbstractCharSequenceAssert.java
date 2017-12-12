@@ -1145,4 +1145,40 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     strings.assertIsEqualToNormalizingNewlines(info, actual, expected);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is a lowercase {@code CharSequence}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;lego&quot;).isLowerCase();
+   *
+   * // assertion will fail
+   * assertThat(&quot;Lego&quot;).isLowerCase();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not lowercase.
+   */
+  public SELF isLowerCase() {
+    strings.assertLowerCase(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is a uppercase {@code CharSequence}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;LEGO&quot;).isUpperCase();
+   *
+   * // assertion will fail
+   * assertThat(&quot;Lego&quot;).isUpperCase();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not uppercase.
+   */
+  public SELF isUpperCase() {
+    strings.assertUpperCase(info, actual);
+    return myself;
+  }
 }

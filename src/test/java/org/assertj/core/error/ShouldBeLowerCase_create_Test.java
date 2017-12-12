@@ -36,6 +36,6 @@ public class ShouldBeLowerCase_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %nExpecting <'A'> to be a lowercase character"));
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting lowercase but was: <'A'>"));
   }
 }
