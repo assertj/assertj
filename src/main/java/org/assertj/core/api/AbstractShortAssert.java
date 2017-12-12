@@ -217,14 +217,38 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat((short) 1).isBetween((short) -1, (short) 2);
+   * assertThat((short) 1).isBetween((short) 1, (short) 2);
+   * assertThat((short) 1).isBetween((short) 0, (short) 1);
+   *
+   * // assertion will fail
+   * assertThat((short) 1).isBetween((short) 2, (short) 3);</code></pre>
+   */
   @Override
   public SELF isBetween(Short start, Short end) {
     shorts.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat((short) 1).isStrictlyBetween((short) -1, (short) 2);
+   *
+   * // assertions will fail
+   * assertThat((short) 1).isStrictlyBetween((short) 1, (short) 2);
+   * assertThat((short) 1).isStrictlyBetween((short) 0, (short) 1);
+   * assertThat((short) 1).isStrictlyBetween((short) 2, (short) 3);</code></pre>
+   */
   @Override
   public SELF isStrictlyBetween(Short start, Short end) {
     shorts.assertIsStrictlyBetween(info, actual, start, end);
