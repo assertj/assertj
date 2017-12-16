@@ -2750,6 +2750,34 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies whether any elements match the provided {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[] {"a", "b", "c"});
+   * AtomicReferenceArray&lt;String&gt; abcc = new AtomicReferenceArray&lt;&gt;(new String[] {"a", "b", "cc"});
+   *
+   * // assertion will pass
+   * assertThat(abc).anyMatch(s -&gt; s.length() == 2);
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areAtLeastOne(Condition) areAtLeastOne(Condition)}
+   * or {@link #haveAtLeastOne(Condition) haveAtLeastOne(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if no elements satisfy the given predicate.
+   * @since 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> anyMatch(Predicate<? super T> predicate) {
+    iterables.assertAnyMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
    * Verifies that at least one element satisfies the given requirements expressed as a {@link Consumer}.
    * <p>
    * This is useful to check that a group of assertions is verified by (at least) one element.
@@ -2842,4 +2870,31 @@ public class AtomicReferenceArrayAssert<T>
     return containsAnyOf(toArray(iterable));
   }
 
+  /**
+   * Verifies that no elements match the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abcc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "cc"});
+   *
+   * // assertion will pass
+   * assertThat(abcc).noneMatch(s -&gt; s.isEmpty());
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() == 2);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areNot(Condition) areNot(Condition)}
+   * or {@link #doNotHave(Condition) doNotHave(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if any element satisfy the given predicate.
+   * @since 3.9.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> noneMatch(Predicate<? super T> predicate) {
+    iterables.assertNoneMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
 }

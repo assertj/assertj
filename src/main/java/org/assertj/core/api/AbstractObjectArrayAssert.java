@@ -1083,7 +1083,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
    * @throws AssertionError if one or more elements don't satisfy the given condition.
    */
   @Override
@@ -1111,7 +1111,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
   @Override
@@ -1139,7 +1139,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
    * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   @Override
@@ -1167,7 +1167,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
   @Override
@@ -1239,7 +1239,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   @Override
@@ -1267,7 +1267,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   @Override
@@ -2641,8 +2641,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that all elements match the given {@link Predicate}.
    * <p>
    * Example :
-   * <pre><code class='java'> String[] abc  = new String[] {"a", "b", "c"};
-   * String[] abcc  = new String[] {"a", "b", "cc"};
+   * <pre><code class='java'> String[] abc  = {"a", "b", "c"};
+   * String[] abcc  = {"a", "b", "cc"};
    *
    * // assertion will pass
    * assertThat(abc).allMatch(s -&gt; s.length() == 1);
@@ -2655,7 +2655,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
    * @throws AssertionError if one or more elements don't satisfy the given predicate.
    */
   @Override
@@ -2683,6 +2683,33 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies whether any elements match the provided {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abcc = { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abc).anyMatch(s -&gt; s.length() == 2);
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areAtLeastOne(Condition) areAtLeastOne(Condition)}
+   * or {@link #haveAtLeastOne(Condition) haveAtLeastOne(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if no elements satisfy the given predicate.
+   * @since 3.9.0
+   */
+  @Override
+  public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
+    iterables.assertAnyMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...  
    * all satisfy the given {@code zipRequirements}. 
    * <p>
@@ -2699,6 +2726,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *    assertThat(view.getStreet()).isEqualTo(model.getStreet().toUpperCase());
    * });</code></pre>
    *
+   * @param <OTHER_ELEMENT> the type of the other array elements.
    * @param other the array to zip actual with.
    * @param zipRequirements the given requirements that each pair must sastify.
    * @return {@code this} assertion object.
@@ -2783,5 +2811,33 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable) {
     return containsAnyOf(toArray(iterable));
+  }
+
+  /**
+   * Verifies that no elements match the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abcc = { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abcc).noneMatch(s -&gt; s.isEmpty());
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() == 2);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areNot(Condition) areNot(Condition)}
+   * or {@link #doNotHave(Condition) doNotHave(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to ELEMENT.
+   * @throws AssertionError if any element satisfy the given predicate.
+   * @since 3.9.0
+   */
+  @Override
+  public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
+    iterables.assertNoneMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
+    return myself;
   }
 }

@@ -2434,6 +2434,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  @Override
+  public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
+    iterables.assertAnyMatch(info, actual, predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
   /**
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...  
    * all satisfy the given {@code zipRequirements}. 
@@ -2451,6 +2457,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *    assertThat(view.getStreet()).isEqualTo(model.getStreet().toUpperCase());
    * });</code></pre>
    *
+   * @param <OTHER_ELEMENT> the type of the other iterable elements.
    * @param other the iterable to zip actual with.
    * @param zipRequirements the given requirements that each pair must sastify.
    * @return {@code this} assertion object.
@@ -2621,6 +2628,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF isSameAs(Object expected) {
     return super.isSameAs(expected);
+  }
+
+  @Override
+  public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
+    iterables.assertNoneMatch(info, actual, predicate, PredicateDescription.GIVEN);
+    return myself;
   }
 
   @Override

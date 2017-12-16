@@ -16,6 +16,7 @@ import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -1067,6 +1068,17 @@ public class Iterables {
                                                        nonMatches.size() == 1 ? nonMatches.get(0) : nonMatches,
                                                        predicateDescription));
     }
+  }
+
+  public <E> void assertAnyMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
+                                 PredicateDescription predicateDescription) {
+    assertNotNull(info, actual);
+    predicates.assertIsNotNull(predicate);
+    stream(actual.spliterator(), false).filter(predicate)
+                                       .findFirst()
+                                       .orElseGet(() -> {
+                                         throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
+                                       });
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
