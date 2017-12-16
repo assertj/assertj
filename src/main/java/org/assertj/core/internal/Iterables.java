@@ -1078,8 +1078,7 @@ public class Iterables {
     stream(actual.spliterator(), false).filter(predicate)
                                        .findFirst()
                                        .orElseGet(() -> {
-                                         throw failures.failure(info, anyElementShouldMatch(actual, actual,
-                                                                                            predicateDescription));
+                                         throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
                                        });
   }
 

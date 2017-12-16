@@ -15,20 +15,13 @@ package org.assertj.core.error;
 import org.assertj.core.presentation.PredicateDescription;
 
 public class AnyElementShouldMatch extends BasicErrorMessageFactory {
-  private static final String SINGLE_NON_MATCHING_ELEMENT = "%nExpecting any element of:%n  <%s>%nto match %s predicate but this element did not:%n  <%s>";
-  private static final String MULTIPLE_NON_MATCHING_ELEMENT = "%nExpecting any element of:%n  <%s>%nto match %s predicate but these elements did not:%n  <%s>";
+  private static final String NON_MATCHING_ELEMENT = "%nExpecting any element of:%n  <%s>%nto match %s predicate, but none did.";
 
-  public static <T> ErrorMessageFactory anyElementShouldMatch(Object actual, T elementsNotMatchingPredicate, PredicateDescription predicateDescription) {
-    return elementsNotMatchingPredicate instanceof Iterable
-        ? new AnyElementShouldMatch(actual, (Iterable<?>) elementsNotMatchingPredicate, predicateDescription)
-        : new AnyElementShouldMatch(actual, elementsNotMatchingPredicate, predicateDescription);
+  public static <T> ErrorMessageFactory anyElementShouldMatch(Object actual, PredicateDescription predicateDescription) {
+    return new AnyElementShouldMatch(actual, predicateDescription);
   }
 
-  private AnyElementShouldMatch(Object actual, Object notMatching, PredicateDescription predicateDescription) {
-    super(SINGLE_NON_MATCHING_ELEMENT, actual, predicateDescription, notMatching);
-  }
-
-  private AnyElementShouldMatch(Object actual, Iterable<?> notMatching, PredicateDescription predicateDescription) {
-    super(MULTIPLE_NON_MATCHING_ELEMENT, actual, predicateDescription, notMatching);
+  private AnyElementShouldMatch(Object actual, PredicateDescription predicateDescription) {
+    super(NON_MATCHING_ELEMENT, actual, predicateDescription);
   }
 }
