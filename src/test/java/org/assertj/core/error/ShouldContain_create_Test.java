@@ -67,7 +67,7 @@ public class ShouldContain_create_Test {
                                          " <[\"Luke\", \"Yoda\"]>%n" +
                                          "but could not find:%n" +
                                          " <[\"Luke\"]>%n" +
-                                         "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test

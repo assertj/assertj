@@ -17,6 +17,7 @@ import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -41,6 +42,44 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   private static final Double TEN = 10d;
 
   @Test
+  public void should_pass_if_difference_is_more_than_given_offset() {
+    doubles.assertIsNotCloseTo(someInfo(), ONE, THREE, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), ONE, THREE, within(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), ONE, TEN, byLessThan(TWO));
+    doubles.assertIsNotCloseTo(someInfo(), ONE, TEN, within(TWO));
+  }
+
+  @Test
+  public void should_pass_if_difference_is_equal_to_the_given_strict_offset() {
+    doubles.assertIsNotCloseTo(someInfo(), ONE, TWO, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), TWO, ONE, byLessThan(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
+  }
+
+  @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     doubles.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
@@ -57,12 +96,6 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_pass_if_difference_is_less_than_given_offset() {
-    doubles.assertIsNotCloseTo(someInfo(), ONE, THREE, byLessThan(ONE));
-    doubles.assertIsNotCloseTo(someInfo(), ONE, TEN, byLessThan(TWO));
-  }
-
-  @Test
   @DataProvider({
       "1.0, 1.0, 0.0",
       "1.0, 0.0, 1.0",
@@ -71,9 +104,9 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   public void should_fail_if_difference_is_equal_to_given_offset(Double actual, Double other, Double offset) {
     AssertionInfo info = someInfo();
     try {
-      doubles.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
+      doubles.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), abs(actual - other)));
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), abs(actual - other)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -81,6 +114,18 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   
   @Test
   public void should_fail_if_actual_is_too_close_to_expected_value() {
+    AssertionInfo info = someInfo();
+    try {
+      doubles.assertIsNotCloseTo(info, ONE, TWO, within(TEN));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, within(TEN), TWO - ONE));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_too_close_to_expected_value_with_strict_offset() {
     AssertionInfo info = someInfo();
     try {
       doubles.assertIsNotCloseTo(info, ONE, TWO, byLessThan(TEN));
@@ -94,38 +139,19 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_actual_and_expected_are_NaN() {
     thrown.expectAssertionError();
-    doubles.assertIsNotCloseTo(someInfo(), NaN, NaN, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
     thrown.expectAssertionError();
-    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
     thrown.expectAssertionError();
-    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
+    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
   }
 
-  @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
-    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, byLessThan(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
-    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
-    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, byLessThan(ONE));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
-    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
-  }
 }

@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -22,52 +24,108 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Bytes_assertIsCloseTo_Test extends BytesBaseTest {
 
   private static final Byte ZERO = 0;
   private static final Byte ONE = 1;
-  private static final Byte TWO = 2;
-  private static final Byte TEN = 10;
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    bytes.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void should_fail_if__expected_value_is_null() {
-    bytes.assertIsCloseTo(someInfo(), ONE, null, within(ONE));
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void should_fail_if_offset_is_null() {
-    bytes.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+  @DataProvider({
+      "1, 3, 1",
+      "-1, -3, 1",
+      "1, -2, 2",
+      "-1, 2, 2"
+  })
+  public void should_pass_if_difference_is_greater_than_offset(byte actual, byte other, byte offset) {
+    bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
+    bytes.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
   }
 
   @Test
-  public void should_pass_if_difference_is_less_than_given_offset() {
-    bytes.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
-    bytes.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
+  @DataProvider({
+      "1, 0, 1",
+      "1, 2, 1",
+      "-1, 0, 1",
+      "1, -1, 2",
+      "-1, 1, 2"
+  })
+  public void should_pass_if_difference_is_equal_to_strict_offset(byte actual, byte other, byte offset) {
+    bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
   }
 
   @Test
-  public void should_pass_if_difference_is_equal_to_given_offset() {
-    bytes.assertIsCloseTo(someInfo(), ONE, ONE, within(ZERO));
-    bytes.assertIsCloseTo(someInfo(), ONE, ZERO, within(ONE));
-    bytes.assertIsCloseTo(someInfo(), ONE, TWO, within(ONE));
-  }
-  
-  @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  @DataProvider({
+      "1, 2, 10",
+      "1, 2, 2",
+      "1, 0, 2",
+      "0, 1, 2"
+  })
+  public void should_fail_if_actual_is_too_close_to_the_other_value(byte actual, byte other, byte offset) {
     AssertionInfo info = someInfo();
     try {
-      bytes.assertIsCloseTo(info, ONE, TEN, within(ONE));
+      bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), (byte)(TEN - ONE)));
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (byte) abs(actual - other)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+  @Test
+  @DataProvider({
+      "1, 2, 10",
+      "1, 0, 2",
+      "0, 1, 2"
+  })
+  public void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(byte actual, byte other,
+                                                                                       byte offset) {
+    AssertionInfo info = someInfo();
+    try {
+      bytes.assertIsNotCloseTo(info, actual, other, byLessThan(offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (byte) abs(actual - other)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  @DataProvider({
+      "1, 1, 0",
+      "1, 0, 1",
+      "1, 2, 1"
+  })
+  public void should_fail_if_difference_is_equal_to_given_offset(byte actual, byte other, byte offset) {
+    AssertionInfo info = someInfo();
+    try {
+      bytes.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), (byte) abs(actual - other)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    bytes.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void should_fail_if_expected_value_is_null() {
+    bytes.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void should_fail_if_offset_is_null() {
+    bytes.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
+  }
+
 }

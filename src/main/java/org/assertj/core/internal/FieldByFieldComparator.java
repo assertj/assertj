@@ -12,14 +12,20 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
+import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.util.Strings.join;
+
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.introspection.IntrospectionError;
-
-import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 
 /**
  * Compares objects field/property by field/property including private fields unless
@@ -31,14 +37,15 @@ public class FieldByFieldComparator implements Comparator<Object> {
   protected final TypeComparators comparatorByType;
 
   public FieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                TypeComparators comparatorByType) {
-    this.comparatorByPropertyOrField = comparatorByPropertyOrField;
-    this.comparatorByType = comparatorByType;
+                                TypeComparators typeComparators) {
+    this.comparatorByPropertyOrField = comparatorByPropertyOrField == null
+        ? new TreeMap<>()
+        : comparatorByPropertyOrField;
+    this.comparatorByType = isNullOrEmpty(typeComparators) ? defaultTypeComparators() : typeComparators;
   }
 
   public FieldByFieldComparator() {
-    this.comparatorByPropertyOrField = new HashMap<>();
-    this.comparatorByType = new TypeComparators();
+    this(new TreeMap<String, Comparator<?>>(), defaultTypeComparators());
   }
 
   @Override
@@ -60,7 +67,41 @@ public class FieldByFieldComparator implements Comparator<Object> {
 
   @Override
   public String toString() {
+    return description() + describeUsedComparators();
+  }
+
+  protected String description() {
     return "field/property by field/property comparator on all fields/properties";
+  }
+
+  protected String describeUsedComparators() {
+    if (comparatorByPropertyOrField.isEmpty()) {
+      return format("%nComparators used:%n%s", describeFieldComparatorsByType());
+    }
+    return format("%nComparators used:%n%s%n%s", describeFieldComparatorsByName(), describeFieldComparatorsByType());
+  }
+
+  protected String describeFieldComparatorsByType() {
+    return format("- for elements fields (by type): %s", comparatorByType);
+  }
+
+  protected String describeFieldComparatorsByName() {
+    if (comparatorByPropertyOrField.isEmpty()) {
+      return "";
+    }
+    List<String> fieldComparatorsDescription = new ArrayList<>();
+    for (Entry<String, Comparator<?>> registeredComparator : this.comparatorByPropertyOrField.entrySet()) {
+      fieldComparatorsDescription.add(formatFieldComparator(registeredComparator));
+    }
+    return format("- for elements fields (by name): {%s}", join(fieldComparatorsDescription).with(", "));
+  }
+
+  private static String formatFieldComparator(Entry<String, Comparator<?>> next) {
+    return next.getKey() + " -> " + next.getValue();
+  }
+
+  private static boolean isNullOrEmpty(TypeComparators comparatorByType) {
+    return comparatorByType == null || comparatorByType.isEmpty();
   }
 
 }

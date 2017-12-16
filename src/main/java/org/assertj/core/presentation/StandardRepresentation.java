@@ -231,12 +231,12 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(Comparator<?> comparator) {
-    if (!comparator.toString().contains("@")) return quote(comparator.toString());
+    if (!comparator.toString().contains("@")) return comparator.toString();
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
     if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
     // if toString has not been redefined, let's use comparator simple class name.
-    if (comparator.toString().contains(comparatorSimpleClassName + "@")) return quote(comparatorSimpleClassName);
-    return quote(comparator.toString());
+    if (comparator.toString().contains(comparatorSimpleClassName + "@")) return comparatorSimpleClassName;
+    return comparator.toString();
   }
 
   protected String toStringOf(Calendar c) {

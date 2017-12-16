@@ -12,24 +12,22 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
-
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldContainCharSequenceSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
- * @author Joel Costigliola
+ * Tests for <code>{@link ShouldContainSequenceOfCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ *
+ * @author Billy Yuan
  */
-public class ShouldContainSequenceString_create_Test {
-
+public class ShouldContainSequenceOfCharSequence_create_Test {
   private ErrorMessageFactory factory;
 
   @Test
@@ -37,14 +35,12 @@ public class ShouldContainSequenceString_create_Test {
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 
-    factory = shouldContainSequence(actual, sequenceValues, 1);
+    factory = shouldContainSequence(actual, sequenceValues);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"" + actual + "\">%n"
-        + "to contain the following CharSequences in this order:%n"
-        + " <[\"{\", \"author\", \"title\", \"}\"]>%n"
-        + "but <\"title\"> was found before <\"author\">%n"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n" +
+                                         "  <\"{ 'title':'A Game of Thrones', 'author':'George Martin'}\">%n" +
+                                         "to contain sequence:%n" +
+                                         "  <[\"{\", \"author\", \"title\", \"}\"]>%n"));
   }
 
   @Test
@@ -52,16 +48,13 @@ public class ShouldContainSequenceString_create_Test {
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 
-    factory = shouldContainSequence(actual, sequenceValues, 1,
+    factory = shouldContainSequence(actual, sequenceValues,
                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"" + actual + "\">%n"
-        + "to contain the following CharSequences in this order:%n"
-        + " <[\"{\", \"author\", \"title\", \"}\"]>%n"
-        + "but <\"title\"> was found before <\"author\">%n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n" +
+                                         "  <\"{ 'title':'A Game of Thrones', 'author':'George Martin'}\">%n" +
+                                         "to contain sequence:%n" +
+                                         "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
+                                         "when comparing values using CaseInsensitiveStringComparator"));
   }
-
 }

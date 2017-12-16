@@ -70,13 +70,15 @@ public class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementCompara
     try {
       assertThat(array1).usingRecursiveFieldByFieldElementComparator().isEqualTo(array2);
     } catch (AssertionError e) {
-      // @format:off
-      assertThat(e).hasMessage(format("%nExpecting:%n" +
-                                      " <[Foo(id=id, bar=Bar [id=1])]>%n" +
-                                      "to be equal to:%n" +
-                                      " <[Foo(id=id, bar=Bar [id=2])]>%n" +
-                                      "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties' but was not."));
-      // @format:on
+      assertThat(e).hasMessage(format("%nExpecting:%n"
+                                      + " <[Foo(id=id, bar=Bar(id=1))]>%n"
+                                      + "to be equal to:%n"
+                                      + " <[Foo(id=id, bar=Bar(id=2))]>%n"
+                                      + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
+                                      + "Comparators used:%n"
+                                      + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                      + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                      + "but was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -89,11 +91,14 @@ public class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementCompara
     try {
       assertThat(array1).usingRecursiveFieldByFieldElementComparator().isIn(new Object[] { array2 });
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n" +
-                                      " <[Foo(id=id, bar=Bar [id=1])]>%n" +
-                                      "to be in:%n" +
-                                      " <[[Foo(id=id, bar=Bar [id=2])]]>%n" +
-                                      "when comparing elements using 'recursive field/property by field/property comparator on all fields/properties'"));
+      assertThat(e).hasMessage(format("%nExpecting:%n"
+                                      + " <[Foo(id=id, bar=Bar(id=1))]>%n"
+                                      + "to be in:%n"
+                                      + " <[[Foo(id=id, bar=Bar(id=2))]]>%n"
+                                      + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
+                                      + "Comparators used:%n"
+                                      + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                      + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -119,6 +124,7 @@ public class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementCompara
   @Test
   public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
     Comparator<String> comparator = new Comparator<String>() {
+      @Override
       public int compare(String o1, String o2) {
         return o1.compareTo(o2);
       }
@@ -166,7 +172,7 @@ public class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementCompara
 
     @Override
     public String toString() {
-      return "Bar [id=" + id + "]";
+      return "Bar(id=" + id + ")";
     }
   }
 }

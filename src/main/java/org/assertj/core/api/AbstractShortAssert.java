@@ -217,14 +217,38 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat((short) 1).isBetween((short) -1, (short) 2);
+   * assertThat((short) 1).isBetween((short) 1, (short) 2);
+   * assertThat((short) 1).isBetween((short) 0, (short) 1);
+   *
+   * // assertion will fail
+   * assertThat((short) 1).isBetween((short) 2, (short) 3);</code></pre>
+   */
   @Override
   public SELF isBetween(Short start, Short end) {
     shorts.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat((short) 1).isStrictlyBetween((short) -1, (short) 2);
+   *
+   * // assertions will fail
+   * assertThat((short) 1).isStrictlyBetween((short) 1, (short) 2);
+   * assertThat((short) 1).isStrictlyBetween((short) 0, (short) 1);
+   * assertThat((short) 1).isStrictlyBetween((short) 2, (short) 3);</code></pre>
+   */
   @Override
   public SELF isStrictlyBetween(Short start, Short end) {
     shorts.assertIsStrictlyBetween(info, actual, start, end);
@@ -232,24 +256,37 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   }
 
   /**
-   * Verifies that the actual short is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Short)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <p>
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat((short) 5).isCloseTo((short) 7, within((short) 3));
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 3));
    *
-   * // if difference is exactly equals to the offset, it's ok
+   * // if difference is exactly equals to the offset, it's ok ... 
    * assertThat((short) 5).isCloseTo((short) 7, within((short) 2));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 2)); // FAIL
    *
-   * // assertion will fail
-   * assertThat((short) 5).isCloseTo((short) 7, within((short) 1));</code></pre>
+   * // assertions will fail
+   * assertThat((short) 5).isCloseTo((short) 7, within((short) 1));
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 1));
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 2));</code></pre>
    *
-   * @param expected the given short to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   public SELF isCloseTo(short expected, Offset<Short> offset) {
     shorts.assertIsCloseTo(info, actual, expected, offset);
@@ -257,18 +294,29 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   }
 
   /**
-   * Verifies that the actual short is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Short)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 1));
-   *
-   * // assertion will fail
+   * assertThat((short) 5).isNotCloseTo((short) 7, within((short) 1));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
    * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 2));
+   *
+   * // assertions will fail
+   * assertThat((short) 5).isNotCloseTo((short) 7, within((short) 2));
    * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 3));</code></pre>
    *
-   * @param expected the given short to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
@@ -282,24 +330,37 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   }
 
   /**
-   * Verifies that the actual short is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Short)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <p>
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((short) 5).isCloseTo(Short.valueOf(7), within((short) 3));
+   * assertThat((short) 5).isCloseTo((short) 7, within((short) 3));
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 3));
    *
-   * // if difference is exactly equals to the offset, it's ok
-   * assertThat((short) 5).isCloseTo(Short.valueOf(7), within((short) 2));
+   * // if difference is exactly equals to the offset, it's ok ... 
+   * assertThat((short) 5).isCloseTo((short) 7, within((short) 2));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 2)); // FAIL
    *
-   * // assertion will fail
-   * assertThat((short) 5).isCloseTo(Short.valueOf(7), within((short) 1));</code></pre>
+   * // assertions will fail
+   * assertThat((short) 5).isCloseTo((short) 7, within((short) 1));
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 1));
+   * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 2));</code></pre>
    *
-   * @param expected the given short to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   @Override
   public SELF isCloseTo(Short expected, Offset<Short> offset) {
@@ -308,18 +369,29 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   }
 
   /**
-   * Verifies that the actual short is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat((short) 5).isNotCloseTo(Short.valueOf(7), byLessThan((short) 1));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Short)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 1));
+   * assertThat((short) 5).isNotCloseTo((short) 7, within((short) 1));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 2));
    *
    * // assertions will fail
-   * assertThat((short) 5).isNotCloseTo(Short.valueOf(7), byLessThan((short) 2));
-   * assertThat((short) 5).isNotCloseTo(Short.valueOf(7), byLessThan((short) 3));</code></pre>
+   * assertThat((short) 5).isNotCloseTo((short) 7, within((short) 2));
+   * assertThat((short) 5).isNotCloseTo((short) 7, byLessThan((short) 3));</code></pre>
    *
-   * @param expected the given short to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.

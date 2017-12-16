@@ -228,14 +228,38 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1L).isBetween(-1L, 2L);
+   * assertThat(1L).isBetween(1L, 2L);
+   * assertThat(1L).isBetween(0L, 1L);
+   *
+   * // assertion will fail
+   * assertThat(1L).isBetween(2L, 3L);</code></pre>
+   */
   @Override
   public SELF isBetween(Long start, Long end) {
     longs.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1L).isStrictlyBetween(-1L, 2L);
+   *
+   * // assertions will fail
+   * assertThat(1L).isStrictlyBetween(1L, 2L);
+   * assertThat(1L).isStrictlyBetween(0L, 1L);
+   * assertThat(1L).isStrictlyBetween(2L, 3L);</code></pre>
+   */
   @Override
   public SELF isStrictlyBetween(Long start, Long end) {
     longs.assertIsStrictlyBetween(info, actual, start, end);
@@ -243,24 +267,37 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual long is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass:
-   * assertThat(5L).isCloseTo(7L, within(3L));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Long)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Long)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(5l).isCloseTo(7l, within(3l));
+   * assertThat(5l).isCloseTo(7l, byLessThan(3l));
    *
-   * // if difference is exactly equals to the offset, it's ok
-   * assertThat(5L).isCloseTo(7L, within(2L));
+   * // if difference is exactly equals to the offset, it's ok ... 
+   * assertThat(5l).isCloseTo(7l, within(2l));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat(5l).isCloseTo(7l, byLessThan(2l)); // FAIL
    *
-   * // assertion will fail
-   * assertThat(5L).isCloseTo(7L, within(1L));</code></pre>
+   * // assertions fail
+   * assertThat(5l).isCloseTo(7l, within(1l));
+   * assertThat(5l).isCloseTo(7l, byLessThan(1l));
+   * assertThat(5l).isCloseTo(7l, byLessThan(2l));</code></pre>
    *
-   * @param expected the given long to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   public SELF isCloseTo(long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual, expected, offset);
@@ -268,18 +305,29 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual long is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(5L).isNotCloseTo(7L, byLessThan(1L));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Long)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Long)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(5l).isNotCloseTo(7l, byLessThan(1l));
+   * assertThat(5l).isNotCloseTo(7l, within(1l));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(5l).isNotCloseTo(7l, byLessThan(2l));
    *
    * // assertions will fail
-   * assertThat(5L).isNotCloseTo(7L, byLessThan(2L));
-   * assertThat(5L).isNotCloseTo(7L, byLessThan(3L));</code></pre>
+   * assertThat(5l).isNotCloseTo(7l, within(2l));
+   * assertThat(5l).isNotCloseTo(7l, byLessThan(3l));</code></pre>
    *
-   * @param expected the given long to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
@@ -293,24 +341,37 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual long is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass:
-   * assertThat(5L).isCloseTo(Long.valueOf(7L), within(3L));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Long)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Long)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(5L).isCloseTo(7L, within(3L));
+   * assertThat(5L).isCloseTo(7L, byLessThan(3L));
    *
-   * // if difference is exactly equals to the offset, it's ok
-   * assertThat(5L).isCloseTo(Long.valueOf(7L), within(2L));
+   * // if difference is exactly equals to the offset, it's ok ... 
+   * assertThat(5L).isCloseTo(7L, within(2L));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat(5L).isCloseTo(7L, byLessThan(2L)); // FAIL
    *
-   * // assertion will fail
-   * assertThat(5L).isCloseTo(Long.valueOf(7L), within(1L));</code></pre>
+   * // assertions fail
+   * assertThat(5L).isCloseTo(7L, within(1L));
+   * assertThat(5L).isCloseTo(7L, byLessThan(1L));
+   * assertThat(5L).isCloseTo(7L, byLessThan(2L));</code></pre>
    *
-   * @param expected the given long to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   @Override
   public SELF isCloseTo(Long expected, Offset<Long> offset) {
@@ -319,18 +380,29 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual long is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), byLessThan(1L));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Long)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Long)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(5L).isNotCloseTo(7L, byLessThan(1L));
+   * assertThat(5L).isNotCloseTo(7L, within(1L));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(5L).isNotCloseTo(7L, byLessThan(2L));
    *
    * // assertions will fail
-   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), byLessThan(2L));
-   * assertThat(5L).isNotCloseTo(Long.valueOf(7L), byLessThan(3L));</code></pre>
+   * assertThat(5L).isNotCloseTo(7L, within(2L));
+   * assertThat(5L).isNotCloseTo(7L, byLessThan(3L));</code></pre>
    *
-   * @param expected the given long to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.

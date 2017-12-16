@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +23,11 @@ public class RecursiveFieldByFieldComparator_toString_Test {
   @Test
   @SuppressWarnings("unchecked")
   public void should_return_description_of_RecursiveFieldByFieldComparator() {
-    assertThat(new RecursiveFieldByFieldComparator(EMPTY_MAP, new TypeComparators())).hasToString("recursive field/property by field/property comparator on all fields/properties");
+    // GIVEN
+    RecursiveFieldByFieldComparator actual = new RecursiveFieldByFieldComparator(EMPTY_MAP, new TypeComparators());
+    // THEN
+    assertThat(actual).hasToString(format("recursive field/property by field/property comparator on all fields/properties%n"
+                                          + "Comparators used:%n"
+                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
   }
 }

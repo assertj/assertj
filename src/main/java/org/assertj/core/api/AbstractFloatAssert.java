@@ -193,31 +193,37 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1f).isCloseTo(8.2f, within(0.2f));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Float)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Float)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1f).isCloseTo(8.0f, within(0.2f));
+   * assertThat(8.1f).isCloseTo(8.0f, offset(0.2f)); // alias of within 
+   * assertThat(8.1f).isCloseTo(8.0f, byLessThan(0.2f)); // strict
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1f).isCloseTo(8.2f, offset(0.2f));
-   *
-   * // if difference is exactly equals to 0.1, it's ok
-   * assertThat(8.1f).isCloseTo(8.2f, within(0.1f));
-   *
-   * // assertion will fail
-   * assertThat(8.1f).isCloseTo(8.2f, within(0.01f));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(0.1f).isCloseTo(0.0f, within(0.1f));
+   * assertThat(0.1f).isCloseTo(0.0f, offset(0.1f));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1f).isCloseTo(0.0f, byLessThan(0.1f)); // strict => fail
    * 
-   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below
-   * fails:
-   * <pre><code class='java'>  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
-   * assertThat(8.1f).isCloseTo(8.0f, within(0.1f));</code></pre>
+   * // this assertion also fails
+   * assertThat(8.1f).isCloseTo(8.0f, within(0.001f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
   // duplicate javadoc of isCloseTo(Float other, Offset<Float> offset but can't define it in super class
@@ -228,25 +234,36 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Float)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Float)} to get the old behavior. 
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1f).isNotCloseTo(8.2f, byLessThan(0.01f));
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1f).isNotCloseTo(8.0f, byLessThan(0.01f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, within(0.01f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, offset(0.01f));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(0.1f).isNotCloseTo(0.0f, byLessThan(0.1f));   
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1f).isNotCloseTo(8.2f, offset(0.01f));
-   *
-   * // assertions will fail
-   * assertThat(8.1f).isNotCloseTo(8.2f, byLessThan(0.1f));
-   * assertThat(8.1f).isNotCloseTo(8.2f, byLessThan(0.2f));</code></pre>
-   *
-   * Beware that java floating point number precision might have some unexpected behavior.
+   * // assertions fail
+   * assertThat(0.1f).isNotCloseTo(0.0f, within(0.1f));
+   * assertThat(0.1f).isNotCloseTo(0.0f, offset(0.1f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, within(0.2f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, offset(0.2f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, byLessThan(0.2f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Float)
    * @since 2.6.0 / 3.6.0
@@ -258,32 +275,37 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.2f));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Float)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Float)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1f).isCloseTo(8.0f, within(0.2f));
+   * assertThat(8.1f).isCloseTo(8.0f, offset(0.2f)); // alias of within 
+   * assertThat(8.1f).isCloseTo(8.0f, byLessThan(0.2f)); // strict
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1f).isCloseTo(new Float(8.2f), offset(0.2f));
-   *
-   * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.1f));
-   *
-   * // assertion will fail
-   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.01f));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(0.1f).isCloseTo(0.0f, within(0.1f));
+   * assertThat(0.1f).isCloseTo(0.0f, offset(0.1f));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1f).isCloseTo(0.0f, byLessThan(0.1f)); // strict => fail
    * 
-   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below
-   * fails:
-   * <pre><code class='java'>  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
-   * assertThat(8.1f).isCloseTo(new Float(8.0f), within(0.1f));</code></pre>
+   * // this assertion also fails
+   * assertThat(8.1f).isCloseTo(8.0f, within(0.001f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the other number is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
@@ -294,26 +316,36 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Float)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Float)} to get the old behavior. 
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), within(0.01f));
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1f).isNotCloseTo(8.0f, byLessThan(0.01f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, within(0.01f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, offset(0.01f));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(0.1f).isNotCloseTo(0.0f, byLessThan(0.1f));   
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), offset(0.01f));
-   *
-   * // assertions will fail
-   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), within(0.1f));
-   * assertThat(8.1f).isNotCloseTo(new Float(8.2f), within(0.2f));</code></pre>
-   *
-   * Beware that java floating point number precision might have some unexpected behavior.
+   * // assertions fail
+   * assertThat(0.1f).isNotCloseTo(0.0f, within(0.1f));
+   * assertThat(0.1f).isNotCloseTo(0.0f, offset(0.1f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, within(0.2f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, offset(0.2f));
+   * assertThat(8.1f).isNotCloseTo(8.0f, byLessThan(0.2f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the other number is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Float)
    * @since 2.6.0 / 3.6.0
@@ -428,41 +460,80 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
     return myself;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public SELF isEqualTo(Float expected, Offset<Float> offset) {
-    floats.assertEqual(info, actual, expected, offset);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual value is close to the given one by less than the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+  /** 
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(8.1f).isEqualTo(8.2f, offset(0.1f));
+   * This assertion is the same as {@link #isCloseTo(double, Offset)}.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(8.1f).isEqualTo(8.0f, within(0.2f));
+   * assertThat(8.1f).isEqualTo(8.0f, offset(0.2f)); // alias of within 
+   * assertThat(8.1f).isEqualTo(8.0f, byLessThan(0.2f)); // strict
    *
-   * // within is an alias of offset
-   * assertThat(8.1f).isEqualTo(8.2f, within(0.1f));
-   *
-   * // assertion will fail
-   * assertThat(8.1f).isEqualTo(8.2f, offset(0.01f));</code></pre>
-   *
-   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below
-   * fails:
-   * <pre><code class='java'>  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
-   * assertThat(8.1f).isEqualTo(8.0f, offset(0.1f));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(0.1f).isEqualTo(0.0f, within(0.1f));
+   * assertThat(0.1f).isEqualTo(0.0f, offset(0.1f));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1f).isEqualTo(0.0f, byLessThan(0.1f)); // strict => fail
+   * 
+   * // this assertion also fails
+   * assertThat(0.1f).isEqualTo(0.0f, within(0.001f));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public SELF isEqualTo(Float expected, Offset<Float> offset) {
+    floats.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given offset value.
+   * <p>
+   * This assertion is the same as {@link #isCloseTo(double, Offset)}.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(8.1f).isEqualTo(8.0f, within(0.2f));
+   * assertThat(8.1f).isEqualTo(8.0f, offset(0.2f)); // alias of within 
+   * assertThat(8.1f).isEqualTo(8.0f, byLessThan(0.2f)); // strict
+   *
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(0.1f).isEqualTo(0.0f, within(0.1f));
+   * assertThat(0.1f).isEqualTo(0.0f, offset(0.1f));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1f).isEqualTo(0.0f, byLessThan(0.1f)); // strict => fail
+   * 
+   * // this assertion also fails
+   * assertThat(0.1f).isEqualTo(0.0f, within(0.001f));</code></pre>
+   *
+   * @param expected the given value to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(float expected, Offset<Float> offset) {
-    floats.assertEqual(info, actual, expected, offset);
+    floats.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
@@ -575,14 +646,39 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1f).isBetween(-1f, 2f);
+   * assertThat(1f).isBetween(1f, 2f);
+   * assertThat(1f).isBetween(0f, 1f);
+   *
+   * // assertion will fail
+   * assertThat(1f).isBetween(2f, 3f);</code></pre>
+   */
   @Override
   public SELF isBetween(Float start, Float end) {
     floats.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1f).isStrictlyBetween(-1f, 2f);
+   *
+   * // assertions will fail
+   * assertThat(1f).isStrictlyBetween(1f, 2f);
+   * assertThat(1f).isStrictlyBetween(0f, 1f);
+   * assertThat(1f).isStrictlyBetween(2f, 3f);</code></pre>
+   *
+   */
   @Override
   public SELF isStrictlyBetween(Float start, Float end) {
     floats.assertIsStrictlyBetween(info, actual, start, end);

@@ -20,6 +20,7 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -30,10 +31,10 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -76,9 +77,9 @@ public class AtomicReferenceArrayAssert<T>
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  private TypeComparators comparatorsByType = new TypeComparators();
-  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
+  private TypeComparators comparatorsByType = defaultTypeComparators();
+  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
 
   public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {
     super(actual, AtomicReferenceArrayAssert.class);
@@ -293,8 +294,10 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(abc).containsOnly("c", "b", "a")
    *                .containsOnly("a", "a", "b", "c", "c");
    *
-   * // assertion will fail because "c" is missing
-   * assertThat(abc).containsOnly("a", "b");</code></pre>
+   * // assertion will fail because "c" is missing from the given values
+   * assertThat(abc).containsOnly("a", "b");
+   * // assertion will fail because abc does not contain "d"
+   * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.

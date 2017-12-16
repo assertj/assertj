@@ -12,6 +12,14 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
@@ -24,12 +32,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
 import org.opentest4j.AssertionFailedError;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.*;
-
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -74,24 +76,24 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   }
 
   private void check(AssertionError error) throws Exception {
-    verify(constructorInvoker)
-      .newInstance(ComparisonFailure.class.getName(), new Class<?>[] { String.class, String.class, String.class },
-                   "[Jedi]", "\"Yoda\"", "\"Luke\"");
-    verify(constructorInvoker)
-      .newInstance(AssertionFailedError.class.getName(), new Class<?>[] { String.class, Object.class, Object.class },
-                   String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
-                   "Yoda", "Luke");
+    verify(constructorInvoker).newInstance(ComparisonFailure.class.getName(),
+                                           new Class<?>[] { String.class, String.class, String.class },
+                                           "[Jedi]", "\"Yoda\"", "\"Luke\"");
+    verify(constructorInvoker).newInstance(AssertionFailedError.class.getName(),
+                                           new Class<?>[] { String.class, Object.class, Object.class },
+                                           String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
+                                           "Yoda", "Luke");
     assertThat(error).isNotInstanceOf(ComparisonFailure.class)
                      .isInstanceOf(AssertionFailedError.class);
     AssertionFailedError assertionFailedError = (AssertionFailedError) error;
     assertThat(assertionFailedError.getActual().getValue()).isEqualTo("Luke");
     assertThat(assertionFailedError.getExpected().getValue()).isEqualTo("Yoda");
-    assertThat(error.getMessage())
-        .isEqualTo(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
+    assertThat(error.getMessage()).isEqualTo(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {
-    return invoker.newInstance(ComparisonFailure.class.getName(), new Class<?>[] { String.class, String.class, String.class },
-        array("[Jedi]", "\"Yoda\"", "\"Luke\""));
+    return invoker.newInstance(ComparisonFailure.class.getName(),
+                               new Class<?>[] { String.class, String.class, String.class },
+                               new Object[] { "[Jedi]", "\"Yoda\"", "\"Luke\"" });
   }
 }

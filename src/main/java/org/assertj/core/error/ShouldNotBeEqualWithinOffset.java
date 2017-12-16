@@ -40,8 +40,12 @@ public class ShouldNotBeEqualWithinOffset extends BasicErrorMessageFactory {
           "  <%s>%n" +
           "not to be close to:%n" +
           "  <%s>%n" +
-          "by more than <%s> but difference was <%s>.%n" +
-          "(a difference of exactly <%s> being considered incorrect)",
+          "by less than <%s> but difference was <%s>.%n" +
+          "(a difference of exactly <%s> being considered " + validOrNot(offset) + ")",
           actual, expected, offset.value, difference, offset.value);
+  }
+
+  private static <T extends Number> String validOrNot(Offset<T> offset) {
+    return offset.strict ? "valid" : "invalid";
   }
 }

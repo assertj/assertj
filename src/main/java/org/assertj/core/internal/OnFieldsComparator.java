@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
@@ -41,7 +42,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   }
 
   public OnFieldsComparator(String... fields) {
-    this(new HashMap<String, Comparator<?>>(), new TypeComparators(), fields);
+    this(new HashMap<String, Comparator<?>>(), defaultTypeComparators(), fields);
   }
 
   @VisibleForTesting
@@ -61,7 +62,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   }
 
   @Override
-  public String toString() {
+  protected String description() {
     if (fields.length == 1) {
       return "single field/property comparator on field/property " + CONFIGURATION_PROVIDER.representation()
                                                                                            .toStringOf(fields[0]);

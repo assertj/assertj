@@ -46,7 +46,7 @@ public class ShouldBeSubstringOf_create_Test {
                                          "  <\"bcd\">%n" +
                                          "to be a substring of:%n" +
                                          "  <\"abcdef\">%n" +
-                                         "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         "when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

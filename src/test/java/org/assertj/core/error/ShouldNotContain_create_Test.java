@@ -62,6 +62,6 @@ public class ShouldNotContain_create_Test {
 	                              "not to contain%n" +
 	                              " <[\"Luke\", \"Yoda\"]>%n" +
 	                              "but found%n <[\"Yoda\"]>%n" +
-	                              "when comparing values using 'CaseInsensitiveStringComparator'"));
+	                              "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

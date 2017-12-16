@@ -203,6 +203,7 @@ public class AtomicIntegerArrayAssert
    * // assertions will pass
    * assertThat(atomicIntegerArray).containsOnly(1, 2, 3)
    *                               .containsOnly(2, 3, 1);
+   * assertThat(new AtomicIntegerArray(new int[] { 1, 1, 2 })).containsOnly(1, 2);
    *
    * // assertions will fail
    * assertThat(atomicIntegerArray).containsOnly(1, 2, 3, 4);

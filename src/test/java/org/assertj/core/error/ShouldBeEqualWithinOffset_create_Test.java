@@ -12,16 +12,16 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link ShouldBeEqualWithinOffset#create(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -30,22 +30,35 @@ import org.junit.Test;
  */
 public class ShouldBeEqualWithinOffset_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @Before
-  public void setUp() {
-    factory = shouldBeEqual(8f, 6f, offset(1f), 2f);
+  @Test
+  public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeEqual(8f, 6f, offset(1f), 2f);
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <8.0f>%n" +
+                                         "to be close to:%n" +
+                                         "  <6.0f>%n" +
+                                         "by less than <1.0f> but difference was <2.0f>.%n" +
+                                         "(a difference of exactly <1.0f> being considered valid)"));
   }
 
   @Test
-  public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                  "Expecting:%n" +
-                                  "  <8.0f>%n" +
-                                  "to be close to:%n" +
-                                  "  <6.0f>%n" +
-                                  "by less than <1.0f> but difference was <2.0f>.%n" +
-                                  "(a difference of exactly <1.0f> being considered valid)"));
+  public void should_create_error_message_for_strict_offset() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeEqual(8f, 6f, byLessThan(1f), 2f);
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <8.0f>%n" +
+                                         "to be close to:%n" +
+                                         "  <6.0f>%n" +
+                                         "by less than <1.0f> but difference was <2.0f>.%n" +
+                                         "(a difference of exactly <1.0f> being considered invalid)"));
   }
 }

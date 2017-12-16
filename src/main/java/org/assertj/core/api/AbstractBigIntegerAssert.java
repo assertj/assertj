@@ -172,22 +172,35 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
 
   /**
    * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(BigInteger)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(BigInteger)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigInteger)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(BigInteger)} to get the old behavior. 
+   * <p>
    * <p>
    * Example:
    * <pre><code class='java'> import static org.assertj.core.api.Assertions.within;
    *  
-   * final BigInteger actual = new BigInteger("8");
-   * final BigInteger other =  new BigInteger("10");
+   * final BigInteger eight = new BigInteger("8");
+   * final BigInteger ten =  BigInteger.TEN;
    *
    * // valid assertion
-   * assertThat(actual).isCloseTo(other, within(new BigInteger("3")));
+   * assertThat(eight).isCloseTo(ten, within(new BigInteger("3")));
+   * assertThat(eight).isCloseTo(ten, byLessThan(new BigInteger("3")));
    *
    * // if difference is exactly equals to given offset value, it's ok
-   * assertThat(actual).isCloseTo(other, within(new BigInteger("2")));
+   * assertThat(eight).isCloseTo(ten, within(new BigInteger("2")));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat(eight).isCloseTo(ten, byLessThan(new BigInteger("2")));
    *
-   * // but if difference is greater than given offset value assertion will fail :
-   * assertThat(actual).isCloseTo(other, within(new BigInteger("1")));</code></pre>
+   * // assertions will fail:
+   * assertThat(eight).isCloseTo(ten, within(BigInteger.ONE));
+   * assertThat(eight).isCloseTo(ten, byLessThan(BigInteger.ONE));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -206,22 +219,34 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
    * <p>
-   * Example:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(BigInteger)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(BigInteger)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigInteger)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(BigInteger)} to get the old behavior. 
+   * <p>
+   * Examples:
    * <pre><code class='java'> import static org.assertj.core.api.Assertions.byLessThan;
    *  
-   * final BigInteger actual = new BigInteger("8");
-   * final BigInteger other =  new BigInteger("10");
+   * final BigInteger eight = new BigInteger("8");
+   * final BigInteger ten =  BigInteger.TEN;
    *
    * // this assertion succeeds
-   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigInteger("1")));
+   * assertThat(eight).isNotCloseTo(ten, byLessThan(BigInteger.ONE));
+   * assertThat(eight).isNotCloseTo(ten, within(BigInteger.ONE));
    *
-   * // the assertion fails if the difference is equal to the given offset value
-   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigInteger("2")));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(eight).isNotCloseTo(ten, byLessThan(new BigInteger("2")));
    *
+   * // the assertion fails as the difference is equal to the offset value and we use 'within'
+   * assertThat(eight).isNotCloseTo(ten, within(new BigInteger("2")));
    * // the assertion fails if the difference is greater than the given offset value
-   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigInteger("3")));</code></pre>
+   * assertThat(eight).isNotCloseTo(ten, within(new BigInteger("3")));
+   * assertThat(eight).isNotCloseTo(ten, byLessThan(new BigInteger("3")));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.

@@ -229,7 +229,17 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1).isBetween(-1, 2);
+   * assertThat(1).isBetween(1, 2);
+   * assertThat(1).isBetween(0, 1);
+   *
+   * // assertion will fail
+   * assertThat(1).isBetween(2, 3);</code></pre>
    */
   @Override
   public SELF isBetween(Integer start, Integer end) {
@@ -238,7 +248,17 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1).isStrictlyBetween(-1, 2);
+   *
+   * // assertions will fail
+   * assertThat(1).isStrictlyBetween(1, 2);
+   * assertThat(1).isStrictlyBetween(0, 1);
+   * assertThat(1).isStrictlyBetween(2, 3);</code></pre>
    */
   @Override
   public SELF isStrictlyBetween(Integer start, Integer end) {
@@ -247,24 +267,37 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * Verifies that the actual int is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Integer)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <p>
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(5).isCloseTo(7, within(3));
+   * assertThat(5).isCloseTo(7, byLessThan(3));
    *
-   * // if difference is exactly equals to the offset, it's ok
+   * // if difference is exactly equals to the offset, it's ok ... 
    * assertThat(5).isCloseTo(7, within(2));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat(5).isCloseTo(7, byLessThan(2)); // FAIL
    *
-   * // assertion will fail
-   * assertThat(5).isCloseTo(7, within(1));</code></pre>
+   * // assertions will fail
+   * assertThat(5).isCloseTo(7, within(1));
+   * assertThat(5).isCloseTo(7, byLessThan(1));
+   * assertThat(5).isCloseTo(7, byLessThan(2));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   public SELF isCloseTo(int expected, Offset<Integer> offset) {
     integers.assertIsCloseTo(info, actual, expected, offset);
@@ -272,15 +305,26 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * Verifies that the actual int is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Integer)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(5).isNotCloseTo(7, byLessThan(1));
+   * assertThat(5).isNotCloseTo(7, within(1));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(5).isNotCloseTo(7, byLessThan(2));
    *
    * // assertions will fail
-   * assertThat(5).isNotCloseTo(7, byLessThan(2));
+   * assertThat(5).isNotCloseTo(7, within(2));
    * assertThat(5).isNotCloseTo(7, byLessThan(3));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
@@ -297,24 +341,37 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * Verifies that the actual int is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass:
-   * assertThat(5).isCloseTo(Integer.valueOf(7), within(3));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Integer)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(5).isCloseTo(7, within(3));
+   * assertThat(5).isCloseTo(7, byLessThan(3));
    *
-   * // if difference is exactly equals to the offset, it's ok
-   * assertThat(5).isCloseTo(Integer.valueOf(7), within(2));
+   * // if difference is exactly equals to the offset, it's ok ... 
+   * assertThat(5).isCloseTo(7, within(2));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat(5).isCloseTo(7, byLessThan(2)); // FAIL
    *
-   * // assertion will fail
-   * assertThat(5).isCloseTo(Integer.valueOf(7), within(1));</code></pre>
+   * // assertions fail
+   * assertThat(5).isCloseTo(7, within(1));
+   * assertThat(5).isCloseTo(7, byLessThan(1));
+   * assertThat(5).isCloseTo(7, byLessThan(2));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   @Override
   public SELF isCloseTo(Integer expected, Offset<Integer> offset) {
@@ -323,16 +380,27 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
-   * Verifies that the actual int is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(5).isNotCloseTo(Integer.valueOf(7), byLessThan(1));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Integer)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(5).isNotCloseTo(7, byLessThan(1));
+   * assertThat(5).isNotCloseTo(7, within(1));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(5).isNotCloseTo(7, byLessThan(2));
    *
    * // assertions will fail
-   * assertThat(5).isNotCloseTo(Integer.valueOf(7), byLessThan(2));
-   * assertThat(5).isNotCloseTo(Integer.valueOf(7), byLessThan(3));</code></pre>
+   * assertThat(5).isNotCloseTo(7, within(2));
+   * assertThat(5).isNotCloseTo(7, byLessThan(3));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.

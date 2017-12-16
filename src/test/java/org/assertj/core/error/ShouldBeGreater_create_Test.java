@@ -56,6 +56,6 @@ public class ShouldBeGreater_create_Test {
 	                              "Expecting:%n" +
 	                              " <6>%n" +
 	                              "to be greater than:%n" +
-	                              " <8> when comparing values using 'AbsValueComparator'"));
+	                              " <8> when comparing values using AbsValueComparator"));
   }
 }

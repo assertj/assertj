@@ -95,6 +95,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * <pre><code class='java'> // assertions will pass
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(1L, 2L, 3L);
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(2L, 3L, 1L);
+   * assertThat(new long[] { 1L, 1L, 2L }).containsOnly(1L, 2L);
    *
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(1L, 2L, 3L, 4L);

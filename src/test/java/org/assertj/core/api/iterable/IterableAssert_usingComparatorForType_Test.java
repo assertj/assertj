@@ -100,13 +100,16 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
 
   @Test
   public void should_only_use_comparator_on_fields_element_but_not_the_element_itself() {
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                " <[Yoda the Jedi, \"some\"]>%n" +
-                                "to contain:%n" +
-                                " <[Luke the Jedi, \"any\"]>%n" +
-                                "but could not find:%n" +
-                                " <[\"any\"]>%n" +
-                                "when comparing values using 'field/property by field/property comparator on all fields/properties except [\"name\"]'");
+    thrown.expectAssertionError("%nExpecting:%n"
+                                + " <[Yoda the Jedi, \"some\"]>%n"
+                                + "to contain:%n"
+                                + " <[Luke the Jedi, \"any\"]>%n"
+                                + "but could not find:%n"
+                                + " <[\"any\"]>%n"
+                                + "when comparing values using field/property by field/property comparator on all fields/properties except [\"name\"]%n"
+                                + "Comparators used:%n"
+                                + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}%n"
+                                + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}");
 
     assertThat(asList(actual, "some")).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
                                       .usingElementComparatorIgnoringFields("name")
@@ -122,19 +125,38 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
+  public void should_be_able_to_replace_a_registered_comparator_by_type() {
+    assertThat(asList(actual, actual)).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
+                                      .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                      .usingFieldByFieldElementComparator()
+                                      .contains(other, other);
+  }
+
+  @Test
+  public void should_be_able_to_replace_a_registered_comparator_by_field() {
+    // @format:off
+    assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithNames(NEVER_EQUALS_STRING, "name", "lightSaberColor")
+                                      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name", "lightSaberColor")
+                                      .usingFieldByFieldElementComparator()
+                                      .contains(other, other);
+    // @format:on
+  }
+
+  @Test
   public void should_fail_because_of_comparator_set_last() {
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                " <[Yoda the Jedi, Yoda the Jedi]>%n" +
-                                "to contain:%n" +
-                                " <[Luke the Jedi, Luke the Jedi]>%n" +
-                                "but could not find:%n" +
-                                " <[Luke the Jedi]>%n" +
-                                "when comparing values using 'extended field/property by field/property comparator on all fields/properties for types {class java.lang.String=AlwaysEqualComparator}'");
+    thrown.expectAssertionError("%nExpecting:%n"
+                                + " <[Yoda the Jedi, Yoda the Jedi]>%n"
+                                + "to contain:%n"
+                                + " <[Luke the Jedi, Luke the Jedi]>%n"
+                                + "but could not find:%n"
+                                + " <[Luke the Jedi]>%n"
+                                + "when comparing values using field/property by field/property comparator on all fields/properties%n"
+                                + "Comparators used:%n"
+                                + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> org.assertj.core.test.NeverEqualComparator}%n"
+                                + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}");
     assertThat(asList(actual, actual)).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
                                       .contains(other, other);
   }
 }
-
-

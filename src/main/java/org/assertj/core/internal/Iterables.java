@@ -237,8 +237,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
-      return;
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
     // check for elements in values that are missing in actual.
     assertIterableContainsGivenValues(actual, values, info);
   }

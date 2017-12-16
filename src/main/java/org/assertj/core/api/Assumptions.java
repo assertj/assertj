@@ -1133,14 +1133,29 @@ public class Assumptions {
   }
 
   private static RuntimeException assumptionNotMet(AssertionError e) throws ReflectiveOperationException {
+    Class<?> assumptionClass = getAssumptionClass("org.junit.AssumptionViolatedException");
+    if (assumptionClass != null) {
+      return assumptionNotMet(assumptionClass, e);
+    }
+
+    assumptionClass = getAssumptionClass("org.opentest4j.TestAbortedException");
+    if (assumptionClass != null) {
+      return assumptionNotMet(assumptionClass, e);
+    }
+
+    assumptionClass = getAssumptionClass("org.testng.SkipException");
+    if (assumptionClass != null) {
+      return assumptionNotMet(assumptionClass, e);
+    }
+
+    throw new IllegalStateException("Assumptions require JUnit, opentest4j or TestNG on the classpath");
+  }
+
+  private static Class<?> getAssumptionClass(String className) {
     try {
-      return assumptionNotMet(Class.forName("org.junit.AssumptionViolatedException"), e);
-    } catch (ClassNotFoundException junitClassNotFound) {
-      try {
-        return assumptionNotMet(Class.forName("org.testng.SkipException"), e);
-      } catch (ClassNotFoundException testngClassNotFound) {
-        throw new IllegalStateException("Assumptions require JUnit or TestNG in the classpath");
-      }
+      return Class.forName(className);
+    } catch (ClassNotFoundException e) {
+      return null;
     }
   }
 

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.charsequence;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -20,8 +21,9 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable)}</code>.
- * 
+ * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable<CharSequence>)}</code>.
+ *
+ * @author Billy Yuan
  * @author André Diermann
  */
 public class CharSequenceAssert_containsSequence_Test extends CharSequenceAssertBaseTest {
@@ -33,6 +35,6 @@ public class CharSequenceAssert_containsSequence_Test extends CharSequenceAssert
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContainsSequence(getInfo(assertions), getActual(assertions), new String[] { "od", "do" });
+    verify(strings).assertContainsSequence(getInfo(assertions), getActual(assertions), array("od", "do"));
   }
 }

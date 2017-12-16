@@ -38,6 +38,6 @@ public class DoubleAssert_isEqualTo_with_offset_Test extends DoubleAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    verify(doubles).assertEqual(getInfo(assertions), getActual(assertions), expected, offset);
+    verify(doubles).assertIsCloseTo(getInfo(assertions), getActual(assertions), expected, offset);
   }
 }

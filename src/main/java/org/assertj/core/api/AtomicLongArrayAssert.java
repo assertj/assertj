@@ -204,6 +204,7 @@ public class AtomicLongArrayAssert
    * // assertions will pass
    * assertThat(atomicLongArray).containsOnly(1, 2, 3)
    *                            .containsOnly(2, 3, 1);
+   * assertThat(new AtomicLongArray(new long[] { 1, 1, 2 })).containsOnly(1, 2);
    *
    * // assertions will fail
    * assertThat(atomicLongArray).containsOnly(1, 2, 3, 4);

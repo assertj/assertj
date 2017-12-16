@@ -14,6 +14,7 @@ package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
@@ -40,6 +41,35 @@ public class Arrays {
    */
   public static boolean isArray(Object o) {
     return o != null && o.getClass().isArray();
+  }
+
+  /**
+   * Get the values of any array (primtive or not) into a {@code Object[]}.
+   * 
+   * @param array array passed as an object to support both primitive and Object array
+   * @return the values of the given Object as a {@code Object[]}.
+   * @throws IllegalArgumentException it the given Object is not an array.
+   */
+  public static Object[] asObjectArray(Object array) {
+    checkArgument(isArray(array), "Given object %s is not an array", array);
+    if (array == null) return null;
+    int length = Array.getLength(array);
+    Object[] objectArray = new Object[length];
+    for (int i = 0; i < length; i++) {
+      objectArray[i] = Array.get(array, i);
+    }
+    return objectArray;
+  }
+
+  /**
+   * Get the values of any array (primtive or not) into a {@code List<Object>}.
+   * 
+   * @param array array passed as an object to support both primitive and Object array
+   * @return the values of the given Object as a {@code List<Object>}.
+   * @throws IllegalArgumentException it the given Object is not an array.
+   */
+  public static List<Object> asList(Object array) {
+    return newArrayList(asObjectArray(array));
   }
 
   /**

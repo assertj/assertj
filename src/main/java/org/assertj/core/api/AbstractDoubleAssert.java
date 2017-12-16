@@ -163,21 +163,31 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
    * assertThat(8.1).isCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isCloseTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2)); // strict
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1).isCloseTo(8.0, offset(0.2));
-   *
-   * // if difference is exactly equals to 0.1, it's ok
+   * // assertions succeed when the difference == offset value ...  
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isCloseTo(8.0, within(0.01));</code></pre>
+   * assertThat(8.1).isCloseTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict => fail
+   * 
+   * // this assertion also fails
+   * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -194,17 +204,29 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
-   *
-   * // you can use offset if you prefer
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
    * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(0.1).isNotCloseTo(0.0, byLessThan(0.1));   
    *
-   * // assertions will fail
-   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.1));
+   * // assertions fail
+   * assertThat(0.1).isNotCloseTo(0.0, within(0.1));
+   * assertThat(0.1).isNotCloseTo(0.0, offset(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.2));
    * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.2));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
@@ -223,21 +245,31 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.2));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1).isCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isCloseTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2)); // strict
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), offset(0.2));
-   *
-   * // if difference is exactly equals to 0.1, it's ok
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.01));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(8.1).isCloseTo(8.0, within(0.1));
+   * assertThat(8.1).isCloseTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict => fail
+   * 
+   * // this assertion also fails
+   * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -253,19 +285,31 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   }
 
   /**
-   * Verifies that the actual number is close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.01));
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(0.1).isNotCloseTo(0.0, byLessThan(0.1));
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), offset(0.01));
-   *
-   * // assertions will fail
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.1));
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.2));</code></pre>
+   * // assertions fail
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.2));
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.2));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -412,26 +456,35 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /** {@inheritDoc} */
   @Override
   public SELF isEqualTo(Double expected, Offset<Double> offset) {
-    doubles.assertEqual(info, actual, expected, offset);
+    doubles.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
-   * Verifies that the actual value is close to the given one by less than the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example with double:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1).isEqualTo(8.0, offset(0.2));
+   * This assertion is the same as {@link #isCloseTo(double, Offset)}.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(8.1).isEqualTo(8.0, within(0.2));
+   * assertThat(8.1).isEqualTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.2)); // strict
    *
-   * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
-   *
-   * // within is an alias of offset
+   * // assertions succeed when the difference == offset value ...  
    * assertThat(8.1).isEqualTo(8.0, within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isEqualTo(8.0, offset(0.01));</code></pre>
+   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1).isEqualTo(0.0, byLessThan(0.1)); // strict => fail
+   * 
+   * // this assertion also fails
+   * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -441,7 +494,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(double expected, Offset<Double> offset) {
-    doubles.assertEqual(info, actual, expected, offset);
+    doubles.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
@@ -551,14 +604,39 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1d).isBetween(-1d, 2d);
+   * assertThat(1d).isBetween(1d, 2d);
+   * assertThat(1d).isBetween(0d, 1d);
+   *
+   * // assertion will fail
+   * assertThat(1d).isBetween(2d, 3d);</code></pre>
+   */
   @Override
   public SELF isBetween(Double start, Double end) {
     doubles.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1d).isStrictlyBetween(-1d, 2d);
+   *
+   * // assertions will fail
+   * assertThat(1d).isStrictlyBetween(1d, 2d);
+   * assertThat(1d).isStrictlyBetween(0d, 1d);
+   * assertThat(1d).isStrictlyBetween(2d, 3d);</code></pre>
+   *
+   */
   @Override
   public SELF isStrictlyBetween(Double start, Double end) {
     doubles.assertIsStrictlyBetween(info, actual, start, end);

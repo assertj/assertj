@@ -123,6 +123,14 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
   }
 
   @Test
+  public void should_pass_if_actual_with_duplicate_elements_contains_subsequence() {
+    actual = newArrayList("Yoda", "Luke", "Yoda", "Obi-Wan");
+    iterables.assertContainsSubsequence(someInfo(), actual, array("Yoda", "Obi-Wan"));
+    iterables.assertContainsSubsequence(someInfo(), actual, array("Luke", "Obi-Wan"));
+    iterables.assertContainsSubsequence(someInfo(), actual, array("Yoda", "Yoda"));
+  }
+
+  @Test
   public void should_pass_if_actual_and_subsequence_are_equal() {
     iterables.assertContainsSubsequence(someInfo(), actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }

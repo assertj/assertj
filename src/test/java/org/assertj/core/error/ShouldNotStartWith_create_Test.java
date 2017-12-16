@@ -59,6 +59,6 @@ public class ShouldNotStartWith_create_Test {
                                   "  <[\"Yoda\", \"Luke\"]>%n" +
                                   "not to start with:%n" +
                                   "  <[\"Han\", \"Leia\"]>%n" +
-                                  "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                  "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

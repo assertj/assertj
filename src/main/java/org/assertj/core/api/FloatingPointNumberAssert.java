@@ -27,21 +27,30 @@ import org.assertj.core.data.Offset;
 public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAssert<SELF, ACTUAL>, ACTUAL extends Number> extends NumberAssert<SELF, ACTUAL> {
 
   /**
-   * Verifies that the actual value is close to the given one by less than the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example with double:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.2));
+   * This assertion is the same as {@link #isCloseTo(Number, Offset)}.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(8.1).isEqualTo(8.0, within(0.2));
+   * assertThat(8.1).isEqualTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.2)); // strict
    *
-   * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.1));
-   *
-   * // within is an alias of offset
-   * assertThat(8.1).isEqualTo(new Double(8.0), within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.01));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(8.1).isEqualTo(8.0, within(0.1));
+   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which is strict
+   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.1)); // strict => fail
+   * 
+   * // this assertions also fails
+   * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -76,6 +85,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
+  @Override
   SELF isCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
@@ -102,6 +112,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * @see Assertions#byLessThan(Double)
    * @since 2.6.0 / 3.6.0
    */
+  @Override
   SELF isNotCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**

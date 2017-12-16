@@ -16,19 +16,19 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import java.util.TreeMap;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.DoubleComparator;
-import org.assertj.core.util.FloatComparator;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -49,21 +49,11 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
     extends AbstractAssert<SELF, ACTUAL> {
 
-  private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
-  private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
-
-  private Map<String, Comparator<?>> comparatorByPropertyOrField = new HashMap<>();
+  private Map<String, Comparator<?>> comparatorByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorByType = defaultTypeComparators();
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
-  }
-
-  public static TypeComparators defaultTypeComparators() {
-    TypeComparators comparatorByType = new TypeComparators();
-    comparatorByType.put(Double.class, new DoubleComparator(DOUBLE_COMPARATOR_PRECISION));
-    comparatorByType.put(Float.class, new FloatComparator(FLOAT_COMPARATOR_PRECISION));
-    return comparatorByType;
   }
 
   @Override
@@ -313,8 +303,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
    * <p>
+   * When used with {@link #isEqualToComparingFieldByFieldRecursively(Object)}, the fields/properties must be specified from the root object, 
+   * for example if Foo class as a Bar field and Bar class has an id, to set a comparator for Bar's id use {@code "bar.id"}. 
+   * <p>
    * Example:
-   *
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private double height;
@@ -548,6 +540,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).extract(actual);
+    return extracting(values.toList(), propertiesOrFields);
+  }
+
+  AbstractObjectArrayAssert<?, Object> extracting(List<Object> values, String... propertiesOrFields) {
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return new ObjectArrayAssert<>(values.toArray()).as(description);
@@ -598,7 +594,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a name String field, it is expected the other object to also have one.
    * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
-   *
    * Example:
    * <pre><code class='java'> public class Person {
    *   public String name;

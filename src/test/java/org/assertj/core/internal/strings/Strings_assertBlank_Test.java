@@ -27,26 +27,26 @@ public class Strings_assertBlank_Test extends StringsBaseTest {
 
   @Test
   @DataProvider(value = {
+      "null",
+      "",
       " ",
       "\u005Ct", // tab
       "\u005Cn", // line feed
       "\u005Cr", // carriage return
-      "\u00A0", // non-breaking space 
-      "\u2007", // non-breaking space
-      "\u202F", // non-breaking space
       " \u005Cn\u005Cr  "
-  }, trimValues=false)
-  public void should_pass_string_is_blank(String actual) {
+  }, trimValues = false)
+  public void should_pass_if_string_is_blank(String actual) {
     strings.assertBlank(someInfo(), actual);
   }
 
   @Test
   @DataProvider(value = {
-      "null",
-      "",
       "a",
-      " bc "
-  }, trimValues=false)
+      " bc ",
+      "\u00A0", // non-breaking space
+      "\u2007", // non-breaking space
+      "\u202F", // non-breaking space
+  }, trimValues = false)
   public void should_fail_if_string_is_not_blank(String actual) {
     thrown.expectAssertionError(shouldBeBlank(actual));
     strings.assertBlank(someInfo(), actual);

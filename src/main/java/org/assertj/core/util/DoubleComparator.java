@@ -12,53 +12,35 @@
  */
 package org.assertj.core.util;
 
+import static java.lang.String.format;
+
 public class DoubleComparator extends NullSafeComparator<Double> {
 
-  private double epsilon;
+  private double precision;
 
   public DoubleComparator(double epsilon) {
-    this.epsilon = epsilon;
+    this.precision = epsilon;
   }
 
   @Override
   protected int compareNonNull(Double x, Double y) {
-    if (closeEnough(x, y, epsilon)) return 0;
+    if (closeEnough(x, y, precision)) return 0;
     return x < y ? -1 : 1;
   }
 
   public double getEpsilon() {
-    return epsilon;
-  }
-
-  /**
-   * handles floating point comparison according to http://floating-point-gui.de/errors/comparison/
-   */
-  @SuppressWarnings("unused")
-  private static boolean complexCloseEnough(double a, double b, double epsilon) {
-    final double absA = Math.abs(a);
-    final double absB = Math.abs(b);
-    final double diff = Math.abs(a - b);
-
-    // shortcut, handles infinities
-    if (a == b) return true;
-    if (a == 0 || b == 0 || diff < Double.MIN_NORMAL) {
-      // a or b is zero or both are extremely close to it
-      // relative error is less meaningful here
-      return diff < (epsilon * Double.MIN_NORMAL);
-    }
-    // use relative error
-    return diff / Math.min((absA + absB), Double.MAX_VALUE) < epsilon;
+    return precision;
   }
 
   private static boolean closeEnough(Double x, Double y, double epsilon) {
-    return Math.abs(x - y) < epsilon;
+    return Math.abs(x - y) <= epsilon;
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    long temp = Double.doubleToLongBits(epsilon);
+    long temp = Double.doubleToLongBits(precision);
     result = prime * result + (int) (temp ^ (temp >>> 32));
     return result;
   }
@@ -69,7 +51,12 @@ public class DoubleComparator extends NullSafeComparator<Double> {
     if (obj == null) return false;
     if (!(obj instanceof DoubleComparator)) return false;
     DoubleComparator other = (DoubleComparator) obj;
-    return Double.doubleToLongBits(epsilon) == Double.doubleToLongBits(other.epsilon) ? true : false;
+    return Double.doubleToLongBits(precision) == Double.doubleToLongBits(other.precision) ? true : false;
+  }
+
+  @Override
+  public String toString() {
+    return format("DoubleComparator[precision=%s]", precision);
   }
 
 }

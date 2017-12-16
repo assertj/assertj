@@ -108,7 +108,7 @@ public final class IterableUtil {
     return collection.toArray(array);
   }
 
-  private static <T> Collection<T> toCollection(Iterable<T> iterable) {
+  public static <T> Collection<T> toCollection(Iterable<T> iterable) {
     return iterable instanceof Collection ? (Collection<T>) iterable : newArrayList(iterable);
   }
 

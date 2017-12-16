@@ -168,7 +168,10 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   }
 
   /**
-   * Asserts that the actual value is close to the offset.
+   * Asserts that the actual value is close to the expected one by less than the given offset.
+   * <p>
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
+   * comparison strategy.
    *
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -181,13 +184,15 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     checkOffsetIsNotNull(offset);
     checkNumberIsNotNull(expected);
 
-    if (Objects.areEqual(actual, expected)) return; // handles correctly NaN comparison
-    if (isGreaterThan(absDiff(actual, expected), offset.value))
+    if (areEqual(actual, expected)) return; // handles correctly NaN comparison
+    if (!offset.strict && isGreaterThan(absDiff(actual, expected), offset.value))
+      throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
+    if (offset.strict && isGreaterThanOrEqualTo(absDiff(actual, expected), offset.value))
       throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
   }
 
   /**
-   * Asserts that the actual value is not close to the offset.
+   * Asserts that the actual value is not close to the expected one by less than the given offset.
    *
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -201,8 +206,14 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     checkNumberIsNotNull(expected);
 
     NUMBER diff = absDiff(actual, expected);
-    if (!isGreaterThan(diff, offset.value) || Objects.areEqual(actual, expected))
-      throw failures.failure(info, shouldNotBeEqual(actual, expected, offset, diff));
+
+    // with strict offset and actual == other => too close !
+    if (offset.strict && isGreaterThanOrEqualTo(diff, offset.value)) return;
+    // with non strict offset and actual == other => too close !
+    if (!offset.strict && !areEqual(actual, expected)) {
+      if (isGreaterThan(diff, offset.value)) return;
+    }
+    throw failures.failure(info, shouldNotBeEqual(actual, expected, offset, diff));
   }
 
   /**
@@ -219,7 +230,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     checkPercentageIsNotNull(percentage);
     checkNumberIsNotNull(other);
 
-    if (Objects.areEqual(actual, other)) return;
+    if (areEqual(actual, other)) return;
     double acceptableDiff = abs(percentage.value * other.doubleValue() / 100d);
     double actualDiff = absDiff(actual, other).doubleValue();
     if (actualDiff > acceptableDiff || Double.isNaN(actualDiff) || Double.isInfinite(actualDiff))
@@ -241,7 +252,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     checkNumberIsNotNull(other);
 
     double diff = abs(percentage.value * other.doubleValue() / 100d);
-    boolean areEqual = Objects.areEqual(actual, other);
+    boolean areEqual = areEqual(actual, other);
     if (!areEqual && Double.isInfinite(diff)) return;
     if (absDiff(actual, other).doubleValue() <= diff || areEqual)
       throw failures.failure(info, shouldNotBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
@@ -250,5 +261,13 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   protected abstract NUMBER absDiff(final NUMBER actual, final NUMBER other);
 
   protected abstract boolean isGreaterThan(final NUMBER value, final NUMBER other);
+
+  protected boolean isGreaterThanOrEqualTo(final NUMBER value, final NUMBER other) {
+    return areEqual(value, other) || isGreaterThan(value, other);
+  }
+
+  protected boolean areEqual(final NUMBER value, final NUMBER other) {
+    return Objects.areEqual(value, other);
+  }
 
 }

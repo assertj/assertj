@@ -54,6 +54,6 @@ public class ShouldNotEndWith_create_Test {
                                   "  <[\"Yoda\", \"Luke\"]>%n" +
                                   "not to end with:%n" +
                                   "  <[\"Han\", \"Leia\"]>%n" +
-                                  "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                  "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

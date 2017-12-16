@@ -53,6 +53,6 @@ public class ShouldNotHaveDuplicates_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nFound duplicate(s):%n <[\"Yoda\"]>%nin:%n <[\"Yoda\", \"Yoda\", \"Luke\"]>%n"
-            + "when comparing values using 'CaseInsensitiveStringComparator'"));
+            + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

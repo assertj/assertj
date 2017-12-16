@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.integers;
 
+import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
@@ -22,13 +24,79 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntegersBaseTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
+@RunWith(DataProviderRunner.class)
 public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
 
   private static final Integer ZERO = 0;
   private static final Integer ONE = 1;
-  private static final Integer TWO = 2;
-  private static final Integer TEN = 10;
+
+  @Test
+  @DataProvider({
+      "1, 1, 1",
+      "1, 2, 10",
+      "-2, 0, 3",
+      "-1, 1, 3",
+      "0, 2, 5"
+  })
+  public void should_pass_if_difference_is_less_than_given_offset(int actual, int expected, int offset) {
+    integers.assertIsCloseTo(someInfo(), actual, expected, within(offset));
+    integers.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset));
+  }
+
+  @Test
+  @DataProvider({
+      "1, 3, 2",
+      "3, 1, 2",
+      "-2, 0, 2",
+      "-1, 1, 2",
+      "0, 2, 2"
+  })
+  public void should_pass_if_difference_is_equal_to_given_offset(int actual, int expected, int offset) {
+    integers.assertIsCloseTo(someInfo(), actual, expected, within(offset));
+  }
+
+  @Test
+  @DataProvider({
+      "1, 3, 1",
+      "3, 1, 1",
+      "-2, 0, 1",
+      "-1, 1, 1",
+      "0, 2, 1"
+  })
+  public void should_fail_if_actual_is_not_close_enough_to_expected(int actual, int expected, int offset) {
+    AssertionInfo info = someInfo();
+    try {
+      integers.assertIsCloseTo(info, actual, expected, within(offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeEqual(actual, expected, within(offset), abs(actual - expected)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  @DataProvider({
+      "1, 2, 1",
+      "3, 2, 1",
+      "-2, -1, 1",
+      "-1, 1, 2",
+      "0, 2, 2"
+  })
+  public void should_fail_if_difference_is_equal_to_the_given_strict_offset(int actual, int expected, int offset) {
+    AssertionInfo info = someInfo();
+    try {
+      integers.assertIsCloseTo(info, actual, expected, byLessThan(offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeEqual(actual, expected, byLessThan(offset), abs(actual - expected)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -46,28 +114,4 @@ public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
     integers.assertIsCloseTo(someInfo(), ONE, ZERO, null);
   }
 
-  @Test
-  public void should_pass_if_difference_is_less_than_given_offset() {
-    integers.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
-    integers.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
-  }
-
-  @Test
-  public void should_pass_if_difference_is_equal_to_given_offset() {
-    integers.assertIsCloseTo(someInfo(), ONE, ONE, within(ZERO));
-    integers.assertIsCloseTo(someInfo(), ONE, ZERO, within(ONE));
-    integers.assertIsCloseTo(someInfo(), ONE, TWO, within(ONE));
-  }
-  
-  @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
-    AssertionInfo info = someInfo();
-    try {
-      integers.assertIsCloseTo(info, ONE, TEN, within(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), TEN - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
 }

@@ -57,6 +57,6 @@ public class ShouldBeLess_create_Test {
 	                              "Expecting:%n" +
 	                              " <8>%n" +
 	                              "to be less than:%n" +
-	                              " <6> when comparing values using 'AbsValueComparator'"));
+	                              " <6> when comparing values using AbsValueComparator"));
   }
 }

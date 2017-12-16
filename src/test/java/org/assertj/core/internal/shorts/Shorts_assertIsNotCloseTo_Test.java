@@ -12,29 +12,105 @@
  */
 package org.assertj.core.internal.shorts;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.ShortsBaseTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+
 @RunWith(DataProviderRunner.class)
 public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
-  private static final Short TWO = 2;
-  private static final Short THREE = 3;
-  private static final Short TEN = 10;
+
+  @Test
+  @DataProvider({
+      "1, 3, 1",
+      "-1, -3, 1",
+      "1, -2, 2",
+      "-1, 2, 2"
+  })
+  public void should_pass_if_difference_is_greater_than_offset(short actual, short other, short offset) {
+    shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
+    shorts.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
+  }
+
+  @Test
+  @DataProvider({
+      "1, 0, 1",
+      "1, 2, 1",
+      "-1, 0, 1",
+      "1, -1, 2",
+      "-1, 1, 2"
+  })
+  public void should_pass_if_difference_is_equal_to_strict_offset(short actual, short other, short offset) {
+    shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
+  }
+
+  @Test
+  @DataProvider({
+      "1, 2, 10",
+      "1, 2, 2",
+      "1, 0, 2",
+      "0, 1, 2"
+  })
+  public void should_fail_if_actual_is_too_close_to_the_other_value(short actual, short other, short offset) {
+    AssertionInfo info = someInfo();
+    try {
+      shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (short) abs(actual - other)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  @DataProvider({
+      "1, 2, 10",
+      "1, 0, 2",
+      "0, 1, 2"
+  })
+  public void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(short actual, short other,
+                                                                                       short offset) {
+    AssertionInfo info = someInfo();
+    try {
+      shorts.assertIsNotCloseTo(info, actual, other, byLessThan(offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (short) abs(actual - other)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  @DataProvider({
+      "1, 1, 0",
+      "1, 0, 1",
+      "1, 2, 1"
+  })
+  public void should_fail_if_difference_is_equal_to_given_offset(short actual, short other, short offset) {
+    AssertionInfo info = someInfo();
+    try {
+      shorts.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), (short) abs(actual - other)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -52,43 +128,4 @@ public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
     shorts.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
   }
 
-  @Test
-  public void should_pass_if_difference_is_greater_than_given_offset() {
-    shorts.assertIsNotCloseTo(someInfo(), ONE, THREE, byLessThan(ONE));
-    shorts.assertIsNotCloseTo(someInfo(), ONE, TEN, byLessThan(TWO));
-  }
-
-  @Test
-  @DataProvider({
-      "1, 1, 0",
-      "1, 0, 1",
-      "-1, 0, 1",
-      "-1, -1, 0",
-      "-1, 1, 2",
-      "0, 32767, 32767",
-      "32767, 32767, 0",
-      "-32768, -32768, 0"
-  })
-  public void should_fail_if_difference_is_equal_to_given_offset(Short actual, Short other, Short offset) {
-    AssertionInfo info = someInfo();
-    try {
-      shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (short) abs(actual - other)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_is_too_close_to_expected_value() {
-    AssertionInfo info = someInfo();
-    try {
-      shorts.assertIsNotCloseTo(info, ONE, TWO, byLessThan(TEN));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, byLessThan(TEN), (short) (TWO - ONE)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
 }

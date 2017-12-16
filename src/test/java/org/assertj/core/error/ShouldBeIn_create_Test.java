@@ -51,7 +51,7 @@ public class ShouldBeIn_create_Test {
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nto be in:%n <[\"Luke\", \"Leia\"]>%nwhen comparing values using 'CaseInsensitiveStringComparator'"
+        "[Test] %nExpecting:%n <\"Yoda\">%nto be in:%n <[\"Luke\", \"Leia\"]>%nwhen comparing values using CaseInsensitiveStringComparator"
     ));
   }
 }

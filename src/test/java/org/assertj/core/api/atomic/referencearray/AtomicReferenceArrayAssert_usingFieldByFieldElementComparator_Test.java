@@ -31,7 +31,8 @@ import org.assertj.core.test.Jedi;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test extends AtomicReferenceArrayAssertBaseTest {
+public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
+    extends AtomicReferenceArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
 
@@ -111,7 +112,9 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     Snake snake = new Snake(15);
     AtomicReferenceArray<Animal> array1 = new AtomicReferenceArray<>(array(new Bird("White"), snake, snake));
     assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrderElementsOf(
-      newArrayList(new Snake(15), new Bird("White"), new Snake(15)));
+                                                                                                newArrayList(new Snake(15),
+                                                                                                             new Bird("White"),
+                                                                                                             new Snake(15)));
   }
 
   @Test
@@ -159,13 +162,15 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     try {
       assertThat(array1).usingFieldByFieldElementComparator().isEqualTo(array2);
     } catch (AssertionError e) {
-      // @format:off
-      assertThat(e).hasMessage(format("%nExpecting:%n" +
-                                      " <[Foo(id=id, bar=1)]>%n" +
-                                      "to be equal to:%n" +
-                                      " <[Foo(id=id, bar=2)]>%n" +
-                                      "when comparing elements using 'field/property by field/property comparator on all fields/properties' but was not."));
-      // @format:on
+      assertThat(e).hasMessage(format("%nExpecting:%n"
+                                      + " <[Foo(id=id, bar=1)]>%n"
+                                      + "to be equal to:%n"
+                                      + " <[Foo(id=id, bar=2)]>%n"
+                                      + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
+                                      + "Comparators used:%n"
+                                      + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                      + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                      + "but was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -178,11 +183,14 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     try {
       assertThat(array1).usingFieldByFieldElementComparator().isIn(array2, array2);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(String.format("%nExpecting:%n" +
-                                             " <[Foo(id=id, bar=1)]>%n" +
-                                             "to be in:%n" +
-                                             " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n" +
-                                             "when comparing elements using 'field/property by field/property comparator on all fields/properties'"));
+      assertThat(e).hasMessage(format("%nExpecting:%n"
+                                      + " <[Foo(id=id, bar=1)]>%n"
+                                      + "to be in:%n"
+                                      + " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n"
+                                      + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
+                                      + "Comparators used:%n"
+                                      + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                      + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -194,13 +202,14 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     Jedi other = new Jedi("Luke", "green");
 
     assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
-                             .usingFieldByFieldElementComparator()
-                             .contains(other);
+                                     .usingFieldByFieldElementComparator()
+                                     .contains(other);
   }
 
   @Test
   public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
     Comparator<String> comparator = new Comparator<String>() {
+      @Override
       public int compare(String o1, String o2) {
         return o1.compareTo(o2);
       }
@@ -209,9 +218,9 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     Jedi other = new Jedi("Luke", "green");
 
     assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
-                             .usingComparatorForElementFieldsWithType(comparator, String.class)
-                             .usingFieldByFieldElementComparator()
-                             .contains(other);
+                                     .usingComparatorForElementFieldsWithType(comparator, String.class)
+                                     .usingFieldByFieldElementComparator()
+                                     .contains(other);
   }
 
   @Test
@@ -220,8 +229,8 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test 
     Jedi other = new Jedi("Luke", "blue");
 
     assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
-                             .usingFieldByFieldElementComparator()
-                             .contains(other);
+                                     .usingFieldByFieldElementComparator()
+                                     .contains(other);
   }
 
   public static class Foo {

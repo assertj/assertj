@@ -107,12 +107,14 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * Verifies that the actual array contains only the given values and nothing else, in any order.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new boolean[] { true, false }).containsOnly(true, false);
-   * assertThat(new boolean[] { true, false, false, true }).containsOnly(true, false);
+   * assertThat(new boolean[] { false, true }).containsOnly(true, false);
+   * assertThat(new boolean[] { true, true, false }).containsOnly(true, false);
    * 
-   * // assertion will fail
-   * assertThat(new boolean[] { true, false }).containsOnly(false);</code></pre>
+   * // assertions will fail
+   * assertThat(new boolean[] { true, false }).containsOnly(false);
+   * assertThat(new boolean[] { true }).containsOnly(true, false);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

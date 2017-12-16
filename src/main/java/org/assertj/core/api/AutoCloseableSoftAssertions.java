@@ -120,6 +120,6 @@ public class AutoCloseableSoftAssertions extends SoftAssertions implements AutoC
 
   @Override
   public void close() throws SoftAssertionError {
-	assertAll();
+    assertAll();
   }
 }

@@ -12,14 +12,12 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
-import static java.math.BigDecimal.*;
-
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.TEN;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
@@ -86,4 +84,5 @@ public class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
 }

@@ -13,14 +13,20 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.IterableUtil.toCollection;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Preconditions;
@@ -1226,5 +1232,67 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @Override
   public AbstractObjectArrayAssert<?, Object> extracting(String... keys) {
     return super.extracting(keys);
+  }
+
+  /**
+   * Flatten the values of the given keys from the actual map under test into a new array, this new array becoming the object under test.
+   * <p>
+   * If a given key is not present in the map under test, a {@code null} value is extracted.
+   * <p>
+   * If a given key value is not an {@link Iterable} or an array, it is simply extracted but (obviously) not flattened.
+   * <p>
+   * Example:
+   * <pre><code class='java'> List&lt;String&gt; names = asList("Dave", "Jeff");                          
+   * LinkedHashSet&lt;String&gt; jobs = newLinkedHashSet("Plumber", "Builder");  
+   * Iterable&lt;String&gt; cities = asList("Dover", "Boston", "Paris");
+   * int[] ranks = { 1, 2, 3 };
+   * 
+   * Map&lt;String, Object&gt; map = new LinkedHashMap<>();                                    
+   * map.put("name", names);                                         
+   * map.put("job", jobs);                                           
+   * map.put("city", cities);                                        
+   * map.put("rank", ranks);                                        
+   * 
+   * assertThat(map).flatExtracting("name","job","city", "rank")
+   *                .containsExactly("Dave", "Jeff", 
+   *                                 "Plumber", "Builder", 
+   *                                 "Dover", "Boston", "Paris"
+   *                                 1, 2, 3);
+   *                
+   * // the order of values in the resulting array is the order of map keys then key values:                
+   * assertThat(map).flatExtracting("city", "job", "name")                
+   *                .containsExactly("Dover", "Boston", "Paris", 
+   *                                 "Plumber", "Builder", 
+   *                                 "Dave", "Jeff");
+   *                        
+   * // contains exactly null twice (one for each unknown keys)
+   * assertThat(map).flatExtracting("foo", "name", "bar")
+   *                .containsExactly(null, "Dave", "Jeff", null);
+   *                
+   * // if the key value is not an iterable/array, it will be simply extracted but not flattened.
+   * map.put("year", 2017));
+   * assertThat(map).flatExtracting("name","job","year")
+   *                .containsExactly("Dave", "Jeff", "Plumber", "Builder", "Dover", 2017);</code></pre>
+   * <p>
+   * Note that the order of values in the resulting array is the order of the map keys iteration then key values.
+   *
+   * @param keys the keys used to get values from the map under test
+   * @return a new assertion object whose object under test is the array containing the extracted flattened map values
+   */
+  @CheckReturnValue
+  public AbstractObjectArrayAssert<?, Object> flatExtracting(String... keys) {
+    Tuple values = byName(keys).extract(actual);
+    List<Object> valuesFlattened = flatten(values.toList());
+    return extracting(valuesFlattened, keys);
+  }
+
+  private static List<Object> flatten(Iterable<Object> collectionToFlatten) {
+    List<Object> result = new ArrayList<>();
+    for (Object item : collectionToFlatten) {
+      if (item instanceof Iterable<?>) result.addAll(toCollection((Iterable<?>) item));
+      else if (isArray(item)) result.addAll(org.assertj.core.util.Arrays.asList(item));
+      else result.add(item);
+    }
+    return result;
   }
 }

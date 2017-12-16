@@ -23,6 +23,7 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -33,11 +34,11 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -108,9 +109,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private static final String ASSERT = "Assert";
 
-  private TypeComparators comparatorsByType = new TypeComparators();
-  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new HashMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes = new TypeComparators();
+  private TypeComparators comparatorsByType = defaultTypeComparators();
+  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
 
   protected Iterables iterables = Iterables.instance();
 

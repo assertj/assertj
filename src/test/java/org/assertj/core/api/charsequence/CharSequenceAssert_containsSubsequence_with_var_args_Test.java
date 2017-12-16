@@ -12,26 +12,26 @@
  */
 package org.assertj.core.api.charsequence;
 
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
-import static org.mockito.Mockito.verify;
-
-
 /**
- * Tests for <code>{@link CharSequenceAssert#doesNotContain(CharSequence)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#containsSubsequence(CharSequence...)} <CharSequence>)}</code>.
  * 
- * @author Alex Ruiz
+ * @author Filip Hrisafov
  */
-public class CharSequenceAssert_doesNotContain_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_containsSubsequence_with_var_args_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.doesNotContain("Luke");
+    return assertions.containsSubsequence("od", "do");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertDoesNotContain(getInfo(assertions), getActual(assertions), "Luke");
+    verify(strings).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("od", "do"));
   }
 }

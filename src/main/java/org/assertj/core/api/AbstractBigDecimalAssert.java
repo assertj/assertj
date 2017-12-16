@@ -278,27 +278,36 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> final BigDecimal actual = new BigDecimal("8.1");
-   * final BigDecimal other =  new BigDecimal("8.0");
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(BigDecimal)} or {@link Offset#offset(BigDecimal)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(BigDecimal)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigDecimal)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(BigDecimal)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> final BigDecimal eightDotOne = new BigDecimal("8.1");
+   * final BigDecimal eight =  new BigDecimal("8.0");
+   * 
+   * // assertions succeed
+   * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.2")));
+   * assertThat(eightDotOne).isCloseTo(eight, byLessThan(new BigDecimal("0.2"))); // strict
    *
-   * // valid assertion
-   * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.2")));
-   *
-   * // if difference is exactly equals to given offset value, it's ok
-   * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.1")));
-   *
-   * // BigDecimal format has no impact on the assertion, this assertion is valid:
-   * assertThat(actual).isCloseTo(new BigDecimal("8.00"), within(new BigDecimal("0.100")));
-   *
-   * // but if difference is greater than given offset value assertion will fail :
-   * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.01")));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.1")));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(eightDotOne).isCloseTo(eight, byLessThan(new BigDecimal("0.1"))); // strict => fail
+   * 
+   * // this assertion also fails
+   * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.001")));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
@@ -311,29 +320,37 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(BigDecimal)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(BigDecimal)} or {@link Assertions#offset(BigDecimal)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigDecimal)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(BigDecimal)} to get the old behavior. 
    * <p>
    * Example:
-   * <pre><code class='java'> final BigDecimal actual = new BigDecimal("8.1");
-   * final BigDecimal other =  new BigDecimal("8.0");
+   * <pre><code class='java'> final BigDecimal eightDotOne = new BigDecimal("8.1");
+   * final BigDecimal eight =  new BigDecimal("8.0");
+   * 
+   * // assertions succeed
+   * assertThat(eightDotOne).isNotCloseTo(eight, byLessThan(new BigDecimal("0.01")));
+   * assertThat(eightDotOne).isNotCloseTo(eight, within(new BigDecimal("0.01")));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(eightDotOne).isNotCloseTo(eight, byLessThan(new BigDecimal("0.1")));   
    *
-   * // this assertion succeeds
-   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigDecimal("0.01")));
-   *
-   * // BigDecimal format has no impact on the assertion, this assertion is valid:
-   * assertThat(actual).isNotCloseTo(new BigDecimal("8.00"), byLessThan(new BigDecimal("0.100")));
-   *
-   * // the assertion fails if the difference is equal to the given offset value 
-   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigDecimal("0.1")));
-   *
-   * // the assertion fails if the difference is greater than the given offset value 
-   * assertThat(actual).isNotCloseTo(other, byLessThan(new BigDecimal("0.2")));</code></pre>
+   * // assertions fail
+   * assertThat(eightDotOne).isNotCloseTo(eight, within(new BigDecimal("0.1")));
+   * assertThat(eightDotOne).isNotCloseTo(eight, within(new BigDecimal("0.2")));
+   * assertThat(eightDotOne).isNotCloseTo(eight, byLessThan(new BigDecimal("0.2")));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is close to the given one within the offset value.
+   * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(BigDecimal)
    * @since 2.6.0 / 3.6.0
    */

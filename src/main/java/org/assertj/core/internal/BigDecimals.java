@@ -68,4 +68,11 @@ public class BigDecimals extends Numbers<BigDecimal> {
     return value.subtract(other).compareTo(ZERO) > 0;
   }
 
+  @Override
+  protected boolean areEqual(BigDecimal value1, BigDecimal value2) {
+    if (value1 == null) return value2 == null;
+    // we know value1 is not null
+    if (value2 == null) return false;
+    return value1.compareTo(value2) == 0;
+  }
 }

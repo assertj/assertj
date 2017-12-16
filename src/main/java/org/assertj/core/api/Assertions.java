@@ -1583,8 +1583,7 @@ public class Assertions {
    * Assertions entry point for double {@link Offset}.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
-   * 
+   * <pre><code class='java'> assertThat(0.1).isEqualTo(0.0, offset(0.1));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1598,8 +1597,7 @@ public class Assertions {
    * Assertions entry point for float {@link Offset}.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
-   * 
+   * <pre><code class='java'> assertThat(0.2f).isCloseTo(0.0f, offset(0.2f));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1613,9 +1611,8 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
-   * 
-   * @param value the value of the offset.
+   * <pre><code class='java'> assertThat(0.1).isCloseTo(0.0, within(0.1));</code></pre>
+   * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
@@ -1628,8 +1625,7 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with real number assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, withPrecision(0.1));</code></pre>
-   * 
+   * <pre><code class='java'> assertThat(0.1).isEqualTo(0.0, withPrecision(0.1));</code></pre>
    * @param value the required precision
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1644,8 +1640,8 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
-   * 
-   * @param value the value of the offset.
+   *
+   * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
@@ -1658,8 +1654,7 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with real number assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.2f).isEqualTo(8.0f, withPrecision(0.2f));</code></pre>
-   * 
+   * <pre><code class='java'> assertThat(0.2f).isEqualTo(0.0f, withPrecision(0.2f));</code></pre>
    * @param value the required precision
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1674,8 +1669,8 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
-   * 
-   * @param value the value of the offset.
+   *
+   * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
@@ -1689,8 +1684,9 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
-   * 
-   * @param value the value of the offset.
+   *
+   * @since 2.7.0 / 3.7.0
+   * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
@@ -1736,7 +1732,7 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
    * 
-   * @param value the value of the offset.
+   * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
@@ -1746,12 +1742,12 @@ public class Assertions {
   }
 
   /**
-   * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
+   * Assertions entry point for Long {@link Offset} to use with {@link AbstractLongAssert#isCloseTo(long, Offset) isCloseTo} assertions.
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
    * 
-   * @param value the value of the offset.
+   * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
@@ -1827,10 +1823,17 @@ public class Assertions {
   }
 
   /**
-   * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
+   * Build a {@link Offset#strictOffset(Number) <b>strict</b> Offset} to use with {@link AbstractDoubleAssert#isCloseTo(double, Offset)} and {@link AbstractDoubleAssert#isNotCloseTo(double, Offset)} assertions.
    * <p>
-   * Typical usage :
-   * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, byLessThan(0.1));</code></pre>
+   * A strict offset implies a strict comparison which means that {@code isCloseTo} will fail when <i>abs(actual - expected) == offset</i>.  
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2));
+   *
+   * // assertions fail
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.1)); // strict comparison!
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.01));</code></pre>
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
@@ -1838,14 +1841,14 @@ public class Assertions {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> byLessThan(Double value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.2f));</code></pre>
+   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.5f));</code></pre>
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
@@ -1853,7 +1856,7 @@ public class Assertions {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> byLessThan(Float value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
@@ -1868,7 +1871,7 @@ public class Assertions {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
@@ -1884,14 +1887,14 @@ public class Assertions {
    * @since 2.7.0 / 3.7.0
    */
   public static Offset<BigInteger> byLessThan(BigInteger value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 2));</code></pre>
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
@@ -1899,14 +1902,14 @@ public class Assertions {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Byte> byLessThan(Byte value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
-   * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
+   * Assertions entry point for Long {@link Offset} to use with strict {@link AbstractIntegerAssert#isCloseTo(int, Offset) isCloseTo} assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   * <pre><code class='java'> assertThat(10).isCloseTo(12, byLessThan(1));</code></pre>
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
@@ -1914,14 +1917,14 @@ public class Assertions {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> byLessThan(Integer value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   * <pre><code class='java'> assertThat((short) 10).isCloseTo((short) 11, byLessThan((short) 2));</code></pre>
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
@@ -1929,22 +1932,19 @@ public class Assertions {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> byLessThan(Short value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
-   * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
+   * Assertions entry point for Long {@link Offset} to use with strict {@link AbstractLongAssert#isCloseTo(long, Offset) isCloseTo} assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(2l));</code></pre>
+   * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(3l));</code></pre>
    *
-   * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
-   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> byLessThan(Long value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**

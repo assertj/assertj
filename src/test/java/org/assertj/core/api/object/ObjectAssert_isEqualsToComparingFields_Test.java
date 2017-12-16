@@ -12,8 +12,9 @@
  */
 package org.assertj.core.api.object;
 
+import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -21,7 +22,6 @@ import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -51,7 +51,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
     verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), other,
-                                                       Collections.EMPTY_MAP, defaultTypeComparators());
+                                                       EMPTY_MAP, defaultTypeComparators());
   }
 
   @Test
@@ -59,7 +59,8 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name").isEqualToComparingFieldByField(other);
+    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name")
+                      .isEqualToComparingFieldByField(other);
   }
 
   @Test
@@ -83,7 +84,8 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class).isEqualToComparingFieldByField(other);
+    assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                      .isEqualToComparingFieldByField(other);
   }
 
   @Test

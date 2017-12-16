@@ -13,12 +13,11 @@
 package org.assertj.core.api.double_;
 
 import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Offset;
-
-import static org.mockito.Mockito.verify;
 
 
 /**
@@ -36,6 +35,6 @@ public class DoubleAssert_isEqualTo_double_with_offset_Test extends DoubleAssert
 
   @Override
   protected void verify_internal_effects() {
-    verify(doubles).assertEqual(getInfo(assertions), getActual(assertions), 8d, offset);
+    verify(doubles).assertIsCloseTo(getInfo(assertions), getActual(assertions), 8d, offset);
   }
 }

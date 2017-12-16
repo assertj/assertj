@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
@@ -62,10 +61,6 @@ public class ObjectsBaseTest {
 
   protected static Map<String, Comparator<?>> noFieldComparators() {
     return new HashMap<>();
-  }
-
-  public static TypeComparators defaultTypeComparators() {
-    return AbstractObjectAssert.defaultTypeComparators();
   }
 
 }

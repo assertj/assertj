@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api.comparable;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.MockitoAnnotations.initMocks;
+
 import java.util.Comparator;
 
 import org.assertj.core.api.AbstractComparableAssert;
@@ -21,9 +24,6 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Objects;
 import org.junit.Before;
 import org.mockito.Mock;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Tests for <code>{@link AbstractComparableAssert#usingDefaultComparator()}</code>.
@@ -48,7 +48,7 @@ public class AbstractComparableAssert_usingDefaultComparator_Test extends Abstra
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Comparables.instance()).isSameAs(getComparables(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getComparables(assertions)).isEqualTo(new Comparables());
   }
 }

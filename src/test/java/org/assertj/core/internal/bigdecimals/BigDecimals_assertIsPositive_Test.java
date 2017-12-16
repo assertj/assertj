@@ -41,10 +41,10 @@ public class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-	thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
-	numbers.assertIsPositive(someInfo(), BigDecimal.ZERO);
+    thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
+    numbers.assertIsPositive(someInfo(), BigDecimal.ZERO);
   }
-  
+
   @Test
   public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ONE);
@@ -52,8 +52,7 @@ public class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
-    thrown
-        .expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using 'BigDecimalComparator'");
+    thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using org.assertj.core.util.BigDecimalComparator");
     numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ZERO);
   }
 

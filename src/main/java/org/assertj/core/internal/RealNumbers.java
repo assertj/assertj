@@ -13,7 +13,6 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Offset;
 
 /**
  * Base class of reusable assertions for real numbers (float and double).
@@ -43,24 +42,6 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   }
 
   protected abstract NUMBER NaN();
-
-  /**
-   * Verifies that two real numbers are equal within a positive offset.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
-   * comparison
-   * strategy.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param expected the expected value.
-   * @param offset the given positive offset.
-   * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one.
-   */
-  public void assertEqual(AssertionInfo info, NUMBER actual, NUMBER expected, Offset<NUMBER> offset) {
-    assertIsCloseTo(info, actual, expected, offset);
-  }
 
   /**
    * Verifies that the actual value is not equal to {@code NaN}.

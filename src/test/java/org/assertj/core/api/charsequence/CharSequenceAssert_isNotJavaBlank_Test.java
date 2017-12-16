@@ -12,10 +12,10 @@
  */
 package org.assertj.core.api.charsequence;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#isNotJavaBlank()}</code>.
@@ -24,6 +24,7 @@ import static org.mockito.Mockito.verify;
  */
 public class CharSequenceAssert_isNotJavaBlank_Test extends CharSequenceAssertBaseTest {
 
+  @SuppressWarnings("deprecation")
   @Override
   protected CharSequenceAssert invoke_api_method() {
     return assertions.isNotJavaBlank();

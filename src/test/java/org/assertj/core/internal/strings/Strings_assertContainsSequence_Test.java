@@ -13,7 +13,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
-import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -21,62 +21,74 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
+/**
+ * Tests for <code>{@link Strings#assertContainsSequence(AssertionInfo, CharSequence, CharSequence[])}</code>.
+ *
+ * @author Billy Yuan
+ */
 public class Strings_assertContainsSequence_Test extends StringsBaseTest {
+  String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 
   @Test
   public void should_pass_if_actual_contains_sequence() {
-    strings.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
+    String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "," };
+    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_with_values_between() {
-    String[] sequenceValues = { "{", "title", "A Game of Thrones", "}" };
-    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+  public void should_fail_if_actual_contains_sequence_with_values_between() {
+    String[] sequenceValues = { "{ ", "'author':'George Martin'}" };
+    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues));
     strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
-  
+
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
-    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")));
-    strings.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
-  }
-
-  @Test
-  public void should_fail_if_actual_contains_values_but_not_in_given_order() {
-    String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
-    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues, 1));
+    String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "unexpectedString" };
+    thrown.expectAssertionError(shouldContain(actual, sequenceValues, newLinkedHashSet("unexpectedString")));
     strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
   @Test
-  public void should_throw_error_if_sequence_values_is_null() {
-    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
-    strings.assertContainsSequence(someInfo(), "Yoda", null);
+  public void should_fail_if_actual_contains_values_but_not_in_the_given_order() {
+    String[] sequenceValues = { "'A Game of Thrones'", "'title':" };
+    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues));
+    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
   @Test
-  public void should_throw_error_if_sequence_values_is_empty() {
+  public void should_throw_error_if_sequence_is_null() {
+    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
+    strings.assertContainsSequence(someInfo(), actual, null);
+  }
+
+  @Test
+  public void should_throw_error_if_any_value_of_sequence_is_null() {
+    String[] sequenceValues = { "author", null };
+    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
+    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_values_are_empty() {
     thrown.expectIllegalArgumentException(arrayOfValuesToLookForIsEmpty());
-    strings.assertContainsSequence(someInfo(), "Yoda", new String[0]);
+    strings.assertContainsSequence(someInfo(), actual, new String[0]);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
+    String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "," };
     thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsSequence(someInfo(), (CharSequence)null, array("Yo", "da"));
+    strings.assertContainsSequence(someInfo(), null, sequenceValues);
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_strings() {
-    strings.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value_bug_544() {
+  public void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value() {
     strings.assertContainsSequence(someInfo(), "a-b-c-", array("a", "-", "b", "-", "c"));
   }
 
@@ -91,15 +103,15 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
                                               comparisonStrategy));
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
+    stringsWithCaseInsensitiveComparisonStrategy
+                                                .assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
   }
 
   @Test
   public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
-    String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
-    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues, 1, comparisonStrategy));
+    String[] sequenceValues = { ", 'author'", "'A Game of Thrones'" };
+    thrown.expectAssertionError(
+                                shouldContainSequence(actual, sequenceValues, comparisonStrategy));
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
-
 }

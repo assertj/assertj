@@ -12,10 +12,14 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.extractProperty;
+import static java.lang.String.format;
+import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
+import org.assertj.core.api.iterable.Extractor;
 
 /**
  * <p>
@@ -66,7 +70,6 @@ import java.util.function.Consumer;
  *   softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  *   softly.assertAll();
  * }</code></pre>
- *
  *
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
@@ -122,6 +125,29 @@ import java.util.function.Consumer;
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 
+  private Extractor<Throwable, String> errorDescriptionExtractor = new Extractor<Throwable, String>() {
+    @Override
+    public String extract(Throwable throwable) {
+      Throwable cause = throwable.getCause();
+      if (cause == null) {
+        return throwable.getMessage();
+      }
+      // error has a cause, display the cause message and the first stack trace elements.
+      StackTraceElement[] stackTraceFirstElements = Arrays.copyOf(cause.getStackTrace(), 5);
+      String stackTraceDescription = "";
+      for (StackTraceElement stackTraceElement : stackTraceFirstElements) {
+        stackTraceDescription += format("\tat %s%n", stackTraceElement);
+      }
+      return format("%s%n" +
+                    "cause message: %s%n" +
+                    "cause first five stack trace elements:%n" +
+                    "%s",
+                    throwable.getMessage(),
+                    cause.getMessage(),
+                    stackTraceDescription);
+    }
+  };
+
   /**
    * Verifies that no proxied assertion methods have failed.
    *
@@ -129,9 +155,11 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) {
-      throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
-    }
+    if (!errors.isEmpty()) throw new SoftAssertionError(describeErrors(errors));
+  }
+
+  private List<String> describeErrors(List<Throwable> errors) {
+    return extract(errors, errorDescriptionExtractor);
   }
 
  /**

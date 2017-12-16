@@ -29,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, AtomicInteger> {
 
   @VisibleForTesting
-  Comparables comparables = Comparables.instance();
+  Comparables comparables = new Comparables();
 
   @VisibleForTesting
   Integers integers = Integers.instance();
@@ -288,18 +288,30 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
   }
 
   /**
-   * Verifies that the actual atomic has a value close to the given one within the given offset.<br>
-   * If difference is equal to the offset value, assertion is considered valid.
+   * Verifies that the actual atomic has a value close to the given one within the given offset.
    * <p>
-   * Example with integer:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Integer)} or {@link Assertions#offset(Integer)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <p>
+   * Example with Integer:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, offset(3));
+   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, within(3))
+   *                                 .hasValueCloseTo(7, byLessThan(3));
    *
-   * // if the difference is exactly equals to the offset, it's ok
-   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, offset(2));
+   * // if the difference is exactly equals to the offset, it's ok ...
+   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, within(2));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, byLessThan(2)); // FAIL
    *
    * // assertion will fail
-   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, offset(1));</code></pre>
+   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, within(1));
+   * assertThat(new AtomicInteger(5)).hasValueCloseTo(7, byLessThan(1));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given allowed {@link Offset}.

@@ -66,7 +66,8 @@ public class ObjectAssert_extracting_Test {
 
     thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
 
-    assertThat(luke).extracting("name.first", "name.last").isEmpty();
+    assertThat(luke).extracting("name.first", "name.last")
+                    .isEmpty();
   }
 
   @Test
@@ -75,7 +76,8 @@ public class ObjectAssert_extracting_Test {
 
     thrown.expectAssertionErrorWithMessageContaining("[check luke first name]");
 
-    assertThat(luke).as("check luke first name").extracting("name.first").isEmpty();
+    assertThat(luke).as("check luke first name").extracting("name.first")
+                    .isEmpty();
   }
 
   @Test
@@ -84,8 +86,8 @@ public class ObjectAssert_extracting_Test {
     obiwan.setHeight(new BigDecimal("1.820"));
 
     assertThat(obiwan).extracting("name", "height")
-      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-      .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                      .containsExactly("Obi-Wan", new BigDecimal("1.82"));
   }
 
   @SuppressWarnings("unused")

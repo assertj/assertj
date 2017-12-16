@@ -55,7 +55,7 @@ public class ShouldContainsAnyOf_create_Test {
                                          "to contain at least one of the following elements:%n" +
                                          "  <[\"Vador\", \"Leia\"]>%n" +
                                          "but none were found " +
-                                         "when comparing values using 'CaseInsensitiveStringComparator'"));
+                                         "when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

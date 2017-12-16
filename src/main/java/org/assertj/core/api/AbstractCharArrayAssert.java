@@ -115,6 +115,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * <pre><code class='java'> // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('b', 'c', 'a');
+   * assertThat(new char[] { 'a', 'a', 'b' }).containsOnly('a', 'b');
    *
    * // assertion will fail
    * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c', 'd');

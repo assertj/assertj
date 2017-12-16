@@ -65,10 +65,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Example :
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(abc).containsOnly("c", "b", "a");
+   * assertThat(newArrayList("a", "a", "b")).containsOnly("a", "b");
    * 
-   * // assertion will fail because "c" is missing
+   * // assertion will fail because "c" is missing in the given values
    * assertThat(abc).containsOnly("a", "b");
    * // assertion will fail because "d" is missing in abc (use isSubsetOf if you want this assertion to pass)
    * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>

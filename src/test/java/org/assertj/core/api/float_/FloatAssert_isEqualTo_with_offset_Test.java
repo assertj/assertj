@@ -38,6 +38,6 @@ public class FloatAssert_isEqualTo_with_offset_Test extends FloatAssertBaseTest 
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertEqual(getInfo(assertions), getActual(assertions), expected, offset);
+    verify(floats).assertIsCloseTo(getInfo(assertions), getActual(assertions), expected, offset);
   }
 }

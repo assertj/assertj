@@ -118,7 +118,7 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
 
   @Test
   public void fails_if_end_is_less_than_start_according_to_custom_comparison_strategy() {
-    thrown.expectIllegalArgumentException("The end value <8> must not be less than the start value <-10> (using 'AbsValueComparator')!");
+    thrown.expectIllegalArgumentException("The end value <8> must not be less than the start value <-10> (using AbsValueComparator)!");
     comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), 8, -10, 8, true, true);
   }
 

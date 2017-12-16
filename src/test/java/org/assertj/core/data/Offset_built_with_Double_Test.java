@@ -13,20 +13,23 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.data.Offset.strictOffset;
 import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
+import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStrictlyPositive;
 import static org.assertj.core.test.ExpectedException.none;
 
-
-import org.assertj.core.data.Offset;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for {@link Offset#offset(Double)}.
  *
  * @author Alex Ruiz
  */
-public class Offset_offset_with_Double_Test {
+public class Offset_built_with_Double_Test {
+
   @Rule
   public ExpectedException thrown = none();
 
@@ -34,19 +37,25 @@ public class Offset_offset_with_Double_Test {
   public void should_throw_error_if_value_is_null() {
     thrown.expectNullPointerException();
     Double value = null;
-    Offset.offset(value);
+    offset(value);
   }
 
   @Test
   public void should_throw_error_if_value_is_negative() {
     thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
-    Offset.offset(-1d);
+    offset(-1d);
+  }
+
+  @Test
+  public void should_throw_error_if_value_is_zero_strict_offset() {
+    thrown.expectIllegalArgumentException(strictOffsetValueIsNotStrictlyPositive());
+    strictOffset(0d);
   }
 
   @Test
   public void should_create_Offset() {
     Double value = 0.8d;
-    Offset<Double> offset = Offset.offset(value);
+    Offset<Double> offset = offset(value);
     assertThat(offset.value).isSameAs(value);
   }
 }
