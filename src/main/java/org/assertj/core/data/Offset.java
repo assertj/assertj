@@ -68,6 +68,7 @@ public class Offset<T extends Number> {
    * assertThat(8.1).isCloseTo(8.0, offset(0.1));
    * assertThat(8.1).isCloseTo(8.0, offset(0.01));</code></pre>
    *
+   * @param <T> the type of value of the {@link Offset}.
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.

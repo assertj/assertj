@@ -282,7 +282,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * <p>
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
-   * <li><b>succeeds</b> when using {@link Assertions#within(BigDecimal)} or {@link Offset#offset(BigDecimal)}</li>
+   * <li><b>succeeds</b> when using {@link Assertions#within(BigDecimal)} or {@link Offset#offset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(BigDecimal)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
@@ -300,7 +300,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertions succeed when the difference == offset value ...  
    * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.1")));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(eightDotOne).isCloseTo(eight, byLessThan(new BigDecimal("0.1"))); // strict => fail
+   * assertThat(eightDotOne).isCloseTo(eight, byLessThan(new BigDecimal("0.1"))); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.001")));</code></pre>
@@ -324,7 +324,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(BigDecimal)} or {@link Offset#strictOffset(Number)}</li>
-   * <li><b>fails</b> when using {@link Assertions#within(BigDecimal)} or {@link Assertions#offset(BigDecimal)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(BigDecimal)} or {@link Offset#offset(Number)}</li>
    * </ul>
    * <p>
    * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigDecimal)} implies a <b>strict</b> comparison, 

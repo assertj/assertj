@@ -178,10 +178,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * <li><b>succeeds</b> when using {@link Assertions#within(BigInteger)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(BigInteger)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
-   * <p>
    * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigInteger)} implies a <b>strict</b> comparison, 
    * use {@link Assertions#within(BigInteger)} to get the old behavior. 
-   * <p>
    * <p>
    * Example:
    * <pre><code class='java'> import static org.assertj.core.api.Assertions.within;

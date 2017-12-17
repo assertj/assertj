@@ -43,9 +43,7 @@ public class Comparables {
   Failures failures = Failures.instance();
 
   /**
-   * Returns a {@link Comparables} using a {@link StandardComparisonStrategy}.
-   * 
-   * @return a {@link Comparables} using a {@link StandardComparisonStrategy}.
+   * Build a {@link Comparables} using a {@link StandardComparisonStrategy}.
    */
   @VisibleForTesting
   public Comparables() {

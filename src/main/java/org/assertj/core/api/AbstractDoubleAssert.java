@@ -184,7 +184,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
    * assertThat(8.1).isCloseTo(8.0, offset(0.1));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict => fail
+   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
@@ -266,7 +266,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
    * assertThat(8.1).isCloseTo(8.0, offset(0.1));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict => fail
+   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
@@ -481,7 +481,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * assertThat(8.1).isEqualTo(8.0, within(0.1));
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(0.1).isEqualTo(0.0, byLessThan(0.1)); // strict => fail
+   * assertThat(0.1).isEqualTo(0.0, byLessThan(0.1)); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>

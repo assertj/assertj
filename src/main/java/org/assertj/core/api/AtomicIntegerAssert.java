@@ -292,7 +292,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    * <p>
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
-   * <li><b>succeeds</b> when using {@link Assertions#within(Integer)} or {@link Assertions#offset(Integer)}</li>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Integer)} or {@link Offset#offset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>

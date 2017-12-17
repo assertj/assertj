@@ -271,7 +271,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * <p>
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
-   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Offset#offset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
@@ -310,7 +310,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
-   * <li><b>fails</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Long)} or {@link Offset#offset(Number)}</li>
    * </ul>
    * <p>
    * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Long)} implies a <b>strict</b> comparison, 
@@ -345,7 +345,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * <p>
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
-   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Offset#offset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
@@ -385,7 +385,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
-   * <li><b>fails</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Long)} or {@link Offset#offset(Number)}</li>
    * </ul>
    * <p>
    * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Long)} implies a <b>strict</b> comparison, 

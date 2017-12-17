@@ -1247,7 +1247,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Iterable&lt;String&gt; cities = asList("Dover", "Boston", "Paris");
    * int[] ranks = { 1, 2, 3 };
    * 
-   * Map&lt;String, Object&gt; map = new LinkedHashMap<>();                                    
+   * Map&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();                                    
    * map.put("name", names);                                         
    * map.put("job", jobs);                                           
    * map.put("city", cities);                                        

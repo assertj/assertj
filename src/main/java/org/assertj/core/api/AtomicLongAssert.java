@@ -292,7 +292,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    * <p>
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
-   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Assertions#offset(Long)}</li>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Long)} or {@link Offset#offset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Long)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>

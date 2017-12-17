@@ -214,7 +214,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(0.1f).isCloseTo(0.0f, within(0.1f));
    * assertThat(0.1f).isCloseTo(0.0f, offset(0.1f));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(0.1f).isCloseTo(0.0f, byLessThan(0.1f)); // strict => fail
+   * assertThat(0.1f).isCloseTo(0.0f, byLessThan(0.1f)); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(8.1f).isCloseTo(8.0f, within(0.001f));</code></pre>
@@ -296,7 +296,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(0.1f).isCloseTo(0.0f, within(0.1f));
    * assertThat(0.1f).isCloseTo(0.0f, offset(0.1f));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(0.1f).isCloseTo(0.0f, byLessThan(0.1f)); // strict => fail
+   * assertThat(0.1f).isCloseTo(0.0f, byLessThan(0.1f)); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(8.1f).isCloseTo(8.0f, within(0.001f));</code></pre>
@@ -463,7 +463,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /** 
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * This assertion is the same as {@link #isCloseTo(double, Offset)}.
+   * This assertion is the same as {@link #isCloseTo(float, Offset)}.
    * <p>
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
@@ -481,7 +481,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(0.1f).isEqualTo(0.0f, within(0.1f));
    * assertThat(0.1f).isEqualTo(0.0f, offset(0.1f));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(0.1f).isEqualTo(0.0f, byLessThan(0.1f)); // strict => fail
+   * assertThat(0.1f).isEqualTo(0.0f, byLessThan(0.1f)); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(0.1f).isEqualTo(0.0f, within(0.001f));</code></pre>
@@ -502,7 +502,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * This assertion is the same as {@link #isCloseTo(double, Offset)}.
+   * This assertion is the same as {@link #isCloseTo(float, Offset)}.
    * <p>
    * When <i>abs(actual - expected) == offset value</i>, the assertion: 
    * <ul>
@@ -520,7 +520,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(0.1f).isEqualTo(0.0f, within(0.1f));
    * assertThat(0.1f).isEqualTo(0.0f, offset(0.1f));
    * // ... except when using byLessThan which implies a strict comparison
-   * assertThat(0.1f).isEqualTo(0.0f, byLessThan(0.1f)); // strict => fail
+   * assertThat(0.1f).isEqualTo(0.0f, byLessThan(0.1f)); // strict =&gt; fail
    * 
    * // this assertion also fails
    * assertThat(0.1f).isEqualTo(0.0f, within(0.001f));</code></pre>
