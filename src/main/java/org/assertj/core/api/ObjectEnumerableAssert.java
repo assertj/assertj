@@ -1131,7 +1131,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * to get an informative error message.
    * <p>
    * Example :
-   * <pre><code class='java'> Iterable&lt;String&gt; abc  = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
    * // assertion will pass
@@ -1178,6 +1178,30 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.6.0
    */
   SELF allSatisfy(Consumer<? super ELEMENT> requirements);
+
+  /**
+   * Verifies that any of the element of actual match the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abc  = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abc).anyMatch(s -&gt; s.length() == 1);
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() > 2);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areAtLeastOne(Condition) areAtLeastOne(Condition)}
+   * or {@link #haveAtLeastOne(Condition) haveAtLeastOne(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if no element satisfy the given predicate.
+   */
+  SELF anyMatch(Predicate<? super ELEMENT> predicate);
 
   /**
    * Verifies that at least one element satisfies the given requirements expressed as a {@link Consumer}.
@@ -1261,4 +1285,28 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable);
+
+  /**
+   * Verifies that no elements of actual match the given {@link Predicate}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abc).noneMatch(s -&gt; s.length() > 1);
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() > 1);</code></pre>
+   *
+   * Note that you can achieve the same result with {@link #areNot(Condition) areNot(Condition)}
+   * or {@link #doNotHave(Condition) doNotHave(Condition)}.
+   *
+   * @param predicate the given {@link Predicate}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if an element cannot be cast to T.
+   * @throws AssertionError if any element satisfy the given predicate.
+   */
+  SELF noneMatch(Predicate<? super ELEMENT> predicate);
 }
