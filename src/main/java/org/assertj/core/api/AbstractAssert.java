@@ -50,6 +50,9 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
 
+  // https://github.com/joel-costigliola/assertj-core/issues/1128
+  public static boolean throwUnsupportedExceptionOnEquals = true;
+
   private static final String ORG_ASSERTJ = "org.assert";
 
   @VisibleForTesting
@@ -540,7 +543,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   @Deprecated
   public boolean equals(Object obj) {
-    throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+    if (throwUnsupportedExceptionOnEquals) {
+      throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+    }
+    return super.equals(obj);
   }
 
   /**
