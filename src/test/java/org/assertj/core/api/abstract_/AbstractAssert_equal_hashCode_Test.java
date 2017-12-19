@@ -42,6 +42,14 @@ public class AbstractAssert_equal_hashCode_Test {
   }
 
   @Test
+  @SuppressWarnings("deprecation")
+  public void should_not_fail_when_equals_exceptions_is_deactivated() {
+    AbstractAssert.throwUnsupportedExceptionOnEquals = false;
+    assertions.equals("anotherString");
+  }
+
+
+  @Test
   public void shouldReturnOneAsHashCode() {
     assertThat(assertions.hashCode()).isEqualTo(1);
   }
