@@ -28,12 +28,14 @@ import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
+import static org.assertj.core.error.ShouldHaveSameSizeAs.*;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -55,6 +57,7 @@ import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
@@ -63,6 +66,7 @@ import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -768,6 +772,38 @@ public class Strings {
   }
 
   /**
+   * Verifies that the given charSequence contains exactly the given charSequences in any order with no more or less elements.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given charSequence.
+   * @param values the charSequences to check.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain exactly the values in any order.
+   */
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, CharSequence actual, CharSequence[] values) {
+    doCommonCheckForCharSequence(info, actual, values);
+
+    List<String> actualAsList = splitCharSequencesToListOfChars(actual);
+    List<String> valuesAsList = splitCharSequencesToListOfChars(values);
+
+    int size = actualAsList.size();
+
+    if (actualAsList.size() != valuesAsList.size()) {
+      throw failures.failure(info, shouldHaveSameSizeAs(actual, size, valuesAsList.size()));
+    }
+
+    IterableDiff diff = IterableDiff.diff(actualAsList, valuesAsList, comparisonStrategy);
+
+    if (!diff.differencesFound()) return;
+
+    throw failures
+      .failure(info, shouldContainExactlyInAnyOrder(actual, values, valuesAsList, actualAsList, comparisonStrategy));
+
+  }
+
+  /**
    * Verifies that the given charSequence contains the given sequence of charSequence, without any other charSequences between them.
    * @param info contains information about the assertion.
    * @param actual the given charSequence.
@@ -982,6 +1018,22 @@ public class Strings {
   private static String removeNewLines(CharSequence text) {
     String normalizedText = normalizeNewlines(text);
     return normalizedText.toString().replace("\n", "");
+  }
+
+  /**
+   * split charSequences to a linkedList of individual chars.
+   *
+   * @param charSequences the multiple charSequences to split.
+   * @return the linkedList of all chars in charSequences.
+   */
+  private List<String> splitCharSequencesToListOfChars(CharSequence... charSequences) {
+    // This can be implemented in JDK8 with String.join() easily.
+    StringBuilder stringBuilder = new StringBuilder();
+    for (CharSequence charSequence : charSequences) {
+      stringBuilder.append(charSequence);
+    }
+    String[] array = stringBuilder.toString().split("");
+    return newArrayList(array);
   }
 
   private void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {

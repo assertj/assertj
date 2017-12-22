@@ -527,6 +527,60 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given charSequences <b>in any order with no more or less elements</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
+   *
+   * // this assertion succeeds
+   * assertThat(actual).containsExactlyInAnyOrder(&quot; bar&quot;, &quot;,&quot;, &quot;foo&quot;);
+   *
+   * // this assertion fails because some elements in {@code actual} are not found
+   * assertThat(actual).containsExactlyInAnyOrder(&quot;foo&quot;);
+   *
+   * // this assertion fails because of some unexpected elements
+   * assertThat(actual).containsExactlyInAnyOrder(&quot;foo, bar&quot;, &quot;element&quot;);</code></pre>
+   *
+   * @param values the charSequences to check.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain exactly the values in any order.
+   */
+  public SELF containsExactlyInAnyOrder(CharSequence... values) {
+    strings.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given Iterable <b>in any order with no more or less elements</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
+   *
+   * // this assertion succeeds
+   * assertThat(actual).containsExactlyInAnyOrder(asList(&quot; bar&quot;, &quot;,&quot;, &quot;foo&quot;));
+   *
+   * // this assertion fails because some elements in {@code actual} are not found
+   * assertThat(actual).containsExactlyInAnyOrder(asList(&quot;foo&quot;));
+   *
+   * // this assertion fails because of some unexpected elements
+   * assertThat(actual).containsExactlyInAnyOrder(asList(&quot;foo, bar&quot;, &quot;element&quot;));</code></pre>
+   *
+   * @param values the charSequences to check.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the iterable of values is {@code null}.
+   * @throws IllegalArgumentException if the iterable of values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain exactly the values in any order.
+   */
+  public SELF containsExactlyInAnyOrder(Iterable<? extends CharSequence> values) {
+    strings.assertContainsExactlyInAnyOrder(info, actual, IterableUtil.toArray(values, CharSequence.class));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains the given sequence of values <b>in the given order without any other values between them</b>.
    * <p>
    * <b>Breaking change since 2.9.0</b>: in previous versions this assertion behaved like {@link #containsSubsequence(CharSequence...) containsSubsequence} 
