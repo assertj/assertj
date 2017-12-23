@@ -4,7 +4,7 @@ import org.assertj.core.description.Description;
 
 public class AbstractShouldContainExactly extends BasicErrorMessageFactory {
 
-  protected String diffs;
+  protected String diffs = "";
 
   public AbstractShouldContainExactly(String format, Object... arguments) {
     super(format, arguments);
