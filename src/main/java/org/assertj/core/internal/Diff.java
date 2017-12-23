@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.nio.file.Files.newBufferedReader;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Closeables.closeQuietly;
+import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -67,8 +68,26 @@ public class Diff {
   }
 
   @VisibleForTesting
+  public List<Delta<String>> diff(Object[] actual, Object[] expected) throws IOException {
+    return diff(
+      readerFor(arrayToStringWithDelimeter(actual, org.assertj.core.util.Compatibility.System.lineSeparator())),
+      readerFor(arrayToStringWithDelimeter(expected, org.assertj.core.util.Compatibility.System.lineSeparator())));
+  }
+
+  @VisibleForTesting
   public List<Delta<String>> diff(Path actual, String expected, Charset charset) throws IOException {
     return diff(newBufferedReader(actual, charset), readerFor(expected));
+  }
+
+  private String arrayToStringWithDelimeter(Object[] input, String delimeter) {
+    final StringBuilder sb = new StringBuilder();
+    for(int i = 0; i < input.length; i++) {
+      sb.append(input[i].toString());
+      if (i != input.length - 1) {
+        sb.append(delimeter);
+      }
+    }
+    return sb.toString();
   }
 
   private BufferedReader readerFor(InputStream stream) {

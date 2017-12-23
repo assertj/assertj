@@ -72,6 +72,7 @@ import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
+import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newTreeSet;
 
@@ -985,9 +986,10 @@ public class Iterables {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     int actualSize = sizeOf(actual);
-    if (values.length != actualSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, values.length, comparisonStrategy));
-    assertHasSameSizeAs(info, actual, values); // include check that actual is not null
+    if (values.length != actualSize) {
+      throw failures.failure(info,
+        shouldHaveSameSize(toArray(actual), values, actualSize, values.length, comparisonStrategy));
+    }
 
     List<Object> actualAsList = newArrayList(actual);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);

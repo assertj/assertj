@@ -20,6 +20,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -62,10 +63,31 @@ public class ShouldContainExactly_create_Test {
                                                 + "  <2>%n"
                                                 + "while expected size was:%n"
                                                 + "  <1>%n"
-                                                + "Actual was:%n"
-                                                + "  <[\"Yoda\", \"Han\"]>%n"
-                                                + "Expected was:%n"
-                                                + "  <[\"Yoda\"]>%n"));
+                                                + "%n"
+                                                + "Extra content at line 2:%n"
+                                                + "  [\"Han\"]%n"));
+  }
+
+  @Test
+  public void should_create_error_message_when_sizes_differ_for_large_list() {
+    List<String> firstList = newArrayList();
+    for(Integer i=0; i<2000; i++) {
+      firstList.add(i.toString());
+    }
+    List<String> secondList = newArrayList(firstList);
+    secondList.add("extra");
+    ErrorMessageFactory factory = shouldHaveSameSize(secondList, firstList, 2000, 2001,
+      StandardComparisonStrategy.instance());
+
+    String message = factory.create(new TextDescription("Test"));
+    assertThat(message).isEqualTo(String.format("[Test] %n"
+      + "Actual and expected should have same size but actual size was:%n"
+      + "  <2000>%n"
+      + "while expected size was:%n"
+      + "  <2001>%n"
+      + "%n"
+      + "Extra content at line 2001:%n"
+      + "  [\"extra\"]%n"));
   }
 
   @Test
@@ -79,11 +101,10 @@ public class ShouldContainExactly_create_Test {
                                                 + "  <2>%n"
                                                 + "while expected size was:%n"
                                                 + "  <1>%n"
-                                                + "Actual was:%n"
-                                                + "  <[\"Yoda\", \"Han\"]>%n"
-                                                + "Expected was:%n"
-                                                + "  <[\"Yoda\"]>%n"
-                                                + "when comparing values using CaseInsensitiveStringComparator"));
+                                                + "when comparing values using CaseInsensitiveStringComparator%n"
+                                                + "%n"
+                                                + "Extra content at line 2:%n"
+                                                + "  [\"Han\"]%n"));
   }
 
   @Test

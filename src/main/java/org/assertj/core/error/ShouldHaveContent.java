@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.assertj.core.util.diff.Delta;
 
+import static org.assertj.core.util.diff.DiffUtils.diffsAsString;
+
 
 /**
  * Creates an error message indicating that an assertion that verifies that a file/path has a given text content failed.

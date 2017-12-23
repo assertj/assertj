@@ -233,8 +233,10 @@ public class Arrays {
     assertIsArray(info, values);
     int actualSize = sizeOf(actual);
     int expectedSize = sizeOf(values);
-    if (actualSize != expectedSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
+    if (actualSize != expectedSize) {
+        throw failures.failure(info,
+          shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
+    }
 
     List<Object> actualAsList = asList(actual);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);

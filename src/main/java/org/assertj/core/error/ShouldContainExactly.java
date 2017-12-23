@@ -12,10 +12,21 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.toArray;
+import static org.assertj.core.util.diff.DiffUtils.diffsAsString;
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.Diff;
 import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.Arrays;
+import org.assertj.core.util.diff.Delta;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains exactly a given set
@@ -24,7 +35,9 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  * 
  * @author Joel Costigliola
  */
-public class ShouldContainExactly extends BasicErrorMessageFactory {
+public class ShouldContainExactly extends AbstractShouldContainExactly {
+
+  private static final Diff DIFF = new Diff();
 
   /**
    * Creates a new <code>{@link ShouldContainExactly}</code>.
@@ -92,36 +105,49 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveSameSize(Object actual, Object expected, int actualSize,
                                                        int expectedSize, ComparisonStrategy comparisonStrategy) {
-    return StandardComparisonStrategy.instance().equals(comparisonStrategy) ?
-        new ShouldContainExactly(actual, expected, actualSize, expectedSize) :
-        new ShouldContainExactly(actual, expected, actualSize, expectedSize, comparisonStrategy);
+
+    Object[] actualArray = arrayOrIterableToArray(actual);
+    Object[] expectedArray = arrayOrIterableToArray(expected);
+    try {
+      List<Delta<String>> diffs = DIFF.diff(actualArray, expectedArray);
+      final String diffString = diffsAsString(diffs);
+      return StandardComparisonStrategy.instance().equals(comparisonStrategy) ?
+        new ShouldContainExactly(diffString, actualSize, expectedSize) :
+        new ShouldContainExactly(diffString, actualSize, expectedSize, comparisonStrategy);
+    } catch (IOException e) {
+      throw new RuntimeIOException(format("Unable to verify text contents of path:<%s>", actual), e);
+    }
   }
 
-  private ShouldContainExactly(Object actual, Object expected, int actualSize, int expectedSize,
+  private static Object[] arrayOrIterableToArray(Object input) {
+    if (isArray(input)) {
+      // Convert to List and back to cope with primative arrays.
+      return toArray(Arrays.asList(input));
+    } else {
+      return toArray((Iterable<?>) input);
+    }
+  }
+
+  private ShouldContainExactly(String diffString, int actualSize, int expectedSize,
                                ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Actual and expected should have same size but actual size was:%n" +
           "  <%s>%n" +
           "while expected size was:%n" +
           "  <%s>%n" +
-          "Actual was:%n" +
-          "  <%s>%n" +
-          "Expected was:%n" +
-          "  <%s>%n%s",
-          actualSize, expectedSize, actual, expected, comparisonStrategy);
+          "%s%n",
+          actualSize, expectedSize, comparisonStrategy);
+    this.diffs = diffString;
   }
 
-  private ShouldContainExactly(Object actual, Object expected, int actualSize, int expectedSize) {
+  private ShouldContainExactly(String diffString, int actualSize, int expectedSize) {
     super("%n" +
           "Actual and expected should have same size but actual size was:%n" +
           "  <%s>%n" +
           "while expected size was:%n" +
-          "  <%s>%n" +
-          "Actual was:%n" +
-          "  <%s>%n" +
-          "Expected was:%n" +
           "  <%s>%n",
-          actualSize, expectedSize, actual, expected);
+          actualSize, expectedSize);
+    this.diffs = diffString;
   }
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
