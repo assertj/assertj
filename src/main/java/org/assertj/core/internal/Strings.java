@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainExactly.*;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
@@ -769,6 +770,48 @@ public class Strings {
 
   private void assertNotNull(AssertionInfo info, CharSequence actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  /**
+   * Verifies that the given charSequence contains exactly the given charSequences in a sequential order with no more or less elements.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given charSequence.
+   * @param values the charSequences to check.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain exactly the values in a sequential order.
+   */
+  public void assertContainsExactly(AssertionInfo info, CharSequence actual, CharSequence[] values) {
+    doCommonCheckForCharSequence(info, actual, values);
+
+    List<String> actualAsList = splitCharSequencesToListOfChars(actual);
+    List<String> valuesAsList = splitCharSequencesToListOfChars(values);
+
+    int size = actualAsList.size();
+
+    if (size != valuesAsList.size()) {
+      throw failures.failure(info, shouldHaveSameSizeAs(actual, size, valuesAsList.size()));
+    }
+
+    IterableDiff diff = IterableDiff.diff(actualAsList, valuesAsList, comparisonStrategy);
+
+    if (!diff.differencesFound()) {
+      // actual and values have the same elements but are they in the same order ?
+      for (int i = 0; i < size; i++) {
+        String elementFromActual = actualAsList.get(i);
+        String elementFromValues = valuesAsList.get(i);
+        if (!comparisonStrategy.areEqual(elementFromActual, elementFromValues)) {
+          throw failures
+            .failure(info, elementsDifferAtIndex(elementFromActual, elementFromValues, i, comparisonStrategy));
+        }
+      }
+      return;
+    }
+
+    throw failures
+      .failure(info, shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
   }
 
   /**

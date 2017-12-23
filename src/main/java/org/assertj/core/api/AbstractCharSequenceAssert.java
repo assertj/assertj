@@ -527,6 +527,60 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given charSequences <b>in a sequential order with no more or less elements</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
+   *
+   * // this assertion succeeds
+   * assertThat(actual).containsExactly(&quot;foo&quot;, &quot;, bar&quot;);
+   *
+   * // this assertion fails because of the wrong order
+   * assertThat(actual).containsExactly(&quot;, bar&quot;, &quot;foo&quot;);
+   *
+   * // this assertion fails because of unmatched elements
+   * assertThat(actual).containsExactly(&quot;foo&quot;);</code></pre>
+   *
+   * @param values the charSequences to check.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain exactly the values in a sequential order.
+   */
+  public SELF containsExactly(CharSequence... values){
+    strings.assertContainsExactly(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given Iterable <b>in a sequential order with no more or less elements</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
+   *
+   * // this assertion succeeds
+   * assertThat(actual).containsExactly(asList(&quot;foo&quot;, &quot;, bar&quot;));
+   *
+   * // this assertion fails because of the wrong order
+   * assertThat(actual).containsExactly(asList(&quot;, bar&quot;, &quot;foo&quot;));
+   *
+   * // this assertion fails because of unmatched elements
+   * assertThat(actual).containsExactly(asList(&quot;foo&quot;));</code></pre>
+   *
+   * @param values the charSequences to check.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the Iterable of values is {@code null}.
+   * @throws IllegalArgumentException if the Iterable of values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain exactly the values in a sequential order.
+   */
+  public SELF containsExactly(Iterable<? extends CharSequence> values) {
+    strings.assertContainsExactly(info, actual, IterableUtil.toArray(values, CharSequence.class));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains exactly all the values of the given charSequences <b>in any order with no more or less elements</b>.
    * <p>
    * Example:
