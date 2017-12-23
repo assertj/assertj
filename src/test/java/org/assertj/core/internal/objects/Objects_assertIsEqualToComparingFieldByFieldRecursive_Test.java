@@ -432,6 +432,18 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                                             defaultTypeComparators());
   }
 
+  @Test(expected = AssertionError.class)
+  public void should_be_able_to_compare_objects_with_percentages() {
+    Person actual = new Person();
+    actual.name = "foo";
+
+    Person other = new Person();
+    other.name = "%foo";
+
+    objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+      defaultTypeComparators());
+  }
+
   public static class WithMap<K, V> {
     public Map<K, V> map;
 
