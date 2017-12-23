@@ -344,4 +344,18 @@ public class DiffUtils {
     return buffer;
   }
 
+  /**
+   * Convert the output of a diff to a string that can be used in e.g. an error message.
+   *
+   * @param diffsList the output of the diff.
+   * @return A string showing the output of the diff.
+   */
+  public static String diffsAsString(List<Delta<String>> diffsList) {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (Delta<String> diff : diffsList) {
+      stringBuilder.append(org.assertj.core.util.Compatibility.System.lineSeparator()).append(diff.toString());
+    }
+    return stringBuilder.toString();
+  }
+
 }
