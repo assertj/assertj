@@ -12,47 +12,54 @@
  */
 package org.assertj.core.internal;
 
-import static java.util.Collections.unmodifiableList;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.*;
+import static org.assertj.core.util.Lists.*;
+
 class IterableDiff {
-  
+
   private final ComparisonStrategy comparisonStrategy;
 
   List<Object> unexpected;
   List<Object> missing;
 
-  static IterableDiff diff(Iterable<Object> actual, Iterable<Object> expected, ComparisonStrategy comparisonStrategy) {
-    return new IterableDiff(actual, expected, comparisonStrategy);
-  }
-  
-  IterableDiff(Iterable<Object> actual, Iterable<Object> expected, ComparisonStrategy comparisonStrategy) {
+  <T> IterableDiff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
     this.unexpected = unmodifiableList(unexpectedElements(actual, expected));
     this.missing = unmodifiableList(missingElements(actual, expected));
   }
-  
+
+  static <T> IterableDiff diff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
+    return new IterableDiff(actual, expected, comparisonStrategy);
+  }
+
   boolean differencesFound() {
     return !unexpected.isEmpty() || !missing.isEmpty();
   }
-  
-  private List<Object> missingElements(Iterable<Object> actual, Iterable<Object> expected) {
+
+  private <T> List<Object> missingElements(Iterable<T> actual, Iterable<T> expected) {
     List<Object> missing = new ArrayList<>();
+    List<T> copyOfActual = newArrayList(actual);
     for (Object element : expected) {
-      if (!iterableContains(actual, element)) {
+      if (!iterableContains(copyOfActual, element)) {
         missing.add(element);
+      } else {
+        iterablesRemoveFirst(copyOfActual, element);
       }
     }
     return missing;
   }
 
-  private List<Object> unexpectedElements(Iterable<Object> actual, Iterable<Object> expected) {
+  private <T> List<Object> unexpectedElements(Iterable<T> actual, Iterable<T> expected) {
     List<Object> unexpected = new ArrayList<>();
+    List<T> copyOfExpected = newArrayList(expected);
     for (Object actualElement : actual) {
-      if (!iterableContains(expected, actualElement)) {
+      if (!iterableContains(copyOfExpected, actualElement)) {
         unexpected.add(actualElement);
+      } else {
+        iterablesRemoveFirst(copyOfExpected, actualElement);
       }
     }
     return unexpected;
@@ -61,5 +68,8 @@ class IterableDiff {
   private boolean iterableContains(Iterable<?> actual, Object value) {
     return comparisonStrategy.iterableContains(actual, value);
   }
-  
+
+  private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterablesRemoveFirst(actual, value);
+  }
 }
