@@ -88,7 +88,7 @@ public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseT
 	try {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList(), newArrayList(false)));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList(true), newArrayList(false)));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
