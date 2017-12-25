@@ -21,7 +21,7 @@ import org.junit.Test;
 
 public class PropertySupport_publicGetterExistsFor_Test {
 
-  private PropertySupport propertySupport  = PropertySupport.instance();
+  private PropertySupport propertySupport = PropertySupport.instance();
   private Person bruceWayne;
   private Person joker;
   private SuperHero batman;
@@ -32,18 +32,19 @@ public class PropertySupport_publicGetterExistsFor_Test {
     joker = new Person("Joker");
     batman = new SuperHero("Batman", bruceWayne, joker);
   }
+
   @Test
   public void should_return_true_if_public_getter_exists_for_field() {
-	assertThat(propertySupport.publicGetterExistsFor("archenemy", batman)).as("check archenemy").isTrue();
-	// with inherited public getter
-	assertThat(propertySupport.publicGetterExistsFor("name", batman)).as("check name").isTrue();
+    assertThat(propertySupport.publicGetterExistsFor("archenemy", batman)).as("check archenemy").isTrue();
+    // with inherited public getter
+    assertThat(propertySupport.publicGetterExistsFor("name", batman)).as("check name").isTrue();
   }
 
   @Test
   public void should_return_false_if_public_getter_does_not_exist() {
-	// getter exists but is package visible
-	assertThat(propertySupport.publicGetterExistsFor("trueIdentity", batman)).as("package visible getter").isFalse();
-	assertThat(propertySupport.publicGetterExistsFor("realJob", batman)).as("with non existing getter").isFalse();
+    // getter exists but is package visible
+    assertThat(propertySupport.publicGetterExistsFor("trueIdentity", batman)).as("package visible getter").isFalse();
+    assertThat(propertySupport.publicGetterExistsFor("realJob", batman)).as("with non existing getter").isFalse();
   }
-  
+
 }
