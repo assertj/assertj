@@ -254,6 +254,13 @@ public class Iterables {
   }
 
   /**
+   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
+   */
+  private void iterablesRemove(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterableRemoves(actual, value);
+  }
+
+  /**
    * Asserts that the given {@code Iterable} contains only the given values and nothing else, in any order.
    * 
    * @param info contains information about the assertion.
@@ -268,11 +275,22 @@ public class Iterables {
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
 
-    IterableDiff diff = diff(newArrayList(actual), asList(values), comparisonStrategy);
-    if (diff.differencesFound())
-      throw failures.failure(info, shouldContainOnly(actual, values,
-                                                     diff.missing, diff.unexpected,
-                                                     comparisonStrategy));
+    List<Object> notExpected = newArrayList(actual);
+    List<Object> notFound = newArrayList(values);
+
+    for (Object value : values) {
+      if (iterableContains(notExpected, value)) {
+        iterablesRemove(notExpected, value);
+        iterablesRemove(notFound, value);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+
+    throw failures.failure(info, shouldContainOnly(actual, values,
+                                                   notFound, notExpected,
+                                                   comparisonStrategy));
+
   }
 
   /**
