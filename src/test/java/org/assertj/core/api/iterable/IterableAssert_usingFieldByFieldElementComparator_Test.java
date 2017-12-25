@@ -117,11 +117,14 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
 
   @Test
   public void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_list() {
+    // GIVEN
     Person goodObiwan = new Person("Obi-Wan", "Kenobi", "good man");
     Person badObiwan = new Person("Obi-Wan", "Kenobi", "bad man");
-
+    // WHEN
     List<Person> list = asList(goodObiwan, badObiwan);
-    assertThat(list).usingFieldByFieldElementComparator().containsOnly(badObiwan, goodObiwan);
+    // THEN
+    assertThat(list).usingFieldByFieldElementComparator()
+                    .containsOnly(badObiwan, goodObiwan);
   }
 
   @Test
@@ -282,12 +285,14 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       Person person = (Person) o;
-      return Objects.equals(first, person.first) && Objects.equals(last, person.last);
+      return Objects.equals(first, person.first)
+             && Objects.equals(last, person.last)
+             && Objects.equals(info, person.info);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(first, last);
+      return Objects.hash(first, last, info);
     }
 
     @Override

@@ -208,11 +208,22 @@ public class Arrays {
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
-    IterableDiff diff = diff(asList(actual), asList(values), comparisonStrategy);
-    if (diff.differencesFound())
-      throw failures.failure(info, shouldContainOnly(actual, values,
-                                                     diff.missing, diff.unexpected,
-                                                     comparisonStrategy));
+    List<Object> notExpected = asList(actual);
+    List<Object> notFound = asList(values);
+
+    for (Object value : asList(values)) {
+      if (iterableContains(notExpected, value)) {
+        iterableRemoves(notExpected, value);
+        iterableRemoves(notFound, value);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+
+    throw failures.failure(info, shouldContainOnly(actual, values,
+                                                   notFound, notExpected,
+                                                   comparisonStrategy));
+
   }
 
   void assertContainsOnlyNulls(AssertionInfo info, Failures failures, Object[] actual) {
@@ -298,6 +309,13 @@ public class Arrays {
 
   private void iterablesRemoveFirst(Collection<?> actual, Object value) {
     comparisonStrategy.iterablesRemoveFirst(actual, value);
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
+   */
+  private void iterableRemoves(Collection<?> actual, Object value) {
+    comparisonStrategy.iterableRemoves(actual, value);
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {

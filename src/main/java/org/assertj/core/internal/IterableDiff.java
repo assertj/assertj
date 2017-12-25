@@ -13,53 +13,69 @@
 package org.assertj.core.internal;
 
 import static java.util.Collections.unmodifiableList;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
 import java.util.List;
 
+// immutable
 class IterableDiff {
-  
+
   private final ComparisonStrategy comparisonStrategy;
 
   List<Object> unexpected;
   List<Object> missing;
 
-  static IterableDiff diff(Iterable<Object> actual, Iterable<Object> expected, ComparisonStrategy comparisonStrategy) {
+  <T> IterableDiff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
+    this.comparisonStrategy = comparisonStrategy;
+    this.unexpected = unexpectedElements(actual, expected);
+    this.missing = missingElements(actual, expected);
+  }
+
+  static <T> IterableDiff diff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
     return new IterableDiff(actual, expected, comparisonStrategy);
   }
-  
-  IterableDiff(Iterable<Object> actual, Iterable<Object> expected, ComparisonStrategy comparisonStrategy) {
-    this.comparisonStrategy = comparisonStrategy;
-    this.unexpected = unmodifiableList(unexpectedElements(actual, expected));
-    this.missing = unmodifiableList(missingElements(actual, expected));
-  }
-  
+
   boolean differencesFound() {
     return !unexpected.isEmpty() || !missing.isEmpty();
   }
-  
-  private List<Object> missingElements(Iterable<Object> actual, Iterable<Object> expected) {
-    List<Object> missing = new ArrayList<>();
-    for (Object element : expected) {
-      if (!iterableContains(actual, element)) {
-        missing.add(element);
-      }
-    }
-    return missing;
+
+  private <T> List<Object> missingElements(Iterable<T> actual, Iterable<T> expected) {
+    // return the elements in expected that are not in actual
+    return subtract(actual, expected);
   }
 
-  private List<Object> unexpectedElements(Iterable<Object> actual, Iterable<Object> expected) {
-    List<Object> unexpected = new ArrayList<>();
-    for (Object actualElement : actual) {
-      if (!iterableContains(expected, actualElement)) {
-        unexpected.add(actualElement);
+  private <T> List<Object> unexpectedElements(Iterable<T> actual, Iterable<T> expected) {
+    // return the elements in actual that are not in expected
+    return subtract(expected, actual);
+  }
+
+  /**
+   * Returns the list of elements in the second iterable that are not in the first  
+   * @param first the list we want to look for missing elements
+   * @param second the list of expected elements
+   * @return list of elements from expected missing in source
+   */
+  private <T> List<Object> subtract(Iterable<T> first, Iterable<T> second) {
+    List<Object> missingInFirst = new ArrayList<>();
+    // use a copy to deal correctly with potential duplicates
+    List<T> copyOfFirst = newArrayList(first);
+    for (Object elementInSecond : second) {
+      if (!iterableContains(copyOfFirst, elementInSecond)) {
+        missingInFirst.add(elementInSecond);
+      } else {
+        // remove the element otherwise a duplicate would be still found in the case if there was only one in actual
+        iterablesRemoveFirst(copyOfFirst, elementInSecond);
       }
     }
-    return unexpected;
+    return unmodifiableList(missingInFirst);
   }
 
   private boolean iterableContains(Iterable<?> actual, Object value) {
     return comparisonStrategy.iterableContains(actual, value);
   }
-  
+
+  private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterablesRemoveFirst(actual, value);
+  }
 }
