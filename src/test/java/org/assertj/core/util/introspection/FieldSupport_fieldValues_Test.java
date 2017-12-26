@@ -140,4 +140,29 @@ public class FieldSupport_fieldValues_Test {
     List<Long> fieldValuesFromArray = fieldSupport.fieldValues("id", Long.class, employees.toArray(new Employee[0]));
     assertThat(fieldValuesFromArray).isEqualTo(fieldValuesFromIterable);
   }
+
+  @Test
+  public void should_extract_primitive_field() {
+    SampleObject object = new SampleObject();
+    assertThat(fieldSupport.fieldValue("sampleByte", byte.class, object)).isEqualTo(object.sampleByte);
+    assertThat(fieldSupport.fieldValue("sampleShort", short.class, object)).isEqualTo(object.sampleShort);
+    assertThat(fieldSupport.fieldValue("sampleInt", int.class, object)).isEqualTo(object.sampleInt);
+    assertThat(fieldSupport.fieldValue("sampleLong", long.class, object)).isEqualTo(object.sampleLong);
+    assertThat(fieldSupport.fieldValue("sampleFloat", float.class, object)).isEqualTo(object.sampleFloat);
+    assertThat(fieldSupport.fieldValue("sampleDouble", double.class, object)).isEqualTo(object.sampleDouble);
+    assertThat(fieldSupport.fieldValue("sampleBoolean", boolean.class, object)).isEqualTo(object.sampleBoolean);
+    assertThat(fieldSupport.fieldValue("sampleChar", char.class, object)).isEqualTo(object.sampleChar);
+  }
+
+  static class SampleObject {
+    final byte sampleByte = 1;
+    final short sampleShort = 1;
+    final int sampleInt = 1;
+    final long sampleLong = 1;
+    final float sampleFloat = 1;
+    final double sampleDouble = 1;
+    final boolean sampleBoolean = true;
+    final char sampleChar = 'a';
+  }
+
 }
