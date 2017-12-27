@@ -218,12 +218,11 @@ public class Arrays {
       }
     }
 
-    if (notExpected.isEmpty() && notFound.isEmpty()) return;
-
-    throw failures.failure(info, shouldContainOnly(actual, values,
-                                                   notFound, notExpected,
-                                                   comparisonStrategy));
-
+    if (!notExpected.isEmpty() || !notFound.isEmpty()) {
+      throw failures.failure(info, shouldContainOnly(actual, values,
+                                                     notFound, notExpected,
+                                                     comparisonStrategy));
+    }
   }
 
   void assertContainsOnlyNulls(AssertionInfo info, Failures failures, Object[] actual) {

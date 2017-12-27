@@ -289,12 +289,11 @@ public class Iterables {
       }
     }
 
-    if (unexpectedValues.isEmpty() && missingValues.isEmpty()) return;
-
-    throw failures.failure(info, shouldContainOnly(actual, expectedValues,
-                                                   missingValues, unexpectedValues,
-                                                   comparisonStrategy));
-
+    if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
+      throw failures.failure(info, shouldContainOnly(actual, expectedValues,
+                                                     missingValues, unexpectedValues,
+                                                     comparisonStrategy));
+    }
   }
 
   /**

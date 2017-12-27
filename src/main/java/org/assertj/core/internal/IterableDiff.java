@@ -28,8 +28,10 @@ class IterableDiff {
 
   <T> IterableDiff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
-    this.unexpected = unexpectedElements(actual, expected);
-    this.missing = missingElements(actual, expected);
+    // return the elements in actual that are not in expected: actual - expected
+    this.unexpected = subtract(actual, expected);
+    // return the elements in expected that are not in actual: expected - actual
+    this.missing = subtract(expected, actual);
   }
 
   static <T> IterableDiff diff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
@@ -40,32 +42,22 @@ class IterableDiff {
     return !unexpected.isEmpty() || !missing.isEmpty();
   }
 
-  private <T> List<Object> missingElements(Iterable<T> actual, Iterable<T> expected) {
-    // return the elements in expected that are not in actual
-    return subtract(actual, expected);
-  }
-
-  private <T> List<Object> unexpectedElements(Iterable<T> actual, Iterable<T> expected) {
-    // return the elements in actual that are not in expected
-    return subtract(expected, actual);
-  }
-
   /**
-   * Returns the list of elements in the second iterable that are not in the first  
-   * @param first the list we want to look for missing elements
-   * @param second the list of expected elements
-   * @return list of elements from expected missing in source
+   * Returns the list of elements in the first iterable that are not in the second, i.e. first - second  
+   * @param first the list we want to subtract from
+   * @param second the list to subtract
+   * @return the list of elements in the first iterable that are not in the second, i.e. first - second
    */
   private <T> List<Object> subtract(Iterable<T> first, Iterable<T> second) {
     List<Object> missingInFirst = new ArrayList<>();
     // use a copy to deal correctly with potential duplicates
-    List<T> copyOfFirst = newArrayList(first);
-    for (Object elementInSecond : second) {
-      if (!iterableContains(copyOfFirst, elementInSecond)) {
-        missingInFirst.add(elementInSecond);
+    List<T> copyOfSecond = newArrayList(second);
+    for (Object elementInFirst : first) {
+      if (iterableContains(copyOfSecond, elementInFirst)) {
+        // remove the element otherwise a duplicate would be found in the case if there is one in actual
+        iterablesRemoveFirst(copyOfSecond, elementInFirst);
       } else {
-        // remove the element otherwise a duplicate would be still found in the case if there was only one in actual
-        iterablesRemoveFirst(copyOfFirst, elementInSecond);
+        missingInFirst.add(elementInFirst);
       }
     }
     return unmodifiableList(missingInFirst);

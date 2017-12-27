@@ -27,7 +27,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrays#assertContainsOnly(AssertionInfo, Object[], Object[])}</code>.
  * 
@@ -114,7 +113,8 @@ public class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Yoda", "Leia", "LUke");
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "LUKE", "LuKE", "YOda", "LeiA"));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual,
+                                                          array("LUke", "LUKE", "LuKE", "YOda", "LeiA"));
   }
 
   @Test
