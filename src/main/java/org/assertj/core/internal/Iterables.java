@@ -58,6 +58,7 @@ import static org.assertj.core.internal.ErrorMessages.emptySequence;
 import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
+import static org.assertj.core.internal.IterableDiff.*;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
@@ -997,20 +998,15 @@ public class Iterables {
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
-    List<Object> notExpected = newArrayList(actual);
-    List<Object> notFound = newArrayList(values);
 
-    for (Object value : values) {
-      if (iterableContains(notExpected, value)) {
-        iterablesRemoveFirst(notExpected, value);
-        iterablesRemoveFirst(notFound, value);
-      }
-    }
+    List<Object> actualAsList = newArrayList(actual);
+    IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
 
-    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    if (!diff.differencesFound()) return;
 
     throw failures.failure(info,
-                           shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+                           shouldContainExactlyInAnyOrder(actual, values, diff.missing, diff.unexpected,
+                                                          comparisonStrategy));
   }
 
   void assertNotNull(AssertionInfo info, Iterable<?> actual) {

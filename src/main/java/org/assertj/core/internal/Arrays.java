@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
+import static java.util.Arrays.asList;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -261,20 +262,14 @@ public class Arrays {
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
-    List<Object> notExpected = asList(actual);
-    List<Object> notFound = asList(values);
 
-    for (Object value : asList(values)) {
-      if (iterableContains(notExpected, value)) {
-        iterablesRemoveFirst(notExpected, value);
-        iterablesRemoveFirst(notFound, value);
-      }
-    }
+    List<Object> actualAsList = asList(actual);
+    IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
 
-    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    if (!diff.differencesFound()) return;
 
     throw failures.failure(info,
-                           shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+                           shouldContainExactlyInAnyOrder(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
   }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
