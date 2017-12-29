@@ -58,6 +58,7 @@ import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
@@ -786,20 +787,18 @@ public class Strings {
   public void assertContainsExactly(AssertionInfo info, CharSequence actual, CharSequence[] values) {
     doCommonCheckForCharSequence(info, actual, values);
 
-    List<String> actualAsList = splitCharSequencesToListOfChars(actual);
-    List<String> valuesAsList = splitCharSequencesToListOfChars(values);
+    List<String> actualAsList = splitCharSequencesToListOfElements(actual);
+    List<String> valuesAsList = splitCharSequencesToListOfElements(values);
 
-    int size = actualAsList.size();
-
-    if (size != valuesAsList.size()) {
-      throw failures.failure(info, shouldHaveSameSizeAs(actual, size, valuesAsList.size()));
+    if (actualAsList.size() != valuesAsList.size()) {
+      throw failures.failure(info, shouldHaveSameSizeAs(actual, actualAsList.size(), valuesAsList.size()));
     }
 
-    IterableDiff diff = IterableDiff.diff(actualAsList, valuesAsList, comparisonStrategy);
+    IterableDiff diff = diff(actualAsList, valuesAsList, comparisonStrategy);
 
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
-      for (int i = 0; i < size; i++) {
+      for (int i = 0; i < actualAsList.size(); i++) {
         String elementFromActual = actualAsList.get(i);
         String elementFromValues = valuesAsList.get(i);
         if (!comparisonStrategy.areEqual(elementFromActual, elementFromValues)) {
@@ -828,22 +827,19 @@ public class Strings {
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, CharSequence actual, CharSequence[] values) {
     doCommonCheckForCharSequence(info, actual, values);
 
-    List<String> actualAsList = splitCharSequencesToListOfChars(actual);
-    List<String> valuesAsList = splitCharSequencesToListOfChars(values);
-
-    int size = actualAsList.size();
+    List<String> actualAsList = splitCharSequencesToListOfElements(actual);
+    List<String> valuesAsList = splitCharSequencesToListOfElements(values);
 
     if (actualAsList.size() != valuesAsList.size()) {
-      throw failures.failure(info, shouldHaveSameSizeAs(actual, size, valuesAsList.size()));
+      throw failures.failure(info, shouldHaveSameSizeAs(actual, actualAsList.size(), valuesAsList.size()));
     }
 
-    IterableDiff diff = IterableDiff.diff(actualAsList, valuesAsList, comparisonStrategy);
+    IterableDiff diff = diff(actualAsList, valuesAsList, comparisonStrategy);
 
     if (!diff.differencesFound()) return;
 
     throw failures
       .failure(info, shouldContainExactlyInAnyOrder(actual, values, valuesAsList, actualAsList, comparisonStrategy));
-
   }
 
   /**
@@ -1064,19 +1060,26 @@ public class Strings {
   }
 
   /**
-   * split charSequences to a linkedList of individual chars.
+   * Split charSequences to a list of individual elements.
    *
    * @param charSequences the multiple charSequences to split.
-   * @return the linkedList of all chars in charSequences.
+   * @return the list of all the elements in charSequences.
    */
-  private List<String> splitCharSequencesToListOfChars(CharSequence... charSequences) {
-    // This can be implemented in JDK8 with String.join() easily.
+  private List<String> splitCharSequencesToListOfElements(CharSequence... charSequences) {
+    // This can be implemented in Java 8 with String.join() easily.
     StringBuilder stringBuilder = new StringBuilder();
     for (CharSequence charSequence : charSequences) {
       stringBuilder.append(charSequence);
     }
-    String[] array = stringBuilder.toString().split("");
-    return newArrayList(array);
+    // concat all charSequences to one string
+    String stringOfcharSequences = stringBuilder.toString();
+
+    // split the string to a list of elements
+    List<String> listOfElements = newArrayList();
+    for (int i = 0; i < stringOfcharSequences.length(); i++) {
+      listOfElements.add(stringOfcharSequences.substring(i, i + 1));
+    }
+    return listOfElements;
   }
 
   private void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
