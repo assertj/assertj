@@ -31,7 +31,6 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -954,10 +953,6 @@ public class Iterables {
   public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
-    int actualSize = sizeOf(actual);
-    if (values.length != actualSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, values.length, comparisonStrategy));
-    assertHasSameSizeAs(info, actual, values); // include check that actual is not null
 
     List<Object> actualAsList = newArrayList(actual);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
@@ -973,7 +968,8 @@ public class Iterables {
       return;
     }
     throw failures.failure(info,
-                           shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
+                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+                                                comparisonStrategy));
   }
 
   /**

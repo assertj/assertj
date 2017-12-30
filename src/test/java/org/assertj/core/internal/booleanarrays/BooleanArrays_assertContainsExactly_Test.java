@@ -14,12 +14,12 @@ package org.assertj.core.internal.booleanarrays;
 
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -27,7 +27,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -88,7 +87,8 @@ public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseT
     try {
       arrays.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList(true), newArrayList(false)));
+      verify(failures).failure(info,
+                               shouldContainExactly(actual, asList(expected), newArrayList(true), newArrayList(false)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -97,12 +97,13 @@ public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseT
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
+    boolean[] actual = { true, true };
     boolean[] expected = { true };
     try {
       arrays.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldHaveSameSize(actual, expected, 2, 1, StandardComparisonStrategy.instance()));
+                               shouldContainExactly(actual, asList(expected), newArrayList(), newArrayList(true)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

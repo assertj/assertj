@@ -37,7 +37,6 @@ import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -241,10 +240,6 @@ public class Arrays {
     if (commonChecks(info, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
-    int actualSize = sizeOf(actual);
-    int expectedSize = sizeOf(values);
-    if (actualSize != expectedSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
 
     List<Object> actualAsList = asList(actual);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
@@ -260,7 +255,8 @@ public class Arrays {
       return;
     }
     throw failures.failure(info,
-                           shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
+                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+                                                comparisonStrategy));
   }
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {

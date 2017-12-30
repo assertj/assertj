@@ -28,21 +28,6 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContainExactly}</code>.
-   * 
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be contained in {@code actual}.
-   * @param notFound values in {@code expected} not found in {@code actual}.
-   * @param notExpected values in {@code actual} that were not in {@code expected}.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-                                                         Object notExpected, ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainExactly(actual, expected, notFound, notExpected, comparisonStrategy);
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldContainExactly}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
@@ -52,12 +37,15 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    * 
    */
-  public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-                                                         Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
+                                                         Iterable<?> notFound, Iterable<?> notExpected,
+                                                         ComparisonStrategy comparisonStrategy) {
     if (isNullOrEmpty(notExpected)) {
       return new ShouldContainExactly(actual, expected, notFound, comparisonStrategy);
     }
-
+    if (isNullOrEmpty(notFound)) {
+      return new ShouldContainExactly(actual, expected, comparisonStrategy, notExpected);
+    }
     return new ShouldContainExactly(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
@@ -70,58 +58,9 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-                                                         Object notExpected) {
-    return new ShouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldContainExactly}</code>.
-   *
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be contained in {@code actual}.
-   * @param notFound values in {@code expected} not found in {@code actual}.
-   * @param notExpected values in {@code actual} that were not in {@code expected}.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-                                                         Iterable<?> notExpected) {
-
+  public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
+                                                         Iterable<?> notFound, Iterable<?> notExpected) {
     return shouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
-  }
-
-  public static ErrorMessageFactory shouldHaveSameSize(Object actual, Object expected, int actualSize,
-                                                       int expectedSize, ComparisonStrategy comparisonStrategy) {
-    return StandardComparisonStrategy.instance().equals(comparisonStrategy) ?
-        new ShouldContainExactly(actual, expected, actualSize, expectedSize) :
-        new ShouldContainExactly(actual, expected, actualSize, expectedSize, comparisonStrategy);
-  }
-
-  private ShouldContainExactly(Object actual, Object expected, int actualSize, int expectedSize,
-                               ComparisonStrategy comparisonStrategy) {
-    super("%n" +
-          "Actual and expected should have same size but actual size was:%n" +
-          "  <%s>%n" +
-          "while expected size was:%n" +
-          "  <%s>%n" +
-          "Actual was:%n" +
-          "  <%s>%n" +
-          "Expected was:%n" +
-          "  <%s>%n%s",
-          actualSize, expectedSize, actual, expected, comparisonStrategy);
-  }
-
-  private ShouldContainExactly(Object actual, Object expected, int actualSize, int expectedSize) {
-    super("%n" +
-          "Actual and expected should have same size but actual size was:%n" +
-          "  <%s>%n" +
-          "while expected size was:%n" +
-          "  <%s>%n" +
-          "Actual was:%n" +
-          "  <%s>%n" +
-          "Expected was:%n" +
-          "  <%s>%n",
-          actualSize, expectedSize, actual, expected);
   }
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
@@ -147,6 +86,18 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
           "but could not find the following elements:%n" +
           "  <%s>%n%s",
           actual, expected, notFound, comparisonStrategy);
+  }
+
+  private ShouldContainExactly(Object actual, Object expected, ComparisonStrategy comparisonStrategy,
+                               Object unexpected) {
+    super("%n" +
+          "Expecting:%n" +
+          "  <%s>%n" +
+          "to contain exactly (and in same order):%n" +
+          "  <%s>%n" +
+          "but some elements were not expected:%n" +
+          "  <%s>%n%s",
+          actual, expected, unexpected, comparisonStrategy);
   }
 
   /**

@@ -15,12 +15,12 @@ package org.assertj.core.internal.iterables;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -30,7 +30,6 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -85,7 +84,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     } catch (AssertionError e) {
       List<String> notFound = newArrayList("Han");
       List<String> notExpected = newArrayList("Leia");
-      verify(failures).failure(info, shouldContainExactly(actual, expected, notFound, notExpected));
+      verify(failures).failure(info, shouldContainExactly(actual, asList(expected), notFound, notExpected));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -112,8 +111,8 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     try {
       iterables.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldHaveSameSize(actual, expected, 3, 2, StandardComparisonStrategy.instance()));
+      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                          newArrayList(), newArrayList("Luke")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -136,9 +135,9 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContainExactly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                    comparisonStrategy));
+      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                          newArrayList("Han"), newArrayList("Leia"),
+                                                          comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -165,7 +164,9 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSize(actual, expected, 3, 2, comparisonStrategy));
+      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                          newArrayList(), newArrayList("Luke"),
+                                                          comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
