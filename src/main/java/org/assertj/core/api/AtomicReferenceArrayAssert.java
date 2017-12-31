@@ -279,7 +279,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that the actual AtomicReferenceArray contains only the given values and nothing else, <b>in any order</b>.
+   * Verifies that the actual AtomicReferenceArray contains only the given values and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found)..
    * <p>
    * Example :
    * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
@@ -310,7 +310,7 @@ public class AtomicReferenceArrayAssert<T>
 
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
-   * {@code Iterable} and nothing else, <b>in any order</b>.
+   * {@code Iterable} and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * Example :
    * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; rings = new AtomicReferenceArray&lt;&gt;(new Ring[]{nenya, vilya});

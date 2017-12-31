@@ -58,7 +58,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF contains(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
-   * Verifies that the actual group contains only the given values and nothing else, in any order and with possibly duplicates.
+   * Verifies that the actual group contains only the given values and nothing else, in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * If you need to check exactly the elements and their duplicates use:
    * <ul>
@@ -1026,7 +1026,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
 
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
-   * iterable and nothing else, <b>in any order</b>.
+   * iterable and nothing else, <b>in any order</b> and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable
    * <p>
@@ -1034,8 +1034,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
    * 
    * // assertion will pass
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya))
-   *                  .containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
+   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya))
+   *                  .containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
+   * assertThat(newArrayList(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
    * 
    * // assertion will fail as actual does not contain narya
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));

@@ -225,7 +225,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual group contains only the given values and nothing else, in any order and with possibly duplicates.
+   * Verifies that the actual group contains only the given values and nothing else, in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * If you need to check exactly the elements and their duplicates use:
    * <ul>
@@ -264,7 +264,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
-   * {@code Iterable} and nothing else, <b>in any order</b>.
+   * {@code Iterable} and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * Example :
    * <pre><code class='java'> Ring[] rings = {nenya, vilya};
@@ -272,6 +272,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertions will pass
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya));
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
+   * assertThat(newArrayList(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
    *
    * // assertion will fail as actual does not contain narya
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya, narya));
