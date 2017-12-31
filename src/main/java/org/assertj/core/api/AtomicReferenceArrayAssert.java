@@ -344,7 +344,7 @@ public class AtomicReferenceArrayAssert<T>
    * AtomicReferenceArray&lt;String&gt; items2 = new AtomicReferenceArray&lt;&gt;(new String[]{null, null, "notNull"});
    * assertThat(items2).containsOnlyNulls();
    * 
-   * // assertion will fail since an empty array does not contain any element and therefore no null ones.
+   * // assertion will fail since an empty array does not contain any elements and therefore no null ones.
    * AtomicReferenceArray&lt;String&gt; empty = new AtomicReferenceArray&lt;&gt;(new String[0]);
    * assertThat(empty).containsOnlyNulls();</code></pre>
    *

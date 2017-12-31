@@ -108,7 +108,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;String&gt; items2 = Arrays.asList(null, null, "notNull");
    * assertThat(items2).containsOnlyNulls();
    * 
-   * // assertion will fail since an empty iterable does not contain any element and therefore no null ones.
+   * // assertion will fail since an empty iterable does not contain any elements and therefore no null ones.
    * Iterable&lt;String&gt; empty = new ArrayList&lt;&gt;();
    * assertThat(empty).containsOnlyNulls();</code></pre>
    *
