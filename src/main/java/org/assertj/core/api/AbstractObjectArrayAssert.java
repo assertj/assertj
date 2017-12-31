@@ -1564,7 +1564,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(obiwan).extracting("name", "height")
    *                   .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
    *                   .containsExactly("Obi-Wan", new BigDecimal("1.82"));</code></pre>
-   * </p>
    *
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for

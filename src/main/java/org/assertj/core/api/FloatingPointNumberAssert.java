@@ -47,7 +47,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * assertThat(8.1).isEqualTo(8.0, within(0.1));
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * // ... except when using byLessThan which is strict
-   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.1)); // strict => fail
+   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.1)); // strict =&gt; fail
    * 
    * // this assertions also fails
    * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>

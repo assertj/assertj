@@ -44,8 +44,6 @@ public class Comparables {
 
   /**
    * Returns a {@link Comparables} using a {@link StandardComparisonStrategy}.
-   * 
-   * @return a {@link Comparables} using a {@link StandardComparisonStrategy}.
    */
   public Comparables() {
     this(StandardComparisonStrategy.instance());

@@ -1119,7 +1119,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * 
    * // assertion will fail:
    * assertThat(ringBearers).size().isGreaterThan(5);</code></pre>
-   * 
+   *
+   * @return a {@link AbstractMapSizeAssert} to allow assertions on the the number of key-value mappings in this map
    * @throws NullPointerException if the given map is {@code null}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -1173,7 +1174,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Iterable&lt;String&gt; cities = asList("Dover", "Boston", "Paris");
    * int[] ranks = { 1, 2, 3 };
    * 
-   * Map&lt;String, Object&gt; map = new LinkedHashMap<>();                                    
+   * Map&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();                                    
    * map.put("name", names);                                         
    * map.put("job", jobs);                                           
    * map.put("city", cities);                                        

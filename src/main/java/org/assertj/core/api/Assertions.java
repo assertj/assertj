@@ -1730,7 +1730,7 @@ public class Assertions {
    *                           .and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *           .containsOnly(james, rose);</code></pre>
    *
-   * @param iterable the {@code Iterable} to filter.
+   * @param iterableToFilter the {@code Iterable} to filter.
    * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {

@@ -1703,11 +1703,10 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new AtomicReferenceArray<>(new Object[] { "some", new BigDecimal("4.2") }))
+   * assertThat(new AtomicReferenceArray&lt;&gt;(new Object[] { "some", new BigDecimal("4.2") }))
    *       .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
    *       .contains(new BigDecimal("4.20"));
    * </code></pre>
-   * </p>
    *
    * @param comparator the {@link java.util.Comparator} to use
    * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
