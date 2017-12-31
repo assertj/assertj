@@ -39,7 +39,6 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -270,25 +269,46 @@ public class Iterables {
   }
 
   /**
+   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
+   */
+  private void iterablesRemove(Iterable<?> actual, Object value) {
+    comparisonStrategy.iterableRemoves(actual, value);
+  }
+
+  /**
    * Asserts that the given {@code Iterable} contains only the given values and nothing else, in any order.
    *
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
-   * @param values the values that are expected to be in the given {@code Iterable}.
+   * @param expectedValues the values that are expected to be in the given {@code Iterable}.
    * @throws NullPointerException if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} does not contain the given values or if the given
    *           {@code Iterable} contains values that are not in the given array.
    */
-  public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
+  public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] expectedValues) {
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, expectedValues)) return;
 
-    IterableDiff diff = diff(newArrayList(actual), asList(values), comparisonStrategy);
-    if (diff.differencesFound())
-      throw failures.failure(info, shouldContainOnly(actual, values,
-                                                     diff.missing, diff.unexpected,
+    // after the for loop, unexpected = expectedValues - actual
+    List<Object> unexpectedValues = newArrayList(actual);
+    // after the for loop, missing = actual - expectedValues
+    List<Object> missingValues = newArrayList(expectedValues);
+    for (Object expected : expectedValues) {
+      if (iterableContains(actual, expected)) {
+        // since expected was found in actual:
+        // -- it does not belong to the missing elements
+        iterablesRemove(missingValues, expected);
+        // -- it does not belong to the unexpected elements
+        iterablesRemove(unexpectedValues, expected);
+      }
+    }
+
+    if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
+      throw failures.failure(info, shouldContainOnly(actual, expectedValues,
+                                                     missingValues, unexpectedValues,
                                                      comparisonStrategy));
+    }
   }
 
   /**
@@ -984,10 +1004,6 @@ public class Iterables {
   public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
-    int actualSize = sizeOf(actual);
-    if (values.length != actualSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, values.length, comparisonStrategy));
-    assertHasSameSizeAs(info, actual, values); // include check that actual is not null
 
     List<Object> actualAsList = newArrayList(actual);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
@@ -1003,7 +1019,8 @@ public class Iterables {
       return;
     }
     throw failures.failure(info,
-                           shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
+                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+                                                comparisonStrategy));
   }
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {

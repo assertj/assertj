@@ -18,6 +18,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.introspection.FieldUtils.readField;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -31,6 +32,15 @@ import java.util.List;
 public enum FieldSupport {
 
   EXTRACTION(true), EXTRACTION_OF_PUBLIC_FIELD_ONLY(false), COMPARISON(true);
+
+  private static final String CHAR = "char";
+  private static final String BOOLEAN = "boolean";
+  private static final String DOUBLE = "double";
+  private static final String FLOAT = "float";
+  private static final String LONG = "long";
+  private static final String INT = "int";
+  private static final String SHORT = "short";
+  private static final String BYTE = "byte";
 
   private static final String SEPARATOR = ".";
 
@@ -188,10 +198,39 @@ public enum FieldSupport {
     return readSimpleField(fieldName, fieldClass, target);
   }
 
+  @SuppressWarnings("unchecked")
   private <T> T readSimpleField(String fieldName, Class<T> clazz, Object target) {
     try {
-      Object readField = FieldUtils.readField(target, fieldName, allowUsingPrivateFields);
-      return clazz.cast(readField);
+      Object fieldValue = readField(target, fieldName, allowUsingPrivateFields);
+      if (clazz.isPrimitive()) {
+        switch (clazz.getSimpleName()) {
+        case BYTE:
+          Byte byteValue = (byte) fieldValue;
+          return (T) byteValue;
+        case SHORT:
+          Short shortValue = (short) fieldValue;
+          return (T) shortValue;
+        case INT:
+          Integer intValue = (int) fieldValue;
+          return (T) intValue;
+        case LONG:
+          Long longValue = (long) fieldValue;
+          return (T) longValue;
+        case FLOAT:
+          Float floatValue = (float) fieldValue;
+          return (T) floatValue;
+        case DOUBLE:
+          Double doubleValue = (double) fieldValue;
+          return (T) doubleValue;
+        case BOOLEAN:
+          Boolean booleanValue = (boolean) fieldValue;
+          return (T) booleanValue;
+        case CHAR:
+          Character charValue = (char) fieldValue;
+          return (T) charValue;
+        }
+      }
+      return clazz.cast(fieldValue);
     } catch (ClassCastException e) {
       String msg = format("Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>",
                           fieldName, target, clazz);

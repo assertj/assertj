@@ -37,7 +37,6 @@ import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -208,11 +207,21 @@ public class Arrays {
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
-    IterableDiff diff = diff(asList(actual), asList(values), comparisonStrategy);
-    if (diff.differencesFound())
+    List<Object> notExpected = asList(actual);
+    List<Object> notFound = asList(values);
+
+    for (Object value : asList(values)) {
+      if (iterableContains(notExpected, value)) {
+        iterableRemoves(notExpected, value);
+        iterableRemoves(notFound, value);
+      }
+    }
+
+    if (!notExpected.isEmpty() || !notFound.isEmpty()) {
       throw failures.failure(info, shouldContainOnly(actual, values,
-                                                     diff.missing, diff.unexpected,
+                                                     notFound, notExpected,
                                                      comparisonStrategy));
+    }
   }
 
   void assertContainsOnlyNulls(AssertionInfo info, Failures failures, Object[] actual) {
@@ -231,10 +240,6 @@ public class Arrays {
     if (commonChecks(info, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
-    int actualSize = sizeOf(actual);
-    int expectedSize = sizeOf(values);
-    if (actualSize != expectedSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
 
     List<Object> actualAsList = asList(actual);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
@@ -250,7 +255,8 @@ public class Arrays {
       return;
     }
     throw failures.failure(info,
-                           shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
+                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+                                                comparisonStrategy));
   }
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -298,6 +304,13 @@ public class Arrays {
 
   private void iterablesRemoveFirst(Collection<?> actual, Object value) {
     comparisonStrategy.iterablesRemoveFirst(actual, value);
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
+   */
+  private void iterableRemoves(Collection<?> actual, Object value) {
+    comparisonStrategy.iterableRemoves(actual, value);
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {

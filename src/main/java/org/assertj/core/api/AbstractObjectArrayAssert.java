@@ -237,15 +237,23 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual group contains only the given values and nothing else, <b>in any order</b>.
+   * Verifies that the actual group contains only the given values and nothing else, in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
+   * If you need to check exactly the elements and their duplicates use:
+   * <ul>
+   * <li>{@link #containsExactly(Object...) containsExactly(Object...)} if the order does matter</li>
+   * <li>{@link #containsExactlyInAnyOrder(Object...) containsExactlyInAnyOrder(Object...)} if the order does not matter</li>
+   * </ul>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"};
    *
-   * // assertions will pass
+   * // assertions succeed
    * assertThat(abc).containsOnly("c", "b", "a");
+   * // duplicates are ignored   
    * assertThat(abc).containsOnly("a", "a", "b", "c", "c");
-   * assertThat(new String[] { "a", "a", "b" }).containsOnly("a", "b");
+   * // ... on both actual and expected values 
+   * assertThat(new String[] { "a", "a", "b" }).containsOnly("a", "b")
+   *                                           .containsOnly("a", "a", "b", "b");
    *
    * // assertion will fail because the given values do not contain "c"
    * assertThat(abc).containsOnly("a", "b");
@@ -268,7 +276,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
-   * {@code Iterable} and nothing else, <b>in any order</b>.
+   * {@code Iterable} and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * Example :
    * <pre><code class='java'> Ring[] rings = {nenya, vilya};
@@ -276,6 +284,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertions will pass
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya));
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
+   * assertThat(newArrayList(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
    *
    * // assertion will fail as actual does not contain narya
    * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya, narya));
@@ -426,7 +435,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual array contains only the given values and nothing else, <b>in order</b>.<br>
+   * Verifies that the actual array contains exactly the given values and nothing else, <b>in order</b>.<br>
    * <p>
    * Example :
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
@@ -487,7 +496,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /**
    * Same as {@link #containsExactly(Object...)} but handles the {@link Iterable} to array conversion : verifies that
-   * actual contains all elements of the given {@code Iterable} and nothing else <b>in the same order</b>.
+   * actual contains exactly the elements of the given {@code Iterable} and nothing else <b>in the same order</b>.
    * <p>
    * Example :
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};

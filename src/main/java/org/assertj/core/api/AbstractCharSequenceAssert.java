@@ -529,7 +529,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} contains the given sequence of values <b>in the given order without any other values between them</b>.
    * <p>
-   * <b>Breaking change since 2.9.0</b>: in previous versions this assertion behaved like {@link #containsSubsequence(Iterable) containsSubsequence} 
+   * <b>Breaking change since 2.9.0</b>: in previous versions this assertion behaved like {@link #containsSubsequence(CharSequence...) containsSubsequence} 
    * and allowed other values between the sequence values.  
    * <p>
    * Example:
@@ -560,7 +560,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} contains all the values of the given Iterable <b>in the Iterable
    * iteration order without any other values between them</b>.
    * <p>
-   * <b>Breaking change since 2.9.0</b>: in previous versions this assertion behaved like {@link #containsSubsequence(CharSequence...) containsSubsequence} 
+   * <b>Breaking change since 2.9.0</b>: in previous versions this assertion behaved like {@link #containsSubsequence(Iterable) containsSubsequence} 
    * and allowed other values between the sequence values.  
    * <p>
    * Example:

@@ -432,6 +432,26 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                                             defaultTypeComparators());
   }
 
+  @Test
+  public void should_be_able_to_compare_objects_with_percentages() {
+    Person actual = new Person();
+    actual.name = "foo";
+
+    Person other = new Person();
+    other.name = "%foo";
+
+    try {
+      objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
+                                                              defaultTypeComparators());
+    } catch (AssertionError err) {
+      assertThat(err).hasMessageContaining("Path to difference: <name>")
+                     .hasMessageContaining("- expected: <\"%foo\">")
+                     .hasMessageContaining("- actual  : <\"foo\">");
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
   public static class WithMap<K, V> {
     public Map<K, V> map;
 

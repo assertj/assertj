@@ -45,7 +45,6 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_with_null_elements() {
-    iterables.assertContainsOnly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
     actual.add(null);
     actual.add(null);
     iterables.assertContainsOnly(someInfo(), actual, array("Luke", null, "Yoda", "Leia", null));
@@ -139,25 +138,28 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "YODA", "Leia"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
+                                                                      array("LUKE", "YODA", "Leia"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LEIA", "yoda", "LukE"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
+                                                                      array("LEIA", "yoda", "LukE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("Luke", "Luke"));
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("luke", "YOda", "LeIA"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
+                                                                      array("luke", "YOda", "LeIA"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("LUKE"));
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-                                                                      array("LUke", "LUke", "lukE", "YOda", "Leia"));
+                                                                      array("LUke", "LUKE", "lukE", "YOda", "Leia"));
   }
 
   @Test
@@ -168,7 +170,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                 comparisonStrategy));
+                                                       comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

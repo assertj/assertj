@@ -634,7 +634,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that all elements in the actual {@code Iterable} do not have the specified typetypes (including subclasses).
+   * Verifies that all elements in the actual {@code Iterable} do not have the specified types (including subclasses).
    * <p>
    * Example:
    * <pre><code class='java'> List&lt;Number&gt; numbers = new ArrayList&lt;&gt;();

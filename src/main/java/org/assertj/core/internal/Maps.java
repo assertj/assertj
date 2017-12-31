@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -626,7 +627,7 @@ public class Maps {
       return;
     }
 
-    throw failures.failure(info, shouldContainExactly(actual, entries, notFound, notExpected));
+    throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
   }
 
   private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
