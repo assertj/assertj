@@ -408,9 +408,8 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Verifies that the actual {@link Optional} is not {@code null} and not empty,
-   * and returns an Object assertion, to allow chaining of object-specific
-   * assertions from this call.
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an Object assertion 
+   * that allows chaining (object) assertions on the optional value.
    * <p>
    * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.  
    * <p>
