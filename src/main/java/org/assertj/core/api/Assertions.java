@@ -1065,8 +1065,8 @@ public class Assertions {
    * Java 8 example :
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
-   *    assertThatThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
-   *                                                              .hasMessageContaining("boom");
+   *    assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                               .hasMessageContaining("boom");
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
@@ -1100,7 +1100,7 @@ public class Assertions {
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    // if this assertion failed (but it doesn't), the error message would start with [Test explosive code]
-   *    assertThatThrownBy(() -&gt; { throw new IOException("boom!") }, "Test explosive code")
+   *    assertThatThrownBy(() -&gt; { throw new IOException("boom!"); }, "Test explosive code")
    *             .isInstanceOf(IOException.class)
    *             .hasMessageContaining("boom");
    * }</code></pre>
@@ -1201,9 +1201,8 @@ public class Assertions {
   /**
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null, 
-   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it, 
-   * making it convenient to perform subtype-specific assertions on the result.
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null 
+   * otherwise it checks that the caught {@link Throwable} has the specified type and casts it making it convenient to perform subtype-specific assertions on it.
    * <p>
    * Example:
    * <pre><code class='java'> class CustomParseException extends Exception {
@@ -1219,11 +1218,14 @@ public class Assertions {
    * 
    * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                                               CustomParseException.class);
-   * // assertions pass
+   * // assertions succeed
    * assertThat(e).hasMessageContaining("boom");
    * assertThat(e.line).isEqualTo(1);
    * assertThat(e.column).isEqualTo(5);
    * 
+   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions 
+   * assertThat(catchThrowableOfType(() -&gt; {}, Exception.class)).isNull();
+   *                      
    * // fails as CustomParseException is not a RuntimeException
    * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
    *                      RuntimeException.class);</code></pre>

@@ -70,17 +70,17 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *                                                               
    * // this assertion succeeds:
    * assertThat(elvesRingBearers).allSatisfy((character, ring) -&gt; {
-   *   assertThat(character.getRace()).isIn(ELF, MAIA);            
+   *   assertThat(character.getRace()).isIn(ELF, MAIA);
    *   assertThat(ring).isIn(nenya, narya, vilya);                 
-   * });  
+   * });
    * 
-   * // this assertion fails as Gandalf is a maia not an elf:
-   * assertThat(elvesRingBearers).allSatisfy((character, ring) -&gt; {  
-   *   assertThat(character.getRace()).isEqualTo(ELF);                
-   *   assertThat(ring).isIn(elvesRings);                            
+   * // this assertion fails as Gandalf is a maia and not an elf:
+   * assertThat(elvesRingBearers).allSatisfy((character, ring) -&gt; {
+   *   assertThat(character.getRace()).isEqualTo(ELF);
+   *   assertThat(ring).isIn(nenya, narya, vilya);
    * });</code></pre>
    * <p>
-   * If the actual map is empty, this assertion succeeds as there is no entry to check.
+   * If the actual map is empty, this assertion succeeds as there is nothing to check.
    *
    * @param entryRequirements the given requirements that each entry must sastify.
    * @return {@code this} assertion object.
