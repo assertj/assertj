@@ -465,7 +465,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * <p>
    * This assertion is the same as {@link #isCloseTo(float, Offset)}.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
@@ -477,7 +477,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(8.1f).isEqualTo(8.0f, offset(0.2f)); // alias of within 
    * assertThat(8.1f).isEqualTo(8.0f, byLessThan(0.2f)); // strict
    *
-   * // assertions succeed when the difference == offset value ...  
+   * // assertions succeed when the difference == offset value ...
    * assertThat(0.1f).isEqualTo(0.0f, within(0.1f));
    * assertThat(0.1f).isEqualTo(0.0f, offset(0.1f));
    * // ... except when using byLessThan which implies a strict comparison
@@ -504,7 +504,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * <p>
    * This assertion is the same as {@link #isCloseTo(float, Offset)}.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(Float)} or {@link Assertions#offset(Float)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Float)} or {@link Offset#strictOffset(Number)}</li>
@@ -516,7 +516,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(8.1f).isEqualTo(8.0f, offset(0.2f)); // alias of within 
    * assertThat(8.1f).isEqualTo(8.0f, byLessThan(0.2f)); // strict
    *
-   * // assertions succeed when the difference == offset value ...  
+   * // assertions succeed when the difference == offset value ...
    * assertThat(0.1f).isEqualTo(0.0f, within(0.1f));
    * assertThat(0.1f).isEqualTo(0.0f, offset(0.1f));
    * // ... except when using byLessThan which implies a strict comparison
