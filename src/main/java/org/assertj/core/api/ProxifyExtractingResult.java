@@ -12,17 +12,17 @@
  */
 package org.assertj.core.api;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
 import static org.assertj.core.util.Preconditions.checkState;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.concurrent.Callable;
 
-class ProxifyExtractingResult implements MethodInterceptor {
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.SuperCall;
+
+class ProxifyExtractingResult {
 
   private final SoftProxies proxies;
 
@@ -30,11 +30,10 @@ class ProxifyExtractingResult implements MethodInterceptor {
     this.proxies = proxies;
   }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+  @RuntimeType
+  public Object intercept(@SuperCall Callable<Object> proxy) throws Exception {
 
-    Object result = proxy.invokeSuper(obj, args);
+    Object result = proxy.call();
     return proxies.create(result.getClass(), actualClass(result), actual(result));
   }
 
@@ -44,7 +43,7 @@ class ProxifyExtractingResult implements MethodInterceptor {
       return Array.newInstance(Object.class, 0).getClass();
     }
 
-    // Trying to create a proxy with cglib will only match exact constructor argument types.
+    // Trying to create a proxy will only match exact constructor argument types.
     // To initialize one for ListAssert for example we can't use an ArrayList, we have to use a List.
     // So we can't just return actual.getClass() as we could read a concrete class whereas
     // *Assert classes define a constructor using interface (@see ListAssert for example).
