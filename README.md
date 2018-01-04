@@ -18,7 +18,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 
 The AssertJ web site contains all projects documentation and can be found **[here](http://joel-costigliola.github.io/assertj/index.html)**. It notably includes the [**AssertJ Core documentation**](http://joel-costigliola.github.io/assertj/assertj-core.html).
 
-You can ask questions and make suggestions on [**AssertJ google group**](https://groups.google.com/forum/?fromgroups=#!forum/assertj).
+You can ask questions [**stackoverflow (assertj tag)**](https://stackoverflow.com/questions/tagged/assertj?mixed=1) and make suggestions by simply creating an issue.
 
 ## <a name="goals"/>AssertJ's goals
 
