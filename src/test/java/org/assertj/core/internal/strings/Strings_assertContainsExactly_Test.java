@@ -25,6 +25,7 @@ import static org.assertj.core.error.ShouldContainExactly.*;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.*;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.TestData.*;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.*;
 
 /**
@@ -104,7 +105,7 @@ public class Strings_assertContainsExactly_Test extends StringsBaseTest {
     String actual = "Yoda";
     String[] values = { "Lu", "ke" };
     thrown.expectAssertionError(
-      shouldContainExactly(actual, values, Arrays.asList("L", "u", "k", "e"),
+      shouldContainExactly(actual, asList(values), Arrays.asList("L", "u", "k", "e"),
                            Arrays.asList("Y", "o", "d", "a"),
                            StandardComparisonStrategy.instance()));
     strings.assertContainsExactly(someInfo(), actual, values);
@@ -115,7 +116,7 @@ public class Strings_assertContainsExactly_Test extends StringsBaseTest {
     String actual = "YODA";
     String[] values = { "lu", "ke" };
     thrown.expectAssertionError(
-      shouldContainExactly(actual, values, Arrays.asList("l", "u", "k", "e"),
+      shouldContainExactly(actual, asList(values), Arrays.asList("l", "u", "k", "e"),
                            Arrays.asList("Y", "O", "D", "A"),
                            comparisonStrategy));
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsExactly(someInfo(), actual, values);

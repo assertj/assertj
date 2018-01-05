@@ -59,6 +59,7 @@ import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.IterableDiff.diff;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
@@ -797,20 +798,12 @@ public class Strings {
     IterableDiff diff = diff(actualAsList, valuesAsList, comparisonStrategy);
 
     if (!diff.differencesFound()) {
-      // actual and values have the same elements but are they in the same order ?
-      for (int i = 0; i < actualAsList.size(); i++) {
-        String elementFromActual = actualAsList.get(i);
-        String elementFromValues = valuesAsList.get(i);
-        if (!comparisonStrategy.areEqual(elementFromActual, elementFromValues)) {
-          throw failures
-            .failure(info, elementsDifferAtIndex(elementFromActual, elementFromValues, i, comparisonStrategy));
-        }
-      }
+      checkIdenticalElementsAreInSameOrder(info, actualAsList, valuesAsList);
       return;
     }
 
     throw failures
-      .failure(info, shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
+      .failure(info, shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected, comparisonStrategy));
   }
 
   /**
@@ -1087,5 +1080,17 @@ public class Strings {
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);
     checkCharSequenceArrayDoesNotHaveNullElements(sequence);
+  }
+
+  private void checkIdenticalElementsAreInSameOrder(AssertionInfo info, List<String> actualAsList,
+                                                    List<String> valuesAsList) {
+    for (int i = 0; i < actualAsList.size(); i++) {
+      String elementFromActual = actualAsList.get(i);
+      String elementFromValues = valuesAsList.get(i);
+      if (!comparisonStrategy.areEqual(elementFromActual, elementFromValues)) {
+        throw failures
+          .failure(info, elementsDifferAtIndex(elementFromActual, elementFromValues, i, comparisonStrategy));
+      }
+    }
   }
 }
