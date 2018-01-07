@@ -229,7 +229,7 @@
             <script src="http://cdn.jsdelivr.net/highlight.js/8.6/highlight.min.js"></script>
           ]]></top>
           <!-- init Highlight -->
-          <additionalparam>--allow-script-in-comments</additionalparam>
+          <additionalOptions>--allow-script-in-comments</additionalOptions>
           <footer><![CDATA[
             <script type="text/javascript">
               hljs.initHighlightingOnLoad();
