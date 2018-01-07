@@ -17,7 +17,8 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
 import java.io.InputStream;
-import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -38,6 +39,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -65,9 +67,16 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.TypeCache;
+import net.bytebuddy.TypeCache.SimpleKey;
+import net.bytebuddy.TypeCache.Sort;
+import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import net.bytebuddy.implementation.bind.annotation.This;
+import net.bytebuddy.matcher.ElementMatchers;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
@@ -75,12 +84,15 @@ import net.sf.cglib.proxy.MethodProxy;
  */
 public class Assumptions {
 
-  private static final class AssumptiomMethodInterceptor implements MethodInterceptor {
-    @Override
-    public Object intercept(Object assertion, Method method, Object[] args,
-                            MethodProxy methodProxy) throws Throwable {
+  private static final TypeCache<SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
+
+  private static final class AssumptiomMethodInterceptor {
+
+    @RuntimeType
+    public Object intercept(@This Object assertion,
+                            @SuperCall Callable<Object> proxy) throws Exception {
       try {
-        Object result = methodProxy.invokeSuper(assertion, args);
+        Object result = proxy.call();
         if (result != assertion && result instanceof AbstractAssert) {
           return asAssumption((AbstractAssert<?, ?>) result);
         }
@@ -633,7 +645,7 @@ public class Assumptions {
    */
   @CheckReturnValue
   public static AbstractClassAssert<?> assumeThat(Class<?> actual) {
-    return asAssumption(ClassAssert.class, Class.class, actual);
+    return asAssumption(SoftAssertionClassAssert.class, Class.class, actual);
   }
 
   /**
@@ -710,7 +722,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Iterable<? extends ELEMENT> actual) {
-    return asAssumption(IterableAssert.class, Iterable.class, actual);
+    return asAssumption(SoftAssertionIterableAssert.class, Iterable.class, actual);
   }
 
   /**
@@ -724,7 +736,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Iterator<? extends ELEMENT> actual) {
-    return asAssumption(IterableAssert.class, Iterator.class, actual);
+    return asAssumption(SoftAssertionIterableAssert.class, Iterator.class, actual);
   }
 
   /**
@@ -737,8 +749,9 @@ public class Assumptions {
    */
   @CheckReturnValue
   @SuppressWarnings("unchecked")
-  public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> actual) {
-    return asAssumption(ListAssert.class, List.class, actual);
+  public static <ELEMENT> FactoryBasedNavigableListAssert<SoftAssertionListAssert<ELEMENT>, List<? extends ELEMENT>,
+    ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> actual) {
+    return asAssumption(SoftAssertionListAssert.class, List.class, actual);
   }
 
   /**
@@ -767,7 +780,7 @@ public class Assumptions {
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <K, V> AbstractMapAssert<?, ?, K, V> assumeThat(Map<K, V> actual) {
-    return asAssumption(MapAssert.class, Map.class, actual);
+    return asAssumption(SoftAssertionMapAssert.class, Map.class, actual);
   }
 
   /**
@@ -1121,15 +1134,39 @@ public class Assumptions {
     return asAssumption(assertionType, array(actualType), array(actual));
   }
 
-  @SuppressWarnings("unchecked")
-  private static <ASSERTION, ACTUAL> ASSERTION asAssumption(Class<ASSERTION> assertionType,
+  private static <ASSERTION, ACTUAL> ASSERTION asAssumption(final Class<ASSERTION> assertionType,
                                                             Class<?>[] constructorTypes,
                                                             Object... constructorParams) {
-    Enhancer enhancer = new Enhancer();
-    enhancer.setSuperclass(assertionType);
-    enhancer.setCallback(new AssumptiomMethodInterceptor());
+    try {
+      Class<? extends ASSERTION> type = (Class<? extends ASSERTION>) CACHE
+        .findOrInsert(Assumptions.class.getClassLoader(), new SimpleKey(assertionType), new Callable<Class<?>>() {
+          @Override
+          public Class<?> call() throws Exception {
+            return createAssumption(assertionType);
+          }
+        });
 
-    return (ASSERTION) enhancer.create(constructorTypes, constructorParams);
+      Constructor<? extends ASSERTION> constructor = type.getConstructor(constructorTypes);
+      return constructor.newInstance(constructorParams);
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    } catch (InstantiationException e) {
+      throw new RuntimeException(e);
+    } catch (InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static <ASSERTION> Class<? extends ASSERTION> createAssumption(Class<ASSERTION> assertionType) {
+    return new ByteBuddy()
+      .subclass(assertionType)
+      .method(ElementMatchers.<MethodDescription>any())
+      .intercept(MethodDelegation.to(new AssumptiomMethodInterceptor()))
+      .make()
+      .load(Assumptions.class.getClassLoader())
+      .getLoaded();
   }
 
   private static RuntimeException assumptionNotMet(AssertionError e) throws ReflectiveOperationException {
@@ -1168,7 +1205,9 @@ public class Assumptions {
   private static Object asAssumption(AbstractAssert<?, ?> assertion) {
     Object actual = assertion.actual;
     if (assertion instanceof StringAssert) return asAssumption(StringAssert.class, String.class, actual);
-    if (assertion instanceof ListAssert) return asAssumption(ListAssert.class, List.class, actual);
+    if (assertion instanceof FactoryBasedNavigableListAssert) {
+      return asAssumption(SoftAssertionListAssert.class, List.class, actual);
+    }
     if (assertion instanceof ObjectArrayAssert) return asAssumption(ObjectArrayAssert.class, Object[].class, actual);
     if (assertion instanceof IterableSizeAssert) {
       @SuppressWarnings("rawtypes")

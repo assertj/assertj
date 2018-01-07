@@ -54,14 +54,13 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.7.9</version>
     </dependency>
     <dependency>
-      <groupId>cglib</groupId>
-      <artifactId>cglib-nodep</artifactId>
-      <version>3.2.5</version>
-      <optional>true</optional>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.ow2.asm</groupId>
@@ -180,7 +179,6 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <configuration>
           <excludes>
-            <exclude>**/*cglib*/**</exclude>
             <!-- exclude hamcrest as its classes are compiled in target/classes for an unknown reason related to hancrest dependency being optional -->
             <exclude>**/*hamcrest*/**</exclude>
           </excludes>
