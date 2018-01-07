@@ -1943,7 +1943,10 @@ public class Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(3l));</code></pre>
    *
+   * @param value the value of the offset.
    * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> byLessThan(Long value) {
     return Offset.strictOffset(value);
