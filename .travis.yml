@@ -25,6 +25,6 @@ jdk:
   - oraclejdk9
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn clean verify; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.login=651ffb3dd32bdbb12acfc60dcb4a48a768609830; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn clean verify javadoc:javadoc; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install javadoc:javadoc sonar:sonar -Dsonar.login=651ffb3dd32bdbb12acfc60dcb4a48a768609830; fi'
 
