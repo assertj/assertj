@@ -212,7 +212,7 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
-    return AssertionsForClassTypes.assertThat(actual);
+    return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
   /**
