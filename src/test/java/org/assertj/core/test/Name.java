@@ -36,6 +36,10 @@ public class Name {
     setLast(last);
   }
 
+  public static Name name(String first, String last) {
+    return new Name(first, last);
+  }
+
   public String getFirst() {
     return first;
   }

@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.Name.name;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -25,6 +27,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.assertj.core.test.Name;
 import org.junit.Test;
 
 /**
@@ -37,6 +40,14 @@ public class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
   @Test
   public void should_pass_if_actual_contains_given_values() {
     iterables.assertContainsAnyOf(someInfo(), actual, array("Luke"));
+  }
+
+  @Test
+  public void should_pass_with_non_comparable_values() {
+    // GIVEN
+    Iterable<Name> names = asList(name("John", "Doe"));
+    // THEN
+    iterables.assertContainsAnyOf(someInfo(), names, array(name("John", "Doe"), name("Jane", "Doe")));
   }
 
   @Test

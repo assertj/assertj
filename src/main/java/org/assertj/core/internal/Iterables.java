@@ -1125,7 +1125,7 @@ public class Iterables {
     if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
       return;
 
-    Set<Object> valuesToSearchFor = newTreeSet(values);
+    Iterable<Object> valuesToSearchFor = newArrayList(values);
     for (Object element : actual) {
       if (iterableContains(valuesToSearchFor, element)) return;
     }
