@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.DeepDifference;
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -32,6 +33,27 @@ import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldBy
 import org.junit.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
+
+  @Test
+  public void should_throw_assertion_error_rather_than_null_pointer_when_one_nested_member_is_null() {
+    TestValue actual = new TestValue(null);
+    TestValue expected = new TestValue("value");
+    try {
+      Assertions.assertThat(expected).isEqualToComparingFieldByFieldRecursively(actual);
+    } catch (Throwable throwable) {
+      assertThat(throwable).isInstanceOf(AssertionError.class);
+      assertThat(throwable).isNotInstanceOf(NullPointerException.class);
+    }
+
+  }
+
+  class TestValue {
+    private final String v;
+
+    public TestValue(String v) {
+      this.v = v;
+    }
+  }
 
   @Test
   public void should_use_unambiguous_fields_description_when_standard_description_of_actual_and_expected_collection_fields_values_are_identical() {
