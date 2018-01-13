@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 
@@ -29,9 +30,25 @@ import org.assertj.core.internal.DeepDifference;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithCollection;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithMap;
+import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
+
+  @Test
+  public void should_throw_assertion_error_rather_than_null_pointer_when_one_nested_member_is_null() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    Jedi noname = new Jedi(null, "Green");
+    // WHEN
+    Throwable throwable1 = catchThrowable(() -> assertThat(yoda).isEqualToComparingFieldByFieldRecursively(noname));
+    Throwable throwable2 = catchThrowable(() -> assertThat(noname).isEqualToComparingFieldByFieldRecursively(yoda));
+    // THEN
+    assertThat(throwable1).isInstanceOf(AssertionError.class)
+                         .isNotInstanceOf(NullPointerException.class);
+    assertThat(throwable2).isInstanceOf(AssertionError.class)
+                          .isNotInstanceOf(NullPointerException.class);
+  }
 
   @Test
   public void should_use_unambiguous_fields_description_when_standard_description_of_actual_and_expected_collection_fields_values_are_identical() {
