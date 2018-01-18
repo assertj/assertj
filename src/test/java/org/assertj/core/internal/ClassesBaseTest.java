@@ -41,7 +41,7 @@ public abstract class ClassesBaseTest {
 
   @Target(ElementType.TYPE)
   @Retention(RetentionPolicy.RUNTIME)
-  protected static @interface MyAnnotation {
+  protected @interface MyAnnotation {
 
   }
 

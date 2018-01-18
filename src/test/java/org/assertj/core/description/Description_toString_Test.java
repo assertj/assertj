@@ -40,7 +40,7 @@ public class Description_toString_Test {
     assertThat(description).hasToString("Yoda");
   }
 
-  private static interface ValueSource {
+  private interface ValueSource {
     String value();
   }
 

@@ -19,7 +19,7 @@ public class TolkienCharacter {
     return new TolkienCharacter(name, age, race);
   }
 
-  public static enum Race {
+  public enum Race {
     HOBBIT, MAIA, ELF, DWARF, MAN
   }
 

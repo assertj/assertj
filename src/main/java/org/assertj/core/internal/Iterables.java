@@ -72,7 +72,6 @@ import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.util.ArrayList;
 import java.util.Comparator;
