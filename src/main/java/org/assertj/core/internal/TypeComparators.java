@@ -38,13 +38,7 @@ public class TypeComparators {
   private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
 
-  private static final Comparator<Class<?>> CLASS_COMPARATOR = new Comparator<Class<?>>() {
-
-    @Override
-    public int compare(Class<?> class1, Class<?> class2) {
-      return class1.getSimpleName().compareTo(class2.getSimpleName());
-    }
-  };
+  private static final Comparator<Class<?>> CLASS_COMPARATOR = Comparator.comparing(Class::getSimpleName);
 
   @VisibleForTesting
   Map<Class<?>, Comparator<?>> typeComparators;

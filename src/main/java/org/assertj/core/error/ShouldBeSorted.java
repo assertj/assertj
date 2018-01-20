@@ -75,9 +75,7 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
     if (group.getClass().isArray()) {
       return wrap(group);
     } else if (group instanceof Collection<?>) {
-      List<Object> asList = new ArrayList<>();
-      asList.addAll((Collection<Object>) group);
-      return asList;
+      return new ArrayList<>((Collection<Object>) group);
     }
     throw new IllegalArgumentException("Parameter should be an array or a collection but was " + group);
   }

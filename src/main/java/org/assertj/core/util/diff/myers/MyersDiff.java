@@ -48,14 +48,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    */
   public MyersDiff() {
     /**	Default equalizer. */
-    equalizer = new Equalizer<T>() {
-
-      @Override
-      public boolean equals(T original, T revised) {
-        return original.equals(revised);
-      }
-
-    };
+    equalizer = (original, revised) -> original.equals(revised);
   }
 
   /**

@@ -125,27 +125,24 @@ import org.assertj.core.api.iterable.Extractor;
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 
-  private Extractor<Throwable, String> errorDescriptionExtractor = new Extractor<Throwable, String>() {
-    @Override
-    public String extract(Throwable throwable) {
-      Throwable cause = throwable.getCause();
-      if (cause == null) {
-        return throwable.getMessage();
-      }
-      // error has a cause, display the cause message and the first stack trace elements.
-      StackTraceElement[] stackTraceFirstElements = Arrays.copyOf(cause.getStackTrace(), 5);
-      String stackTraceDescription = "";
-      for (StackTraceElement stackTraceElement : stackTraceFirstElements) {
-        stackTraceDescription += format("\tat %s%n", stackTraceElement);
-      }
-      return format("%s%n" +
-                    "cause message: %s%n" +
-                    "cause first five stack trace elements:%n" +
-                    "%s",
-                    throwable.getMessage(),
-                    cause.getMessage(),
-                    stackTraceDescription);
+  private Extractor<Throwable, String> errorDescriptionExtractor = throwable -> {
+    Throwable cause = throwable.getCause();
+    if (cause == null) {
+      return throwable.getMessage();
     }
+    // error has a cause, display the cause message and the first stack trace elements.
+    StackTraceElement[] stackTraceFirstElements = Arrays.copyOf(cause.getStackTrace(), 5);
+    String stackTraceDescription = "";
+    for (StackTraceElement stackTraceElement : stackTraceFirstElements) {
+      stackTraceDescription += format("\tat %s%n", stackTraceElement);
+    }
+    return format("%s%n" +
+                  "cause message: %s%n" +
+                  "cause first five stack trace elements:%n" +
+                  "%s",
+                  throwable.getMessage(),
+                  cause.getMessage(),
+                  stackTraceDescription);
   };
 
   /**

@@ -102,6 +102,6 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
       }
       return input2.getAge();
       }
-    ).contains(33, "Frodo", 38, "Sam");;
+    ).contains(33, "Frodo", 38, "Sam");
   }
 }

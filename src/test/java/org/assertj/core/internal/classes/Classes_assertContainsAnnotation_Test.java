@@ -38,7 +38,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
 
   @Target(ElementType.TYPE)
   @Retention(RetentionPolicy.RUNTIME)
-  private static @interface MyAnnotation {
+  private @interface MyAnnotation {
 
   }
 

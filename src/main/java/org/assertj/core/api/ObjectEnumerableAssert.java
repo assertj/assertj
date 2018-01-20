@@ -1264,7 +1264,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the {@code Iterable} under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
-  public SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values);
 
   /**
    * Verifies that the {@link Iterable} under test contains at least one of the given {@link Iterable} elements.
@@ -1293,7 +1293,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the {@code Iterable} under test does not contain any of elements from the given {@code Iterable}.
    * @since 2.9.0 / 3.9.0
    */
-  public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable);
+  SELF containsAnyElementsOf(Iterable<ELEMENT> iterable);
 
   /**
    * Verifies that no elements match the given {@link Predicate}.
