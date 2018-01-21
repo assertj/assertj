@@ -24,7 +24,7 @@ import java.util.concurrent.Callable;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 
-class ProxifyExtractingResult {
+public class ProxifyExtractingResult {
 
   private final SoftProxies proxies;
 
