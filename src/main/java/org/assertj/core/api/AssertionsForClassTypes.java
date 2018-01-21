@@ -438,7 +438,7 @@ public class AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractObjectAssert<?, T> assertThat(T actual) {
+  public static <T> ObjectAssert<T> assertThat(T actual) {
     return new ObjectAssert<>(actual);
   }
 

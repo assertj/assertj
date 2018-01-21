@@ -146,7 +146,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
 
@@ -161,7 +161,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+  public static ListAssert<Double> assertThat(DoubleStream actual) {
     return new ListAssert<>(actual);
   }
 
@@ -176,7 +176,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+  public static ListAssert<Long> assertThat(LongStream actual) {
     return new ListAssert<>(actual);
   }
 
@@ -191,7 +191,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
+  public static ListAssert<Integer> assertThat(IntStream actual) {
     return new ListAssert<>(actual);
   }
 

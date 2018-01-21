@@ -727,7 +727,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractObjectAssert<?, T> then(T actual) {
+  public static <T> ObjectAssert<T> then(T actual) {
     return assertThat(actual);
   }
 
@@ -1312,7 +1312,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT> ListAssert<ELEMENT> then(Stream<? extends ELEMENT> actual) {
     return assertThat(actual);
   }
 
@@ -1327,7 +1327,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> then(DoubleStream actual) {
+  public static ListAssert<Double> then(DoubleStream actual) {
     return assertThat(actual);
   }
 
@@ -1342,7 +1342,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> then(LongStream actual) {
+  public static ListAssert<Long> then(LongStream actual) {
     return assertThat(actual);
   }
 
@@ -1357,7 +1357,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> then(IntStream actual) {
+  public static ListAssert<Integer> then(IntStream actual) {
     return assertThat(actual);
   }
 

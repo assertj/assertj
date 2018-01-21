@@ -353,7 +353,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default <T> AbstractObjectAssert<?, T> assertThat(final T actual) {
+  default <T> ObjectAssert<T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1048,7 +1048,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+  default <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1063,7 +1063,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+  default ListAssert<Double> assertThat(DoubleStream actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1078,7 +1078,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+  default ListAssert<Long> assertThat(LongStream actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1093,7 +1093,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
+  default ListAssert<Integer> assertThat(IntStream actual) {
     return Assertions.assertThat(actual);
   }
 
