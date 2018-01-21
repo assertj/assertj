@@ -739,7 +739,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractObjectArrayAssert<?, T> then(T[] actual) {
+  public static <T> ObjectArrayAssert<T> then(T[] actual) {
     return assertThat(actual);
   }
 

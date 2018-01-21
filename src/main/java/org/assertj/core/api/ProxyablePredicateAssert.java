@@ -12,15 +12,18 @@
  */
 package org.assertj.core.api;
 
-import java.util.Map;
+import java.util.function.Predicate;
 
 /**
- * Concrete assertions for {@link Map}s without any final methods to allow proxying.
+ * Concrete assertions for {@link Predicate}s without any final methods to allow proxying.
+ * 
+ * @author Gaël LHEZ
+ * @since 3.5.2
  */
-public class SoftAssertionMapAssert<KEY, VALUE> extends AbstractMapAssert<SoftAssertionMapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
+public class ProxyablePredicateAssert<T> extends AbstractPredicateAssert<ProxyablePredicateAssert<T>, T> {
 
-  public SoftAssertionMapAssert(Map<KEY, VALUE> actual) {
-    super(actual, SoftAssertionMapAssert.class);
+  public ProxyablePredicateAssert(Predicate<T> actual) {
+    super(actual, ProxyablePredicateAssert.class);
   }
 
 }

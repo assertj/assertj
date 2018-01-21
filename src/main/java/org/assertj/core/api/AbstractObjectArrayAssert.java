@@ -2119,8 +2119,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the array of Tuples containing the extracted values.
    */
   @CheckReturnValue
-  @SafeVarargs
-  public final ObjectArrayAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
+  public ObjectArrayAssert<Tuple> extracting(@SuppressWarnings("unchecked") Function<ELEMENT, ?>... extractors) {
 
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))

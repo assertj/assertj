@@ -12,12 +12,11 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Arrays.array;
+import static net.bytebuddy.matcher.ElementMatchers.nameContainsIgnoreCase;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
@@ -46,40 +45,31 @@ class SoftProxies {
 
     try {
       Class<V> proxyClass = (Class<V>) cache
-        .findOrInsert(getClass().getClassLoader(), new SimpleKey(assertClass), new Callable<Class<?>>() {
-          @Override
-          public Class<?> call() {
-            return createProxy(assertClass, collector);
-          }
-        });
+                                            .findOrInsert(getClass().getClassLoader(), new SimpleKey(assertClass),
+                                                          () -> createProxy(assertClass, collector));
 
       Constructor<? extends V> constructor = proxyClass.getConstructor(actualClass);
       return constructor.newInstance(actual);
-    } catch (NoSuchMethodException e) {
-      throw new RuntimeException(e);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    } catch (InstantiationException e) {
-      throw new RuntimeException(e);
-    } catch (InvocationTargetException e) {
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
       throw new RuntimeException(e);
     }
   }
 
   private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
-    Junction<MethodDescription> extractingOrFilteredOn = ElementMatchers.<MethodDescription>nameContainsIgnoreCase(
-      "extracting")
-      .or(ElementMatchers.nameContainsIgnoreCase("filteredOn"));
+    Junction<MethodDescription> specialMethods = ElementMatchers.<MethodDescription> nameContainsIgnoreCase("extracting")
+                                                                .or(nameContainsIgnoreCase("filteredOn"))
+                                                                .or(nameContainsIgnoreCase("map"))
+                                                                .or(nameContainsIgnoreCase("flatMap"))
+                                                                .or(nameContainsIgnoreCase("flatExtracting"));
 
-    return new ByteBuddy()
-      .subclass(assertClass)
-      .method(extractingOrFilteredOn)
-      .intercept(MethodDelegation.to(new ProxifyExtractingResult(this)))
-      .method(ElementMatchers.<MethodDescription>any().and(ElementMatchers.not(extractingOrFilteredOn)))
-      .intercept(MethodDelegation.to(collector))
-      .make()
-      .load(getClass().getClassLoader())
-      .getLoaded();
+    return new ByteBuddy().subclass(assertClass)
+                          .method(specialMethods)
+                          .intercept(MethodDelegation.to(new ProxifyExtractingResult(this)))
+                          .method(ElementMatchers.<MethodDescription> any().and(ElementMatchers.not(specialMethods)))
+                          .intercept(MethodDelegation.to(collector))
+                          .make()
+                          .load(getClass().getClassLoader())
+                          .getLoaded();
   }
 
   public boolean wasSuccess() {

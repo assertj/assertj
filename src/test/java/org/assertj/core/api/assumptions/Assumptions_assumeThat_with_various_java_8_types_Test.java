@@ -269,28 +269,30 @@ public class Assumptions_assumeThat_with_various_java_8_types_Test {
             assumeThat(DoubleStream.of(0.0)).isNotNull().contains(0.0);
           }
         } },
-        { new AssumptionRunner<IntStream>() {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(IntStream.of(0)).isNotNull().contains(1);
-          }
+        {
+            new AssumptionRunner<IntStream>() {
+              @Override
+              public void runFailingAssumption() {
+                assumeThat(IntStream.of(0)).isNotNull().contains(1);
+              }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(IntStream.of(0)).isNotNull().contains(0);
-          }
-        } },
-        { new AssumptionRunner<LongStream>(LongStream.of(0)) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(LongStream.of(0)).isNotNull().contains(1L);
-          }
+              @Override
+              public void runPassingAssumption() {
+                assumeThat(IntStream.of(0)).isNotNull().contains(0);
+              }
+            } },
+        {
+            new AssumptionRunner<LongStream>(LongStream.of(0)) {
+              @Override
+              public void runFailingAssumption() {
+                assumeThat(LongStream.of(0)).isNotNull().contains(1L);
+              }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(LongStream.of(0)).isNotNull().contains(0L);
-          }
-        } }
+              @Override
+              public void runPassingAssumption() {
+                assumeThat(LongStream.of(0)).isNotNull().contains(0L);
+              }
+            } }
     };
   }
 

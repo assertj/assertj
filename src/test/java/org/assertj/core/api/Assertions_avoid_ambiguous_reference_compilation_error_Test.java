@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Test;
-
 import java.util.Date;
+
+import org.junit.Test;
 
 public class Assertions_avoid_ambiguous_reference_compilation_error_Test {
 
@@ -27,6 +27,7 @@ public class Assertions_avoid_ambiguous_reference_compilation_error_Test {
     AssertionsForClassTypes.assertThat(getDate()).isEqualTo(getDate());
   }
 
+  @SuppressWarnings("unchecked")
   protected static <T extends Date> T getDate() {
     return (T) new Date(123);
   }

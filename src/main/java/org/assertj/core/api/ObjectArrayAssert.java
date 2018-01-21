@@ -15,6 +15,9 @@ package org.assertj.core.api;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Function;
+
+import org.assertj.core.groups.Tuple;
 
 /**
  * Assertion methods for arrays of objects.
@@ -38,6 +41,12 @@ public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<Object
 
   public ObjectArrayAssert(AtomicReferenceArray<ELEMENT> actual) {
     this(array(actual));
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
+    return super.extracting(extractors);
   }
 
 }

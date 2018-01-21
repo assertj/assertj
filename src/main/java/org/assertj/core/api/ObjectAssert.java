@@ -13,6 +13,9 @@
 package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertion methods for {@link Object}s.
@@ -34,6 +37,13 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   
   public ObjectAssert(AtomicReference<ACTUAL> actual) {
     this(actual == null ? null: actual.get());
+  }
+
+  @Override
+  @CheckReturnValue
+  @SafeVarargs
+  public final AbstractObjectArrayAssert<?, Object> extracting(Function<? super ACTUAL, Object>... extractors) {
+    return super.extracting(extractors);
   }
 
 }

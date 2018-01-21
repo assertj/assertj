@@ -59,7 +59,6 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    *
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <VALUE> OptionalAssert<VALUE> then(Optional<VALUE> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
@@ -187,7 +186,6 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    *
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
@@ -203,7 +201,6 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    *
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <RESULT> CompletableFutureAssert<RESULT> then(CompletionStage<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
@@ -219,10 +216,9 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    *
    * @since 3.5.0
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> SoftAssertionPredicateAssert<T> then(Predicate<T> actual) {
-    return proxy(SoftAssertionPredicateAssert.class, Predicate.class, actual);
+  public <T> ProxyablePredicateAssert<T> then(Predicate<T> actual) {
+    return proxy(ProxyablePredicateAssert.class, Predicate.class, actual);
   }
 
   /**
@@ -272,10 +268,9 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
-    return proxy(ListAssert.class, Stream.class, actual);
+    return proxy(ProxyableListAssert.class, Stream.class, actual);
   }
 
   /**
@@ -288,10 +283,9 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> then(DoubleStream actual) {
-    return proxy(ListAssert.class, DoubleStream.class, actual);
+    return proxy(ProxyableListAssert.class, DoubleStream.class, actual);
   }
 
   /**
@@ -304,10 +298,9 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> then(LongStream actual) {
-    return proxy(ListAssert.class, LongStream.class, actual);
+    return proxy(ProxyableListAssert.class, LongStream.class, actual);
   }
 
   /**
@@ -320,10 +313,9 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> then(IntStream actual) {
-    return proxy(ListAssert.class, IntStream.class, actual);
+    return proxy(ProxyableListAssert.class, IntStream.class, actual);
   }
 
 }

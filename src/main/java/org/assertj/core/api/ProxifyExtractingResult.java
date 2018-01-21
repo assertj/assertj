@@ -32,6 +32,7 @@ class ProxifyExtractingResult {
     this.proxies = proxies;
   }
 
+  @SuppressWarnings("unchecked")
   @RuntimeType
   public Object intercept(@SuperCall Callable<Object> proxy) throws Exception {
 
@@ -57,13 +58,8 @@ class ProxifyExtractingResult {
     // Inspecting: class ListAssert<T> extends AbstractListAssert<ListAssert<T>, List<? extends T>, T>
     // will return the generic defined by the super class AbstractListAssert at index 1, which is a List<? extends T>
     Type actualType = ((ParameterizedType) result.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-    if (actualType instanceof ParameterizedType) {
-      return (Class<?>) ((ParameterizedType) actualType).getRawType();
-    }
-    if (actualType instanceof TypeVariable) {
-      return (Class<?>) ((TypeVariable) actualType).getGenericDeclaration();
-    }
-
+    if (actualType instanceof ParameterizedType) return (Class<?>) ((ParameterizedType) actualType).getRawType();
+    if (actualType instanceof TypeVariable) return (Class<?>) ((TypeVariable) actualType).getGenericDeclaration();
     return (Class<?>) actualType;
   }
 

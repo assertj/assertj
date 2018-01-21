@@ -10,26 +10,21 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.test;
+package org.assertj.core.api;
 
-import static java.lang.String.format;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class ComparableExample implements Comparable<ComparableExample> {
+/**
+ * Concrete assertions for {@link Object}s without any final methods to allow proxying.
+ */
+public class ProxyableObjectAssert<ACTUAL> extends AbstractObjectAssert<ProxyableObjectAssert<ACTUAL>, ACTUAL> {
 
-  private int id;
-
-  public ComparableExample(int id) {
-    this.id = id;
+  public ProxyableObjectAssert(ACTUAL actual) {
+    super(actual, ProxyableObjectAssert.class);
   }
-
-  @Override
-  public int compareTo(ComparableExample that) {
-    return this.id - that.id;
-  }
-
-  @Override
-  public String toString() {
-    return format("ComparableExample [id=%s]", id);
+  
+  public ProxyableObjectAssert(AtomicReference<ACTUAL> actual) {
+    this(actual == null ? null: actual.get());
   }
 
 }

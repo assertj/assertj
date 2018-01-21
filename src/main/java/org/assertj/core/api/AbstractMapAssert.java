@@ -367,7 +367,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsAllEntriesOf(Map<? extends K, ? extends V> other) {
-    @SuppressWarnings("unchecked")
     Map.Entry<? extends K, ? extends V>[] entries = other.entrySet().toArray(new Map.Entry[other.size()]);
     maps.assertContains(info, actual, entries);
     return myself;

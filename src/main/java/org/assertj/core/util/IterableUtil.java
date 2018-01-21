@@ -112,6 +112,20 @@ public final class IterableUtil {
     return iterable instanceof Collection ? (Collection<T>) iterable : newArrayList(iterable);
   }
 
+  @SafeVarargs
+  public static <T> Iterable<T> iterable(T... elements) {
+    if (elements == null) return null;
+    ArrayList<T> list = newArrayList();
+    java.util.Collections.addAll(list, elements);
+    return list;
+  }
+
+  @SafeVarargs
+  public static <T> Iterator<T> iterator(T... elements) {
+    if (elements == null) return null;
+    return iterable(elements).iterator();
+  }
+
   @SuppressWarnings("unchecked")
   private static <T> T[] newArray(Class<T> type, int length) {
     return (T[]) Array.newInstance(type, length);

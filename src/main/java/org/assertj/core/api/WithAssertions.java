@@ -225,7 +225,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default <T> AbstractObjectArrayAssert<?, T> assertThat(final T[] actual) {
+  default <T> ObjectArrayAssert<T> assertThat(final T[] actual) {
     return Assertions.assertThat(actual);
   }
 

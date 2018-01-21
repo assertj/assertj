@@ -21,20 +21,20 @@ import java.util.List;
  * @author Gaël LHEZ
  * @since 2.5.1 / 3.5.1
  */
-public class SoftAssertionIterableAssert<ELEMENT> extends
-    FactoryBasedNavigableIterableAssert<SoftAssertionIterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
+public class ProxyableIterableAssert<ELEMENT> extends
+    FactoryBasedNavigableIterableAssert<ProxyableIterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  public SoftAssertionIterableAssert(Iterable<? extends ELEMENT> actual) {
-    super(actual, SoftAssertionIterableAssert.class, new ObjectAssertFactory<ELEMENT>());
+  public ProxyableIterableAssert(Iterable<? extends ELEMENT> actual) {
+    super(actual, ProxyableIterableAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
 
-  public SoftAssertionIterableAssert(Iterator<? extends ELEMENT> actual) {
+  public ProxyableIterableAssert(Iterator<? extends ELEMENT> actual) {
     this(toLazyIterable(actual));
   }
 
   @Override
   protected <ELEMENT2> AbstractListAssert<?, List<? extends ELEMENT2>, ELEMENT2, ObjectAssert<ELEMENT2>> newListAssertInstance(List<? extends ELEMENT2> newActual) {
-    return new SoftAssertionListAssert<>(newActual);
+    return new ProxyableListAssert<>(newActual);
   }
 
 }

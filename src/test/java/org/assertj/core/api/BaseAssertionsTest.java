@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.assertj.core.test.TypeCanonizer.canonize;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -28,6 +29,10 @@ import java.util.Set;
  * @author Filip Hrisafov
  */
 public abstract class BaseAssertionsTest {
+  
+  {
+    setRemoveAssertJRelatedElementsFromStackTrace(false);
+  }
 
   private static final int ACCESS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 
@@ -60,19 +65,16 @@ public abstract class BaseAssertionsTest {
 
   private static Comparator<Method> internalMethodComparator(final boolean ignoreReturnType,
                                                              final boolean ignoreMethodName) {
-    return new Comparator<Method>() {
-      @Override
-      public int compare(Method method1, Method method2) {
+    return (method1, method2) -> {
 
-        // the methods should be with the same access type
-        // static vs not static is not important Soft vs Not Soft assertions
-        boolean equal = (ACCESS_MODIFIERS & method1.getModifiers() & method2.getModifiers()) != 0;
-        equal = equal && (ignoreReturnType || sameGenericReturnType(method1, method2));
-        equal = equal && (ignoreMethodName || sameMethodName(method1, method2));
+      // the methods should be with the same access type
+      // static vs not static is not important Soft vs Not Soft assertions
+      boolean equal = (ACCESS_MODIFIERS & method1.getModifiers() & method2.getModifiers()) != 0;
+      equal = equal && (ignoreReturnType || sameGenericReturnType(method1, method2));
+      equal = equal && (ignoreMethodName || sameMethodName(method1, method2));
 
-        equal = equal && sameGenericParameterTypes(method1, method2);
-        return equal ? 0 : 1;
-      }
+      equal = equal && sameGenericParameterTypes(method1, method2);
+      return equal ? 0 : 1;
     };
   }
 

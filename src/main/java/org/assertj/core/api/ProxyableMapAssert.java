@@ -10,26 +10,17 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.test;
+package org.assertj.core.api;
 
-import static java.lang.String.format;
+import java.util.Map;
 
-public class ComparableExample implements Comparable<ComparableExample> {
+/**
+ * Concrete assertions for {@link Map}s without any final methods to allow proxying.
+ */
+public class ProxyableMapAssert<KEY, VALUE> extends AbstractMapAssert<ProxyableMapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
-  private int id;
-
-  public ComparableExample(int id) {
-    this.id = id;
-  }
-
-  @Override
-  public int compareTo(ComparableExample that) {
-    return this.id - that.id;
-  }
-
-  @Override
-  public String toString() {
-    return format("ComparableExample [id=%s]", id);
+  public ProxyableMapAssert(Map<KEY, VALUE> actual) {
+    super(actual, ProxyableMapAssert.class);
   }
 
 }

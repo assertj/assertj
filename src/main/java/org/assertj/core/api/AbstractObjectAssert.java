@@ -21,9 +21,9 @@ import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.TreeMap;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
@@ -572,8 +572,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new assertion object whose object under test is the array containing the extracted values
    */
   @CheckReturnValue
-  @SafeVarargs
-  public final AbstractObjectArrayAssert<?, Object> extracting(Function<? super ACTUAL, Object>... extractors) {
+  public AbstractObjectArrayAssert<?, Object> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, Object>... extractors) {
     Object[] values = Stream.of(extractors)
                             .map(extractor -> extractor.apply(actual))
                             .toArray();

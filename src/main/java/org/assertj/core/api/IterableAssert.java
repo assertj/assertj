@@ -18,7 +18,12 @@ import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.function.Function;
 
+import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -128,7 +133,7 @@ public class IterableAssert<ELEMENT> extends
     }
     return super.isNotExactlyInstanceOf(type);
   }
-  
+
   @Override
   public IterableAssert<ELEMENT> isSameAs(Object expected) {
     if (actual instanceof LazyIterable) {
@@ -156,7 +161,7 @@ public class IterableAssert<ELEMENT> extends
     objects.assertNotNull(info, actual);
     checkIsNotNull(sequence);
     // To handle infinite iterator we use the internal iterator instead of iterator() that consumes it totally.
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes" })
     Iterator<? extends ELEMENT> iterator = ((LazyIterable) actual).iterator;
     if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
     int i = 0;
@@ -252,6 +257,12 @@ public class IterableAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
+  public final IterableAssert<ELEMENT> containsAnyOf(ELEMENT... values) {
+    return super.containsAnyOf(values);
+  }
+
+  @Override
+  @SafeVarargs
   public final IterableAssert<ELEMENT> isSubsetOf(ELEMENT... values) {
     return super.isSubsetOf(values);
   }
@@ -290,6 +301,24 @@ public class IterableAssert<ELEMENT> extends
   @SafeVarargs
   public final IterableAssert<ELEMENT> endsWith(ELEMENT first, ELEMENT... rest) {
     return super.endsWith(first, rest);
+  }
+
+  @Override
+  @SafeVarargs
+  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
+    return super.flatExtracting(extractors);
+  }
+
+  @Override
+  @SafeVarargs
+  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(Extractor<? super ELEMENT, ?>... extractors) {
+    return super.flatExtracting(extractors);
+  }
+  
+  @Override
+  @SafeVarargs
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<ELEMENT, ?>... extractors) {
+    return super.extracting(extractors);
   }
 
 }

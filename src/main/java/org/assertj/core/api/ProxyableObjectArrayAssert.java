@@ -12,14 +12,21 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Arrays.array;
+
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
- * Concrete assertions for {@link Class}s without any final methods to allow proxying.
+ * Concrete assertions for arrays of objects without any final methods to allow proxying.
  */
-public class SoftAssertionClassAssert extends AbstractClassAssert<SoftAssertionClassAssert> {
+public class ProxyableObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<ProxyableObjectArrayAssert<ELEMENT>, ELEMENT> {
 
-  public SoftAssertionClassAssert(Class<?> actual) {
-    super(actual, SoftAssertionClassAssert.class);
+  public ProxyableObjectArrayAssert(ELEMENT[] actual) {
+    super(actual, ProxyableObjectArrayAssert.class);
   }
-  
+
+  public ProxyableObjectArrayAssert(AtomicReferenceArray<ELEMENT> actual) {
+    this(array(actual));
+  }
+
 }

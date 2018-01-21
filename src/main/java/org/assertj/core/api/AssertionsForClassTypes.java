@@ -450,7 +450,7 @@ public class AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
+  public static <T> ObjectArrayAssert<T> assertThat(T[] actual) {
     return new ObjectArrayAssert<>(actual);
   }
 

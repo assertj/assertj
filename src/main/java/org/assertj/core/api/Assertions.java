@@ -770,7 +770,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
+  public static <T> ObjectArrayAssert<T> assertThat(T[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1080,7 +1080,7 @@ public class Assertions {
    * Throwable thrown = catchThrowable(() -&gt; {});
    * assertThat(thrown).as("display me")
    *                   .isInstanceOf(Exception.class);</code></pre>
-   * 
+   *
    * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
@@ -1119,9 +1119,9 @@ public class Assertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
-   * 
+   *
    * @return the created {@link ThrowableAssert}.
-   * 
+   *
    * @since 3.9.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
@@ -1140,20 +1140,20 @@ public class Assertions {
    *   throw new Exception("boom!");
    * };
    * ThrowingCallable doNothing = () -&gt; {}; 
-   * 
+   *
    * // assertions succeed
    * assertThatCode(doNothing).doesNotThrowAnyException();
    * assertThatCode(boomCode).isInstanceOf(Exception.class)
    *                         .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * assertThatCode(boomCode).doesNotThrowAnyException();</code></pre>
    *
    * Contrary to <code>assertThatThrownBy(ThrowingCallable)</code> the test description provided with 
    * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
-   * 
+   *
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {}; 
-   * 
+   *
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")
    *                          .isInstanceOf(Exception.class);</code></pre>
@@ -1208,24 +1208,24 @@ public class Assertions {
    * <pre><code class='java'> class CustomParseException extends Exception {
    *   int line;
    *   int column;
-   *   
+   *
    *   public CustomParseException(String msg, int l, int c) {
    *     super(msg);
    *     line = l;
    *     column = c;
    *   }
    * }
-   * 
+   *
    * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                                               CustomParseException.class);
    * // assertions succeed
    * assertThat(e).hasMessageContaining("boom");
    * assertThat(e.line).isEqualTo(1);
    * assertThat(e.column).isEqualTo(5);
-   * 
+   *
    * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions 
    * assertThat(catchThrowableOfType(() -&gt; {}, Exception.class)).isNull();
-   *                      
+   *
    * // fails as CustomParseException is not a RuntimeException
    * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
    *                      RuntimeException.class);</code></pre>
@@ -1263,9 +1263,9 @@ public class Assertions {
 
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
-   * 
+   *
    * @return the created {@link ThrowableTypeAssert}.
-   * 
+   *
    * @since 3.7.0
    */
   @CheckReturnValue
@@ -1275,9 +1275,9 @@ public class Assertions {
 
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
-   * 
+   *
    * @return the created {@link ThrowableTypeAssert}.
-   * 
+   *
    * @since 3.7.0
    */
   @CheckReturnValue
@@ -1287,9 +1287,9 @@ public class Assertions {
 
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IOException}.
-   * 
+   *
    * @return the created {@link ThrowableTypeAssert}.
-   * 
+   *
    * @since 3.7.0
    */
   @CheckReturnValue
@@ -1299,9 +1299,9 @@ public class Assertions {
 
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
-   * 
+   *
    * @return the created {@link ThrowableTypeAssert}.
-   * 
+   *
    * @since 3.7.0
    */
   @CheckReturnValue
@@ -1703,7 +1703,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1718,7 +1718,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1733,7 +1733,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
-   * 
+   *
    * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1748,7 +1748,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
-   * 
+   *
    * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1766,7 +1766,7 @@ public class Assertions {
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
    * LocalTime _07_12 = LocalTime.of(7, 12); 
    * assertThat(_07_10).isCloseTo(_07_12, within(5, ChronoUnit.MINUTES));</code></pre>
-   * 
+   *
    * @param value the allowed offset
    * @param unit the {@link TemporalUnit} of the offset
    * @return the created {@code Offset}.
@@ -1782,7 +1782,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
-   * 
+   *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1798,7 +1798,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
-   * 
+   *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1814,7 +1814,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
-   * 
+   *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1881,7 +1881,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1960,7 +1960,7 @@ public class Assertions {
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
    * LocalTime _07_12 = LocalTime.of(7, 12); 
    * assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, ChronoUnit.MINUTES));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @param unit the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
@@ -2869,6 +2869,7 @@ public class Assertions {
   /**
    * Creates a new <code>{@link Assertions}</code>.
    */
-  protected Assertions() {}
+  protected Assertions() {
+  }
 
 }

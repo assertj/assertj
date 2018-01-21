@@ -33,6 +33,13 @@ public class CartoonCharacter {
     return children;
   }
 
+  public List<CartoonCharacter> getChildrenWithException() throws Exception {
+    if (children.isEmpty()) {
+      throw new Exception("Should have children");
+    }
+    return children;
+  }
+
   public CartoonCharacter[] getChildrenArray() {
     return children.toArray(new CartoonCharacter[0]);
   }

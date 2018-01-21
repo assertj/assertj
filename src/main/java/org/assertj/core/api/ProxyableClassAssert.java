@@ -12,19 +12,14 @@
  */
 package org.assertj.core.api;
 
-import java.util.function.Predicate;
 
 /**
- * Concrete assertions for {@link Predicate}s without any final methods to allow proxying.
- * 
- * @author Gaël LHEZ
- * @since 3.5.2
+ * Concrete assertions for {@link Class}s without any final methods to allow proxying.
  */
-public class SoftAssertionPredicateAssert<T>
-    extends AbstractPredicateAssert<SoftAssertionPredicateAssert<T>, T> {
+public class ProxyableClassAssert extends AbstractClassAssert<ProxyableClassAssert> {
 
-  public SoftAssertionPredicateAssert(Predicate<T> actual) {
-    super(actual, SoftAssertionPredicateAssert.class);
+  public ProxyableClassAssert(Class<?> actual) {
+    super(actual, ProxyableClassAssert.class);
   }
-
+  
 }

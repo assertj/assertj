@@ -89,6 +89,4 @@ public class Name {
     } else if (!last.equals(other.last)) return false;
     return true;
   }
-  
-  
 }

@@ -130,7 +130,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Create a friendly soft or "hard" assertion.
    * <p>
    * Implementations need to redefine it so that some methods, such as {@link #extracting(Extractor)}, are able
-   * to build the appropriate list assert (eg: {@link ListAssert} versus {@link SoftAssertionListAssert}).
+   * to build the appropriate list assert (eg: {@link ListAssert} versus {@link ProxyableListAssert}).
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
    *
@@ -1350,8 +1350,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    */
   @CheckReturnValue
-  @SafeVarargs
-  public final ListAssert<Object> flatExtracting(Extractor<? super ELEMENT, ?>... extractors) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") Extractor<? super ELEMENT, ?>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
@@ -1395,8 +1394,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.7.0
    */
   @CheckReturnValue
-  @SafeVarargs
-  public final <EXCEPTION extends Exception> ListAssert<Object> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
+  public <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
@@ -1506,15 +1504,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
    */
   @CheckReturnValue
-  @SafeVarargs
-  public final ListAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<ELEMENT, ?>... extractors) {
     // combine all extractors into one function
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
     List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
                                                             .collect(toList());
-    return new ListAssert<>(tuples);
+    return newListAssertInstance(tuples).as(info.description());
   }
 
   /**

@@ -75,7 +75,7 @@ public class Assumptions_assumeThat_with_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_flatExtracting_children() {
+  public void should_allow_assumptions_with_flatExtracting() {
     assumeThat(newArrayList(homer, fred)).flatExtracting("children")
                                          .containsOnly(bart, lisa, maggie, pebbles);
     ranTests++;
