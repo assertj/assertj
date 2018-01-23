@@ -8,6 +8,12 @@
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
   <inceptionYear>2014</inceptionYear>
+  <properties>
+    <junit.version>4.12</junit.version>
+    <junit.jupiter.version>5.0.3</junit.jupiter.version>
+    <junit.vintage.version>${junit.version}.3</junit.vintage.version>
+    <junit.platform.version>1.0.3</junit.platform.version>
+  </properties>
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
@@ -91,6 +97,40 @@
       <version>20.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Only required to run tests in an IDE that bundles an older version -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <version>${junit.platform.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Only required to run tests in an IDE that bundles an older version -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Only required to run tests in an IDE that bundles an older version -->
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>${junit.vintage.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- To avoid compiler warnings about @API annotations in JUnit code -->
+    <dependency>
+      <groupId>org.apiguardian</groupId>
+      <artifactId>apiguardian-api</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -106,9 +146,17 @@
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
         <configuration>
           <argLine>${argLine}</argLine>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>${junit.platform.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
