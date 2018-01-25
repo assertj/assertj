@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -16,12 +16,14 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
  * 
  * @author Alex Ruiz
+ * @author Daniel Zlotin
  */
 public final class Throwables {
   private static final String ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER = "org.assertj.core.error.ConstructorInvoker";
@@ -34,7 +36,7 @@ public final class Throwables {
    * @param t the given {@code Throwable}.
    * @param methodToStartFrom the name of the method used as the starting point of the current thread's stack trace.
    */
-  public static void appendStackTraceInCurentThreadToThrowable(Throwable t, String methodToStartFrom) {
+  public static void appendStackTraceInCurrentThreadToThrowable(Throwable t, String methodToStartFrom) {
     List<StackTraceElement> stackTrace = newArrayList(t.getStackTrace());
     stackTrace.addAll(stackTraceInCurrentThread(methodToStartFrom));
     t.setStackTrace(stackTrace.toArray(new StackTraceElement[stackTrace.size()]));
@@ -60,7 +62,7 @@ public final class Throwables {
   /**
    * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
    * end user. Therefore, instead of seeing this:
-   * <pre><code class='java'> org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+   * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
    *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -75,7 +77,7 @@ public final class Throwables {
    *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)</code></pre>
    *
    * We get this:
-   * <pre><code class='java'> org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+   * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
    *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -105,6 +107,7 @@ public final class Throwables {
     StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[filtered.size()]);
     throwable.setStackTrace(newStackTrace);
   }
+
 
   /**
    * Get the root cause (ie the last non null cause) from a {@link Throwable}.

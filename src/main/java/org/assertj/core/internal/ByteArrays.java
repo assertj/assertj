@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -18,7 +18,6 @@ import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Reusable assertions for arrays of {@code byte}s.
@@ -50,7 +49,12 @@ public class ByteArrays {
   }
 
   public ByteArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -234,7 +238,7 @@ public class ByteArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, byte[] actual, byte[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactly(AssertionInfo info, byte[] actual, int[] values) {
@@ -461,7 +465,8 @@ public class ByteArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, byte[] actual, Comparator<? super Byte> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, byte[] actual,
+                                                  Comparator<? super Byte> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
@@ -474,5 +479,9 @@ public class ByteArrays {
       bytes[i] = (byte) ints[i];
     }
     return bytes;
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, byte[] actual, byte[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -20,6 +20,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Lists;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -114,7 +115,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    * <li>a list composed of Rectangle {r1, r2, r3} is <b>NOT ok</b> because Rectangle is not Comparable</li>
    * <li>a list composed of {True, "abc", False} is <b>NOT ok</b> because elements are not mutually comparable</li>
    * </ul>
-   * Empty lists are considered sorted.</br> Unique element lists are considered sorted unless the element type is not Comparable.
+   * Empty lists are considered sorted.<br> Unique element lists are considered sorted unless the element type is not Comparable.
    *
    * @return {@code this} assertion object.
    *
@@ -130,8 +131,8 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   /**
-   * Verifies that the actual list is sorted according to the given comparator.</br> Empty lists are considered sorted whatever
-   * the comparator is.</br> One element lists are considered sorted if the element is compatible with comparator.
+   * Verifies that the actual list is sorted according to the given comparator.<br> Empty lists are considered sorted whatever
+   * the comparator is.<br> One element lists are considered sorted if the element is compatible with comparator.
    *
    * @param comparator the {@link Comparator} used to compare list elements
    *
@@ -148,6 +149,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> customComparator) {
     super.usingElementComparator(customComparator);
     lists = new Lists(new ComparatorBasedComparisonStrategy(customComparator));
@@ -155,6 +157,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     super.usingDefaultElementComparator();
     lists = Lists.instance();
@@ -175,21 +178,25 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   // raw types :(
 
   @Override
+  @CheckReturnValue
   public SELF as(String description, Object... args) {
     return super.as(description, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF as(Description description) {
     return super.as(description);
   }
 
   @Override
+  @CheckReturnValue
   public SELF describedAs(Description description) {
     return super.describedAs(description);
   }
 
   @Override
+  @CheckReturnValue
   public SELF describedAs(String description, Object... args) {
     return super.describedAs(description, args);
   }
@@ -315,26 +322,31 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
+  @CheckReturnValue
   public SELF overridingErrorMessage(String newErrorMessage, Object... args) {
     return super.overridingErrorMessage(newErrorMessage, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingDefaultComparator() {
     return super.usingDefaultComparator();
   }
 
   @Override
+  @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     return super.usingComparator(customComparator);
   }
 
   @Override
+  @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     return super.withFailMessage(newErrorMessage, args);
   }
 
   @Override
+  @CheckReturnValue
   public SELF withThreadDumpOnError() {
     return super.withThreadDumpOnError();
   }

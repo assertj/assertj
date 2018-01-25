@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,48 +8,54 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
-import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
-import static org.mockito.Mockito.verify;
+import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
-
 /**
- * Tests for <code>{@link Strings#assertDoesNotContain(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
+ * Tests for <code>{@link Strings#assertDoesNotContain(AssertionInfo, CharSequence, CharSequence...)}</code>.
+ *
  * @author Alex Ruiz
  */
 public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_contains_sequence() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertDoesNotContain(info, "Yoda", "oda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain("Yoda", "oda"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+  public void should_fail_if_actual_contains_any_of_values() {
+    thrown.expectAssertionError(shouldNotContain("Yoda", "oda", StandardComparisonStrategy.instance()));
+    strings.assertDoesNotContain(someInfo(), "Yoda", "oda");
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertDoesNotContain(someInfo(), "Yoda", null);
+  public void should_throw_error_if_list_of_values_is_null() {
+    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
+    String[] expected = null;
+    strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+  }
+
+  @Test
+  public void should_throw_error_if_given_value_is_null() {
+    thrown.expectNullPointerException("The char sequence to look for should not be null");
+    String expected = null;
+    strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+  }
+
+  @Test
+  public void should_throw_error_if_any_element_of_values_is_null() {
+    String[] values = { "author", null };
+    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
+    strings.assertDoesNotContain(someInfo(), "Yoda", values);
   }
 
   @Test
@@ -70,14 +76,35 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, "Yoda", "yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain("Yoda", "yoda", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotContain("Yoda", "yoda", comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "yoda");
   }
 
+  @Test
+  public void should_pass_if_actual_does_not_contain_all_of_given_values() {
+    String[] values = { "practice", "made", "good" };
+    strings.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
+  }
+
+  @Test
+  public void should_fail_if_actual_contains_any_of_given_values() {
+    String[] values = { "practice", "make", "good" };
+    thrown.expectAssertionError(shouldNotContain("Practice makes perfect", values, newSet("make"),
+                                                 StandardComparisonStrategy.instance()));
+    strings.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
+  }
+
+  @Test
+  public void should_pass_if_actual_does_not_contain_all_of_given_values_according_to_custom_comparison_strategy() {
+    String[] values = { "p1ractice", "made", "good" };
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
+  }
+
+  @Test
+  public void should_fail_if_actual_contains_any_of_given_values_according_to_custom_comparison_strategy() {
+    String[] values = { "practice", "made", "good" };
+    thrown.expectAssertionError(shouldNotContain("Practice makes perfect", values, newSet("practice"),
+                                                 comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
+  }
 }

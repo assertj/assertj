@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -16,32 +16,41 @@ import org.assertj.core.data.Offset;
 
 /**
  * Assertion methods applicable to floating-point <code>{@link Number}</code>s.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<S, A>, A extends Number> extends NumberAssert<S, A> {
+public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAssert<SELF, ACTUAL>, ACTUAL extends Number> extends NumberAssert<SELF, ACTUAL> {
 
   /**
-   * Verifies that the actual value is close to the given one by less than the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example with double:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.2));
+   * This assertion is the same as {@link #isCloseTo(Number, Offset)}.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(8.1).isEqualTo(8.0, within(0.2));
+   * assertThat(8.1).isEqualTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.2)); // strict
    *
-   * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.1));
-   *
-   * // within is an alias of offset
-   * assertThat(8.1).isEqualTo(new Double(8.0), within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.01));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(8.1).isEqualTo(8.0, within(0.1));
+   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which is strict
+   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.1)); // strict =&gt; fail
+   * 
+   * // this assertions also fails
+   * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -50,7 +59,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  S isEqualTo(A expected, Offset<A> offset);
+  SELF isEqualTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual number is close to the given one within the given offset.<br>
@@ -76,7 +85,8 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
-  S isCloseTo(A expected, Offset<A> offset);
+  @Override
+  SELF isCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
@@ -102,7 +112,8 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @see Assertions#byLessThan(Double)
    * @since 2.6.0 / 3.6.0
    */
-  S isNotCloseTo(A expected, Offset<A> offset);
+  @Override
+  SELF isNotCloseTo(ACTUAL expected, Offset<ACTUAL> offset);
 
   /**
    * Verifies that the actual value is equal to {@code NaN}.
@@ -116,11 +127,11 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * // assertions will fail
    * assertThat(1.0).isNaN();
    * assertThat(-1.0F).isNaN();</code></pre>
-   * </p>
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
-  S isNaN();
+  SELF isNaN();
 
   /**
    * Verifies that the actual value is not equal to {@code NaN}.
@@ -134,9 +145,9 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * assertThat(Double.NaN).isNotNaN();
    * assertThat(0.0 / 0.0).isNotNaN();
    * assertThat(0.0F * Float.POSITIVE_INFINITY).isNotNaN();</code></pre>
-   * </p>
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
-  S isNotNaN();
+  SELF isNotNaN();
 }

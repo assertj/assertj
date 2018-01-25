@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,8 +18,8 @@ import org.assertj.core.data.Index;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.util.VisibleForTesting;
 
-public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayAssert<S>>
-  extends AbstractArrayAssert<S, boolean[], Boolean> {
+public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArrayAssert<SELF>>
+  extends AbstractArrayAssert<SELF, boolean[], Boolean> {
 
   @VisibleForTesting
   protected BooleanArrays arrays = BooleanArrays.instance();
@@ -42,7 +42,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
 
   /** {@inheritDoc} */
   @Override
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return myself;
   }
@@ -56,12 +56,9 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true }).hasSize(2);</code></pre>
-   * 
-   * </p>
-   * 
    */
   @Override
-  public S hasSize(int expected) {
+  public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
@@ -75,11 +72,9 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
-   * 
-   * </p>
    */
   @Override
-  public S hasSameSizeAs(Iterable<?> other) {
+  public SELF hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -96,8 +91,6 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, true }).contains(false);</code></pre>
    * 
-   * </p>
-   * 
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -105,7 +98,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(boolean... values) {
+  public SELF contains(boolean... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -114,14 +107,14 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * Verifies that the actual array contains only the given values and nothing else, in any order.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new boolean[] { true, false }).containsOnly(true, false);
-   * assertThat(new boolean[] { true, false, false, true }).containsOnly(true, false);
+   * assertThat(new boolean[] { false, true }).containsOnly(true, false);
+   * assertThat(new boolean[] { true, true, false }).containsOnly(true, false);
    * 
-   * // assertion will fail
-   * assertThat(new boolean[] { true, false }).containsOnly(false);</code></pre>
-   * 
-   * </p>
+   * // assertions will fail
+   * assertThat(new boolean[] { true, false }).containsOnly(false);
+   * assertThat(new boolean[] { true }).containsOnly(true, false);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -131,7 +124,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(boolean... values) {
+  public SELF containsOnly(boolean... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -156,7 +149,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(boolean... values) {
+  public SELF containsOnlyOnce(boolean... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -172,15 +165,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).containsSequence(false, true);</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(boolean... sequence) {
+  public SELF containsSequence(boolean... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -196,15 +187,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).containsSubsequence(false, true);</code></pre>
    * 
-   * </p>
-   * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(boolean... subsequence) {
+  public SELF containsSubsequence(boolean... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -221,8 +210,6 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * assertThat(new boolean[] { true, false }).contains(false, atIndex(0));
    * assertThat(new boolean[] { true, false }).contains(true, atIndex(1));</code></pre>
    * 
-   * </p>
-   * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -232,7 +219,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(boolean value, Index index) {
+  public SELF contains(boolean value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -247,8 +234,6 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).doesNotContain(false);</code></pre>
    * 
-   * </p>
-   * 
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -256,7 +241,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(boolean... values) {
+  public SELF doesNotContain(boolean... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -272,8 +257,6 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).doesNotContain(false, atIndex(1));
    * assertThat(new boolean[] { true, false }).doesNotContain(true, atIndex(0));</code></pre>
-   *
-   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -282,7 +265,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(boolean value, Index index) {
+  public SELF doesNotContain(boolean value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -297,13 +280,11 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).doesNotHaveDuplicates();</code></pre>
    * 
-   * </p>
-   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  public SELF doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -320,8 +301,6 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, false, false, true }).startsWith(false, false, true);</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -329,7 +308,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(boolean... sequence) {
+  public SELF startsWith(boolean... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -346,7 +325,6 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, false, false, true }).endsWith(true, false);</code></pre>
    *
-   * </p>
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -354,21 +332,21 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(boolean... sequence) {
+  public SELF endsWith(boolean... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSorted() {
+  public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSortedAccordingTo(Comparator<? super Boolean> comparator) {
+  public SELF isSortedAccordingTo(Comparator<? super Boolean> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return myself;
   }
@@ -381,7 +359,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    */
   @Override
   @Deprecated
-  public final S usingElementComparator(Comparator<? super Boolean> customComparator) {
+  public final SELF usingElementComparator(Comparator<? super Boolean> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");
   }
 
@@ -393,7 +371,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    */
   @Override
   @Deprecated
-  public final S usingDefaultElementComparator() {
+  public final SELF usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");
   }
 
@@ -415,8 +393,8 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(boolean... values) {
-    objects.assertEqual(info, actual, values);
+  public SELF containsExactly(boolean... values) {
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 
@@ -441,9 +419,35 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
-  public S containsExactlyInAnyOrder(boolean... values) {
+  public SELF containsExactlyInAnyOrder(boolean... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> boolean[] soTrue = { true, true, true }; 
+   *
+   * // assertions will pass
+   * assertThat(soTrue).containsAnyOf(true)
+   *                   .containsAnyOf(false, false, false, true);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf(false);
+   * assertThat(oneTwoThree).containsAnyOf(false, false, false);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(boolean... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
 }

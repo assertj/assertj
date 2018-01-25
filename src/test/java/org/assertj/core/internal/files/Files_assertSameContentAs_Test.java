@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,16 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
-import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -34,7 +30,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.FilesBaseTest;
@@ -107,12 +102,10 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
     IOException cause = new IOException();
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenThrow(cause);
-    try {
-      files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected, defaultCharset());
-      fail("Expected a RuntimeIOException to be thrown");
-    } catch (RuntimeIOException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
+
+    thrown.expectWithCause(RuntimeIOException.class, cause);
+
+    files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected, defaultCharset());
   }
 
   @Test
@@ -131,36 +124,23 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() {
-    Throwable throwable = catchThrowable(new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        unMockedFiles.assertSameContentAs(someInfo(),
-                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
-                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8);
-      }
-    });
-
-    assertThat(throwable).isInstanceOf(RuntimeIOException.class)
-                         .hasMessageStartingWith("Unable to compare contents of files");
+  public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() throws IOException {
+    thrown.expectWithMessageStartingWith(RuntimeIOException.class, "Unable to compare contents of files");
+    unMockedFiles.assertSameContentAs(someInfo(),
+                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
+                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8);
   }
 
   @Test
-  public void should_fail_if_files_are_not_binary_identical() {
-    Throwable throwable = catchThrowable(new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        unMockedFiles.assertSameContentAs(someInfo(),
-                                          createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
-                                          expected, StandardCharsets.UTF_8);
-      }
-    });
-
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessageEndingWith(format("does not have expected binary content at offset <0>, expecting:%n" +
-                                                      " <\"EOF\">%n" +
-                                                      "but was:%n" +
-                                                      " <\"0x0\">"));
+  public void should_fail_if_files_are_not_binary_identical() throws IOException {
+    thrown.expectWithMessageEndingWith(AssertionError.class,
+                                       "does not have expected binary content at offset <0>, expecting:%n" +
+                                       " <\"EOF\">%n" +
+                                       "but was:%n" +
+                                       " <\"0x0\">");
+    unMockedFiles.assertSameContentAs(someInfo(),
+                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
+                                      expected, StandardCharsets.UTF_8);
   }
 
   private File createFileWithNonUTF8Character() throws IOException {

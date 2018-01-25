@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util.diff;
+
+import static org.assertj.core.util.Preconditions.checkState;
 
 import java.util.List;
 
@@ -39,11 +41,9 @@ public class InsertDelta<T> extends Delta<T> {
 
   /**
    * {@inheritDoc}
-   *
-   * @throws IllegalStateException
    */
   @Override
-  public void applyTo(List<T> target) throws IllegalStateException {
+  public void applyTo(List<T> target) {
     verify(target);
     int position = this.getOriginal().getPosition();
     List<T> lines = this.getRevised().getLines();
@@ -54,20 +54,13 @@ public class InsertDelta<T> extends Delta<T> {
 
   @Override
   public void verify(List<T> target) throws IllegalStateException {
-    if (getOriginal().getPosition() > target.size()) {
-      throw new IllegalStateException("Incorrect patch for delta: "
-                                     + "delta original position > target size");
-    }
-
-  }
-
-  public TYPE getType() {
-    return Delta.TYPE.INSERT;
+    checkState(getOriginal().getPosition() <= target.size(),
+               "Incorrect patch for delta: delta original position > target size");
   }
 
   @Override
-  public String toString() {
-    return String.format("Extra content at line %s:%n  %s%n", lineNumber(), formatLines(getRevised().getLines()));
+  public TYPE getType() {
+    return Delta.TYPE.INSERT;
   }
 
 }

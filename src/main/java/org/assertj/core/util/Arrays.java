@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,21 +8,28 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Utility methods related to arrays.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Florent Biville
  */
 public class Arrays {
 
@@ -34,6 +41,35 @@ public class Arrays {
    */
   public static boolean isArray(Object o) {
     return o != null && o.getClass().isArray();
+  }
+
+  /**
+   * Get the values of any array (primtive or not) into a {@code Object[]}.
+   * 
+   * @param array array passed as an object to support both primitive and Object array
+   * @return the values of the given Object as a {@code Object[]}.
+   * @throws IllegalArgumentException it the given Object is not an array.
+   */
+  public static Object[] asObjectArray(Object array) {
+    checkArgument(isArray(array), "Given object %s is not an array", array);
+    if (array == null) return null;
+    int length = Array.getLength(array);
+    Object[] objectArray = new Object[length];
+    for (int i = 0; i < length; i++) {
+      objectArray[i] = Array.get(array, i);
+    }
+    return objectArray;
+  }
+
+  /**
+   * Get the values of any array (primtive or not) into a {@code List<Object>}.
+   * 
+   * @param array array passed as an object to support both primitive and Object array
+   * @return the values of the given Object as a {@code List<Object>}.
+   * @throws IllegalArgumentException it the given Object is not an array.
+   */
+  public static List<Object> asList(Object array) {
+    return newArrayList(asObjectArray(array));
   }
 
   /**
@@ -57,6 +93,55 @@ public class Arrays {
   @SafeVarargs
   public static <T> T[] array(T... values) {
     return values;
+  }
+
+  /** 
+   * Returns an int[] from the {@link AtomicIntegerArray}, null if the given atomic array is null.
+   * 
+   * @param atomicIntegerArray the {@link AtomicIntegerArray} to convert to int[].
+   * @return an int[].
+   */
+  public static int[] array(AtomicIntegerArray atomicIntegerArray) {
+    if (atomicIntegerArray == null) return null;
+    int[] array = new int[atomicIntegerArray.length()];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = atomicIntegerArray.get(i);
+    }
+    return array;
+  }
+
+  /** 
+   * Returns an long[] from the {@link AtomicLongArray}, null if the given atomic array is null.
+   * 
+   * @param atomicLongArray the {@link AtomicLongArray} to convert to long[].
+   * @return an long[].
+   */
+  public static long[] array(AtomicLongArray atomicLongArray) {
+    if (atomicLongArray == null) return null;
+    long[] array = new long[atomicLongArray.length()];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = atomicLongArray.get(i);
+    }
+    return array;
+  }
+
+  /** 
+   * Returns an T[] from the {@link AtomicReferenceArray}, null if the given atomic array is null.
+   * 
+   * @param <T> the type of elements of the array.
+   * @param atomicReferenceArray the {@link AtomicReferenceArray} to convert to T[].
+   * @return an T[].
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T[] array(AtomicReferenceArray<T> atomicReferenceArray) {
+    if (atomicReferenceArray == null) return null;
+    int length = atomicReferenceArray.length();
+    if (length == 0) return array();
+    List<T> list = newArrayList();
+    for (int i = 0; i < length; i++) {
+      list.add(atomicReferenceArray.get(i));
+    }
+    return list.toArray((T[]) Array.newInstance(Object.class, length));
   }
 
   /**
@@ -108,6 +193,14 @@ public class Arrays {
 
   public static IllegalArgumentException notAnArrayOfPrimitives(Object o) {
     return new IllegalArgumentException(String.format("<%s> is not an array of primitives", o));
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T[] prepend(T first, T... rest) {
+    T[] result = (T[]) new Object[1 + rest.length];
+    result[0] = first;
+    System.arraycopy(rest, 0, result, 1, rest.length);
+    return result;
   }
 
   private Arrays() {}

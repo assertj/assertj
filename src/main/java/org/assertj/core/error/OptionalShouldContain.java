@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -44,10 +44,10 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    *
    * @param optional the {@link java.util.Optional} which contains a value.
    * @param expectedValue the value we expect to be in the provided {@link java.util.Optional}.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    * @return a error message factory
    */
-  public static <T> OptionalShouldContain shouldContain(Optional<T> optional, T expectedValue) {
+  public static <VALUE> OptionalShouldContain shouldContain(Optional<VALUE> optional, VALUE expectedValue) {
     return optional.isPresent() ?
             new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue) :
             shouldContain(expectedValue);
@@ -98,10 +98,10 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    *
    * @param optional the {@link java.util.Optional} which contains a value.
    * @param expectedValue the value we expect to be in the provided {@link java.util.Optional}.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    * @return a error message factory
    */
-  public static <T> OptionalShouldContain shouldContainSame(Optional<T> optional, T expectedValue) {
+  public static <VALUE> OptionalShouldContain shouldContainSame(Optional<VALUE> optional, VALUE expectedValue) {
     return optional.isPresent() ?
             new OptionalShouldContain(EXPECTING_TO_CONTAIN_SAME, optional, expectedValue) :
             shouldContain(expectedValue);

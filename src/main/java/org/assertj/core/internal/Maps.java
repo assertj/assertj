@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -17,8 +17,10 @@ import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys;
@@ -32,13 +34,16 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
@@ -74,6 +79,14 @@ public class Maps {
 
   @VisibleForTesting
   Maps() {}
+
+  public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
+                                      BiConsumer<? super K, ? super V> entryRequirements) {
+    checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
+    assertNotNull(info, actual);
+    actual.entrySet().stream()
+          .forEach(entry -> entryRequirements.accept(entry.getKey(), entry.getValue()));
+  }
 
   /**
    * Asserts that the given {@code Map} is {@code null} or empty.
@@ -175,6 +188,8 @@ public class Maps {
   /**
    * Asserts that the given {@code Map} contains the given entries, in any order.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that are expected to be in the given {@code Map}.
@@ -193,7 +208,7 @@ public class Maps {
     failIfEmptySinceActualIsNotEmpty(entries);
     Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     for (Map.Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) notFound.add(entry); 
+      if (!containsEntry(actual, entry)) notFound.add(entry);
     }
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContain(actual, entries, notFound));
@@ -207,7 +222,7 @@ public class Maps {
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEmptySinceActualIsNotEmpty(entries);
     for (Map.Entry<? extends K, ? extends V> entry : entries) {
-      if (containsEntry(actual, entry)) return; 
+      if (containsEntry(actual, entry)) return;
     }
     throw failures.failure(info, ShouldContainAnyOf.shouldContainAnyOf(actual, entries));
   }
@@ -215,6 +230,8 @@ public class Maps {
   /**
    * Verifies that the given {@code Map} contains the value for given {@code key} that satisfy given {@code valueCondition}.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param key he given key to check.
@@ -237,6 +254,8 @@ public class Maps {
   /**
    * Verifies that the {@code Map} contains the value for given {@code key} that satisfy given {@code valueRequirements}.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param key he given key to check.
@@ -247,7 +266,8 @@ public class Maps {
    * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
    */
   @SuppressWarnings("unchecked")
-  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Consumer<? super V> valueRequirements) {
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
+                                              Consumer<? super V> valueRequirements) {
     assertContainsKeys(info, actual, key);
     checkNotNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
     V value = actual.get(key);
@@ -255,8 +275,109 @@ public class Maps {
   }
 
   /**
+   * Verifies that the given {@code Map} contains an entry satisfying given {@code entryCondition}.
+   *
+   * @param <K> key type
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param entryCondition the condition for searching entry.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry matching given {@code entryCondition}.
+   * @since 2.7.0 / 3.7.0
+   */
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual,
+                                              Condition<? super Map.Entry<K, V>> entryCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(entryCondition);
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
+      if (entryCondition.matches(entry)) return;
+    }
+
+    throw failures.failure(info, shouldContainEntry(actual, entryCondition));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition}
+   * and value satisfying {@code valueCondition}.
+   *
+   * @param <K> key type
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param keyCondition the condition for entry key.
+   * @param valueCondition the condition for entry value.
+   * @throws NullPointerException if any of the given conditions is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no entry matching given {@code keyCondition} and {@code valueCondition}.
+   * @since 2.7.0 / 3.7.0
+   */
+  public <K, V> void assertHasEntrySatisfyingConditions(AssertionInfo info, Map<K, V> actual,
+                                                        Condition<? super K> keyCondition,
+                                                        Condition<? super V> valueCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(keyCondition, "The condition to evaluate for entries key should not be null");
+    conditions.assertIsNotNull(valueCondition, "The condition to evaluate for entries value should not be null");
+
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
+      if (keyCondition.matches(entry.getKey()) && valueCondition.matches(entry.getValue())) return;
+    }
+
+    throw failures.failure(info, shouldContainEntry(actual, keyCondition, valueCondition));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains an entry with key satisfying {@code keyCondition}.
+   *
+   * @param <K> key type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param keyCondition the condition for key search.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no key matching given {@code keyCondition}.
+   * @since 2.7.0 / 3.7.0
+   */
+  public <K> void assertHasKeySatisfying(AssertionInfo info, Map<K, ?> actual, Condition<? super K> keyCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(keyCondition);
+
+    for (K key : actual.keySet()) {
+      if (keyCondition.matches(key)) return;
+    }
+
+    throw failures.failure(info, shouldContainKey(actual, keyCondition));
+  }
+
+  /**
+   * Verifies that the given {@code Map} contains an entry with value satisfying {@code valueCondition}.
+   *
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param valueCondition the condition for value search.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if there is no value matching given {@code valueCondition}.
+   * @since 2.7.0 / 3.7.0
+   */
+  public <V> void assertHasValueSatisfying(AssertionInfo info, Map<?, V> actual, Condition<? super V> valueCondition) {
+    assertNotNull(info, actual);
+    conditions.assertIsNotNull(valueCondition);
+
+    for (V value : actual.values()) {
+      if (valueCondition.matches(value)) return;
+    }
+
+    throw failures.failure(info, shouldContainValue(actual, valueCondition));
+  }
+
+  /**
    * Asserts that the given {@code Map} does not contain the given entries.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that are expected to be in the given {@code Map}.
@@ -283,6 +404,8 @@ public class Maps {
   /**
    * Verifies that the actual map contain the given key.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keys the given keys
@@ -305,6 +428,8 @@ public class Maps {
   /**
    * Verifies that the actual map not contains the given key.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param key the given key
@@ -319,6 +444,8 @@ public class Maps {
   /**
    * Verifies that the actual map not contains all the given keys.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keys the given keys
@@ -340,6 +467,8 @@ public class Maps {
   /**
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param keys the keys that are expected to be in the given {@code Map}.
@@ -370,6 +499,8 @@ public class Maps {
   /**
    * Verifies that the actual map contain the given value.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param value the given value
@@ -384,6 +515,8 @@ public class Maps {
   /**
    * Verifies that the actual map contain the given values.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param values the given values
@@ -407,6 +540,8 @@ public class Maps {
   /**
    * Verifies that the actual map not contains the given value.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param value the given value
@@ -421,6 +556,8 @@ public class Maps {
   /**
    * Verifies that the actual map contains only the given entries and nothing else, in any order.
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that should be in the actual map.
@@ -452,6 +589,8 @@ public class Maps {
    * This assertion should only be used with map that have a consistent iteration order (i.e. don't use it with
    * {@link java.util.HashMap}).
    * 
+   * @param <K> key type
+   * @param <V> value type
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the given entries.
@@ -488,7 +627,7 @@ public class Maps {
       return;
     }
 
-    throw failures.failure(info, shouldContainExactly(actual, entries, notFound, notExpected));
+    throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
   }
 
   private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
@@ -504,9 +643,7 @@ public class Maps {
       }
     }
     // All remaining keys from actual copy are not expected entries.
-    for (K key : actualEntries.keySet()) {
-      notExpected.add(key);
-    }
+    notExpected.addAll(actualEntries.keySet());
   }
 
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual,
@@ -545,12 +682,11 @@ public class Maps {
   }
 
   private static <K> void failIfEmpty(K[] keys) {
-    if (keys.length == 0) throw new IllegalArgumentException("The array of keys to look for should not be empty");
+    checkArgument(keys.length > 0, "The array of keys to look for should not be empty");
   }
 
   private static <K, V> void failIfEmpty(Map.Entry<? extends K, ? extends V>[] entries) {
-    if (entries.length == 0)
-      throw new IllegalArgumentException("The array of entries to look for should not be empty");
+    checkArgument(entries.length > 0, "The array of entries to look for should not be empty");
   }
 
   private static <K, V> void failIfNullOrEmpty(Map.Entry<? extends K, ? extends V>[] entries) {

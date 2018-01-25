@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,14 +8,23 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import static java.lang.String.format;
+import static org.assertj.core.util.Strings.join;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
+import org.assertj.core.util.DoubleComparator;
+import org.assertj.core.util.FloatComparator;
+import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.ClassUtils;
 
 /**
@@ -26,10 +35,23 @@ import org.assertj.core.util.introspection.ClassUtils;
  */
 public class TypeComparators {
 
-  private Map<Class<?>, Comparator<?>> typeComparators;
+  private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
+  private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
+
+  private static final Comparator<Class<?>> CLASS_COMPARATOR = Comparator.comparing(Class::getSimpleName);
+
+  @VisibleForTesting
+  Map<Class<?>, Comparator<?>> typeComparators;
+
+  public static TypeComparators defaultTypeComparators() {
+    TypeComparators comparatorByType = new TypeComparators();
+    comparatorByType.put(Double.class, new DoubleComparator(DOUBLE_COMPARATOR_PRECISION));
+    comparatorByType.put(Float.class, new FloatComparator(FLOAT_COMPARATOR_PRECISION));
+    return comparatorByType;
+  }
 
   public TypeComparators() {
-    typeComparators = new HashMap<>();
+    typeComparators = new TreeMap<>(CLASS_COMPARATOR);
   }
 
   /**
@@ -73,7 +95,7 @@ public class TypeComparators {
    * @param comparator the comparator it self
    * @param <T> the type of the objects for the comparator
    */
-  public <T> void put(Class<T> clazz, Comparator<T> comparator) {
+  public <T> void put(Class<T> clazz, Comparator<? super T> comparator) {
     typeComparators.put(clazz, comparator);
   }
 
@@ -91,11 +113,21 @@ public class TypeComparators {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof TypeComparators && typeComparators.equals(((TypeComparators) obj).typeComparators);
+    return obj instanceof TypeComparators
+           && java.util.Objects.equals(typeComparators, ((TypeComparators) obj).typeComparators);
   }
 
   @Override
   public String toString() {
-    return typeComparators.toString();
+    List<String> registeredComparatorsDescription = new ArrayList<>();
+    for (Entry<Class<?>, Comparator<?>> registeredComparator : this.typeComparators.entrySet()) {
+      registeredComparatorsDescription.add(formatRegisteredComparator(registeredComparator));
+    }
+    return format("{%s}", join(registeredComparatorsDescription).with(", "));
   }
+
+  private static String formatRegisteredComparator(Entry<Class<?>, Comparator<?>> next) {
+    return format("%s -> %s", next.getKey().getSimpleName(), next.getValue());
+  }
+
 }

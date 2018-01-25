@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldHaveNoNullFields.shouldHaveNoNullFiel
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
+import static org.assertj.core.error.ShouldHaveSameHashCode.shouldHaveSameHashCode;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
@@ -41,16 +42,9 @@ import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameCla
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.DeepDifference.Difference;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.introspection.FieldSupport;
-import org.assertj.core.util.introspection.IntrospectionError;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
-import org.assertj.core.util.introspection.PropertySupport;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -61,6 +55,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.DeepDifference.Difference;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.assertj.core.util.introspection.PropertySupport;
 
 /**
  * Reusable assertions for {@code Object}s.
@@ -195,6 +197,7 @@ public class Objects {
    *
    * @param info contains information about the assertion.
    * @param actual the given object.
+   * @param other the object to check type against.
    * @throws AssertionError if the actual has not the same type has the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
@@ -299,9 +302,7 @@ public class Objects {
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
     checkNotNull(types, "The given array of types should not be null");
-    if (types.length == 0) {
-      throw new IllegalArgumentException("The given array of types should not be empty");
-    }
+    checkArgument(types.length > 0, "The given array of types should not be empty");
   }
 
   /**
@@ -443,9 +444,7 @@ public class Objects {
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
     checkNotNull(values, "The given array should not be null");
-    if (values.length == 0) {
-      throw new IllegalArgumentException("The given array should not be empty");
-    }
+    checkArgument(values.length > 0, "The given array should not be empty");
   }
 
   /**
@@ -494,14 +493,12 @@ public class Objects {
 
   private void checkIsNotNullAndNotEmpty(Iterable<?> values) {
     checkNotNull(values, "The given iterable should not be null");
-    if (!values.iterator().hasNext()) {
-      throw new IllegalArgumentException("The given iterable should not be empty");
-    }
+    checkArgument(values.iterator().hasNext(), "The given iterable should not be empty");
   }
 
   private boolean isActualIn(Object actual, Iterable<?> values) {
     for (Object value : values) {
-      if (areEqual(value, actual)) {
+      if (areEqual(actual, value)) {
         return true;
       }
     }
@@ -512,9 +509,12 @@ public class Objects {
    * Assert that the given object is lenient equals by ignoring null fields value on other object (including inherited
    * fields).
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @throws NullPointerException if the actual type is {@code null}.
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
@@ -552,9 +552,12 @@ public class Objects {
   /**
    * Assert that the given object is lenient equals to other object by comparing given fields value only.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @param fields accepted fields
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if actual is {@code null}.
@@ -602,9 +605,12 @@ public class Objects {
    * Assert that the given object is lenient equals to the other by comparing all fields (including inherited fields)
    * unless given ignored ones.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @param fields the fields to ignore in comparison
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if actual is {@code null}.
@@ -656,12 +662,16 @@ public class Objects {
   static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
                                                Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                TypeComparators comparatorByType) {
-    if (actualFieldValue != null && otherFieldValue != null
-        && actualFieldValue.getClass() == otherFieldValue.getClass()) {
-      Comparator fieldComparator = comparatorByPropertyOrField.containsKey(fieldName)
-          ? comparatorByPropertyOrField.get(fieldName) : comparatorByType.get(actualFieldValue.getClass());
-      if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
-    }
+    // no need to look into comparators if objects are the same
+    if (actualFieldValue == otherFieldValue) return true;
+    // check field comparators as they take precedence over type comparators
+    Comparator fieldComparator = comparatorByPropertyOrField.get(fieldName);
+    if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
+    // check if a type comparators exist for the field type
+    Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : otherFieldValue.getClass();
+    Comparator typeComparator = comparatorByType.get(fieldType);
+    if (typeComparator != null) return typeComparator.compare(actualFieldValue, otherFieldValue) == 0;
+    // default comparison using equals
     return org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue);
   }
 
@@ -672,13 +682,15 @@ public class Objects {
   /**
    * Assert that the given object has no null fields except the given ones.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param propertiesOrFieldsToIgnore the fields to ignore in comparison
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if some of the fields of the actual object are null.
    */
-  public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, A actual, String... propertiesOrFieldsToIgnore) {
+  public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
+                                                          String... propertiesOrFieldsToIgnore) {
     assertNotNull(info, actual);
     Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
     List<String> nullFieldNames = new LinkedList<>();
@@ -698,8 +710,11 @@ public class Objects {
   /**
    * Assert that the given object is "deeply" equals to other by comparing all fields recursively.
    *
+   * @param <A> the actual type
    * @param info contains information about the assertion.
    * @param actual the given object.
+   * @param comparatorByPropertyOrField comparators use for specific fields
+   * @param comparatorByType comparators use for specific types
    * @param other the object to compare {@code actual} to.
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if the actual and the given object are not "deeply" equal.
@@ -710,7 +725,8 @@ public class Objects {
     assertNotNull(info, actual);
     List<Difference> differences = determineDifferences(actual, other, comparatorByPropertyOrField, comparatorByType);
     if (!differences.isEmpty()) {
-      throw failures.failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other, differences));
+      throw failures.failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other, differences,
+                                                                                 info.representation()));
     }
   }
 
@@ -719,6 +735,7 @@ public class Objects {
    * <p>
    * This method supports nested field/property (e.g. "address.street.number").
    *
+   * @param <A> the actual type
    * @param a the object to get field value from
    * @param fieldName Field name to read, can be nested
    * @return (nested) field value or property value if field was not accessible.
@@ -799,6 +816,24 @@ public class Objects {
 
   private <A> Object extractPropertyOrField(A actual, String name) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(name, actual);
+  }
+
+  /**
+   * Asserts that the actual object has the same hashCode as the given object.
+   *
+   * @param <A> the actual type
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to check hashCode against.
+   *
+   * @throws AssertionError if the actual object is null.
+   * @throws AssertionError if the given object is null.
+   * @throws AssertionError if the actual object has not the same hashCode as the given object.
+   */
+  public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
+    assertNotNull(info, actual);
+    checkNotNull(other, "The object used to compare actual's hash code with should not be null");
+    if (actual.hashCode() != other.hashCode()) throw failures.failure(info, shouldHaveSameHashCode(actual, other));
   }
 
   public static class ByFieldsComparison {

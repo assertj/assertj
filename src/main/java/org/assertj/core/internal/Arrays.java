@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -33,13 +33,14 @@ import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElements
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
-import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -49,7 +50,10 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
+import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
+import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
@@ -60,8 +64,10 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
@@ -85,6 +91,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
+ * @author Florent Biville
  */
 public class Arrays {
 
@@ -96,7 +103,7 @@ public class Arrays {
    * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
-  static Arrays instance() {
+  public static Arrays instance() {
     return INSTANCE;
   }
 
@@ -150,7 +157,8 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
+  @VisibleForTesting
+  public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
     int valueCount = sizeOf(values);
@@ -199,21 +207,39 @@ public class Arrays {
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
-    IterableDiff diff = diff(asList(actual), asList(values), comparisonStrategy);
-    if (diff.differencesFound())
+    List<Object> notExpected = asList(actual);
+    List<Object> notFound = asList(values);
+
+    for (Object value : asList(values)) {
+      if (iterableContains(notExpected, value)) {
+        iterableRemoves(notExpected, value);
+        iterableRemoves(notFound, value);
+      }
+    }
+
+    if (!notExpected.isEmpty() || !notFound.isEmpty()) {
       throw failures.failure(info, shouldContainOnly(actual, values,
-                                                     diff.missing, diff.unexpected,
+                                                     notFound, notExpected,
                                                      comparisonStrategy));
+    }
+  }
+
+  void assertContainsOnlyNulls(AssertionInfo info, Failures failures, Object[] actual) {
+    assertNotNull(info, actual);
+    // empty => no null elements => failure
+    if (actual.length == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
+    // look for any non null elements
+    List<Object> nonNullElements = new ArrayList<>();
+    for (Object element : actual) {
+      if (element != null) nonNullElements.add(element);
+    }
+    if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
-    int actualSize = sizeOf(actual);
-    int expectedSize = sizeOf(values);
-    if (actualSize != expectedSize)
-      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
 
     List<Object> actualAsList = asList(actual);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
@@ -229,7 +255,8 @@ public class Arrays {
       return;
     }
     throw failures.failure(info,
-                           shouldContainExactly(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
+                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+                                                comparisonStrategy));
   }
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -279,14 +306,33 @@ public class Arrays {
     comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
+  /**
+   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
+   */
+  private void iterableRemoves(Collection<?> actual, Object value) {
+    comparisonStrategy.iterableRemoves(actual, value);
+  }
+
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
     if (commonChecks(info, actual, sequence)) return;
-    // look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
-    int lastIndexWhereSequeceCanBeFound = sizeOf(actual) - sizeOf(sequence);
-    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequeceCanBeFound; actualIndex++) {
+    // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
+    int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
+    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequenceCanBeFound; actualIndex++) {
       if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) return;
     }
     throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+  }
+
+  void assertDoesNotContainSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
+    if (commonChecks(info, actual, sequence)) return;
+
+    // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
+    int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
+    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequenceCanBeFound; actualIndex++) {
+      if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) {
+        throw failures.failure(info, shouldNotContainSequence(actual, sequence, actualIndex, comparisonStrategy));
+      }
+    }
   }
 
   /**
@@ -315,19 +361,67 @@ public class Arrays {
     int sizeOfSubsequence = sizeOf(subsequence);
     // look for given subsequence, stop check when there is not enough elements remaining in actual to contain
     // subsequence
-    int lastIndexWhereEndOfSubsequeceCanBeFound = sizeOfActual - sizeOfSubsequence;
+    int lastIndexWhereEndOfSubsequenceCanBeFound = sizeOfActual - sizeOfSubsequence;
 
     int actualIndex = 0;
     int subsequenceIndex = 0;
-    while (actualIndex <= lastIndexWhereEndOfSubsequeceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
+    while (actualIndex <= lastIndexWhereEndOfSubsequenceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
       if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
         subsequenceIndex++;
-        lastIndexWhereEndOfSubsequeceCanBeFound++;
+        lastIndexWhereEndOfSubsequenceCanBeFound++;
       }
       actualIndex++;
     }
     if (subsequenceIndex < sizeOfSubsequence)
       throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  }
+
+  void assertHasOnlyElementsOfTypes(AssertionInfo info, Failures failures, Object actual, Class<?>[] expectedTypes) {
+    checkIsNotNull(expectedTypes);
+    assertNotNull(info, actual);
+
+    List<Object> nonMatchingElements = newArrayList();
+    for (Object value : asList(actual)) {
+      boolean matching = false;
+      for (Class<?> expectedType : expectedTypes) {
+        if (expectedType.isInstance(value)) matching = true;
+      }
+      if (!matching) nonMatchingElements.add(value);
+    }
+
+    if (!nonMatchingElements.isEmpty()) {
+      throw failures.failure(info, shouldOnlyHaveElementsOfTypes(actual, expectedTypes, nonMatchingElements));
+    }
+  }
+
+  void assertDoesNotContainSubsequence(AssertionInfo info, Failures failures, Object actual, Object subsequence) {
+    if (commonChecks(info, actual, subsequence)) return;
+
+    int sizeOfActual = sizeOf(actual);
+    int sizeOfSubsequence = sizeOf(subsequence);
+    // look for given subsequence, stop check when there is not enough elements remaining in actual to contain
+    // subsequence
+    int lastIndexWhereEndOfSubsequenceCanBeFound = sizeOfActual - sizeOfSubsequence;
+
+    int actualIndex = 0;
+    int subsequenceIndex = 0;
+    int subsequenceStartIndex = 0;
+
+    while (actualIndex <= lastIndexWhereEndOfSubsequenceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
+      if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
+        if (subsequenceIndex == 0) {
+          subsequenceStartIndex = actualIndex;
+        }
+        subsequenceIndex++;
+        lastIndexWhereEndOfSubsequenceCanBeFound++;
+      }
+      actualIndex++;
+
+      if (subsequenceIndex == sizeOfSubsequence) {
+        throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy,
+                                                                 subsequenceStartIndex));
+      }
+    }
   }
 
   /**
@@ -377,12 +471,17 @@ public class Arrays {
   }
 
   private static boolean commonChecks(AssertionInfo info, Object actual, Object sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
+    checkNulls(info, actual, sequence);
     // if both actual and values are empty arrays, then assertion passes.
     if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return true;
     failIfEmptySinceActualIsNotEmpty(sequence);
     return false;
+
+  }
+
+  private static void checkNulls(AssertionInfo info, Object actual, Object sequence) {
+    checkIsNotNull(sequence);
+    assertNotNull(info, actual);
   }
 
   private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
@@ -390,8 +489,13 @@ public class Arrays {
     return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
+  void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object first, Object[] rest) {
+    Object[] sequence = prepend(first, rest);
+    assertEndsWith(info, failures, actual, sequence);
+  }
+
   void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    if (commonChecks(info, actual, sequence)) return;
+    checkNulls(info, actual, sequence);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(actual);
     if (arraySize < sequenceSize) throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);
@@ -500,6 +604,19 @@ public class Arrays {
       throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
   }
 
+  public void assertContainsAnyOf(AssertionInfo info, Failures failures, Object actual, Object values) {
+    if (commonChecks(info, actual, values)) return;
+    assertIsArray(info, actual);
+    assertIsArray(info, values);
+
+    List<Object> valuesToSearchFor = asList(values);
+    for (Object element : asList(actual)) {
+      if (iterableContains(valuesToSearchFor, element)) return;
+    }
+    throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
+
+  }
+
   private <E> List<E> getElementsMatchingCondition(AssertionInfo info, Failures failures, Conditions conditions,
                                                    Object array, Condition<E> condition) {
     return filterElements(info, failures, conditions, array, condition, false);
@@ -583,7 +700,7 @@ public class Arrays {
   @SuppressWarnings("unchecked")
   private static <T> List<T> asList(Object array) {
     if (array == null) return null;
-    if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
+    checkArgument(isArray(array), "The object should be an array");
     int length = getLength(array);
     List<T> list = new ArrayList<>(length);
     for (int i = 0; i < length; i++) {

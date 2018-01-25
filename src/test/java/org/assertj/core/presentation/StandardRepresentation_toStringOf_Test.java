@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,19 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.presentation;
 
 import static java.lang.String.format;
+import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,10 +32,17 @@ import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.presentation.AbstractBaseRepresentationTest;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.OtherStringTestComparator;
+import org.assertj.core.util.OtherStringTestComparatorWithAt;
+import org.assertj.core.util.StringTestComparator;
 import org.junit.Test;
 
 /**
@@ -44,9 +52,11 @@ import org.junit.Test;
  */
 public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationTest {
 
+  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
+
   @Test
   public void should_return_null_if_object_is_null() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf((Object)null)).isNull();
+    assertThat(STANDARD_REPRESENTATION.toStringOf((Object) null)).isNull();
   }
 
   @Test
@@ -81,7 +91,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   public void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = newArrayList("s1", "s2");
     // assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\",%n" +
-    // "    \"s2\"]"));
+    // " \"s2\"]"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"]"));
   }
 
@@ -114,7 +124,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
     collection.add(newArrayList("s6", "s7"));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
-      .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
+                                                              .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
   }
 
   @Test
@@ -162,6 +172,42 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   }
 
   @Test
+  public void should_return_toString_of_AtomicReference() {
+    AtomicReference<String> atomicReference = new AtomicReference<>("actual");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicReference)).isEqualTo("AtomicReference[\"actual\"]");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicMarkableReference() {
+    AtomicMarkableReference<String> atomicMarkableReference = new AtomicMarkableReference<>("actual", true);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicMarkableReference)).isEqualTo("AtomicMarkableReference[marked=true, reference=\"actual\"]");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicStampedReference() {
+    AtomicStampedReference<String> atomicStampedReference = new AtomicStampedReference<>("actual", 123);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicStampedReference)).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"]");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicIntegerFieldUpdater() {
+    AtomicIntegerFieldUpdater<Person> updater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicIntegerFieldUpdater");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicLongFieldUpdater() {
+    AtomicLongFieldUpdater<Person> updater = AtomicLongFieldUpdater.newUpdater(Person.class, "account");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicLongFieldUpdater");
+  }
+
+  @Test
+  public void should_return_toString_of_AtomicReferenceFieldUpdater() {
+    AtomicReferenceFieldUpdater<Person, String> updater = newUpdater(Person.class, String.class, "name");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicReferenceFieldUpdater");
+  }
+
+  @Test
   public void toString_with_anonymous_comparator() {
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
@@ -179,30 +225,30 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
       public int compare(String s1, String s2) {
         return s1.length() - s2.length();
       }
-      
+
       @Override
       public String toString() {
         return "foo";
       }
     };
-    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("'foo'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("foo");
   }
-  
+
   @Test
   public void toString_with_comparator_not_overriding_toString() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new StringTestComparator())).isEqualTo("'StringTestComparator'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new StringTestComparator())).isEqualTo("StringTestComparator");
   }
-  
+
   @Test
   public void toString_with_comparator_overriding_toString() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("'other String comparator'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("other String comparator");
   }
 
   @Test
   public void toString_with_comparator_overriding_toString_and_having_at() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparatorWithAt())).isEqualTo("'other String comparator with @'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparatorWithAt())).isEqualTo("other String comparator with @");
   }
-  
+
   @Test
   public void should_format_longs_and_integers() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(20L).equals(toStringOf(20))).isFalse();
@@ -247,7 +293,41 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
     assertThat(toStringOf(entry)).isEqualTo("MapEntry[key=\"A\", value=1]");
   }
 
+  @Test
+  public void should_return_toStringOf_method() {
+    Method method = null;
+    for (Method m : GenericClass.class.getMethods()) {
+      if (m.getName().equals("someGenericMethod")) {
+        method = m;
+        break;
+      }
+    }
+
+    assertThat(method).as("someGenericMethod in GenericClass").isNotNull();
+    assertThat(STANDARD_REPRESENTATION.toStringOf(method)).isEqualTo(method.toGenericString());
+  }
+
   private String toStringOf(Object o) {
     return STANDARD_REPRESENTATION.toStringOf(o);
   }
+
+  private static class Person {
+    volatile String name;
+    volatile int age;
+    volatile long account;
+
+    @Override
+    public String toString() {
+      return format("Person [name=%s, age=%s, account=%s]", name, age, account);
+    }
+  }
+
+  private static class GenericClass<T> {
+
+    @SuppressWarnings("unused")
+    public <R extends Person> T someGenericMethod(R input, List<? extends R> list, T input2) {
+      return input2;
+    }
+  }
+
 }

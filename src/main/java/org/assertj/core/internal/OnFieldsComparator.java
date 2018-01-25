@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import java.util.Comparator;
@@ -30,17 +32,17 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   public OnFieldsComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
                             TypeComparators comparatorByType, String... fields) {
     super(comparatorByPropertyOrField, comparatorByType);
-    if (isNullOrEmpty(fields)) throw new IllegalArgumentException("No fields/properties specified");
+    checkArgument(!isNullOrEmpty(fields), "No fields/properties specified");
     for (String field : fields) {
-      if (isNullOrEmpty(field) || isNullOrEmpty(field.trim()))
-        throw new IllegalArgumentException("Null/blank fields/properties are invalid, fields/properties were "
-                                           + STANDARD_REPRESENTATION.toStringOf(fields));
+      checkArgument(!isNullOrEmpty(field) && !isNullOrEmpty(field.trim()),
+                    "Null/blank fields/properties are invalid, fields/properties were %s",
+                    CONFIGURATION_PROVIDER.representation().toStringOf(fields));
     }
     this.fields = fields;
   }
 
   public OnFieldsComparator(String... fields) {
-    this(new HashMap<String, Comparator<?>>(), new TypeComparators(), fields);
+    this(new HashMap<String, Comparator<?>>(), defaultTypeComparators(), fields);
   }
 
   @VisibleForTesting
@@ -60,11 +62,13 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   }
 
   @Override
-  public String toString() {
-    if (fields.length == 1)
-      return "single field/property comparator on field/property " + STANDARD_REPRESENTATION.toStringOf(fields[0]);
+  protected String description() {
+    if (fields.length == 1) {
+      return "single field/property comparator on field/property " + CONFIGURATION_PROVIDER.representation()
+                                                                                           .toStringOf(fields[0]);
+    }
     return "field/property by field/property comparator on fields/properties "
-           + STANDARD_REPRESENTATION.toStringOf(fields);
+           + CONFIGURATION_PROVIDER.representation().toStringOf(fields);
   }
 
 }

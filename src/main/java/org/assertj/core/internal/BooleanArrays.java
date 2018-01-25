@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -40,13 +40,19 @@ public class BooleanArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays = Arrays.instance();
+  private Arrays arrays;
 
   @VisibleForTesting
   Failures failures = Failures.instance();
 
   @VisibleForTesting
   BooleanArrays() {
+    setArrays(Arrays.instance());
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   /**
@@ -189,13 +195,13 @@ public class BooleanArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, boolean[] actual, boolean[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, boolean[] actual, boolean[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -323,8 +329,11 @@ public class BooleanArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, boolean[] actual,
-      Comparator<? super Boolean> comparator) {
+                                                  Comparator<? super Boolean> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  public void assertContainsAnyOf(AssertionInfo info, boolean[] actual, boolean[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
+  }
 }

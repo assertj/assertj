@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,15 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;
@@ -38,14 +36,8 @@ public class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_ends_with_suffix() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertDoesNotEndWith(info, "Yoda", "oda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotEndWith("Yoda", "oda"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotEndWith("Yoda", "oda"));
+    strings.assertDoesNotEndWith(someInfo(), "Yoda", "oda");
   }
 
   @Test
@@ -67,14 +59,8 @@ public class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_ends_with_suffix_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(info, "Yoda", "A");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotEndWith("Yoda", "A", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotEndWith("Yoda", "A", comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(someInfo(), "Yoda", "A");
   }
 
 }

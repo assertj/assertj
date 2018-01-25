@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.localdate;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -39,14 +38,9 @@ public class LocalDateAssert_isNotIn_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isNotIn_assertion_error_message() {
-	try {
-	  assertThat(LocalDate.of(2000, 1, 5)).isNotIn(LocalDate.of(2000, 1, 5).toString(),
-		                                           LocalDate.of(2012, 1, 1).toString());
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%nExpecting:%n <2000-01-05>%nnot to be in:%n <[2000-01-05, 2012-01-01]>%n"));
-	  return;
-	}
-	fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%nExpecting:%n <2000-01-05>%nnot to be in:%n <[2000-01-05, 2012-01-01]>%n");
+    assertThat(LocalDate.of(2000, 1, 5)).isNotIn(LocalDate.of(2000, 1, 5).toString(),
+                                                 LocalDate.of(2012, 1, 1).toString());
   }
 
   @Test

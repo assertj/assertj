@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,21 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
 
 /**
  * Mechanism for extending assertion classes.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <A> the type of the "actual" value.
+ * @param <ACTUAL> the type of the "actual" value.
  * 
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public interface ExtensionPoints<S extends ExtensionPoints<S, A>, A> {
+public interface ExtensionPoints<SELF extends ExtensionPoints<SELF, ACTUAL>, ACTUAL> {
 
   /**
    * Verifies that the actual value satisfies the given condition. This method is an alias for
@@ -33,7 +33,7 @@ public interface ExtensionPoints<S extends ExtensionPoints<S, A>, A> {
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  S is(Condition<? super A> condition);
+  SELF is(Condition<? super ACTUAL> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition. This method is an alias for
@@ -44,7 +44,7 @@ public interface ExtensionPoints<S extends ExtensionPoints<S, A>, A> {
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  S isNot(Condition<? super A> condition);
+  SELF isNot(Condition<? super ACTUAL> condition);
 
   /**
    * Verifies that the actual value satisfies the given condition. This method is an alias for <code>{@link #is(Condition)}</code>
@@ -55,7 +55,7 @@ public interface ExtensionPoints<S extends ExtensionPoints<S, A>, A> {
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  S has(Condition<? super A> condition);
+  SELF has(Condition<? super ACTUAL> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition. This method is an alias for
@@ -66,5 +66,5 @@ public interface ExtensionPoints<S extends ExtensionPoints<S, A>, A> {
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  S doesNotHave(Condition<? super A> condition);
+  SELF doesNotHave(Condition<? super ACTUAL> condition);
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Offset;
 
 /**
  * Base class of reusable assertions for real numbers (float and double).
@@ -44,24 +43,6 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
 
   protected abstract NUMBER NaN();
 
-  /**
-   * Verifies that two real numbers are equal within a positive offset.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
-   * comparison
-   * strategy.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param expected the expected value.
-   * @param offset the given positive offset.
-   * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one.
-   */
-  public void assertEqual(AssertionInfo info, NUMBER actual, NUMBER expected, Offset<NUMBER> offset) {
-    assertIsCloseTo(info, actual, expected, offset);
-  }
-  
   /**
    * Verifies that the actual value is not equal to {@code NaN}.
    * @param info contains information about the assertion.

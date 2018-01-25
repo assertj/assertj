@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,18 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.io.File.separator;
-import static java.lang.String.format;
-import static java.lang.String.valueOf;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.append;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,6 +29,7 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.assertj.core.api.exception.RuntimeIOException;
 
@@ -50,9 +50,7 @@ public class Files {
    */
   public static List<String> fileNamesIn(String dirName, boolean recurse) {
     File dir = new File(dirName);
-    if (!dir.isDirectory()) {
-      throw new IllegalArgumentException(format("%s is not a directory", quote(dirName)));
-    }
+    checkArgument(dir.isDirectory(), "%s is not a directory", quote(dirName));
     return fileNamesIn(dir, recurse);
   }
 
@@ -110,23 +108,23 @@ public class Files {
 
   /**
    * Creates a new file in the system's temporary directory. The name of the file will be the result of:
-   * <pre><code class='java'> concat(String.valueOf(System.currentTimeMillis()), &quot;.txt&quot;);</code></pre>
+   * <pre><code class='java'> concat(UUID.randomUUID().toString(), &quot;.txt&quot;);</code></pre>
    * 
    * @return the created file.
    */
   public static File newTemporaryFile() {
-    String tempFileName = concat(valueOf(System.currentTimeMillis()), ".txt");
+    String tempFileName = concat(UUID.randomUUID().toString(), ".txt");
     return newFile(concat(temporaryFolderPath(), tempFileName));
   }
 
   /**
    * Creates a new directory in the system's temporary directory. The name of the directory will be the result of:
-   * <pre><code class='java'> System.currentTimeMillis();</code></pre>
+   * <pre><code class='java'> UUID.randomUUID().toString();</code></pre>
    * 
    * @return the created file.
    */
   public static File newTemporaryFolder() {
-    String tempFileName = String.valueOf(System.currentTimeMillis());
+    String tempFileName = UUID.randomUUID().toString();
     return newFolder(concat(temporaryFolderPath(), tempFileName));
   }
 
@@ -245,9 +243,7 @@ public class Files {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, String charsetName) {
-    if (!Charset.isSupported(charsetName)) {
-      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
-    }
+    checkArgumentCharsetIsSupported(charsetName);
     return contentOf(file, Charset.forName(charsetName));
   }
 
@@ -270,27 +266,13 @@ public class Files {
   }
 
   private static String loadContents(File file, Charset charset) throws IOException {
-    BufferedReader reader = null;
-    boolean threw = true;
-    try {
-      reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
       StringWriter writer = new StringWriter();
       int c;
       while ((c = reader.read()) != -1) {
         writer.write(c);
       }
-      threw = false;
       return writer.toString();
-    } finally {
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          if (!threw) {
-            throw e; // if there was an initial exception, don't hide it
-          }
-        }
-      }
     }
   }
 
@@ -324,18 +306,12 @@ public class Files {
    * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, String charsetName) {
-    if (!Charset.isSupported(charsetName)) {
-      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
-    }
+    checkArgumentCharsetIsSupported(charsetName);
     return linesOf(file, Charset.forName(charsetName));
   }
 
   private static List<String> loadLines(File file, Charset charset) throws IOException {
-    BufferedReader reader = null;
-    boolean threw = true;
-    try {
-      reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
-
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
       List<String> strings = Lists.newArrayList();
 
       String line = reader.readLine();
@@ -344,20 +320,12 @@ public class Files {
         line = reader.readLine();
       }
 
-      threw = false;
       return strings;
-    } finally {
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          if (!threw) {
-            throw e; // if there was an initial exception, don't hide it
-          }
-        }
-      }
     }
+  }
 
+  private static void checkArgumentCharsetIsSupported(String charsetName) {
+    checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
   }
 
   private Files() {

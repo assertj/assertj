@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -19,22 +19,30 @@ import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
+import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
-import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
+import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
+import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
+import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
@@ -70,6 +78,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Michal Kordas
  */
 public class Strings {
 
@@ -146,9 +155,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains only
-   * whitespace.
-   * 
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or consists of one or more whitespace characters.
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is not blank.
@@ -158,9 +166,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is not {@code Null}, not empty
-   * and contains not only whitespace.
-   * 
+   * Asserts that the given {@code CharSequence} contains at least one non-whitespace character.
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is blank.
@@ -170,16 +177,49 @@ public class Strings {
   }
 
   private boolean isBlank(CharSequence actual) {
-    if (actual == null || actual.length() == 0) return false;
+    return isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
+  }
+
+  private boolean containsOnlyWhitespaces(CharSequence actual) {
+    return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
+  }
+
+  private boolean isNullOrEmpty(CharSequence actual) {
+    return actual == null || actual.length() == 0;
+  }
+
+  private boolean strictlyContainsWhitespaces(CharSequence actual) {
     for (int i = 0; i < actual.length(); i++) {
-      if (!Whitespace.isWhitespace(actual.charAt(i))) return false;
+      if (!isWhitespace(actual.charAt(i))) return false;
     }
     return true;
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains only
-   * whitespace according to {@link Character#isWhitespace(char)}.
+   * Asserts that the given {@code CharSequence} consists of one or more whitespace characters.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is not blank.
+   */
+  public void assertContainsOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
+    if (!containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldContainOnlyWhitespaces(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains at least one non-whitespace character.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is blank.
+   */
+  public void assertDoesNotContainOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
+    if (containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldNotContainOnlyWhitespaces(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} consists of one or more whitespace characters
+   * according to {@link Character#isWhitespace(char)}.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
@@ -190,8 +230,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code CharSequence} is not {@code Null}, 
-   * not empty or contains not only whitespace according to {@link Character#isWhitespace(char)}.
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains at least one non-whitespace character
+   * according to {@link Character#isWhitespace(char)}.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
@@ -204,7 +244,7 @@ public class Strings {
   private boolean isJavaBlank(CharSequence actual) {
     if (actual == null || actual.length() == 0) return false;
     for (int i = 0; i < actual.length(); i++) {
-      if (!Character.isWhitespace(actual.charAt(i))) return false;
+      if (!isWhitespace(actual.charAt(i))) return false;
     }
     return true;
   }
@@ -293,10 +333,7 @@ public class Strings {
    * @throws AssertionError if the actual {@code CharSequence} does not contain the given sequence.
    */
   public void assertContains(AssertionInfo info, CharSequence actual, CharSequence... values) {
-    assertNotNull(info, actual);
-    checkIsNotNull(values);
-    checkIsNotEmpty(values);
-    checkCharSequenceArrayDoesNotHaveNullElements(values);
+    doCommonCheckForCharSequence(info, actual, values);
     Set<CharSequence> notFound = new LinkedHashSet<>();
     for (CharSequence value : values) {
       if (!stringContains(actual, value)) {
@@ -360,20 +397,28 @@ public class Strings {
   }
 
   /**
-   * Verifies that the given {@code CharSequence} does not contain the given sequence.
+   * Verifies that the given {@code CharSequence} does not contain any one of the given values.
    * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
-   * @param sequence the sequence to search for.
-   * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} contains the given sequence.
+   * @param values the values to search for.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException if any one of the given values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains any one of the given values.
    */
-  public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence sequence) {
-    checkCharSequenceIsNotNull(sequence);
-    assertNotNull(info, actual);
-    if (stringContains(actual, sequence))
-      throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
+  public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    Set<CharSequence> found = new LinkedHashSet<>();
+    for (CharSequence value : values) {
+      if (stringContains(actual, value)) found.add(value);
+    }
+    if (found.isEmpty()) return;
+    if (found.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldNotContain(actual, values[0], comparisonStrategy));
+    }
+    throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
   }
 
   private void checkCharSequenceIsNotNull(CharSequence sequence) {
@@ -412,7 +457,26 @@ public class Strings {
   }
 
   /**
-   * Verifies that two {@code CharSequence}s are equal, ignoring any changes in whitespace.
+   * Verifies that two {@code CharSequence}s are not equal, normalizing newlines.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence} (newlines will be normalized).
+   * @param expected the expected {@code CharSequence} (newlines will be normalized)..
+   * @throws AssertionError if the given {@code CharSequence}s are equal after normalizing newlines.
+   */
+  public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    String actualNormalized = normalizeNewlines(actual);
+    String expectedNormalized = normalizeNewlines(expected);
+    if (!actualNormalized.equals(expectedNormalized))
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected));
+  }
+
+  private static String normalizeNewlines(CharSequence actual) {
+    return actual.toString().replace("\r\n", "\n");
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are equal, ignoring any differences in whitespace.
    *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
@@ -425,7 +489,7 @@ public class Strings {
   }
 
   /**
-   * Verifies that two {@code CharSequence}s are not equal, ignoring any changes in whitespace.
+   * Verifies that two {@code CharSequence}s are not equal, ignoring any differences in whitespace.
    *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
@@ -443,12 +507,59 @@ public class Strings {
     return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
   }
 
-  // same implementation as Hamcrest's IsEqualIgnoringWhiteSpace
   private String removeAllWhitespaces(CharSequence toBeStripped) {
     final StringBuilder result = new StringBuilder();
-    boolean lastWasSpace = true;
     for (int i = 0; i < toBeStripped.length(); i++) {
       char c = toBeStripped.charAt(i);
+      if (isWhitespace(c)) {
+        continue;
+      }
+      result.append(c);
+    }
+    return result.toString().trim();
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are equal, after the whitespace of both strings 
+   * has been normalized.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   * @since 2.8.0 / 3.8.0
+   */
+  public void assertEqualsNormalizingWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (!areEqualNormalizingWhitespace(actual, expected))
+      throw failures.failure(info, shouldBeEqualNormalizingWhitespace(actual, expected));
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are not equal, after the whitespace of both strings 
+   * has been normalized.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are equal.
+   * @since 2.8.0 / 3.8.0
+   */
+  public void assertNotEqualsNormalizingWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (areEqualNormalizingWhitespace(actual, expected))
+      throw failures.failure(info, shouldNotBeEqualNormalizingWhitespace(actual, expected));
+  }
+
+  private boolean areEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
+    if (actual == null) return expected == null;
+    checkCharSequenceIsNotNull(expected);
+    return normalizeWhitespace(actual).equals(normalizeWhitespace(expected));
+  }
+
+  private String normalizeWhitespace(CharSequence toNormalize) {
+    final StringBuilder result = new StringBuilder();
+    boolean lastWasSpace = true;
+    for (int i = 0; i < toNormalize.length(); i++) {
+      char c = toNormalize.charAt(i);
       if (isWhitespace(c)) {
         if (!lastWasSpace) result.append(' ');
         lastWasSpace = true;
@@ -474,10 +585,10 @@ public class Strings {
   public void assertContainsOnlyOnce(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    int sequenceOccurencesInActual = countOccurences(sequence, actual);
-    if (sequenceOccurencesInActual == 1) return;
+    int sequenceOccurrencesInActual = countOccurrences(sequence, actual);
+    if (sequenceOccurrencesInActual == 1) return;
     throw failures.failure(info,
-                           shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
+                           shouldContainOnlyOnce(actual, sequence, sequenceOccurrencesInActual, comparisonStrategy));
   }
 
   /**
@@ -487,16 +598,16 @@ public class Strings {
    * @param actual the {@link CharSequence} to search occurrences in.
    * @return the number of occurrences of sequenceToSearch in actual {@link CharSequence}.
    */
-  private int countOccurences(CharSequence sequenceToSearch, CharSequence actual) {
+  private int countOccurrences(CharSequence sequenceToSearch, CharSequence actual) {
     String strToSearch = sequenceToSearch.toString();
     String strActual = actual.toString();
-    int occurences = 0;
+    int occurrences = 0;
     for (int i = 0; i <= (strActual.length() - strToSearch.length()); i++) {
       if (comparisonStrategy.areEqual(strActual.substring(i, i + sequenceToSearch.length()), strToSearch)) {
-        occurences++;
+        occurrences++;
       }
     }
-    return occurences;
+    return occurrences;
   }
 
   /**
@@ -656,12 +767,20 @@ public class Strings {
     Objects.instance().assertNotNull(info, actual);
   }
 
+  /**
+   * Verifies that the given charSequence contains the given sequence of charSequence, without any other charSequences between them.
+   * @param info contains information about the assertion.
+   * @param actual the given charSequence.
+   * @param sequence the sequence of charSequence to look for.
+   * @throws NullPointerException if the given sequence of charSequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence of charSequence is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain the given sequence of charSequence.
+   */
   public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
-    assertNotNull(info, actual);
-    checkIsNotNull(sequence);
-    checkIsNotEmpty(sequence);
-    checkCharSequenceArrayDoesNotHaveNullElements(sequence);
+    doCommonCheckForCharSequence(info, actual, sequence);
 
+    StringBuilder stringBuilder = new StringBuilder();
     Set<CharSequence> notFound = new LinkedHashSet<>();
     for (CharSequence value : sequence) {
       if (!stringContains(actual, value)) notFound.add(value);
@@ -678,23 +797,71 @@ public class Strings {
     // we have found all the given values but were they in the expected order ?
     if (sequence.length == 1) return; // no order check needed for a one element sequence
 
-    // convert all to one char CharSequence list to ease comparison
+    // convert all values to one char sequence to compare with the actual char sequence
     String strActual = actual.toString();
-    for (int i = 1; i < sequence.length; i++) {
-      int indexOfCurrentSequenceValue = indexOf(strActual, sequence[i - 1].toString());
-      int indexOfNextSequenceValue = indexOf(strActual, sequence[i].toString());
-      if (indexOfCurrentSequenceValue > indexOfNextSequenceValue) {
-        throw failures.failure(info, shouldContainSequence(actual, sequence, i-1, comparisonStrategy));
-      }
-      // get rid of the start of String to properly handle duplicate sequence values
-      // ex: "a-b-c" and sequence "a", "-", "b", "-", "c" would fail as the second "-" would be found before "b"
-      strActual = strActual.substring(indexOfCurrentSequenceValue + 1);
+    for (CharSequence value : sequence) {
+      stringBuilder.append(value);
+    }
+    String strSequence = stringBuilder.toString();
+    if (!stringContains(strActual, strSequence)) {
+      throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
     }
   }
 
-  private int indexOf(String string, String toFind) {
+  /**
+   * Verifies that the actual {@code CharSequence} contains all the given values <b>in the given order
+   * (possibly with other values between them)</b>.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param subsequence the Strings to look for, in order.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws NullPointerException if the given subsequence is {@code null}.
+   * @throws IllegalArgumentException if the given subsequence is empty.
+   * @throws AssertionError if the given {@code CharSequence} does not contain the given subsequence of charSequence.
+   */
+  public void assertContainsSubsequence(AssertionInfo info, CharSequence actual, CharSequence[] subsequence) {
+    doCommonCheckForCharSequence(info, actual, subsequence);
+
+    Set<CharSequence> notFound = new LinkedHashSet<>();
+    for (CharSequence value : subsequence) {
+      if (!stringContains(actual, value)) notFound.add(value);
+    }
+
+    if (!notFound.isEmpty()) {
+      // don't bother looking for a subsequence, some of the subsequence elements were not found !
+      if (notFound.size() == 1 && subsequence.length == 1) {
+        throw failures.failure(info, shouldContain(actual, subsequence[0], comparisonStrategy));
+      }
+      throw failures.failure(info, shouldContain(actual, subsequence, notFound, comparisonStrategy));
+    }
+
+    // we have found all the given values but were they in the expected order ?
+    if (subsequence.length == 1) return; // no order check needed for a one element subsequence
+
+    // the values are in the correct order if after removing the start of actual up to the
+    // subsequence element included, we are able to find the next subsequence element, ex:
+    // "{ George Martin }" with subsequence ["George", " ", "Martin"]:
+    // - remove up to "George" in "{ George Martin }" -> " Martin }", does it contain " " ?
+    // - remove up to " " in " Martin }" -> "Martin }", does it contain "Martin" ?
+    // ...
+    String actualRest = removeUpTo(actual.toString(), subsequence[0]);
+    // check the subsequence second element since we already know the first is present
+    for (int i = 1; i < subsequence.length; i++) {
+      if (stringContains(actualRest, subsequence[i])) actualRest = removeUpTo(actualRest, subsequence[i]);
+      else throw failures.failure(info, shouldContainSubsequence(actual, subsequence, i - 1, comparisonStrategy));
+    }
+  }
+
+  private String removeUpTo(String string, CharSequence toRemove) {
+    int index = indexOf(string, toRemove);
+    // remove the start of string up to toRemove included
+    return string.substring(index + toRemove.length());
+  }
+
+  private int indexOf(String string, CharSequence toFind) {
     for (int i = 0; i < string.length(); i++) {
-      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind)) return i;
+      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind.toString())) return i;
     }
     return -1;
   }
@@ -755,6 +922,40 @@ public class Strings {
     if (!matcher.find()) throw failures.failure(info, shouldContainPattern(actual, pattern.pattern()));
   }
 
+  /**
+   * Verifies that the given {@code CharSequence} does not contain the given regular expression.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param regex the regular expression to find in the actual {@code CharSequence}.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains the given regular expression.
+   */
+  public void assertDoesNotContainPattern(AssertionInfo info, CharSequence actual, CharSequence regex) {
+    checkRegexIsNotNull(regex);
+    Pattern pattern = Pattern.compile(regex.toString());
+    assertDoesNotContainPattern(info, actual, pattern);
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} does not contain the given regular expression.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param pattern the regular expression to find in the actual {@code CharSequence}.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} contains the given regular expression.
+   */
+  public void assertDoesNotContainPattern(AssertionInfo info, CharSequence actual, Pattern pattern) {
+    checkIsNotNull(pattern);
+    assertNotNull(info, actual);
+    Matcher matcher = pattern.matcher(actual);
+    if (matcher.find()) throw failures.failure(info, shouldNotContainPattern(actual, pattern.pattern()));
+  }
+
   private void checkCharSequenceArrayDoesNotHaveNullElements(CharSequence[] values) {
     if (values.length == 1) {
       checkCharSequenceIsNotNull(values[0]);
@@ -765,18 +966,28 @@ public class Strings {
     }
   }
 
-  // copied from guava and adapted
-  private static final class Whitespace {
+  /***
+   * Verifies that actual is equal to expected ignoring new lines
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence} (new lines will be ignored).
+   * @param expected the expected {@code CharSequence} (new lines will be ignored).
+   */
+  public void assertIsEqualToIgnoringNewLines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    String actualWithoutNewLines = removeNewLines(actual);
+    String expectedWithoutNewLines = removeNewLines(expected);
+    if (!actualWithoutNewLines.equals(expectedWithoutNewLines))
+      throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected));
+  }
 
-    private static final String TABLE = "\u2002\u3000\r\u0085\u200A\u2005\u2000\u3000"
-                                        + "\u2029\u000B\u3000\u2008\u2003\u205F\u3000\u1680"
-                                        + "\u0009\u0020\u2006\u2001\u202F\u00A0\u000C\u2009"
-                                        + "\u3000\u2004\u3000\u3000\u2028\n\u2007\u3000";
-    private static final int MULTIPLIER = 1682554634;
-    private static final int SHIFT = Integer.numberOfLeadingZeros(TABLE.length() - 1);
+  private static String removeNewLines(CharSequence text) {
+    String normalizedText = normalizeNewlines(text);
+    return normalizedText.toString().replace("\n", "");
+  }
 
-    public static boolean isWhitespace(char c) {
-      return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
-    }
+  private void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+    assertNotNull(info, actual);
+    checkIsNotNull(sequence);
+    checkIsNotEmpty(sequence);
+    checkCharSequenceArrayDoesNotHaveNullElements(sequence);
   }
 }

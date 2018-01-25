@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.chararrays;
 
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.CharArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -61,7 +61,7 @@ public class CharArrays_assertContainsSequence_Test extends CharArraysBaseTest {
   
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
@@ -128,7 +128,7 @@ public class CharArrays_assertContainsSequence_Test extends CharArraysBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 

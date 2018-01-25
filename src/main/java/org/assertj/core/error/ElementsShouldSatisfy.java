@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -19,6 +19,10 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
     return new ElementsShouldSatisfy(actual, elementNotSatisfyingRestrictions, assertionErrorDetails);
   }
 
+  public static <T> ErrorMessageFactory elementsShouldSatisfyAny(Object actual) {
+    return new ElementsShouldSatisfy(actual);
+  }
+
   private ElementsShouldSatisfy(Object actual, Object notSatisfies, String assertionErrorDetails) {
     super("%n" +
           "Expecting all elements of:%n" +
@@ -27,6 +31,14 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
           "  <%s> %n" +
           "Details: %s",
           actual, notSatisfies, assertionErrorDetails);
+  }
+
+  private ElementsShouldSatisfy(Object actual) {
+    super("%n" +
+          "Expecting any element of:%n" +
+          "  <%s>%n" +
+          "to satisfy the given assertions requirements but none did.",
+          actual);
   }
 
 }

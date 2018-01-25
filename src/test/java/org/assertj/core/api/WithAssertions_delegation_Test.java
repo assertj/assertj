@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
+
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -30,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -56,6 +57,15 @@ public class WithAssertions_delegation_Test implements WithAssertions {
 
   private static final String VALUE_1 = "value1";
   private static final String KEY_1 = "key1";
+
+  private static final Condition<String> JEDI = new Condition<String>("jedi") {
+    private final Set<String> jedis = newLinkedHashSet("Luke", "Yoda", "Obiwan");
+
+    @Override
+    public boolean matches(final String value) {
+      return jedis.contains(value);
+    }
+  };
 
   /**
    * Test that the delegate method is called.
@@ -143,15 +153,6 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   public void withAssertions_fail_with_throwable_Test() {
     fail("Failed", new RuntimeException("expected"));
   }
-
-  private static final Condition<String> JEDI = new Condition<String>("jedi") {
-    private final Set<String> jedis = new LinkedHashSet<String>(Arrays.asList("Luke", "Yoda", "Obiwan"));
-
-    @Override
-    public boolean matches(final String value) {
-      return jedis.contains(value);
-    }
-  };
 
   /**
    * Test that the delegate method is called.
@@ -747,6 +748,10 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     assertThatThrownBy(() -> {
       throw new IOException("message");
     }).hasMessage("message");
+
+    assertThatThrownBy(() -> {
+      throw new IOException("message");
+    }, "Test").hasMessage("message");
   }
 
   /**
@@ -775,7 +780,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_assertThat_longPredicate_Test() {
     LongPredicate predicate = l -> l == 0;
-    assertThat(predicate).accepts(0l);
+    assertThat(predicate).accepts(0L);
   }
 
   @Test

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.extractor;
 
@@ -25,7 +25,6 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -54,7 +53,7 @@ public class ByNameMultipleExtractorTest {
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
-	thrown.expect(IntrospectionError.class);
+	thrown.expectIntrospectionError();
 
 	new ByNameMultipleExtractor<Employee>("id", "name.first", "unknown").extract(yoda);
   }
@@ -74,7 +73,7 @@ public class ByNameMultipleExtractorTest {
   }
 
   @Test
-  public void should_throw_exception_when_no_object_is_given() throws Exception {
+  public void should_throw_exception_when_no_object_is_given() {
 	thrown.expectIllegalArgumentException("The object to extract fields/properties from should not be null");
 
 	new ByNameMultipleExtractor<Employee>("id", "name.first", "age").extract(null);

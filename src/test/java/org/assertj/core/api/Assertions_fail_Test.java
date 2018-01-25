@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
@@ -41,12 +39,7 @@ public class Assertions_fail_Test {
   public void should_include_message_with_cause_when_failing() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
-    try {
-      Assertions.fail(message, cause);
-      fail("AssertionError should have been thrown");
-    } catch (AssertionError e) {
-      assertThat(message).isEqualTo(e.getMessage());
-      assertThat(cause).isSameAs(e.getCause());
-    }
+    thrown.expectWithCause(AssertionError.class, message, cause);
+    Assertions.fail(message, cause);
   }
 }

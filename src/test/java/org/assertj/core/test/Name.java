@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.test;
 
@@ -19,7 +19,7 @@ package org.assertj.core.test;
  */
 public class Name {
 
-  // intentionnaly public to test field retrieval
+  // intentionally public to test field retrieval
   // getter have been created to test property retrieval
   public String first;
   // keep private to test we are able to read property but not field
@@ -34,6 +34,10 @@ public class Name {
   public Name(String first, String last) {
     setFirst(first);
     setLast(last);
+  }
+
+  public static Name name(String first, String last) {
+    return new Name(first, last);
   }
 
   public String getFirst() {

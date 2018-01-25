@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -40,8 +40,12 @@ public class ShouldNotBeEqualWithinOffset extends BasicErrorMessageFactory {
           "  <%s>%n" +
           "not to be close to:%n" +
           "  <%s>%n" +
-          "by more than <%s> but difference was <%s>.%n" +
-          "(a difference of exactly <%s> being considered incorrect)",
+          "by less than <%s> but difference was <%s>.%n" +
+          "(a difference of exactly <%s> being considered " + validOrNot(offset) + ")",
           actual, expected, offset.value, difference, offset.value);
+  }
+
+  private static <T extends Number> String validOrNot(Offset<T> offset) {
+    return offset.strict ? "valid" : "invalid";
   }
 }

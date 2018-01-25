@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,28 +8,32 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -39,11 +43,28 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -61,6 +82,9 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.data.TemporalUnitLessThanOffset;
+import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.BinaryRepresentation;
@@ -84,10 +108,10 @@ import org.assertj.core.util.introspection.FieldSupport;
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);</code></pre>
- * <p/>
+ * <p>
  * This class only contains all <code>assertThat</code> methods, if you have ambiguous method compilation error, use either {@link AssertionsForClassTypes} or {@link AssertionsForInterfaceTypes}
  * and if you need both, fully qualify you assertThat method.
- * <p/>
+ * <p>
  * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded,
  * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve
  * the proper <code>assertThat</code> method (normally <code>assertThat(Throwable)</code> as foo might implement an interface like List,
@@ -127,6 +151,7 @@ public class Assertions {
   /**
    * Create assertion for {@link IntPredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -139,6 +164,7 @@ public class Assertions {
   /**
    * Create assertion for {@link LongPredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -151,6 +177,7 @@ public class Assertions {
   /**
    * Create assertion for {@link DoublePredicate}.
    *
+   * @param actual the actual value.
    * @return the created assertion object.
    *
    * @since 3.5.0
@@ -164,25 +191,40 @@ public class Assertions {
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> actual) {
+  public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletionStage} by converting it to a {@link CompletableFuture} and returning a {@link CompletableFutureAssert}.
+   * <p>
+   * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
+   *
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
   /**
    * Create assertion for {@link java.util.Optional}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> OptionalAssert<T> assertThat(Optional<T> actual) {
+  public static <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -231,6 +273,18 @@ public class Assertions {
   @CheckReturnValue
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
+    return new BigIntegerAssert(actual);
   }
 
   /**
@@ -410,6 +464,20 @@ public class Assertions {
   }
 
   /**
+   * Create assertion for {@link java.util.concurrent.Future}.
+   *
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
+   *
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
+    return new FutureAssert<>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link InputStreamAssert}</code>.
    *
    * @param actual the actual value.
@@ -515,14 +583,18 @@ public class Assertions {
    *                                         .startsWith("fro")
    *                                         .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
    */
   //@format:off
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual, 
+  @CheckReturnValue
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return AssertionsForInterfaceTypes.assertThat(actual, assertFactory);
   }
@@ -548,11 +620,15 @@ public class Assertions {
    *                                        .startsWith("fro")
    *                                        .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
                                                                                           Class<ELEMENT_ASSERT> assertClass) {
@@ -588,11 +664,15 @@ public class Assertions {
    *                                         .startsWith("fro")
    *                                         .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -620,11 +700,15 @@ public class Assertions {
    *                                        .startsWith("fro")
    *                                        .endsWith("do");</code></pre>
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
    */
+  @CheckReturnValue
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                       Class<ELEMENT_ASSERT> assertClass) {
@@ -669,6 +753,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
+   * @param <T> the type of the actual value.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -680,6 +765,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
+   * @param <T> the actual's elements type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -718,17 +804,6 @@ public class Assertions {
    */
   @CheckReturnValue
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
-    return AssertionsForClassTypes.assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link StringAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -810,6 +885,170 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractInstantAssert<?> assertThat(Instant actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicBoolean}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AtomicBooleanAssert assertThat(AtomicBoolean actual) {
+    return new AtomicBooleanAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicInteger}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
+    return new AtomicIntegerAssert(actual);
+  }
+
+  /**
+   * Create int[] assertion for {@link AtomicIntegerArray}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
+    return new AtomicIntegerArrayAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicIntegerFieldUpdater}.
+   *
+   * @param actual the actual value.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return new AtomicIntegerFieldUpdaterAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLong}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AtomicLongAssert assertThat(AtomicLong actual) {
+    return new AtomicLongAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongArray}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
+    return new AtomicLongArrayAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicLongFieldUpdater}.
+   *
+   * @param actual the actual value.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
+    return new AtomicLongFieldUpdaterAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
+    return new AtomicReferenceAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceArray}.
+   *
+   * @param actual the actual value.
+   * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
+    return new AtomicReferenceArrayAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicReferenceFieldUpdater}.
+   *
+   * @param actual the actual value.
+   * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
+   * @param <OBJECT> the type of the object holding the updatable field.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+    return new AtomicReferenceFieldUpdaterAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicMarkableReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
+    return new AtomicMarkableReferenceAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link AtomicStampedReference}.
+   *
+   * @param actual the actual value.
+   * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
+   * @return the created assertion object.
+   * @since 2.7.0 / 3.7.0
+   */
+  @CheckReturnValue
+  public static <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
+    return new AtomicStampedReferenceAssert<>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
    * @param actual the actual value.
@@ -821,30 +1060,32 @@ public class Assertions {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
-   *
+   * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
    * <p>
-   * Example :
-   * </p>
-   *
-   * <pre><code class='java'>{@literal @}Test
-   * public void testException() {
-   *   assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
-   *                                                              .hasMessageContaining("boom");
+   * Java 8 example :
+   * <pre><code class='java'> {@literal @}Test
+   *  public void testException() {
+   *    assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                               .hasMessageContaining("boom");
    * }</code></pre>
    *
-   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately raised,
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.
-   * To use a test description, use {@link #catchThrowable(ThrowingCallable) catchThrowable} as shown below.
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
-   * assertThatThrownBy(() -> { // do nothing }).as("display me").isInstanceOf(Exception.class);
+   * assertThatThrownBy(() -&gt; {}).as("display me")
+   *                             .isInstanceOf(Exception.class);
    *
    * // assertion will fail AND "display me" will appear in the error
-   * Throwable thrown = catchThrowable(() -> { // do nothing });
-   * assertThat(thrown).as("display me").isInstanceOf(Exception.class); </code></pre>
+   * Throwable thrown = catchThrowable(() -&gt; {});
+   * assertThat(thrown).as("display me")
+   *                   .isInstanceOf(Exception.class);</code></pre>
+   * 
+   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
+   * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @return the created {@link ThrowableAssert}.
    */
   @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
@@ -852,7 +1093,84 @@ public class Assertions {
   }
 
   /**
-   * Allows to catch an {@link Throwable} more easily when used with Java 8 lambdas.
+   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method 
+   * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> {@literal @}Test
+   *  public void testException() {
+   *    // if this assertion failed (but it doesn't), the error message would start with [Test explosive code]
+   *    assertThatThrownBy(() -&gt; { throw new IOException("boom!"); }, "Test explosive code")
+   *             .isInstanceOf(IOException.class)
+   *             .hasMessageContaining("boom");
+   * }</code></pre>
+   *
+   * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
+   * <p> 
+   * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
+   * assertThatThrownBy(() -&gt; {}).as("display me")
+   *                             .isInstanceOf(Exception.class);
+   *
+   * // assertion will fail AND "display me" will appear in the error message
+   * assertThatThrownBy(() -&gt; {}, "display me")
+   *                             .isInstanceOf(Exception.class);</code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @param description the new description to set.
+   * @param args optional parameter if description is a format String.
+   * 
+   * @return the created {@link ThrowableAssert}.
+   * 
+   * @since 3.9.0
+   */
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
+                                                                                   String description, Object... args) {
+    return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
+   * <p>
+   * The main difference with {@code assertThatThrownBy(ThrowingCallable)} is that 
+   * this method does not fail if no exception was thrown.
+   * <p>
+   * Example :
+   * <pre><code class='java'> ThrowingCallable boomCode = () -&gt; {
+   *   throw new Exception("boom!");
+   * };
+   * ThrowingCallable doNothing = () -&gt; {}; 
+   * 
+   * // assertions succeed
+   * assertThatCode(doNothing).doesNotThrowAnyException();
+   * assertThatCode(boomCode).isInstanceOf(Exception.class)
+   *                         .hasMessageContaining("boom");
+   *                                                      
+   * // assertion fails
+   * assertThatCode(boomCode).doesNotThrowAnyException();</code></pre>
+   *
+   * Contrary to <code>assertThatThrownBy(ThrowingCallable)</code> the test description provided with 
+   * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
+   * 
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {}; 
+   * 
+   * // assertion fails and "display me" appears in the assertion error
+   * assertThatCode(doNothing).as("display me")
+   *                          .isInstanceOf(Exception.class);</code></pre>
+   * <p>
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   *
+   * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return the created {@link ThrowableAssert}.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+    return AssertionsForClassTypes.assertThatCode(shouldRaiseOrNotThrowable);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>
    * This caught {@link Throwable} can then be asserted.
@@ -862,10 +1180,10 @@ public class Assertions {
    * Example:
    * </p>
    *
-   * <pre><code class='java'> {@literal @}Test
+   * <pre><code class='java'>{@literal @}Test
    * public void testException() {
    *   // when
-   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
+   *   Throwable thrown = catchThrowable(() -&gt; { throw new Exception("boom!"); });
    *
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
@@ -874,9 +1192,54 @@ public class Assertions {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowableOfType(ThrowingCallable, Class)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null 
+   * otherwise it checks that the caught {@link Throwable} has the specified type and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class CustomParseException extends Exception {
+   *   int line;
+   *   int column;
+   *   
+   *   public CustomParseException(String msg, int l, int c) {
+   *     super(msg);
+   *     line = l;
+   *     column = c;
+   *   }
+   * }
+   * 
+   * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
+   *                                               CustomParseException.class);
+   * // assertions succeed
+   * assertThat(e).hasMessageContaining("boom");
+   * assertThat(e.line).isEqualTo(1);
+   * assertThat(e.column).isEqualTo(5);
+   * 
+   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions 
+   * assertThat(catchThrowableOfType(() -&gt; {}, Exception.class)).isNull();
+   *                      
+   * // fails as CustomParseException is not a RuntimeException
+   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
+   *                      RuntimeException.class);</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.9.0
+   */
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
+                                                                             Class<THROWABLE> type) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
   /**
@@ -885,16 +1248,65 @@ public class Assertions {
    * <p>
    * Example:
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
-   *           .isThrownBy(() -> { throw new IOException("boom!"); })
+   *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
    *           .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
-   * @param exceptionType the exception type.
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   * @param <T> the the exception type.
+   * @param exceptionType the exception type class.
    * @return the created {@link ThrowableTypeAssert}.
    */
   @CheckReturnValue
   public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
     return AssertionsForClassTypes.assertThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<NullPointerException> assertThatNullPointerException() {
+    return assertThatExceptionOfType(NullPointerException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<IllegalArgumentException> assertThatIllegalArgumentException() {
+    return assertThatExceptionOfType(IllegalArgumentException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IOException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<IOException> assertThatIOException() {
+    return assertThatExceptionOfType(IOException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
+   * 
+   * @return the created {@link ThrowableTypeAssert}.
+   * 
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public static ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
+    return assertThatExceptionOfType(IllegalStateException.class);
   }
 
   // -------------------------------------------------------------------------------------------------
@@ -903,7 +1315,7 @@ public class Assertions {
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
-   * 
+   *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
@@ -912,7 +1324,7 @@ public class Assertions {
 
   /**
    * Throws an {@link AssertionError} with the given message.
-   * 
+   *
    * @param failureMessage error message.
    * @throws AssertionError with the given message.
    */
@@ -922,7 +1334,7 @@ public class Assertions {
 
   /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
-   * 
+   *
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
    * @throws AssertionError with the given built message.
@@ -952,8 +1364,8 @@ public class Assertions {
    *           not been.
    *
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
@@ -963,16 +1375,15 @@ public class Assertions {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
-  public static void shouldHaveThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.shouldHaveThrown(exceptionClass);
+  public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+    Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
    * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
    * is less than this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length < 80
-   *
+   * The following array will be formatted on one line as its length &lt; 80:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    *
    * // formatted as:
@@ -1001,7 +1412,7 @@ public class Assertions {
    *
    * E.q. When this method is called with a value of {@code 3}.
    * <p>
-   * The following array will be formatted entirely as it's length is <= 3:
+   * The following array will be formatted entirely as it's length is &lt;= 3:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    *
    * // formatted as:
@@ -1032,7 +1443,7 @@ public class Assertions {
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p>
+   *
    * <pre><code class='java'> // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing))
    *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;, &quot;Legolas&quot;)
@@ -1046,6 +1457,13 @@ public class Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing))
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);</code></pre>
+   * @param <T> the type of value to extract.
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @param propertyType the type of property to extract
+   * @return the created {@code Properties}.
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
@@ -1057,7 +1475,7 @@ public class Assertions {
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p>
+   *
    * <pre><code class='java'> // extract simple property values, as no type has been defined the extracted property will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, String.class) instead.
    * assertThat(extractProperty(&quot;name&quot;).from(fellowshipOfTheRing))
@@ -1070,6 +1488,12 @@ public class Assertions {
    *
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;, &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;); </code></pre>
+   *
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
+   *          property (e.g. "address.street.number").
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
+   * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
@@ -1104,9 +1528,9 @@ public class Assertions {
    * The following (incomplete) list of methods will be impacted by this change :
    * <ul>
    * <li>
-   * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
+   * <code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
    * </li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
@@ -1122,16 +1546,20 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(K key, V value)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
    * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
-   * <p>
    *
-   * <pre><code class='java'> Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = ... // init omitted
    *
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
+   * @param key the key of the entry to create.
+   * @param value the value of the entry to create.
+   * @return the created {@code MapEntry}.
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
@@ -1142,9 +1570,12 @@ public class Assertions {
    * features (but you can use {@link Index} if you prefer).
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));</code></pre>
+   *
+   * @param index the value of the index.
+   * @return the created {@code Index}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Index atIndex(int index) {
     return Index.atIndex(index);
@@ -1154,8 +1585,11 @@ public class Assertions {
    * Assertions entry point for double {@link Offset}.
    * <p>
    * Typical usage :
-   *
-   * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
+   * <pre><code class='java'> assertThat(0.1).isEqualTo(0.0, offset(0.1));</code></pre>
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> offset(Double value) {
     return Offset.offset(value);
@@ -1165,8 +1599,11 @@ public class Assertions {
    * Assertions entry point for float {@link Offset}.
    * <p>
    * Typical usage :
-   *
-   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
+   * <pre><code class='java'> assertThat(0.2f).isCloseTo(0.0f, offset(0.2f));</code></pre>
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
@@ -1176,8 +1613,11 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
-   * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
+   * <pre><code class='java'> assertThat(0.1).isCloseTo(0.0, within(0.1));</code></pre>
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> within(Double value) {
     return Offset.offset(value);
@@ -1187,7 +1627,11 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with real number assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, withPrecision(0.1));</code></pre>
+   * <pre><code class='java'> assertThat(0.1).isEqualTo(0.0, withPrecision(0.1));</code></pre>
+   * @param value the required precision
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> withPrecision(Double value) {
     return Offset.offset(value);
@@ -1197,8 +1641,12 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
+   *
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> within(Float value) {
     return Offset.offset(value);
@@ -1208,7 +1656,11 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with real number assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.2f).isEqualTo(8.0f, withPrecision(0.2f));</code></pre>
+   * <pre><code class='java'> assertThat(0.2f).isEqualTo(0.0f, withPrecision(0.2f));</code></pre>
+   * @param value the required precision
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> withPrecision(Float value) {
     return Offset.offset(value);
@@ -1218,10 +1670,31 @@ public class Assertions {
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
+   *
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
+    return Offset.offset(value);
+  }
+
+  /**
+   * Assertions entry point for BigInteger {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
+   *
+   * @since 2.7.0 / 3.7.0
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
+   * @since 2.7.0 / 3.7.0
+   */
+  public static Offset<BigInteger> within(BigInteger value) {
     return Offset.offset(value);
   }
 
@@ -1229,8 +1702,12 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
+   * 
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -1240,8 +1717,12 @@ public class Assertions {
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
+   * 
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
@@ -1251,22 +1732,48 @@ public class Assertions {
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
+   * 
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
   }
 
   /**
-   * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
+   * Assertions entry point for Long {@link Offset} to use with {@link AbstractLongAssert#isCloseTo(long, Offset) isCloseTo} assertions.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
+   * 
+   * @param value the allowed offset
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
+  }
+
+  /**
+   * Assertions entry point for {@link TemporalUnitOffset} with  with less than or equal condition
+   * to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * assertThat(_07_10).isCloseTo(_07_12, within(5, ChronoUnit.MINUTES));</code></pre>
+   * 
+   * @param value the allowed offset
+   * @param unit the {@link TemporalUnit} of the offset
+   * @return the created {@code Offset}.
+   * @since 3.7.0
+   */
+  public static TemporalUnitOffset within(long value, TemporalUnit unit) {
+    return new TemporalUnitWithinOffset(value, unit);
   }
 
   /**
@@ -1274,8 +1781,12 @@ public class Assertions {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
+   * 
+   * @param value the required precision percentage
+   * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Double value) {
     return withPercentage(value);
@@ -1286,8 +1797,12 @@ public class Assertions {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
+   * 
+   * @param value the required precision percentage
+   * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Integer value) {
     return withPercentage(value);
@@ -1298,31 +1813,52 @@ public class Assertions {
    * percentages.
    * <p>
    * Typical usage :
-   *
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
+   * 
+   * @param value the required precision percentage
+   * @return the created {@code Percentage}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withinPercentage(Long value) {
     return withPercentage(value);
   }
 
   /**
-   * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
+   * Build a {@link Offset#strictOffset(Number) <b>strict</b> Offset} to use with {@link AbstractDoubleAssert#isCloseTo(double, Offset)} and {@link AbstractDoubleAssert#isNotCloseTo(double, Offset)} assertions.
    * <p>
-   * Typical usage :
-   * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, byLessThan(0.1));</code></pre>
+   * A strict offset implies a strict comparison which means that {@code isCloseTo} will fail when <i>abs(actual - expected) == offset</i>.  
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2));
+   *
+   * // assertions fail
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.1)); // strict comparison!
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.01));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> byLessThan(Double value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.2f));</code></pre>
+   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, byLessThan(0.5f));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> byLessThan(Float value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
@@ -1330,49 +1866,126 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), byLessThan(BigDecimal.ONE));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
+  }
+
+  /**
+   * Assertions entry point for BigInteger {@link Offset} to use with isCloseTo assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
+   * 
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
+   * @since 2.7.0 / 3.7.0
+   */
+  public static Offset<BigInteger> byLessThan(BigInteger value) {
+    return Offset.strictOffset(value);
   }
 
   /**
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, byLessThan((byte)1));</code></pre>
+   * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, byLessThan((byte) 2));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Byte> byLessThan(Byte value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
-   * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
+   * Assertions entry point for Long {@link Offset} to use with strict {@link AbstractIntegerAssert#isCloseTo(int, Offset) isCloseTo} assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   * <pre><code class='java'> assertThat(10).isCloseTo(12, byLessThan(1));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> byLessThan(Integer value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(10).isCloseTo(11, byLessThan(1));</code></pre>
+   * <pre><code class='java'> assertThat((short) 10).isCloseTo((short) 11, byLessThan((short) 2));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Short> byLessThan(Short value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
   }
 
   /**
-   * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
+   * Assertions entry point for Long {@link Offset} to use with strict {@link AbstractLongAssert#isCloseTo(long, Offset) isCloseTo} assertions.
    * <p>
    * Typical usage :
-   * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(2l));</code></pre>
+   * <pre><code class='java'> assertThat(5l).isCloseTo(7l, byLessThan(3l));</code></pre>
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Long> byLessThan(Long value) {
-    return Offset.offset(value);
+    return Offset.strictOffset(value);
+  }
+
+  /**
+   * Assertions entry point for {@link TemporalUnitOffset} with strict less than condition
+   * to use with {@code isCloseTo} temporal assertions.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, ChronoUnit.MINUTES));</code></pre>
+   * 
+   * @param value the value of the offset.
+   * @param unit the {@link TemporalUnit} of the offset.
+   * @return the created {@code Offset}.
+   * @since 3.7.0
+   */
+  public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
+    return new TemporalUnitLessThanOffset(value, unit);
+  }
+
+  /**
+   * A syntax sugar to write fluent assertion using {@link ObjectAssert#returns(Object, Function)}.
+   * <p>
+   * Example:
+   * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
+   * assertThat(yoda).returns("Yoda", from(Jedi::getName))
+   *                 .returns(2.4, from(Jedi::getHeight))
+   *                 .returns(150, from(Jedi::getWeight)); </code></pre>
+   *
+   * @param extractor A function to extract test subject's property
+   * @param <F> Type of test subject
+   * @param <T> Type of the property under the assertion
+   * @return same instance of {@code extractor}
+   */
+  public static <F, T> Function<F, T> from(Function<F, T> extractor) {
+    return extractor;
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -1411,9 +2024,12 @@ public class Assertions {
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
-   * <p>
    *
    * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
+   *
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AnyOf}.
    */
   @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
@@ -1434,18 +2050,20 @@ public class Assertions {
   }
 
   /**
-   * Creates a new </code>{@link DoesNotHave}</code>.
+   * Creates a new <code>{@link DoesNotHave}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
-   * @return The Not condition created.
+   * @return The DoesNotHave condition created.
    */
   public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
     return DoesNotHave.doesNotHave(condition);
   }
 
   /**
-   * Creates a new </code>{@link Not}</code>.
+   * Creates a new <code>{@link Not}</code>.
    *
+   * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -1464,15 +2082,17 @@ public class Assertions {
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p>
    * Typical usage with {@link Condition} :
-   * <p>
    *
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p>
    * and with filter language based on java bean property :
-   * <p>
    *
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *           .containsOnly(james, rose);</code></pre>
+   *
+   * @param <E> the array elements type.
+   * @param array the array to filter.
+   * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(E[] array) {
     return Filters.filter(array);
@@ -1485,15 +2105,18 @@ public class Assertions {
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p>
    * Typical usage with {@link Condition} :
-   * <p>
    *
    * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p>
    * and with filter language based on java bean property :
-   * <p>
    *
-   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
-   *            .containsOnly(james, rose);</code></pre>
+   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
+   *                           .and(&quot;assistsPerGame&quot;).greaterThan(7).get())
+   *           .containsOnly(james, rose);</code></pre>
+   *
+   * @param <E> the {@link Iterable} elements type.
+   * @param iterableToFilter the {@code Iterable} to filter.
+   * @return the created <code>{@link Filters}</code>.
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);
@@ -1505,7 +2128,6 @@ public class Assertions {
    * value matches one of the given values.
    * <p>
    * As often, an example helps:
-   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -1529,7 +2151,6 @@ public class Assertions {
    * value matches does not match any of the given values.
    * <p>
    * As often, an example helps:
-   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -1553,7 +2174,6 @@ public class Assertions {
    * value matches does not match the given value.
    * <p>
    * As often, an example helps:
-   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -1772,8 +2392,6 @@ public class Assertions {
    *
    * <p>
    * Example:
-   * </p>
-   *
    * <pre><code class='java'> final Date date = Dates.parse("2001-02-03");
    * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
    * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
@@ -1821,7 +2439,6 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p>
    * Code examples:
-   *
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
@@ -1868,7 +2485,6 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p>
    * Code examples:
-   *
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
@@ -1895,7 +2511,7 @@ public class Assertions {
   }
 
   /**
-   * Remove all registered custom date formats => use only the defaults date formats to parse string as date.
+   * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
    * Beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1927,6 +2543,7 @@ public class Assertions {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    *
+   * @param <T> the AssertProvider wrapped type.
    * @param component
    *          the component that creates its own assert
    * @return the associated {@link Assert} of the given component
@@ -1947,8 +2564,20 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}from a {@link String}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1964,6 +2593,7 @@ public class Assertions {
    * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
    * cached by IterableAssert first time Iterator is consumed.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1975,6 +2605,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1990,11 +2621,58 @@ public class Assertions {
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
    * interacts with the {@link List} built from the {@link Stream}.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
   @CheckReturnValue
   public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link DoubleStream}.
+   *
+   * @param actual the actual {@link DoubleStream} value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+    // TODO remove ? extends Double
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link LongStream}.
+   *
+   * @param actual the actual {@link LongStream} value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link IntStream}.
+   *
+   * @param actual the actual {@link IntStream} value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
@@ -2015,6 +2693,8 @@ public class Assertions {
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
    * annoying warnings.
    *
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -2027,6 +2707,7 @@ public class Assertions {
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -2096,6 +2777,10 @@ public class Assertions {
    * <p>
    * {@link Representation} are used to format types in assertions error messages.
    * <p>
+   * An alternative way of using a different representation is to register one as a service, 
+   * this approach is described in {@link Representation}, it requires more work than this method 
+   * but has the advantage of not having to do anything in your tests and it would be applied to all the tests globally
+   * <p>
    * Example :
    * <pre><code class='java'> private class Example {}
    *
@@ -2117,20 +2802,21 @@ public class Assertions {
    * }
    *
    * Assertions.useRepresentation(new CustomRepresentation());
-   * 
-   * // this assertion fails ...  
+   *
+   * // this assertion fails ...
    * assertThat(new Example()).isNull();
    * // ... with error :
-   * // "expected:<[null]> but was:<[Example]>"
-   * 
-   * // this one fails ... 
+   * // "expected:&lt;[null]&gt; but was:&lt;[Example]&gt;"
+   *
+   * // this one fails ...
    * assertThat("foo").startsWith("bar");
    * // ... with error :
    * // Expecting:
-   * //   <$foo$>
+   * //   &lt;$foo$&gt;
    * // to start with:
-   * //   <$bar$></code></pre>
-   *  
+   * //   &lt;$bar$&gt;</code></pre>
+   *
+   * @param customRepresentation the {@link Representation} to use
    * @since 2.5.0 / 3.5.0
    */
   public static void useRepresentation(Representation customRepresentation) {
@@ -2156,16 +2842,17 @@ public class Assertions {
    * assertThat(STANDARD_REPRESENTATION.toStringOf(123L)).isEqualTo("123L");
    *
    * // register a formatter for Long
-   * Assertions.registerFormatterForType(Long.class, value -> "$" + value + "$");
+   * Assertions.registerFormatterForType(Long.class, value -&gt; "$" + value + "$");
    *
    * // now Long will be formatted between in $$ in error message.
    * assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
    *
-   * // fails with error : expected:<$456$> but was:<$123$>
+   * // fails with error : expected:&lt;$456$&gt; but was:&lt;$123$&gt; 
    * assertThat(123L).isEqualTo(456L);</code></pre>
    *
-   * @param type
-   * @param formatter
+   * @param <T> the type of format.
+   * @param type the class of the type to format
+   * @param formatter the formatter {@link Function}
    *
    * @since 3.5.0
    */
@@ -2179,12 +2866,11 @@ public class Assertions {
    * @since 2.5.0 / 3.5.0
    */
   public static void useDefaultRepresentation() {
-    StandardRepresentation.removeAllRegisteredFormatters();
-    AbstractAssert.setCustomRepresentation(STANDARD_REPRESENTATION);
+    AbstractAssert.setCustomRepresentation(CONFIGURATION_PROVIDER.representation());
   }
 
   /**
-   * Creates a new </code>{@link Assertions}</code>.
+   * Creates a new <code>{@link Assertions}</code>.
    */
   protected Assertions() {}
 

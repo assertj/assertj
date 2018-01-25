@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -51,7 +51,12 @@ public class IntArrays {
   }
 
   public IntArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -199,13 +204,13 @@ public class IntArrays {
   }
 
   public void assertContainsExactly(AssertionInfo info, int[] actual, int[] values) {
-	arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, failures, actual, values);
   }
 
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, int[] actual, int[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
-  
+
   /**
    * Asserts that the given array contains only once the given values.
    * 
@@ -251,6 +256,7 @@ public class IntArrays {
   public void assertContainsSubsequence(AssertionInfo info, int[] actual, int[] subsequence) {
     arrays.assertContainsSubsequence(info, failures, actual, subsequence);
   }
+
   /**
    * Asserts that the given array does not contain the given values.
    * 
@@ -332,8 +338,11 @@ public class IntArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, int[] actual,
-      Comparator<? super Integer> comparator) {
+                                                  Comparator<? super Integer> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  public <E> void assertContainsAnyOf(AssertionInfo info, int[] actual, int[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
+  }
 }

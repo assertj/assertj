@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -25,13 +25,12 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
 
-
 public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_each_element_satisfies_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
-    iterables.assertAllMatch(someInfo(), actual,  s -> s.length() >= 3, PredicateDescription.GIVEN);
+    iterables.assertAllMatch(someInfo(), actual, s -> s.length() >= 3, PredicateDescription.GIVEN);
   }
 
   @Test
@@ -61,6 +60,20 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
       iterables.assertAllMatch(info, actual, predicate, new PredicateDescription("custom"));
     } catch (AssertionError e) {
       verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", new PredicateDescription("custom")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_report_all_items_that_do_not_match() {
+    List<String> actual = newArrayList("123", "1234", "12345");
+
+    try {
+      iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3, PredicateDescription.GIVEN);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               elementsShouldMatch(actual, newArrayList("1234", "12345"), PredicateDescription.GIVEN));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

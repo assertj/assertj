@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,10 +18,11 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.FloatArrays;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
-public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAssert<S>>
-    extends AbstractArrayAssert<S, float[], Float> {
+public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>
+    extends AbstractArrayAssert<SELF, float[], Float> {
 
   @VisibleForTesting
   protected FloatArrays arrays = FloatArrays.instance();
@@ -46,7 +47,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
 
   /** {@inheritDoc} */
   @Override
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return myself;
   }
@@ -62,7 +63,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).hasSize(2);</code></pre>
    */
   @Override
-  public S hasSize(int expected) {
+  public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
@@ -78,7 +79,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).hasSameSizeAs(Arrays.asList(1, 2));</code></pre>
    */
   @Override
-  public S hasSameSizeAs(Iterable<?> other) {
+  public SELF hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -110,7 +111,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(float... values) {
+  public SELF contains(float... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -137,7 +138,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(float[] values, Offset<Float> precision) {
+  public SELF contains(float[] values, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return contains(values);
   }
@@ -162,7 +163,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(values).containsOnly(4.0f, 7.0f);
    * assertThat(values).containsOnly(1.1f, 2.1f, 3.1f);
    * assertThat(values).usingComparatorWithPrecision(0.01f)
-   *                   .containsOnly(1.1f, 2.1f, 3.1)f;</code></pre>
+   *                   .containsOnly(1.1f, 2.1f, 3.1f);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -172,7 +173,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(float... values) {
+  public SELF containsOnly(float... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -201,7 +202,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(float[] values, Offset<Float> precision) {
+  public SELF containsOnly(float[] values, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsOnly(values);
   }
@@ -233,7 +234,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(float... values) {
+  public SELF containsOnlyOnce(float... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -260,7 +261,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
   *           or none of the given values, or the actual group contains more than once these values.
   */
-  public S containsOnlyOnce(float[] values, Offset<Float> precision) {
+  public SELF containsOnlyOnce(float[] values, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsOnlyOnce(values);
   }
@@ -293,7 +294,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(float... sequence) {
+  public SELF containsSequence(float... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -321,7 +322,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(float[] sequence, Offset<Float> precision) {
+  public SELF containsSequence(float[] sequence, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsSequence(sequence);
   }
@@ -354,7 +355,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(float... subsequence) {
+  public SELF containsSubsequence(float... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -382,7 +383,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(float[] subsequence, Offset<Float> precision) {
+  public SELF containsSubsequence(float[] subsequence, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsSubsequence(subsequence);
   }
@@ -417,7 +418,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(float value, Index index) {
+  public SELF contains(float value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -447,7 +448,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(float value, Index index, Offset<Float> precision) {
+  public SELF contains(float value, Index index, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return contains(value, index);
   }
@@ -478,7 +479,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(float... values) {
+  public SELF doesNotContain(float... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -504,7 +505,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(float[] values, Offset<Float> precision) {
+  public SELF doesNotContain(float[] values, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
@@ -537,7 +538,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(float value, Index index) {
+  public SELF doesNotContain(float value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -564,7 +565,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(float value, Index index, Offset<Float> precision) {
+  public SELF doesNotContain(float value, Index index, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return doesNotContain(value, index);
   }
@@ -590,7 +591,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  public SELF doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -612,7 +613,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates(Offset<Float> precision) {
+  public SELF doesNotHaveDuplicates(Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return doesNotHaveDuplicates();
   }
@@ -643,7 +644,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(float... sequence) {
+  public SELF startsWith(float... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -673,7 +674,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S startsWith(float[] values, Offset<Float> precision) {
+  public SELF startsWith(float[] values, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return startsWith(values);
   }
@@ -704,7 +705,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(float... sequence) {
+  public SELF endsWith(float... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -734,35 +735,37 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(float[] values, Offset<Float> precision) {
+  public SELF endsWith(float[] values, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return endsWith(values);
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSorted() {
+  public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSortedAccordingTo(Comparator<? super Float> comparator) {
+  public SELF isSortedAccordingTo(Comparator<? super Float> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingElementComparator(Comparator<? super Float> customComparator) {
+  @CheckReturnValue
+  public SELF usingElementComparator(Comparator<? super Float> customComparator) {
     this.arrays = new FloatArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingDefaultElementComparator() {
+  @CheckReturnValue
+  public SELF usingDefaultElementComparator() {
     this.arrays = FloatArrays.instance();
     return myself;
   }
@@ -792,7 +795,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(float... values) {
+  public SELF containsExactly(float... values) {
     arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
@@ -807,7 +810,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * // assertion will pass
    * assertThat(values).containsExactly(new float[] {1.0f, 1.98f, 3.01f}, withPrecision(0.05f));
    *
-   * // assertion fails because |1.0 - 1.1| > 0.05 (precision)
+   * // assertion fails because |1.0 - 1.1| &gt; 0.05 (precision)
    * assertThat(values).containsExactly(new float[] {1.1f, 2.0f, 3.01f}, withPrecision(0.05f));
    * 
    * // assertion will fail as actual and expected order differ
@@ -822,7 +825,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    *           with same order, i.e. the actual group contains some or none of the given values, or the actual group contains 
    *           more values than the given ones or values are the same but the order is not.
    */
-  public S containsExactly(float[] values, Offset<Float> precision) {
+  public SELF containsExactly(float[] values, Offset<Float> precision) {
     usingComparatorWithPrecision(precision.value);
     return containsExactly(values);
   }
@@ -848,7 +851,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
-  public S containsExactlyInAnyOrder(float... values) {
+  public SELF containsExactlyInAnyOrder(float... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
@@ -857,11 +860,42 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * Create a {@link Float} comparator which compares floats at the given precision and pass it to {@link #usingElementComparator(Comparator)}. 
    * All the following assertions will use this comparator to compare float[] elements.
    *  
-   * @param precision precisin used to compare {@link Float}.
+   * @param precision precision used to compare {@link Float}.
    * @return {@code this} assertion object.
    */
-  public S usingComparatorWithPrecision(Float precision) {
+  @CheckReturnValue
+  public SELF usingComparatorWithPrecision(Float precision) {
     return usingElementComparator(floatComparator.floatComparatorWithPrecision(precision));
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> float[] oneTwoThree = { 1.0f, 2.0f, 3.0f }; 
+   *
+   * // assertions will pass
+   * assertThat(oneTwoThree).containsAnyOf(2.0f)
+   *                        .containsAnyOf(2.0f, 3.0f)
+   *                        .containsAnyOf(1.0f, 2.0f, 3.0f)
+   *                        .containsAnyOf(1.0f, 2.0f, 3.0f, 4.0f)
+   *                        .containsAnyOf(5.0f, 6.0f, 7.0f, 2.0f);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf(4.0f);
+   * assertThat(oneTwoThree).containsAnyOf(4.0f, 5.0f, 6.0f, 7.0f);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(float... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
+    return myself;
   }
 
 }

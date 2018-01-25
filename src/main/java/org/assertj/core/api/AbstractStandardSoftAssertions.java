@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
-
 import java.nio.file.Path;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,11 +26,17 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
+import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractStandardSoftAssertions extends Java6AbstractStandardSoftAssertions {
 
@@ -50,13 +55,13 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * Create assertion for {@link java.util.Optional}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> OptionalAssert<T> assertThat(Optional<T> actual) {
+  public <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
   }
 
@@ -69,7 +74,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    */
   @CheckReturnValue
   public OptionalDoubleAssert assertThat(OptionalDouble actual) {
-      return proxy(OptionalDoubleAssert.class, OptionalDouble.class, actual);
+    return proxy(OptionalDoubleAssert.class, OptionalDouble.class, actual);
   }
 
   /**
@@ -81,7 +86,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    */
   @CheckReturnValue
   public OptionalLongAssert assertThat(OptionalLong actual) {
-      return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
+    return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
   }
 
   /**
@@ -93,7 +98,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    */
   @CheckReturnValue
   public OptionalIntAssert assertThat(OptionalInt actual) {
-      return proxy(OptionalIntAssert.class, OptionalInt.class, actual);
+    return proxy(OptionalIntAssert.class, OptionalInt.class, actual);
   }
 
   /**
@@ -148,7 +153,7 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    */
   @CheckReturnValue
   public OffsetTimeAssert assertThat(OffsetTime actual) {
-      return proxy(OffsetTimeAssert.class, OffsetTime.class, actual);
+    return proxy(OffsetTimeAssert.class, OffsetTime.class, actual);
   }
 
   /**
@@ -163,17 +168,45 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
   }
 
   /**
+   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.7.0
+   */
+  @CheckReturnValue
+  public InstantAssert assertThat(Instant actual) {
+    return proxy(InstantAssert.class, Instant.class, actual);
+  }
+
+  /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
-   * @param future the actual value.
-   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
    *
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> actual) {
+  public <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletionStage} by converting it to a {@link CompletableFuture} and returning a {@link CompletableFutureAssert}.
+   * <p>
+   * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
+   *
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
+   *
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+    return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
   }
 
   /**
@@ -235,13 +268,62 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
    * interacts with the {@link List} built from the {@link Stream}.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
+  public <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
     return proxy(ListAssert.class, Stream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link DoubleStream}.
+   *
+   * @param actual the actual {@link DoubleStream} value.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+    return proxy(ListAssert.class, DoubleStream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link LongStream}.
+   *
+   * @param actual the actual {@link LongStream} value.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+    return proxy(ListAssert.class, LongStream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link IntStream}.
+   *
+   * @param actual the actual {@link IntStream} value.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
+    return proxy(ListAssert.class, IntStream.class, actual);
   }
 
 }

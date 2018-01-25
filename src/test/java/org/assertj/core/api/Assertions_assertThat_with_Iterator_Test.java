@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -94,14 +94,14 @@ public class Assertions_assertThat_with_Iterator_Test {
   }
 
   @Test
-  public void isIstanceOf_should_check_the_original_iterator_without_consuming_it() {
+  public void isInstanceOf_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOf(Iterator.class);
     verifyZeroInteractions(iterator);
   }
 
   @Test
-  public void isIstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
+  public void isInstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOfAny(Iterator.class, String.class);
     verifyZeroInteractions(iterator);
@@ -188,7 +188,7 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     Iterator<String> names = asList("Luke", "Leia").iterator();
     assertThat(names).startsWith(new String[0]);
   }
@@ -204,7 +204,7 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     String[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     Iterator<String> names = asList("Luke", "Leia").iterator();
     assertThat(names).startsWith(sequence);
@@ -212,7 +212,7 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_actual_does_not_start_with_sequence() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     String[] sequence = { "Han", "C-3PO" };
     Iterator<String> names = asList("Luke", "Leia").iterator();
     assertThat(names).startsWith(sequence);
@@ -220,7 +220,7 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     String[] sequence = { "Luke", "Yoda" };
     Iterator<String> names = asList("Luke", "Leia").iterator();
     assertThat(names).startsWith(sequence);
@@ -244,7 +244,7 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     Iterator<String> names = asList("Luke", "Leia").iterator();
     String[] sequence = { "Han", "C-3PO" };
     assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
@@ -252,7 +252,7 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     Iterator<String> names = asList("Luke", "Leia").iterator();
     String[] sequence = { "Luke", "Obi-Wan", "Han" };
     assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);

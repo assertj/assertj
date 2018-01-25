@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util.diff;
 
-import static org.assertj.core.presentation.StandardRepresentation.ELEMENT_SEPARATOR_WITH_NEWLINE;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.List;
+
+import org.assertj.core.configuration.ConfigurationProvider;
 
 /**
  * Initially copied from https://code.google.com/p/java-diff-utils/.
@@ -56,12 +57,8 @@ public abstract class Delta<T> {
    * @param revised Chunk describing the revised text. Must not be {@code null}.
    */
   public Delta(Chunk<T> original, Chunk<T> revised) {
-    if (original == null) {
-      throw new IllegalArgumentException("original must not be null");
-    }
-    if (revised == null) {
-      throw new IllegalArgumentException("revised must not be null");
-    }
+    checkArgument(original != null, "original must not be null");
+    checkArgument(revised != null, "revised must not be null");
     this.original = original;
     this.revised = revised;
   }
@@ -78,7 +75,7 @@ public abstract class Delta<T> {
    * Applies this delta as the patch for a given target
    * 
    * @param target the given target
-   * @throws IllegalStateException
+   * @throws IllegalStateException if {@link #verify(List)} fails
    */
   public abstract void applyTo(List<T> target) throws IllegalStateException;
 
@@ -96,24 +93,10 @@ public abstract class Delta<T> {
   }
 
   /**
-   * @param original The Chunk describing the original text to set.
-   */
-  public void setOriginal(Chunk<T> original) {
-    this.original = original;
-  }
-
-  /**
    * @return The Chunk describing the revised text.
    */
   public Chunk<T> getRevised() {
     return revised;
-  }
-
-  /**
-   * @param revised The Chunk describing the revised text to set.
-   */
-  public void setRevised(Chunk<T> revised) {
-    this.revised = revised;
   }
 
   @Override
@@ -148,12 +131,13 @@ public abstract class Delta<T> {
     return true;
   }
 
-  int lineNumber() {
+  public int lineNumber() {
     return getOriginal().getPosition() + 1;
   }
 
-  String formatLines(List<T> lines) {
-    return STANDARD_REPRESENTATION.format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
+  @Override
+  public String toString() {
+    return ConfigurationProvider.CONFIGURATION_PROVIDER.representation().toStringOf(this);
   }
 
 }

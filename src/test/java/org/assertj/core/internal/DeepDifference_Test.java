@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -21,8 +21,10 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sin;
 import static java.lang.Math.tan;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.internal.ObjectsBaseTest.defaultTypeComparators;
 import static org.assertj.core.internal.ObjectsBaseTest.noFieldComparators;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -79,6 +81,12 @@ public class DeepDifference_Test {
   }
 
   @Test
+  public void testWithDifferentFields() {
+    assertHaveDifferences("one", 1);
+    assertHaveDifferences(new Wrapper(new Wrapper("one")), new Wrapper("one"));
+  }
+
+  @Test
   public void testPOJOequals() {
     Class1 x = new Class1(true, tan(PI / 4), 1);
     Class1 y = new Class1(true, 1.0, 1);
@@ -89,7 +97,7 @@ public class DeepDifference_Test {
     Class2 b = new Class2((float) PI / 4, "hello", (short) 2, new Class1(false, 2 * cos(0.75 / 2) * sin(0.75 / 2), 5));
 
     assertHaveNoDifferences(a, b);
-    assertHaveDifferences(a, new Class2());
+    assertHaveDifferences(a, new Class2((float) atan(2.0), "hello", (short) 2, new Class1(false, sin(0.75), 5)));
   }
 
   @Test
@@ -110,7 +118,7 @@ public class DeepDifference_Test {
   @Test
   public void testOrderedCollection() {
     List<String> a = newArrayList("one", "two", "three", "four", "five");
-    List<String> b = new LinkedList<String>();
+    List<String> b = new LinkedList<>();
     b.addAll(a);
     assertHaveNoDifferences(a, b);
 
@@ -130,16 +138,43 @@ public class DeepDifference_Test {
     Set<String> a = newLinkedHashSet("one", "two", "three", "four", "five");
     Set<String> b = newLinkedHashSet("three", "five", "one", "four", "two");
     assertHaveNoDifferences(a, b);
+    assertHaveNoDifferences(a, b, noFieldComparators(), new TypeComparators());
 
     Set<Integer> c = newLinkedHashSet(1, 2, 3, 4, 5);
     assertHaveDifferences(a, c);
+    assertHaveDifferences(a, c, noFieldComparators(), null);
 
     Set<Integer> d = newLinkedHashSet(4, 2, 6);
     assertHaveDifferences(c, d);
+    assertHaveDifferences(c, d, noFieldComparators(), null);
 
     Set<Class1> x1 = newLinkedHashSet(new Class1(true, log(pow(E, 2)), 6), new Class1(true, tan(PI / 4), 1));
     Set<Class1> x2 = newLinkedHashSet(new Class1(true, 1, 1), new Class1(true, 2, 6));
     assertHaveNoDifferences(x1, x2);
+  }
+
+  @Test
+  public void testUnorderedCollectionWithCustomComparatorsByType() {
+    TypeComparators comparatorsWithBigDecimalComparator = new TypeComparators();
+    comparatorsWithBigDecimalComparator.put(BigDecimal.class, BIG_DECIMAL_COMPARATOR);
+
+    Set<BigDecimal> a = newLinkedHashSet(new BigDecimal("1.0"), new BigDecimal("3"), new BigDecimal("2"), new BigDecimal("4"));
+    Set<BigDecimal> b = newLinkedHashSet(new BigDecimal("4"), new BigDecimal("1"), new BigDecimal("2.0"), new BigDecimal("3"));
+
+    assertHaveNoDifferences(a, b, noFieldComparators(), comparatorsWithBigDecimalComparator);
+
+    Set<BigDecimal> c = newLinkedHashSet(new BigDecimal("4"), new BigDecimal("1"), new BigDecimal("2.2"), new BigDecimal("3"));
+    assertHaveDifferences(a, c, noFieldComparators(), comparatorsWithBigDecimalComparator);
+  }
+
+  @Test
+  public void testUnorderedCollectionWithCustomComparatorsByFieldName() {
+    SetWrapper a = new SetWrapper(newLinkedHashSet(new Wrapper("one"), new Wrapper("two")));
+    SetWrapper b = new SetWrapper(newLinkedHashSet(new Wrapper("1"), new Wrapper("2")));
+
+    Map<String, Comparator<?>> fieldComparators = new HashMap<>();
+    fieldComparators.put("set.o", ALWAY_EQUALS_STRING);
+    assertHaveNoDifferences(a, b, fieldComparators, defaultTypeComparators());
   }
 
   @Test
@@ -277,6 +312,7 @@ public class DeepDifference_Test {
 
     @SuppressWarnings("rawtypes")
     class AlwaysEqualMapComparator implements Comparator<Map> {
+      @Override
       public int compare(Map o1, Map o2) {
         return 0;
       }
@@ -288,11 +324,19 @@ public class DeepDifference_Test {
   }
 
   private void assertHaveNoDifferences(Object x, Object y) {
-    assertThat(DeepDifference.determineDifferences(x, y, noFieldComparators(), defaultTypeComparators())).isEmpty();
+    assertHaveNoDifferences(x, y, noFieldComparators(), defaultTypeComparators());
+  }
+
+  private void assertHaveNoDifferences(Object x, Object y, Map<String, Comparator<?>> fieldComparators, TypeComparators typeComparators) {
+    assertThat(DeepDifference.determineDifferences(x, y, fieldComparators, typeComparators)).isEmpty();
   }
 
   private void assertHaveDifferences(Object x, Object y) {
-    assertThat(DeepDifference.determineDifferences(x, y, noFieldComparators(), defaultTypeComparators())).isNotEmpty();
+    assertHaveDifferences(x, y, noFieldComparators(), defaultTypeComparators());
+  }
+
+  private void assertHaveDifferences(Object x, Object y, Map<String, Comparator<?>> fieldComparators, TypeComparators typeComparators) {
+    assertThat(DeepDifference.determineDifferences(x, y, fieldComparators, typeComparators)).isNotEmpty();
   }
 
   private static class EmptyClass {
@@ -300,10 +344,12 @@ public class DeepDifference_Test {
 
   private static class EmptyClassWithEquals {
 
+    @Override
     public boolean equals(Object obj) {
       return obj instanceof EmptyClassWithEquals;
     }
 
+    @Override
     public int hashCode() {
       return 0;
     }
@@ -322,7 +368,6 @@ public class DeepDifference_Test {
     }
 
     public Class1(boolean b, double d, int i) {
-      super();
       this.b = b;
       this.d = d;
       this.i = i;
@@ -341,14 +386,31 @@ public class DeepDifference_Test {
     Class1 c;
 
     public Class2(float f, String s, short ss, Class1 c) {
-      super();
       this.f = f;
       this.s = s;
       this.ss = ss;
       this.c = c;
     }
 
-    public Class2() {
+  }
+
+  private static class Wrapper {
+
+    @SuppressWarnings("unused")
+    private Object o;
+
+    private Wrapper(Object o) {
+      this.o = o;
+    }
+  }
+
+  private static class SetWrapper {
+
+    @SuppressWarnings("unused")
+    private Set<?> set;
+
+    private SetWrapper(Set<?> set) {
+      this.set = set;
     }
   }
 

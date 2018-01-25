@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.future;
 
@@ -49,10 +49,10 @@ public class CompletableFutureAssert_hasFailedWithThrowableThat_Test extends Bas
     // @format:off
     assertThatThrownBy(() -> assertThat(future).hasFailedWithThrowableThat().isInstanceOf(IllegalArgumentException.class))
                .isInstanceOf(AssertionError.class)
-               .hasMessageContaining(format("Expecting:%n" +
-                                            " <java.lang.RuntimeException: some random error>%n" +
+               .hasMessageContaining(format("%nExpecting:%n" +
+                                            "  <java.lang.RuntimeException: some random error>%n" +
                                             "to be an instance of:%n" +
-                                            " <java.lang.IllegalArgumentException>%n"));
+                                            "  <java.lang.IllegalArgumentException>%n"));
     // @format:on
   }
 

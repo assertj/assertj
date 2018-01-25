@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -22,15 +22,15 @@ import java.util.Comparator;
  * differences being that we can't check that - for empty List - the list parameter is comparable or compatible with given
  * comparator due to type erasure.
  * 
- * @param <S> the "self" type of this assertion class that must be a array type (e.g. arrays, collections).<br>
+ * @param <SELF> the "self" type of this assertion class that must be a array type (e.g. arrays, collections).<br>
  *          Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating 'self types' using Java Generics to
  *          simplify fluent API implementation</a>&quot; for more details.
- * @param <E> the array element type.
+ * @param <ELEMENT> the array element type.
  * 
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
+public interface ArraySortedAssert<SELF extends ArraySortedAssert<SELF, ELEMENT>, ELEMENT> {
 
   /**
    * Verifies that the actual array is sorted in ascending order according to the natural ordering of its elements.
@@ -54,7 +54,7 @@ public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
    * @throws AssertionError if the actual array element type does not implement {@link Comparable}.
    * @throws AssertionError if the actual array elements are not mutually {@link Comparable}.
    */
-  S isSorted();
+  SELF isSorted();
 
   /**
    * Verifies that the actual array is sorted according to the given comparator.<br> Empty arrays are considered sorted whatever
@@ -70,6 +70,6 @@ public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
    * @throws NullPointerException if the given comparator is {@code null}.
    * @throws AssertionError if the actual array elements are not mutually comparable according to given Comparator.
    */
-  S isSortedAccordingTo(Comparator<? super E> comparator);
+  SELF isSortedAccordingTo(Comparator<? super ELEMENT> comparator);
 
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
 import java.lang.reflect.Method;
@@ -56,8 +57,10 @@ public class PropertySupport {
    * given <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will
    * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
    * 
+   * @param <T> the type of the extracted elements.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
+   * @param clazz type of property
    * @param target the given {@code Iterable}.
    * @return an {@code Iterable} containing the values of the given property name, from the elements of the given
    *         {@code Iterable}.
@@ -79,8 +82,8 @@ public class PropertySupport {
 
   /**
    * Static variant of {@link #propertyValueOf(String, Class, Object)} for syntactic sugar.
-   * <p>
    * 
+   * @param <T> the type of the extracted elements.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
    * @param target the given object
@@ -135,6 +138,7 @@ public class PropertySupport {
    * This only works for simple property, nested property are not supported ! use
    * {@link #propertyValueOf(String, Class, Object)}
    * 
+   * @param <T> the type of the extracted value.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
    * @param target the given object
@@ -162,6 +166,7 @@ public class PropertySupport {
    * return null.<br>
    * This method supports nested properties (e.g. "address.street.number").
    * 
+   * @param <T> the type of the extracted value.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
    * @param clazz the class of property.
@@ -171,7 +176,7 @@ public class PropertySupport {
    * @throws IllegalArgumentException if propertyName is null.
    */
   public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
-    if (propertyName == null) throw new IllegalArgumentException("the property name should not be null.");
+    checkArgument(propertyName != null, "the property name should not be null.");
     // returns null if target is null as we can't extract a property from a null object
     // but don't want to raise an exception if we were looking at a nested property
     if (target == null) return null;
@@ -186,10 +191,20 @@ public class PropertySupport {
   }
 
   /**
-   * just delegates to {@link #propertyValues(String, Class, Iterable)} with Class being Object.class
+   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
+   * given <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will
+   * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
+   * 
+   * @param fieldOrPropertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
+   * @param target the given {@code Iterable}.
+   * @return an {@code Iterable} containing the values of the given property name, from the elements of the given
+   *         {@code Iterable}.
+   * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching
+   *           name.
    */
-  public List<Object> propertyValues(String fieldOrPropertyName, Iterable<?> objects) {
-    return propertyValues(fieldOrPropertyName, Object.class, objects);
+  public List<Object> propertyValues(String fieldOrPropertyName, Iterable<?> target) {
+    return propertyValues(fieldOrPropertyName, Object.class, target);
   }
 
   public boolean publicGetterExistsFor(String fieldName, Object actual) {

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,19 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Arrays.array;
 
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Assertion methods for arrays of objects.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(T[])}</code>.
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
  * 
- * @param <T> the type of elements of the "actual" value.
+ * @param <ELEMENT> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -28,10 +30,14 @@ package org.assertj.core.api;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert<T> extends AbstractObjectArrayAssert<ObjectArrayAssert<T>, T> {
+public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<ObjectArrayAssert<ELEMENT>, ELEMENT> {
 
-  public ObjectArrayAssert(T[] actual) {
+  public ObjectArrayAssert(ELEMENT[] actual) {
     super(actual, ObjectArrayAssert.class);
+  }
+
+  public ObjectArrayAssert(AtomicReferenceArray<ELEMENT> actual) {
+    this(array(actual));
   }
 
 }

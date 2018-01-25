@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error.future;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
+import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,12 +26,12 @@ public class ShouldHaveCompletedExceptionally_create_Test {
 
   @Test
   public void should_create_error_message() throws Exception {
-    String error = shouldHaveCompletedExceptionally(new CompletableFuture<Object>()).create(new TestDescription("TEST"));
+    String error = shouldHaveCompletedExceptionally(new CompletableFuture<>()).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting%n" +
                                        "  <CompletableFuture[Incomplete]>%n" +
-                                       "to be completed exceptionally"));
+                                       "to be completed exceptionally.%n%s", WARNING));
   }
 
 }

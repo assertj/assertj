@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -37,7 +37,7 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    * Verifies that {@link DoublePredicate} evaluates all the given values to {@code true}.
    * <p>
    * Example :
-   * <pre><code class='java'> DoublePredicate tallSize = size -> size > 1.90;
+   * <pre><code class='java'> DoublePredicate tallSize = size -&gt; size &gt; 1.90;
    *
    * // assertion succeeds:
    * assertThat(tallSize).accepts(1.95, 2.00, 2.05);
@@ -57,9 +57,8 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
   /**
    * Verifies that {@link DoublePredicate} evaluates all the given values to {@code false}.
    * <p>
-   * <p>
    * Example :
-   * <pre><code class='java'> DoublePredicate tallSize = size -> size > 1.90;
+   * <pre><code class='java'> DoublePredicate tallSize = size -&gt; size &gt; 1.90;
    *
    * // assertion succeeds:
    * assertThat(tallSize).rejects(1.75, 1.80, 1.85);

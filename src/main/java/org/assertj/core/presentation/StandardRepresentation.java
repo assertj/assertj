@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.presentation;
 
+import static java.lang.Integer.toHexString;
 import static java.lang.reflect.Array.getLength;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
@@ -22,6 +23,7 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -30,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -37,6 +40,15 @@ import java.util.TreeMap;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.function.Function;
 
 import org.assertj.core.data.MapEntry;
@@ -44,6 +56,9 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.Compatibility;
 import org.assertj.core.util.DateUtil;
+import org.assertj.core.util.diff.ChangeDelta;
+import org.assertj.core.util.diff.DeleteDelta;
+import org.assertj.core.util.diff.InsertDelta;
 
 /**
  * Standard java object representation.
@@ -52,13 +67,13 @@ import org.assertj.core.util.DateUtil;
  */
 public class StandardRepresentation implements Representation {
 
-  // can be shared this at StandardRepresentation has no state
+  // can share this as StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   private static final String NULL = "null";
 
-  private static final String TUPPLE_START = "(";
-  private static final String TUPPLE_END = ")";
+  private static final String TUPLE_START = "(";
+  private static final String TUPLE_END = ")";
 
   private static final String DEFAULT_START = "[";
   private static final String DEFAULT_END = "]";
@@ -67,7 +82,7 @@ public class StandardRepresentation implements Representation {
 
   // 4 spaces indentation : 2 space indentation after new line + '<' + '['
   static final String INDENTATION_AFTER_NEWLINE = "    ";
-  // used when formatting iterable to a single line
+  // used when formatting iterables to a single line
   static final String INDENTATION_FOR_SINGLE_LINE = " ";
 
   public static final String ELEMENT_SEPARATOR = ",";
@@ -108,7 +123,11 @@ public class StandardRepresentation implements Representation {
   }
 
   /**
-   * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.  
+   * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.
+   * 
+   * @param <T> the type to register a formatter for  
+   * @param type the class of the type to register a formatter for  
+   * @param formatter the formatter  
    */
   public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
     customFormatterByType.put(type, formatter);
@@ -135,6 +154,15 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
+    if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
+    if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
+    if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
+    if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
+    if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
+    if (object instanceof AtomicStampedReference) return toStringOf((AtomicStampedReference<?>) object);
+    if (object instanceof AtomicIntegerFieldUpdater) return AtomicIntegerFieldUpdater.class.getSimpleName();
+    if (object instanceof AtomicLongFieldUpdater) return AtomicLongFieldUpdater.class.getSimpleName();
+    if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
     if (object instanceof Number) return toStringOf((Number) object);
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof String) return toStringOf((String) object);
@@ -148,7 +176,11 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
-    return object.toString();
+    if (object instanceof Method) return ((Method) object).toGenericString();
+    if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
+    if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
+    if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
+    return object == null ? null : fallbackToStringOf(object);
   }
 
   @SuppressWarnings("unchecked")
@@ -162,6 +194,23 @@ public class StandardRepresentation implements Representation {
     return customFormatterByType.containsKey(object.getClass());
   }
 
+  @Override
+  public String unambiguousToStringOf(Object obj) {
+    return obj == null ? null
+        : String.format("%s (%s@%s)", toStringOf(obj), obj.getClass().getSimpleName(), toHexString(obj.hashCode()));
+  }
+
+  /**
+   * Returns the {@code String} representation of the given object. This method is used as a last resort if none of
+   * the {@link StandardRepresentation} predefined string representations were not called.
+   *
+   * @param object the object to represent (never {@code null}
+   * @return to {@code toString} representation for the given object
+   */
+  protected String fallbackToStringOf(Object object) {
+    return object.toString();
+  }
+
   protected String toStringOf(Number number) {
     if (number instanceof Float) return toStringOf((Float) number);
     if (number instanceof Long) return toStringOf((Long) number);
@@ -169,13 +218,25 @@ public class StandardRepresentation implements Representation {
     return number.toString();
   }
 
+  protected String toStringOf(AtomicBoolean atomicBoolean) {
+    return String.format("AtomicBoolean(%s)", atomicBoolean.get());
+  }
+
+  protected String toStringOf(AtomicInteger atomicInteger) {
+    return String.format("AtomicInteger(%s)", atomicInteger.get());
+  }
+
+  protected String toStringOf(AtomicLong atomicLong) {
+    return String.format("AtomicLong(%s)", atomicLong.get());
+  }
+
   protected String toStringOf(Comparator<?> comparator) {
-    if (!comparator.toString().contains("@")) return quote(comparator.toString());
+    if (!comparator.toString().contains("@")) return comparator.toString();
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
     if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
     // if toString has not been redefined, let's use comparator simple class name.
-    if (comparator.toString().contains(comparatorSimpleClassName + "@")) return quote(comparatorSimpleClassName);
-    return quote(comparator.toString());
+    if (comparator.toString().contains(comparatorSimpleClassName + "@")) return comparatorSimpleClassName;
+    return comparator.toString();
   }
 
   protected String toStringOf(Calendar c) {
@@ -235,7 +296,7 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(Tuple tuple) {
-    return singleLineFormat(tuple.toList(), TUPPLE_START, TUPPLE_END);
+    return singleLineFormat(tuple.toList(), TUPLE_START, TUPLE_END);
   }
 
   protected String toStringOf(MapEntry<?, ?> mapEntry) {
@@ -270,8 +331,43 @@ public class StandardRepresentation implements Representation {
     }
   }
 
-  private Object format(Map<?, ?> map, Object o) {
+  private String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
+  }
+
+  protected String toStringOf(AtomicReference<?> atomicReference) {
+    return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
+  }
+
+  protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
+    return String.format("AtomicMarkableReference[marked=%s, reference=%s]", atomicMarkableReference.isMarked(),
+                         toStringOf(atomicMarkableReference.getReference()));
+  }
+
+  protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
+    return String.format("AtomicStampedReference[stamp=%s, reference=%s]", atomicStampedReference.getStamp(),
+                         toStringOf(atomicStampedReference.getReference()));
+  }
+
+  private String toStringOf(ChangeDelta<?> changeDelta) {
+    return String.format("Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n",
+                         changeDelta.lineNumber(),
+                         formatLines(changeDelta.getOriginal().getLines()),
+                         formatLines(changeDelta.getRevised().getLines()));
+  }
+
+  private String toStringOf(DeleteDelta<?> deleteDelta) {
+    return String.format("Missing content at line %s:%n  %s%n", deleteDelta.lineNumber(),
+                         formatLines(deleteDelta.getOriginal().getLines()));
+  }
+
+  private String toStringOf(InsertDelta<?> insertDelta) {
+    return String.format("Extra content at line %s:%n  %s%n", insertDelta.lineNumber(),
+                         formatLines(insertDelta.getRevised().getLines()));
+  }
+
+  private String formatLines(List<?> lines) {
+    return format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
   }
 
   @Override
@@ -292,8 +388,7 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String multiLineFormat(Representation representation, Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(iterable, StandardRepresentation.ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE,
-                  alreadyFormatted);
+    return format(iterable, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyFormatted);
   }
 
   protected String singleLineFormat(Representation representation, Object[] iterable, String start, String end,

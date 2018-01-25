@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -75,9 +75,7 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
     if (group.getClass().isArray()) {
       return wrap(group);
     } else if (group instanceof Collection<?>) {
-      List<Object> asList = new ArrayList<>();
-      asList.addAll((Collection<Object>) group);
-      return asList;
+      return new ArrayList<>((Collection<Object>) group);
     }
     throw new IllegalArgumentException("Parameter should be an array or a collection but was " + group);
   }

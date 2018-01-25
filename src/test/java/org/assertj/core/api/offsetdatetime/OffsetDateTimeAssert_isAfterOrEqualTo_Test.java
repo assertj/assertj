@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,17 +49,12 @@ public class OffsetDateTimeAssert_isAfterOrEqualTo_Test extends OffsetDateTimeAs
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-    try {
-      assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isAfterOrEqualTo(of(2012, 1, 1, 3, 3, 3, 0, UTC));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%n" +
-                               "Expecting:%n" +
-                               "  <2000-01-05T03:00:05Z>%n" +
-                               "to be after or equals to:%n" +
-                                      "  <2012-01-01T03:03:03Z>"));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <2000-01-05T03:00:05Z>%n" +
+                                "to be after or equals to:%n" +
+                                "  <2012-01-01T03:03:03Z>");
+    assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isAfterOrEqualTo(of(2012, 1, 1, 3, 3, 3, 0, UTC));
   }
 
   @Test

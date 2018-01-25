@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -77,7 +77,7 @@ public final class IterableUtil {
    * <p>
    * Note: this method will return Object[]. If you require a typed array please use {@link #toArray(Iterable, Class)}.
    * It's main usage is to keep the generic type for chaining call like in:
-   * <pre><code class='java'> public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
+   * <pre><code class='java'> public S containsOnlyElementsOf(Iterable&lt;? extends T&gt; iterable) {
    *   return containsOnly(toArray(iterable));
    * }</code></pre>
    * 
@@ -108,7 +108,7 @@ public final class IterableUtil {
     return collection.toArray(array);
   }
 
-  private static <T> Collection<T> toCollection(Iterable<T> iterable) {
+  public static <T> Collection<T> toCollection(Iterable<T> iterable) {
     return iterable instanceof Collection ? (Collection<T>) iterable : newArrayList(iterable);
   }
 

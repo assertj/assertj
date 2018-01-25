@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -47,7 +47,8 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
   @Test
   public void should_throw_error_if_subsequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    iterables.assertContainsSubsequence(someInfo(), actual, null);
+    Object[] nullArray = null;
+    iterables.assertContainsSubsequence(someInfo(), actual, nullArray);
   }
 
   @Test
@@ -58,7 +59,7 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     iterables.assertContainsSubsequence(someInfo(), actual, emptyArray());
   }
 
@@ -119,6 +120,14 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
   @Test
   public void should_pass_if_actual_contains_subsequence_with_elements_between() {
     iterables.assertContainsSubsequence(someInfo(), actual, array("Yoda", "Leia"));
+  }
+
+  @Test
+  public void should_pass_if_actual_with_duplicate_elements_contains_subsequence() {
+    actual = newArrayList("Yoda", "Luke", "Yoda", "Obi-Wan");
+    iterables.assertContainsSubsequence(someInfo(), actual, array("Yoda", "Obi-Wan"));
+    iterables.assertContainsSubsequence(someInfo(), actual, array("Luke", "Obi-Wan"));
+    iterables.assertContainsSubsequence(someInfo(), actual, array("Yoda", "Yoda"));
   }
 
   @Test

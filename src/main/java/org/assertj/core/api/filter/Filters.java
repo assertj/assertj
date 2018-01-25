@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
+import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
@@ -40,7 +42,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
  *   
  * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
  *   public boolean matches(Player player) {
- *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+ *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
  *   };
  * };
  * 
@@ -85,13 +87,14 @@ public class Filters<E> {
    * With {@link Condition} :
    * <pre><code class='java'>
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * 
+   * @param <E> the iterable elements type.
    * @param iterable the {@code Iterable} to filter.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @return the created <code>{@link Filters}</code>.
@@ -118,13 +121,14 @@ public class Filters<E> {
    * With {@link Condition} :
    * <pre><code class='java'> Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * 
+   * @param <E> the array elements type.
    * @param array the array to filter.
    * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.
@@ -151,7 +155,7 @@ public class Filters<E> {
    *   
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP") {
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 
@@ -163,7 +167,7 @@ public class Filters<E> {
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
   public Filters<E> being(Condition<? super E> condition) {
-    if (condition == null) throw new IllegalArgumentException("The filter condition should not be null");
+    checkArgument(condition != null, "The filter condition should not be null");
     return applyFilterCondition(condition);
   }
 
@@ -175,7 +179,7 @@ public class Filters<E> {
    *   
    * Condition&lt;Player&gt; mvpStats = new Condition&lt;Player&gt;("is a possible MVP") {
    *   public boolean matches(Player player) {
-   *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
+   *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
    *   };
    * };
    * 
@@ -187,7 +191,7 @@ public class Filters<E> {
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
   public Filters<E> having(Condition<? super E> condition) {
-    if (condition == null) throw new IllegalArgumentException("The filter condition should not be null");
+    checkArgument(condition != null, "The filter condition should not be null");
     return applyFilterCondition(condition);
   }
 
@@ -243,8 +247,8 @@ public class Filters<E> {
   }
 
   private void validatePropertyOrFieldName(String propertyOrFieldName) {
-    if (propertyOrFieldName == null || propertyOrFieldName.isEmpty())
-      throw new IllegalArgumentException("The property/field name to filter on should not be null or empty");
+    checkArgument(!Strings.isNullOrEmpty(propertyOrFieldName),
+                  "The property/field name to filter on should not be null or empty");
   }
 
   /**
@@ -306,8 +310,8 @@ public class Filters<E> {
   }
 
   private void checkPropertyNameToFilterOnIsNotNull() {
-    if (propertyOrFieldNameToFilterOn == null)
-      throw new IllegalArgumentException("The property name to filter on has not been set - no filtering is possible");
+    checkArgument(propertyOrFieldNameToFilterOn != null,
+                  "The property name to filter on has not been set - no filtering is possible");
   }
 
   /**

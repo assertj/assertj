@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,15 +18,17 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Byte}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * 
+ * @author Drummond Dawson
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
@@ -34,8 +36,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extends AbstractComparableAssert<S, Byte>
-    implements NumberAssert<S, Byte> {
+public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> extends AbstractComparableAssert<SELF, Byte>
+    implements NumberAssert<SELF, Byte> {
 
   @VisibleForTesting
   Bytes bytes = Bytes.instance();
@@ -61,7 +63,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public S isEqualTo(byte expected) {
+  public SELF isEqualTo(byte expected) {
     bytes.assertEqual(info, actual, expected);
     return myself;
   }
@@ -83,22 +85,29 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  public S isNotEqualTo(byte other) {
+  public SELF isNotEqualTo(byte other) {
     bytes.assertNotEqual(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isZero() {
+  public SELF isZero() {
     bytes.assertIsZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotZero() {
+  public SELF isNotZero() {
     bytes.assertIsNotZero(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isOne() {
+    bytes.assertIsOne(info, actual);
     return myself;
   }
 
@@ -112,10 +121,9 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * // assertion will fail
    * assertThat((byte) -1).isPositive();</code></pre>
    * 
-   * </p>
    */
   @Override
-  public S isPositive() {
+  public SELF isPositive() {
     bytes.assertIsPositive(info, actual);
     return myself;
   }
@@ -130,10 +138,9 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * // assertion will fail
    * assertThat((byte) 1).isNegative();</code></pre>
    * 
-   * </p>
    */
   @Override
-  public S isNegative() {
+  public SELF isNegative() {
     bytes.assertIsNegative(info, actual);
     return myself;
   }
@@ -148,10 +155,9 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * // assertion will fail
    * assertThat((byte) -1).isNotNegative();</code></pre>
    * 
-   * </p>
    */
   @Override
-  public S isNotNegative() {
+  public SELF isNotNegative() {
     bytes.assertIsNotNegative(info, actual);
     return myself;
   }
@@ -166,10 +172,9 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * // assertion will fail
    * assertThat((byte) 1).isNotPositive();</code></pre>
    * 
-   * </p>
    */
   @Override
-  public S isNotPositive() {
+  public SELF isNotPositive() {
     bytes.assertIsNotPositive(info, actual);
     return myself;
   }
@@ -185,14 +190,12 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * assertThat((byte) 1).isLessThan((byte) 0);
    * assertThat((byte) 1).isLessThan((byte) 1);</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
-  public S isLessThan(byte other) {
+  public SELF isLessThan(byte other) {
     bytes.assertLessThan(info, actual, other);
     return myself;
   }
@@ -208,14 +211,12 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * // assertion will fail
    * assertThat((byte) 1).isLessThanOrEqualTo((byte) 0);</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
-  public S isLessThanOrEqualTo(byte other) {
+  public SELF isLessThanOrEqualTo(byte other) {
     bytes.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -231,14 +232,12 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * assertThat((byte) 2).isGreaterThan((byte) 3);
    * assertThat((byte) 2).isGreaterThan((byte) 2);</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
-  public S isGreaterThan(byte other) {
+  public SELF isGreaterThan(byte other) {
     bytes.assertGreaterThan(info, actual, other);
     return myself;
   }
@@ -254,14 +253,12 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * // assertion will fail
    * assertThat((byte) 2).isGreaterThanOrEqualTo((byte) 3);</code></pre>
    * 
-   * </p>
-   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
-  public S isGreaterThanOrEqualTo(byte other) {
+  public SELF isGreaterThanOrEqualTo(byte other) {
     bytes.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -279,10 +276,9 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * // assertion will fail
    * assertThat((byte) 1).isBetween((byte) 2, (byte) 3);</code></pre>
    * 
-   * </p>
    */
   @Override
-  public S isBetween(Byte start, Byte end) {
+  public SELF isBetween(Byte start, Byte end) {
     bytes.assertIsBetween(info, actual, start, end);
     return myself;
   }
@@ -300,52 +296,75 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * assertThat((byte) 1).isStrictlyBetween((byte) 0, (byte) 1);
    * assertThat((byte) 1).isStrictlyBetween((byte) 2, (byte) 3);</code></pre>
    * 
-   * </p>
    */
   @Override
-  public S isStrictlyBetween(Byte start, Byte end) {
+  public SELF isStrictlyBetween(Byte start, Byte end) {
     bytes.assertIsStrictlyBetween(info, actual, start, end);
     return myself;
   }
 
   /**
-   * Verifies that the actual byte is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example :
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Byte)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Byte)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Byte)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Byte)} to get the old behavior. 
+   * <p>
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 3));
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 3));
    *
-   * // if difference is exactly equals to the offset, it's ok
+   * // if difference is exactly equals to the offset, it's ok ... 
    * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 2));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 2)); // FAIL
    *
-   * // assertion will fail
-   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 1));</code></pre>
+   * // assertions will fail
+   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 1));
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 1));
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 2));</code></pre>
    *
-   * @param expected the given byte to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
-  public S isCloseTo(byte expected, Offset<Byte> offset) {
+  public SELF isCloseTo(byte expected, Offset<Byte> offset) {
     bytes.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
-   * Verifies that the actual byte is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example :
-   * <pre><code class='java'> // assertion will pass:
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Byte)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Byte)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Byte)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Byte)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 1));
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 1));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 2));
    *
    * // assertions will fail
-   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 2));
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 2));
    * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 3));</code></pre>
    *
-   * @param expected the given byte to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
@@ -353,61 +372,83 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @see Assertions#byLessThan(Byte)
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotCloseTo(byte expected, Offset<Byte> offset) {
+  public SELF isNotCloseTo(byte expected, Offset<Byte> offset) {
     bytes.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
-   * Verifies that the actual Byte is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example :
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Byte)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Byte)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Byte)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Byte)} to get the old behavior. 
+   * <p>
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
-   * assertThat((byte) 5).isCloseTo(new Byte("7"), within((byte) 3));
+   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 3));
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 3));
    *
-   * // if difference is exactly equals to the offset, it's ok
-   * assertThat((byte) 5).isCloseTo(new Byte("7"), within((byte) 2));
+   * // if difference is exactly equals to the offset, it's ok ... 
+   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 2));
+   * // ... but not with byLessThan which implies a strict comparison
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 2)); // FAIL
    *
-   * // assertion will fail
-   * assertThat((byte) 5).isCloseTo(new Byte("7"), within((byte) 1));</code></pre>
+   * // assertions will fail
+   * assertThat((byte) 5).isCloseTo((byte) 7, within((byte) 1));
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 1));
+   * assertThat((byte) 5).isCloseTo((byte) 7, byLessThan((byte) 2));</code></pre>
    *
-   * @param expected the given Byte to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected Byte is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError if the actual value is not close enough to the given one.
    */
   @Override
-  public S isCloseTo(Byte expected, Offset<Byte> offset) {
+  public SELF isCloseTo(Byte expected, Offset<Byte> offset) {
     bytes.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
-   * Verifies that the actual Byte is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * Example :
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), byLessThan((byte) 1));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Byte)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Byte)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Byte)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Byte)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 1));
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 1));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 2));
    *
    * // assertions will fail
-   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), byLessThan((byte) 2));
-   * assertThat((byte) 5).isNotCloseTo(new Byte("7"), byLessThan((byte) 3));</code></pre>
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, within((byte) 2));
+   * assertThat((byte) 5).isNotCloseTo((byte) 7, byLessThan((byte) 3));</code></pre>
    *
-   * @param expected the given Byte to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected Byte is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    * @see Assertions#byLessThan(Byte)
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Byte expected, Offset<Byte> offset) {
+  public SELF isNotCloseTo(Byte expected, Offset<Byte> offset) {
     bytes.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -434,7 +475,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
-  public S isCloseTo(Byte expected, Percentage percentage) {
+  public SELF isCloseTo(Byte expected, Percentage percentage) {
     bytes.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -460,7 +501,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Byte expected, Percentage percentage) {
+  public SELF isNotCloseTo(Byte expected, Percentage percentage) {
     bytes.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -484,7 +525,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is close to the given one.
    */
-  public S isCloseTo(byte expected, Percentage percentage) {
+  public SELF isCloseTo(byte expected, Percentage percentage) {
     bytes.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -509,20 +550,22 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is close to the given one.
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotCloseTo(byte expected, Percentage percentage) {
+  public SELF isNotCloseTo(byte expected, Percentage percentage) {
     bytes.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 
   @Override
-  public S usingComparator(Comparator<? super Byte> customComparator) {
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super Byte> customComparator) {
     super.usingComparator(customComparator);
     this.bytes = new Bytes(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   @Override
-  public S usingDefaultComparator() {
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     this.bytes = Bytes.instance();
     return myself;

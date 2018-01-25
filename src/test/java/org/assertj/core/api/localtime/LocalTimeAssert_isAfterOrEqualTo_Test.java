@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -46,17 +45,12 @@ public class LocalTimeAssert_isAfterOrEqualTo_Test extends LocalTimeAssertBaseTe
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-	try {
-	  assertThat(LocalTime.of(3, 0, 5)).isAfterOrEqualTo(LocalTime.of(3, 3, 3));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                       "Expecting:%n" +
-		                       "  <03:00:05>%n" +
-		                       "to be after or equals to:%n" +
-		                       "  <03:03:03>"));
-	  return;
-	}
-	fail("Should have thrown AssertionError");
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <03:00:05>%n" +
+                                "to be after or equals to:%n" +
+                                "  <03:03:03>");
+    assertThat(LocalTime.of(3, 0, 5)).isAfterOrEqualTo(LocalTime.of(3, 3, 3));
   }
 
   @Test

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -43,18 +42,15 @@ public class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseT
 
   @Test
   public void test_isNotIn_assertion_error_message() {
-    try {
-      String offsetDateTime1 = OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString();
-      String offsetDateTime2 = OffsetDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString();
-      assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotIn(offsetDateTime1, offsetDateTime2);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n " +
-                                      "<2000-01-05T03:00:05Z>%n" +
-                                      "not to be in:%n" +
-                                      " <[2000-01-05T03:00:05Z, 2012-01-01T03:03:03Z]>%n"));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    String offsetDateTime1 = OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString();
+    String offsetDateTime2 = OffsetDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString();
+
+    thrown.expectAssertionError("%nExpecting:%n " +
+                                "<2000-01-05T03:00:05Z>%n" +
+                                "not to be in:%n" +
+                                " <[2000-01-05T03:00:05Z, 2012-01-01T03:03:03Z]>%n");
+
+    assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotIn(offsetDateTime1, offsetDateTime2);
   }
 
   @Test

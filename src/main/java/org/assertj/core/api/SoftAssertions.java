@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,14 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.extractProperty;
+import static java.lang.String.format;
+import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
+import org.assertj.core.api.iterable.Extractor;
 
 /**
  * <p>
@@ -67,7 +71,6 @@ import java.util.function.Consumer;
  *   softly.assertAll();
  * }</code></pre>
  *
- *
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
  * <pre><code class='java'> org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
@@ -86,7 +89,7 @@ import java.util.function.Consumer;
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
  *   mansion.hostPotentiallyMurderousDinnerParty();
- *   SoftAssertions.assertSoftly(softly -> {
+ *   SoftAssertions.assertSoftly(softly -&gt; {
  *     softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
  *     softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
  *     softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
@@ -118,10 +121,29 @@ import java.util.function.Consumer;
  *
  * @author Brian Laframboise
  *
- * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the
- *      inspiration
+ * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
+
+  private Extractor<Throwable, String> errorDescriptionExtractor = throwable -> {
+    Throwable cause = throwable.getCause();
+    if (cause == null) {
+      return throwable.getMessage();
+    }
+    // error has a cause, display the cause message and the first stack trace elements.
+    StackTraceElement[] stackTraceFirstElements = Arrays.copyOf(cause.getStackTrace(), 5);
+    String stackTraceDescription = "";
+    for (StackTraceElement stackTraceElement : stackTraceFirstElements) {
+      stackTraceDescription += format("\tat %s%n", stackTraceElement);
+    }
+    return format("%s%n" +
+                  "cause message: %s%n" +
+                  "cause first five stack trace elements:%n" +
+                  "%s",
+                  throwable.getMessage(),
+                  cause.getMessage(),
+                  stackTraceDescription);
+  };
 
   /**
    * Verifies that no proxied assertion methods have failed.
@@ -130,9 +152,11 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) {
-      throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
-    }
+    if (!errors.isEmpty()) throw new SoftAssertionError(describeErrors(errors));
+  }
+
+  private List<String> describeErrors(List<Throwable> errors) {
+    return extract(errors, errorDescriptionExtractor);
   }
 
  /**
@@ -142,7 +166,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   * public void host_dinner_party_where_nobody_dies() {
   *   Mansion mansion = new Mansion();
   *   mansion.hostPotentiallyMurderousDinnerParty();
-  *   SoftAssertions.assertSoftly(softly -> {
+  *   SoftAssertions.assertSoftly(softly -&gt; {
   *     softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
   *     softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
   *     softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);

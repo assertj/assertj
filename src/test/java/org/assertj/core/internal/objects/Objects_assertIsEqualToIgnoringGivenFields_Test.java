@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -24,10 +24,13 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToIgnoringGivenFields_Test.OuterClass.InnerClass;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
@@ -35,11 +38,10 @@ import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Person;
 import org.assertj.core.test.TestClassWithRandomId;
 import org.assertj.core.util.introspection.FieldSupport;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Objects#assertIsLenientEqualsToByIgnoringFields(AssertionInfo, Object, Object, String...)</code>.
+ * Tests for <code>{@link Objects#assertIsEqualToIgnoringGivenFields(AssertionInfo, Object, Object, Map, TypeComparators, String...)}</code>.
  *
  * @author Nicolas François
  * @author Joel Costigliola
@@ -51,7 +53,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
     // strangeNotReadablePrivateField fields are compared and are null in both actual and other
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators());
   }
 
   @Test
@@ -59,42 +62,48 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     // strangeNotReadablePrivateField fields are compared and are null in both actual and other
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(), "lightSaberColor");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators(), "lightSaberColor");
   }
 
   @Test
   public void should_pass_when_not_ignored_inherited_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(), "name");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators(), "name");
   }
 
   @Test
   public void should_pass_when_not_ignored_fields_are_equal_even_if_one_ignored_field_is_not_defined() {
     Person actual = new Person("Yoda");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(), "lightSaberColor");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators(), "lightSaberColor");
   }
 
   @Test
   public void should_pass_when_field_values_are_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(), "name");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators(), "name");
   }
 
   @Test
   public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
     CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
     Person other = new Person("Homer Simpson");
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(), "children");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators(), "children");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators(), "name");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators(),
+                                               "name");
   }
 
   @Test
@@ -103,7 +112,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(), "name");
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
+                                                 "name");
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("lightSaberColor"),
@@ -139,7 +149,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
     try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(), "lightSaberColor");
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
+                                                 "lightSaberColor");
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("name"),
@@ -155,13 +166,11 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
   public void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
-    try {
-      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(), "name");
-      failBecauseExceptionWasNotThrown(IntrospectionError.class);
-    } catch (IntrospectionError err) {
-      assertThat(err).hasMessageContaining("Can't find any field or property with name 'lightSaberColor'");
-      return;
-    }
+
+    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'lightSaberColor'");
+
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators(), "name");
   }
 
   @Test
@@ -170,7 +179,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
     try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(), "name");
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
+                                                 "name");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Green");
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
@@ -190,7 +200,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
     TestClassWithRandomId other = new TestClassWithRandomId("1", 2);
     //
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators(), "n");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators(), "n");
     // reset
     Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
@@ -207,14 +218,16 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
   @Test
   public void should_be_able_to_use_a_comparator_for_specified_fields() {
     Comparator<String> alwaysEqual = new Comparator<String>() {
+      @Override
       public int compare(String o1, String o2) {
         return 0;
       }
     };
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
-    
-    assertThat(actual).usingComparatorForFields(alwaysEqual, "name").isEqualToComparingFieldByField(other);
+
+    assertThat(actual).usingComparatorForFields(alwaysEqual, "name")
+                      .isEqualToComparingFieldByField(other);
   }
 
   @Test
@@ -225,7 +238,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     // ensure that the compiler has generated at one synthetic field for the comparison
     assertThat(InnerClass.class.getDeclaredFields()).extracting("synthetic").contains(Boolean.TRUE);
 
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators());
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                               defaultTypeComparators());
   }
 
   private static class Dude {
@@ -251,14 +265,14 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     }
   }
 
-  // example taken from http://stackoverflow.com/questions/8540768/when-is-the-jvm-bytecode-access-modifier-flag-0x1000-hex-synthetic-set
+  // example taken from
+  // http://stackoverflow.com/questions/8540768/when-is-the-jvm-bytecode-access-modifier-flag-0x1000-hex-synthetic-set
   class OuterClass {
     private String outerField;
 
     class InnerClass {
       // synthetic field this$1 generated in inner class to provider reference to outer
-      private InnerClass() {
-      }
+      private InnerClass() {}
 
       String getOuterField() {
         return outerField;

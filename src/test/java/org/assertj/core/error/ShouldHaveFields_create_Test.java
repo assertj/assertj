@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -17,17 +17,11 @@ import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.test.Person;
 import org.junit.Test;
 
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.test.Person;
-
-/**
- * Tests for <code>{@link ShouldHaveFields#shouldHaveFields(Class, java.util.Set, java.util.Set)}}</code>
- * 
- * @author Joel Costigliola
- */
 public class ShouldHaveFields_create_Test {
 
   @Test
@@ -38,7 +32,7 @@ public class ShouldHaveFields_create_Test {
                                   "[Test] %n"
                                       + "Expecting%n"
                                       + "  <org.assertj.core.test.Person>%n"
-                                      + "to have fields:%n"
+                                                + "to have the following public accessible fields:%n"
                                       + "  <[\"name\", \"address\"]>%n"
                                       + "but it doesn't have:%n"
                                       + "  <[\"address\"]>"));
@@ -52,7 +46,7 @@ public class ShouldHaveFields_create_Test {
                                   "[Test] %n"
                                       + "Expecting%n"
                                       + "  <org.assertj.core.test.Person>%n"
-                                      + "to have declared fields:%n"
+                                                + "to have the following declared fields:%n"
                                       + "  <[\"name\", \"address\"]>%n"
                                       + "but it doesn't have:%n"
                                       + "  <[\"address\"]>"));

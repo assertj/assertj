@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -50,7 +50,12 @@ public class DoubleArrays {
   }
 
   public DoubleArrays(ComparisonStrategy comparisonStrategy) {
-    this.arrays = new Arrays(comparisonStrategy);
+    setArrays(new Arrays(comparisonStrategy));
+  }
+
+  @VisibleForTesting
+  public void setArrays(Arrays arrays) {
+    this.arrays = arrays;
   }
 
   @VisibleForTesting
@@ -334,5 +339,9 @@ public class DoubleArrays {
   public void assertIsSortedAccordingToComparator(AssertionInfo info, double[] actual,
                                                   Comparator<? super Double> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, double[] actual, double[] values) {
+    arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }
