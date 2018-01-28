@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
@@ -296,11 +297,8 @@ public class Paths {
   }
 
   public void assertHasSameContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected, Charset expectedCharset) {
-	// @format:off
     checkNotNull(expected, "The given Path to compare actual content to should not be null");
-	if (!nioFilesWrapper.isReadable(expected))
-	  throw new IllegalArgumentException(format("The given Path <%s> to compare actual content to should be readable", expected));
-	// @format:on
+    checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable", expected);
 	assertIsReadable(info, actual);
 	try {
 	  List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);

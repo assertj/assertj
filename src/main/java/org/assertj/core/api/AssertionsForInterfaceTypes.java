@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,21 +8,26 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
-
-import org.assertj.core.util.CheckReturnValue;
 
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -65,8 +70,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    * 
-   * @param component
-   *          the component that creates its own assert
+   * @param <T> the AssertProvider wrapped type.
+   * @param component the component that creates its own assert
    * @return the associated {@link Assert} of the given component
    */
   public static <T> T assertThat(final AssertProvider<T> component) {
@@ -74,7 +79,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new </code>{@link Assertions}</code>.
+   * Creates a new <code>{@link Assertions}</code>.
    */
   protected AssertionsForInterfaceTypes() {}
 
@@ -92,6 +97,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -107,6 +113,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
    * cached by IterableAssert first time Iterator is consumed.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -118,6 +125,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -129,23 +137,72 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be 
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only 
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
    * interacts with the {@link List} built from the {@link Stream}.
    *
+   * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
 
-  
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link DoubleStream}.
+   *
+   * @param actual the actual {@link DoubleStream} value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+    return new ListAssert<>(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link LongStream}.
+   *
+   * @param actual the actual {@link LongStream} value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+    return new ListAssert<>(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link IntStream}.
+   *
+   * @param actual the actual {@link IntStream} value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
+    return new ListAssert<>(actual);
+  }
+
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
+   * @param <ACTUAL> The actual type
+   * @param <ELEMENT> The actual elements type
+   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
    * @param actual the actual value.
+   * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
 //@format:off
@@ -195,6 +252,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
    * annoying warnings.
    * 
+   * @param <K> the type of keys in the map.
+   * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -207,6 +266,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -318,6 +378,21 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   @CheckReturnValue
   public static DoublePredicateAssert assertThat(DoublePredicate actual) {
     return new DoublePredicateAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletionStage} by converting it to a {@link CompletableFuture} and returning a {@link CompletableFutureAssert}.
+   * <p>
+   * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
+   *
+   * @param actual the actual value.
+   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+    return new CompletableFutureAssert<>(actual);
   }
 
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -42,16 +41,10 @@ public class LocalDateTimeAssert_isNotIn_Test extends LocalDateTimeAssertBaseTes
 
   @Test
   public void test_isNotIn_assertion_error_message() {
-    try {
-      assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isNotIn(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString(),
-          LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString());
-    } catch (AssertionError e) {
-      assertThat(e)
-          .hasMessage(format(
-              "%nExpecting:%n <2000-01-05T03:00:05>%nnot to be in:%n <[2000-01-05T03:00:05, 2012-01-01T03:03:03]>%n"));
-      return;
-    }
-    fail("Should have thrown AssertionError");
+    thrown.expectAssertionError(
+        "%nExpecting:%n <2000-01-05T03:00:05>%nnot to be in:%n <[2000-01-05T03:00:05, 2012-01-01T03:03:03]>%n");
+    assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isNotIn(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString(),
+                                                              LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString());
   }
 
   @Test

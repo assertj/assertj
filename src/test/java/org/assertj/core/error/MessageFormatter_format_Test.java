@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -45,13 +45,13 @@ public class MessageFormatter_format_Test {
 
   @Test
   public void should_throw_error_if_format_string_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     messageFormatter.format(null, null, null);
   }
 
   @Test
   public void should_throw_error_if_args_array_is_null() {
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     Object[] args = null;
     messageFormatter.format(null, null, "", args);
   }

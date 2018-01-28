@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util;
+
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.lang.reflect.Array;
 import java.util.AbstractList;
@@ -37,9 +39,7 @@ public class ArrayWrapperList extends AbstractList<Object> {
     if (array == null) {
       return null;
     }
-    if (!array.getClass().isArray()) {
-      throw new IllegalArgumentException("The object to wrap should be an array");
-    }
+    checkArgument(array.getClass().isArray(), "The object to wrap should be an array");
     return new ArrayWrapperList(array);
   }
 

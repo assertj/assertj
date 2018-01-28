@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
@@ -56,14 +56,8 @@ public class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
   public void should_fail_if_both_Strings_are_not_XML_equals() {
     String actual = "<rss version=\"2.0\"><channel><title>Java Tutorials</title></channel></rss>";
     String expected = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples</title></channel></rss>";
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertXmlEqualsTo(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected), info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected), someInfo().representation()));
+    strings.assertXmlEqualsTo(someInfo(), actual, expected);
   }
 
   @Test

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -17,10 +17,11 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
-public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<S>>
-  extends AbstractArrayAssert<S, char[], Character> {
+public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
+  extends AbstractArrayAssert<SELF, char[], Character> {
 
   @VisibleForTesting
   protected CharArrays arrays = CharArrays.instance();
@@ -43,7 +44,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /** {@inheritDoc} */
   @Override
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return myself;
   }
@@ -58,11 +59,9 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c', 'd' }).hasSize(3);</code></pre>
    * 
-   * </p>
-   * 
    */
   @Override
-  public S hasSize(int expected) {
+  public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
@@ -77,10 +76,9 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
    * 
-   * </p>
    */
   @Override
-  public S hasSameSizeAs(Iterable<?> other) {
+  public SELF hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -98,8 +96,6 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', 'd');
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', 'f');</code></pre>
    * 
-   * </p>
-   * 
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -107,7 +103,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(char... values) {
+  public SELF contains(char... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -119,12 +115,11 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <pre><code class='java'> // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('b', 'c', 'a');
+   * assertThat(new char[] { 'a', 'a', 'b' }).containsOnly('a', 'b');
    *
    * // assertion will fail
    * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c', 'd');
    * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('d', 'f');</code></pre>
-   * 
-   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -134,7 +129,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(char... values) {
+  public SELF containsOnly(char... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -159,7 +154,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(char... values) {
+  public SELF containsOnlyOnce(char... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -177,15 +172,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('c', 'a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('d', 'f');</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(char... sequence) {
+  public SELF containsSequence(char... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -204,15 +197,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('c', 'a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('d', 'f');</code></pre>
    * 
-   * </p>
-   * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(char... subsequence) {
+  public SELF containsSubsequence(char... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -229,8 +220,6 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', atIndex(1));
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', atIndex(2));</code></pre>
    * 
-   * </p>
-   * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -240,7 +229,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(char value, Index index) {
+  public SELF contains(char value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -255,8 +244,6 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b');</code></pre>
    * 
-   * </p>
-   * 
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -264,7 +251,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(char... values) {
+  public SELF doesNotContain(char... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -278,10 +265,8 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(0));
    *
    * // assertion will fail
-   * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(0));
-   * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(1));</code></pre>
-   * 
-   * </p>
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(0));
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(1));</code></pre>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -290,7 +275,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(char value, Index index) {
+  public SELF doesNotContain(char value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -305,13 +290,11 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'a', 'b', 'c' }).doesNotHaveDuplicates();</code></pre>
    * 
-   * </p>
-   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  public SELF doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -328,8 +311,6 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).startsWith('b', 'c');</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -337,7 +318,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(char... sequence) {
+  public SELF startsWith(char... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -354,8 +335,6 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).endsWith('c', 'd');</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -363,35 +342,37 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(char... sequence) {
+  public SELF endsWith(char... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSorted() {
+  public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSortedAccordingTo(Comparator<? super Character> comparator) {
+  public SELF isSortedAccordingTo(Comparator<? super Character> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingElementComparator(Comparator<? super Character> customComparator) {
+  @CheckReturnValue
+  public SELF usingElementComparator(Comparator<? super Character> customComparator) {
     this.arrays = new CharArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingDefaultElementComparator() {
+  @CheckReturnValue
+  public SELF usingDefaultElementComparator() {
     this.arrays = CharArrays.instance();
     return myself;
   }
@@ -414,8 +395,8 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(char... values) {
-    objects.assertEqual(info, actual, values);
+  public SELF containsExactly(char... values) {
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 
@@ -440,7 +421,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
-  public S containsExactlyInAnyOrder(char... values) {
+  public SELF containsExactlyInAnyOrder(char... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
@@ -464,8 +445,39 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *
    * @return {@code this} assertion object.
    */
-  public S inUnicode() {
+  @CheckReturnValue
+  public SELF inUnicode() {
     info.useUnicodeRepresentation();
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> char[] abc = { 'a', 'b', 'c' }; 
+   *
+   * // assertions will pass
+   * assertThat(abc).containsAnyOf('b')
+   *                .containsAnyOf('b', 'c')
+   *                .containsAnyOf('a', 'b', 'c')
+   *                .containsAnyOf('a', 'b', 'c', 'd')
+   *                .containsAnyOf('e', 'f', 'g', 'b');
+   *
+   * // assertions will fail
+   * assertThat(abc).containsAnyOf('d');
+   * assertThat(abc).containsAnyOf('d', 'e', 'f', 'g');</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(char... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
     return myself;
   }
 

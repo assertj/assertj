@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,6 +18,7 @@ import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -28,29 +29,31 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertions for {@link java.util.Optional}.
  *
- * @param <T> type of the value contained in the {@link java.util.Optional}.
+ * @param <SELF> the "self" type of this assertion class.
+ * @param <VALUE> type of the value contained in the {@link java.util.Optional}.
  *
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
  * @author Grzegorz Piwowarek
  */
-public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S, T>, T> extends
-    AbstractAssert<S, Optional<T>> {
+public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
+    AbstractAssert<SELF, Optional<VALUE>> {
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 
-  protected AbstractOptionalAssert(Optional<T> actual, Class<?> selfType) {
+  protected AbstractOptionalAssert(Optional<VALUE> actual, Class<?> selfType) {
     super(actual, selfType);
     this.optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
   }
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.Optional}.
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).isPresent();</code></pre>
    *
@@ -59,14 +62,14 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isPresent() {
+  public SELF isPresent() {
     assertValueIsPresent();
     return myself;
   }
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.Optional}, it's an alias of {@link #isPresent()}.
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).isNotEmpty();</code></pre>
    *
@@ -75,13 +78,13 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     return isPresent();
   }
 
   /**
    * Verifies that the actual {@link java.util.Optional} is empty.
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.empty()).isEmpty();</code></pre>
    *
@@ -90,7 +93,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isEmpty() {
+  public SELF isEmpty() {
     isNotNull();
     if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
@@ -98,7 +101,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
 
   /**
    * Verifies that the actual {@link java.util.Optional} is empty (alias of {@link #isEmpty()}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.empty()).isNotPresent();</code></pre>
    *
@@ -107,13 +110,13 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return this assertion object.
    */
-  public S isNotPresent() {
+  public SELF isNotPresent() {
     return isEmpty();
   }
 
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #hasValue(Object)}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).contains("something");
    * assertThat(Optional.of(10)).contains(10);</code></pre>
@@ -125,7 +128,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S contains(T expectedValue) {
+  public SELF contains(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
@@ -138,30 +141,30 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
    * {@link java.util.function.Consumer} for further assertions. Should be used as a way of deeper asserting on the
    * containing object, as further requirement(s) for the value.
-   * </p>
+   * <p>
    * Assertions will pass :
    * <pre><code class='java'> // one requirement 
-   * assertThat(Optional.of(10)).hasValueSatisfying(i -> { assertThat(i).isGreaterThan(9); });
+   * assertThat(Optional.of(10)).hasValueSatisfying(i -&gt; { assertThat(i).isGreaterThan(9); });
    *
    * // multiple requirements
-   * assertThat(Optional.of(someString)).hasValueSatisfying(s -> {
+   * assertThat(Optional.of(someString)).hasValueSatisfying(s -&gt; {
    *   assertThat(s).isEqualTo("something");
    *   assertThat(s).startsWith("some");
    *   assertThat(s).endsWith("thing");
    * }); </code></pre>
    *
    * Assertions will fail :
-   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueSatisfying(s -> {
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueSatisfying(s -&gt; {
    *     assertThat(s).isEqualTo("something else");
    *   });
    *
    * // fail because optional is empty, there is no value to perform assertion on  
-   * assertThat(Optional.empty()).hasValueSatisfying(o -> {});</code></pre>
+   * assertThat(Optional.empty()).hasValueSatisfying(o -&gt; {});</code></pre>
    *
    * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S hasValueSatisfying(Consumer<T> requirement) {
+  public SELF hasValueSatisfying(Consumer<VALUE> requirement) {
     assertValueIsPresent();
     requirement.accept(actual.get());
     return myself;
@@ -171,7 +174,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * Verifies that the actual {@link Optional} contains a value which satisfies the given {@link Condition}.
    * <p>
    * Examples:
-   * <pre><code class='java'> Condition&lt;TolkienCharacter&gt isAnElf = new Condition&lt;&gt;(character -> character.getRace() == ELF, "an elf"); 
+   * <pre><code class='java'> Condition&lt;TolkienCharacter&gt; isAnElf = new Condition&lt;&gt;(character -&gt; character.getRace() == ELF, "an elf"); 
    * 
    * TolkienCharacter legolas = new TolkienCharacter("Legolas", 1000, ELF);
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -189,7 +192,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @throws AssertionError       if the actual value does not satisfy the given condition.
    * @since 3.6.0
    */
-  public S hasValueSatisfying(Condition<? super T> condition) {
+  public SELF hasValueSatisfying(Condition<? super VALUE> condition) {
     assertValueIsPresent();
     conditions.assertIs(info, actual.get(), condition);
     return myself;
@@ -197,7 +200,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
 
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
-   * </p>
+   * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something");
    * assertThat(Optional.of(10)).contains(10);</code></pre>
@@ -209,13 +212,13 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S hasValue(T expectedValue) {
+  public SELF hasValue(VALUE expectedValue) {
     return contains(expectedValue);
   }
 
   /**
    * Verifies that the actual {@link Optional} contains a value that is an instance of the argument.
-   * </p>
+   * <p>
    * Assertions will pass:
    *
    * <pre><code class='java'> assertThat(Optional.of("something")).containsInstanceOf(String.class)
@@ -230,7 +233,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param clazz the expected class of the value inside the {@link Optional}.
    * @return this assertion object.
    */
-  public S containsInstanceOf(Class<?> clazz) {
+  public SELF containsInstanceOf(Class<?> clazz) {
     assertValueIsPresent();
     if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
@@ -261,7 +264,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return {@code this} assertion object.
    */
-  public S usingFieldByFieldValueComparator() {
+  @CheckReturnValue
+  public SELF usingFieldByFieldValueComparator() {
     return usingValueComparator(new FieldByFieldComparator());
   }
 
@@ -287,7 +291,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
-  public S usingValueComparator(Comparator<? super T> customComparator) {
+  @CheckReturnValue
+  public SELF usingValueComparator(Comparator<? super VALUE> customComparator) {
     optionalValueComparisonStrategy = new ComparatorBasedComparisonStrategy(customComparator);
     return myself;
   }
@@ -300,7 +305,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    *
    * @return {@code this} assertion object.
    */
-  public S usingDefaultValueComparator() {
+  @CheckReturnValue
+  public SELF usingDefaultValueComparator() {
     // fall back to default strategy to compare actual with other objects.
     optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
     return myself;
@@ -309,7 +315,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   /**
    * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument (i.e. it must be the
    * same instance).
-   * </p>
+   * <p>
    * Assertion will pass :
    *
    * <pre><code class='java'> String someString = "something";
@@ -331,7 +337,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S containsSame(T expectedValue) {
+  public SELF containsSame(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
@@ -361,12 +367,14 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .contains("something");</code></pre>
    *
+   * @param <U> the type wrapped in the {@link Optional} after the {@link Optional#flatMap(Function) flatMap} operation.
    * @param mapper the {@link Function} to use in the {@link Optional#flatMap(Function) flatMap} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the flatMap of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
    * @since 3.6.0
    */
-  public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super T, Optional<U>> mapper) {
+  @CheckReturnValue
+  public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
     isNotNull();
     return assertThat(actual.flatMap(mapper));
   }
@@ -387,18 +395,47 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * assertThat(Optional.of("42")).map(String::length)
    *                              .contains(3);</code></pre>
    *
+   * @param <U> the type wrapped in the {@link Optional} after the {@link Optional#map(Function) map} operation.
    * @param mapper the {@link Function} to use in the {@link Optional#map(Function) map} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the map of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
    * @since 3.6.0
    */
-  public <U> AbstractOptionalAssert<?, U> map(Function<? super T, ? extends U> mapper) {
+  @CheckReturnValue
+  public <U> AbstractOptionalAssert<?, U> map(Function<? super VALUE, ? extends U> mapper) {
     isNotNull();
     return assertThat(actual.map(mapper));
   }
 
-  private void checkNotNull(T expectedValue) {
-    if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
+  /**
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an Object assertion 
+   * that allows chaining (object) assertions on the optional value.
+   * <p>
+   * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.  
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, null);
+   *
+   * // assertion succeeds since all frodo's fields are set
+   * assertThat(Optional.of(frodo)).get().hasNoNullFields();
+   *
+   * // assertion does not succeed because sam does not have its race set
+   * assertThat(Optional.of(sam)).get().hasNoNullFields();</code></pre>
+   *
+   * @return a new {@link AbstractObjectAssert} for assertions chaining on the value of the Optional.
+   * @throws AssertionError if the actual {@link Optional} is null.
+   * @throws AssertionError if the actual {@link Optional} is empty.
+   * @since 3.9.0
+   */
+  @CheckReturnValue
+  public AbstractObjectAssert<?, VALUE> get() {
+    isPresent();
+    return assertThat(actual.get());
+  }
+
+  private void checkNotNull(Object expectedValue) {
+    checkArgument(expectedValue != null, "The expected value should not be <null>.");
   }
 
   private void assertValueIsPresent() {

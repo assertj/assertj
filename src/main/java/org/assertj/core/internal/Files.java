@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -30,6 +30,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
@@ -80,8 +81,9 @@ public class Files {
    * href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
    * @param info contains information about the assertion.
    * @param actual the "actual" file.
-   * @param charset of the "actual" file.
+   * @param actualCharset {@link Charset} of the "actual" file.
    * @param expected the "expected" file.
+   * @param expectedCharset {@link Charset} of the "actual" file.
    * @throws NullPointerException if {@code expected} is {@code null}.
    * @throws IllegalArgumentException if {@code expected} is not an existing file.
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -166,8 +168,7 @@ public class Files {
 
   private void verifyIsFile(File expected) {
     checkNotNull(expected, "The file to compare to should not be null");
-    if (expected.isFile()) return;
-    throw new IllegalArgumentException(String.format("Expected file:<'%s'> should be an existing file", expected));
+    checkArgument(expected.isFile(), "Expected file:<'%s'> should be an existing file", expected);
   }
 
   /**

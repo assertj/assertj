@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.date;
 
@@ -31,9 +31,9 @@ import org.junit.Test;
  * <p/>
  * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) :
  * <ul>
- * <li>successfull assertion test with a date</li>
- * <li>successfull assertion test with a date as string following default date format</li>
- * <li>successfull assertion test with a date as string following custom date format</li>
+ * <li>successful assertion test with a date</li>
+ * <li>successful assertion test with a date as string following default date format</li>
+ * <li>successful assertion test with a date as string following custom date format</li>
  * <li>failed assertion test when date as string does not follow the expected date format</li>
  * <li>checking that DateAssert instance used for assertions is returned to allow fluent assertions chaining</li>
  * </ul>
@@ -85,13 +85,13 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
 
   @Test
   public void should_fail_because_date_string_representation_does_not_follow_expected_format() {
-    thrown.expectAssertionError(String.format("Failed to parse " + dateAsStringWithBadFormat
-                                              + " with any of these date formats:%n" +
-                                              "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                              "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                              "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                                              "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                              "    yyyy-MM-dd]"));
+    thrown.expectAssertionError("Failed to parse " + dateAsStringWithBadFormat +
+                                " with any of these date formats:%n" +
+                                "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                "    yyyy-MM-dd]");
     assertionInvocationWithStringArg(dateAsStringWithBadFormat);
   }
 

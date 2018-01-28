@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,25 +8,26 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.assertj.core.internal.Arrays.assertIsArray;
 
 import org.assertj.core.internal.Arrays;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base implementation for Enumerable class assertions.
  *
- * @param <S> the "self" type of this assertion class.
- * @param <A> the type of the "actual" value which is an Array of E.
- * @param <E> the type of the "actual" array element.
+ * @param <SELF> the "self" type of this assertion class.
+ * @param <ACTUAL> the type of the "actual" value which is an Array of ELEMENT.
+ * @param <ELEMENT> the type of the "actual" array element.
  * @author Joel Costigliola
  */
-public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAssert<S, A, E>, A, E>
-  extends AbstractAssert<S, A>
-  implements EnumerableAssert<AbstractEnumerableAssert<S, A, E>, E> {
+public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
+  extends AbstractAssert<SELF, ACTUAL>
+  implements EnumerableAssert<AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 
   /**
    * {@inheritDoc}
@@ -41,13 +42,13 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
    * // assertion will fail
    * assertThat(new byte[]{ 1, 2 }).hasSameSizeAs(new byte[]{ 1, 2, 3 });</code></pre>
    */
-  public S hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(Object other) {
     assertIsArray(info, other);
     new Arrays().assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
-  public AbstractEnumerableAssert(final A actual, final Class<?> selfType) {
+  public AbstractEnumerableAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -78,12 +79,14 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
    * @return {@code this} assertion object.
    */
   @Override
-  public S inHexadecimal() {
+  @CheckReturnValue
+  public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
 
   @Override
-  public S inBinary() {
+  @CheckReturnValue
+  public SELF inBinary() {
     return super.inBinary();
   }
 

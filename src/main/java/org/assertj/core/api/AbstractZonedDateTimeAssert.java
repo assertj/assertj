@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -20,15 +20,17 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
-public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTimeAssert<S>> extends
-    AbstractAssert<S, ZonedDateTime> {
+public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
+    AbstractTemporalAssert<SELF, ZonedDateTime> {
 
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
 
@@ -40,13 +42,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException with an explicit message if the given {@link ZonedDateTime} is null
    */
   private static void assertDateTimeParameterIsNotNull(ZonedDateTime dateTime) {
-    if (dateTime == null) {
-      throw new IllegalArgumentException(NULL_DATE_TIME_PARAMETER_MESSAGE);
-    }
-  }
-
-  protected ZonedDateTime getActual() {
-    return actual;
+    checkArgument(dateTime != null, NULL_DATE_TIME_PARAMETER_MESSAGE);
   }
 
   /**
@@ -63,7 +59,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not strictly before the given one.
    */
-  public S isBefore(ZonedDateTime other) {
+  public SELF isBefore(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     if (!actual.isBefore(other)) {
@@ -82,7 +78,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * {@link ZonedDateTime} to check..
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T23:59:59Z")).isBefore("2000-01-02T00:00:00Z");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link ZonedDateTime}.
@@ -92,9 +88,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not strictly before the {@link ZonedDateTime} built
    *           from given String.
    */
-  public S isBefore(String dateTimeAsString) {
+  public SELF isBefore(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isBefore(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isBefore(parse(dateTimeAsString));
   }
 
   /**
@@ -112,7 +108,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZoneDateTime} is not before or equals to the given one.
    */
-  public S isBeforeOrEqualTo(ZonedDateTime other) {
+  public SELF isBeforeOrEqualTo(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     if (actual.isAfter(other)) {
@@ -142,9 +138,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not before or equals to the {@link ZonedDateTime}
    *           built from given String.
    */
-  public S isBeforeOrEqualTo(String dateTimeAsString) {
+  public SELF isBeforeOrEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isBeforeOrEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isBeforeOrEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -162,7 +158,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not after or equals to the given one.
    */
-  public S isAfterOrEqualTo(ZonedDateTime other) {
+  public SELF isAfterOrEqualTo(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     if (actual.isBefore(other)) {
@@ -192,9 +188,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not after or equals to the {@link ZonedDateTime}
    *           built from given String.
    */
-  public S isAfterOrEqualTo(String dateTimeAsString) {
+  public SELF isAfterOrEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isAfterOrEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isAfterOrEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -211,7 +207,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not strictly after the given one.
    */
-  public S isAfter(ZonedDateTime other) {
+  public SELF isAfter(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     if (!actual.isAfter(other)) {
@@ -240,9 +236,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not strictly after the {@link ZonedDateTime} built
    *           from given String.
    */
-  public S isAfter(String dateTimeAsString) {
+  public SELF isAfter(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isAfter(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return isAfter(parse(dateTimeAsString));
   }
 
   /**
@@ -274,7 +270,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with nanoseconds ignored.
    */
-  public S isEqualToIgnoringNanos(ZonedDateTime other) {
+  public SELF isEqualToIgnoringNanos(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
@@ -314,7 +310,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with second and nanosecond fields
    *           ignored.
    */
-  public S isEqualToIgnoringSeconds(ZonedDateTime other) {
+  public SELF isEqualToIgnoringSeconds(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
@@ -354,7 +350,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal ignoring minute, second and nanosecond
    *           fields.
    */
-  public S isEqualToIgnoringMinutes(ZonedDateTime other) {
+  public SELF isEqualToIgnoringMinutes(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
@@ -394,7 +390,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with second and nanosecond fields
    *           ignored.
    */
-  public S isEqualToIgnoringHours(ZonedDateTime other) {
+  public SELF isEqualToIgnoringHours(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
     ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
@@ -421,7 +417,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} in the actual
    *           ZonedDateTime's java.time.ZoneId.
    */
-  public S isEqualTo(ZonedDateTime expected) {
+  public SELF isEqualTo(ZonedDateTime expected) {
     return super.isEqualTo(sameInstantInActualTimeZone(expected));
   }
 
@@ -435,7 +431,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * {@link ZonedDateTime} to check.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * ZonedDateTime firstOfJanuary2000InUTC = ZonedDateTime.parse("2000-01-01T00:00:00Z");
    * assertThat(firstOfJanuary2000InUTC).isEqualTo("2000-01-01T00:00:00Z");
    * 
@@ -450,9 +446,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} built from
    *           given String.
    */
-  public S isEqualTo(String dateTimeAsString) {
+  public SELF isEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return super.isEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -466,7 +462,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is equal to the {@link ZonedDateTime} in the actual
    *           ZonedDateTime's java.time.ZoneId.
    */
-  public S isNotEqualTo(ZonedDateTime expected) {
+  public SELF isNotEqualTo(ZonedDateTime expected) {
     return super.isNotEqualTo(sameInstantInActualTimeZone(expected));
   }
 
@@ -480,7 +476,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * {@link ZonedDateTime} to check.. {@link ZonedDateTime}.
    * <p>
    * Example :
-   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo("2000-01-15T00:00:00Z");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link ZonedDateTime}.
@@ -490,9 +486,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is equal to the {@link ZonedDateTime} built from given
    *           String.
    */
-  public S isNotEqualTo(String dateTimeAsString) {
+  public SELF isNotEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isNotEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
+    return super.isNotEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -508,7 +504,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not in the given {@link ZonedDateTime}s.
    */
-  public S isIn(ZonedDateTime... expected) {
+  public SELF isIn(ZonedDateTime... expected) {
     return isIn((Object[]) changeToActualTimeZone(expected));
   }
 
@@ -533,7 +529,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not in the {@link ZonedDateTime}s built from given
    *           Strings.
    */
-  public S isIn(String... dateTimesAsString) {
+  public SELF isIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
     return isIn(convertToDateTimeArray(dateTimesAsString));
   }
@@ -551,7 +547,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not in the given {@link ZonedDateTime}s.
    */
-  public S isNotIn(ZonedDateTime... expected) {
+  public SELF isNotIn(ZonedDateTime... expected) {
     return this.isNotIn((Object[]) changeToActualTimeZone(expected));
   }
 
@@ -576,16 +572,142 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} built from
    *           given String.
    */
-  public S isNotIn(String... dateTimesAsString) {
+  public SELF isNotIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
     return isNotIn(convertToDateTimeArray(dateTimesAsString));
+  }
+
+  /**
+   * Verifies that the actual {@link ZonedDateTime} is in the [start, end] period (start and end included).
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime zonedDateTime = ZonedDateTime.now();
+   * 
+   * // assertions succeed:
+   * assertThat(zonedDateTime).isBetween(zonedDateTime.minusSeconds(1), zonedDateTime.plusSeconds(1))
+   *                           .isBetween(zonedDateTime, zonedDateTime.plusSeconds(1))
+   *                           .isBetween(zonedDateTime.minusSeconds(1), zonedDateTime)
+   *                           .isBetween(zonedDateTime, zonedDateTime);
+   * 
+   * // assertions fail:
+   * assertThat(zonedDateTime).isBetween(zonedDateTime.minusSeconds(10), zonedDateTime.minusSeconds(1));
+   * assertThat(zonedDateTime).isBetween(zonedDateTime.plusSeconds(1), zonedDateTime.plusSeconds(10));</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(ZonedDateTime startInclusive, ZonedDateTime endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a> 
+   * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime firstOfJanuary2000 = ZonedDateTime.parse("2000-01-01T00:00:00Z");
+   * 
+   * // assertions succeed:
+   * assertThat(firstOfJanuary2000).isBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:01Z")         
+   *                               .isBetween("2000-01-01T00:00:00Z", "2000-01-01T00:00:01Z")         
+   *                               .isBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:00Z")         
+   *                               .isBetween("2000-01-01T00:00:00Z", "2000-01-01T00:00:00Z");
+   *                               
+   * // assertion fails:
+   * assertThat(firstOfJanuary2000).isBetween("1999-01-01T00:00:01Z", "1999-12-31T23:59:59Z");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link ZonedDateTime}.
+   * @throws AssertionError if the actual value is not in [start, end] period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isBetween(String startInclusive, String endInclusive) {
+    return isBetween(parse(startInclusive), parse(endInclusive));
+  }
+
+  /**
+   * Verifies that the actual {@link ZonedDateTime} is in the ]start, end[ period (start and end excluded).
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime zonedDateTime = ZonedDateTime.now();
+   * 
+   * // assertion succeeds:
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(1), zonedDateTime.plusSeconds(1));
+   * 
+   * // assertions fail:
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(10), zonedDateTime.minusSeconds(1));
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.plusSeconds(1), zonedDateTime.plusSeconds(10));
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime, zonedDateTime.plusSeconds(1));
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(1), zonedDateTime);</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(ZonedDateTime startInclusive, ZonedDateTime endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isStrictlyBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations 
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a> 
+   * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime firstOfJanuary2000 = ZonedDateTime.parse("2000-01-01T00:00:00Z");
+   * 
+   * // assertion succeeds:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:01Z");
+   * 
+   * // assertions fail:
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01T00:00:01Z", "1999-12-31T23:59:59Z");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("2000-01-01T00:00:00Z", "2000-01-01T00:00:01Z");
+   * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:00Z");</code></pre>
+   * 
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * 
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws DateTimeParseException if any of the given String can't be converted to a {@link ZonedDateTime}.
+   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * 
+   * @since 3.7.1
+   */
+  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
+    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
   }
 
   private ZonedDateTime[] convertToDateTimeArray(String... dateTimesAsString) {
     ZonedDateTime[] dates = new ZonedDateTime[dateTimesAsString.length];
     for (int i = 0; i < dateTimesAsString.length; i++) {
       // building the ZonedDateTime in actual's ZoneId
-      dates[i] = parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimesAsString[i]);
+      dates[i] = parse(dateTimesAsString[i]);
     }
     return dates;
   }
@@ -599,15 +721,19 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) {
-      throw new IllegalArgumentException("The given ZonedDateTime array should not be null");
-    }
-    if (values.length == 0) {
-      throw new IllegalArgumentException("The given ZonedDateTime array should not be empty");
-    }
+    checkArgument(values != null, "The given ZonedDateTime array should not be null");
+    checkArgument(values.length > 0, "The given ZonedDateTime array should not be empty");
   }
 
-  private ZonedDateTime parseStringAsIsoDateTimeAndMoveToActualTimeZone(String dateTimeAsString) {
+  /**
+   * Obtains an instance of {@link ZonedDateTime} from a string representation in ISO date format.
+   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
+   * actual {@link ZonedDateTime}.
+   * @param dateTimeAsString the string to parse
+   * @return the parsed {@link ZonedDateTime}
+   */
+  @Override
+  protected ZonedDateTime parse(String dateTimeAsString) {
     ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
     return sameInstantInActualTimeZone(zonedDateTime);
   }
@@ -624,11 +750,8 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
   private static void assertDateTimeAsStringParameterIsNotNull(String dateTimeAsString) {
-    if (dateTimeAsString == null) {
-      // @format:off
-      throw new IllegalArgumentException("The String representing the ZonedDateTime to compare actual with should not be null");
-      // @format:on
-    }
+    checkArgument(dateTimeAsString != null,
+                  "The String representing the ZonedDateTime to compare actual with should not be null");
   }
 
   /**

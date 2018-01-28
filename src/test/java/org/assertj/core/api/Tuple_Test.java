@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -44,13 +44,6 @@ public class Tuple_Test {
   }
 
   @Test
-  public void add_an_element_to_a_tuple() {
-    Tuple tuple = new Tuple("Yoda", 800);
-    tuple.addData("Jedi");
-    assertThat(tuple).isEqualTo(new Tuple("Yoda", 800, "Jedi"));
-  }
-
-  @Test
   public void convert_tuple_to_an_array() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
     assertThat(tuple.toArray()).isEqualTo(array("Yoda", 800, "Jedi"));
@@ -69,7 +62,7 @@ public class Tuple_Test {
   }
 
   @Test
-  public void test_for_issue_448() throws Exception {
+  public void test_for_issue_448() {
     SinteticClass item1 = new SinteticClass("1".getBytes(), "Foo");
     SinteticClass item2 = new SinteticClass("2".getBytes(), "Bar");
     SinteticClass item3 = new SinteticClass("3".getBytes(), "Baz");

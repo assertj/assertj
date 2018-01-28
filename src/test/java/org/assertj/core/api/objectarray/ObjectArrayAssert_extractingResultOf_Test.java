@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -50,8 +50,7 @@ public class ObjectArrayAssert_extractingResultOf_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() throws Exception {
-    
+  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() {
     // extract method result
     assertThat(jedis).extractingResultOf("age").containsOnly(800, 50);
     // extract if method result is primitive
@@ -63,17 +62,28 @@ public class ObjectArrayAssert_extractingResultOf_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable_with_enforcing_return_type() throws Exception {
-    
+  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable_with_enforcing_return_type() {
     assertThat(jedis).extractingResultOf("name", Name.class).containsOnly(new Name("Yoda"), new Name("Darth Vader"));
   }
 
   @Test
-  public void should_throw_error_if_no_method_with_given_name_can_be_extracted() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
+  public void should_throw_error_if_no_method_with_given_name_can_be_extracted() {
+    thrown.expectIllegalArgumentException("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
     assertThat(jedis).extractingResultOf("unknown");
   }
 
+  @Test
+  public void should_use_method_name_as_description_when_extracting_result_of_method_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
+
+    assertThat(jedis).extractingResultOf("age").isEmpty();
+  }
+
+  @Test
+  public void should_use_method_name_as_description_when_extracting_typed_result_of_method_list() {
+    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
+
+    assertThat(jedis).extractingResultOf("age", Integer.class).isEmpty();
+  }
 }
 

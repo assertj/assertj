@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -66,6 +66,14 @@ public class Failures {
    */
   public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
     this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
+  }
+
+  /** 
+   * Returns whether or not we remove elements related to AssertJ from assertion error stack trace. 
+   * @return whether or not we remove elements related to AssertJ from assertion error stack trace.
+   */
+  public boolean isRemoveAssertJRelatedElementsFromStackTrace() {
+    return removeAssertJRelatedElementsFromStackTrace;
   }
 
   @VisibleForTesting
@@ -157,7 +165,7 @@ public class Failures {
    * <p>
    * See example below :
    * <pre><code class='java'> --------------- stack trace not filtered -----------------
-  org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -172,7 +180,7 @@ public class Failures {
   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)
   
   --------------- stack trace filtered -----------------
-  org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -203,9 +211,9 @@ public class Failures {
       threadDumpDescription.append(format("\"%s\"%n\tjava.lang.Thread.State: %s",
                                           threadInfo.getThreadName(), threadInfo.getThreadState()));
       for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
-        threadDumpDescription.append(LINE_SEPARATOR + "\t\tat " + stackTraceElement);
+        threadDumpDescription.append(LINE_SEPARATOR).append("\t\tat ").append(stackTraceElement);
       }
-      threadDumpDescription.append(LINE_SEPARATOR + LINE_SEPARATOR);
+      threadDumpDescription.append(LINE_SEPARATOR).append(LINE_SEPARATOR);
     }
     return threadDumpDescription.toString();
   }

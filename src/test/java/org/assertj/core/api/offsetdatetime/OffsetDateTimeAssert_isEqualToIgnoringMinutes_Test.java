@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
@@ -35,32 +34,22 @@ public class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test extends BaseTest
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_offsetdatetime_with_minute_ignored() {
-    try {
-      assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusMinutes(1));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%n" +
-                                      "Expecting:%n" +
-                                      "  <2000-01-01T23:00Z>%n" +
-                                      "to have same year, month, day and hour as:%n" +
-                                      "  <2000-01-01T22:59Z>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <2000-01-01T23:00Z>%n" +
+                                "to have same year, month, day and hour as:%n" +
+                                "  <2000-01-01T22:59Z>%nbut had not.");
+    assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusMinutes(1));
   }
 
   @Test
   public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
-    try {
-      assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusNanos(1));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%n" +
-                                      "Expecting:%n" +
-                                      "  <2000-01-01T23:00Z>%n" +
-                                      "to have same year, month, day and hour as:%n" +
-                                      "  <2000-01-01T22:59:59.999999999Z>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <2000-01-01T23:00Z>%n" +
+                                "to have same year, month, day and hour as:%n" +
+                                "  <2000-01-01T22:59:59.999999999Z>%nbut had not.");
+    assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusNanos(1));
   }
 
   @Test

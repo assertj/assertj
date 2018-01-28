@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,14 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.condition;
 
-import static java.lang.String.format;
-import static org.assertj.core.test.ErrorMessages.predicateIsNull;
+import static org.assertj.core.internal.ErrorMessages.predicateIsNull;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.test.ExpectedException;
@@ -47,41 +45,29 @@ public class MatchPredicateTest implements WithAssertions {
 
   @Test
   public void should_fail_if_object_does_not_match_predicate() {
-	try {
-	  assertThat(yoda).matches(x -> x.lightSaberColor.equals("Red"));
-	} catch (AssertionError e) {
-	  // @format:off
-	  assertThat(e).hasMessage(format("%n" +
-		                              "Expecting:%n" +
-		                              "  <Yoda the Jedi>%n" +
-		                              "to match given predicate.%n" +
-		                              "%n" +
-		                              "You can use 'matches(Predicate p, String description)' to have a better error message%n" +
-		                              "For example:%n" +
-		                              "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");%n" +
-		                              "will give an error message looking like:%n" +
-		                              "%n" +
-		                              "Expecting:%n" +
-		                              "  <player>%n" +
-		                              "to match 'is rookie' predicate"));
-	  //@format:on
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                "  <Yoda the Jedi>%n" +
+                                "to match given predicate.%n" +
+                                "%n" +
+                                "You can use 'matches(Predicate p, String description)' to have a better error message%n" +
+                                "For example:%n" +
+                                "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");%n" +
+                                "will give an error message looking like:%n" +
+                                "%n" +
+                                "Expecting:%n" +
+                                "  <player>%n" +
+                                "to match 'is rookie' predicate");
+    assertThat(yoda).matches(x -> x.lightSaberColor.equals("Red"));
   }
 
   @Test
   public void should_fail_if_object_does_not_match_predicate_and_use_predicate_description_in_error_message() {
-	try {
-	  assertThat(yoda).as("check light saber").matches(x -> x.lightSaberColor.equals("Red"), "has red light saber");
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("[check light saber] %n" +
-		                              "Expecting:%n" +
-		                              "  <Yoda the Jedi>%n" +
-		                              "to match 'has red light saber' predicate."));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("[check light saber] %n" +
+                                "Expecting:%n" +
+                                "  <Yoda the Jedi>%n" +
+                                "to match 'has red light saber' predicate.");
+    assertThat(yoda).as("check light saber").matches(x -> x.lightSaberColor.equals("Red"), "has red light saber");
   }
 
   @Test

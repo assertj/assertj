@@ -5,10 +5,7 @@ Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to note the following guidelines including legal contributor agreement:
 
-* If you contribute to Java 8 feature (3.x versions), please work in **master** branch.
-* If you contribute to Java 7 feature (2.x versions), please work in **2.x** branch.
-* If you contribute to Java 6 feature (1.x versions), please work in **1.x** branch.
-* Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it)
+* Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the 'Eclipse Code Formatter' Plugin)
 * Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
 * Write unit test assertions with AssertJ ! Lets eat our own dog food.
@@ -36,6 +33,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
 * a code example showing how to use the assertion (succeeding and failing assertion)
 * parameters description (if any)
 * exceptions description
+* since tag (e.g. `@since 3.9.0`)
 
 ```java
 /**
@@ -58,6 +56,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  * @throws IllegalArgumentException if the given values is empty.
  * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
  * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
+ * @since 2.1.0 / 3.1.0
  */
 ```
 
@@ -68,4 +67,4 @@ Project license(s): Apache License Version 2.0
 As a contributor:
 * You will only submit contributions where you have authored 100% of the content.
 * You will only submit contributions to which you have the necessary rights. This means that if you are employed, you have received the necessary permissions from your employer to make the contributions.
-* Whatever content you contribute will be provided under the project license(s). 
+* Whatever content you contribute will be provided under the project license(s).

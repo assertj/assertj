@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
@@ -28,13 +28,13 @@ public class SoftAssertionsErrorsCollectedTest {
   private final TestCollector softly = new TestCollector();
 
   @Test
-  public void return_empty_list_of_errors() throws Exception {
+  public void return_empty_list_of_errors() {
     softly.assertThat(objectForTesting).isNull(); // No errors to collect
     assertThat(softly.getErrors()).isEmpty();
   }
 
   @Test
-  public void returns_nonempty_list_of_errors() throws Exception {
+  public void returns_nonempty_list_of_errors() {
     softly.assertThat(objectForTesting).isNotNull(); // This should allow something to be collected
     assertThat(softly.getErrors()).hasAtLeastOneElementOfType(Throwable.class);
   }

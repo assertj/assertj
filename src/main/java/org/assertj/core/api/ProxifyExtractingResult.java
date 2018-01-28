@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
+
+import static org.assertj.core.util.Preconditions.checkState;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -67,8 +69,8 @@ class ProxifyExtractingResult implements MethodInterceptor {
   }
 
   private static Object actual(Object result) {
-    if (result instanceof AbstractAssert) return ((AbstractAssert<?, ?>) result).actual;
-    throw new IllegalStateException("We should be trying to make a proxy of an *Assert class.");
+    checkState(result instanceof AbstractAssert, "We should be trying to make a proxy of an *Assert class.");
+    return ((AbstractAssert<?, ?>) result).actual;
   }
 
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util.diff;
 
-import java.util.Arrays;
+import static org.assertj.core.util.Preconditions.checkState;
+
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ import java.util.List;
  * differencing using this library.
  * </p>
  * 
- * @author <a href="dm.naumenko@gmail.com>Dmitry Naumenko</a>
+ * @author Dmitry Naumenko
  * @param <T> The type of the compared elements in the 'lines'.
  */
 public class Chunk<T> {
@@ -50,19 +51,6 @@ public class Chunk<T> {
   }
 
   /**
-   * Creates a chunk and saves a copy of affected lines
-   * 
-   * @param position
-   *            the start position
-   * @param lines
-   *            the affected lines
-   */
-  public Chunk(int position, T[] lines) {
-    this.position = position;
-    this.lines = Arrays.asList(lines);
-  }
-
-  /**
    * Verifies that this chunk's saved text matches the corresponding text in
    * the given sequence.
    * 
@@ -70,13 +58,10 @@ public class Chunk<T> {
    *            the sequence to verify against.
    */
   public void verify(List<T> target) throws IllegalStateException {
-    if (last() > target.size()) {
-      throw new IllegalStateException("Incorrect Chunk: the position of chunk > target size");
-    }
+    checkState(last() <= target.size(), "Incorrect Chunk: the position of chunk > target size");
     for (int i = 0; i < size(); i++) {
-      if (!target.get(position + i).equals(lines.get(i))) {
-        throw new IllegalStateException("Incorrect Chunk: the chunk content doesn't match the target");
-      }
+      checkState(target.get(position + i).equals(lines.get(i)),
+                 "Incorrect Chunk: the chunk content doesn't match the target");
     }
   }
 
@@ -87,10 +72,6 @@ public class Chunk<T> {
     return position;
   }
 
-  public void setLines(List<T> lines) {
-    this.lines = lines;
-  }
-
   /**
    * @return the affected lines
    */
@@ -98,12 +79,17 @@ public class Chunk<T> {
     return lines;
   }
 
+  /**
+   * Return the chunk size
+   * @return the chunk size
+   */
   public int size() {
     return lines.size();
   }
 
   /**
    * Returns the index of the last line of the chunk.
+   * @return the index of the last line of the chunk.
    */
   public int last() {
     return getPosition() + size() - 1;

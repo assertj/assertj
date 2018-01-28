@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -37,12 +37,12 @@ import org.assertj.core.presentation.PredicateDescription;
 /**
  * Assertions for {@link CompletableFuture}.
  *
- * @param <T> type of the value contained in the {@link CompletableFuture}.
+ * @param <RESULT> type of the value contained in the {@link CompletableFuture}.
  */
-public abstract class AbstractCompletableFutureAssert<S extends AbstractCompletableFutureAssert<S, T>, T> extends
-    AbstractAssert<S, CompletableFuture<T>> {
+public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
+    AbstractAssert<SELF, CompletableFuture<RESULT>> {
 
-  protected AbstractCompletableFutureAssert(CompletableFuture<T> actual, Class<?> selfType) {
+  protected AbstractCompletableFutureAssert(CompletableFuture<RESULT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -59,7 +59,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isDone()
    */
-  public S isDone() {
+  public SELF isDone() {
     isNotNull();
     if (!actual.isDone()) throwAssertionError(shouldBeDone(actual));
     return myself;
@@ -78,7 +78,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isDone()
    */
-  public S isNotDone() {
+  public SELF isNotDone() {
     isNotNull();
     if (actual.isDone()) throwAssertionError(shouldNotBeDone(actual));
     return myself;
@@ -88,7 +88,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is completed exceptionally. 
    * Possible causes include cancellation, explicit invocation of completeExceptionally, and abrupt termination of a CompletionStage action.
    * <p>
-   * If you only want to check that actual future is completed exceptionnaly but not cancelled, use {@link #hasFailed()} or {@link #hasFailedWithThrowableThat()}.
+   * If you only want to check that actual future is completed exceptionally but not cancelled, use {@link #hasFailed()} or {@link #hasFailedWithThrowableThat()}.
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
@@ -102,8 +102,9 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCompletedExceptionally()
    */
-  public S isCompletedExceptionally() {
+  public SELF isCompletedExceptionally() {
     isNotNull();
+    System.out.println("before assertion " + actual);
     if (!actual.isCompletedExceptionally()) throwAssertionError(shouldHaveCompletedExceptionally(actual));
     return myself;
   }
@@ -123,7 +124,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCompletedExceptionally()
    */
-  public S isNotCompletedExceptionally() {
+  public SELF isNotCompletedExceptionally() {
     isNotNull();
     if (actual.isCompletedExceptionally()) throwAssertionError(shouldNotHaveCompletedExceptionally(actual));
     return myself;
@@ -144,7 +145,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCancelled()
    */
-  public S isCancelled() {
+  public SELF isCancelled() {
     isNotNull();
     if (!actual.isCancelled()) throwAssertionError(shouldBeCancelled(actual));
     return myself;
@@ -165,7 +166,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @see CompletableFuture#isCancelled()
    */
-  public S isNotCancelled() {
+  public SELF isNotCancelled() {
     isNotNull();
     if (actual.isCancelled()) throwAssertionError(shouldNotBeCancelled(actual));
     return myself;
@@ -183,7 +184,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S isCompleted() {
+  public SELF isCompleted() {
     isNotNull();
     if (!actual.isDone() || actual.isCompletedExceptionally()) throwAssertionError(shouldBeCompleted(actual));
     return myself;
@@ -200,7 +201,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S isNotCompleted() {
+  public SELF isNotCompleted() {
     isNotNull();
     if (actual.isDone() && !actual.isCompletedExceptionally()) throwAssertionError(shouldNotBeCompleted(actual));
     return myself;
@@ -217,12 +218,13 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValue("something else");</code></pre>
    *
+   * @param expected the expected result value of the {@link CompletableFuture}.
    * @return this assertion object.
    */
-  public S isCompletedWithValue(T expected) {
+  public SELF isCompletedWithValue(RESULT expected) {
     isCompleted();
 
-    T actualResult = actual.join();
+    RESULT actualResult = actual.join();
     if (!Objects.equals(actualResult, expected))
       throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
 
@@ -234,15 +236,16 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result.equals("something"));</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result.equals("something"));</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result.equals("something else"));</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result.equals("something else"));</code></pre>
    *
+   * @param predicate the {@link Predicate} to apply.
    * @return this assertion object.
    */
-  public S isCompletedWithValueMatching(Predicate<? super T> predicate) {
+  public SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate) {
     return isCompletedWithValueMatching(predicate, PredicateDescription.GIVEN);
   }
 
@@ -252,26 +255,28 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result != null, "expected not null");</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result != null, "expected not null");</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result == null, "expected null");</code></pre>
+   *           .isCompletedWithValueMatching(result -&gt; result == null, "expected null");</code></pre>
    * Error message is:            
    * <pre><code class='java'> Expecting:
-   *   <"something">
+   *   &lt;"something"&gt;
    * to match 'expected null' predicate.</code></pre>
    *
+   * @param predicate the {@link Predicate} to apply on the resulting value.
+   * @param description the {@link Predicate} description.
    * @return this assertion object.
    */
-  public S isCompletedWithValueMatching(Predicate<? super T> predicate, String description) {
+  public SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate, String description) {
     return isCompletedWithValueMatching(predicate, new PredicateDescription(description));
   }
 
-  private S isCompletedWithValueMatching(Predicate<? super T> predicate, PredicateDescription description) {
+  private SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate, PredicateDescription description) {
     isCompleted();
 
-    T actualResult = actual.join();
+    RESULT actualResult = actual.join();
     if (!predicate.test(actualResult))
       throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
 
@@ -296,7 +301,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S hasFailed() {
+  public SELF hasFailed() {
     isNotNull();
     if (!actual.isCompletedExceptionally() || actual.isCancelled()) throwAssertionError(shouldHaveFailed(actual));
     return myself;
@@ -318,7 +323,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    *
    * @return this assertion object.
    */
-  public S hasNotFailed() {
+  public SELF hasNotFailed() {
     isNotNull();
     if (actual.isCompletedExceptionally() && !actual.isCancelled()) throwAssertionError(shouldNotHaveFailed(actual));
     return myself;
@@ -326,7 +331,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
 
   /**
    * Verifies that the {@link CompletableFuture} has completed exceptionally and 
-   * returns a Throwable assertion object allowng to check the Throwable that has caused the future to fail.
+   * returns a Throwable assertion object allowing to check the Throwable that has caused the future to fail.
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -38,7 +38,7 @@ public class Assertions_assertThat_with_Stream_Test {
 
   @Test
   public void should_create_Assert() {
-    Object assertions = Assertions.assertThat(Stream.of("Luke", "Leia"));
+    Object assertions = assertThat(Stream.of("Luke", "Leia"));
     assertThat(assertions).isNotNull();
   }
 
@@ -77,14 +77,14 @@ public class Assertions_assertThat_with_Stream_Test {
   }
 
   @Test
-  public void isIstanceOf_should_check_the_original_stream_without_consuming_it() {
+  public void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
     Stream<?> stream = mock(Stream.class);
     assertThat(stream).isInstanceOf(Stream.class);
     verifyZeroInteractions(stream);
   }
 
   @Test
-  public void isIstanceOfAny_should_check_the_original_stream_without_consuming_it() {
+  public void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
     Stream<?> stream = mock(Stream.class);
     assertThat(stream).isInstanceOfAny(Stream.class, String.class);
     verifyZeroInteractions(stream);
@@ -165,6 +165,14 @@ public class Assertions_assertThat_with_Stream_Test {
                                            .isEqualTo(stream2);
     assertThat(Stream.of(new Foo("id", 1))).usingElementComparatorIgnoringFields("bar")
                                            .isEqualTo(stream2);
+  }
+
+  @Test
+  public void stream_with_upper_bound_assertions() {
+    // GIVEN
+    Stream<? extends Foo> foos = Stream.of();
+    // THEN
+    assertThat(foos).hasSize(0);
   }
 
   public static class Foo {

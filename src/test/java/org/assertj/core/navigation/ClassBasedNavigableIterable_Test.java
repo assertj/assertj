@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,20 +8,31 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.navigation;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ClassBasedNavigableIterableAssert;
+import org.assertj.core.test.IllegalVehicleAssert;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
+import org.assertj.core.test.VehicleFactory;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ClassBasedNavigableIterable_Test extends BaseNavigableIterableAssert_Test {
 
   @Override
   protected ClassBasedNavigableIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
-    return Assertions.assertThat(expectedVehicles, VehicleAssert.class);
+    return assertThat(expectedVehicles, VehicleAssert.class);
+  }
+
+  @Test
+  public void do_not_swallow_reflection_problem() {
+    thrown.expectWithMessageContaining(RuntimeException.class, "not access a member of class org.assertj.core.test.IllegalVehicleAssert");
+    assertThat(expectedVehicles, IllegalVehicleAssert.class)
+      .toAssert(new VehicleFactory.Car("car"), "unused");
   }
 
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,24 +8,25 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
-import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,10 +42,21 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -55,7 +67,6 @@ import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Maps;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
-import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,18 +109,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_return_success_of_last_assertion() {
-    try {
-      softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {}
+    softly.assertThat(true).isFalse();
     softly.assertThat(true).isEqualTo(true);
     assertThat(softly.wasSuccess()).isTrue();
   }
 
   @Test
   public void should_return_success_of_last_assertion_with_nested_calls() {
-    try {
-      softly.assertThat(true).isFalse();
-    } catch (AssertionError ignore) {}
+    softly.assertThat(true).isFalse();
     softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
     assertThat(softly.wasSuccess()).isTrue();
   }
@@ -136,7 +143,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
-      assertThat(e.getMessage()).contains(String.format("%nExpecting:%n"
+      List<String> errors = e.getErrors();
+      assertThat(errors).contains(String.format("%nExpecting:%n"
                                                         + " <{\"54\"=\"55\"}>%n"
                                                         + "to contain:%n"
                                                         + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
@@ -565,10 +573,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
-      List<String> errors = e.getErrors();
-      assertThat(errors.get(0)).startsWith("error 1");
-      assertThat(errors.get(1)).startsWith("error 2");
-      assertThat(errors.get(2)).startsWith("error 3");
+      assertThat(e.getErrors()).containsExactly("error 1", "error 2", "error 3");
     }
   }
 
@@ -588,16 +593,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
-      List<String> errors = e.getErrors();
-      assertThat(errors.get(0)).startsWith("error 1");
-      assertThat(errors.get(1)).startsWith("error 2");
+      assertThat(e.getErrors()).containsExactly("error 1", "error 2");
     }
   }
 
   @Test
   public void should_collect_all_errors_when_using_filtering() throws Exception {
 
-    softly.assertThat(newLinkedHashSet(homer, fred))
+    softly.assertThat(asList(homer, fred))
           .filteredOn("name", "Homer Simpson")
           .hasSize(10)
           .isEmpty();
@@ -606,9 +609,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertAll();
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
-      List<String> errors = e.getErrors();
-      assertThat(errors.get(0)).startsWith(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"));
-      assertThat(errors.get(1)).startsWith(format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
+      assertThat(e.getErrors()).containsOnly(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"),
+                                             format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
     }
   }
 
@@ -640,8 +642,20 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_work_with_stream() {
-    Stream<String> stream = Stream.of("a", "b", "c");
-    softly.assertThat(stream).contains("a", "b", "c");
+    softly.assertThat(Stream.of("a", "b", "c")).contains("a", "b", "c");
+    softly.assertThat(IntStream.of(1, 2, 3)).contains(1, 2, 3);
+    softly.assertThat(LongStream.of(1, 2, 3)).contains(1L, 2L, 3L);
+    softly.assertThat(DoubleStream.of(1, 2, 3)).contains(1.0, 2.0, 3.0);
+    softly.assertAll();
+  }
+
+  @Test
+  public void should_work_with_CompletionStage() {
+    CompletionStage<String> completionStage = completedFuture("done");
+    softly.assertThat(completionStage).isDone();
+    softly.assertThat(completionStage).hasNotFailed();
+    completionStage = null;
+    softly.assertThat(completionStage).isNull();
     softly.assertAll();
   }
 
@@ -738,15 +752,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(4);
   }
 
-  @Test
-  public void bdd_soft_assertions_should_have_the_same_methods_as_in_standard_soft_assertions() {
-    Method[] assertThatMethods = findMethodsWithName(AbstractStandardSoftAssertions.class, "assertThat");
-    Method[] thenMethods = findMethodsWithName(AbstractBDDSoftAssertions.class, "then");
-
-    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
-                                 .containsExactlyInAnyOrder(thenMethods);
-  }
-
   private static Name name(String first, String last) {
     return new Name(first, last);
   }
@@ -833,7 +838,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.fail(failureMessage);
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo(failureMessage);
+    assertThat(softly.errorsCollected().get(0)).hasMessage(failureMessage);
   }
 
   @Test
@@ -842,7 +847,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.fail(failureMessage, "here", "here");
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo("Should not reach here or here");
+    assertThat(softly.errorsCollected().get(0)).hasMessage("Should not reach here or here");
   }
 
   @Test
@@ -852,7 +857,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.fail(failureMessage, realCause);
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0).getMessage()).isEqualTo(failureMessage);
+    assertThat(softly.errorsCollected().get(0)).hasMessage(failureMessage);
     assertThat(softly.errorsCollected().get(0).getCause()).isEqualTo(realCause);
   }
 
@@ -861,21 +866,33 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.shouldHaveThrown(IllegalArgumentException.class);
     assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)
-                     .getMessage()).isEqualTo("IllegalArgumentException should have been thrown");
+    assertThat(softly.errorsCollected().get(0)).hasMessage("IllegalArgumentException should have been thrown");
   }
 
   @Test
   public void should_assert_using_assertSoftly() {
     assertThatThrownBy(() -> {
-      SoftAssertions.assertSoftly(assertions -> {
+      assertSoftly(assertions -> {
         assertions.assertThat(true).isFalse();
         assertions.assertThat(42).isEqualTo("meaning of life");
         assertions.assertThat("red").isEqualTo("blue");
       });
     }).as("it should call assertAll() and fail with multiple validation errors")
-      .hasBeenThrown()
       .hasMessageContaining("meaning of life")
       .hasMessageContaining("blue");
   }
+
+  public void should_work_with_atomic() throws Exception {
+    // simple atomic value
+    softly.assertThat(new AtomicBoolean(true)).isTrue();
+    softly.assertThat(new AtomicInteger(1)).hasValueGreaterThan(0);
+    softly.assertThat(new AtomicLong(1L)).hasValueGreaterThan(0L);
+    softly.assertThat(new AtomicReference<>("abc")).hasValue("abc");
+    // atomic array value
+    softly.assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3);
+    softly.assertThat(new AtomicLongArray(new long[] {1L, 2L, 3L})).containsExactly(1L, 2L, 3L);
+    softly.assertThat(new AtomicReferenceArray<>(array("a", "b", "c"))).containsExactly("a", "b", "c");
+    softly.assertAll();
+  }
+  
 }

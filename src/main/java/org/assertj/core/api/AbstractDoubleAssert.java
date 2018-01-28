@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,9 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
+
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import java.util.Comparator;
 
@@ -18,15 +21,18 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Doubles;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Double}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  *
+ * @author Drummond Dawson
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
@@ -35,88 +41,153 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> extends
-    AbstractComparableAssert<S, Double> implements FloatingPointNumberAssert<S, Double> {
+public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SELF>> extends
+    AbstractComparableAssert<SELF, Double> implements FloatingPointNumberAssert<SELF, Double> {
+
+  private static final Double NEGATIVE_ZERO = new Double(-0.0);
 
   @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
+  private boolean isPrimitive;
+
   public AbstractDoubleAssert(Double actual, Class<?> selfType) {
     super(actual, selfType);
+    this.isPrimitive = false;
+  }
+
+  public AbstractDoubleAssert(double actual, Class<?> selfType) {
+    super(actual, selfType);
+    this.isPrimitive = true;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNaN() {
+  public SELF isNaN() {
     doubles.assertIsNaN(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotNaN() {
+  public SELF isNotNaN() {
     doubles.assertIsNotNaN(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is equal to zero.
+   * <p>
+   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(0.0).isZero();
+   * assertThat(-0.0).isZero();
+   *
+   * // assertions will fail
+   * assertThat(new Double(-0.0)).isZero();
+   * assertThat(3.142).isZero();</code></pre>
+   * 
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to zero.
+   */
   @Override
-  public S isZero() {
-    doubles.assertIsZero(info, actual);
+  public SELF isZero() {
+    if (isPrimitive) assertIsPrimitiveZero();
+    else doubles.assertIsZero(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual value is not equal to zero.
+   * <p>
+   * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(3.142).isNotZero();
+   * assertThat(new Double(-0.0)).isNotZero();
+   *
+   * // assertions will fail
+   * assertThat(0.0).isNotZero();
+   * assertThat(new Double(0.0)).isNotZero();
+   * assertThat(-0.0).isNotZero();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to zero.
+   */
+  @Override
+  public SELF isNotZero() {
+    if (isPrimitive) assertIsPrimitiveNonZero();
+    else if (NEGATIVE_ZERO.equals(actual)) return myself;
+    else doubles.assertIsNotZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotZero() {
-    doubles.assertIsNotZero(info, actual);
+  public SELF isOne() {
+    doubles.assertIsOne(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isPositive() {
+  public SELF isPositive() {
     doubles.assertIsPositive(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNegative() {
+  public SELF isNegative() {
     doubles.assertIsNegative(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotNegative() {
+  public SELF isNotNegative() {
     doubles.assertIsNotNegative(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotPositive() {
+  public SELF isNotPositive() {
     doubles.assertIsNotPositive(info, actual);
     return myself;
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
    * assertThat(8.1).isCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isCloseTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2)); // strict
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1).isCloseTo(8.0, offset(0.2));
-   *
-   * // if difference is exactly equals to 0.1, it's ok
+   * // assertions succeed when the difference == offset value ...  
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isCloseTo(8.0, within(0.01));</code></pre>
+   * assertThat(8.1).isCloseTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict =&gt; fail
+   * 
+   * // this assertion also fails
+   * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -126,24 +197,36 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws AssertionError if the actual value is not close to the given one.
    */
   // duplicate javadoc of isCloseTo(double other, Offset<Double> offset but can't define it in super class
-  public S isCloseTo(final double expected, final Offset<Double> offset) {
+  public SELF isCloseTo(final double expected, final Offset<Double> offset) {
     doubles.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
-   *
-   * // you can use offset if you prefer
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
    * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(0.1).isNotCloseTo(0.0, byLessThan(0.1));   
    *
-   * // assertions will fail
-   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.1));
+   * // assertions fail
+   * assertThat(0.1).isNotCloseTo(0.0, within(0.1));
+   * assertThat(0.1).isNotCloseTo(0.0, offset(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.2));
    * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.2));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
@@ -156,27 +239,37 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @since 2.6.0 / 3.6.0
    */
   // duplicate javadoc of isNotCloseTo(double other, Offset<Double> offset but can't define it in super class
-  public S isNotCloseTo(final double expected, final Offset<Double> offset) {
+  public SELF isNotCloseTo(final double expected, final Offset<Double> offset) {
     doubles.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
-   * Verifies that the actual number is close to the given one within the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.2));
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1).isCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isCloseTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2)); // strict
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), offset(0.2));
-   *
-   * // if difference is exactly equals to 0.1, it's ok
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.01));</code></pre>
+   * // assertions succeed when the difference == offset value ...  
+   * assertThat(8.1).isCloseTo(8.0, within(0.1));
+   * assertThat(8.1).isCloseTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict =&gt; fail
+   * 
+   * // this assertion also fails
+   * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -186,25 +279,37 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws AssertionError if the actual value is not close to the given one.
    */
   @Override
-  public S isCloseTo(Double expected, Offset<Double> offset) {
+  public SELF isCloseTo(Double expected, Offset<Double> offset) {
     doubles.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
-   * Verifies that the actual number is close to the given one by less than the given offset.<br>
-   * If the difference is equal to the offset value, the assertion fails.
+   * Verifies that the actual number is not close to the given one by less than the given offset.<br>
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * <li><b>fails</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * </ul>
+   * <p>
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Double)} implies a <b>strict</b> comparison, 
+   * use {@link Assertions#within(Double)} to get the old behavior. 
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.01));
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
+   * // diff == offset but isNotCloseTo succeeds as we use byLessThan
+   * assertThat(0.1).isNotCloseTo(0.0, byLessThan(0.1));
    *
-   * // you can use offset if you prefer
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), offset(0.01));
-   *
-   * // assertions will fail
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.1));
-   * assertThat(8.1).isNotCloseTo(Double.valueOf(8.0), byLessThan(0.2));</code></pre>
+   * // assertions fail
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.1));
+   * assertThat(8.1).isNotCloseTo(8.0, within(0.2));
+   * assertThat(8.1).isNotCloseTo(8.0, offset(0.2));
+   * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.2));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -216,7 +321,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Double expected, Offset<Double> offset) {
+  public SELF isNotCloseTo(Double expected, Offset<Double> offset) {
     doubles.assertIsNotCloseTo(info, actual, expected, offset);
     return myself;
   }
@@ -244,7 +349,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    */
 
   @Override
-  public S isCloseTo(Double expected, Percentage percentage) {
+  public SELF isCloseTo(Double expected, Percentage percentage) {
     doubles.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -270,7 +375,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @since 2.6.0 / 3.6.0
    */
   @Override
-  public S isNotCloseTo(Double expected, Percentage percentage) {
+  public SELF isNotCloseTo(Double expected, Percentage percentage) {
     doubles.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -296,7 +401,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not close to the given one.
    */
-  public S isCloseTo(double expected, Percentage percentage) {
+  public SELF isCloseTo(double expected, Percentage percentage) {
     doubles.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -321,7 +426,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws AssertionError if the actual value is close to the given one.
    * @since 2.6.0 / 3.6.0
    */
-  public S isNotCloseTo(double expected, Percentage percentage) {
+  public SELF isNotCloseTo(double expected, Percentage percentage) {
     doubles.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
@@ -331,47 +436,55 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(1.0).isEqualTo(1.0);
-	 * assertThat(1D).isEqualTo(1.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(0.0).isEqualTo(1.0);
-	 * assertThat(-1.0).isEqualTo(1.0);</code></pre>
-   * </p>
+   * assertThat(1.0).isEqualTo(1.0);
+   * assertThat(1D).isEqualTo(1.0);
+   * 
+   * // assertions will fail:
+   * assertThat(0.0).isEqualTo(1.0);
+   * assertThat(-1.0).isEqualTo(1.0);</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public S isEqualTo(double expected) {
+  public SELF isEqualTo(double expected) {
     doubles.assertEqual(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isEqualTo(Double expected, Offset<Double> offset) {
-    doubles.assertEqual(info, actual, expected, offset);
+  public SELF isEqualTo(Double expected, Offset<Double> offset) {
+    doubles.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
   /**
-   * Verifies that the actual value is close to the given one by less than the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
+   * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * Example with double:
-   * <pre><code class='java'> // assertion will pass:
-   * assertThat(8.1).isEqualTo(8.0, offset(0.2));
+   * This assertion is the same as {@link #isCloseTo(double, Offset)}.
+   * <p>
+   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * <ul>
+   * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
+   * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
+   * </ul>
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(8.1).isEqualTo(8.0, within(0.2));
+   * assertThat(8.1).isEqualTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isEqualTo(8.0, byLessThan(0.2)); // strict
    *
-   * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
-   *
-   * // within is an alias of offset
+   * // assertions succeed when the difference == offset value ...  
    * assertThat(8.1).isEqualTo(8.0, within(0.1));
-   *
-   * // assertion will fail
-   * assertThat(8.1).isEqualTo(8.0, offset(0.01));</code></pre>
+   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
+   * // ... except when using byLessThan which implies a strict comparison
+   * assertThat(0.1).isEqualTo(0.0, byLessThan(0.1)); // strict =&gt; fail
+   * 
+   * // this assertion also fails
+   * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -380,8 +493,8 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public S isEqualTo(double expected, Offset<Double> offset) {
-    doubles.assertEqual(info, actual, expected, offset);
+  public SELF isEqualTo(double expected, Offset<Double> offset) {
+    doubles.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
 
@@ -390,20 +503,19 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(0.0).isNotEqualTo(1.0);
-	 * assertThat(-1.0).isNotEqualTo(1.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(1.0).isNotEqualTo(1.0);
-	 * assertThat(1D).isNotEqualTo(1.0);</code></pre>
-   * </p>
+   * assertThat(0.0).isNotEqualTo(1.0);
+   * assertThat(-1.0).isNotEqualTo(1.0);
+   * 
+   * // assertions will fail:
+   * assertThat(1.0).isNotEqualTo(1.0);
+   * assertThat(1D).isNotEqualTo(1.0);</code></pre>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  public S isNotEqualTo(double other) {
+  public SELF isNotEqualTo(double other) {
     doubles.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -413,19 +525,18 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
-	 * assertThat(1.0).isLessThan(2.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(2.0).isLessThan(1.0);
-	 * assertThat(1.0).isLessThan(1.0);</code></pre>
-   * </p>
+   * assertThat(1.0).isLessThan(2.0);
+   * 
+   * // assertions will fail:
+   * assertThat(2.0).isLessThan(1.0);
+   * assertThat(1.0).isLessThan(1.0);</code></pre>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
-  public S isLessThan(double other) {
+  public SELF isLessThan(double other) {
     doubles.assertLessThan(info, actual, other);
     return myself;
   }
@@ -435,19 +546,18 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(-1.0).isLessThanOrEqualTo(1.0);
-	 * assertThat(1.0).isLessThanOrEqualTo(1.0);
-	 * 
-	 * // assertion will fail:
-	 * assertThat(2.0).isLessThanOrEqualTo(1.0);</code></pre>
-   * </p>
+   * assertThat(-1.0).isLessThanOrEqualTo(1.0);
+   * assertThat(1.0).isLessThanOrEqualTo(1.0);
+   * 
+   * // assertion will fail:
+   * assertThat(2.0).isLessThanOrEqualTo(1.0);</code></pre>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
-  public S isLessThanOrEqualTo(double other) {
+  public SELF isLessThanOrEqualTo(double other) {
     doubles.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -457,19 +567,18 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
-	 * assertThat(2.0).isGreaterThan(1.0);
-	 * 
-	 * // assertions will fail:
-	 * assertThat(1.0).isGreaterThan(1.0);
-	 * assertThat(1.0).isGreaterThan(2.0);</code></pre>
-   * </p>
+   * assertThat(2.0).isGreaterThan(1.0);
+   * 
+   * // assertions will fail:
+   * assertThat(1.0).isGreaterThan(1.0);
+   * assertThat(1.0).isGreaterThan(2.0);</code></pre>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
-  public S isGreaterThan(double other) {
+  public SELF isGreaterThan(double other) {
     doubles.assertGreaterThan(info, actual, other);
     return myself;
   }
@@ -479,48 +588,85 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
-	 * assertThat(2.0).isGreaterThanOrEqualTo(1.0);
-	 * assertThat(1.0).isGreaterThanOrEqualTo(1.0);
-	 * 
-	 * // assertion will fail:
-	 * assertThat(1.0).isGreaterThanOrEqualTo(2.0);</code></pre>
-   * </p>
+   * assertThat(2.0).isGreaterThanOrEqualTo(1.0);
+   * assertThat(1.0).isGreaterThanOrEqualTo(1.0);
+   * 
+   * // assertion will fail:
+   * assertThat(1.0).isGreaterThanOrEqualTo(2.0);</code></pre>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
-  public S isGreaterThanOrEqualTo(double other) {
+  public SELF isGreaterThanOrEqualTo(double other) {
     doubles.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(1d).isBetween(-1d, 2d);
+   * assertThat(1d).isBetween(1d, 2d);
+   * assertThat(1d).isBetween(0d, 1d);
+   *
+   * // assertion will fail
+   * assertThat(1d).isBetween(2d, 3d);</code></pre>
+   */
   @Override
-  public S isBetween(Double start, Double end) {
+  public SELF isBetween(Double start, Double end) {
     doubles.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(1d).isStrictlyBetween(-1d, 2d);
+   *
+   * // assertions will fail
+   * assertThat(1d).isStrictlyBetween(1d, 2d);
+   * assertThat(1d).isStrictlyBetween(0d, 1d);
+   * assertThat(1d).isStrictlyBetween(2d, 3d);</code></pre>
+   *
+   */
   @Override
-  public S isStrictlyBetween(Double start, Double end) {
+  public SELF isStrictlyBetween(Double start, Double end) {
     doubles.assertIsStrictlyBetween(info, actual, start, end);
     return myself;
   }
 
   @Override
-  public S usingComparator(Comparator<? super Double> customComparator) {
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super Double> customComparator) {
     super.usingComparator(customComparator);
     doubles = new Doubles(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   @Override
-  public S usingDefaultComparator() {
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
     super.usingDefaultComparator();
     doubles = Doubles.instance();
     return myself;
   }
+
+  private void assertIsPrimitiveZero() {
+    if (actual.doubleValue() == 0.0) return;
+    throw Failures.instance().failure(info, shouldBeEqual(actual, 0.0, info.representation()));
+  }
+
+  private void assertIsPrimitiveNonZero() {
+    if (actual.doubleValue() != 0.0) return;
+    throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0));
+  }
+
 }

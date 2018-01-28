@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,17 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.objectarrays;
 
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -52,7 +52,7 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
     actual = array("Luke", "Yoda", "Yoda");
     arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Yoda"));
   }
-  
+
   @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactly(someInfo(), array(), array());
@@ -60,13 +60,13 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsExactly(someInfo(), actual, array());
   }
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda"));
   }
 
@@ -89,7 +89,8 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
     try {
       arrays.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
+      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                          newArrayList("Han"), newArrayList("Leia")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -116,8 +117,33 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
     try {
       arrays.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldHaveSameSize(actual, expected, 3, 2, StandardComparisonStrategy.instance()));
+      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                          newArrayList(), newArrayList("Luke"),
+                                                          StandardComparisonStrategy.instance()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_arrays_have_different_sizes_for_large_arrays() {
+    // GIVEN
+    Object[] actual = new Object[2000];
+    Object[] expected = new Object[actual.length + 1];
+    for (int i = 0; i < actual.length; i++) {
+      actual[i] = String.valueOf(i);
+      expected[i] = String.valueOf(i);
+    }
+    expected[actual.length] = "extra";
+    AssertionInfo info = someInfo();
+    // WHEN
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      // THEN
+      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                          newArrayList("extra"), newArrayList(),
+                                                          StandardComparisonStrategy.instance()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -140,8 +166,9 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
     try {
       arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                          caseInsensitiveStringComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainExactly(actual, asList(expected), newArrayList("Han"), newArrayList("Leia"),
+                                                    caseInsensitiveStringComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -169,7 +196,8 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
       arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldHaveSameSize(actual, expected, 3, 2, caseInsensitiveStringComparisonStrategy));
+                               shouldContainExactly(actual, asList(expected), newArrayList(), newArrayList("Luke"),
+                                                    caseInsensitiveStringComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

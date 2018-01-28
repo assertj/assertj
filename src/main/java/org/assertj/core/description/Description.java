@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,9 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.description;
+
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
+import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 /**
  * The description of a value.
@@ -28,4 +31,14 @@ public abstract class Description {
   public String toString() {
     return value();
   }
+
+  public static Description emptyIfNull(Description description) {
+    return description == null ? emptyDescription() : description;
+  }
+
+  public static String mostRelevantDescription(Description existingDescription, String newDescription) {
+    boolean isDescriptionSet = existingDescription != null && !isNullOrEmpty(existingDescription.value());
+    return isDescriptionSet ? existingDescription.value() : newDescription;
+  }
+
 }

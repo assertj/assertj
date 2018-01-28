@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -45,7 +45,6 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_with_null_elements() {
-    iterables.assertContainsOnly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
     actual.add(null);
     actual.add(null);
     iterables.assertContainsOnly(someInfo(), actual, array("Luke", null, "Yoda", "Leia", null));
@@ -75,7 +74,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     iterables.assertContainsOnly(someInfo(), actual, emptyArray());
   }
 
@@ -139,25 +138,28 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "YODA", "Leia"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
+                                                                      array("LUKE", "YODA", "Leia"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LEIA", "yoda", "LukE"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
+                                                                      array("LEIA", "yoda", "LukE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("Luke", "Luke"));
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("luke", "YOda", "LeIA"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
+                                                                      array("luke", "YOda", "LeIA"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("LUKE"));
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-                                                                      array("LUke", "LUke", "lukE", "YOda", "Leia"));
+                                                                      array("LUke", "LUKE", "lukE", "YOda", "Leia"));
   }
 
   @Test
@@ -168,7 +170,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                 comparisonStrategy));
+                                                       comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

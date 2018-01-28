@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.floatarrays;
 
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.FloatArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -53,7 +53,7 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arrays.assertStartsWith(someInfo(), actual, emptyArray());
   }
 
@@ -67,8 +67,8 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
   public void should_fail_if_sequence_is_bigger_than_actual() {
     float[] sequence = { 6f, 8f, 10f, 12f, 20f, 22f };
     try {
-      AssertionInfo inof = someInfo();
-      arrays.assertStartsWith(inof, actual, sequence);
+      AssertionInfo info = someInfo();
+      arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
       verify(failures).failure(someInfo(), shouldStartWith(actual, sequence));
       return;
@@ -120,7 +120,7 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expect(AssertionError.class);
+    thrown.expectAssertionError();
     arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray());
   }
 
@@ -134,8 +134,8 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     float[] sequence = { 6f, -8f, 10f, 12f, 20f, 22f };
     try {
-      AssertionInfo inof = someInfo();
-      arraysWithCustomComparisonStrategy.assertStartsWith(inof, actual, sequence);
+      AssertionInfo info = someInfo();
+      arraysWithCustomComparisonStrategy.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
       verify(failures).failure(someInfo(), shouldStartWith(actual, sequence, absValueComparisonStrategy));
       return;

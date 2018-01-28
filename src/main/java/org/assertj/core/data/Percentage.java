@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.data;
 
@@ -16,12 +16,12 @@ import static java.lang.String.format;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * A positive percentage value.
  *
- * @param the type of the percentage value.
  * @author Alexander Bishcof
  */
 public class Percentage {
@@ -37,13 +37,8 @@ public class Percentage {
    */
   public static Percentage withPercentage(double value) {
     checkNotNull(value);
-    checkBoundaries(value);
+    checkArgument(value >= 0, "The percentage value <%s> should be greater than or equal to zero", value);
     return new Percentage(value);
-  }
-
-  private static void checkBoundaries(double value) {
-    if (value < 0)
-      throw new IllegalArgumentException(format("The percentage value <%s> should be > 0.", value));
   }
 
   private Percentage(double value) {

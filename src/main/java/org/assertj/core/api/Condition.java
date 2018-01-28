@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.DescriptionValidations.checkIsNotNull;
 
 import java.util.function.Predicate;
 
@@ -38,8 +37,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   private Predicate<T> predicate;
 
   /**
-   * Creates a new </code>{@link Condition}</code>. The default description of this condition will the simple name of
-   * the
+   * Creates a new <code>{@link Condition}</code>. The default description of this condition will the simple name of the
    * condition's class.
    */
   public Condition() {
@@ -47,7 +45,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /**
-   * Creates a new </code>{@link Condition}</code>.
+   * Creates a new <code>{@link Condition}</code>.
    * 
    * @param description the description of this condition.
    * @throws NullPointerException if the given description is {@code null}.
@@ -57,7 +55,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /**
-   * Creates a new </code>{@link Condition}</code> with the given {@link Predicate}, the built Condition will be met if
+   * Creates a new <code>{@link Condition}</code> with the given {@link Predicate}, the built Condition will be met if
    * the Predicate is.
    * 
    * <p>
@@ -66,7 +64,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * <p>
    * Example:
    * <pre><code class='java'> // build condition with Predicate&lt;String&gt; and set description using String#format pattern.
-   * Condition&lt;String&gt; fairyTale = new Condition&lt;String&gt;(s -> s.startsWith("Once upon a time"), "a %s tale", "fairy");
+   * Condition&lt;String&gt; fairyTale = new Condition&lt;String&gt;(s -&gt; s.startsWith("Once upon a time"), "a %s tale", "fairy");
    * 
    * String littleRedCap = "Once upon a time there was a dear little girl ...";
    * assertThat(littleRedCap).is(fairyTale);</code></pre>
@@ -92,7 +90,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /**
-   * Creates a new </code>{@link Condition}</code>.
+   * Creates a new <code>{@link Condition}</code>.
    * 
    * @param description the description of this condition.
    * @throws NullPointerException if the given description is {@code null}.
@@ -110,8 +108,8 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   /** {@inheritDoc} */
   @Override
   public Condition<T> as(String newDescription, Object... args) {
-	description = checkIsNotNull(newDescription, args);
-	return this;
+    description = new TextDescription(newDescription, args);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -123,8 +121,8 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   /** {@inheritDoc} */
   @Override
   public Condition<T> as(Description newDescription) {
-	description = checkIsNotNull(newDescription);
-	return this;
+    description = Description.emptyIfNull(newDescription);
+    return this;
   }
 
   /**

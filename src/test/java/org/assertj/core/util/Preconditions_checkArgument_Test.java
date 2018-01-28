@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,25 +8,25 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.test.ExpectedException.none;
 
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class Preconditions_checkArgument_Test {
 
+  @Rule
+  public ExpectedException thrown = none();
+
   @Test
-  public void should_throw_nullpointerexception_if_object_is_null() {
-    try {
-      Preconditions.checkArgument(false, "Invalid parameter %s", "foo");
-      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage("Invalid parameter foo");
-    }
+  public void should_throw_illegalargumentexception_if_expression_is_false() {
+    thrown.expectIllegalArgumentException("Invalid parameter foo");
+    Preconditions.checkArgument(false, "Invalid parameter %s", "foo");
   }
 
   @Test

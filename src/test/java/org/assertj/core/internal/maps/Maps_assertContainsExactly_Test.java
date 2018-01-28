@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,21 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.test.ErrorMessages.entriesToLookForIsEmpty;
-import static org.assertj.core.test.ErrorMessages.entriesToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -49,7 +49,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   private LinkedHashMap<String, String> linkedActual;
 
   @Before
-  public void initLinkedHashMap() throws Exception {
+  public void initLinkedHashMap() {
     linkedActual = new LinkedHashMap<>(2);
     linkedActual.put("name", "Yoda");
     linkedActual.put("color", "green");
@@ -57,40 +57,40 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_actual_is_null() throws Exception {
+  public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     maps.assertContainsExactly(someInfo(), null, entry("name", "Yoda"));
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_null() throws Exception {
+  public void should_fail_if_given_entries_array_is_null() {
     thrown.expectNullPointerException(entriesToLookForIsNull());
-    maps.assertContainsExactly(someInfo(), linkedActual, (MapEntry[])null);
+    maps.assertContainsExactly(someInfo(), linkedActual, (MapEntry[]) null);
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_empty() throws Exception {
+  public void should_fail_if_given_entries_array_is_empty() {
     thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
     maps.assertContainsExactly(someInfo(), linkedActual, emptyEntries());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_and_entries_are_empty() throws Exception {
+  public void should_pass_if_actual_and_entries_are_empty() {
     maps.assertContainsExactly(someInfo(), emptyMap(), emptyEntries());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_contains_given_entries_in_order() throws Exception {
+  public void should_pass_if_actual_contains_given_entries_in_order() {
     maps.assertContainsExactly(someInfo(), linkedActual, entry("name", "Yoda"), entry("color", "green"));
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_actual_contains_given_entries_in_disorder() throws Exception {
+  public void should_fail_if_actual_contains_given_entries_in_disorder() {
     AssertionInfo info = someInfo();
     try {
       maps.assertContainsExactly(info, linkedActual, entry("color", "green"), entry("name", "Yoda"));
@@ -102,38 +102,33 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_entries_have_different_size() throws Exception {
+  public void should_fail_if_actual_and_expected_entries_have_different_size() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
-    try {
-      maps.assertContainsExactly(info, linkedActual, expected);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+
+    thrown.expectAssertionError(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
+
+    maps.assertContainsExactly(info, linkedActual, expected);
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one()
-      throws Exception {
+  public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
     Map<String, String> underTest = newLinkedHashMap(entry("name", "Yoda"), entry("job", "Jedi"));
     try {
       maps.assertContainsExactly(info, underTest, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainExactly(underTest, expected, newHashSet(entry("color", "green")),
-              newHashSet(entry("job", "Jedi"))));
+      verify(failures).failure(info, shouldContainExactly(underTest, asList(expected),
+                                                          newHashSet(entry("color", "green")),
+                                                          newHashSet(entry("job", "Jedi"))));
       return;
     }
     shouldHaveThrown(AssertionError.class);
   }
 
   @Test
-  public void should_fail_if_actual_contains_entry_key_with_different_value() throws Exception {
+  public void should_fail_if_actual_contains_entry_key_with_different_value() {
 
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expectedEntries = array(entry("name", "Yoda"), entry("color", "yellow"));
@@ -141,9 +136,10 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
       maps.assertContainsExactly(info, actual, expectedEntries);
     } catch (AssertionError e) {
       verify(failures).failure(
-          info,
-          shouldContainExactly(actual, expectedEntries, newHashSet(entry("color", "yellow")),
-              newHashSet(entry("color", "green"))));
+                               info,
+                               shouldContainExactly(actual, asList(expectedEntries),
+                                                    newHashSet(entry("color", "yellow")),
+                                                    newHashSet(entry("color", "green"))));
       return;
     }
     shouldHaveThrown(AssertionError.class);

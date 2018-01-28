@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
-import static org.assertj.core.test.ErrorMessages.regexPatternIsNull;
+import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.*;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -54,14 +54,8 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_match_Pattern() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertMatches(info, actual, Pattern.compile("Luke"));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldMatch(actual, "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldMatch(actual, "Luke"));
+    strings.assertMatches(someInfo(), actual, Pattern.compile("Luke"));
   }
 
   @Test

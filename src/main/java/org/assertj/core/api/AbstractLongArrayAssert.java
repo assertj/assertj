@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -17,10 +17,11 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
-public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<S>>
-  extends AbstractArrayAssert<S, long[], Long> {
+public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAssert<SELF>>
+  extends AbstractArrayAssert<SELF, long[], Long> {
 
   @VisibleForTesting
   protected LongArrays arrays = LongArrays.instance();
@@ -43,21 +44,21 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /** {@inheritDoc} */
   @Override
-  public S isNotEmpty() {
+  public SELF isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S hasSize(int expected) {
+  public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S hasSameSizeAs(Iterable<?> other) {
+  public SELF hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
@@ -74,7 +75,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, 4L);
    * assertThat(new long[] { 1L, 2L, 3L }).contains(4L, 7L);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -82,7 +83,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(long... values) {
+  public SELF contains(long... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -94,11 +95,12 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * <pre><code class='java'> // assertions will pass
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(1L, 2L, 3L);
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(2L, 3L, 1L);
+   * assertThat(new long[] { 1L, 1L, 2L }).containsOnly(1L, 2L);
    *
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(1L, 2L, 3L, 4L);
    * assertThat(new long[] { 1L, 2L, 3L }).containsOnly(4L, 7L);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -107,7 +109,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(long... values) {
+  public SELF containsOnly(long... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -132,7 +134,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(long... values) {
+  public SELF containsOnlyOnce(long... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -148,15 +150,13 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * assertThat(new long[] { 1, 2, 3 }).containsSequence(1, 3);
    * assertThat(new long[] { 1, 2, 3 }).containsSequence(2, 1);</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(long... sequence) {
+  public SELF containsSequence(long... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -172,15 +172,13 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * // assertion will fail
    * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(2, 1);</code></pre>
    * 
-   * </p>
-   * 
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(long... subsequence) {
+  public SELF containsSubsequence(long... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -196,7 +194,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).contains(1L, atIndex(1));
    * assertThat(new long[] { 1L, 2L, 3L }).contains(4L, atIndex(2));</code></pre>
-   * </p>
+   * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -206,7 +204,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(long value, Index index) {
+  public SELF contains(long value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -220,7 +218,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(2L);</code></pre>
-   * </p>
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -228,7 +226,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(long... values) {
+  public SELF doesNotContain(long... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -244,7 +242,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * // assertions will fail
    * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(1L, atIndex(0));
    * assertThat(new long[] { 1L, 2L, 3L }).doesNotContain(2L, atIndex(1));</code></pre>
-   * </p>
+   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -252,7 +250,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(long value, Index index) {
+  public SELF doesNotContain(long value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -266,12 +264,12 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 1L, 2L, 3L }).doesNotHaveDuplicates();</code></pre>
-   * </p>
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  public SELF doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -287,7 +285,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 2L, 3L }).startsWith(2L, 3L);</code></pre>
-   * </p>
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -295,7 +293,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(long... sequence) {
+  public SELF startsWith(long... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -311,7 +309,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    *
    * // assertion will fail
    * assertThat(new long[] { 1L, 2L, 3L }).endsWith(3L, 4L);</code></pre>
-   * </p>
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -319,35 +317,37 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(long... sequence) {
+  public SELF endsWith(long... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSorted() {
+  public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isSortedAccordingTo(Comparator<? super Long> comparator) {
+  public SELF isSortedAccordingTo(Comparator<? super Long> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingElementComparator(Comparator<? super Long> customComparator) {
+  @CheckReturnValue
+  public SELF usingElementComparator(Comparator<? super Long> customComparator) {
     this.arrays = new LongArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S usingDefaultElementComparator() {
+  @CheckReturnValue
+  public SELF usingDefaultElementComparator() {
     this.arrays = LongArrays.instance();
     return myself;
   }
@@ -372,8 +372,8 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(long... values) {
-    objects.assertEqual(info, actual, values);
+  public SELF containsExactly(long... values) {
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 
@@ -392,14 +392,44 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPolongerException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
-  public S containsExactlyInAnyOrder(long... values) {
+  public SELF containsExactlyInAnyOrder(long... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> long[] oneTwoThree = { 1L, 2L, 3L }; 
+   *
+   * // assertions will pass
+   * assertThat(oneTwoThree).containsAnyOf(2L)
+   *                        .containsAnyOf(2L, 3L)
+   *                        .containsAnyOf(1L, 2L, 3L)
+   *                        .containsAnyOf(1L, 2L, 3L, 4L)
+   *                        .containsAnyOf(5L, 6L, 7L, 2L);
+   *
+   * // assertions will fail
+   * assertThat(oneTwoThree).containsAnyOf(4L);
+   * assertThat(oneTwoThree).containsAnyOf(4L, 5L, 6L, 7L);</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(long... values) {
+    arrays.assertContainsAnyOf(info, actual, values);
     return myself;
   }
 

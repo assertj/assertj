@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -17,15 +17,13 @@ import org.assertj.core.description.Description;
 /**
  * An object that has a description.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <SELF> the "self" type of this assertion class.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public interface Descriptable<S extends Descriptable<S>> {
+public interface Descriptable<SELF> {
 
   /**
    * Sets the description of the assertion that is going to be called after. 
@@ -51,7 +49,7 @@ public interface Descriptable<S extends Descriptable<S>> {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(String, Object...)
    */
-  S as(String description, Object... args);
+  SELF as(String description, Object... args);
 
   /**
    * Sets the description of the assertion that is going to be called after. 
@@ -69,7 +67,7 @@ public interface Descriptable<S extends Descriptable<S>> {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(Description)
    */
-  S as(Description description);
+  SELF as(Description description);
 
   /**
    * Sets the description of the assertion that is going to be called after. 
@@ -81,10 +79,11 @@ public interface Descriptable<S extends Descriptable<S>> {
    * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
    * 
    * @param description the new description to set.
+   * @param args optional parameter if description is a format String.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  S describedAs(String description, Object... args);
+  SELF describedAs(String description, Object... args);
 
   /**
    * Sets the description of the assertion that is going to be called after. 
@@ -101,5 +100,5 @@ public interface Descriptable<S extends Descriptable<S>> {
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  S describedAs(Description description);
+  SELF describedAs(Description description);
 }

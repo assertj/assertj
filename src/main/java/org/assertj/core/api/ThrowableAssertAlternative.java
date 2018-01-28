@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
+
+import org.assertj.core.description.Description;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named 
  * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>.
- * <p>
  * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
- *           .isThrownBy(() -> { throw new IOException("boom! tcha!"); });
+ *           .isThrownBy(() -&gt; { throw new IOException("boom! tcha!"); });
  *           .withMessage("boom! %s", "tcha!"); </code></pre>
- * <p>
  * This class is linked with the {@link ThrowableTypeAssert} and allow to check that an exception
  * type is thrown by a lambda.
  */
@@ -40,12 +41,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount 123");
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount 123 euros");</code></pre>
    *
    * @param message the expected message.
@@ -67,12 +68,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount %s, "123");
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount 123 euros");</code></pre>
    *
    * @param message a format string representing the expected message
@@ -98,23 +99,24 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * // This assertion succeeds:
    * 
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw wrappingException;})
+   *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(illegalArgumentException);
    *
    * // These assertions fail:
    * 
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw wrappingException;})
+   *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(new IllegalArgumentException("bad arg"));
    *           
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw wrappingException;})
+   *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(new NullPointerException());
    *           
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw wrappingException;})
+   *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(null);</code></pre>
    * 
+   * @param cause the expected cause.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
@@ -133,13 +135,13 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // This assertion succeeds:
    * assertThatExceptionOfType(IllegalArgumentException.class)
-   *           .isThrownBy(() -> {throw exception;})
+   *           .isThrownBy(() -&gt; {throw exception;})
    *           .withNoCause();
    *
    * // These assertion fails:
    * Throwable illegalArgumentException = new Throwable(exception); 
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withNoCause();</code></pre>
    *
    * @return this assertion object.
@@ -160,12 +162,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageStartingWith("wrong amount");
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageStartingWith("right amount");</code></pre>
    *
    * @param description the description expected to start the actual {@code Throwable}'s message.
@@ -187,12 +189,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContaining("amount");
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContaining("456");</code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s message.
@@ -214,12 +216,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withStackTraceContaining("amount");
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withStackTraceContaining("456");</code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
@@ -241,12 +243,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageMatching("wrong amount [0-9]*");
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageMatching("wrong amount [0-9]* euros");</code></pre>
    *
    * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
@@ -269,12 +271,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageEndingWith("123");
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw illegalArgumentException;})
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageEndingWith("456");</code></pre>
    *
    * @param description the description expected to end the actual {@code Throwable}'s message.
@@ -296,15 +298,15 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseInstanceOf(NullPointerException.class);
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseInstanceOf(RuntimeException.class);
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseInstanceOf(IllegalArgumentException.class);</code></pre>
    *
    * @param type the expected cause type.
@@ -328,15 +330,15 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseExactlyInstanceOf(NullPointerException.class);
    *
    * // assertions will fail (even if NullPointerException is a RuntimeException since we want an exact match)
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseExactlyInstanceOf(RuntimeException.class);
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseExactlyInstanceOf(IllegalArgumentException.class);</code></pre>
    *
    * @param type the expected cause type.
@@ -363,15 +365,15 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseInstanceOf(NullPointerException.class);
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseInstanceOf(RuntimeException.class);
    *
    * // assertion will fail
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseInstanceOf(IllegalStateException.class);</code></pre>
    *
    * @param type the expected cause type.
@@ -397,15 +399,15 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *
    * // assertion will pass
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseExactlyInstanceOf(NullPointerException.class);
    *
    * // assertion will fail (even if NullPointerException is a RuntimeException since we want an exact match)
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseExactlyInstanceOf(RuntimeException.class);
    * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -> {throw throwable;})
+   *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseExactlyInstanceOf(IllegalStateException.class);</code></pre>
    *
    * @param type the expected cause type.
@@ -422,4 +424,19 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
     return this;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableAssertAlternative<T> describedAs(String description, Object... args) {
+    delegate.describedAs(description, args);
+    return super.describedAs(description, args);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public ThrowableAssertAlternative<T> describedAs(Description description) {
+    delegate.describedAs(description);
+    return super.describedAs(description);
+  }
 }

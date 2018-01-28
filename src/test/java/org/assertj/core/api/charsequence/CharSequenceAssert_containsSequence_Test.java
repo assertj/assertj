@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.charsequence;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -20,8 +21,9 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable)}</code>.
- * 
+ * Tests for <code>{@link CharSequenceAssert#containsSequence(Iterable<CharSequence>)}</code>.
+ *
+ * @author Billy Yuan
  * @author André Diermann
  */
 public class CharSequenceAssert_containsSequence_Test extends CharSequenceAssertBaseTest {
@@ -33,6 +35,6 @@ public class CharSequenceAssert_containsSequence_Test extends CharSequenceAssert
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContainsSequence(getInfo(assertions), getActual(assertions), new String[] { "od", "do" });
+    verify(strings).assertContainsSequence(getInfo(assertions), getActual(assertions), array("od", "do"));
   }
 }

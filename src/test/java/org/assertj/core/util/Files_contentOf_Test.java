@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.rules.ExpectedException.none;
+import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for {@link Files#contentOf(File, Charset)} and {@link Files#contentOf(File, String)}.
@@ -39,13 +39,13 @@ public class Files_contentOf_Test {
   @Test
   public void should_throw_exception_if_charset_is_null() {
     Charset charset = null;
-    thrown.expect(NullPointerException.class);
+    thrown.expectNullPointerException();
     Files.contentOf(new File("test"), charset);
   }
 
   @Test
   public void should_throw_exception_if_charset_name_does_not_exist() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expectIllegalArgumentException();
     Files.contentOf(new File("test"), "Klingon");
   }
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,17 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.classes;
 
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
@@ -36,7 +38,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
 
   @Target(ElementType.TYPE)
   @Retention(RetentionPolicy.RUNTIME)
-  private static @interface MyAnnotation {
+  private @interface MyAnnotation {
 
   }
 
@@ -56,7 +58,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_expected_has_null_value() {
     actual = AssertionInfo.class;
-    thrown.expectNullPointerException("");
+    thrown.expectNullPointerException("The class to compare actual with should not be null");
     classes.assertContainsAnnotations(someInfo(), actual, Override.class, null, Deprecated.class);
   }
 
@@ -77,18 +79,12 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @SuppressWarnings("unchecked")
   @Test()
   public void should_fail_if_actual_does_not_contains_an_annotation() {
-    AssertionInfo info = someInfo();
     actual = AnnotatedClass.class;
     Class<Annotation> expected[] = new Class[] { Override.class, Deprecated.class, MyAnnotation.class };
-    try {
-      classes.assertContainsAnnotations(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldHaveAnnotations(actual, Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
-              Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class, Deprecated.class)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveAnnotations(actual,
+                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
+                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class,
+                                                                                                          Deprecated.class)));
+    classes.assertContainsAnnotations(someInfo(), actual, expected);
   }
 }

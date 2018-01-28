@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,19 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualStringComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 
 import java.util.Comparator;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.test.Jedi;
@@ -47,8 +48,9 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
     assertThat(iterables).isNotSameAs(iterablesBefore);
     assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
-    assertThat(strategy.getComparator()).isInstanceOf(OnFieldsComparator.class);
-    assertThat(((OnFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
+    assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
+    assertThat(((OnFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator())
+      .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test
@@ -56,7 +58,7 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                                      .usingElementComparatorOnFields("name", "lightSaberColor")
                                      .contains(other);
   }
@@ -71,7 +73,7 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS, "name")
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
                                      .usingComparatorForElementFieldsWithType(comparator, String.class)
                                      .usingElementComparatorOnFields("name", "lightSaberColor")
                                      .contains(other);
@@ -82,7 +84,7 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS, String.class)
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
                                      .usingElementComparatorOnFields("name", "lightSaberColor")
                                      .contains(other);
   }

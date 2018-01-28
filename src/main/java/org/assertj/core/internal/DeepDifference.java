@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,31 +8,33 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
 import static org.assertj.core.internal.Objects.propertyOrFieldValuesAreEqual;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -58,10 +60,6 @@ public class DeepDifference {
       this.path = path;
       this.key1 = key1;
       this.key2 = key2;
-    }
-
-    private DualKey(Object key1, Object key2) {
-      this(new ArrayList<String>(), key1, key2);
     }
 
     @Override
@@ -130,7 +128,7 @@ public class DeepDifference {
    * Object graph and perform either a field-by-field comparison on each
    * object (if not .equals() method has been overridden from Object), or it
    * will call the customized .equals() method if it exists.
-   * </p>
+   * <p>
    *
    * This method handles cycles correctly, for example A-&gt;B-&gt;C-&gt;A.
    * Suppose a and a' are two separate instances of the A with the same values
@@ -140,7 +138,8 @@ public class DeepDifference {
    * 
    * @param a Object one to compare
    * @param b Object two to compare
-   * @param comparatorByType
+   * @param comparatorByPropertyOrField comparators to compare properties or fields with the given names
+   * @param comparatorByType comparators to compare properties or fields with the given types
    * @return the list of differences found or an empty list if objects are equivalent.
    *         Equivalent means that all field values of both subgraphs are the same,
    *         either at the field level or via the respectively encountered overridden
@@ -149,8 +148,19 @@ public class DeepDifference {
   public static List<Difference> determineDifferences(Object a, Object b,
                                                       Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                       TypeComparators comparatorByType) {
+    // replace null comparators groups by empty one to simplify code afterwards
+    comparatorByPropertyOrField = comparatorByPropertyOrField == null
+        ? new TreeMap<String, Comparator<?>>()
+        : comparatorByPropertyOrField;
+    comparatorByType = comparatorByType == null ? defaultTypeComparators() : comparatorByType;
+    return determineDifferences(a, b, null, comparatorByPropertyOrField, comparatorByType);
+  }
+
+  private static List<Difference> determineDifferences(Object a, Object b, List<String> parentPath,
+                                                       Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                       TypeComparators comparatorByType) {
     final Set<DualKey> visited = new HashSet<>();
-    final Deque<DualKey> toCompare = initStack(a, b, visited);
+    final Deque<DualKey> toCompare = initStack(a, b, parentPath, comparatorByPropertyOrField, comparatorByType);
     final List<Difference> differences = new ArrayList<>();
 
     while (!toCompare.isEmpty()) {
@@ -165,15 +175,15 @@ public class DeepDifference {
         continue;
       }
 
-      if (key1 == null || key2 == null) {
-        differences.add(new Difference(currentPath, key1, key2));
-        continue;
-      }
-
       if (hasCustomComparator(dualKey, comparatorByPropertyOrField, comparatorByType)) {
         if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(),
                                           comparatorByPropertyOrField, comparatorByType))
           continue;
+      }
+
+      if (key1 == null || key2 == null) {
+        differences.add(new Difference(currentPath, key1, key2));
+        continue;
       }
 
       if (key1 instanceof Collection) {
@@ -237,21 +247,19 @@ public class DeepDifference {
         continue;
       }
 
-      // Handled unordered Sets. This is a slightly more expensive comparison because order cannot
-      // be assumed, a temporary Map must be created, however the comparison still runs in O(N) time.
-      if (key1 instanceof Set) {
-        if (!compareUnorderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare,
-                                        visited)) {
+      // Check List, as element order matters this comparison is faster than using unordered comparison.
+      if (key1 instanceof List) {
+        if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
         }
         continue;
       }
 
-      // Check any Collection that is not a Set. In these cases, element
-      // order matters, therefore this comparison is faster than using unordered comparison.
+      // Handle unordered Collection.
       if (key1 instanceof Collection) {
-        if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare, visited)) {
+        if (!compareUnorderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare,
+                                        visited, comparatorByPropertyOrField, comparatorByType)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
         }
@@ -287,15 +295,20 @@ public class DeepDifference {
         continue;
       }
 
-      for (Field field : getDeclaredFieldsIncludingInherited(key1.getClass())) {
-        List<String> path = new ArrayList<String>(currentPath);
-        String fieldName = field.getName();
-        path.add(fieldName);
-        DualKey dk = new DualKey(path,
-                                 COMPARISON.getSimpleValue(fieldName, key1),
-                                 COMPARISON.getSimpleValue(fieldName, key2));
-        if (!visited.contains(dk)) {
-          toCompare.addFirst(dk);
+      Set<String> key1FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key1.getClass()));
+      Set<String> key2FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key2.getClass()));
+      if (!key2FieldsNames.containsAll(key1FieldsNames)) {
+        differences.add(new Difference(currentPath, key1, key2));
+      } else {
+        for (String fieldName : key1FieldsNames) {
+          List<String> path = new ArrayList<>(currentPath);
+          path.add(fieldName);
+          DualKey dk = new DualKey(path,
+                                   COMPARISON.getSimpleValue(fieldName, key1),
+                                   COMPARISON.getSimpleValue(fieldName, key2));
+          if (!visited.contains(dk)) {
+            toCompare.addFirst(dk);
+          }
         }
       }
     }
@@ -305,37 +318,53 @@ public class DeepDifference {
 
   private static boolean hasCustomComparator(DualKey dualKey, Map<String, Comparator<?>> comparatorByPropertyOrField,
                                              TypeComparators comparatorByType) {
-    if (dualKey.key1.getClass() == dualKey.key2.getClass()) {
-      String fieldName = dualKey.getConcatenatedPath();
-      Comparator<?> fieldComparator = comparatorByPropertyOrField.containsKey(fieldName)
-          ? comparatorByPropertyOrField.get(fieldName) : comparatorByType.get(dualKey.key1.getClass());
-      return fieldComparator != null;
-    }
-    return false;
+    String fieldName = dualKey.getConcatenatedPath();
+    if (comparatorByPropertyOrField.containsKey(fieldName)) return true;
+    // we know that dualKey.key1 != dualKey.key2 at this point, so one the key is not null
+    Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass() : dualKey.key2.getClass();
+    return comparatorByType.get(keyType) != null;
   }
 
-  private static Deque<DualKey> initStack(Object a, Object b, Set<DualKey> visited) {
+  private static Deque<DualKey> initStack(Object a, Object b, List<String> parentPath,
+                                          Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                          TypeComparators comparatorByType) {
     Deque<DualKey> stack = new LinkedList<>();
-    if (a != null && !isContainerType(a)) {
+    boolean isRootObject = parentPath == null;
+    List<String> currentPath = isRootObject ? new ArrayList<String>() : parentPath;
+    DualKey basicDualKey = new DualKey(currentPath, a, b);
+    if (a != null && b != null && !isContainerType(a) && !isContainerType(b)
+        && (isRootObject || !hasCustomComparator(basicDualKey, comparatorByPropertyOrField, comparatorByType))) {
       // disregard the equals method and start comparing fields
-      Collection<Field> fieldsOfRootObject = getDeclaredFieldsIncludingInherited(a.getClass());
-      if (!fieldsOfRootObject.isEmpty()) {
-        for (Field field : fieldsOfRootObject) {
-          String fieldName = field.getName();
-          DualKey dk = new DualKey(Arrays.asList(fieldName),
-                                   COMPARISON.getSimpleValue(fieldName, a),
-                                   COMPARISON.getSimpleValue(fieldName, b));
-          if (!visited.contains(dk)) {
+      Set<String> aFieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(a.getClass()));
+      if (!aFieldsNames.isEmpty()) {
+        Set<String> bFieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(b.getClass()));
+        if (!bFieldsNames.containsAll(aFieldsNames)) {
+          stack.addFirst(basicDualKey);
+        } else {
+          for (String fieldName : aFieldsNames) {
+            List<String> fieldPath = new ArrayList<>(currentPath);
+            fieldPath.add(fieldName);
+            DualKey dk = new DualKey(fieldPath,
+                                     COMPARISON.getSimpleValue(fieldName, a),
+                                     COMPARISON.getSimpleValue(fieldName, b));
             stack.addFirst(dk);
           }
         }
       } else {
-        stack.addFirst(new DualKey(a, b));
+        stack.addFirst(basicDualKey);
       }
     } else {
-      stack.addFirst(new DualKey(a, b));
+      stack.addFirst(basicDualKey);
     }
     return stack;
+  }
+
+  private static Set<String> getFieldsNames(Collection<Field> fields) {
+    Set<String> fieldNames = new LinkedHashSet<>();
+    for (Field field : fields) {
+      fieldNames.add(field.getName());
+    }
+    return fieldNames;
   }
 
   private static boolean isContainerType(Object o) {
@@ -398,9 +427,7 @@ public class DeepDifference {
   }
 
   /**
-   * Deeply compare the two sets referenced by dualKey. This method attempts
-   * to quickly determine inequality by length, then if lengths match, it
-   * places one collection into a temporary Map by deepHashCode(), so that it
+   * It places one collection into a temporary Map by deepHashCode(), so that it
    * can walk the other collection and look for each item in the map, which
    * runs in O(N) time, rather than an O(N^2) lookup that would occur if each
    * item from collection one was scanned for in collection two.
@@ -415,13 +442,9 @@ public class DeepDifference {
    *         value of 'true' indicates that the Collections may be equal, and
    *         the sets items will be added to the Stack for further comparison.
    */
-  private static <K, V> boolean compareUnorderedCollection(Collection<K> col1, Collection<V> col2,
-                                                           List<String> path, Deque<DualKey> toCompare,
-                                                           Set<DualKey> visited) {
-    if (col1.size() != col2.size()) {
-      return false;
-    }
-
+  private static <K, V> boolean compareUnorderedCollectionByHashCodes(Collection<K> col1, Collection<V> col2,
+                                                                      List<String> path, Deque<DualKey> toCompare,
+                                                                      Set<DualKey> visited) {
     Map<Integer, Object> fastLookup = new HashMap<>();
     for (Object o : col2) {
       fastLookup.put(deepHashCode(o), o);
@@ -440,6 +463,41 @@ public class DeepDifference {
       }
     }
     return true;
+  }
+
+  /**
+   * Deeply compares two collections referenced by dualKey. This method attempts
+   * to quickly determine inequality by length, then if lengths match, in case of
+   * collection type is Set and there are passed no custom comparators, there is used
+   * comparison on hashcodes basis, otherwise each element from one collection is checked
+   * for existence in another one using 'deep' comparison.
+   */
+  private static <K, V> boolean compareUnorderedCollection(Collection<K> col1, Collection<V> col2,
+                                                           List<String> path, Deque<DualKey> toCompare,
+                                                           Set<DualKey> visited,
+                                                           Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                           TypeComparators comparatorByType) {
+    if (col1.size() != col2.size()) return false;
+
+    boolean noCustomComparators = comparatorByPropertyOrField.isEmpty() && comparatorByType.isEmpty();
+    if (noCustomComparators && col1 instanceof Set) {
+      // this comparison is used for performance optimization reasons
+      return compareUnorderedCollectionByHashCodes(col1, col2, path, toCompare, visited);
+    }
+
+    Collection<V> col2Copy = new LinkedList<>(col2);
+    for (Object o1 : col1) {
+      Iterator<V> iterator = col2Copy.iterator();
+      while (iterator.hasNext()) {
+        Object o2 = iterator.next();
+        if (determineDifferences(o1, o2, path, comparatorByPropertyOrField, comparatorByType).isEmpty()) {
+          iterator.remove();
+          break;
+        }
+      }
+    }
+
+    return col2Copy.isEmpty();
   }
 
   /**

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -43,50 +43,50 @@ public class MethodSupport_methodResultFor_Test {
   }
 
   @Test
-  public void should_invoke_methods_without_arguments() throws Exception {
+  public void should_invoke_methods_without_arguments() {
     Object result = MethodSupport.methodResultFor(batman, "archenemy");
     assertThat(result).isEqualTo(joker);
   }
 
   @Test
-  public void should_invoke_methods_from_superclass() throws Exception {
+  public void should_invoke_methods_from_superclass() {
     Object result = MethodSupport.methodResultFor(batman, "getName");
     assertThat(result).isEqualTo("Batman");
   }
 
   @Test
-  public void should_fail_meaningfully_if_object_instance_not_provided() throws Exception {
+  public void should_fail_meaningfully_if_object_instance_not_provided() {
     thrown.expectNullPointerException("Object instance can not be null!");
     MethodSupport.methodResultFor(null, "methodName");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_name_not_provided() throws Exception {
+  public void should_fail_meaningfully_if_method_name_not_provided() {
     thrown.expectNullPointerException("Method name can not be empty!");
     MethodSupport.methodResultFor(batman, null);
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_name_is_empty() throws Exception {
+  public void should_fail_meaningfully_if_method_name_is_empty() {
     thrown.expectIllegalArgumentException("Method name can not be empty!");
     MethodSupport.methodResultFor(batman, "");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_not_found() throws Exception {
+  public void should_fail_meaningfully_if_method_not_found() {
     thrown.expectIllegalArgumentException("Can't find method 'commitCrime' in class SuperHero.class. Make sure public" +
                                             " method exists and accepts no arguments!");
     MethodSupport.methodResultFor(batman, "commitCrime");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_does_not_return_value() throws Exception {
+  public void should_fail_meaningfully_if_method_does_not_return_value() {
     thrown.expectIllegalArgumentException("Method 'saveTheDay' in class SuperHero.class has to return a value!");
     MethodSupport.methodResultFor(batman, "saveTheDay");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_is_not_public() throws Exception {
+  public void should_fail_meaningfully_if_method_is_not_public() {
     thrown.expectIllegalArgumentException("Can't find method 'trueIdentity' in class SuperHero.class. Make sure " +
                                             "public method exists and accepts no arguments!");
     MethodSupport.methodResultFor(batman, "trueIdentity");

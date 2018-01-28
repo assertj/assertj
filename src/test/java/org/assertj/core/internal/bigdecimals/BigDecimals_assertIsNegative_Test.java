@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -32,30 +32,30 @@ public class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_negative() {
-    bigDecimals.assertIsNegative(someInfo(), new BigDecimal("-1.0"));
+    numbers.assertIsNegative(someInfo(), new BigDecimal("-1.0"));
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0>");
-    bigDecimals.assertIsNegative(someInfo(), BigDecimal.ONE);
+    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0> ");
+    numbers.assertIsNegative(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_zero() {
-	thrown.expectAssertionError("%nExpecting:%n <0>%nto be less than:%n <0>");
-	bigDecimals.assertIsNegative(someInfo(), BigDecimal.ZERO);
+	thrown.expectAssertionError("%nExpecting:%n <0>%nto be less than:%n <0> ");
+	numbers.assertIsNegative(someInfo(), BigDecimal.ZERO);
   }
   
   @Test
   public void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
-    bigDecimalsWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigDecimal("-1.0"));
+    numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigDecimal("-1.0"));
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0>");
-    bigDecimalsWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigDecimal.ONE);
+    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using org.assertj.core.util.BigDecimalComparator");
+    numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigDecimal.ONE);
   }
 
 }

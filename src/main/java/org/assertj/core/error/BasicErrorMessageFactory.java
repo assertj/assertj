@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
@@ -23,9 +24,7 @@ import static org.assertj.core.util.Strings.quote;
 import java.util.Arrays;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.description.EmptyTextDescription;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -94,7 +93,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   }
 
   /**
-   * Creates a new </code>{@link BasicErrorMessageFactory}</code>.
+   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
    * 
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
@@ -113,13 +112,13 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   /** {@inheritDoc} */
   @Override
   public String create(Description d) {
-    return formatter.format(d, STANDARD_REPRESENTATION, format, arguments);
+    return formatter.format(d, CONFIGURATION_PROVIDER.representation(), format, arguments);
   }
 
   /** {@inheritDoc} */
   @Override
   public String create() {
-    return formatter.format(EmptyTextDescription.emptyText(), STANDARD_REPRESENTATION, format, arguments);
+    return formatter.format(emptyDescription(), CONFIGURATION_PROVIDER.representation(), format, arguments);
   }
 
   /**
@@ -160,7 +159,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   @Override
   public String toString() {
     return format("%s[format=%s, arguments=%s]", getClass().getSimpleName(), quote(format),
-        StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(arguments));
+                  CONFIGURATION_PROVIDER.representation().toStringOf(arguments));
   }
 
 }

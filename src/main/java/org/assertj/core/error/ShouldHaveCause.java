@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveCause(Throwable actualCause, Throwable expectedCause) {
-    if (expectedCause == null) throw new IllegalArgumentException("expected cause should not be null");
+    checkArgument(expectedCause != null, "expected cause should not be null");
     // actualCause has no cause
     if (actualCause == null) return new ShouldHaveCause(expectedCause);
     // same message => different type
@@ -59,7 +60,7 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "  <%s>%n" +
           "but type was:%n" +
           "  <%s>.",
-          actualCause.getClass().getName(), expectedCauseClass.getName());
+          expectedCauseClass.getName(), actualCause.getClass().getName());
   }
 
   private ShouldHaveCause(Throwable actualCause, String expectedCauseMessage) {

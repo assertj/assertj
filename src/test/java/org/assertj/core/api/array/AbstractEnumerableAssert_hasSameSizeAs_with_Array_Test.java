@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api.array;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.junit.Rule;
@@ -67,7 +66,7 @@ public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
 
   @Test
   public void should_fail_if_other_is_not_an_array() {
-    thrown.expectAssertionError("Expecting an array but was:<\"a string\">");
+    thrown.expectAssertionError("%nExpecting an array but was:<\"a string\">");
     assertThat(new byte[]{1, 2}).hasSameSizeAs("a string");
   }
 
@@ -75,13 +74,8 @@ public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
   public void should_fail_if_size_of_actual_has_same_as_other_array() {
     final byte[] actual = new byte[]{1, 2};
     final byte[] other = new byte[]{1, 2, 3};
-    try {
-      assertThat(actual).hasSameSizeAs(other);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
+    assertThat(actual).hasSameSizeAs(other);
   }
 
 }

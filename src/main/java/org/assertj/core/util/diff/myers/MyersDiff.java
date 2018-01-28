@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,12 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util.diff.myers;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkState;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.diff.ChangeDelta;
@@ -46,34 +48,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    */
   public MyersDiff() {
     /**	Default equalizer. */
-    equalizer = new Equalizer<T>() {
-
-      @Override
-      public boolean equals(T original, T revised) {
-        return original.equals(revised);
-      }
-
-    };
-  }
-
-  /**
-   * Constructs an instance of the Myers differencing algorithm.
-   * @param equalizer Must not be {@code null}.
-   */
-  public MyersDiff(final Equalizer<T> equalizer) {
-    if (equalizer == null) {
-      throw new IllegalArgumentException("equalizer must not be null");
-    }
-    this.equalizer = equalizer;
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @return Returns an empty diff if get the error while procession the difference.
-   */
-  public Patch<T> diff(final T[] original, final T[] revised) {
-    return diff(Arrays.asList(original), Arrays.asList(revised));
+    equalizer = (original, revised) -> original.equals(revised);
   }
 
   /**
@@ -82,12 +57,8 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * Return empty diff if get the error while procession the difference.
    */
   public Patch<T> diff(final List<T> original, final List<T> revised) {
-    if (original == null) {
-      throw new IllegalArgumentException("original list must not be null");
-    }
-    if (revised == null) {
-      throw new IllegalArgumentException("revised list must not be null");
-    }
+    checkArgument(original != null, "original list must not be null");
+    checkArgument(revised != null, "revised list must not be null");
     PathNode path;
     try {
       path = buildPath(original, revised);
@@ -105,14 +76,12 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    *
    * @param orig The original sequence.
    * @param rev The revised sequence.
-   * @return A minimum {@link PathNode Path} accross the differences graph.
-   * @throws DifferentiationFailedException if a diff path could not be found.
+   * @return A minimum {@link PathNode Path} across the differences graph.
+   * @throws IllegalStateException if a diff path could not be found.
    */
   public PathNode buildPath(final List<T> orig, final List<T> rev) {
-    if (orig == null)
-      throw new IllegalArgumentException("original sequence is null");
-    if (rev == null)
-      throw new IllegalArgumentException("revised sequence is null");
+    checkArgument(orig != null, "original sequence is null");
+    checkArgument(rev != null, "revised sequence is null");
 
     // these are local constants
     final int N = orig.size();
@@ -179,16 +148,15 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * @return A {@link Patch} script corresponding to the path.
    */
   public Patch<T> buildRevision(PathNode path, List<T> orig, List<T> rev) {
-    if (path == null) throw new IllegalArgumentException("path is null");
-    if (orig == null) throw new IllegalArgumentException("original sequence is null");
-    if (rev == null) throw new IllegalArgumentException("revised sequence is null");
+    checkArgument(path != null, "path is null");
+    checkArgument(orig != null, "original sequence is null");
+    checkArgument(rev != null, "revised sequence is null");
 
     Patch<T> patch = new Patch<>();
     if (path.isSnake())
       path = path.prev;
     while (path != null && path.prev != null && path.prev.j >= 0) {
-      if (path.isSnake())
-        throw new IllegalStateException("bad diffpath: found snake when looking for diff");
+      checkState(!path.isSnake(), "bad diffpath: found snake when looking for diff");
       int i = path.i;
       int j = path.j;
 

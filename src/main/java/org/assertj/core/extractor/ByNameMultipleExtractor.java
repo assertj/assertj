@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.extractor;
+
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +30,9 @@ public class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
 
   @Override
   public Tuple extract(T input) {
-    if (fieldsOrProperties == null)
-      throw new IllegalArgumentException("The names of the fields/properties to read should not be null");
-    if (fieldsOrProperties.length == 0)
-      throw new IllegalArgumentException("The names of the fields/properties to read should not be empty");
-    if (input == null)
-      throw new IllegalArgumentException("The object to extract fields/properties from should not be null");
+    checkArgument(fieldsOrProperties != null, "The names of the fields/properties to read should not be null");
+    checkArgument(fieldsOrProperties.length > 0, "The names of the fields/properties to read should not be empty");
+    checkArgument(input != null, "The object to extract fields/properties from should not be null");
 
     List<Extractor<T, Object>> extractors = buildExtractors();
     List<Object> values = extractValues(input, extractors);

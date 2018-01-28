@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.condition;
 
-import static java.lang.String.format;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Set;
@@ -62,18 +60,13 @@ public class ConditionBuiltWithPredicateTest implements WithAssertions {
   public void doesNotHave_condition_should_be_met() {
 	assertThat("Vader").doesNotHave(jediPower);
   }
-  
+
   @Test
   public void should_fail_if_condition_is_not_met() {
-	try {
-	  assertThat("Vader").is(jedi);
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(format("%n" +
-		                       "Expecting:%n" +
-		                       " <\"Vader\">%n" +
-		                       "to be <a jedi>"));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError("%n" +
+                                "Expecting:%n" +
+                                " <\"Vader\">%n" +
+                                "to be <a jedi>");
+    assertThat("Vader").is(jedi);
   }
 }

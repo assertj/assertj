@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,13 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.throwables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
@@ -34,13 +32,13 @@ public class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest
   public static final String REGEX = "Given id='\\d{2,4}' not exists";
 
   @Test
-  public void should_pass_if_throwable_message_matches_given_regex() throws Exception {
+  public void should_pass_if_throwable_message_matches_given_regex() {
     actual = new RuntimeException("Given id='259' not exists");
     throwables.assertHasMessageMatching(someInfo(), actual, REGEX);
   }
 
   @Test
-  public void should_pass_if_throwable_message_is_empty_and_regex_is_too() throws Exception {
+  public void should_pass_if_throwable_message_is_empty_and_regex_is_too() {
     actual = new RuntimeException("");
     throwables.assertHasMessageMatching(someInfo(), actual, "");
   }
@@ -57,18 +55,13 @@ public class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest
   }
 
   @Test
-  public void should_fail_if_given_regex_is_null() throws Exception {
-    AssertionInfo info = someInfo();
-    try {
-      throwables.assertHasMessageMatching(info, actual, null);
-      failBecauseExceptionWasNotThrown(NullPointerException.class);
-    } catch (NullPointerException e) {
-      assertThat(e).hasMessage("regex must not be null");
-    }
+  public void should_fail_if_given_regex_is_null() {
+    thrown.expectNullPointerException("regex must not be null");
+    throwables.assertHasMessageMatching(someInfo(), actual, null);
   }
 
   @Test
-  public void should_fail_if_throwable_does_not_have_a_message() throws Exception {
+  public void should_fail_if_throwable_does_not_have_a_message() {
     actual = new RuntimeException();
     AssertionInfo info = someInfo();
     try {

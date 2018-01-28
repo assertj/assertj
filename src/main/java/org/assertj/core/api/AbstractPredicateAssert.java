@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -44,7 +44,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given values to {@code true}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).accepts("football")
@@ -69,7 +69,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given values to {@code false}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).rejects("curling")
@@ -94,7 +94,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given {@link Iterable}'s elements to {@code true}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).acceptsAll(list("football", "basketball", "handball"));
@@ -116,7 +116,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * Verifies that the {@link Predicate} evaluates all given {@link Iterable}'s elements to {@code false}.
    * <p>
    * Example :
-   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -> sport.contains("ball");
+   * <pre><code class='java'> Predicate&lt;String&gt; ballSportPredicate = sport -&gt; sport.contains("ball");
    *
    * // assertion succeeds:
    * assertThat(ballSportPredicate).rejectsAll(list("curling", "judo", "marathon"));

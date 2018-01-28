@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import org.assertj.core.util.VisibleForTesting;
 
@@ -41,12 +42,9 @@ public class PropertyOrFieldSupport {
   }
 
   public Object getValueOf(String propertyOrFieldName, Object input) {
-    if (propertyOrFieldName == null)
-      throw new IllegalArgumentException("The name of the property/field to read should not be null");
-    if (propertyOrFieldName.isEmpty())
-      throw new IllegalArgumentException("The name of the property/field to read should not be empty");
-    if (input == null)
-      throw new IllegalArgumentException("The object to extract property/field from should not be null");
+    checkArgument(propertyOrFieldName != null, "The name of the property/field to read should not be null");
+    checkArgument(!propertyOrFieldName.isEmpty(), "The name of the property/field to read should not be empty");
+    checkArgument(input != null, "The object to extract property/field from should not be null");
 
     if (isNested(propertyOrFieldName)) {
       String firstPropertyName = popNameFrom(propertyOrFieldName);
@@ -76,7 +74,7 @@ public class PropertyOrFieldSupport {
                                 "- %s",
                                 propertyOrFieldName, propertyIntrospectionError.getMessage(),
                                 fieldIntrospectionError.getMessage());
-        throw new IntrospectionError(message);
+        throw new IntrospectionError(message, fieldIntrospectionError);
       }
     }
   }

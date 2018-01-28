@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
@@ -16,7 +16,7 @@ import static com.tngtech.java.junit.dataprovider.DataProviders.$;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.test.CharArrays.arrayOf;
-import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
@@ -54,7 +54,6 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
   public static Object[][] notEqualIgnoringWhitespaceGenerator() {
     // @format:off
     return $$($("foo", "bar"),
-              $("my foo", "myfoo"),
               $("foo", new String(arrayOf('b', 'a', 'r'))),
               $(null, "bar"));
     // @format:on
@@ -75,7 +74,9 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
   @DataProvider
   public static Object[][] equalIgnoringWhitespaceGenerator() {
     // @format:off
-    return $$($("my   foo bar", "my foo bar"),
+    return $$($("my foo", "myfoo"),
+              $("myfoo", "my foo"),
+              $("my   foo bar", "my foo bar"),
               $("  my foo bar  ", "my foo bar"),
               $(" my\tfoo bar ", " my foo bar"),
               $(" my foo    bar ", "my foo bar"),

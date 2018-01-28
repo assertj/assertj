@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,15 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;
@@ -32,14 +30,8 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertDoesNotStartWith(info, "Yoda", "Yo");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotStartWith("Yoda", "Yo"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotStartWith("Yoda", "Yo"));
+    strings.assertDoesNotStartWith(someInfo(), "Yoda", "Yo");
   }
 
   @Test
@@ -67,14 +59,8 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(info, "Yoda", "yODA");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotStartWith("Yoda", "yODA", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(shouldNotStartWith("Yoda", "yODA", comparisonStrategy));
+    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(someInfo(), "Yoda", "yODA");
   }
 
 }
