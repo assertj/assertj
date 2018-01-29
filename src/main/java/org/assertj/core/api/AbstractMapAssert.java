@@ -13,7 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toCollection;
@@ -1191,6 +1193,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * 
    * // assertion will fail:
    * assertThat(ringBearers).size().isGreaterThan(5);</code></pre>
+   * <p>
+   * <b>Warning: this method does not work with soft assertions or assumptions.</b> 
    *
    * @return a {@link AbstractMapSizeAssert} to allow assertions on the the number of key-value mappings in this map
    * @throws NullPointerException if the given map is {@code null}.
@@ -1229,7 +1233,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @CheckReturnValue
   @Override
-  public AbstractObjectArrayAssert<?, Object> extracting(String... keys) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String... keys) {
     return super.extracting(keys);
   }
 
@@ -1255,7 +1259,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(map).flatExtracting("name","job","city", "rank")
    *                .containsExactly("Dave", "Jeff", 
    *                                 "Plumber", "Builder", 
-   *                                 "Dover", "Boston", "Paris"
+   *                                 "Dover", "Boston", "Paris",
    *                                 1, 2, 3);
    *                
    * // the order of values in the resulting array is the order of map keys then key values:                
@@ -1279,10 +1283,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new assertion object whose object under test is the array containing the extracted flattened map values
    */
   @CheckReturnValue
-  public AbstractObjectArrayAssert<?, Object> flatExtracting(String... keys) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String... keys) {
     Tuple values = byName(keys).extract(actual);
     List<Object> valuesFlattened = flatten(values.toList());
-    return extracting(valuesFlattened, keys);
+    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
+    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+    return newListAssertInstance(valuesFlattened).as(description);
   }
 
   private static List<Object> flatten(Iterable<Object> collectionToFlatten) {

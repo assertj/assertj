@@ -44,7 +44,7 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
   }
   
   protected <K,V> Map.Entry<K, V> javaMapEntry(K key, V value) {
-    return new SimpleImmutableEntry<K, V>(key, value);
+    return new SimpleImmutableEntry<>(key, value);
   }
   
   protected <K, V> Map<K, V> map(K key, V value) {
@@ -52,7 +52,7 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
   }
   
   protected <K, V> Map<K, V> map(K k1, V v1, K k2, V v2) {
-    Map<K, V> map = new LinkedHashMap<K, V>();
+    Map<K, V> map = new LinkedHashMap<>();
     map.put(k1, v1);
     map.put(k2, v2);
     return map;

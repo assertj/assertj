@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static net.bytebuddy.matcher.ElementMatchers.any;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.Arrays.array;
 
@@ -76,6 +75,7 @@ import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
+import net.bytebuddy.matcher.ElementMatchers;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
@@ -1150,8 +1150,9 @@ public class Assumptions {
   }
 
   private static <ASSERTION> Class<? extends ASSERTION> createAssumption(Class<ASSERTION> assertionType) {
+    // TODO ignore special methods like extracting ?
     return new ByteBuddy().subclass(assertionType)
-                          .method(any())
+                          .method(ElementMatchers.any())
                           .intercept(MethodDelegation.to(new AssumptionMethodInterceptor()))
                           .make()
                           .load(Assumptions.class.getClassLoader())
@@ -1191,8 +1192,9 @@ public class Assumptions {
     if (assertion instanceof FactoryBasedNavigableListAssert) {
       return asAssumption(ProxyableListAssert.class, List.class, actual);
     }
-    if (assertion instanceof ObjectArrayAssert) return asAssumption(ObjectArrayAssert.class, Object[].class, actual);
-    if (assertion instanceof IterableSizeAssert) {
+    if (assertion instanceof AbstractObjectArrayAssert)
+      return asAssumption(ProxyableObjectArrayAssert.class, Object[].class, actual);
+    if (assertion instanceof IterableSizeAssert) { // TODO should likely return a proxyable class
       @SuppressWarnings("rawtypes")
       IterableSizeAssert iterableSizeAssert = (IterableSizeAssert) assertion;
       Class<?>[] constructorTypes = array(AbstractIterableAssert.class, Integer.class);

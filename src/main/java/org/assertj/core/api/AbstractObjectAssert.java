@@ -23,8 +23,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
@@ -506,11 +508,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Extract the values of given fields/properties from the object under test into an array, this new array becoming
+   * Extract the values of given fields/properties from the object under test into a list, this new list becoming
    * the object under test.
    * <p>
-   * If you extract "id", "name" and "email" fields/properties then the array will contain the id, name and email values
-   * of the object under test, you can then perform array assertions on the extracted values.
+   * If you extract "id", "name" and "email" fields/properties then the list will contain the id, name and email values
+   * of the object under test, you can then perform list assertions on the extracted values.
    * <p>
    * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to get the value
    * corresponding to actual.getAdress().getStreet().getNumber()
@@ -528,33 +530,28 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
    *
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
-   * for, if the field is not accessible (i.e. does not exist) an IntrospectionError is thrown.
+   * for, if the field is not accessible (i.e. does not exist) an {@link IntrospectionError} is thrown.
    * <p>
-   * Note that the order of extracted property/field values is consistent with the iteration order of the array under
-   * test.
+   * Note that the order of extracted values is consistent with the order of the given property/field.
    *
    * @param propertiesOrFields the properties/fields to extract from the initial object under test
-   * @return a new assertion object whose object under test is the array containing the extracted properties/fields values
+   * @return a new assertion object whose object under test is the list containing the extracted properties/fields values
    * @throws IntrospectionError if one of the given name does not match a field or property
    */
   @CheckReturnValue
-  public AbstractObjectArrayAssert<?, Object> extracting(String... propertiesOrFields) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).extract(actual);
-    return extracting(values.toList(), propertiesOrFields);
-  }
-
-  AbstractObjectArrayAssert<?, Object> extracting(List<Object> values, String... propertiesOrFields) {
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return new ObjectArrayAssert<>(values.toArray()).as(description);
+    return newListAssertInstance(values.toList()).as(description);
   }
 
   /**
-   * Use the given {@link Function}s to extract the values from the object under test into an array, this new array becoming
+   * Use the given {@link Function}s to extract the values from the object under test into a list, this new list becoming 
    * the object under test. 
    * <p>
-   * If the given {@link Function}s extract the id, name and email values then the array will contain the id, name and email values 
-   * of the object under test, you can then perform array assertions on the extracted values.
+   * If the given {@link Function}s extract the id, name and email values then the list will contain the id, name and email values 
+   * of the object under test, you can then perform list assertions on the extracted values.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
@@ -566,17 +563,17 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                              character -&gt; character.getRace().getName())
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
    * <p>
-   * Note that the order of extracted values is consistent with the iteration order of the array under test.
+   * Note that the order of extracted values is consistent with the order of given extractor functions.
    *
    * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
-   * @return a new assertion object whose object under test is the array containing the extracted values
+   * @return a new assertion object whose object under test is the list containing the extracted values
    */
   @CheckReturnValue
-  public AbstractObjectArrayAssert<?, Object> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, Object>... extractors) {
-    Object[] values = Stream.of(extractors)
-                            .map(extractor -> extractor.apply(actual))
-                            .toArray();
-    return new ObjectArrayAssert<>(values);
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, Object>... extractors) {
+    List<Object> values = Stream.of(extractors)
+                                .map(extractor -> extractor.apply(actual))
+                                .collect(Collectors.toList());
+    return newListAssertInstance(values).as(info.description());
   }
 
   /**
@@ -677,4 +674,21 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     objects.assertEqual(info, from.apply(actual), expected);
     return myself;
   }
+
+  /**
+   * Create a friendly soft or "hard" assertion.
+   * <p>
+   * Implementations need to redefine it so that some methods, such as {@link #extracting(Extractor)}, are able
+   * to build the appropriate list assert (eg: {@link ListAssert} versus {@link ProxyableListAssert}).
+   * <p>
+   * The default implementation will assume that this concrete implementation is NOT a soft assertion.
+   *
+   * @param <E> the type of elements.
+   * @param newActual new value
+   * @return a new {@link AbstractListAssert}.
+   */
+  protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
+    return new ListAssert<>(newActual);
+  }
+
 }

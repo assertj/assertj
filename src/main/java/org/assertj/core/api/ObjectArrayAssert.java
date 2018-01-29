@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.util.Arrays.array;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Function;
 
@@ -45,8 +46,86 @@ public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<Object
 
   @Override
   @SafeVarargs
-  public final ObjectArrayAssert<Tuple> extracting(Function<ELEMENT, ?>... extractors) {
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<ELEMENT, ?>... extractors) {
     return super.extracting(extractors);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> contains(ELEMENT... values) {
+    return super.contains(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> containsOnly(ELEMENT... values) {
+    return super.containsOnly(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> containsOnlyOnce(ELEMENT... values) {
+    return super.containsOnlyOnce(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> containsExactly(ELEMENT... values) {
+    return super.containsExactly(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> containsExactlyInAnyOrder(ELEMENT... values) {
+    return super.containsExactlyInAnyOrder(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> containsAnyOf(ELEMENT... values) {
+    return super.containsAnyOf(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> isSubsetOf(ELEMENT... values) {
+    return super.isSubsetOf(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> containsSequence(ELEMENT... sequence) {
+    return super.containsSequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> doesNotContainSequence(ELEMENT... sequence) {
+    return super.doesNotContainSequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> containsSubsequence(ELEMENT... sequence) {
+    return super.containsSubsequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> doesNotContainSubsequence(ELEMENT... sequence) {
+    return super.doesNotContainSubsequence(sequence);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> doesNotContain(ELEMENT... values) {
+    return super.doesNotContain(values);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> endsWith(ELEMENT first, ELEMENT... rest) {
+    return super.endsWith(first, rest);
   }
 
 }

@@ -593,7 +593,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default AbstractClassAssert<?> assertThat(final Class<?> actual) {
+  default ClassAssert assertThat(final Class<?> actual) {
     return Assertions.assertThat(actual);
   }
 

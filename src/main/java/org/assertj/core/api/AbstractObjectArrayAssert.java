@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -65,7 +66,6 @@ import org.assertj.core.internal.RecursiveFieldByFieldComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -1821,8 +1821,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Extract the values of given field or property from the array's elements under test into a new array, this new array
-   * becoming the array under test.
+   * Extract the values of given field or property from the array's elements under test into a new list, this new list
+   * becoming the object under test.
    * <p>
    * It allows you to test a field/property of the array's elements instead of testing the elements themselves, which can
    * be much less work !
@@ -1859,20 +1859,20 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Note that the order of extracted field/property values is consistent with the array order.
    *
    * @param fieldOrProperty the field/property to extract from the array under test
-   * @return a new assertion object whose object under test is the array of extracted field/property values.
+   * @return a new assertion object whose object under test is the list of extracted field/property values.
    * @throws IntrospectionError if no field or property exists with the given name
    */
   @CheckReturnValue
-  public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return new ObjectArrayAssert<>(values).as(description);
+    return newListAssertInstance(newArrayList(values)).as(description);
   }
 
   /**
-   * Extract the values of given field or property from the array's elements under test into a new array, this new array
-   * becoming the array under test with type.
+   * Extract the values of given field or property from the array's elements under test into a new list, this new list of the provided type
+   * becoming the object under test.
    * <p>
    * It allows you to test a field/property of the array's elements instead of testing the elements themselves, which can
    * be much less work !
@@ -1911,21 +1911,22 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param <P> the type of elements to extract.
    * @param fieldOrProperty the field/property to extract from the array under test
    * @param extractingType type to return
-   * @return a new assertion object whose object under test is the array of extracted field/property values.
+   * @return a new assertion object whose object under test is the list of extracted field/property values.
    * @throws IntrospectionError if no field or property exists with the given name
    */
   @CheckReturnValue
-  public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
+  public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String fieldOrProperty,
+                                                                                     Class<P> extractingType) {
     @SuppressWarnings("unchecked")
-    P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
+    List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return new ObjectArrayAssert<>(values).as(description);
+    return newListAssertInstance(values).as(description);
   }
 
   /**
-   * Extract the values of given fields/properties from the array's elements under test into a new array composed of
-   * Tuple (a simple data structure), this new array becoming the array under test.
+   * Extract the values of given fields/properties from the array's elements under test into a list composed of
+   * Tuple (a simple data structure), this new list becoming the object under test.
    * <p>
    * It allows you to test fields/properties of the the array's elements instead of testing the elements themselves, it
    * can be sometimes much less work !
@@ -1970,26 +1971,22 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * test.
    *
    * @param propertiesOrFields the properties/fields to extract from the initial array under test
-   * @return a new assertion object whose object under test is the list of Tuple with extracted properties/fields values
-   *         as data.
-   * @throws IntrospectionError if one of the given name does not match a field or property in one of the initial
-   *         Iterable's element.
+   * @return a new assertion object whose object under test is the list of Tuple with extracted properties/fields values as data.
+   * @throws IntrospectionError if one of the given name does not match a field or property in one of the initial Iterable's element.
    */
   @CheckReturnValue
-  public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
-    Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
-    Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
-    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
-    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return new ObjectArrayAssert<>(result).as(description);
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
+    List<Tuple> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertiesOrFields));
+    String extractedDescription = extractedDescriptionOf(propertiesOrFields);
+    String description = mostRelevantDescription(info.description(), extractedDescription);
+    return newListAssertInstance(values).as(description);
   }
 
   /**
-   * Extract the values from the array's elements by applying an extracting function on them. The returned
-   * array becomes a new object under test.
+   * Extract the values from the array's elements by applying an extracting function on them, the resulting list becomes  
+   * the new object under test.
    * <p>
-   * It allows to test values from the elements in safer way than by using {@link #extracting(String)}, as it
-   * doesn't utilize introspection.
+   * This method is similar to {@link #extracting(String)} but more refactoring friendly as it does not use introspection.
    * <p>
    * Let's take a look an example:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
@@ -2014,23 +2011,22 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param <U> the type of elements to extract.
    * @param extractor the object transforming input object to desired one
-   * @return a new assertion object whose object under test is the list of values extracted
+   * @return a new assertion object whose object under test is the list of extracted values. 
    */
   @CheckReturnValue
-  public <U> ObjectArrayAssert<U> extracting(Extractor<? super ELEMENT, U> extractor) {
-    U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
-
-    return new ObjectArrayAssert<>(extracted);
+  public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Extractor<? super ELEMENT, U> extractor) {
+    List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
+    return newListAssertInstance(values);
   }
 
   /**
    * Extract the values from the array's elements by applying an extracting function (which might throw an exception)
-   * on them. The returned array becomes a new object under test.
+   * on them, the resulting list of extracted values becomes a new object under test.
    * <p>
    * Any checked exception raised in the extractor is rethrown wrapped in a {@link RuntimeException}.
    * <p>
    * It allows to test values from the elements in safer way than by using {@link #extracting(String)}, as it
-   * doesn't utilize introspection.
+   * doesn't use introspection.
    * <p>
    * Let's take a look an example:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
@@ -2052,26 +2048,24 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *   }
    *   return input.getName();
    * }).contains("Frodo");</code></pre>
+   * <p>
+   * Note that the order of extracted property/field values is consistent with the iteration order of the array under test.
    *
-   * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
-   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
-   * order.
-   *
-   * @param <U> the type of elements to extract.
+   * @param <V> the type of elements to extract.
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractor the object transforming input object to desired one
-   * @return a new assertion object whose object under test is the list of values extracted
+   * @return a new assertion object whose object under test is the list of extracted values 
    * @since 3.7.0
    */
-  public <U, EXCEPTION extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super ELEMENT, U, EXCEPTION> extractor) {
-    U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
-
-    return new ObjectArrayAssert<>(extracted);
+  @CheckReturnValue
+  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+    List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
+    return newListAssertInstance(values);
   }
 
   /**
-   * Use the given {@link Function}s to extract the values from the array's elements into a new array
-   * composed of {@link Tuple}s (a simple data structure containing the extracted values), this new array becoming the
+   * Use the given {@link Function}s to extract the values from the array's elements into a new list
+   * composed of {@link Tuple}s (a simple data structure containing the extracted values), this new list becoming the
    * object under test.
    * <p>
    * It allows you to test values from the array's elements instead of testing the elements themselves, which sometimes can be
@@ -2079,8 +2073,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * The {@link Tuple} data corresponds to the extracted values from the arrays's elements, for instance if you pass functions
    * extracting "id", "name" and "email" values then each {@link Tuple}'s data will be composed of an id, a name and an email
-   * extracted from the element of the initial array (the Tuple's data order is the same as the given functions
-   * order).
+   * extracted from the element of the initial array (the Tuple's data order is the same as the given functions order).
    * <p>
    * Let's take a look at an example to make things clearer :
    * <pre><code class='java'> // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
@@ -2116,16 +2109,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted tuples order.
    *
    * @param extractors the extractor functions to extract a value from an element of the array under test.
-   * @return a new assertion object whose object under test is the array of Tuples containing the extracted values.
+   * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
    */
   @CheckReturnValue
-  public ObjectArrayAssert<Tuple> extracting(@SuppressWarnings("unchecked") Function<ELEMENT, ?>... extractors) {
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<ELEMENT, ?>... extractors) {
 
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
-    Tuple[] tuples = stream(actual).map(tupleExtractor).toArray(size -> new Tuple[size]);
-    return new ObjectArrayAssert<>(tuples);
+    List<Tuple> tuples = stream(actual).map(tupleExtractor).collect(toList());
+    return newListAssertInstance(tuples).as(info.description());
   }
 
   /**
@@ -2159,7 +2152,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of values extracted
    */
   @CheckReturnValue
-  public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super ELEMENT, C> extractor) {
+  public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Extractor<? super ELEMENT, C> extractor) {
     return doFlatExtracting(extractor);
   }
 
@@ -2193,7 +2186,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
    * collections.
    *
-   * @param <U> the type of elements to extract.
+   * @param <V> the type of elements to extract.
    * @param <C> the type of collection to flat/extract.
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractor the object transforming input object to an Iterable of desired ones
@@ -2201,19 +2194,19 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <U, C extends Collection<U>, EXCEPTION extends Exception> ObjectArrayAssert<U> flatExtracting(ThrowingExtractor<? super ELEMENT, C, EXCEPTION> extractor) {
+  public <V, C extends Collection<V>, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, C, EXCEPTION> extractor) {
     return doFlatExtracting(extractor);
   }
 
-  private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Extractor<? super ELEMENT, C> extractor) {
+  private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Extractor<? super ELEMENT, C> extractor) {
     final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
 
-    final List<U> result = newArrayList();
+    final List<V> result = newArrayList();
     for (C e : extractedValues) {
       result.addAll(e);
     }
 
-    return new ObjectArrayAssert<>(IterableUtil.toArray(result));
+    return newListAssertInstance(result);
   }
 
   /**
@@ -2246,7 +2239,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if one of the extracted property value was not an array or an iterable.
    */
   @CheckReturnValue
-  public ObjectArrayAssert<Object> flatExtracting(String propertyName) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
     for (Object group : extractedGroups) {
@@ -2265,12 +2258,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return new ObjectArrayAssert<>(extractedValues.toArray());
+    return newListAssertInstance(extractedValues);
   }
 
   /**
-   * Extract the result of given method invocation from the array's elements under test into a new array, this new array
-   * becoming the array under test.
+   * Extract the result of given method invocation from the array's elements under test into a list, this list becoming 
+   * the object under test.
    * <p>
    * It allows you to test a method results of the array's elements instead of testing the elements themselves, which can be
    * much less work!
@@ -2301,21 +2294,21 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Note that the order of extracted values is consistent with the order of the array under test.
    *
    * @param method the name of the method which result is to be extracted from the array under test
-   * @return a new assertion object whose object under test is the array of extracted values.
+   * @return a new assertion object whose object under test is the list of extracted values.
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void, or method accepts arguments.
    */
   @CheckReturnValue
-  public ObjectArrayAssert<Object> extractingResultOf(String method) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return new ObjectArrayAssert<>(values).as(description);
+    return newListAssertInstance(newArrayList(values)).as(description);
   }
 
   /**
-   * Extract the result of given method invocation from the array's elements under test into a new array, this new array
-   * becoming the array under test.
+   * Extract the result of given method invocation from the array's elements under test into a list, this list becoming 
+   * the object under test.
    * <p>
    * It allows you to test a method results of the array's elements instead of testing the elements themselves, which can be
    * much less work!
@@ -2348,17 +2341,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param <P> the type of elements extracted.
    * @param method the name of the method which result is to be extracted from the array under test
    * @param extractingType type to return
-   * @return a new assertion object whose object under test is the array of extracted values.
+   * @return a new assertion object whose object under test is the list of extracted values.
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void, or method accepts arguments.
    */
   @CheckReturnValue
-  public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
+  public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
+                                                                                             Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return new ObjectArrayAssert<>(values).as(description);
+    return newListAssertInstance(newArrayList(values)).as(description);
   }
 
   /**
@@ -2401,8 +2395,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Filter the array under test keeping only elements having a property or field equal to {@code expectedValue}, the
-   * property/field is specified by {@code propertyOrFieldName} parameter.
+   * Filter the array under test into a list composed of the elements elements having a property or field equal to 
+   * {@code expectedValue}, the property/field is specified by {@code propertyOrFieldName} parameter.
    * <p>
    * The filter first tries to get the value from a property (named {@code propertyOrFieldName}), if no such property
    * exists it tries to read the value from a field. Reading private fields is supported by default, this can be
@@ -2447,26 +2441,28 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(fellowshipOfTheRing).filteredOn("race.name", "Man")
    *                                .filteredOn("name", not("Boromir"))
    *                                .containsOnly(aragorn);</code></pre>
-   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
-   * filter to apply.
+   * <p>
+   * If you need more complex filter, use {@link #filteredOn(Condition)} or {@link #filteredOn(Predicate)} and 
+   * provide a {@link Condition} or {@link Predicate} to specify the filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
    * @param expectedValue the value to compare element's property or field with
-   * @return a new assertion object with the filtered array under test
+   * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
+                                                                                                   Object expectedValue) {
     Iterable<? extends ELEMENT> filteredIterable = filter(actual).with(propertyOrFieldName, expectedValue).get();
-    return (SELF) new ObjectArrayAssert<>(toArray(filteredIterable));
+    return newListAssertInstance(newArrayList(filteredIterable));
   }
 
   /**
-   * Filter the array under test keeping only elements whose property or field specified by {@code propertyOrFieldName}
-   * is null.
+   * Filter the array under test into a list composed of the elements whose property or field specified 
+   * by {@code propertyOrFieldName} are null.
    * <p>
+   * The filter first tries to get the value from a property (named {@code propertyOrFieldName}), if no such property
    * exists it tries to read the value from a field. Reading private fields is supported by default, this can be
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
@@ -2493,23 +2489,21 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
    * elements.
-   * <p>
-   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
-   * filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
-   * @return a new assertion object with the filtered array under test
+   * @return a new assertion object with the filtered list under test
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
    */
   @CheckReturnValue
-  public SELF filteredOnNull(String propertyOrFieldName) {
-    // need to cast nulll to Object otherwise it calls :
-    // filteredOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
-    return filteredOn(propertyOrFieldName, (Object) null);
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOnNull(String propertyOrFieldName) {
+    // can't call filteredOn(String propertyOrFieldName, null) as it does not work with soft assertions proxying
+    // mechanism, it would lead to double proxying which is not handle properly (improvements needed in our proxy mechanism)
+    Iterable<? extends ELEMENT> filteredIterable = filter(actual).with(propertyOrFieldName, null).get();
+    return newListAssertInstance(newArrayList(filteredIterable));
   }
 
   /**
-   * Filter the array under test keeping only elements having a property or field matching the filter expressed with
+   * Filter the array under test into a list composed of elements having a property or field matching the filter expressed with
    * the {@link FilterOperator}, the property/field is specified by {@code propertyOrFieldName} parameter.
    * <p>
    * The existing filters are :
@@ -2527,7 +2521,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
-   *
    * As an example, let's check stuff on some special employees :
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
@@ -2564,26 +2557,27 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(fellowshipOfTheRing).filteredOn("race.name", "Man")
    *                                .filteredOn("name", not("Boromir"))
    *                                .containsOnly(aragorn);</code></pre>
-   *
-   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
-   * filter to apply.
+   * <p>
+   * If you need more complex filter, use {@link #filteredOn(Condition)} or {@link #filteredOn(Predicate)} and 
+   * provide a {@link Condition} or {@link Predicate} to specify the filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
    * @param filterOperator the filter operator to apply
-   * @return a new assertion object with the filtered array under test
+   * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public SELF filteredOn(String propertyOrFieldName, FilterOperator<?> filterOperator) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
+                                                                                                   FilterOperator<?> filterOperator) {
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter(actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return (SELF) new ObjectArrayAssert<>(toArray(filter.get()));
+    return newListAssertInstance(newArrayList(filter.get()));
   }
 
   /**
-   * Filter the array under test keeping only elements matching the given {@link Condition}.
+   * Filter the array under test into a list composed of the elements matching the given {@link Condition}, 
+   * allowing to perform assertions on the filtered list.
    * <p>
    * Let's check old employees whose age &gt; 100:
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -2611,18 +2605,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                      .contains(luke, noname);</code></pre>
    *
    * @param condition the filter condition / predicate
-   * @return a new assertion object with the filtered array under test
+   * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public SELF filteredOn(Condition<? super ELEMENT> condition) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Condition<? super ELEMENT> condition) {
     Iterable<? extends ELEMENT> filteredIterable = filter(actual).being(condition).get();
-    return (SELF) new ObjectArrayAssert<>(toArray(filteredIterable));
+    return newListAssertInstance(newArrayList(filteredIterable));
   }
 
   /**
-   * Filter the iterable under test keeping only elements matching the given {@link Predicate}.
+   * Filter the array under test into a list composed of the elements matching the given {@link Predicate}, 
+   * allowing to perform assertions on the filtered list.
    * <p>
    * Example : check old employees whose age &gt; 100:
    *
@@ -2636,13 +2630,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                      .containsOnly(yoda, obiwan);</code></pre>
    *
    * @param predicate the filter predicate
-   * @return a new assertion object with the filtered array under test
+   * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    */
-  @SuppressWarnings("unchecked")
-  public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
+  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Predicate<? super ELEMENT> predicate) {
     checkArgument(predicate != null, "The filter predicate should not be null");
-    return (SELF) new ObjectArrayAssert<>(stream(actual).filter(predicate).toArray());
+    List<ELEMENT> filtered = stream(actual).filter(predicate).collect(toList());
+    return newListAssertInstance(filtered);
   }
 
   /**
@@ -2848,4 +2842,21 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     iterables.assertNoneMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
     return myself;
   }
+
+  /**
+   * Create a friendly soft or "hard" assertion.
+   * <p>
+   * Implementations need to redefine it so that some methods, such as {@link #extracting(Extractor)}, are able
+   * to build the appropriate list assert (eg: {@link ListAssert} versus {@link ProxyableListAssert}).
+   * <p>
+   * The default implementation will assume that this concrete implementation is NOT a soft assertion.
+   *
+   * @param <E> the type of elements.
+   * @param newActual new value
+   * @return a new {@link AbstractListAssert}.
+   */
+  protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
+    return new ListAssert<>(newActual);
+  }
+
 }

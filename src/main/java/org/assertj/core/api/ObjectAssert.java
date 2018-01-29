@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
@@ -42,7 +43,7 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   @Override
   @CheckReturnValue
   @SafeVarargs
-  public final AbstractObjectArrayAssert<?, Object> extracting(Function<? super ACTUAL, Object>... extractors) {
+  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, Object>... extractors) {
     return super.extracting(extractors);
   }
 

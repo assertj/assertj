@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ProxyableClassAssert;
+import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.ProxyableObjectAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 import org.junit.AfterClass;
@@ -26,14 +26,15 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly in {@link ProxyableClassAssert}).
+ * verify that assertions final methods or methods changing the object under test in {@link ObjectAssert} work with assumptions 
+ * (i.e. that they are proxied correctly in {@link ProxyableObjectAssert}).
  */
 @RunWith(Parameterized.class)
-public class Object_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+public class Object_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {;
 
   private static int ranTests = 0;
 
-  public Object_final_method_assertions_in_assumptions_Test(AssumptionRunner<?> assumptionRunner) {
+  public Object_special_assertion_methods_in_assumptions_Test(AssumptionRunner<?> assumptionRunner) {
     super(assumptionRunner);
   }
 
@@ -50,6 +51,11 @@ public class Object_final_method_assertions_in_assumptions_Test extends BaseAssu
             value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
                                       .contains("Frodo", 33),
             value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
+                                      .contains("Gandalf", 1000)),
+        run(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+            value -> assumeThat(value).extracting("name", "age")
+                                      .contains("Frodo", 33),
+            value -> assumeThat(value).extracting("name", "age")
                                       .contains("Gandalf", 1000))
     };
   };

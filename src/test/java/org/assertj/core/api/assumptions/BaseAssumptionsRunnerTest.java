@@ -14,10 +14,14 @@ package org.assertj.core.api.assumptions;
 
 import static org.assertj.core.api.Assertions.fail;
 
+import java.util.Collection;
+import java.util.function.Function;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.data.TolkienCharacter.Race;
 import org.assertj.core.test.CartoonCharacter;
 import org.junit.Test;
 
@@ -27,15 +31,21 @@ public abstract class BaseAssumptionsRunnerTest {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 
+  protected static TolkienCharacter frodo;
+  protected static TolkienCharacter sam;
   protected static CartoonCharacter homer;
   protected static CartoonCharacter fred;
   protected static CartoonCharacter lisa;
   protected static CartoonCharacter maggie;
   protected static CartoonCharacter bart;
-  protected static ThrowingExtractor<? super TolkienCharacter, ?, RuntimeException> throwingNameExtractor;
-  protected static ThrowingExtractor<? super TolkienCharacter, ?, RuntimeException> throwingAgeExtractor;
-  protected static Extractor<? super TolkienCharacter, ?> nameExtractor;
-  protected static Extractor<? super TolkienCharacter, ?> ageExtractor;
+  protected static ThrowingExtractor<? super TolkienCharacter, String, Exception> throwingNameExtractor;
+  protected static ThrowingExtractor<? super TolkienCharacter, Integer, Exception> throwingAgeExtractor;
+  protected static Extractor<? super TolkienCharacter, String> nameExtractor;
+  protected static Extractor<? super TolkienCharacter, Integer> ageExtractor;
+  protected static Function<TolkienCharacter, String> nameExtractorFunction;
+  protected static Function<TolkienCharacter, Integer> ageExtractorFunction;
+  protected static Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
+
   protected AssumptionRunner<?> assumptionRunner;
 
   public BaseAssumptionsRunnerTest(AssumptionRunner<?> assumptionRunner) {
@@ -60,6 +70,12 @@ public abstract class BaseAssumptionsRunnerTest {
     throwingAgeExtractor = TolkienCharacter::getAge;
     nameExtractor = TolkienCharacter::getName;
     ageExtractor = TolkienCharacter::getAge;
+    nameExtractorFunction = TolkienCharacter::getName;
+    ageExtractorFunction = TolkienCharacter::getAge;
+
+    frodo = TolkienCharacter.of("Frodo", 33, Race.HOBBIT);
+    sam = TolkienCharacter.of("Sam", 35, Race.HOBBIT);
+    childrenExtractor = CartoonCharacter::getChildren;
   }
 
   @Test

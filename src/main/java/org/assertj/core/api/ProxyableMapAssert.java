@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +22,11 @@ public class ProxyableMapAssert<KEY, VALUE> extends AbstractMapAssert<ProxyableM
 
   public ProxyableMapAssert(Map<KEY, VALUE> actual) {
     super(actual, ProxyableMapAssert.class);
+  }
+
+  @Override
+  protected <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> newListAssertInstance(List<? extends ELEMENT> newActual) {
+    return new ProxyableListAssert<>(newActual);
   }
 
 }

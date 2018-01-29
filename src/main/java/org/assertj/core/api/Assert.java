@@ -537,6 +537,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * 
    * // assertion will fail
    * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
+   * <p>
+   * <b>Warning: this method does not work with soft assertions or assumptions.</b> 
    * 
    * @return a list assertion object
    */
@@ -555,6 +557,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * 
    * // assertion will fail
    * assertThat(stringAsObject).asString().contains("holla");</code></pre>
+   * <p>
+   * <b>Warning: this method does not work with soft assertions or assumptions.</b> 
    * 
    * @return a string assertion object
    */

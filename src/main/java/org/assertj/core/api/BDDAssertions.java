@@ -326,7 +326,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractClassAssert<?> then(Class<?> actual) {
+  public static ClassAssert then(Class<?> actual) {
     return assertThat(actual);
   }
 

@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.util.Arrays.array;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
@@ -27,6 +28,11 @@ public class ProxyableObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAsse
 
   public ProxyableObjectArrayAssert(AtomicReferenceArray<ELEMENT> actual) {
     this(array(actual));
+  }
+
+  @Override
+  protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
+    return new ProxyableListAssert<>(newActual);
   }
 
 }

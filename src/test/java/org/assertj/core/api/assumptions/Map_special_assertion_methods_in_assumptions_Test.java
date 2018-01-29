@@ -12,30 +12,36 @@
  */
 package org.assertj.core.api.assumptions;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ProxyableClassAssert;
+import org.assertj.core.api.MapAssert;
+import org.assertj.core.api.ProxyableMapAssert;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly in {@link ProxyableClassAssert}).
+ * verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions 
+ * (i.e. that they are proxied correctly in {@link ProxyableMapAssert}).
  */
 @RunWith(Parameterized.class)
-public class Map_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   private static int ranTests = 0;
 
-  public Map_final_method_assertions_in_assumptions_Test(AssumptionRunner<?> assumptionRunner) {
+  public Map_special_assertion_methods_in_assumptions_Test(AssumptionRunner<?> assumptionRunner) {
     super(assumptionRunner);
   }
 
@@ -47,7 +53,19 @@ public class Map_final_method_assertions_in_assumptions_Test extends BaseAssumpt
   @SuppressWarnings("unchecked")
   @Parameters
   public static Object[][] provideAssumptionsRunners() {
+
+    List<String> names = asList("Dave", "Jeff");
+    LinkedHashSet<String> jobs = newLinkedHashSet("Plumber", "Builder");
+    Iterable<String> cities = asList("Dover", "Boston", "Paris");
+    int[] ranks = { 1, 2, 3 };
+    Map<String, Object> iterableMap = new LinkedHashMap<>();
+    iterableMap.put("name", names);
+    iterableMap.put("job", jobs);
+    iterableMap.put("city", cities);
+    iterableMap.put("rank", ranks);
+
     Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
+
     return new AssumptionRunner[][] {
         run(map,
             value -> assumeThat(value).contains(entry("a", "1"), entry("c", "3")),
@@ -76,6 +94,14 @@ public class Map_final_method_assertions_in_assumptions_Test extends BaseAssumpt
         run(map,
             value -> assumeThat(value).doesNotContainKeys("d", "e", "f"),
             value -> assumeThat(value).doesNotContainKeys("a", "e", "f")),
+        run(map,
+            value -> assumeThat(value).extracting("a", "b").contains("1", "2"),
+            value -> assumeThat(value).extracting("a", "b").contains("456")),
+        run(iterableMap,
+            value -> assumeThat(value).flatExtracting("name", "job", "city", "rank")
+                                      .contains("Jeff", "Builder", "Dover", "Boston", "Paris", 1, 2, 3),
+            value -> assumeThat(value).flatExtracting("name", "job", "city", "rank")
+                                      .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3)),
     };
   };
 

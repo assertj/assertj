@@ -44,9 +44,9 @@ class SoftProxies {
   <V, T> V create(final Class<V> assertClass, Class<T> actualClass, T actual) {
 
     try {
-      Class<V> proxyClass = (Class<V>) cache
-                                            .findOrInsert(getClass().getClassLoader(), new SimpleKey(assertClass),
-                                                          () -> createProxy(assertClass, collector));
+      ClassLoader classLoader = getClass().getClassLoader();
+      SimpleKey key = new SimpleKey(assertClass);
+      Class<V> proxyClass = (Class<V>) cache.findOrInsert(classLoader, key, () -> createProxy(assertClass, collector));
 
       Constructor<? extends V> constructor = proxyClass.getConstructor(actualClass);
       return constructor.newInstance(actual);
