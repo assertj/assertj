@@ -2146,7 +2146,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
    * collections.
    *
-   * @param <U> the type of elements to extract.
+   * @param <V> the type of elements to extract.
    * @param <C> the type of collection to flat/extract.
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted

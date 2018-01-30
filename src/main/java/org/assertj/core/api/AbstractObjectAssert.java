@@ -26,7 +26,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
@@ -678,7 +677,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   /**
    * Create a friendly soft or "hard" assertion.
    * <p>
-   * Implementations need to redefine it so that some methods, such as {@link #extracting(Extractor)}, are able
+   * Implementations need to redefine it so that some methods, such as {@link #extracting(Function...)}, are able
    * to build the appropriate list assert (eg: {@link ListAssert} versus {@link ProxyableListAssert}).
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
