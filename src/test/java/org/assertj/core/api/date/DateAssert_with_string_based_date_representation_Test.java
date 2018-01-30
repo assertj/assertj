@@ -85,6 +85,21 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
+  public void date_assertion_should_support_date_with_different_utc_time_zone_string_representation() throws ParseException {
+    String dateFormatPattern = "yyyy-MM-dd'T'HH:mm:ss";
+    SimpleDateFormat isoDateFormatUtc = new SimpleDateFormat(dateFormatPattern);
+    isoDateFormatUtc.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    SimpleDateFormat isoDateFormatMadrid = new SimpleDateFormat(dateFormatPattern);
+    isoDateFormatMadrid.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
+
+    Date date = isoDateFormatUtc.parse("2003-04-26T00:00:00");
+    String madridDate = isoDateFormatMadrid.format(date);
+
+    assertThat(date).isEqualTo(madridDate);
+  }
+
+  @Test
   public void should_fail_if_given_date_string_representation_cant_be_parsed_with_default_date_formats() {
     final String dateAsString = "2003/04/26";
     thrown.expectAssertionError("Failed to parse 2003/04/26 with any of these date formats:%n" +
