@@ -90,11 +90,11 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
     SimpleDateFormat isoDateFormatUtc = new SimpleDateFormat(dateFormatPattern);
     isoDateFormatUtc.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-    SimpleDateFormat isoDateFormatMadrid = new SimpleDateFormat(dateFormatPattern);
-    isoDateFormatMadrid.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
+    SimpleDateFormat isoDateFormatBerlin = new SimpleDateFormat(dateFormatPattern);
+    isoDateFormatBerlin.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
 
     Date date = isoDateFormatUtc.parse("2003-04-26T00:00:00");
-    String madridDate = isoDateFormatMadrid.format(date);
+    String madridDate = isoDateFormatBerlin.format(date);
 
     assertThat(date).isEqualTo(madridDate);
   }
