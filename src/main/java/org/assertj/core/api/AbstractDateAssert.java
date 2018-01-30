@@ -16,10 +16,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.assertj.core.util.DateUtil.newIsoDateFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
-import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
+import static org.assertj.core.util.DateUtil.*;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -68,6 +65,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   private static final List<DateFormat> DEFAULT_DATE_FORMATS = newArrayList(newIsoDateTimeWithMsFormat(),
                                                                             newTimestampDateFormat(),
+                                                                            newIsoDateTimeWithUtcTimeZoneFormat(),
                                                                             newIsoDateTimeFormat(),
                                                                             newIsoDateFormat());
 

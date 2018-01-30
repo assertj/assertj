@@ -414,10 +414,14 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
+   * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} in the actual
    *           ZonedDateTime's java.time.ZoneId.
    */
   public SELF isEqualTo(ZonedDateTime expected) {
+    Objects.instance().assertNotNull(info, actual);
+    assertDateTimeParameterIsNotNull(expected);
     return super.isEqualTo(sameInstantInActualTimeZone(expected));
   }
 

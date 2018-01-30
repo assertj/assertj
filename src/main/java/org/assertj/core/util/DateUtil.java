@@ -57,6 +57,14 @@ public class DateUtil {
   }
 
   /**
+   * ISO 8601 date-time format with UTC time zone (yyyy-MM-dd'T'HH:mm:ssX), example :
+   * <code>2003-04-26T03:01:02+00:00</code>
+   */
+  public static DateFormat newIsoDateTimeWithUtcTimeZoneFormat() {
+    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ssX");
+  }
+
+  /**
    * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
    * @return a {@code yyyy-MM-dd'T'HH:mm:ss} {@link DateFormat}
    */

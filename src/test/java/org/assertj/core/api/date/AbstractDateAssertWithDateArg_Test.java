@@ -89,6 +89,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
                                 " with any of these date formats:%n" +
                                 "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
                                 "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                 "    yyyy-MM-dd'T'HH:mm:ss,%n" +
                                 "    yyyy-MM-dd]");
     assertionInvocationWithStringArg(dateAsStringWithBadFormat);
