@@ -444,8 +444,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @SuppressWarnings("unchecked")
   @Override
   @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {    objects.assertIsInstanceOf(info, actual, List.class);
-    return new ListAssert<>((List<Object>) actual);
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList() {
+    objects.assertIsInstanceOf(info, actual, List.class);
+    return newListAssertInstance((List<Object>) actual);
   }
 
   /** {@inheritDoc} */
@@ -659,4 +660,21 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     objects.assertHasSameHashCodeAs(info, actual, other);
     return myself;
   }
+
+  /**
+   * Create a {@link AbstractListAssert}.
+   * <p>
+   * Implementations need to redefine either to be proxy friendly (i.e. no final assertion methods like {@link ProxyableListAssert}) 
+   * or generic vararg friendly (to use {@link SafeVarargs} annotation which requires final method)like {@link ListAssert}.
+   * <p>
+   * The default implementation will assume that this concrete implementation is NOT a soft assertion.
+   *
+   * @param <E> the type of elements.
+   * @param newActual new value
+   * @return a new {@link AbstractListAssert}.
+   */
+  protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
+    return new ListAssert<>(newActual);
+  }
+
 }

@@ -674,20 +674,4 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
 
-  /**
-   * Create a friendly soft or "hard" assertion.
-   * <p>
-   * Implementations need to redefine it so that some methods, such as {@link #extracting(Function...)}, are able
-   * to build the appropriate list assert (eg: {@link ListAssert} versus {@link ProxyableListAssert}).
-   * <p>
-   * The default implementation will assume that this concrete implementation is NOT a soft assertion.
-   *
-   * @param <E> the type of elements.
-   * @param newActual new value
-   * @return a new {@link AbstractListAssert}.
-   */
-  protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
-    return new ListAssert<>(newActual);
-  }
-
 }

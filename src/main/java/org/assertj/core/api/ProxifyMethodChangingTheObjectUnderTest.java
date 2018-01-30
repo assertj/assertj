@@ -24,11 +24,11 @@ import java.util.concurrent.Callable;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 
-public class ProxifyExtractingResult {
+public class ProxifyMethodChangingTheObjectUnderTest {
 
   private final SoftProxies proxies;
 
-  ProxifyExtractingResult(SoftProxies proxies) {
+  ProxifyMethodChangingTheObjectUnderTest(SoftProxies proxies) {
     this.proxies = proxies;
   }
 

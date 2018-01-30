@@ -59,12 +59,14 @@ class SoftProxies {
     Junction<MethodDescription> specialMethods = ElementMatchers.<MethodDescription> nameContainsIgnoreCase("extracting")
                                                                 .or(nameContainsIgnoreCase("filteredOn"))
                                                                 .or(nameContainsIgnoreCase("map"))
+                                                                .or(nameContainsIgnoreCase("asString"))
+                                                                .or(nameContainsIgnoreCase("asList"))
                                                                 .or(nameContainsIgnoreCase("flatMap"))
                                                                 .or(nameContainsIgnoreCase("flatExtracting"));
 
     return new ByteBuddy().subclass(assertClass)
                           .method(specialMethods)
-                          .intercept(MethodDelegation.to(new ProxifyExtractingResult(this)))
+                          .intercept(MethodDelegation.to(new ProxifyMethodChangingTheObjectUnderTest(this)))
                           .method(ElementMatchers.<MethodDescription> any().and(ElementMatchers.not(specialMethods)))
                           .intercept(MethodDelegation.to(collector))
                           .make()

@@ -1414,6 +1414,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   public void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_change_the_object_under_test() {
     // GIVEN
     Name name = name("John", "Doe");
+    Object alphabet = "abcdefghijklmnopqrstuvwxyz";
+    Object vowels = asList("a", "e", "i", "o", "u");
     // WHEN
     softly.assertThat(name)
           .extracting("first", "last")
@@ -1423,11 +1425,21 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting(Name::getFirst, Name::getLast)
           .contains("John")
           .contains("frodo");
+    softly.assertThat(alphabet)
+          .asString()
+          .startsWith("abc")
+          .startsWith("123");
+    softly.assertThat(vowels)
+          .asList()
+          .startsWith("a", "e")
+          .startsWith("1", "2");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected).hasSize(4);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("123");
+    assertThat(errorsCollected.get(3)).hasMessageContaining("\"1\", \"2\"");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
