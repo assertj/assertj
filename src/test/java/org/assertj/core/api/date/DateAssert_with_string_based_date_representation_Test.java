@@ -85,18 +85,17 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_should_support_date_with_different_utc_time_zone_string_representation() throws ParseException {
-    String dateFormatPattern = "yyyy-MM-dd'T'HH:mm:ss";
-    SimpleDateFormat isoDateFormatUtc = new SimpleDateFormat(dateFormatPattern);
+  public void date_assertion_should_support_date_with_utc_time_zone_in_different_time_zone_string_representation() throws ParseException {
+    SimpleDateFormat isoDateFormatUtc = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     isoDateFormatUtc.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-    SimpleDateFormat isoDateFormatBerlin = new SimpleDateFormat(dateFormatPattern);
-    isoDateFormatBerlin.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+    SimpleDateFormat isoDateFormatNewYork = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+    isoDateFormatNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 
     Date date = isoDateFormatUtc.parse("2003-04-26T00:00:00");
-    String madridDate = isoDateFormatBerlin.format(date);
+    String newYorkDate = isoDateFormatNewYork.format(date);
 
-    assertThat(date).isEqualTo(madridDate);
+    assertThat(date).isEqualTo(newYorkDate);
   }
 
   @Test
