@@ -2220,7 +2220,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(hobbits, StringAssert.class).first()
    *                                        .startsWith("pip");</code></pre>
    * <p>
-   * <b>Warning: this method does not work with soft assertions or assumptions.</b> 
+   * <b>Warning: this method does not work with soft assertions.</b> 
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty.
@@ -2269,7 +2269,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(hobbits, StringAssert.class).last()
    *                                        .startsWith("fro");</code></pre>
    * <p>
-   * <b>Warning: this method does not work with soft assertions or assumptions.</b> 
+   * <b>Warning: this method does not work with soft assertions.</b> 
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty.
@@ -2331,7 +2331,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(hobbits, StringAssert.class).element(1)
    *                                        .startsWith("fro");</code></pre>
    * <p>
-   * <b>Warning: this method does not work with soft assertions or assumptions.</b> 
+   * <b>Warning: this method does not work with soft assertions.</b> 
    *
    * @param index the element's index
    * @return the assertion on the given element
@@ -2672,7 +2672,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // assertion will fail:
    * assertThat(elvesRings).size().isGreaterThan(3);</code></pre>
    * <p>
-   * <b>Warning: this method does not work with soft assertions or assumptions.</b> 
+   * <b>Warning: this method does not work with soft assertions.</b> 
    *
    * @return AbstractIterableSizeAssert built with the {@code Iterable}'s size.
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.

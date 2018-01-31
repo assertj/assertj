@@ -1192,6 +1192,9 @@ public class Assumptions {
     if (assertion instanceof FactoryBasedNavigableListAssert) {
       return asAssumption(ProxyableListAssert.class, List.class, actual);
     }
+    if (assertion instanceof ProxyableIterableAssert) {
+      return asAssumption(ProxyableIterableAssert.class, Iterable.class, actual);
+    }
     if (assertion instanceof AbstractObjectArrayAssert)
       return asAssumption(ProxyableObjectArrayAssert.class, Object[].class, actual);
     if (assertion instanceof IterableSizeAssert) { // TODO should likely return a proxyable class
