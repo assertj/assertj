@@ -48,10 +48,29 @@ public class ZonedDateTimeAssert_isNotEqualTo_errors_Test extends ZonedDateTimeA
   }
 
   @Test
+  public void should_fail_if_actual_dateTime_is_null_and_parameter_is_dateTime() {
+    thrown.expectAssertionError("\nExpecting actual not to be null");
+    assertThat((ZonedDateTime) null).isNotEqualTo(ZonedDateTime.now());
+  }
+
+  @Test
+  public void should_fail_if_actual_dateTime_is_null_and_parameter_is_dateTime_as_string() {
+    thrown.expectAssertionError("\nExpecting actual not to be null");
+    assertThat((ZonedDateTime) null).isNotEqualTo("2000-01-01T01:00:00+01:00");
+  }
+
+  @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
     expectException(IllegalArgumentException.class,
-        "The String representing the ZonedDateTime to compare actual with should not be null");
+                    "The String representing the ZonedDateTime to compare actual with should not be null");
     assertThat(ZonedDateTime.now()).isNotEqualTo((String) null);
+  }
+
+  @Test
+  public void should_fail_if_dateTime_as_ZoneDateTime_is_null() {
+    expectException(IllegalArgumentException.class,
+                    "The ZonedDateTime to compare actual with should not be null");
+    assertThat(ZonedDateTime.now()).isNotEqualTo((ZonedDateTime) null);
   }
 
   private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(ZonedDateTime reference) {
