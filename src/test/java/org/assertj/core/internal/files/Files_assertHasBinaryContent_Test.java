@@ -33,7 +33,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Files#assertHasBinaryContent(org.assertj.core.core.WritableAssertionInfo, File, byte[])}</code>.
+ * Tests for <code>{@link Files#assertHasBinaryContent(org.assertj.core.api.AssertionInfo, File, byte[])}</code>.
  * 
  * @author Olivier Michallat
  * @author Joel Costigliola

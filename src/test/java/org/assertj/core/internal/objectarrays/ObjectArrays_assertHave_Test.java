@@ -29,7 +29,7 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link ObjectArrays#have(org.assertj.core.api.AssertionInfo, Object[], org.assertj.core.core.Condition)}</code> .
+ * <code>{@link ObjectArrays#assertHave(org.assertj.core.api.AssertionInfo, Object[], org.assertj.core.api.Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky

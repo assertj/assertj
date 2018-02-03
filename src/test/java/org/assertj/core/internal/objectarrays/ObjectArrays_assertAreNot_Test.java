@@ -29,7 +29,7 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link ObjectArrays#areNot(org.assertj.core.api.AssertionInfo, Object[], org.assertj.core.core.Condition)}</code>
+ * <code>{@link ObjectArrays#assertAreNot(org.assertj.core.api.AssertionInfo, Object[], org.assertj.core.api.Condition)}</code>
  * .
  * 
  * @author Nicolas François

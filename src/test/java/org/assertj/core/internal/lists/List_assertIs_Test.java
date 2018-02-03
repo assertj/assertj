@@ -38,7 +38,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Lists#assertIs(AssertionInfo, List, org.assertj.core.core.Condition, Index)}</code> .
+ * Tests for <code>{@link Lists#assertIs(AssertionInfo, List, org.assertj.core.api.Condition, Index)}</code> .
  * 
  * @author Bo Gotthardt
  */
