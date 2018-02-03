@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.Test;
 
@@ -33,5 +34,43 @@ public class Assertions_assertThat_with_primitive_int_Test {
   public void should_pass_actual() {
     AbstractIntegerAssert<?> assertions = Assertions.assertThat(8);
     assertThat(assertions.actual).isEqualTo(new Integer(8));
+  }
+
+  @Test
+  public void should_pass_when_expected_long_equals_actual_int() {
+    assertThat(123).isEqualTo(123L);
+  }
+
+  @Test
+  public void should_pass_if_expected_long_is_Integer_MAX_and_actual_is_too() {
+    int actual = Integer.MAX_VALUE;
+    long expected = Integer.MAX_VALUE;
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  public void should_fail_if_expected_long_is_Integer_MAX_plus_one() {
+    int actual = Integer.MAX_VALUE;
+    long expected = Integer.MAX_VALUE + 1;
+    assertThatThrownBy(() -> assertThat(actual).isEqualTo(expected));
+  }
+
+  @Test
+  public void should_fail_if_expected_long_is_Integer_MIN_minus_one() {
+    int actual = Integer.MIN_VALUE;
+    long expected = Integer.MIN_VALUE - 1;
+    assertThatThrownBy(() -> assertThat(actual).isEqualTo(expected));
+  }
+
+  @Test
+  public void should_fail_if_expected_long_is_different_from_actual_int() {
+    assertThatThrownBy(() -> assertThat(123).isEqualTo(456l));
+  }
+
+  @Test
+  public void should_pass_if_expected_long_is_Integer_MIN_and_actual_is_too() {
+    int actual = Integer.MIN_VALUE;
+    long expected = Integer.MIN_VALUE;
+    assertThat(actual).isEqualTo(expected);
   }
 }
