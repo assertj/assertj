@@ -34,7 +34,7 @@ import org.assertj.core.internal.MapsBaseTest;
 
 
 /**
- * Tests for <code>{@link Maps#assertContains(AssertionInfo, Map, MapEntry[])}</code>.
+ * Tests for <code>{@link Maps#assertContains(AssertionInfo, Map, Map.Entry[])}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
