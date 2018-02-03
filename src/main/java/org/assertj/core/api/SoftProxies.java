@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static net.bytebuddy.matcher.ElementMatchers.nameContainsIgnoreCase;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 
 import java.lang.reflect.Constructor;
@@ -67,16 +66,17 @@ class SoftProxies {
   }
 
   private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
-    // TODO use named
-    Junction<MethodDescription> specialMethods = ElementMatchers.<MethodDescription> nameContainsIgnoreCase("extracting")
-                                                                .or(nameContainsIgnoreCase("filteredOn"))
-                                                                .or(nameContainsIgnoreCase("map"))
-                                                                .or(nameContainsIgnoreCase("asString"))
-                                                                .or(nameContainsIgnoreCase("asList"))
+    Junction<MethodDescription> specialMethods = ElementMatchers.<MethodDescription> named("extracting")
+                                                                .or(named("filteredOn"))
+                                                                .or(named("filteredOnNull"))
+                                                                .or(named("map"))
+                                                                .or(named("asString"))
+                                                                .or(named("asList"))
                                                                 .or(named("size"))
                                                                 .or(named("toAssert"))
-                                                                .or(nameContainsIgnoreCase("flatMap"))
-                                                                .or(nameContainsIgnoreCase("flatExtracting"));
+                                                                .or(named("flatMap"))
+                                                                .or(named("extractingResultOf"))
+                                                                .or(named("flatExtracting"));
 
     return new ByteBuddy().subclass(assertClass)
                           .method(specialMethods)
