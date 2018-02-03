@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.nameContainsIgnoreCase;
+import static net.bytebuddy.matcher.ElementMatchers.named;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -55,12 +56,25 @@ class SoftProxies {
     }
   }
 
+  Object createIterableSizeAssertProxy(IterableSizeAssert<?> iterableSizeAssert) {
+    Class<?> proxyClass = createProxy(IterableSizeAssert.class, collector);
+    try {
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractIterableAssert.class, Integer.class);
+      return constructor.newInstance(iterableSizeAssert.returnToIterable(), iterableSizeAssert.actual);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
+    // TODO use named
     Junction<MethodDescription> specialMethods = ElementMatchers.<MethodDescription> nameContainsIgnoreCase("extracting")
                                                                 .or(nameContainsIgnoreCase("filteredOn"))
                                                                 .or(nameContainsIgnoreCase("map"))
                                                                 .or(nameContainsIgnoreCase("asString"))
                                                                 .or(nameContainsIgnoreCase("asList"))
+                                                                .or(named("size"))
+                                                                .or(named("toAssert"))
                                                                 .or(nameContainsIgnoreCase("flatMap"))
                                                                 .or(nameContainsIgnoreCase("flatExtracting"));
 
@@ -77,5 +91,6 @@ class SoftProxies {
   public boolean wasSuccess() {
     return collector.wasSuccess();
   }
+
 
 }

@@ -963,6 +963,78 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     }
   }
 
+  @Test
+  public void iterable_soft_assertions_should_work_with_navigation_methods() {
+    // GIVEN
+    Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    // WHEN
+    softly.assertThat(names)
+          .size()
+          .isGreaterThan(10);
+    softly.assertThat(names)
+          .size()
+          .isGreaterThan(22)
+          .returnToIterable()
+          .isEmpty();
+    softly.assertThat(names)
+          .first()
+          .as("first element")
+          .isNull();
+    softly.assertThat(names)
+          .element(0)
+          .as("element(0)")
+          .isNull();
+    softly.assertThat(names)
+          .last()
+          .as("last element")
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("10");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("22");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("empty");
+    assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
+    assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
+    assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
+  }
+
+  @Test
+  public void list_soft_assertions_should_work_with_navigation_methods() {
+    // GIVEN
+    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    // WHEN
+    softly.assertThat(names)
+          .size()
+          .isGreaterThan(10);
+    softly.assertThat(names)
+          .size()
+          .isGreaterThan(22)
+          .returnToIterable()
+          .isEmpty();
+    softly.assertThat(names)
+          .first()
+          .as("first element")
+          .isNull();
+    softly.assertThat(names)
+          .element(0)
+          .as("element(0)")
+          .isNull();
+    softly.assertThat(names)
+          .last()
+          .as("last element")
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("10");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("22");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("empty");
+    assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
+    assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
+    assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
+  }
+
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test

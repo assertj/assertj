@@ -37,6 +37,11 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   public Object intercept(@SuperCall Callable<Object> proxy) throws Exception {
 
     Object result = proxy.call();
+    if (result instanceof IterableSizeAssert) {
+      IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) result;
+      // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
+      return proxies.createIterableSizeAssertProxy(iterableSizeAssert);
+    }
     return proxies.create(result.getClass(), actualClass(result), actual(result));
   }
 
@@ -47,6 +52,9 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     }
     if (result instanceof OptionalAssert) {
       return Optional.class;
+    }
+    if (result instanceof ObjectAssert) {
+      return Object.class;
     }
 
     // Trying to create a proxy will only match exact constructor argument types.
