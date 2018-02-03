@@ -70,6 +70,33 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
+   * Verifies that the actual value is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(1).isEqualTo(1L);
+   * assertThat(-1).isEqualTo(-1L);
+   *
+   * // assertions will fail:
+   * assertThat(1).isEqualTo(2L);
+   * assertThat(1).isEqualTo(-1L);</code></pre>
+   *
+   * @param expected the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   * @since 3.10.0
+   */
+  public SELF isEqualTo(long expected) {
+    if(expected <= Integer.MAX_VALUE && expected >= Integer.MIN_VALUE) {
+      integers.assertEqual(info, actual, (int)expected);
+    } else {
+      integers.assertEqual(info, actual, expected);
+    }
+    return myself;
+  }
+
+  /**
    * Verifies that the actual value is not equal to the given one.
    * <p>
    * Example:

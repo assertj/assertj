@@ -34,4 +34,9 @@ public class Assertions_assertThat_with_primitive_long_Test {
     AbstractLongAssert<?> assertions = Assertions.assertThat(8L);
     assertThat(assertions.actual).isEqualTo(new Long(8));
   }
+
+  @Test
+  public void should_pass_expected_int() {
+    Assertions.assertThat(123L).isEqualTo(123);
+  }
 }
