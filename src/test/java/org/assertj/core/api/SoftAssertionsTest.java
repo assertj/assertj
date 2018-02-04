@@ -928,7 +928,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // simple atomic value
     softly.assertThat(new AtomicBoolean(true)).isTrue().isFalse();
     softly.assertThat(new AtomicInteger(1)).hasValueGreaterThan(0).hasNegativeValue();
-    softly.assertThat(new AtomicLong(1L)).hasValueGreaterThan(0L).hasNegativeValue();;
+    softly.assertThat(new AtomicLong(1L)).hasValueGreaterThan(0L).hasNegativeValue();
     softly.assertThat(new AtomicReference<>("abc")).hasValue("abc").hasValue("def");
     // atomic array value
     softly.assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3).isEmpty();

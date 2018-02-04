@@ -924,7 +924,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // simple atomic value
     softly.then(new AtomicBoolean(true)).isTrue().isFalse();
     softly.then(new AtomicInteger(1)).hasValueGreaterThan(0).hasNegativeValue();
-    softly.then(new AtomicLong(1L)).hasValueGreaterThan(0L).hasNegativeValue();;
+    softly.then(new AtomicLong(1L)).hasValueGreaterThan(0L).hasNegativeValue();
     softly.then(new AtomicReference<>("abc")).hasValue("abc").hasValue("def");
     // atomic array value
     softly.then(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3).isEmpty();
