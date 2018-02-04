@@ -172,7 +172,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     StandardRepresentation.setMaxLengthForSingleLineDescription(25);
     Object[] array = { "1234567890", "1234567890", "1234567890", "1234567890" };
     String formatted = STANDARD_REPRESENTATION.formatArray(array);
-    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"1234567890\",%n" +
                                                        "    \"1234567890\",%n" +
@@ -186,7 +186,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     StandardRepresentation.setMaxLengthForSingleLineDescription(25);
     Object[] array = { "1234567890", "1234567890", "1234567890", "1234567890", "1234567890" };
     String formatted = STANDARD_REPRESENTATION.formatArray(array);
-    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"1234567890\",%n" +
                                                        "    \"1234567890\",%n" +

@@ -36,7 +36,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Failures {
 
-  private static final String LINE_SEPARATOR = org.assertj.core.util.Compatibility.System.lineSeparator();
+  private static final String LINE_SEPARATOR = System.lineSeparator();
 
   private static final Failures INSTANCE = new Failures();
 

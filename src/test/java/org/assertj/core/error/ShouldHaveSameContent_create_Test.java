@@ -47,7 +47,7 @@ public class ShouldHaveSameContent_create_Test {
     ErrorMessageFactory factory = shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
 	StringBuilder b = new StringBuilder(String.format("[Test] %nFile:%n  <abc>%nand file:%n  <xyz>%ndo not have same content:%n"));
 	for (Delta<String> diff : diffs)
-      b.append(org.assertj.core.util.Compatibility.System.lineSeparator()).append(diff);
+      b.append(System.lineSeparator()).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());
   }
 
@@ -58,7 +58,7 @@ public class ShouldHaveSameContent_create_Test {
                                                       diffs);
 	StringBuilder b = new StringBuilder(String.format("[Test] %nInputStreams do not have same content:%n"));
 	for (Delta<String> diff : diffs)
-      b.append(org.assertj.core.util.Compatibility.System.lineSeparator()).append(diff);
+      b.append(System.lineSeparator()).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());
   }
 
