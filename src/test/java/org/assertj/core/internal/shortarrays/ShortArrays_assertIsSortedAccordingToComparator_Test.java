@@ -54,7 +54,7 @@ public class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortA
     shortAscendingOrderComparator = new Comparator<Short>() {
       @Override
       public int compare(Short short1, Short short2) {
-        return -short1.compareTo(short2);
+        return short1.compareTo(short2);
       }
     };
   }
