@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
 
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
