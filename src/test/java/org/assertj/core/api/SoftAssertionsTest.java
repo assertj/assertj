@@ -1553,6 +1553,37 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(11)).hasMessageContaining("Unexpected");
   }
 
+  @Test
+  public void map_soft_assertions_should_work_with_navigation_methods() {
+    // GIVEN
+    Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
+    // WHEN
+    softly.assertThat(map)
+          .size()
+          .isGreaterThan(10);
+    softly.assertThat(map)
+          .size()
+          .isGreaterThan(1)
+          .returnToMap()
+          .as("returnToMap")
+          .isEmpty();
+    softly.assertThat(map)
+          .size()
+          .isGreaterThan(1)
+          .returnToMap()
+          .containsKey("nope")
+          .size()
+          .as("check size after navigating back")
+          .isLessThan(2);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(4);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("10");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("returnToMap");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("nope");
+    assertThat(errorsCollected.get(3)).hasMessageContaining("check size after navigating back");
+  }
+
   @SuppressWarnings("unchecked")
   @Test
   public void predicate_soft_assertions_should_report_errors_on_final_methods() {

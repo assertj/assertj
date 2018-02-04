@@ -1195,13 +1195,20 @@ public class Assumptions {
     if (assertion instanceof ProxyableIterableAssert) {
       return asAssumption(ProxyableIterableAssert.class, Iterable.class, actual);
     }
+    if (assertion instanceof ProxyableMapAssert) {
+      return asAssumption(ProxyableMapAssert.class, Map.class, actual);
+    }
     if (assertion instanceof AbstractObjectArrayAssert)
       return asAssumption(ProxyableObjectArrayAssert.class, Object[].class, actual);
-    if (assertion instanceof IterableSizeAssert) { // TODO should likely return a proxyable class
-      @SuppressWarnings("rawtypes")
-      IterableSizeAssert iterableSizeAssert = (IterableSizeAssert) assertion;
+    if (assertion instanceof IterableSizeAssert) {
+      IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) assertion;
       Class<?>[] constructorTypes = array(AbstractIterableAssert.class, Integer.class);
       return asAssumption(IterableSizeAssert.class, constructorTypes, iterableSizeAssert.returnToIterable(), actual);
+    }
+    if (assertion instanceof MapSizeAssert) {
+      MapSizeAssert<?, ?> mapSizeAssert = (MapSizeAssert<?, ?>) assertion;
+      Class<?>[] constructorTypes = array(AbstractMapAssert.class, Integer.class);
+      return asAssumption(MapSizeAssert.class, constructorTypes, mapSizeAssert.returnToMap(), actual);
     }
     if (assertion instanceof ObjectAssert)
       return asAssumption(ObjectAssert.class, Object.class, actual).as(assertion.descriptionText());

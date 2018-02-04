@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
@@ -42,6 +43,11 @@ public class ProxifyMethodChangingTheObjectUnderTest {
       // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
       return proxies.createIterableSizeAssertProxy(iterableSizeAssert);
     }
+    if (result instanceof MapSizeAssert) {
+      MapSizeAssert<?, ?> iterableSizeAssert = (MapSizeAssert<?, ?>) result;
+      // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
+      return proxies.createMapSizeAssertProxy(iterableSizeAssert);
+    }
     return proxies.create(result.getClass(), actualClass(result), actual(result));
   }
 
@@ -55,6 +61,9 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     }
     if (result instanceof ObjectAssert) {
       return Object.class;
+    }
+    if (result instanceof MapAssert) {
+      return Map.class;
     }
 
     // Trying to create a proxy will only match exact constructor argument types.

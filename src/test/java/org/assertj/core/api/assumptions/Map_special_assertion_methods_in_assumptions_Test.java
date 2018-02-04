@@ -102,6 +102,15 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
                                       .contains("Jeff", "Builder", "Dover", "Boston", "Paris", 1, 2, 3),
             value -> assumeThat(value).flatExtracting("name", "job", "city", "rank")
                                       .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3)),
+        run(map,
+            value -> assumeThat(value).size().isGreaterThan(2),
+            value -> assumeThat(value).size().isGreaterThan(10)),
+        run(map,
+            value -> assumeThat(value).size().isGreaterThan(2).returnToMap().containsKeys("a", "b", "c"),
+            value -> assumeThat(value).size().isGreaterThan(2).returnToMap().containsKeys("unknown")),
+        run(map,
+            value -> assumeThat(value).size().isPositive().returnToMap().size().isPositive(),
+            value -> assumeThat(value).size().isPositive().returnToMap().size().isNegative()),
     };
   };
 

@@ -92,5 +92,14 @@ class SoftProxies {
     return collector.wasSuccess();
   }
 
+  public Object createMapSizeAssertProxy(MapSizeAssert<?, ?> mapSizeAssert) {
+    Class<?> proxyClass = createProxy(MapSizeAssert.class, collector);
+    try {
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractMapAssert.class, Integer.class);
+      return constructor.newInstance(mapSizeAssert.returnToMap(), mapSizeAssert.actual);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 
 }
