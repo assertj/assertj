@@ -52,7 +52,6 @@ public class Iterator_assumptions_Test extends BaseAssumptionsRunnerTest {
   @SuppressWarnings("unchecked")
   @Parameters
   public static Object[][] provideAssumptionsRunners() {
-    setupData();
     return new AssumptionRunner[][] {
         run(iterator(TolkienCharacter.of("Frodo", 33, Race.HOBBIT), TolkienCharacter.of("Sam", 35, Race.HOBBIT)),
             value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)

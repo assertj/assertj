@@ -50,7 +50,6 @@ public class List_special_assertion_methods_in_assumptions_Test extends BaseAssu
   @SuppressWarnings("unchecked")
   @Parameters
   public static Object[][] provideAssumptionsRunners() {
-    setupData();
     return new AssumptionRunner[][] {
         // extracting methods
         run(asList(frodo, sam),

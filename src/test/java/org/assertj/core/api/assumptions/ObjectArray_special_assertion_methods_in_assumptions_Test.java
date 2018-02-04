@@ -50,7 +50,6 @@ public class ObjectArray_special_assertion_methods_in_assumptions_Test extends B
   @SuppressWarnings("unchecked")
   @Parameters
   public static Object[][] provideAssumptionsRunners() {
-    setupData();
     return new AssumptionRunner[][] {
         // extracting methods
         run(array(frodo, sam),

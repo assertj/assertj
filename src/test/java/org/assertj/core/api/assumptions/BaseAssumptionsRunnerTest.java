@@ -31,6 +31,10 @@ public abstract class BaseAssumptionsRunnerTest {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 
+  static {
+    setupData();
+  }
+
   protected static TolkienCharacter frodo;
   protected static TolkienCharacter sam;
   protected static CartoonCharacter homer;
@@ -52,7 +56,7 @@ public abstract class BaseAssumptionsRunnerTest {
     this.assumptionRunner = assumptionRunner;
   }
 
-  public static void setupData() {
+  private static void setupData() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");
     maggie = new CartoonCharacter("Maggie Simpson");
