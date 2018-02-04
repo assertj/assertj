@@ -58,12 +58,7 @@ public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertB
 
   @Test
   public void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
-    Comparator<String> comparator = new Comparator<String>() {
-      @Override
-      public int compare(String o1, String o2) {
-        return o1.compareTo(o2);
-      }
-    };
+    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Luke", null);
 

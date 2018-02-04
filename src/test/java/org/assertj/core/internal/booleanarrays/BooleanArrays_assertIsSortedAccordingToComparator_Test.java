@@ -45,18 +45,8 @@ public class BooleanArrays_assertIsSortedAccordingToComparator_Test extends Bool
   public void setUp() {
     super.setUp();
     actual = new boolean[] { true, true, false, false };
-    booleanDescendingOrderComparator = new Comparator<Boolean>() {
-      @Override
-      public int compare(Boolean boolean1, Boolean boolean2) {
-        return -boolean1.compareTo(boolean2);
-      }
-    };
-    booleanAscendingOrderComparator = new Comparator<Boolean>() {
-      @Override
-      public int compare(Boolean boolean1, Boolean boolean2) {
-        return boolean1.compareTo(boolean2);
-      }
-    };
+    booleanDescendingOrderComparator = (boolean1, boolean2) -> -boolean1.compareTo(boolean2);
+    booleanAscendingOrderComparator = (boolean1, boolean2) -> boolean1.compareTo(boolean2);
   }
 
   @Test

@@ -24,7 +24,6 @@ import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
@@ -145,12 +144,9 @@ public class IterableAssert_extracting_Test {
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     // extract field that is also a property and check generic for comparator.
-    assertThat(employees).extracting("name", Name.class).usingElementComparator(new Comparator<Name>() {
-      @Override
-      public int compare(Name o1, Name o2) {
-        return o1.getFirst().compareTo(o2.getFirst());
-      }
-    }).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
+    assertThat(employees).extracting("name", Name.class)
+                         .usingElementComparator((o1, o2) -> o1.getFirst().compareTo(o2.getFirst()))
+                         .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test

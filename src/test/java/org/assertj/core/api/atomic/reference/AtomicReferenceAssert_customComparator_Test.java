@@ -23,13 +23,7 @@ public class AtomicReferenceAssert_customComparator_Test {
 
   @Test
   public void should_honor_custom_comparator() {
-    Comparator<AtomicReference<String>> comparator = new Comparator<AtomicReference<String>>() {
-      
-      @Override
-      public int compare(AtomicReference<String> o1, AtomicReference<String> o2) {
-        return o1.get().compareToIgnoreCase(o2.get());
-      }
-    };
+    Comparator<AtomicReference<String>> comparator = (o1, o2) -> o1.get().compareToIgnoreCase(o2.get());
     
     assertThat(new AtomicReference<String>("foo")).usingComparator(comparator).isEqualTo(new AtomicReference<String>("FOO"));
   }

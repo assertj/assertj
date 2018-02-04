@@ -64,11 +64,7 @@ public class AtomicReferenceArrayAssert_usingElementComparatorOnFields_Test exte
 
   @Test
   public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_using_element_comparator_on_fields() {
-    Comparator<String> comparator = new Comparator<String>() {
-      public int compare(String o1, String o2) {
-        return o1.compareTo(o2);
-      }
-    };
+    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 

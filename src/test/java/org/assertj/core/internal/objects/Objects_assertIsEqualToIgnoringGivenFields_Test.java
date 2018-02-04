@@ -217,12 +217,7 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
 
   @Test
   public void should_be_able_to_use_a_comparator_for_specified_fields() {
-    Comparator<String> alwaysEqual = new Comparator<String>() {
-      @Override
-      public int compare(String o1, String o2) {
-        return 0;
-      }
-    };
+    Comparator<String> alwaysEqual = (s1, s2) -> 0;
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
 

@@ -102,12 +102,7 @@ public class TypeComparators_Test {
   }
 
   private static <T> Comparator<T> newComparator() {
-    return new Comparator<T>() {
-      @Override
-      public int compare(T o1, T o2) {
-        return 0;
-      }
-    };
+    return (T o1, T o2) -> 0;
   }
 
   private interface I1 {

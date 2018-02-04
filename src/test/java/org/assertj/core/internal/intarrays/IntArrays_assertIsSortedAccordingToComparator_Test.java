@@ -45,18 +45,8 @@ public class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArray
   public void setUp() {
     super.setUp();
     actual = new int[] { 4, 3, 2, 2, 1 };
-    intDescendingOrderComparator = new Comparator<Integer>() {
-      @Override
-      public int compare(Integer int1, Integer int2) {
-        return -int1.compareTo(int2);
-      }
-    };
-    intSquareComparator = new Comparator<Integer>() {
-      @Override
-      public int compare(Integer int1, Integer int2) {
-        return new Integer(int1 * int1).compareTo(new Integer(int2 * int2));
-      }
-    };
+    intDescendingOrderComparator = (int1, int2) -> -int1.compareTo(int2);
+    intSquareComparator = (int1, int2) -> new Integer(int1 * int1).compareTo(new Integer(int2 * int2));
   }
 
   @Test

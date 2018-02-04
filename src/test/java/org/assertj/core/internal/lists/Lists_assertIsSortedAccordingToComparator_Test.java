@@ -37,19 +37,8 @@ import org.junit.Test;
  */
 public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
 
-  private static Comparator<String> stringDescendingOrderComparator = new Comparator<String>() {
-    @Override
-    public int compare(String s1, String s2) {
-      return -s1.compareTo(s2);
-    }
-  };
-
-  private static Comparator<Object> comparator = new Comparator<Object>() {
-    @Override
-    public int compare(Object o1, Object o2) {
-      return o1.toString().compareTo(o2.toString());
-    }
-  };
+  private static Comparator<String> stringDescendingOrderComparator = (s1, s2) -> -s1.compareTo(s2);
+  private static Comparator<Object> comparator = (o1, o2) -> o1.toString().compareTo(o2.toString());
 
   @Test
   public void should_pass_if_actual_is_sorted_according_to_given_comparator() {

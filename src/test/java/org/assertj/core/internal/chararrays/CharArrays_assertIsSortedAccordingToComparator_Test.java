@@ -45,18 +45,8 @@ public class CharArrays_assertIsSortedAccordingToComparator_Test extends CharArr
   public void setUp() {
     super.setUp();
     actual = new char[] { 'd', 'c', 'b', 'b', 'a' };
-    charDescendingOrderComparator = new Comparator<Character>() {
-      @Override
-      public int compare(Character char1, Character char2) {
-        return -char1.compareTo(char2);
-      }
-    };
-    charAscendingOrderComparator = new Comparator<Character>() {
-      @Override
-      public int compare(Character char1, Character char2) {
-        return char1.compareTo(char2);
-      }
-    };
+    charDescendingOrderComparator = (char1, char2) -> -char1.compareTo(char2);
+    charAscendingOrderComparator = (char1, char2) -> char1.compareTo(char2);
   }
 
   @Test

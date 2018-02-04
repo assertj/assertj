@@ -115,12 +115,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
 
   @Test
   public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
-    Comparator<String> comparator = new Comparator<String>() {
-      @Override
-      public int compare(String o1, String o2) {
-        return o1.compareTo(o2);
-      }
-    };
+    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));
 

@@ -45,18 +45,8 @@ public class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortA
   public void setUp() {
     super.setUp();
     actual = new short[] { 4, 3, 2, 2, 1 };
-    shortDescendingOrderComparator = new Comparator<Short>() {
-      @Override
-      public int compare(Short short1, Short short2) {
-        return -short1.compareTo(short2);
-      }
-    };
-    shortAscendingOrderComparator = new Comparator<Short>() {
-      @Override
-      public int compare(Short short1, Short short2) {
-        return short1.compareTo(short2);
-      }
-    };
+    shortDescendingOrderComparator =  (short1, short2) -> -short1.compareTo(short2);
+    shortAscendingOrderComparator = (short1, short2) -> short1.compareTo(short2);
   }
 
   @Test
