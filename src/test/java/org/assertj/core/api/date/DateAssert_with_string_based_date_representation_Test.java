@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.test.ExpectedException;
@@ -51,6 +52,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
 
   @Test
   public void date_assertion_using_default_date_string_representation() {
+
     // datetime with ms is supported
     final Date date1timeWithMS = parseDatetimeWithMs("2003-04-26T03:01:02.999");
     assertThat(date1timeWithMS).isEqualTo("2003-04-26T03:01:02.999");
@@ -74,11 +76,35 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
+  public void date_assertion_should_support_date_with_utc_time_zone_string_representation() throws ParseException {
+    SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    Date date = isoFormat.parse("2003-04-26T00:00:00");
+
+    assertThat(date).isEqualTo("2003-04-26T00:00:00+00:00");
+  }
+
+  @Test
+  public void date_assertion_should_support_date_with_utc_time_zone_in_different_time_zone_string_representation() throws ParseException {
+    SimpleDateFormat isoDateFormatUtc = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    isoDateFormatUtc.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    SimpleDateFormat isoDateFormatNewYork = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+    isoDateFormatNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+
+    Date date = isoDateFormatUtc.parse("2003-04-26T00:00:00");
+    String newYorkDate = isoDateFormatNewYork.format(date);
+
+    assertThat(date).isEqualTo(newYorkDate);
+  }
+
+  @Test
   public void should_fail_if_given_date_string_representation_cant_be_parsed_with_default_date_formats() {
     final String dateAsString = "2003/04/26";
     thrown.expectAssertionError("Failed to parse 2003/04/26 with any of these date formats:%n" +
                                 "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
                                 "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                 "    yyyy-MM-dd'T'HH:mm:ss,%n" +
                                 "    yyyy-MM-dd]");
     assertThat(new Date()).isEqualTo(dateAsString);
@@ -98,6 +124,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
                                 "    yyyy/MM/dd,%n" +
                                 "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
                                 "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                 "    yyyy-MM-dd'T'HH:mm:ss,%n" +
                                 "    yyyy-MM-dd]");
     final Date date = DateUtil.parse("2003-04-26");
@@ -133,6 +160,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
                                       "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
                                       "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
                                       "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                      "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                       "    yyyy-MM-dd'T'HH:mm:ss,%n" +
                                       "    yyyy-MM-dd]"));
     }
@@ -165,6 +193,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
       assertThat(e).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
                                       "   [yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
                                       "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                      "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                       "    yyyy-MM-dd'T'HH:mm:ss,%n" +
                                       "    yyyy-MM-dd]"));
     }
@@ -185,6 +214,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
                                       "   [yyyy/MM/dd,%n" +
                                       "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
                                       "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                      "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                       "    yyyy-MM-dd'T'HH:mm:ss,%n" +
                                       "    yyyy-MM-dd]"));
 

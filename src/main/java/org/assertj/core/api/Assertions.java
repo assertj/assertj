@@ -2447,7 +2447,8 @@ public class Assertions {
    *   assertThat(date).isEqualTo("2003/04/26");
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage("Failed to parse 2003/04/26 with any of these date formats: " +
-   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]");
+   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ssX, " +
+   *                            "yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]");
    * }
    *
    * // registering a custom date format to make the assertion pass
@@ -2492,7 +2493,8 @@ public class Assertions {
    *   assertThat(date).isEqualTo("2003/04/26");
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage("Failed to parse 2003/04/26 with any of these date formats: " +
-   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]");
+   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ssX, " +
+   *                            "yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]");
    * }
    *
    * // registering a custom date format to make the assertion pass
@@ -2517,6 +2519,7 @@ public class Assertions {
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
