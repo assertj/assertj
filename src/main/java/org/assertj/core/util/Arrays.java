@@ -44,7 +44,7 @@ public class Arrays {
   }
 
   /**
-   * Get the values of any array (primtive or not) into a {@code Object[]}.
+   * Get the values of any array (primitive or not) into a {@code Object[]}.
    * 
    * @param array array passed as an object to support both primitive and Object array
    * @return the values of the given Object as a {@code Object[]}.
@@ -62,7 +62,7 @@ public class Arrays {
   }
 
   /**
-   * Get the values of any array (primtive or not) into a {@code List<Object>}.
+   * Get the values of any array (primitive or not) into a {@code List<Object>}.
    * 
    * @param array array passed as an object to support both primitive and Object array
    * @return the values of the given Object as a {@code List<Object>}.

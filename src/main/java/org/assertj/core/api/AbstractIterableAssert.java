@@ -2463,7 +2463,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @param <OTHER_ELEMENT> the type of the other iterable elements.
    * @param other the iterable to zip actual with.
-   * @param zipRequirements the given requirements that each pair must sastify.
+   * @param zipRequirements the given requirements that each pair must satisfy.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given zipRequirements {@link BiConsumer} is {@code null}.
    * @throws NullPointerException if the the other iterable to zip actual with is {@code null}.

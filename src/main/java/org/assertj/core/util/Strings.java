@@ -156,7 +156,7 @@ public final class Strings {
     }
 
     /**
-     * Specifies the delimiter to use to join {@code String}s and the esapce String to wrap strings with.
+     * Specifies the delimiter to use to join {@code String}s and the escape String to wrap strings with.
      * 
      * @param delimiter the delimiter to use.
      * @param escapeString the String wrapper to use.
