@@ -752,35 +752,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_map() {
-    // GIVEN
-    Optional<String> optional = Optional.of("Gandalf");
-    // WHEN
-    softly.assertThat(optional)
-          .contains("Sauron");
-    softly.assertThat(optional)
-          .contains("Gandalf")
-          .map(String::length)
-          .contains(1);
-    // THEN
-    assertThat(softly.errorsCollected()).hasSize(2);
-  }
-
-  @Test
-  public void should_collect_all_errors_when_using_flatMap() {
-    // GIVEN
-    Optional<String> optional = Optional.of("Gandalf");
-    // WHEN
-    softly.assertThat(optional)
-          .contains("Sauron");
-    softly.assertThat(optional)
-          .flatMap(s -> Optional.of(s.length()))
-          .contains(1);
-    // THEN
-    assertThat(softly.errorsCollected()).hasSize(2);
-  }
-
-  @Test
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(asList()).first();
@@ -1038,7 +1009,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_change_the_object_under_test() {
+  public void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
     Iterable<CartoonCharacter> characters = asList(homer, fred);
@@ -1186,7 +1157,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_change_the_object_under_test() {
+  public void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
     List<CartoonCharacter> characters = asList(homer, fred);
@@ -1335,7 +1306,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_change_the_object_under_test() {
+  public void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Name[] names = array(name("John", "Doe"), name("Jane", "Doe"));
     CartoonCharacter[] characters = array(homer, fred);
@@ -1483,7 +1454,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_change_the_object_under_test() {
+  public void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Name name = name("John", "Doe");
     Object alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -1517,7 +1488,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void map_soft_assertions_should_report_errors_on_final_methods_and_methods_that_change_the_object_under_test() {
+  public void map_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
     // WHEN
@@ -1598,6 +1569,31 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected).hasSize(2);
     assertThat(errorsCollected.get(0)).hasMessageContaining("boxing");
     assertThat(errorsCollected.get(1)).hasMessageContaining("basketball");
+  }
+
+  @Test
+  public void optional_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+    // GIVEN
+    Optional<String> optional = Optional.of("Yoda");
+    Function<String, Optional<String>> upperCaseOptional = s -> s == null ? Optional.empty() : Optional.of(s.toUpperCase());
+    // WHEN
+    softly.assertThat(optional)
+          .map(String::length)
+          .hasValue(4)
+          .hasValue(777); // fail
+    softly.assertThat(optional)
+          .flatMap(upperCaseOptional)
+          .contains("YODA")
+          .contains("yoda") // fail
+          .map(String::length)
+          .hasValue(4)
+          .hasValue(888); // fail
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(3);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("777");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("yoda");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("888");
   }
 
 }
