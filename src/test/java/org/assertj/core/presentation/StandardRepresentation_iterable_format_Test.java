@@ -60,7 +60,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   @Test
   public void should_format_iterable_with_one_element_per_line() {
     String formatted = STANDARD_REPRESENTATION.multiLineFormat(asList("First", 3, "foo", "bar"));
-    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"First\",%n" +
                                                        "    3,%n" +
@@ -73,7 +73,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
     StandardRepresentation.setMaxElementsForPrinting(3);
     StandardRepresentation.setMaxLengthForSingleLineDescription(10);
     String formatted = STANDARD_REPRESENTATION.smartFormat(asList("First", 3, "foo", "bar"));
-    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"First\",%n" +
                                                        "    3,%n" +
@@ -91,7 +91,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   @Test
   public void should_format_iterable_with_an_element_per_line_according_the_given_representation() {
     String formatted = new HexadecimalRepresentation().multiLineFormat(asList(1, 2, 3));
-    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
+    String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[0x0000_0001,%n" +
                                                        "    0x0000_0002,%n" +

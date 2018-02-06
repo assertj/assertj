@@ -54,7 +54,6 @@ import java.util.function.Function;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Arrays;
-import org.assertj.core.util.Compatibility;
 import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
@@ -86,7 +85,7 @@ public class StandardRepresentation implements Representation {
   static final String INDENTATION_FOR_SINGLE_LINE = " ";
 
   public static final String ELEMENT_SEPARATOR = ",";
-  public static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + Compatibility.System.lineSeparator();
+  public static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + System.lineSeparator();
 
   private static int maxLengthForSingleLineDescription = 80;
 
