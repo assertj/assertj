@@ -289,7 +289,7 @@ public class StandardRepresentation implements Representation {
       Object joinResultRepresentation = joinResult instanceof CompletableFuture ? joinResult : toStringOf(joinResult);
       return concat(className, "[Completed: ", joinResultRepresentation, "]");
     } catch (CompletionException e) {
-      return concat(className, "[Failed: ", toStringOf(e.getCause()), "]");
+      return concat(className, "[Failed: ", toStringOf(e.getCause()), "]\n", toStringOf(e.getStackTrace()));
     } catch (CancellationException e) {
       return concat(className, "[Cancelled]");
     }

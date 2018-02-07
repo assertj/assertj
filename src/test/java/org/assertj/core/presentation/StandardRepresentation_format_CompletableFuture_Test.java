@@ -18,6 +18,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import java.util.concurrent.CompletableFuture;
 
+import org.assertj.core.util.StackTraceUtils;
 import org.junit.Test;
 
 public class StandardRepresentation_format_CompletableFuture_Test {
@@ -38,7 +39,8 @@ public class StandardRepresentation_format_CompletableFuture_Test {
   public void should_format_failed_future() {
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("some random error"));
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Failed: java.lang.RuntimeException: some random error]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).matches("CompletableFuture\\[Failed: java.lang.RuntimeException: some random error\\]\n"
+                                                                   + StackTraceUtils.getStackTraceRegex());
   }
 
   @Test

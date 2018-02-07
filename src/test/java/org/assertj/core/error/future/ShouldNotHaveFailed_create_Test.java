@@ -20,6 +20,7 @@ import static org.assertj.core.error.future.Warning.WARNING;
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.util.StackTraceUtils;
 import org.junit.Test;
 
 public class ShouldNotHaveFailed_create_Test {
@@ -31,11 +32,12 @@ public class ShouldNotHaveFailed_create_Test {
 
     String error = shouldNotHaveFailed(future).create(new TestDescription("TEST"));
 
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting%n" +
-                                       "  <CompletableFuture[Failed: java.lang.RuntimeException]>%n" +
-                                       "to not have failed.%n%s",
-                                       WARNING));
+    assertThat(error).matches(format("\\[TEST\\] %n" +
+                                     "Expecting%n" +
+                                     "  <CompletableFuture\\[Failed: java.lang.RuntimeException\\]%n" +
+                                     StackTraceUtils.getStackTraceRegex() +
+                                     ">%n" +
+                                     "to not have failed.%n%s",
+                                     WARNING));
   }
-
 }

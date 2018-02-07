@@ -15,6 +15,7 @@ package org.assertj.core.api.future;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -42,6 +43,7 @@ public class CompletableFutureAssert_isNotCompletedExceptionally_Test extends Ba
     future.completeExceptionally(new RuntimeException());
 
     assertThatThrownBy(() -> assertThat(future).isNotCompletedExceptionally()).isInstanceOf(AssertionError.class)
-                                                                              .hasMessage(shouldNotHaveCompletedExceptionally(future).create());
+                                                                              .hasMessageMatching(shouldNotHaveCompletedExceptionally(future).create(emptyDescription(),
+                                                                                                                                                     new FailedCompletableFutureRepresentation()));
   }
 }

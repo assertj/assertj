@@ -15,6 +15,7 @@ package org.assertj.core.api.future;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -76,7 +77,8 @@ public class CompletableFutureAssert_isCompletedWithValue_Test extends BaseTest 
     Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValue("done"));
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldBeCompleted(future).create());
+                         .hasMessageMatching(shouldBeCompleted(future).create(emptyDescription(),
+                                                                      new FailedCompletableFutureRepresentation()));
   }
 
   @Test
