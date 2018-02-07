@@ -19,6 +19,7 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.assertj.core.api.AssertionInfo;
@@ -81,6 +82,10 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
   @Test
   public void succeeds_if_end_is_equal_to_start() {
     comparables.assertIsBetween(someInfo(), 8, 8, 8, true, true);
+    comparables.assertIsBetween(someInfo(), BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN, true, true);
+    comparables.assertIsBetween(someInfo(), BigDecimal.TEN, new BigDecimal("10.000"), new BigDecimal("10.000"), true, true);
+    comparables.assertIsBetween(someInfo(), BigDecimal.TEN, new BigDecimal("10.000"), new BigDecimal("10.0"), true, true);
+    comparables.assertIsBetween(someInfo(), BigDecimal.TEN, new BigDecimal("10.00"), new BigDecimal("10.0000"), true, true);
   }
 
   // ------------------------------------------------------------------------------------------------------------------

@@ -175,12 +175,14 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;9.0&quot;));
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;9.0&quot;));
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;8.0&quot;));
+   * // comparison is performed without scale consideration:
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;8.00&quot;));
    * 
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;6.0&quot;), new BigDecimal(&quot;7.0&quot;));</code></pre>
    * 
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
-   * considered equal in value (not like {@link BigDecimal#equals(Object)}.
+   * considered equal in value unlike {@link BigDecimal#equals(Object)}.
    */
   @Override
   public SELF isBetween(BigDecimal start, BigDecimal end) {
@@ -414,5 +416,57 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   public SELF isNotCloseTo(BigDecimal expected, Percentage percentage) {
     bigDecimals.assertIsNotCloseToPercentage(info, actual, expected, percentage);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual value is less than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(BigDecimal.TEN);
+   * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(BigDecimal.ONE);
+   * // comparison is performed without scale consideration:
+   * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(new BigDecimal("1.00"));
+   * 
+   * // assertions will fail
+   * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(BigDecimal.ZERO);</code></pre>
+   * 
+   * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
+   * considered equal in value unlike {@link BigDecimal#equals(Object)}.
+   * 
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is greater than the given one.
+   */
+  @Override
+  public SELF isLessThanOrEqualTo(BigDecimal other) {
+    return super.isLessThanOrEqualTo(other);
+  }
+
+  /**
+   * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(BigDecimal.ONE).isGreaterThanOrEqualTo(BigDecimal.ZERO);
+   * assertThat(BigDecimal.ONE).isGreaterThanOrEqualTo(BigDecimal.ONE);
+   * // comparison is performed without scale consideration:
+   * assertThat(BigDecimal.ONE).isGreaterThanOrEqualTo(new BigDecimal("1.00"));
+   * 
+   * // assertions will fail
+   * assertThat(BigDecimal.ZERO).isGreaterThanOrEqualTo(BigDecimal.ONE);</code></pre>
+   * 
+   * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
+   * considered equal in value unlike {@link BigDecimal#equals(Object)}.
+   * 
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is less than the given one.
+   */
+  @Override
+  public SELF isGreaterThanOrEqualTo(BigDecimal other) {
+    return super.isGreaterThanOrEqualTo(other);
   }
 }

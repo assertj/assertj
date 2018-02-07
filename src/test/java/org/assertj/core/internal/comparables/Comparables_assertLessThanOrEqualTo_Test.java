@@ -16,9 +16,9 @@ import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
+
+import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Comparables;
@@ -48,6 +48,9 @@ public class Comparables_assertLessThanOrEqualTo_Test extends ComparablesBaseTes
   @Test
   public void should_pass_if_actual_is_equal_to_other() {
     comparables.assertLessThanOrEqualTo(someInfo(), 6, 6);
+    comparables.assertLessThanOrEqualTo(someInfo(), BigDecimal.TEN, BigDecimal.TEN);
+    comparables.assertLessThanOrEqualTo(someInfo(), BigDecimal.TEN, new BigDecimal("10.000"));
+    comparables.assertLessThanOrEqualTo(someInfo(), new BigDecimal("10.0"), new BigDecimal("10.000"));
   }
 
   @Test

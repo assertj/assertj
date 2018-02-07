@@ -286,15 +286,23 @@ public class Comparables {
     assertNotNull(info, actual);
     checkNotNull(start, "The start range to compare actual with should not be null");
     checkNotNull(end, "The end range to compare actual with should not be null");
-    checkArgument(inclusiveEnd && inclusiveStart && comparisonStrategy.isLessThanOrEqualTo(start, end) ||
-                  !inclusiveEnd && !inclusiveStart && comparisonStrategy.isLessThan(start, end),
-                  format("The end value <%s> must not be %s the start value <%s>%s!", end,
-                         (inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to"), start,
-                         (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")")));
+    checkBoundsValidity(start, end, inclusiveStart, inclusiveEnd);
     boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual) : isLessThan(start, actual);
     boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end) : isLessThan(actual, end);
     if (checkLowerBoundaryRange && checkUpperBoundaryRange)
       return;
     throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+  }
+
+  protected <T extends Comparable<? super T>> void checkBoundsValidity(T start, T end, boolean inclusiveStart,
+                                                                       boolean inclusiveEnd) {
+    // don't use isLessThanOrEqualTo or isGreaterThanOrEqualTo to avoid equal comparison which makes BigDecimal
+    // to fail when start = end with different precision, ex: [10.0, 10.00].
+    boolean inclusiveBoundsCheck = inclusiveEnd && inclusiveStart && !isGreaterThan(start, end);
+    boolean strictBoundsCheck = !inclusiveEnd && !inclusiveStart && isLessThan(start, end);
+    String operator = inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to";
+    String boundsCheckErrorMessage = format("The end value <%s> must not be %s the start value <%s>%s!", end, operator, start,
+                                            (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")"));
+    checkArgument(inclusiveBoundsCheck || strictBoundsCheck, boundsCheckErrorMessage);
   }
 }
