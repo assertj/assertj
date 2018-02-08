@@ -25,7 +25,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Iterables#assertAre(AssertionInfo, Iterable, org.assertj.core.core.Condition)}</code> .
+ * Tests for <code>{@link Iterables#assertAre(AssertionInfo, Iterable, org.assertj.core.api.Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky

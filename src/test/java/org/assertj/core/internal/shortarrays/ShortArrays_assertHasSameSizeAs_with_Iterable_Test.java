@@ -28,7 +28,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShortArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
+ * Tests for <code>{@link ShortArrays#assertHasSameSizeAs(AssertionInfo, short[], Iterable)}</code>.
  * 
  * @author Nicolas François
  */

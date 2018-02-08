@@ -20,7 +20,7 @@ import org.assertj.core.api.ConcreteAssert;
 import org.junit.BeforeClass;
 
 /**
- * Tests for <code>{@link AbstractAssert#isIn(Iterable))}</code>.
+ * Tests for <code>{@link org.assertj.core.api.AbstractAssert#isIn(Iterable))}</code>.
  * 
  * @author Yvonne Wang
  * @author Joel Costigliola

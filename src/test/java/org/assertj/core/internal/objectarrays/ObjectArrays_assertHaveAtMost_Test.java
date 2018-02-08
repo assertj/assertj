@@ -28,7 +28,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ObjectArrays#assertHaveAtMost(AssertionInfo, Object[], Condition, int)}</code> .
+ * Tests for <code>{@link ObjectArrays#assertHaveAtMost(AssertionInfo, Object[], int, Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky

@@ -22,7 +22,7 @@ import org.assertj.core.test.Person;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#hasNoNullFieldsOrPropertiesExcept(String)}</code>.
+ * Tests for <code>{@link ObjectAssert#hasNoNullFieldsOrPropertiesExcept(String...)}</code>.
  *
  * @author Johannes Brodwall
  */

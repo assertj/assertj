@@ -28,7 +28,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShortArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
+ * Tests for <code>{@link ShortArrays#assertIsSorted(AssertionInfo, short[])}</code>.
  * 
  * @author Joel Costigliola
  */
