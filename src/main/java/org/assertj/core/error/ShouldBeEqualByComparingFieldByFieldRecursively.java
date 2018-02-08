@@ -17,6 +17,7 @@ import static org.assertj.core.util.Strings.join;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.presentation.Representation;
@@ -52,20 +53,20 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
 
     boolean sameRepresentation = Objects.areEqual(actualFieldValue, otherFieldValue);
 
-    String actualFieldValueRepresentation = sameRepresentation
+    Optional<String> actualFieldValueRepresentation = Optional.ofNullable(sameRepresentation
         ? representation.unambiguousToStringOf(difference.getActual())
-        : actualFieldValue;
+        : actualFieldValue);
 
-    String otherFieldValueRepresentation = sameRepresentation
+    Optional<String> otherFieldValueRepresentation = Optional.ofNullable(sameRepresentation
         ? representation.unambiguousToStringOf(difference.getOther())
-        : otherFieldValue;
+        : otherFieldValue);
 
     return format("%nPath to difference: <%s>%n" +
                   "- expected: <%s>%n" +
                   "- actual  : <%s>",
                   join(difference.getPath()).with("."),
-                  otherFieldValueRepresentation.replace("%", "%%"),
-                  actualFieldValueRepresentation.replace("%", "%%"));
+                  otherFieldValueRepresentation.map(s -> s.replace("%", "%%")).orElse(null),
+                  actualFieldValueRepresentation.map(s -> s.replace("%", "%%")).orElse(null));
   }
 
 }
