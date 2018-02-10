@@ -117,12 +117,8 @@
               <createDependencyReducedPom>true</createDependencyReducedPom>
               <relocations>
                 <relocation>
-                  <pattern>net.sf.cglib</pattern>
-                  <shadedPattern>org.assertj.core.internal.cglib</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.objectweb.asm</pattern>
-                  <shadedPattern>org.assertj.core.internal.asm</shadedPattern>
+                  <pattern>net.bytebuddy</pattern>
+                  <shadedPattern>org.assertj.core.internal.bytebuddy</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>
@@ -158,14 +154,23 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <version>3.0.1</version>
         <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Export-Package>org.assertj.core.*</Export-Package>
-            <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
-            <_removeheaders>Bnd-LastModified</_removeheaders>
-          </instructions>
-          <niceManifest>true</niceManifest>
-        </configuration>
+        <executions>
+          <execution>
+            <id>bundle-after-unpack-shaded</id>
+            <phase>package</phase>
+            <goals>
+              <goal>bundle</goal>
+            </goals>
+            <configuration>
+              <instructions>
+                <Export-Package>org.assertj.core.*</Export-Package>
+                <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+                <_removeheaders>Bnd-LastModified</_removeheaders>
+              </instructions>
+              <niceManifest>true</niceManifest>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <!-- generate jacoco report -->
       <plugin>
