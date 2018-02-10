@@ -34,4 +34,41 @@ public class Assertions_assertThat_with_primitive_int_Test {
     AbstractIntegerAssert<?> assertions = Assertions.assertThat(8);
     assertThat(assertions.actual).isEqualTo(new Integer(8));
   }
+
+  @Test
+  public void should_pass_expected_long() {
+    Assertions.assertThat(123).isEqualTo(123L);
+  }
+
+  @Test
+  public void should_pass_expected_long_Integer_MAX() {
+    int actual = Integer.MAX_VALUE;
+    long expected = (long)Integer.MAX_VALUE;
+    Assertions.assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  public void should_fail_expected_long_Integer_MAX_plus_one() {
+    int actual = Integer.MAX_VALUE;
+    long expected = (long)Integer.MAX_VALUE + 1;
+    Assertions.assertThatThrownBy(() ->
+      Assertions.assertThat(actual).isEqualTo(expected)
+    );
+  }
+
+  @Test
+  public void should_fail_expected_long_Integer_MIN_minus_one() {
+    int actual = Integer.MIN_VALUE;
+    long expected = (long)Integer.MIN_VALUE - 1;
+    Assertions.assertThatThrownBy(() ->
+      Assertions.assertThat(actual).isEqualTo(expected)
+    );
+  }
+
+  @Test
+  public void should_pass_expected_long_Integer_MIN() {
+    int actual = Integer.MIN_VALUE;
+    long expected = (long)Integer.MIN_VALUE ;
+    Assertions.assertThat(actual).isEqualTo(expected);
+  }
 }
