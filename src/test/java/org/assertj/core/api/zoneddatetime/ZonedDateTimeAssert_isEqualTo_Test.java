@@ -38,4 +38,10 @@ public class ZonedDateTimeAssert_isEqualTo_Test extends ZonedDateTimeAssertBaseT
     assertThat(utcDateTime).as("in UTC time zone").isEqualTo(cestDateTime);
     assertThat(cestDateTime).as("in CEST time zone").isEqualTo(utcDateTime);
   }
+
+  @Test
+  public void should_pass_if_both_are_null() {
+    assertThat((ZonedDateTime) null).isEqualTo((ZonedDateTime) null);
+  }
+
 }
