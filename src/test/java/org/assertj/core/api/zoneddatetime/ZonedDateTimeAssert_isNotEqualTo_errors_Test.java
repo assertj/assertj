@@ -50,7 +50,7 @@ public class ZonedDateTimeAssert_isNotEqualTo_errors_Test extends ZonedDateTimeA
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
     expectException(IllegalArgumentException.class,
-        "The String representing the ZonedDateTime to compare actual with should not be null");
+                    "The String representing the ZonedDateTime to compare actual with should not be null");
     assertThat(ZonedDateTime.now()).isNotEqualTo((String) null);
   }
 
