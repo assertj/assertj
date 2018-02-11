@@ -39,4 +39,19 @@ public class ZonedDateTimeAssert_isNotEqualTo_Test extends ZonedDateTimeAssertBa
     assertThat(cestDateTime).as("in CEST time zone").isNotEqualTo(utcDateTime);
   }
 
+  @Test
+  public void should_pass_if_actual_dateTime_is_null_and_expected_dateTime_as_string_is_not() {
+    assertThat((ZonedDateTime) null).isNotEqualTo("2000-01-01T01:00:00+01:00");
+  }
+
+  @Test
+  public void should_pass_if_actual_dateTime_is_null_and_expected_dateTime_is_not() {
+    assertThat((ZonedDateTime) null).isNotEqualTo(ZonedDateTime.now());
+  }
+
+  @Test
+  public void should_pass_if_dateTime_as_ZoneDateTime_is_null() {
+    assertThat(ZonedDateTime.now()).isNotEqualTo((ZonedDateTime) null);
+  }
+
 }

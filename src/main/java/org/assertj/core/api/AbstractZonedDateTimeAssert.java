@@ -739,6 +739,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   private ZonedDateTime sameInstantInActualTimeZone(ZonedDateTime zonedDateTime) {
+    if (zonedDateTime == null) return null; // nothing to convert in actual's TZ
+    if (actual == null) return zonedDateTime; // no actual => let's keep zonedDateTime as it is.
     return zonedDateTime.withZoneSameInstant(actual.getZone());
   }
 
