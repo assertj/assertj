@@ -84,7 +84,7 @@ class SoftProxies {
                           .method(ElementMatchers.<MethodDescription> any().and(ElementMatchers.not(specialMethods)))
                           .intercept(MethodDelegation.to(collector))
                           .make()
-                          .load(getClass().getClassLoader())
+                          .load(assertClass.getClassLoader())
                           .getLoaded();
   }
 
