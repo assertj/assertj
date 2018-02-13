@@ -84,6 +84,9 @@ class SoftProxies {
                           .method(ElementMatchers.<MethodDescription> any().and(ElementMatchers.not(specialMethods)))
                           .intercept(MethodDelegation.to(collector))
                           .make()
+                          // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
+                          // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj
+                          // bundle.
                           .load(assertClass.getClassLoader())
                           .getLoaded();
   }

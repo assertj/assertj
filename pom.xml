@@ -166,7 +166,7 @@
                 <Export-Package>org.assertj.core.*</Export-Package>
                 <!-- Don't import what assertj-core exports -->
                 <Import-Package>!org.assertj.core.*</Import-Package>
-				<Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+				        <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
                 <_removeheaders>Bnd-LastModified</_removeheaders>
               </instructions>
               <niceManifest>true</niceManifest>
