@@ -35,6 +35,10 @@ import org.junit.Rule;
  */
 public class ObjectsBaseTest {
 
+  {
+    Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
+  }
+
   @Rule
   public ExpectedException thrown = none();
 

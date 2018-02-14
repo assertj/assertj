@@ -60,12 +60,15 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
         ? representation.unambiguousToStringOf(difference.getOther())
         : otherFieldValue;
 
+    String additionalInfo = difference.getDescription()
+                                      .map(desc -> format("%n- reason  : %s", escapePercent(desc)))
+                                      .orElse("");
     return format("%nPath to difference: <%s>%n" +
-                  "- expected: <%s>%n" +
-                  "- actual  : <%s>",
+                  "- actual  : <%s>%n" +
+                  "- expected: <%s>" + additionalInfo,
                   join(difference.getPath()).with("."),
-                  escapePercent(otherFieldValueRepresentation),
-                  escapePercent(actualFieldValueRepresentation));
+                  escapePercent(actualFieldValueRepresentation),
+                  escapePercent(otherFieldValueRepresentation));
   }
 
   protected static String escapePercent(String value) {

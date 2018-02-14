@@ -15,6 +15,7 @@ package org.assertj.core.internal.objects;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
@@ -215,11 +216,11 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                 "when recursively comparing field by field, but found the following difference(s):%n%n"
                                 +
                                 "Path to difference: <home.address.number>%n" +
-                                "- expected: <2>%n" +
-                                "- actual  : <1>%n%n" +
+                                "- actual  : <1>%n" +
+                                "- expected: <2>%n%n" +
                                 "Path to difference: <name>%n" +
-                                "- expected: <\"John\">%n" +
-                                "- actual  : <\"Jack\">");
+                                "- actual  : <\"Jack\">%n" +
+                                "- expected: <\"John\">");
 
     assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }
@@ -240,8 +241,8 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
                                 "when recursively comparing field by field, but found the following difference(s):%n%n"
                                 +
                                 "Path to difference: <friends.home.address.number>%n" +
-                                "- expected: <10>%n" +
-                                "- actual  : <99>");
+                                "- actual  : <99>%n" +
+                                "- expected: <10>");
 
     assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
   }
@@ -452,6 +453,21 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+  public void should_report_missing_property() {
+    // GIVEN
+    Human joe = new Human();
+    joe.name = "joe";
+    Giant goliath = new Giant();
+    goliath.name = "joe";
+    goliath.height = 3.0;
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(goliath).isEqualToComparingFieldByFieldRecursively(joe));
+    // THEN
+    assertThat(error).hasMessageContaining("Human does not declare all Giant fields")
+                     .hasMessageContaining("[height]");
+  }
+
   public static class WithMap<K, V> {
     public Map<K, V> map;
 
@@ -461,7 +477,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
     @Override
     public String toString() {
-      return String.format("WithMap [map=%s]", map);
+      return format("WithMap [map=%s]", map);
     }
 
   }
@@ -475,7 +491,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
     @Override
     public String toString() {
-      return String.format("WithCollection [collection=%s]", collection);
+      return format("WithCollection [collection=%s]", collection);
     }
 
   }
@@ -515,6 +531,11 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   public static class Giant extends Person {
     public double height = 3.0;
+
+    @Override
+    public String toString() {
+      return "Giant [name=" + name + ", home=" + home + ", " + "height " + height + "]";
+    }
   }
 
   public static class EqualPerson extends Person {

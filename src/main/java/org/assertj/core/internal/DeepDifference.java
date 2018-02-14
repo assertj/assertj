@@ -12,9 +12,11 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
 import static org.assertj.core.internal.Objects.propertyOrFieldValuesAreEqual;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
@@ -31,6 +33,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -47,6 +50,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DeepDifference {
 
+  private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these:%s";
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
   private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
 
@@ -98,11 +102,17 @@ public class DeepDifference {
     List<String> path;
     Object actual;
     Object other;
+    Optional<String> description;
 
     public Difference(List<String> path, Object actual, Object other) {
+      this(path, actual, other, null);
+    }
+
+    public Difference(List<String> path, Object actual, Object other, String description) {
       this.path = path;
       this.actual = actual;
       this.other = other;
+      this.description = Optional.ofNullable(description);
     }
 
     public List<String> getPath() {
@@ -117,9 +127,15 @@ public class DeepDifference {
       return other;
     }
 
+    public Optional<String> getDescription() {
+      return description;
+    }
+
     @Override
     public String toString() {
-      return "Difference [path=" + path + ", actual=" + actual + ", other=" + other + "]";
+      return description.isPresent()
+          ? format("Difference [path=%s, actual=%s, other=%s, description=%s]", path, actual, other, description.get())
+          : format("Difference [path=%s, actual=%s, other=%s]", path, actual, other);
     }
   }
 
@@ -150,7 +166,7 @@ public class DeepDifference {
                                                       TypeComparators comparatorByType) {
     // replace null comparators groups by empty one to simplify code afterwards
     comparatorByPropertyOrField = comparatorByPropertyOrField == null
-        ? new TreeMap<String, Comparator<?>>()
+        ? new TreeMap<>()
         : comparatorByPropertyOrField;
     comparatorByType = comparatorByType == null ? defaultTypeComparators() : comparatorByType;
     return determineDifferences(a, b, null, comparatorByPropertyOrField, comparatorByType);
@@ -298,7 +314,14 @@ public class DeepDifference {
       Set<String> key1FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key1.getClass()));
       Set<String> key2FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key2.getClass()));
       if (!key2FieldsNames.containsAll(key1FieldsNames)) {
-        differences.add(new Difference(currentPath, key1, key2));
+        Set<String> key1FieldsNamesNotInKey2 = newHashSet(key1FieldsNames);
+        key1FieldsNamesNotInKey2.removeAll(key2FieldsNames);
+        String missingFields = key1FieldsNamesNotInKey2.toString();
+        String key2ClassName = key2.getClass().getName();
+        String key1ClassName = key1.getClass().getName();
+        String missingFieldsDescription = format(MISSING_FIELDS, key1ClassName, key2ClassName, key2.getClass().getSimpleName(),
+                                                 key1.getClass().getSimpleName(), missingFields);
+        differences.add(new Difference(currentPath, key1, key2, missingFieldsDescription));
       } else {
         for (String fieldName : key1FieldsNames) {
           List<String> path = new ArrayList<>(currentPath);
@@ -330,7 +353,7 @@ public class DeepDifference {
                                           TypeComparators comparatorByType) {
     Deque<DualKey> stack = new LinkedList<>();
     boolean isRootObject = parentPath == null;
-    List<String> currentPath = isRootObject ? new ArrayList<String>() : parentPath;
+    List<String> currentPath = isRootObject ? new ArrayList<>() : parentPath;
     DualKey basicDualKey = new DualKey(currentPath, a, b);
     if (a != null && b != null && !isContainerType(a) && !isContainerType(b)
         && (isRootObject || !hasCustomComparator(basicDualKey, comparatorByPropertyOrField, comparatorByType))) {

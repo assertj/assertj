@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
+import static org.assertj.core.internal.DeepDifference.determineDifferences;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -26,14 +27,16 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.DeepDifference;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithCollection;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithMap;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
+
+  private static final Representation REPRESENTATION = CONFIGURATION_PROVIDER.representation();
 
   @Test
   public void should_throw_assertion_error_rather_than_null_pointer_when_one_nested_member_is_null() {
@@ -45,7 +48,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     Throwable throwable2 = catchThrowable(() -> assertThat(noname).isEqualToComparingFieldByFieldRecursively(yoda));
     // THEN
     assertThat(throwable1).isInstanceOf(AssertionError.class)
-                         .isNotInstanceOf(NullPointerException.class);
+                          .isNotInstanceOf(NullPointerException.class);
     assertThat(throwable2).isInstanceOf(AssertionError.class)
                           .isNotInstanceOf(NullPointerException.class);
   }
@@ -58,14 +61,14 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     withHashSet.collection.add("bar");
     withHashSet.collection.add("foo");
     withSortedSet.collection.addAll(withHashSet.collection);
-    List<Difference> differences = DeepDifference.determineDifferences(withHashSet, withSortedSet, null, null);
+    List<Difference> differences = determineDifferences(withHashSet, withSortedSet, null, null);
     // WHEN
     // @format:off
     String message = shouldBeEqualByComparingFieldByFieldRecursive(withSortedSet,
                                                                    withHashSet,
                                                                    differences,
-                                                                   CONFIGURATION_PROVIDER.representation())
-        .create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
+                                                                   REPRESENTATION)
+        .create(new TextDescription("Test"), REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -76,8 +79,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "when recursively comparing field by field, but found the following difference(s):%n"
                                          + "%n" +
                                          "Path to difference: <collection>%n" +
-                                         "- expected: <[\"bar\", \"foo\"] (TreeSet@%s)>%n" +
-                                         "- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@%s)>",
+                                         "- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@%s)>%n" +
+                                         "- expected: <[\"bar\", \"foo\"] (TreeSet@%s)>",
                                          toHexString(withSortedSet.collection.hashCode()),
                                          toHexString(withHashSet.collection.hashCode())));
   }
@@ -90,14 +93,14 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     withLinkedHashMap.map.put(1L, true);
     withLinkedHashMap.map.put(2L, false);
     withTreeMap.map.putAll(withLinkedHashMap.map);
-    List<Difference> differences = DeepDifference.determineDifferences(withLinkedHashMap, withTreeMap, null, null);
+    List<Difference> differences = determineDifferences(withLinkedHashMap, withTreeMap, null, null);
     // WHEN
     // @format:off
     String message = shouldBeEqualByComparingFieldByFieldRecursive(withTreeMap,
                                                                    withLinkedHashMap,
                                                                    differences,
-                                                                   CONFIGURATION_PROVIDER.representation())
-                                                          .create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
+                                                                   REPRESENTATION)
+                                                          .create(new TextDescription("Test"), REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -105,13 +108,46 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "  <WithMap [map={1=true, 2=false}]>%n" +
                                          "to be equal to:%n" +
                                          "  <WithMap [map={1=true, 2=false}]>%n" +
-                                         "when recursively comparing field by field, but found the following difference(s):%n"
-                                         + "%n" +
+                                         "when recursively comparing field by field, but found the following difference(s):%n" +
+                                         "%n" +
                                          "Path to difference: <map>%n" +
-                                         "- expected: <{1L=true, 2L=false} (TreeMap@%s)>%n" +
-                                         "- actual  : <{1L=true, 2L=false} (LinkedHashMap@%s)>",
+                                         "- actual  : <{1L=true, 2L=false} (LinkedHashMap@%s)>%n" +
+                                         "- expected: <{1L=true, 2L=false} (TreeMap@%s)>",
                                          toHexString(withTreeMap.map.hashCode()),
                                          toHexString(withLinkedHashMap.map.hashCode())));
+  }
+
+  @Test
+  public void should_precise_missing_fields_when_actual_does_not_declare_all_expected_fields() {
+    // GIVEN
+    Person person = new Person("John", "Doe");
+    PersonDAO personDAO = new PersonDAO("John", "Doe", 1L, 23);
+    // THEN
+    List<Difference> differences = determineDifferences(person, personDAO, null, null);
+    // WHEN
+    // @format:off
+    String message = shouldBeEqualByComparingFieldByFieldRecursive(person,
+                                                                   personDAO,
+                                                                   differences,
+                                                                   REPRESENTATION)
+                                                           .create(new TextDescription("Test"), REPRESENTATION);
+    // @format:on
+    // THEN
+    String personHash = toHexString(person.hashCode());
+    String personDAOHash = toHexString(personDAO.hashCode());
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <org.assertj.core.error.Person@%s>%n" +
+                                         "to be equal to:%n" +
+                                         "  <org.assertj.core.error.PersonDAO@%s>%n" +
+                                         "when recursively comparing field by field, but found the following difference(s):%n" +
+                                         "%n" +
+                                         "Path to difference: <>%n" +
+                                         "- actual  : <org.assertj.core.error.Person@%s>%n" +
+                                         "- expected: <org.assertj.core.error.PersonDAO@%s>%n" +
+                                         "- reason  : org.assertj.core.error.Person can't be compared to org.assertj.core.error.PersonDAO as PersonDAO does not declare all Person fields, it lacks these:[firstName, lastName]",
+                                         personHash, personDAOHash,
+                                         personHash, personDAOHash));
   }
 
 }
