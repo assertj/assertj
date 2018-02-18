@@ -16,8 +16,8 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
@@ -228,7 +228,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws IllegalArgumentException if the given {@code File} is not an existing file.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    *
    * @deprecated use {@link #hasSameContentAs(File)} instead
@@ -266,7 +266,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws IllegalArgumentException if the given {@code File} is not an existing file.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public SELF hasSameContentAs(File expected) {
@@ -298,7 +298,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws IllegalArgumentException if the given {@code File} is not an existing file.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public SELF hasSameContentAs(File expected, Charset expectedCharset) {
@@ -325,7 +325,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws NullPointerException if the given content is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
    */
   public SELF hasBinaryContent(byte[] expected) {
@@ -391,7 +391,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws NullPointerException if the given content is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.
    */
   public SELF hasContent(String expected) {
@@ -469,7 +469,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @param expected the expected parent {@code File}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} parent is not equal to the expected one.
    * 

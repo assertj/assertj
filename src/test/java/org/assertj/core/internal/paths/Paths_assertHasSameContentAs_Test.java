@@ -26,18 +26,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.util.diff.Delta;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Paths#assertHasSameContentAs(AssertionInfo, Path, Path)}</code>.
+ * Tests for <code>{@link Paths#assertHasSameContentAs(AssertionInfo, Path, Charset, Path, Charset)}</code>.
  */
 public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
@@ -109,7 +110,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
 
-    thrown.expectWithCause(RuntimeIOException.class, cause);
+    thrown.expectWithCause(UncheckedIOException.class, cause);
 
     paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), other, defaultCharset());
   }

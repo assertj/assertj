@@ -17,6 +17,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -43,7 +44,6 @@ import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.data.MapEntry;
 import org.junit.Test;
@@ -589,7 +589,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = RuntimeIOException.class)
+  @Test(expected = UncheckedIOException.class)
   public void withAssertions_contentOf_Test() {
     contentOf(new File("/non-existent file")).contains("a");
   }
@@ -597,7 +597,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = RuntimeIOException.class)
+  @Test(expected = UncheckedIOException.class)
   public void withAssertions_contentOf_with_charset_Test() {
     contentOf(new File("/non-existent file", "UTF-8")).contains("a");
   }
@@ -605,7 +605,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = RuntimeIOException.class)
+  @Test(expected = UncheckedIOException.class)
   public void withAssertions_linesOf_Test() {
     linesOf(new File("/non-existent file")).contains("a");
   }
@@ -613,7 +613,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = RuntimeIOException.class)
+  @Test(expected = UncheckedIOException.class)
   public void withAssertions_linesOf_with_charsetTest() {
     linesOf(new File("/non-existent file", "UTF-8")).contains("a");
   }

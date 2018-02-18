@@ -18,6 +18,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -68,7 +69,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.filter.InFilter;
@@ -2206,7 +2206,7 @@ public class Assertions {
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, Charset charset) {
     return Files.contentOf(file, charset);
@@ -2223,7 +2223,7 @@ public class Assertions {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, String charsetName) {
     return Files.contentOf(file, charsetName);
@@ -2239,7 +2239,7 @@ public class Assertions {
    *
    * @param file the file.
    * @return the content of the file.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(File file) {
     return Files.contentOf(file, Charset.defaultCharset());
@@ -2253,7 +2253,7 @@ public class Assertions {
    * @param file the file.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file) {
     return Files.linesOf(file, Charset.defaultCharset());
@@ -2267,7 +2267,7 @@ public class Assertions {
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, Charset charset) {
     return Files.linesOf(file, charset);
@@ -2281,7 +2281,7 @@ public class Assertions {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, String charsetName) {
     return Files.linesOf(file, charsetName);
@@ -2301,7 +2301,7 @@ public class Assertions {
    * @param charset the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, Charset charset) {
     return URLs.contentOf(url, charset);
@@ -2317,7 +2317,7 @@ public class Assertions {
    * @param charsetName the name of the character set to use.
    * @return the content of the URL.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, String charsetName) {
     return URLs.contentOf(url, charsetName);
@@ -2332,7 +2332,7 @@ public class Assertions {
    *
    * @param url the URL.
    * @return the content of the file.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url) {
     return URLs.contentOf(url, Charset.defaultCharset());
@@ -2346,7 +2346,7 @@ public class Assertions {
    * @param url the URL.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url) {
     return URLs.linesOf(url, Charset.defaultCharset());
@@ -2360,7 +2360,7 @@ public class Assertions {
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, Charset charset) {
     return URLs.linesOf(url, charset);
@@ -2374,7 +2374,7 @@ public class Assertions {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, String charsetName) {
     return URLs.linesOf(url, charsetName);

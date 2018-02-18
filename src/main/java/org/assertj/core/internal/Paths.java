@@ -38,6 +38,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -45,7 +46,6 @@ import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.exception.PathsException;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
@@ -280,7 +280,7 @@ public class Paths {
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
 	} catch (IOException e) {
-	  throw new RuntimeIOException(format("Unable to verify text contents of path:<%s>", actual), e);
+	  throw new UncheckedIOException(format("Unable to verify text contents of path:<%s>", actual), e);
 	}
   }
 
@@ -292,7 +292,7 @@ public class Paths {
 	  if (diffResult.hasNoDiff()) return;
 	  throw failures.failure(info, shouldHaveBinaryContent(actual, diffResult));
 	} catch (IOException e) {
-	  throw new RuntimeIOException(format("Unable to verify binary contents of path:<%s>", actual), e);
+	  throw new UncheckedIOException(format("Unable to verify binary contents of path:<%s>", actual), e);
 	}
   }
 
@@ -305,7 +305,7 @@ public class Paths {
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
 	} catch (IOException e) {
-	  throw new RuntimeIOException(format("Unable to compare contents of paths:<%s> and:<%s>", actual, expected), e);
+	  throw new UncheckedIOException(format("Unable to compare contents of paths:<%s> and:<%s>", actual, expected), e);
 	}
   }
 

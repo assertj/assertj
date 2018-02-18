@@ -12,12 +12,12 @@
  */
 package org.assertj.core.util;
 
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -62,7 +62,7 @@ public class Files_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    thrown.expect(RuntimeIOException.class);
+    thrown.expect(UncheckedIOException.class);
     linesOf(missingFile, Charset.defaultCharset());
   }
 

@@ -16,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.File;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.assertj.core.test.ExpectedException;
@@ -54,7 +54,7 @@ public class Files_contentOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
-    thrown.expect(RuntimeIOException.class);
+    thrown.expect(UncheckedIOException.class);
     Files.contentOf(missingFile, Charset.defaultCharset());
   }
 
