@@ -13,12 +13,12 @@
 package org.assertj.core.internal.files;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -95,7 +95,7 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_exception_when_canonical_form_representation_fail() throws Exception {
-    thrown.expect(RuntimeIOException.class);
+    thrown.expect(UncheckedIOException.class);
 
     File actual = mock(File.class);
     File expectedParent = mock(File.class);
@@ -108,7 +108,7 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_exception_when_canonical_form_representation_fail_for_expected_parent() throws Exception {
-    thrown.expect(RuntimeIOException.class);
+    thrown.expect(UncheckedIOException.class);
 
     File expectedParent = mock(File.class);
     when(expectedParent.getCanonicalFile()).thenThrow(new IOException());

@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.ClosedFileSystemException;
 import java.nio.file.FileSystem;
@@ -25,7 +26,6 @@ import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 
 import org.assertj.core.api.exception.PathsException;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
@@ -181,7 +181,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws NullPointerException if the given content is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
    */
   public SELF hasBinaryContent(byte[] expected) {
@@ -261,7 +261,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @param expected the expected text content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the actual {@code Path} is {@code null}.
    * @throws AssertionError if the actual {@code Path} is not a {@link Files#isReadable(Path) readable} file.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.

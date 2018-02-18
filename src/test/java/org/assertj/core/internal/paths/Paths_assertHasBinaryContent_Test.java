@@ -25,10 +25,10 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
@@ -111,7 +111,7 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 
-    thrown.expectWithCause(RuntimeIOException.class, cause);
+    thrown.expectWithCause(UncheckedIOException.class, cause);
 
     paths.assertHasBinaryContent(someInfo(), path, expected);
   }

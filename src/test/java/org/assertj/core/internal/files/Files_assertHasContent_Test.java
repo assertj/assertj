@@ -22,12 +22,12 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.assertj.core.util.Lists;
@@ -92,7 +92,7 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
 
-    thrown.expectWithCause(RuntimeIOException.class, cause);
+    thrown.expectWithCause(UncheckedIOException.class, cause);
 
     files.assertHasContent(someInfo(), actual, expected, charset);
   }

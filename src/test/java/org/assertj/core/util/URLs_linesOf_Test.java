@@ -12,12 +12,12 @@
  */
 package org.assertj.core.util;
 
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.File;
+import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -48,7 +48,7 @@ public class URLs_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    thrown.expect(RuntimeIOException.class);
+    thrown.expect(UncheckedIOException.class);
     URLs.linesOf(missingFile.toURI().toURL(), Charset.defaultCharset());
   }
 

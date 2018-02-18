@@ -20,8 +20,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.assertj.core.api.exception.RuntimeIOException;
-
 /**
  * Utility methods related to URLs.
  *
@@ -40,7 +38,7 @@ public class URLs {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, String charsetName) {
     checkArgumentCharsetIsSupported(charsetName);
@@ -54,14 +52,14 @@ public class URLs {
    * @param charset the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, Charset charset) {
     checkNotNull(charset, "The charset should not be null");
     try {
       return loadContents(url.openStream(), charset);
     } catch (IOException e) {
-      throw new RuntimeIOException("Unable to read " + url, e);
+      throw new UncheckedIOException("Unable to read " + url, e);
     }
   }
 
@@ -73,14 +71,14 @@ public class URLs {
    * @param charset the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, Charset charset) {
     checkNotNull(charset, "The charset should not be null");
     try {
       return loadLines(url.openStream(), charset);
     } catch (IOException e) {
-      throw new RuntimeIOException("Unable to read " + url, e);
+      throw new UncheckedIOException("Unable to read " + url, e);
     }
   }
 
@@ -92,7 +90,7 @@ public class URLs {
    * @param charsetName the name of the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException if an I/O exception occurs.
+   * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, String charsetName) {
     checkArgumentCharsetIsSupported(charsetName);

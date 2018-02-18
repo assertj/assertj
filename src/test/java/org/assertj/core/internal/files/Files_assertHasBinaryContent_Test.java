@@ -22,9 +22,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
@@ -86,7 +86,7 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
 
-    thrown.expectWithCause(RuntimeIOException.class, cause);
+    thrown.expectWithCause(UncheckedIOException.class, cause);
 
     files.assertHasBinaryContent(someInfo(), actual, expected);
   }

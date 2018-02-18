@@ -25,13 +25,13 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
 import org.assertj.core.util.diff.Delta;
@@ -119,7 +119,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 
-    thrown.expectWithCause(RuntimeIOException.class, cause);
+    thrown.expectWithCause(UncheckedIOException.class, cause);
 
     paths.assertHasContent(someInfo(), path, expected, charset);
   }

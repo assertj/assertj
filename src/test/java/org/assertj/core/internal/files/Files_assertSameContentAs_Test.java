@@ -25,12 +25,12 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.FilesBaseTest;
 import org.assertj.core.util.Lists;
@@ -41,7 +41,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.io.File)}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.nio.charset.Charset, java.io.File,  java.nio.charset.Charset)}</code>.
  *
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -103,7 +103,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenThrow(cause);
 
-    thrown.expectWithCause(RuntimeIOException.class, cause);
+    thrown.expectWithCause(UncheckedIOException.class, cause);
 
     files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected, defaultCharset());
   }
@@ -125,7 +125,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() throws IOException {
-    thrown.expectWithMessageStartingWith(RuntimeIOException.class, "Unable to compare contents of files");
+    thrown.expectWithMessageStartingWith(UncheckedIOException.class, "Unable to compare contents of files");
     unMockedFiles.assertSameContentAs(someInfo(),
                                       createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
                                       createFileWithNonUTF8Character(), StandardCharsets.UTF_8);

@@ -35,12 +35,12 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
@@ -88,7 +88,7 @@ public class Files {
    * @throws IllegalArgumentException if {@code expected} is not an existing file.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the given files do not have same content.
    */
   public void assertSameContentAs(AssertionInfo info, File actual, Charset actualCharset, File expected,
@@ -105,15 +105,15 @@ public class Files {
         // compute a binary diff, if there is a binary diff, it it shows the offset of the malformed input
         BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
         if (binaryDiffResult.hasNoDiff()) {
-          // fall back to the RuntimeIOException : not throwing an error is wrong as there was one in the first place.
+          // fall back to the UncheckedIOException : not throwing an error is wrong as there was one in the first place.
           throw e;
         }
         throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
       } catch (IOException ioe) {
-        throw new RuntimeIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
+        throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
       }
     } catch (IOException e) {
-      throw new RuntimeIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), e);
+      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), e);
     }
   }
 
@@ -125,7 +125,7 @@ public class Files {
    * @throws NullPointerException if {@code expected} is {@code null}.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the file does not have the binary content.
    */
   public void assertHasBinaryContent(AssertionInfo info, File actual, byte[] expected) {
@@ -137,7 +137,7 @@ public class Files {
       throw failures.failure(info, shouldHaveBinaryContent(actual, result));
     } catch (IOException e) {
       String msg = String.format("Unable to verify binary contents of file:<%s>", actual);
-      throw new RuntimeIOException(msg, e);
+      throw new UncheckedIOException(msg, e);
     }
   }
 
@@ -150,7 +150,7 @@ public class Files {
    * @throws NullPointerException if {@code expected} is {@code null}.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the file does not have the text content.
    */
   public void assertHasContent(AssertionInfo info, File actual, String expected, Charset charset) {
@@ -162,7 +162,7 @@ public class Files {
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
       String msg = String.format("Unable to verify text contents of file:<%s>", actual);
-      throw new RuntimeIOException(msg, e);
+      throw new UncheckedIOException(msg, e);
     }
   }
 
@@ -285,7 +285,7 @@ public class Files {
    * @param actual the given file.
    * @param expected the expected parent {@code File}.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
-   * @throws RuntimeIOException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the given {@code File} is {@code null}.
    * @throws AssertionError if the given {@code File} does not have a parent.
    * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
@@ -298,7 +298,7 @@ public class Files {
           && areEqual(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
         return;
     } catch (IOException e) {
-      throw new RuntimeIOException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
+      throw new UncheckedIOException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
     }
     throw failures.failure(info, shouldHaveParent(actual, expected));
   }
