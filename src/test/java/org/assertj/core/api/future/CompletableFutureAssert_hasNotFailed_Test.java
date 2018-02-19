@@ -26,11 +26,6 @@ import org.junit.Test;
 public class CompletableFutureAssert_hasNotFailed_Test extends BaseTest {
 
   @Test
-  public void should_pass_if_completable_future_is_incomplete() {
-    assertThat(new CompletableFuture<>()).hasNotFailed();
-  }
-
-  @Test
   public void should_pass_if_completable_future_is_completed() {
     assertThat(CompletableFuture.completedFuture("done")).hasNotFailed();
   }
@@ -41,6 +36,14 @@ public class CompletableFutureAssert_hasNotFailed_Test extends BaseTest {
     future.cancel(true);
 
     assertThat(future).hasNotFailed();
+  }
+
+  @Test
+  public void should_fail_if_completable_future_is_incomplete() {
+    CompletableFuture<String> future = new CompletableFuture<>();
+
+    assertThatThrownBy(() -> assertThat(future).hasNotFailed()).isInstanceOf(AssertionError.class)
+                                                               .hasMessage(shouldNotHaveFailed(future).create());
   }
 
   @Test

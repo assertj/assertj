@@ -308,7 +308,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
-   * Verifies that the {@link CompletableFuture} has not failed i.e: incomplete, completed or cancelled.<br>
+   * Verifies that the {@link CompletableFuture} has not failed i.e: completed or cancelled.<br>
    * This is different from {@link #isNotCompletedExceptionally()} as a cancelled future has not failed but is completed exceptionally.
    * <p>
    * Assertion will pass :
@@ -325,7 +325,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   public SELF hasNotFailed() {
     isNotNull();
-    if (actual.isCompletedExceptionally() && !actual.isCancelled()) throwAssertionError(shouldNotHaveFailed(actual));
+    if ((actual.isCompletedExceptionally() && !actual.isCancelled()) || !actual.isDone())
+      throwAssertionError(shouldNotHaveFailed(actual));
     return myself;
   }
 
