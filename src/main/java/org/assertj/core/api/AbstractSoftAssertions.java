@@ -165,7 +165,6 @@ public class AbstractSoftAssertions {
           || className.startsWith("org.eclipse.jdt.internal.junit.")
           || className.startsWith("org.eclipse.jdt.internal.junit4.")
           || className.startsWith("org.apache.maven.surefire")
-          || className.startsWith("net.sf.cglib.proxy")
           || className.startsWith("org.assertj")) {
         continue;
       }
