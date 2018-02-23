@@ -21,7 +21,7 @@ import java.util.concurrent.CompletionStage;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Assertions_assertThat_with_ComplertionStage_Test {
+public class Assertions_assertThat_with_CompletionStage_Test {
 
   private CompletionStage<String> completionStage;
 
