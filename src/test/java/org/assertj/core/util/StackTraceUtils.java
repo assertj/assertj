@@ -27,11 +27,4 @@ public class StackTraceUtils {
     }
     return false;
   }
-
-  /**
-   * Returns regex which match stack trace.
-   */
-  public static String getStackTraceRegex() {
-    return "\\[(?s).*[\\n\\r].*\\]";
-  }
 }

@@ -15,8 +15,7 @@ package org.assertj.core.api.future;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
-import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
+import static org.assertj.core.error.future.Warning.WARNING;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -56,7 +55,10 @@ public class CompletableFutureAssert_hasNotFailed_Test extends BaseTest {
     future.completeExceptionally(new RuntimeException());
 
     assertThatThrownBy(() -> assertThat(future).hasNotFailed()).isInstanceOf(AssertionError.class)
-                                                               .hasMessageMatching(shouldNotHaveFailed(future).create(emptyDescription(),
-                                                                                                              new FailedCompletableFutureRepresentation()));
+                                                               .hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
+                                                               .hasMessageContaining("Caused by: java.lang.RuntimeException")
+                                                               .hasMessageEndingWith(format("to not have failed.%n%s",
+                                                                                            WARNING));
+
   }
 }

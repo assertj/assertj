@@ -39,8 +39,8 @@ public class StandardRepresentation_format_CompletableFuture_Test {
   public void should_format_failed_future() {
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("some random error"));
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).matches("CompletableFuture\\[Failed: java.lang.RuntimeException: some random error\\]\n"
-                                                                   + StackTraceUtils.getStackTraceRegex());
+    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).startsWith(String.format("CompletableFuture[Failed: java.lang.RuntimeException: some random error]%n"))
+                                                          .contains("Caused by: java.lang.RuntimeException: some random error");
   }
 
   @Test
