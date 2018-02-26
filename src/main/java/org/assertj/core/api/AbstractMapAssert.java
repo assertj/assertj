@@ -1084,7 +1084,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
-    return super.usingComparator(customComparator);
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override

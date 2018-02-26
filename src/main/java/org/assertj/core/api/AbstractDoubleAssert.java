@@ -646,8 +646,14 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Double> customComparator) {
-    super.usingComparator(customComparator);
-    doubles = new Doubles(new ComparatorBasedComparisonStrategy(customComparator));
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super Double> customComparator, String customComparatorDescription) {
+    super.usingComparator(customComparator, customComparatorDescription);
+    doubles = new Doubles(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

@@ -48,6 +48,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.Compatibility;
 import org.assertj.core.util.DateUtil;
@@ -120,6 +121,7 @@ public class StandardRepresentation implements Representation {
    */
   @Override
   public String toStringOf(Object object) {
+    if (object instanceof ComparatorBasedComparisonStrategy) return toStringOf((ComparatorBasedComparisonStrategy) object);
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
@@ -193,6 +195,13 @@ public class StandardRepresentation implements Representation {
     // if toString has not been redefined, let's use comparator simple class name.
     if (comparator.toString().contains(comparatorSimpleClassName + "@")) return comparatorSimpleClassName;
     return comparator.toString();
+  }
+
+  protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
+    String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
+    return comparatorDescription == null ?
+            toStringOf(comparatorBasedComparisonStrategy.getComparator()) :
+            quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar c) {
