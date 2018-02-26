@@ -1306,7 +1306,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasYear(info, actual, year);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual {@code Date} month is equal to the given month, <b>month value starting at 1</b>
    * (January=1, February=2, ...).
@@ -1339,7 +1339,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasMonth(info, actual, month);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual {@code Date} day of month is equal to the given day of month.
    * <p>
@@ -1371,7 +1371,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasDayOfMonth(info, actual, dayOfMonth);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual {@code Date} day of week is equal to the given day of week (see
    * {@link Calendar#DAY_OF_WEEK} for valid values).
@@ -1395,7 +1395,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasDayOfWeek(info, actual, dayOfWeek);
     return myself;
   }
-  
+
   /**
    * @deprecated use {@link #hasDayOfWeek(int)} instead.
    */
@@ -1426,7 +1426,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasHourOfDay(info, actual, hourOfDay);
     return myself;
   }
-  
+
   /**
    * @deprecated use {@link #hasHourOfDay(int)} instead.
    */
@@ -1457,7 +1457,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasMinute(info, actual, minute);
     return myself;
   }
-  
+
   /**
    * @deprecated use {@link #hasMinute(int)} instead.
    */
@@ -1466,7 +1466,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasMinute(info, actual, minute);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual {@code Date} second is equal to the given second.
    * <p>
@@ -1488,7 +1488,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasSecond(info, actual, second);
     return myself;
   }
-  
+
   /**
    * @deprecated use {@link #hasSecond(int)} instead.
    */
@@ -1497,7 +1497,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasSecond(info, actual, second);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual {@code Date} millisecond is equal to the given millisecond.
    * <p>
@@ -1519,7 +1519,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasMillisecond(info, actual, millisecond);
     return myself;
   }
-  
+
   /**
    * @deprecated use {@link #hasMillisecond(int)} instead.
    */
@@ -1528,7 +1528,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     dates.assertHasMillisecond(info, actual, second);
     return myself;
   }
-  
+
   /**
    * Verifies that actual and given {@code Date} are in the same year.
    * <p>
@@ -2570,8 +2570,14 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Date> customComparator) {
-    super.usingComparator(customComparator);
-    this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator));
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super Date> customComparator, String customComparatorDescription) {
+    super.usingComparator(customComparator, customComparatorDescription);
+    this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

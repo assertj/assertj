@@ -33,6 +33,9 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @SuppressWarnings("rawtypes")
   private final Comparator comparator;
 
+  // Comparator description used in assertion messages.
+  private final String comparatorDescription;
+
   /**
    * Creates a new <code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given
    * comparator.
@@ -40,7 +43,21 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * @param comparator the comparison strategy to use.
    */
   public ComparatorBasedComparisonStrategy(@SuppressWarnings("rawtypes") Comparator comparator) {
+    this(comparator, null);
+
+  }
+
+  /**
+   * Creates a new <code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given
+   * comparator and comparator description
+   *
+   * @param comparator the comparison strategy to use.
+   * @param comparatorDescription the comparator description to use in assertion messages.
+   */
+  public ComparatorBasedComparisonStrategy(@SuppressWarnings("rawtypes") Comparator comparator,
+                                           String comparatorDescription) {
     this.comparator = comparator;
+    this.comparatorDescription = comparatorDescription;
   }
 
   /**
@@ -135,16 +152,20 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   @Override
   public String asText() {
-    return "when comparing values using " + CONFIGURATION_PROVIDER.representation().toStringOf(comparator);
+    return "when comparing values using " + toString();
   }
 
   @Override
   public String toString() {
-    return CONFIGURATION_PROVIDER.representation().toStringOf(comparator);
+    return CONFIGURATION_PROVIDER.representation().toStringOf(this);
   }
 
   public Comparator<?> getComparator() {
     return comparator;
+  }
+
+  public String getComparatorDescription() {
+    return comparatorDescription;
   }
 
   @Override
