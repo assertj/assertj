@@ -269,9 +269,9 @@
   </build>
   <profiles>
     <profile>
-      <id>java9</id>
+      <id>java9+</id>
       <activation>
-        <jdk>9</jdk>
+        <jdk>[9,)</jdk>
       </activation>
       <properties>
         <!-- allow tests to access private fields/methods of java.base classes via reflection -->
