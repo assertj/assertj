@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.OffsetTime;
 
@@ -37,12 +36,12 @@ public class Assertions_assertThat_with_OffsetTime_Test {
   @Test
   public void should_create_Assert() {
     AbstractOffsetTimeAssert<?> assertions = Assertions.assertThat(actual);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     AbstractOffsetTimeAssert<?> assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+    assertThat(actual).isSameAs(assertions.actual);
   }
 }

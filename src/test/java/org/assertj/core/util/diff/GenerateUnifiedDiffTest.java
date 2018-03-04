@@ -13,6 +13,7 @@
 package org.assertj.core.util.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -21,7 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.Files;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class GenerateUnifiedDiffTest {
@@ -125,7 +125,7 @@ public class GenerateUnifiedDiffTest {
       String l1 = revLines.get(i);
       String l2 = patchedLines.get(i);
       if (!l1.equals(l2)) {
-        Assert.fail("Line " + (i + 1) + " of the patched file did not match the revised original");
+        fail("Line " + (i + 1) + " of the patched file did not match the revised original");
       }
     }
   }

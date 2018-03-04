@@ -12,13 +12,12 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.Assertions#assertThat(java.util.Optional)}</code>.
@@ -39,12 +38,12 @@ public class Assertions_assertThat_with_Optional_Test {
     @Test
     public void should_create_Assert() {
         OptionalAssert<String> assertions = Assertions.assertThat(actual);
-        assertNotNull(assertions);
+        assertThat(assertions).isNotNull();
     }
 
     @Test
     public void should_pass_actual() {
         OptionalAssert<String> assertions = Assertions.assertThat(actual);
-        assertSame(actual, assertions.actual);
+        assertThat(actual).isSameAs(assertions.actual);
     }
 }

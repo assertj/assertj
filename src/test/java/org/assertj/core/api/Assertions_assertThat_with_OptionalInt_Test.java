@@ -15,10 +15,9 @@ package org.assertj.core.api;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.OptionalInt;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import java.util.OptionalInt;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.Assertions#assertThat(java.util.OptionalInt)}</code>.
@@ -38,11 +37,11 @@ public class Assertions_assertThat_with_OptionalInt_Test {
 
     @Test
     public void should_create_Assert() {
-        assertNotNull(Assertions.assertThat(actual));
+        assertThat(Assertions.assertThat(actual)).isNotNull();
     }
 
     @Test
     public void should_pass_actual() {
-        assertSame(actual, Assertions.assertThat(actual).actual);
+      assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
     }
 }

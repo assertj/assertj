@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.OptionalDouble;
 
@@ -38,11 +38,11 @@ public class Assertions_assertThat_with_OptionalDouble_Test {
 
   @Test
   public void should_create_Assert() {
-    assertNotNull(Assertions.assertThat(actual));
+    assertThat(Assertions.assertThat(actual)).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
-    assertSame(actual, Assertions.assertThat(actual).actual);
+    assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
   }
 }

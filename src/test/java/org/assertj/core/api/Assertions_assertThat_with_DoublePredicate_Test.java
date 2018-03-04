@@ -12,13 +12,12 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.function.DoublePredicate;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(DoublePredicate)}</code>.
@@ -37,12 +36,12 @@ public class Assertions_assertThat_with_DoublePredicate_Test {
   @Test
   public void should_create_Assert() {
     DoublePredicateAssert assertions = Assertions.assertThat(actual);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     DoublePredicateAssert assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+    assertThat(actual).isSameAs(assertions.actual);
   }
 }

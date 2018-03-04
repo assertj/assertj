@@ -16,7 +16,6 @@ package org.assertj.core.api;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
-import org.junit.Assert;
 import org.junit.Rule;
 
 /**
@@ -37,7 +36,7 @@ public class BaseTest {
   }
 
   public void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assert.fail("Assertion error expected");
+    Assertions.fail("Assertion error expected");
   }
 
 }
