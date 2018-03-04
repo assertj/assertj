@@ -19,6 +19,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Utility methods related to URLs.
@@ -110,16 +111,7 @@ public class URLs {
 
   private static List<String> loadLines(InputStream stream, Charset charset) throws IOException {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset))) {
-      List<String> strings = Lists.newArrayList();
-
-      String line = reader.readLine();
-      while (line != null) {
-        strings.add(line);
-        line = reader.readLine();
-      }
-
-      return strings;
-
+      return reader.lines().collect(Collectors.toList());
     }
   }
 
