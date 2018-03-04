@@ -13,7 +13,6 @@
 package org.assertj.core.util.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -120,13 +119,6 @@ public class GenerateUnifiedDiffTest {
     Patch<String> fromUnifiedPatch = DiffUtils.parseUnifiedDiff(unifiedDiff);
     List<String> patchedLines = fromUnifiedPatch.applyTo(origLines);
 
-    assertThat(patchedLines).hasSameSizeAs(revLines);
-    for (int i = 0; i < revLines.size(); i++) {
-      String l1 = revLines.get(i);
-      String l2 = patchedLines.get(i);
-      if (!l1.equals(l2)) {
-        fail("Line " + (i + 1) + " of the patched file did not match the revised original");
-      }
-    }
+    assertThat(patchedLines).containsExactlyElementsOf(revLines);
   }
 }
