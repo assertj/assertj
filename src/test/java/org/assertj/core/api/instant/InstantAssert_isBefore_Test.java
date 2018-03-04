@@ -13,16 +13,16 @@
 package org.assertj.core.api.instant;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.time.Instant;
+
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-
-import java.time.Instant;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 @RunWith(Theories.class)
 public class InstantAssert_isBefore_Test extends InstantAssertBaseTest {
@@ -68,18 +68,8 @@ public class InstantAssert_isBefore_Test extends InstantAssertBaseTest {
 
   private static void verify_that_isBefore_assertion_fails_and_throws_AssertionError(Instant dateToTest,
                                                                                      Instant reference) {
-    try {
-      assertThat(dateToTest).isBefore(reference);
-    } catch (AssertionError e) {
-      // AssertionError was expected, test same assertion with String based parameter
-      try {
-        assertThat(dateToTest).isBefore(reference.toString());
-      } catch (AssertionError e2) {
-        // AssertionError was expected (again)
-        return;
-      }
-    }
-    fail("Should have thrown AssertionError");
+    assertThatThrownBy(() -> assertThat(dateToTest).isBefore(reference)).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(dateToTest).isBefore(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
 }

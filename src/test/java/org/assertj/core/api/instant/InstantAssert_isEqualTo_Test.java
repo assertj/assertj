@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @RunWith(Theories.class)
 public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
@@ -30,7 +30,8 @@ public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
     // WHEN
     assertThat(referenceDate).isEqualTo(referenceDate.toString());
     // THEN
-    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(referenceDate);
+    assertThatThrownBy(() -> assertThat(referenceDate).isEqualTo(referenceDate.plusSeconds(1)
+                                                                              .toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -46,16 +47,6 @@ public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
     expectException(IllegalArgumentException.class,
       "The String representing the Instant to compare actual with should not be null");
     assertThat(Instant.now()).isEqualTo((String) null);
-  }
-
-  private static void verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(Instant reference) {
-    try {
-      assertThat(reference).isEqualTo(reference.plusSeconds(1).toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
   }
 
 }

@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.instant;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.time.Instant;
+
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-
-import java.time.Instant;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 @RunWith(Theories.class)
 public class InstantAssert_isNotEqualTo_Test extends InstantAssertBaseTest {
@@ -30,7 +30,7 @@ public class InstantAssert_isNotEqualTo_Test extends InstantAssertBaseTest {
     // WHEN
     assertThat(referenceDate).isNotEqualTo(referenceDate.plusSeconds(1).toString());
     // THEN
-    verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(referenceDate);
+    assertThatThrownBy(() -> assertThat(referenceDate).isNotEqualTo(referenceDate.toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -45,16 +45,6 @@ public class InstantAssert_isNotEqualTo_Test extends InstantAssertBaseTest {
     expectException(IllegalArgumentException.class,
       "The String representing the Instant to compare actual with should not be null");
     assertThat(Instant.now()).isNotEqualTo((String) null);
-  }
-
-  private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(Instant reference) {
-    try {
-      assertThat(reference).isNotEqualTo(reference.toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
   }
 
 }
