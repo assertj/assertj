@@ -13,7 +13,7 @@
 package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalTime;
 
@@ -36,7 +36,9 @@ public class LocalTimeAssert_isNotIn_Test extends LocalTimeAssertBaseTest {
 	// WHEN
 	assertThat(referenceTime).isNotIn(referenceTime.plusHours(1).toString(), referenceTime.plusHours(2).toString());
 	// THEN
-	verify_that_isNotIn_assertion_fails_and_throws_AssertionError(referenceTime);
+    assertThatThrownBy(() -> assertThat(referenceTime).isNotIn(referenceTime.toString(),
+                                                               referenceTime.plusHours(1).toString()))
+                                                                                                      .isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -59,16 +61,6 @@ public class LocalTimeAssert_isNotIn_Test extends LocalTimeAssertBaseTest {
   public void should_fail_if_timeTimes_as_string_array_parameter_is_empty() {
 	expectException(IllegalArgumentException.class, "The given LocalTime array should not be empty");
 	assertThat(LocalTime.now()).isNotIn(new String[0]);
-  }
-
-  private static void verify_that_isNotIn_assertion_fails_and_throws_AssertionError(LocalTime reference) {
-	try {
-	  assertThat(reference).isNotIn(reference.toString(), reference.plusHours(1).toString());
-	} catch (AssertionError e) {
-	  // AssertionError was expected
-	  return;
-	}
-	fail("Should have thrown AssertionError");
   }
 
 }

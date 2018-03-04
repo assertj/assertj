@@ -13,7 +13,7 @@
 package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalTime;
 
@@ -30,7 +30,7 @@ public class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
     // WHEN
     assertThat(referenceTime).isEqualTo(referenceTime.toString());
     // THEN
-    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(referenceTime);
+    assertThatThrownBy(() -> assertThat(referenceTime).isEqualTo(referenceTime.plusHours(1).toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -44,16 +44,6 @@ public class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
     expectException(IllegalArgumentException.class,
         "The String representing the LocalTime to compare actual with should not be null");
     assertThat(LocalTime.now()).isEqualTo((String) null);
-  }
-
-  private static void verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(LocalTime reference) {
-    try {
-      assertThat(reference).isEqualTo(reference.plusHours(1).toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
   }
 
 }
