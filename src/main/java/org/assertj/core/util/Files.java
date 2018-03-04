@@ -20,12 +20,8 @@ import static org.assertj.core.util.Strings.append;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -261,20 +257,9 @@ public class Files {
   public static String contentOf(File file, Charset charset) {
     checkNotNull(charset, "The charset should not be null");
     try {
-      return loadContents(file, charset);
+      return new String(java.nio.file.Files.readAllBytes(file.toPath()), charset);
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to read " + file.getAbsolutePath(), e);
-    }
-  }
-
-  private static String loadContents(File file, Charset charset) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
-      StringWriter writer = new StringWriter();
-      int c;
-      while ((c = reader.read()) != -1) {
-        writer.write(c);
-      }
-      return writer.toString();
     }
   }
 
@@ -291,7 +276,7 @@ public class Files {
   public static List<String> linesOf(File file, Charset charset) {
     checkNotNull(charset, "The charset should not be null");
     try {
-      return loadLines(file, charset);
+      return java.nio.file.Files.readAllLines(file.toPath(), charset);
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to read " + file.getAbsolutePath(), e);
     }
@@ -310,20 +295,6 @@ public class Files {
   public static List<String> linesOf(File file, String charsetName) {
     checkArgumentCharsetIsSupported(charsetName);
     return linesOf(file, Charset.forName(charsetName));
-  }
-
-  private static List<String> loadLines(File file, Charset charset) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
-      List<String> strings = Lists.newArrayList();
-
-      String line = reader.readLine();
-      while (line != null) {
-        strings.add(line);
-        line = reader.readLine();
-      }
-
-      return strings;
-    }
   }
 
   private static void checkArgumentCharsetIsSupported(String charsetName) {
