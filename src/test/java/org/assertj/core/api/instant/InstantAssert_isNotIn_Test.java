@@ -13,15 +13,15 @@
 package org.assertj.core.api.instant;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.time.Instant;
+
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-
-import java.time.Instant;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 @RunWith(Theories.class)
 public class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
@@ -31,7 +31,7 @@ public class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
     // WHEN
     assertThat(referenceDate).isNotIn(referenceDate.plusSeconds(1).toString(), referenceDate.plusSeconds(2).toString());
     // THEN
-    verify_that_isNotIn_assertion_fails_and_throws_AssertionError(referenceDate);
+    assertThatThrownBy(() -> assertThat(referenceDate).isNotIn(referenceDate.toString(), referenceDate.plusSeconds(1).toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -52,16 +52,6 @@ public class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
   public void should_fail_if_dates_as_string_array_parameter_is_empty() {
     expectException(IllegalArgumentException.class, "The given Instant array should not be empty");
     assertThat(Instant.now()).isNotIn(new String[0]);
-  }
-
-  private static void verify_that_isNotIn_assertion_fails_and_throws_AssertionError(Instant reference) {
-    try {
-      assertThat(reference).isNotIn(reference.toString(), reference.plusSeconds(1).toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
   }
 
 }

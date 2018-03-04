@@ -15,7 +15,7 @@ package org.assertj.core.api.offsetdatetime;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
@@ -76,21 +76,10 @@ public class OffsetDateTimeAssert_isBeforeOrEqualTo_Test extends OffsetDateTimeA
     assertThat(OffsetDateTime.now()).isBeforeOrEqualTo((String) null);
   }
 
-  private static void verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(
-                                                                                            OffsetDateTime dateToCheck,
+  private static void verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(OffsetDateTime dateToCheck,
                                                                                             OffsetDateTime reference) {
-    try {
-      assertThat(dateToCheck).isBeforeOrEqualTo(reference);
-    } catch (AssertionError e) {
-      // AssertionError was expected, test same assertion with String based parameter
-      try {
-        assertThat(dateToCheck).isBeforeOrEqualTo(reference.toString());
-      } catch (AssertionError e2) {
-        // AssertionError was expected (again)
-        return;
-      }
-    }
-    fail("Should have thrown AssertionError");
+    assertThatThrownBy(() -> assertThat(dateToCheck).isBeforeOrEqualTo(reference)).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(dateToCheck).isBeforeOrEqualTo(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
 }

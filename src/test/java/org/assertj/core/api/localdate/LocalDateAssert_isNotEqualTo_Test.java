@@ -13,7 +13,7 @@
 package org.assertj.core.api.localdate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
 
@@ -33,7 +33,7 @@ public class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
 	// WHEN
 	assertThat(referenceDate).isNotEqualTo(referenceDate.plusDays(1).toString());
 	// THEN
-	verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(referenceDate);
+	assertThatThrownBy(() -> assertThat(referenceDate).isNotEqualTo(referenceDate.toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -47,16 +47,6 @@ public class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
 	expectException(IllegalArgumentException.class,
 	                "The String representing the LocalDate to compare actual with should not be null");
 	assertThat(LocalDate.now()).isNotEqualTo((String) null);
-  }
-
-  private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(LocalDate reference) {
-	try {
-	  assertThat(reference).isNotEqualTo(reference.toString());
-	} catch (AssertionError e) {
-	  // AssertionError was expected
-	  return;
-	}
-	fail("Should have thrown AssertionError");
   }
 
 }

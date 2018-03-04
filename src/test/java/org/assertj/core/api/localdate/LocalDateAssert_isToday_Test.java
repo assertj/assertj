@@ -14,7 +14,7 @@ package org.assertj.core.api.localdate;
 
 import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDate;
@@ -55,13 +55,7 @@ public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
   }
 
   private static void verify_that_isToday_assertion_fails_and_throws_AssertionError(LocalDate dateToCheck) {
-    try {
-      assertThat(dateToCheck).isToday();
-    } catch (AssertionError e) {
-      // AssertionError was expected.
-      return;
-    }
-    fail(String.format("%s should have thrown AssertionError", dateToCheck));
+    assertThatThrownBy(() -> assertThat(dateToCheck).isToday()).isInstanceOf(AssertionError.class);
   }
 
 }

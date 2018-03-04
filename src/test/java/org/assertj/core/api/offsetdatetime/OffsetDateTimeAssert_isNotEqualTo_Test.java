@@ -14,7 +14,7 @@ package org.assertj.core.api.offsetdatetime;
 
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.OffsetDateTime;
 
@@ -41,7 +41,7 @@ public class OffsetDateTimeAssert_isNotEqualTo_Test extends OffsetDateTimeAssert
     assertThat(equal).isNotEqualTo(reference.plusDays(1));
     assertThat(equal).isNotEqualTo(reference.plusDays(1).toString());
     // THEN
-    verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(reference);
+    assertThatThrownBy(() -> assertThat(reference).isNotEqualTo(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -59,16 +59,6 @@ public class OffsetDateTimeAssert_isNotEqualTo_Test extends OffsetDateTimeAssert
     expectException(IllegalArgumentException.class,
                     "The String representing the OffsetDateTime to compare actual with should not be null");
     assertThat(OffsetDateTime.now()).isNotEqualTo((String) null);
-  }
-
-  private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(OffsetDateTime reference) {
-    try {
-      assertThat(reference).isNotEqualTo(reference.toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
   }
 
 }

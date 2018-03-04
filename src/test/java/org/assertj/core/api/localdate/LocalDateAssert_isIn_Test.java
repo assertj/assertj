@@ -13,7 +13,7 @@
 package org.assertj.core.api.localdate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
 
@@ -36,7 +36,9 @@ public class LocalDateAssert_isIn_Test extends LocalDateAssertBaseTest {
     // WHEN
     assertThat(referenceDate).isIn(referenceDate.toString(), referenceDate.plusDays(1).toString());
     // THEN
-    verify_that_isIn_assertion_fails_and_throws_AssertionError(referenceDate);
+    assertThatThrownBy(() -> assertThat(referenceDate).isIn(referenceDate.plusDays(1).toString(),
+                                                            referenceDate.plusDays(2).toString()))
+                                                                                                  .isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -55,16 +57,6 @@ public class LocalDateAssert_isIn_Test extends LocalDateAssertBaseTest {
   public void should_fail_if_dates_as_string_array_parameter_is_empty() {
     expectException(IllegalArgumentException.class, "The given LocalDate array should not be empty");
     assertThat(LocalDate.now()).isIn(new String[0]);
-  }
-
-  private static void verify_that_isIn_assertion_fails_and_throws_AssertionError(LocalDate reference) {
-    try {
-      assertThat(reference).isIn(reference.plusDays(1).toString(), reference.plusDays(2).toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
   }
 
 }

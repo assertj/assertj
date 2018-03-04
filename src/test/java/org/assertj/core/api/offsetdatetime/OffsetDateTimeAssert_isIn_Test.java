@@ -15,7 +15,7 @@ package org.assertj.core.api.offsetdatetime;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.OffsetDateTime;
 
@@ -38,7 +38,9 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
     // WHEN
     assertThat(referenceDate).isIn(referenceDate.toString(), referenceDate.plusDays(1).toString());
     // THEN
-    verify_that_isIn_assertion_fails_and_throws_AssertionError(referenceDate);
+    assertThatThrownBy(() -> assertThat(referenceDate).isIn(referenceDate.plusDays(1).toString(),
+                                                            referenceDate.plusDays(2).toString()))
+                                                                                                  .isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -60,16 +62,6 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
   public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
     expectException(IllegalArgumentException.class, "The given OffsetDateTime array should not be empty");
     assertThat(OffsetDateTime.now()).isIn(new String[0]);
-  }
-
-  private static void verify_that_isIn_assertion_fails_and_throws_AssertionError(OffsetDateTime reference) {
-    try {
-      assertThat(reference).isIn(reference.plusDays(1).toString(), reference.plusDays(2).toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
   }
 
 }

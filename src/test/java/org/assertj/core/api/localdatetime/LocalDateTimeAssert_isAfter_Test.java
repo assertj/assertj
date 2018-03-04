@@ -14,7 +14,7 @@ package org.assertj.core.api.localdatetime;
 
 import static java.time.LocalDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDateTime;
@@ -75,19 +75,9 @@ public class LocalDateTimeAssert_isAfter_Test extends LocalDateTimeAssertBaseTes
   }
 
   private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(LocalDateTime dateToCheck,
-	                                                                                LocalDateTime reference) {
-	try {
-	  assertThat(dateToCheck).isAfter(reference);
-	} catch (AssertionError e) {
-	  // AssertionError was expected, test same assertion with String based parameter
-	  try {
-		assertThat(dateToCheck).isAfter(reference.toString());
-	  } catch (AssertionError e2) {
-		// AssertionError was expected (again)
-		return;
-	  }
-	}
-	fail("Should have thrown AssertionError");
+                                                                                    LocalDateTime reference) {
+    assertThatThrownBy(() -> assertThat(dateToCheck).isAfter(reference)).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(dateToCheck).isAfter(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
 }
