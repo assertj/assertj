@@ -60,7 +60,7 @@ public class TypeComparators {
    * The order of checks is the following:
    * 1. If there is a registered comparator for {@code clazz} then this one is used
    * 2. We check if there is a registered comparator for a superclass of {@code clazz}
-   * 3. We check if there is a registered comparator for a interfaces of {@code clazz}
+   * 3. We check if there is a registered comparator for an interface of {@code clazz}
    *
    * @param clazz the class for which to find a comparator
    * @return the most relevant comparator, or {@code null} if no comparator could be found
