@@ -59,29 +59,23 @@ public class TypeComparators {
    * comparator which is registered for the class that is closest in the inheritance chain of the given {@code clazz}.
    * The order of checks is the following:
    * 1. If there is a registered comparator for {@code clazz} then this one is used
-   * 2. We check if there is a registered comparator for all the superclasses of {@code clazz}
-   * 3. We check if there is a registered comparator for all the interfaces if {@code clazz}
+   * 2. We check if there is a registered comparator for a superclass of {@code clazz}
+   * 3. We check if there is a registered comparator for a interfaces of {@code clazz}
    *
    * @param clazz the class for which to find a comparator
    * @return the most relevant comparator, or {@code null} if no comparator could be found
    */
   public Comparator<?> get(Class<?> clazz) {
     Comparator<?> comparator = typeComparators.get(clazz);
-
     if (comparator == null) {
       for (Class<?> superClass : ClassUtils.getAllSuperclasses(clazz)) {
         if (typeComparators.containsKey(superClass)) {
-          comparator = typeComparators.get(superClass);
-          break;
+          return typeComparators.get(superClass);
         }
       }
-
-      if (comparator == null) {
-        for (Class<?> interfaceClass : ClassUtils.getAllInterfaces(clazz)) {
-          if (typeComparators.containsKey(interfaceClass)) {
-            comparator = typeComparators.get(interfaceClass);
-            break;
-          }
+      for (Class<?> interfaceClass : ClassUtils.getAllInterfaces(clazz)) {
+        if (typeComparators.containsKey(interfaceClass)) {
+          return typeComparators.get(interfaceClass);
         }
       }
     }
