@@ -336,6 +336,17 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isGreaterThan(new ComparableExample(2));
           }
+        } },
+        { new AssumptionRunner<List<String>>(asList("a", "b", "c")) {
+          @Override
+          public void runFailingAssumption() {
+            assumeThat(actual).zipSatisfy(asList("A", "B", "C"), (e1, e2) -> assertThat(e1).isEqualTo(e2));
+          }
+
+          @Override
+          public void runPassingAssumption() {
+            assumeThat(actual).zipSatisfy(asList("A", "B", "C"), (e1, e2) -> assertThat(e1).isEqualToIgnoringCase(e2));
+          }
         } }
     };
   }
