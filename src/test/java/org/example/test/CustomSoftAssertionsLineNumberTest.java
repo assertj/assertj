@@ -17,18 +17,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
 import org.assertj.core.api.SoftAssertionError;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * The assertions classes have to be in a package other than org.assertj because to test
- * the behavior of line numbers for assertions defined outside the assertj package
+ * The assertions classes have to be in a package other than org.assertj to tests
+ * the behaviour of line numbers for assertions defined outside the assertj package
  */
 public class CustomSoftAssertionsLineNumberTest {
 
-  // ignore because of failure only happening in Travis CI https://travis-ci.org/joel-costigliola/assertj-core/builds/351639100
   @Test
-  @Ignore
   public void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() {
     MyProjectSoftAssertions softly = new MyProjectSoftAssertions();
     try {
@@ -37,7 +34,7 @@ public class CustomSoftAssertionsLineNumberTest {
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       assertThat(e).hasMessageContaining(format("1) Expecting value to be <v2> but was <v1>:%n" +
-                                                "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:31)"));
+                                                 "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:32)"));
     }
   }
 
