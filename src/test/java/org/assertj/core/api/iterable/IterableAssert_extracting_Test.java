@@ -48,14 +48,14 @@ public class IterableAssert_extracting_Test {
       return input.getName().getFirst();
     }
   };
-  
+
   private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
     @Override
     public Integer extract(Employee input) {
       return input.getAge();
     }
   };
-  
+
   @Before
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
@@ -125,8 +125,7 @@ public class IterableAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined()
-       {
+  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     // extract field that is also a property and check generic for comparator.
     assertThat(employees).extracting("name", Name.class).usingElementComparator(new Comparator<Name>() {
       @Override
@@ -174,8 +173,8 @@ public class IterableAssert_extracting_Test {
   @Test
   public void should_allow_extracting_by_toString_method() {
     assertThat(employees).extracting(Extractors.toStringMethod()).containsOnly(
-        "Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
-        "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
+                                                                               "Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
+                                                                               "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
   }
 
   @Test
@@ -219,4 +218,17 @@ public class IterableAssert_extracting_Test {
 
     assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
   }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting(new Extractor<Employee, String>() {
+      @Override
+      public String extract(Employee input) {
+        return input.getName().getFirst();
+      }
+    }).isEmpty();
+  }
+
 }
