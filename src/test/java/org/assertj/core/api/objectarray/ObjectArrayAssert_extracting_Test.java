@@ -138,4 +138,16 @@ public class ObjectArrayAssert_extracting_Test {
 
     assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
   }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
+    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
+
+    assertThat(employees).as("check employees first name").extracting(new Extractor<Employee, String>() {
+      @Override
+      public String extract(Employee input) {
+        return input.getName().getFirst();
+      }
+    }).isEmpty();
+  }
 }
