@@ -21,7 +21,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * The assertions classes have to be in a package other than org.assertj because it tests explicitely the behaviour of line numbers for assertions defined outsode assertj package 
+ * The assertions classes have to be in a package other than org.assertj because to test
+ * the behavior of line numbers for assertions defined outside the assertj package
  */
 public class CustomSoftAssertionsLineNumberTest {
 
@@ -35,8 +36,8 @@ public class CustomSoftAssertionsLineNumberTest {
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
-      assertThat(e.getMessage()).contains(format("1) Expecting value to be <v2> but was <v1>:%n" +
-                                                 "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:31)"));
+      assertThat(e).hasMessageContaining(format("1) Expecting value to be <v2> but was <v1>:%n" +
+                                                "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:31)"));
     }
   }
 

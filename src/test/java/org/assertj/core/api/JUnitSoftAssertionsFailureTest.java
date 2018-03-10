@@ -40,16 +40,16 @@ public class JUnitSoftAssertionsFailureTest {
       List<Throwable> failures = e.getFailures();
 
       assertThat(failures).hasSize(2);
-      assertThat(failures.get(0).getMessage()).startsWith("expected:<[2]> but was:<[1]>");
-      assertThat(failures.get(1).getMessage()).startsWith(format("%n" +
-                                                                 "Expecting:%n" +
-                                                                 "  <[1, 2]>%n" +
-                                                                 "to contain only:%n" +
-                                                                 "  <[1, 3]>%n" +
-                                                                 "elements not found:%n" +
-                                                                 "  <[3]>%n" +
-                                                                 "and elements not expected:%n" +
-                                                                 "  <[2]>%n"));
+      assertThat(failures.get(0)).hasMessageStartingWith("expected:<[2]> but was:<[1]>");
+      assertThat(failures.get(1)).hasMessageStartingWith(format("%n" +
+                                                                "Expecting:%n" +
+                                                                "  <[1, 2]>%n" +
+                                                                "to contain only:%n" +
+                                                                "  <[1, 3]>%n" +
+                                                                "elements not found:%n" +
+                                                                "  <[3]>%n" +
+                                                                "and elements not expected:%n" +
+                                                                "  <[2]>%n"));
     }
   }
 }

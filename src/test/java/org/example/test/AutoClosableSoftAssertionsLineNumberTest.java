@@ -36,18 +36,18 @@ public class AutoClosableSoftAssertionsLineNumberTest {
       softly.close();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
-      assertThat(e.getMessage()).contains(format("1) %n"
-                                               + "Expecting:%n"
-                                               + " <1>%n"
-                                               + "to be less than:%n"
-                                               + " <0> %n"
-                                               + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:34)%n"
-                                               + "2) %n"
-                                               + "Expecting:%n"
-                                               + " <1>%n"
-                                               + "to be less than:%n"
-                                               + " <1> %n"
-                                               + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:35)"));
+      assertThat(e).hasMessageContaining(format("1) %n"
+                                                + "Expecting:%n"
+                                                + " <1>%n"
+                                                + "to be less than:%n"
+                                                + " <0> %n"
+                                                + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:34)%n"
+                                                + "2) %n"
+                                                + "Expecting:%n"
+                                                + " <1>%n"
+                                                + "to be less than:%n"
+                                                + " <1> %n"
+                                                + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:35)"));
     }
   }
 }

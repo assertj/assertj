@@ -39,18 +39,18 @@ public class SoftAssertionsLineNumberTest {
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
-      assertThat(e.getMessage()).contains(format("1) %n"
-                                                 + "Expecting:%n"
-                                                 + " <1>%n"
-                                                 + "to be less than:%n"
-                                                 + " <0> %n"
-                                                 + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:37)%n"
-                                                 + "2) %n"
-                                                 + "Expecting:%n"
-                                                 + " <1>%n"
-                                                 + "to be less than:%n"
-                                                 + " <1> %n"
-                                                 + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:38)"));
+      assertThat(e).hasMessageContaining(format("1) %n"
+                                                + "Expecting:%n"
+                                                + " <1>%n"
+                                                + "to be less than:%n"
+                                                + " <0> %n"
+                                                + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:37)%n"
+                                                + "2) %n"
+                                                + "Expecting:%n"
+                                                + " <1>%n"
+                                                + "to be less than:%n"
+                                                + " <1> %n"
+                                                + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:38)"));
     }
   }
 
@@ -67,20 +67,20 @@ public class SoftAssertionsLineNumberTest {
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
-      assertThat(e.getMessage()).contains(format("1) %n"
-                                                 + "Expecting Optional to contain:%n"
-                                                 + "  <\"Foo\">%n"
-                                                 + "but was empty.%n"
-                                                 + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:61)%n"
-                                                 + "2) %n"
-                                                 + "Expecting actual not to be null%n"
-                                                 + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:63)%n"
-                                                 + "3) %n"
-                                                 + "Expecting all elements of:%n"
-                                                 + "  <[\"a\", \"b\", \"C\"]>%n"
-                                                 + "to match given predicate but this element did not:%n"
-                                                 + "  <\"C\">%n"
-                                                 + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:66)"));
+      assertThat(e).hasMessageContaining(format("1) %n"
+                                                + "Expecting Optional to contain:%n"
+                                                + "  <\"Foo\">%n"
+                                                + "but was empty.%n"
+                                                + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:61)%n"
+                                                + "2) %n"
+                                                + "Expecting actual not to be null%n"
+                                                + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:63)%n"
+                                                + "3) %n"
+                                                + "Expecting all elements of:%n"
+                                                + "  <[\"a\", \"b\", \"C\"]>%n"
+                                                + "to match given predicate but this element did not:%n"
+                                                + "  <\"C\">%n"
+                                                + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:66)"));
     }
   }
 

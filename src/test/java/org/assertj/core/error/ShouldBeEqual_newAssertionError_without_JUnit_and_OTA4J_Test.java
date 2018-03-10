@@ -80,8 +80,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
                                            new Class<?>[] { String.class, Object.class, Object.class },
                                            String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
                                            "Yoda", "Luke");
-    assertThat(error).isNotInstanceOf(ComparisonFailure.class);
-    assertThat(error).isNotInstanceOf(AssertionFailedError.class);
-    assertThat(error.getMessage()).isEqualTo(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
+    assertThat(error).isNotInstanceOfAny(ComparisonFailure.class, AssertionFailedError.class)
+                     .hasMessage(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }
 }
