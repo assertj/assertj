@@ -1596,4 +1596,16 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(2)).hasMessageContaining("888");
   }
 
+  @Test
+  public void soft_assertions_should_work_with_zipSatisfy() {
+    // GIVEN
+    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    // WHEN
+    softly.assertThat(names).zipSatisfy(names, (n1, n2) -> softly.assertThat(n1).isNotEqualTo(n2));
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("John");
+  }
+
 }
