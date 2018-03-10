@@ -157,7 +157,8 @@ public class AbstractSoftAssertions {
   private StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
     for (StackTraceElement element : stacktrace) {
       String className = element.getClassName();
-      if (className.startsWith("sun.reflect")
+      if (isProxiedAssertionClass(className)
+          || className.startsWith("sun.reflect")
           || className.startsWith("jdk.internal.reflect")
           || className.startsWith("java.")
           || className.startsWith("javax.")
@@ -171,5 +172,9 @@ public class AbstractSoftAssertions {
       return element;
     }
     return null;
+  }
+
+  private boolean isProxiedAssertionClass(String className) {
+    return className.contains("$ByteBuddy$");
   }
 }
