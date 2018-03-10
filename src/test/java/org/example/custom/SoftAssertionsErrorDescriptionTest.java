@@ -24,7 +24,7 @@ public class SoftAssertionsErrorDescriptionTest {
   public void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
     try {
       SoftAssertions softly = new SoftAssertions();
-      softly.fail("failure", throwRuntimeException());
+      softly.fail("failure", new RuntimeException("abc"));
       softly.assertAll();
     } catch (AssertionError e) {
       assertThat(e).hasMessageStartingWith(format("%nThe following assertion failed:%n"
@@ -34,9 +34,5 @@ public class SoftAssertionsErrorDescriptionTest {
                                                   + "cause first five stack trace elements:%n"
                                                   + "\tat org.example.custom.SoftAssertionsErrorDescriptionTest.throwRuntimeException"));
     }
-  }
-
-  protected static RuntimeException throwRuntimeException() {
-    return new RuntimeException("abc");
   }
 }
