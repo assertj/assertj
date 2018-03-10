@@ -83,7 +83,7 @@ public class IterableAssert_flatExtracting_Test {
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     thrown.expectAssertionErrorWithMessageContaining("[expected description]");
 
-    assertThat(newArrayList(homer)).as("check children names").flatExtracting(children).isEmpty();
+    assertThat(newArrayList(homer)).as("expected description").flatExtracting(children).isEmpty();
   }
 
   @Test
