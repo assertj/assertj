@@ -72,4 +72,18 @@ public class ObjectArrayAssert_flatExtracting_Test {
     assertThat(new CartoonCharacter[] { homer, null }).flatExtracting(children);
   }
 
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_property() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
+
+    assertThat(new CartoonCharacter[] { homer }).as("expected description").flatExtracting("children").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
+
+    assertThat(new CartoonCharacter[] { homer }).as("expected description").flatExtracting(children).isEmpty();
+  }
+
 }

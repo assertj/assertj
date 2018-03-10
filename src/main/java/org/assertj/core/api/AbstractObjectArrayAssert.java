@@ -1938,7 +1938,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public <U> ObjectArrayAssert<U> extracting(Extractor<? super ELEMENT, U> extractor) {
     U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
-    return new ObjectArrayAssert<>(extracted);
+    return new ObjectArrayAssert<>(extracted).as(info.description());
   }
 
   /**
@@ -1985,7 +1985,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
       result.addAll(e);
     }
 
-    return new ObjectArrayAssert<>(IterableUtil.toArray(result));
+    return new ObjectArrayAssert<>(IterableUtil.toArray(result)).as(info.description());
   }
 
   /**
@@ -2037,7 +2037,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return new ObjectArrayAssert<>(extractedValues.toArray());
+    return new ObjectArrayAssert<>(extractedValues.toArray()).as(info.description());
   }
 
   /**
@@ -2350,7 +2350,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter(actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return (SELF) new ObjectArrayAssert<>(toArray(filter.get()));
+    return (SELF) new ObjectArrayAssert<>(toArray(filter.get())).as(info.description());
   }
 
   /**
