@@ -2016,7 +2016,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Extractor<? super ELEMENT, U> extractor) {
     List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
-    return newListAssertInstance(values);
+    return newListAssertInstance(values).as(info.description());
   }
 
   /**
@@ -2060,7 +2060,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
-    return newListAssertInstance(values);
+    return newListAssertInstance(values).as(info.description());
   }
 
   /**
@@ -2206,7 +2206,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
       result.addAll(e);
     }
 
-    return newListAssertInstance(result);
+    return newListAssertInstance(result).as(info.description());
   }
 
   /**
@@ -2258,7 +2258,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return newListAssertInstance(extractedValues);
+    return newListAssertInstance(extractedValues).as(info.description());
   }
 
   /**
@@ -2572,7 +2572,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter(actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return newListAssertInstance(newArrayList(filter.get()));
+    return newListAssertInstance(newArrayList(filter.get())).as(info.description());
   }
 
   /**
@@ -2855,6 +2855,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param newActual new value
    * @return a new {@link AbstractListAssert}.
    */
+  @Override
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
     return new ListAssert<>(newActual);
   }

@@ -1163,7 +1163,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Extractor<? super ELEMENT, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    return newListAssertInstance(values);
+    return newListAssertInstance(values).as(info.description());
   }
 
   /**
@@ -1304,7 +1304,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       result.addAll(iterable);
     }
 
-    return newListAssertInstance(result);
+    return newListAssertInstance(result).as(info.description());
   }
 
   /**
@@ -1434,7 +1434,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return newListAssertInstance(extractedValues);
+    return newListAssertInstance(extractedValues).as(info.description());
   }
 
   /**
@@ -1526,7 +1526,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     for (Tuple tuple : FieldsOrPropertiesExtractor.extract(actual, Extractors.byName(fieldOrPropertyNames))) {
       extractedValues.addAll(tuple.toList());
     }
-    return newListAssertInstance(extractedValues);
+    return newListAssertInstance(extractedValues).as(info.description());
   }
 
   /**
