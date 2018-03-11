@@ -21,7 +21,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * The assertions classes have to be in a package other than org.assertj because to test
+ * The assertions classes have to be in a package other than org.assertj to test
  * the behavior of line numbers for assertions defined outside the assertj package
  */
 public class CustomSoftAssertionsLineNumberTest {
