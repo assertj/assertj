@@ -19,6 +19,7 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toCollection;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,12 +27,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -1200,7 +1202,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
-    Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null map.");
+    checkNotNull(actual, "Can not perform assertions on the size of a null map.");
     return new MapSizeAssert(this, actual.size());
   }
 
@@ -1230,9 +1232,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new assertion object whose object under test is the array containing the extracted map values
    */
   @CheckReturnValue
-  @Override
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String... keys) {
-    return super.extracting(keys);
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(Object... keys) {
+    isNotNull();
+    List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(Collectors.toList());
+    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
+    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+    return newListAssertInstance(extractedValues).as(description);
   }
 
   /**

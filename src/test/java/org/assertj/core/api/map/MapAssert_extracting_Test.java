@@ -13,72 +13,74 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.assertj.core.test.ExpectedException;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class MapAssert_extracting_Test {
 
+  private static final Object NAME = "name";
+
   @Rule
   public ExpectedException thrown = none();
 
+  private Map<Object, Object> map;
+
+  @Before
+  public void setup() {
+    map = new HashMap<>();
+    map.put(NAME, "kawhi");
+    map.put("age", 25);
+  }
+
   @Test
   public void should_allow_assertions_on_values_extracted_from_given_map_keys() {
-    Map<String, Object> map = new HashMap<>();
-    map.put("name", "kawhi");
-    map.put("age", 25);
-
-    assertThat(map).extracting("name", "age")
-                   .contains("kawhi", 25);
-
-    assertThat(map).extracting(m -> m.get("name"), m -> m.get("age"))
+    assertThat(map).extracting(NAME, "age")
                    .contains("kawhi", 25);
   }
 
   @Test
   public void should_allow_assertions_on_values_extracted_from_given_extractors() {
-    Map<String, Object> map = new HashMap<>();
-    map.put("name", "kawhi");
-    map.put("age", 25);
-
-    assertThat(map).extracting(m -> m.get("name"), m -> m.get("age"))
+    assertThat(map).extracting(m -> m.get(NAME), m -> m.get("age"))
                    .contains("kawhi", 25);
   }
 
   @Test
   public void should_extract_null_from_unknown_key() {
-    Map<String, Object> map = new HashMap<>();
-    map.put("name", "kawhi");
-    map.put("age", 25);
-
-    assertThat(map).extracting("name", "id")
+    assertThat(map).extracting(NAME, "id")
                    .contains("kawhi", (Object) null);
   }
 
   @Test
   public void should_use_key_names_as_description() {
-    Map<String, Object> map = new HashMap<>();
-    map.put("name", "kawhi");
-    map.put("age", 25);
-
     thrown.expectAssertionErrorWithMessageContaining("[Extracted: name, age]");
 
-    assertThat(map).extracting("name", "age").isEmpty();
+    assertThat(map).extracting(NAME, "age").isEmpty();
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_values_list() {
-    Map<String, Object> map = new HashMap<>();
-    map.put("name", "kawhi");
-    map.put("age", 25);
-
     thrown.expectAssertionErrorWithMessageContaining("[check name and age]");
 
-    assertThat(map).as("check name and age").extracting("name", "age").isEmpty();
+    assertThat(map).as("check name and age").extracting(NAME, "age").isEmpty();
   }
+
+  @Test
+  public void should_fail_if_actual_is_null() {
+    // GIVEN
+    map = null;
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(map).extracting(NAME, "age"));
+    // THEN
+    assertThat(error).hasMessage(actualIsNull());
+  }
+
 }

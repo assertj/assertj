@@ -14,6 +14,8 @@ package org.assertj.core.extractor;
 
 import static java.lang.String.format;
 
+import java.util.stream.Stream;
+
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Strings;
@@ -68,8 +70,13 @@ public class Extractors {
     return new ResultOfExtractor<>(methodName);
   }
 
-  public static String extractedDescriptionOf(String... propertiesOrFields) {
-    return format("Extracted: %s", Strings.join(propertiesOrFields).with(", "));
+  public static String extractedDescriptionOf(String... itemsDescription) {
+    return format("Extracted: %s", Strings.join(itemsDescription).with(", "));
+  }
+
+  public static String extractedDescriptionOf(Object... items) {
+    String[] itemsDescription = Stream.of(items).map(Object::toString).toArray(String[]::new);
+    return extractedDescriptionOf(itemsDescription);
   }
   
   public static String extractedDescriptionOfMethod(String method) {
