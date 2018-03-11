@@ -59,19 +59,32 @@ public class ObjectArrayAssert_flatExtracting_Test {
 
   @Test
   public void should_allow_assertions_on_joined_lists_when_extracting_children() {
-    assertThat(new CartoonCharacter[] { homer, fred }).flatExtracting(children).containsOnly(bart, lisa, maggie,
-                                                                                             pebbles);
+    assertThat(array(homer, fred)).flatExtracting(children).containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
   public void should_allow_assertions_on_empty_result_lists() {
-    assertThat(new CartoonCharacter[] { bart, lisa, maggie }).flatExtracting(children).isEmpty();
+    assertThat(array(bart, lisa, maggie)).flatExtracting(children).isEmpty();
   }
 
   @Test
   public void should_throw_null_pointer_exception_when_extracting_from_null() {
     thrown.expectNullPointerException();
-    assertThat(new CartoonCharacter[] { homer, null }).flatExtracting(children);
+    assertThat(array(homer, null)).flatExtracting(children);
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_property() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
+
+    assertThat(array(homer)).as("expected description").flatExtracting("children").isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
+
+    assertThat(array(homer)).as("expected description").flatExtracting(children).isEmpty();
   }
 
   @Test
