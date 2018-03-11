@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api;
 
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Assertions for {@link Map}s.
@@ -90,4 +92,9 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
     return super.doesNotContain(entries);
   }
 
+  @SafeVarargs
+  @Override
+  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(Function<? super Map<KEY, VALUE>, Object>... extractors) {
+    return super.extracting(extractors);
+  }
 }
