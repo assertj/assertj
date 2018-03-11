@@ -37,21 +37,9 @@ public class BinaryDiff {
 
   @VisibleForTesting
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
-    InputStream expectedStream = new ByteArrayInputStream(expected);
-    InputStream actualStream = null;
-    boolean threw = true;
-    try {
-      actualStream = Files.newInputStream(actual);
-      BinaryDiffResult result = diff(actualStream, expectedStream);
-      threw = false;
-      return result;
-    } finally {
-      try {
-        if (actualStream != null) actualStream.close();
-      } catch (IOException e) {
-        // Only rethrow if it doesn't shadow an exception thrown from the inner try block
-        if (!threw) throw e;
-      }
+    try (InputStream expectedStream = new ByteArrayInputStream(expected);
+        InputStream actualStream = Files.newInputStream(actual)) {
+      return diff(actualStream, expectedStream);
     }
   }
 
