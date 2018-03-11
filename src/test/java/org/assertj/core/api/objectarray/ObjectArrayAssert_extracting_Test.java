@@ -68,6 +68,14 @@ public class ObjectArrayAssert_extracting_Test {
     fellowshipOfTheRing[7] = TolkienCharacter.of("Boromir", 37, MAN);
   }
 
+  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
+    @Override
+    public Object extractThrows(Employee employee) throws Exception {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
+    }
+  };
+
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
     assertThat(employees).extracting("age").containsOnly(800, 26);
@@ -327,4 +335,12 @@ public class ObjectArrayAssert_extracting_Test {
       }
     }).isEmpty();
   }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected exception]");
+
+    assertThat(employees).as("expected exception").extracting(throwingExtractor).isEmpty();
+  }
+
 }

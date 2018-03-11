@@ -2572,7 +2572,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter(actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return newListAssertInstance(newArrayList(filter.get())).as(info.description());
+    return newListAssertInstance(newArrayList(filter.get()));
   }
 
   /**
