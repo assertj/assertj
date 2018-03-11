@@ -18,7 +18,6 @@ public class MyProjectClass {
 
   public MyProjectClass(Object value) {
     this.value = value;
-
   }
 
   public Object getValue() {

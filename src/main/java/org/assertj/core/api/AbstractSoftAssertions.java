@@ -128,6 +128,7 @@ public class AbstractSoftAssertions {
   }
 
   private void addLineNumberToErrorMessage(Throwable error) {
+      error.printStackTrace(System.err);
     StackTraceElement testStackTraceElement = getFirstStackTraceElementFromTest(error.getStackTrace());
     if (testStackTraceElement != null) {
       changeErrorMessage(error, buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement));
@@ -155,7 +156,7 @@ public class AbstractSoftAssertions {
   }
 
   private StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
-    for (StackTraceElement element : stacktrace) {
+      for (StackTraceElement element : stacktrace) {
       String className = element.getClassName();
       if (isProxiedAssertionClass(className)
           || className.startsWith("sun.reflect")
