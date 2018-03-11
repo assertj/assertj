@@ -64,6 +64,14 @@ public class IterableAssert_extracting_Test {
       return input.getAge();
     }
   };
+  
+  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
+    @Override
+    public Object extractThrows(Employee employee) throws Exception {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
+    }
+  }; 
 
   @Before
   public void setUp() {
@@ -388,4 +396,12 @@ public class IterableAssert_extracting_Test {
 
     assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
   }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected exception]");
+
+    assertThat(employees).as("expected exception").extracting(throwingExtractor).containsOnly("Luke");
+  }
+
 }

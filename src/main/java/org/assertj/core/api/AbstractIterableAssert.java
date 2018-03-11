@@ -1209,7 +1209,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    return newListAssertInstance(values);
+    return newListAssertInstance(values).as(info.description());
   }
 
   /**
@@ -1338,7 +1338,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
                                       .collect(Collectors.toList());
-    return newListAssertInstance(result);
+    return newListAssertInstance(result).as(info.description());
   }
 
   /**
@@ -1382,7 +1382,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
                                       .collect(Collectors.toList());
-    return newListAssertInstance(result);
+    return newListAssertInstance(result).as(info.description());
   }
 
   /**

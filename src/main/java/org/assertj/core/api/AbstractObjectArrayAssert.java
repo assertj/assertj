@@ -2060,7 +2060,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
-    return newListAssertInstance(values);
+    return newListAssertInstance(values).as(info.description());
   }
 
   /**
