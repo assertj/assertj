@@ -48,6 +48,14 @@ public class IterableAssert_flatExtracting_Test {
     }
   };
 
+  private final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> throwingExtractor = new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+    @Override
+    public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
+      if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
+      return cartoonCharacter.getChildren();
+    }
+  };
+
   @Before
   public void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
@@ -138,6 +146,20 @@ public class IterableAssert_flatExtracting_Test {
     thrown.expectAssertionErrorWithMessageContaining("[expected description]");
 
     assertThat(newArrayList(homer)).as("expected description").flatExtracting("children", "name").isEmpty();
+  }
+
+  public void should_keep_existing_description_if_set_when_extracting_using_multiple_extractors_varargs() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
+
+    assertThat(newArrayList(homer)).as("expected description").flatExtracting(children, children).isEmpty();
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_using_multiple_throwing_extractors_varargs() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
+
+    assertThat(newArrayList(homer)).as("expected description").flatExtracting(throwingExtractor, throwingExtractor)
+                                   .isEmpty();
   }
 
 }

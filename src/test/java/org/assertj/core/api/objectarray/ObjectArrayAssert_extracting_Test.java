@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.objectarray;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
@@ -22,11 +23,9 @@ import static org.assertj.core.data.TolkienCharacter.Race.MAN;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.Employee;
@@ -67,6 +66,11 @@ public class ObjectArrayAssert_extracting_Test {
     fellowshipOfTheRing[6] = TolkienCharacter.of("Aragorn", 87, MAN);
     fellowshipOfTheRing[7] = TolkienCharacter.of("Boromir", 37, MAN);
   }
+
+  private static final ThrowingExtractor<Employee, Object, Exception> THROWING_EXTRACTOR = employee -> {
+    if (employee.getAge() < 20) throw new Exception("age < 20");
+    return employee.getName().getFirst();
+  };
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
@@ -109,25 +113,15 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility() {
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        return input.getName().getFirst();
-      }
-    }).containsOnly("Yoda", "Luke");
+    assertThat(employees).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
-  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
+  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_RuntimeException() {
     thrown.expect(RuntimeException.class);
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        if (input.getAge() > 100) {
-          throw new RuntimeException("age > 100");
-        }
-        return input.getName().getFirst();
-      }
+    assertThat(employees).extracting(input -> {
+      if (input.getAge() > 100) throw new RuntimeException("age > 100");
+      return input.getName().getFirst();
     });
   }
 
@@ -156,10 +150,7 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_with_throwing_extractor() {
-    assertThat(employees).extracting(employee -> {
-      if (employee.getAge() < 20) throw new Exception("age < 20");
-      return employee.getName().getFirst();
-    }).containsOnly("Yoda", "Luke");
+    assertThat(employees).extracting(THROWING_EXTRACTOR).containsOnly("Yoda", "Luke");
   }
 
   @Test
@@ -258,9 +249,10 @@ public class ObjectArrayAssert_extracting_Test {
                                                  tuple("Boromir", 37, MAN, "Boromir", 37, MAN));
   }
 
-  @Test //https://github.com/joel-costigliola/assertj-core/issues/880
+  // https://github.com/joel-costigliola/assertj-core/issues/880
+  @Test
   public void should_be_able_to_extract_values_returned_from_default_methods_from_given_iterable_elements() {
-    List<Person> people = Arrays.asList(new Person());
+    List<Person> people = asList(new Person());
 
     assertThat(people).extracting("name").containsOnly("John Doe");
   }
@@ -320,11 +312,13 @@ public class ObjectArrayAssert_extracting_Test {
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
 
-    assertThat(employees).as("check employees first name").extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        return input.getName().getFirst();
-      }
-    }).isEmpty();
+    assertThat(employees).as("check employees first name").extracting(input -> input.getName().getFirst()).isEmpty();
   }
+
+  public void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
+    thrown.expectAssertionErrorWithMessageContaining("[expected exception]");
+
+    assertThat(employees).as("expected exception").extracting(THROWING_EXTRACTOR).isEmpty();
+  }
+
 }
