@@ -446,7 +446,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList() {
     objects.assertIsInstanceOf(info, actual, List.class);
-    return newListAssertInstance((List<Object>) actual);
+    return newListAssertInstance((List<Object>) actual).as(info.description());
   }
 
   /** {@inheritDoc} */

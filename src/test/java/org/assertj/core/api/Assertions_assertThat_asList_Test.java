@@ -12,10 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.test.ExpectedException.none;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.test.ExpectedException;
@@ -32,13 +33,13 @@ public class Assertions_assertThat_asList_Test {
 
   @Test
   public void should_pass_list_asserts_on_list_objects_with_asList() {
-    Object listAsObject = Arrays.asList(1, 2, 3);
+    Object listAsObject = asList(1, 2, 3);
     assertThat(listAsObject).asList().isSorted();
   }
 
   @Test
   public void should_pass_list_asserts_on_list_strings_with_asList() {
-    List<String> listAsObject = Arrays.asList("a", "b", "c");
+    List<String> listAsObject = asList("a", "b", "c");
     assertThat(listAsObject).asList().isSorted()
                             .last().isEqualTo("c");
   }
@@ -51,4 +52,13 @@ public class Assertions_assertThat_asList_Test {
     assertThat(nonList).asList().isSorted();
   }
 
+  @Test
+  public void should_keep_existing_description_set_before_calling_asList() {
+    // GIVEN
+    Object listAsObject = asList(1, 2, 3);
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(listAsObject).as("oops").asList().isEmpty());
+    // THEN
+    assertThat(error).hasMessageContaining("oops");
+  }
 }
