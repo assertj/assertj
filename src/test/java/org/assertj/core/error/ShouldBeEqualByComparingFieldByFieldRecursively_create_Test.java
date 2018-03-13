@@ -24,11 +24,13 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.DeepDifference;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithCollection;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithMap;
+import org.assertj.core.test.Name;
 import org.junit.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
@@ -95,6 +97,22 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "- actual  : <{1L=true, 2L=false} (LinkedHashMap@%s)>",
                                          toHexString(withTreeMap.map.hashCode()),
                                          toHexString(withLinkedHashMap.map.hashCode())));
+  }
+
+  @Test
+  public void should_not_fall_with_npe_if_field_of_one_of_compared_objects_is_null() {
+    final Name actualName = new Name("Andy");
+    final Name nullName = new Name(null);
+
+    Throwable error = ThrowableAssert.catchThrowable(new ThrowableAssert.ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        assertThat(actualName).isEqualToComparingFieldByFieldRecursively(nullName);
+      }
+    });
+
+    assertThat(error).isNotExactlyInstanceOf(NullPointerException.class);
+
   }
 
 }
