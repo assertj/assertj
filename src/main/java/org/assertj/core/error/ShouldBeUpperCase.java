@@ -24,11 +24,11 @@ public class ShouldBeUpperCase extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeUpperCase(Character actual) {
+  public static ErrorMessageFactory shouldBeUpperCase(Object actual) {
     return new ShouldBeUpperCase(actual);
   }
 
-  private ShouldBeUpperCase(Character actual) {
-    super("%nExpecting:<%s> to be a uppercase character", actual);
+  private ShouldBeUpperCase(Object actual) {
+    super("%nExpecting <%s> to be uppercase", actual);
   }
 }

@@ -1314,4 +1314,52 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     strings.assertIsEqualToIgnoringNewLines(info, actual, expected);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is a lowercase {@code CharSequence} by comparing it to a lowercase {@code actual} built with {@link String#toLowerCase()}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;lego&quot;).isLowerCase();
+   * assertThat("").isLowerCase();
+   * assertThat(" ").isLowerCase();
+   * assertThat(".").isLowerCase();
+   * assertThat("7").isLowerCase();
+   * assertThat("a.7").isLowerCase();
+   *
+   * // assertions will fail
+   * assertThat(&quot;Lego&quot;).isLowerCase();
+   * assertThat(&quot;LEGO&quot;).isLowerCase();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not lowercase.
+   */
+  public SELF isLowerCase() {
+    strings.assertLowerCase(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is a uppercase {@code CharSequence} by comparing it to an uppercase {@code actual} built with {@link String#toUpperCase()}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;LEGO&quot;).isUpperCase();
+   * assertThat("").isUpperCase();
+   * assertThat(" ").isUpperCase();
+   * assertThat(".").isUpperCase();
+   * assertThat("7").isUpperCase();
+   * assertThat("A.7").isUpperCase();
+   *
+   * // assertions will fail
+   * assertThat(&quot;Lego&quot;).isUpperCase();
+   * assertThat(&quot;lego&quot;).isUpperCase();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not uppercase.
+   */
+  public SELF isUpperCase() {
+    strings.assertUpperCase(info, actual);
+    return myself;
+  }
 }

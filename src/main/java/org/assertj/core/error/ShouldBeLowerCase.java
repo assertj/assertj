@@ -24,11 +24,11 @@ public class ShouldBeLowerCase extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeLowerCase(Character actual) {
+  public static ErrorMessageFactory shouldBeLowerCase(Object actual) {
     return new ShouldBeLowerCase(actual);
   }
 
-  private ShouldBeLowerCase(Character actual) {
-    super("%nExpecting <%s> to be a lowercase character", actual);
+  private ShouldBeLowerCase(Object actual) {
+    super("%nExpecting <%s> to be a lowercase", actual);
   }
 }

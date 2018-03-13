@@ -23,8 +23,10 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.sho
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
+import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
+import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
@@ -977,6 +979,18 @@ public class Strings {
     String expectedWithoutNewLines = removeNewLines(expected);
     if (!actualWithoutNewLines.equals(expectedWithoutNewLines))
       throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected));
+  }
+
+  public void assertLowerCase(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (actual.equals(actual.toString().toLowerCase())) return;
+    throw failures.failure(info, shouldBeLowerCase(actual));
+  }
+
+  public void assertUpperCase(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (actual.equals(actual.toString().toUpperCase())) return;
+    throw failures.failure(info, shouldBeUpperCase(actual));
   }
 
   private static String removeNewLines(CharSequence text) {
