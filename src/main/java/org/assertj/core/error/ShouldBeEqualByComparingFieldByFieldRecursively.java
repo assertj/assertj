@@ -64,8 +64,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                   "- expected: <%s>%n" +
                   "- actual  : <%s>",
                   join(difference.getPath()).with("."),
-                  otherFieldValueRepresentation.replace("%", "%%"),
-                  actualFieldValueRepresentation.replace("%", "%%"));
+                  otherFieldValueRepresentation == null ? null : otherFieldValueRepresentation.replace("%", "%%"),
+                  actualFieldValueRepresentation == null ? null : actualFieldValueRepresentation.replace("%", "%%"));
   }
 
 }
