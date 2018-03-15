@@ -26,16 +26,14 @@ public class ShouldNotHaveFailed_create_Test {
 
   @Test
   public void should_create_error_message() throws Exception {
+    // GIVEN
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
-
+    // WHEN
     String error = shouldNotHaveFailed(future).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting%n" +
-                                       "  <CompletableFuture[Failed: java.lang.RuntimeException]>%n" +
-                                       "to not have failed.%n%s",
-                                       WARNING));
+    // THEN
+    assertThat(error).startsWith(format("[TEST] %nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
+                     .contains("Caused by: java.lang.RuntimeException")
+                     .endsWith(format("to not have failed.%n%s", WARNING));
   }
-
 }
