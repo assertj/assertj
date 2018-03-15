@@ -20,6 +20,7 @@ import static org.assertj.core.util.Arrays.isObjectArray;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -288,7 +289,7 @@ public class StandardRepresentation implements Representation {
       Object joinResultRepresentation = joinResult instanceof CompletableFuture ? joinResult : toStringOf(joinResult);
       return concat(className, "[Completed: ", joinResultRepresentation, "]");
     } catch (CompletionException e) {
-      return concat(className, "[Failed: ", toStringOf(e.getCause()), "]");
+      return concat(className, "[Failed: ", toStringOf(e.getCause()), "]", String.format("%n%s", getStackTrace(e)));
     } catch (CancellationException e) {
       return concat(className, "[Cancelled]");
     }

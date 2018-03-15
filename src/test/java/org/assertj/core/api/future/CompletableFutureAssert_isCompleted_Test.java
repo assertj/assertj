@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
+import static org.assertj.core.error.future.Warning.WARNING;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -50,7 +51,10 @@ public class CompletableFutureAssert_isCompleted_Test extends BaseTest {
     future.completeExceptionally(new RuntimeException());
 
     assertThatThrownBy(() -> assertThat(future).isCompleted()).isInstanceOf(AssertionError.class)
-                                                              .hasMessage(shouldBeCompleted(future).create());
+                                                              .hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
+                                                              .hasMessageContaining("Caused by: java.lang.RuntimeException")
+                                                              .hasMessageEndingWith(format("to be completed.%n%s",
+                                                                                           WARNING));
   }
 
   @Test

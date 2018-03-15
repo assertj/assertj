@@ -31,11 +31,8 @@ public class ShouldNotHaveFailed_create_Test {
 
     String error = shouldNotHaveFailed(future).create(new TestDescription("TEST"));
 
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting%n" +
-                                       "  <CompletableFuture[Failed: java.lang.RuntimeException]>%n" +
-                                       "to not have failed.%n%s",
-                                       WARNING));
+    assertThat(error).startsWith(format("[TEST] %nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
+                     .contains("Caused by: java.lang.RuntimeException")
+                     .endsWith(format("to not have failed.%n%s", WARNING));
   }
-
 }
