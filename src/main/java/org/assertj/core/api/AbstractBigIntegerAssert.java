@@ -428,8 +428,14 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super BigInteger> customComparator) {
-    super.usingComparator(customComparator);
-    this.bigIntegers = new BigIntegers(new ComparatorBasedComparisonStrategy(customComparator));
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super BigInteger> customComparator, String customComparatorDescription) {
+    super.usingComparator(customComparator, customComparatorDescription);
+    this.bigIntegers = new BigIntegers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

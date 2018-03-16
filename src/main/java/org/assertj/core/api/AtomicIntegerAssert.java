@@ -380,8 +380,14 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
   @Override
   @CheckReturnValue
   public AtomicIntegerAssert usingComparator(Comparator<? super AtomicInteger> customComparator) {
-    super.usingComparator(customComparator);
-    integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
+    return usingComparator(customComparator, null);
+  }
+  
+  @Override
+  @CheckReturnValue
+  public AtomicIntegerAssert usingComparator(Comparator<? super AtomicInteger> customComparator, String customComparatorDescription) {
+    super.usingComparator(customComparator, customComparatorDescription);
+    integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

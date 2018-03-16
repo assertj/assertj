@@ -37,8 +37,24 @@ public class ComparatorBasedComparisonStrategy_toString_Test extends AbstractTes
   }
 
   @Test
+  public void toString_with_anonymous_comparator_with_description() {
+    ComparatorBasedComparisonStrategy namedAnonymousComparator = new ComparatorBasedComparisonStrategy(new Comparator<String>() {
+      @Override
+      public int compare(String s1, String s2) {
+        return s1.compareTo(s2);
+      }
+    }, "Mr. Comparator");
+    assertThat(namedAnonymousComparator).hasToString("'Mr. Comparator'");
+  }
+
+  @Test
   public void toString_with_non_anonymous_comparator() {
     assertThat(caseInsensitiveComparisonStrategy).hasToString("CaseInsensitiveStringComparator");
+  }
+
+  @Test
+  public void toString_with_provided_comparator_name() {
+    assertThat(describedComparisonStrategy).hasToString("'Case-insensitive comparator for String class'");
   }
 
 }
