@@ -26,7 +26,7 @@ import org.junit.Test;
 public class CompletableFutureAssert_hasFailed_Test extends BaseTest {
 
   @Test
-  public void should_pass_if_completable_future_has_failed() {
+  public void assertion_should_pass_if_completable_future_has_failed() {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
 
@@ -34,13 +34,13 @@ public class CompletableFutureAssert_hasFailed_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  public void assertion_should_fail_when_completable_future_is_null() {
     assertThatThrownBy(() -> assertThat((CompletableFuture<String>) null).hasFailed()).isInstanceOf(AssertionError.class)
                                                                                       .hasMessage(format(actualIsNull()));
   }
 
   @Test
-  public void should_fail_if_completable_future_is_incomplete() {
+  public void assertion_should_fail_if_completable_future_is_incomplete() {
     CompletableFuture<String> future = new CompletableFuture<>();
 
     assertThatThrownBy(() -> assertThat(future).hasFailed()).isInstanceOf(AssertionError.class)
@@ -48,7 +48,7 @@ public class CompletableFutureAssert_hasFailed_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_completed() {
+  public void assertion_should_fail_if_completable_future_is_completed() {
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
 
     assertThatThrownBy(() -> assertThat(future).hasFailed()).isInstanceOf(AssertionError.class)
@@ -56,7 +56,7 @@ public class CompletableFutureAssert_hasFailed_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_if_completable_future_was_cancelled() {
+  public void assertion_should_fail_if_completable_future_was_cancelled() {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);
 
