@@ -27,7 +27,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
 
   @Test
   public void should_return_null_if_iterable_is_null() {
-    assertThat(STANDARD_REPRESENTATION.smartFormat(null)).isNull();
+    assertThat(STANDARD_REPRESENTATION.smartFormat((Iterable<?>) null)).isNull();
   }
 
   @Test

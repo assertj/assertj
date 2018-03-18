@@ -199,9 +199,8 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
-    return comparatorDescription == null ?
-            toStringOf(comparatorBasedComparisonStrategy.getComparator()) :
-            quote(comparatorDescription);
+    return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
+        : quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar c) {
@@ -329,24 +328,23 @@ public class StandardRepresentation implements Representation {
    */
   protected String formatArray(Object o) {
     if (!isArray(o)) return null;
-    return isObjectArray(o) ? smartFormat(this, (Object[]) o) : formatPrimitiveArray(o);
+    return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
   }
 
-  protected String multiLineFormat(Representation representation, Object[] iterable, Set<Object[]> alreadyFormatted) {
+  protected String multiLineFormat(Object[] iterable, Set<Object[]> alreadyFormatted) {
     return format(iterable, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyFormatted);
   }
 
-  protected String singleLineFormat(Representation representation, Object[] iterable, String start, String end,
-                                    Set<Object[]> alreadyFormatted) {
+  protected String singleLineFormat(Object[] iterable, Set<Object[]> alreadyFormatted) {
     return format(iterable, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, alreadyFormatted);
   }
 
-  protected String smartFormat(Representation representation, Object[] iterable) {
+  protected String smartFormat(Object[] iterable) {
     Set<Object[]> alreadyFormatted = new HashSet<>();
-    String singleLineDescription = singleLineFormat(representation, iterable, DEFAULT_START, DEFAULT_END,
-                                                    alreadyFormatted);
-    return doesDescriptionFitOnSingleLine(singleLineDescription) ? singleLineDescription
-        : multiLineFormat(representation, iterable, alreadyFormatted);
+    String singleLineDescription = singleLineFormat(iterable, alreadyFormatted);
+    return doesDescriptionFitOnSingleLine(singleLineDescription)
+        ? singleLineDescription
+        : multiLineFormat(iterable, alreadyFormatted);
   }
 
   protected String format(Object[] array, String elementSeparator,
