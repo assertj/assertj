@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
@@ -145,6 +146,11 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    */
   public SELF isSortedAccordingTo(Comparator<? super ELEMENT> comparator) {
     lists.assertIsSortedAccordingToComparator(info, actual, comparator);
+    return myself;
+  }
+
+  public SELF satisfiesAt(Consumer<? super ELEMENT> requirements, Index index) {
+    lists.satisfiesAt(info, actual, requirements, index);
     return myself;
   }
 

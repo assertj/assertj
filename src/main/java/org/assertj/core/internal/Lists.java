@@ -26,10 +26,12 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.VisibleForTesting;
 
 
@@ -244,6 +246,13 @@ public class Lists {
     Iterables.instance().assertNotEmpty(info, actual);
     checkIndexValueIsValid(index, actual.size() - 1);
     return condition.matches(actual.get(index.value));
+  }
+
+  public <T> void satisfiesAt(AssertionInfo info, List<? extends T> actual, Consumer<? super T> requirements, Index index){
+    assertNotNull(info, actual);
+    checkNotNull(requirements, "The Consumer<? super T> expressing the assertions requirements must not be null");
+    checkIndexValueIsValid(index, actual.size() - 1);
+    requirements.accept(actual.get(index.value));
   }
 
   @SuppressWarnings("unchecked")
