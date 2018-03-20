@@ -504,8 +504,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
+    return usingComparator(customComparator, null);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
     // using a specific strategy to compare actual with other objects.
-    this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
+    this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

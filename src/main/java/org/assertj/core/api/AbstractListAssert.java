@@ -336,7 +336,13 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
-    return super.usingComparator(customComparator);
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override

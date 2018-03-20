@@ -555,8 +555,14 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Integer> customComparator) {
-    super.usingComparator(customComparator);
-    integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super Integer> customComparator, String customComparatorDescription) {
+    super.usingComparator(customComparator, customComparatorDescription);
+    integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

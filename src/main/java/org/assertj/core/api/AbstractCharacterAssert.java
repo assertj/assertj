@@ -249,8 +249,14 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Character> customComparator) {
-    super.usingComparator(customComparator);
-    this.characters = new Characters(new ComparatorBasedComparisonStrategy(customComparator));
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super Character> customComparator, String customComparatorDescription) {
+    super.usingComparator(customComparator, customComparatorDescription);
+    this.characters = new Characters(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

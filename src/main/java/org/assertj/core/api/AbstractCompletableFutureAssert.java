@@ -302,7 +302,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   public SELF hasFailed() {
     isNotNull();
-    if (!actual.isCompletedExceptionally() || actual.isCancelled()) throwAssertionError(shouldHaveFailed(actual));
+    if (!(actual.isCompletedExceptionally() && !actual.isCancelled())) throwAssertionError(shouldHaveFailed(actual));
     return myself;
   }
 

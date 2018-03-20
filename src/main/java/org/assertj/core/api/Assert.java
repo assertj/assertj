@@ -246,6 +246,24 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF usingComparator(Comparator<? super ACTUAL> customComparator);
 
   /**
+   * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
+   * <p>
+   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
+   * comparison strategy.
+   *
+   * Examples :
+   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
+   * // raceComparator implements Comparator&lt;Character&gt;
+   * assertThat(frodo).usingComparator(raceComparator, "Hobbit Race Comparator").isEqualTo(sam);</code></pre>
+   *
+   * @param customComparator the comparator to use for incoming assertion checks.
+   * @param customComparatorDescription comparator description to be used in assertion messages
+   * @throws NullPointerException if the given comparator is {@code null}.
+   * @return {@code this} assertion object.
+   */
+  SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription);
+
+  /**
    * Revert to standard comparison for incoming assertion checks.
    * <p>
    * This method should be used to disable a custom comparison strategy set by calling

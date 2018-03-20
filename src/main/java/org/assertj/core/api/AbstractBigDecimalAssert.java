@@ -266,8 +266,14 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super BigDecimal> customComparator) {
-    super.usingComparator(customComparator);
-    this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator));
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super BigDecimal> customComparator, String customComparatorDescription) {
+    super.usingComparator(customComparator, customComparatorDescription);
+    this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;
   }
 

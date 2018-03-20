@@ -27,5 +27,7 @@ public class AbstractTest_ComparatorBasedComparisonStrategy {
   protected Comparator<String> caseInsensitiveStringComparator = CaseInsensitiveStringComparator.instance;
   protected ComparatorBasedComparisonStrategy caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(
       caseInsensitiveStringComparator);
+  protected ComparatorBasedComparisonStrategy describedComparisonStrategy = new ComparatorBasedComparisonStrategy(
+    caseInsensitiveStringComparator, "Case-insensitive comparator for String class");
 
 }

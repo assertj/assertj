@@ -26,12 +26,14 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithCollection;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithMap;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.test.Jedi;
+import org.assertj.core.test.Name;
 import org.junit.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
@@ -148,6 +150,21 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "- reason  : org.assertj.core.error.Person can't be compared to org.assertj.core.error.PersonDAO as PersonDAO does not declare all Person fields, it lacks these:[firstName, lastName]",
                                          personHash, personDAOHash,
                                          personHash, personDAOHash));
+  }
+
+  public void should_not_fall_with_npe_if_field_of_one_of_compared_objects_is_null() {
+    final Name actualName = new Name("Andy");
+    final Name nullName = new Name(null);
+
+    Throwable error = ThrowableAssert.catchThrowable(new ThrowableAssert.ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        assertThat(actualName).isEqualToComparingFieldByFieldRecursively(nullName);
+      }
+    });
+
+    assertThat(error).isNotExactlyInstanceOf(NullPointerException.class);
+
   }
 
 }

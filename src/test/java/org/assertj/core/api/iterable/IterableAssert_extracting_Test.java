@@ -64,7 +64,7 @@ public class IterableAssert_extracting_Test {
       return input.getAge();
     }
   };
-  
+
   private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
     @Override
     public Object extractThrows(Employee employee) throws Exception {
