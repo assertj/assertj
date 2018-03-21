@@ -26,6 +26,7 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -39,6 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
+ * @author Jacek Jackowiak
  */
 // TODO inherits from Collections to avoid repeating comparisonStrategy ?
 public class Lists {
@@ -236,6 +238,13 @@ public class Lists {
   public <T> void assertIs(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
+  }
+
+  public <T> void satisfies(AssertionInfo info, List<? extends T> actual, Consumer<? super T> requirements, Index index) {
+    assertNotNull(info, actual);
+    checkNotNull(requirements, "The Consumer expressing the assertions requirements must not be null");
+    checkIndexValueIsValid(index, actual.size() - 1);
+    requirements.accept(actual.get(index.value));
   }
 
   private <T> boolean conditionIsMetAtIndex(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
