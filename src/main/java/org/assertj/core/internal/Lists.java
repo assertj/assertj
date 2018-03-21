@@ -31,7 +31,6 @@ import java.util.function.Consumer;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
-import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.VisibleForTesting;
 
 
@@ -41,6 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
+ * @author Jacek Jackowiak
  */
 // TODO inherits from Collections to avoid repeating comparisonStrategy ?
 public class Lists {
@@ -248,7 +248,25 @@ public class Lists {
     return condition.matches(actual.get(index.value));
   }
 
-  public <T> void satisfiesAt(AssertionInfo info, List<? extends T> actual, Consumer<? super T> requirements, Index index){
+  /**
+   * Verifies that the actual @{code List} contains the value at given {@code Index} that satisfy given {@code requirements}.
+   *
+   * @param <T> the type of the actual value and the type of values that given {@code requirements} takes.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code List}.
+   * @param requirements the given requirements for element at {@code Index}.
+   * @param index the index where the object should be stored in the actual {@code List}.
+   *
+   * @throws AssertionError if the value at given {@code Index} does not satisfy the {@code requirements}.
+   * @throws AssertionError if the actual list is {@code null}.
+   * @throws NullPointerException if the given {@code requirements} are {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size
+   *            of the actual {@code List}.
+   *
+   * @since 3.10.0
+   */
+  public <T> void satisfies(AssertionInfo info, List<? extends T> actual, Consumer<? super T> requirements, Index index){
     assertNotNull(info, actual);
     checkNotNull(requirements, "The Consumer<? super T> expressing the assertions requirements must not be null");
     checkIndexValueIsValid(index, actual.size() - 1);
