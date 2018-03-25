@@ -36,17 +36,20 @@ import org.assertj.core.util.introspection.ClassUtils;
 public class TypeComparators {
 
   private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
-  private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
+  private static final DoubleComparator DEFAULT_DOUBLE_COMPARATOR = new DoubleComparator(DOUBLE_COMPARATOR_PRECISION);
 
-  private static final Comparator<Class<?>> CLASS_COMPARATOR = Comparator.comparing(Class::getSimpleName);
+  private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
+  private static final FloatComparator DEFAULT_FLOAT_COMPARATOR = new FloatComparator(FLOAT_COMPARATOR_PRECISION);
+
+  private static final Comparator<Class<?>> CLASS_COMPARATOR = Comparator.comparing(Class::getName);
 
   @VisibleForTesting
   Map<Class<?>, Comparator<?>> typeComparators;
 
   public static TypeComparators defaultTypeComparators() {
     TypeComparators comparatorByType = new TypeComparators();
-    comparatorByType.put(Double.class, new DoubleComparator(DOUBLE_COMPARATOR_PRECISION));
-    comparatorByType.put(Float.class, new FloatComparator(FLOAT_COMPARATOR_PRECISION));
+    comparatorByType.put(Double.class, DEFAULT_DOUBLE_COMPARATOR);
+    comparatorByType.put(Float.class, DEFAULT_FLOAT_COMPARATOR);
     return comparatorByType;
   }
 
