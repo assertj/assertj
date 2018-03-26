@@ -41,7 +41,14 @@ public class TypeComparators {
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
   private static final FloatComparator DEFAULT_FLOAT_COMPARATOR = new FloatComparator(FLOAT_COMPARATOR_PRECISION);
 
-  private static final Comparator<Class<?>> CLASS_COMPARATOR = Comparator.comparing(Class::getName);
+  // don't convert it to a lambda as it degrades TypeComparatorsPerfTest executio time by ~66%
+  private static final Comparator<Class<?>> CLASS_COMPARATOR = new Comparator<Class<?>>() {
+
+    @Override
+    public int compare(Class<?> class1, Class<?> class2) {
+      return class1.getName().compareTo(class2.getName());
+    }
+  };
 
   @VisibleForTesting
   Map<Class<?>, Comparator<?>> typeComparators;

@@ -25,6 +25,7 @@ public class TypeComparatorsPerfTest {
   // execution time for 1000000:
   // before change: ~700ms
   // with Comparator.comparing(Class::getName) : ~240ms
+  // with anonymous class replacing Comparator.comparing(Class::getName) : ~160ms
 
   // uncomment @Ignore to run the test
   @Ignore
