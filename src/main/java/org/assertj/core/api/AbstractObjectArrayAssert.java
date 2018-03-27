@@ -95,9 +95,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  private TypeComparators comparatorsByType = defaultTypeComparators();
+  private TypeComparators comparatorsByType;
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   public AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
     super(actual, selfType);
@@ -1472,7 +1472,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   private SELF usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
-    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, comparatorsByType));
+    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
   }
 
   /** {@inheritDoc} */
@@ -1627,7 +1627,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <C> SELF usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
-    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
     return myself;
   }
 
@@ -1662,10 +1662,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <C> SELF usingComparatorForType(Comparator<C> comparator, Class<C> type) {
     if (arrays.getComparator() == null) {
-      usingElementComparator(new ExtendedByTypesComparator(comparatorsByType));
+      usingElementComparator(new ExtendedByTypesComparator(getComparatorsByType()));
     }
-    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
-    comparatorsByType.put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
+    getComparatorsByType().put(type, comparator);
     return myself;
   }
 
@@ -1698,7 +1698,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public SELF usingFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                            comparatorsForElementPropertyOrFieldTypes));
+                                                                            getComparatorsForElementPropertyOrFieldTypes()));
   }
 
   /**
@@ -1747,7 +1747,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                                     comparatorsForElementPropertyOrFieldTypes));
+                                                                                     getComparatorsForElementPropertyOrFieldTypes()));
   }
 
   /**
@@ -1781,7 +1781,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public SELF usingElementComparatorOnFields(String... fields) {
     return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                        comparatorsForElementPropertyOrFieldTypes,
+                                                                        getComparatorsForElementPropertyOrFieldTypes(),
                                                                         fields));
   }
 
@@ -1816,7 +1816,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public SELF usingElementComparatorIgnoringFields(String... fields) {
     return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                              comparatorsForElementPropertyOrFieldTypes,
+                                                                              getComparatorsForElementPropertyOrFieldTypes(),
                                                                               fields));
   }
 
@@ -2858,6 +2858,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
     return new ListAssert<>(newActual);
+  }
+
+  // lazy init TypeComparators
+  protected TypeComparators getComparatorsByType() {
+    if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
+    return comparatorsByType;
+  }
+
+  // lazy init TypeComparators
+  protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
+    if (comparatorsForElementPropertyOrFieldTypes == null) comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+    return comparatorsForElementPropertyOrFieldTypes;
   }
 
 }

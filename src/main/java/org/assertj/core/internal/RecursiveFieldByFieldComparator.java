@@ -32,7 +32,7 @@ public class RecursiveFieldByFieldComparator extends FieldByFieldComparator {
   @Override
   protected boolean areEqual(Object actual, Object other) {
     try {
-      return determineDifferences(actual, other, comparatorByPropertyOrField, comparatorByType).isEmpty();
+      return determineDifferences(actual, other, comparatorsByPropertyOrField, comparatorsByType).isEmpty();
     } catch (IntrospectionError e) {
       return false;
     }

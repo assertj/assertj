@@ -39,8 +39,8 @@ public class FieldByFieldComparator_toString_Test {
   @Test
   public void should_return_description_of_FieldByFieldComparator_with_field_comparators() {
     // GIVEN
-    fieldByFieldComparator.comparatorByPropertyOrField.put("weight", new BigDecimalComparator());
-    fieldByFieldComparator.comparatorByPropertyOrField.put("name", ALWAY_EQUALS_STRING);
+    fieldByFieldComparator.comparatorsByPropertyOrField.put("weight", new BigDecimalComparator());
+    fieldByFieldComparator.comparatorsByPropertyOrField.put("name", ALWAY_EQUALS_STRING);
     // THEN
     assertThat(fieldByFieldComparator).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                                           + "Comparators used:%n"

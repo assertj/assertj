@@ -54,7 +54,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   protected boolean areEqual(Object actualElement, Object otherElement) {
     try {
       return Objects.instance().areEqualToComparingOnlyGivenFields(actualElement, otherElement,
-                                                                   comparatorByPropertyOrField, comparatorByType,
+                                                                   comparatorsByPropertyOrField, comparatorsByType,
                                                                    fields);
     } catch (IntrospectionError e) {
       return false;

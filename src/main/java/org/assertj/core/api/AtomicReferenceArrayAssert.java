@@ -77,9 +77,9 @@ public class AtomicReferenceArrayAssert<T>
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  private TypeComparators comparatorsByType = defaultTypeComparators();
+  private TypeComparators comparatorsByType;
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {
     super(actual, AtomicReferenceArrayAssert.class);
@@ -1536,7 +1536,7 @@ public class AtomicReferenceArrayAssert<T>
 
 
   private AtomicReferenceArrayAssert<T> usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
-    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, comparatorsByType));
+    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
   }
 
   /** {@inheritDoc} */
@@ -1692,7 +1692,7 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithType(Comparator<C> comparator,
                                                                                    Class<C> type) {
-    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
     return myself;
   }
 
@@ -1725,11 +1725,11 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForType(Comparator<C> comparator, Class<C> type) {
     if (arrays.getComparator() == null) {
-      usingElementComparator(new ExtendedByTypesComparator(comparatorsByType));
+      usingElementComparator(new ExtendedByTypesComparator(getComparatorsByType()));
     }
 
-    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
-    comparatorsByType.put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
+    getComparatorsByType().put(type, comparator);
 
     return myself;
   }
@@ -1764,7 +1764,7 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                             comparatorsForElementPropertyOrFieldTypes));
+                                                                            getComparatorsForElementPropertyOrFieldTypes()));
   }
 
   /**
@@ -1813,7 +1813,7 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                      comparatorsForElementPropertyOrFieldTypes));
+                                                                                     getComparatorsForElementPropertyOrFieldTypes()));
   }
 
   /**
@@ -1848,7 +1848,7 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorOnFields(String... fields) {
     return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                         comparatorsForElementPropertyOrFieldTypes, fields));
+                                                                        getComparatorsForElementPropertyOrFieldTypes(), fields));
   }
 
   /**
@@ -1883,7 +1883,8 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorIgnoringFields(String... fields) {
     return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                               comparatorsForElementPropertyOrFieldTypes, fields));
+                                                                              getComparatorsForElementPropertyOrFieldTypes(),
+                                                                              fields));
   }
 
   /**
@@ -2897,4 +2898,17 @@ public class AtomicReferenceArrayAssert<T>
     iterables.assertNoneMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
     return myself;
   }
+
+  // lazy init TypeComparators
+  protected TypeComparators getComparatorsByType() {
+    if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
+    return comparatorsByType;
+  }
+
+  // lazy init TypeComparators
+  protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
+    if (comparatorsForElementPropertyOrFieldTypes == null) comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+    return comparatorsForElementPropertyOrFieldTypes;
+  }
+
 }

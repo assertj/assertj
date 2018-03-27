@@ -33,15 +33,15 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 public class FieldByFieldComparator implements Comparator<Object> {
 
-  protected final Map<String, Comparator<?>> comparatorByPropertyOrField;
-  protected final TypeComparators comparatorByType;
+  protected final Map<String, Comparator<?>> comparatorsByPropertyOrField;
+  protected final TypeComparators comparatorsByType;
 
-  public FieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
+  public FieldByFieldComparator(Map<String, Comparator<?>> comparatorsByPropertyOrField,
                                 TypeComparators typeComparators) {
-    this.comparatorByPropertyOrField = comparatorByPropertyOrField == null
+    this.comparatorsByPropertyOrField = comparatorsByPropertyOrField == null
         ? new TreeMap<>()
-        : comparatorByPropertyOrField;
-    this.comparatorByType = isNullOrEmpty(typeComparators) ? defaultTypeComparators() : typeComparators;
+        : comparatorsByPropertyOrField;
+    this.comparatorsByType = isNullOrEmpty(typeComparators) ? defaultTypeComparators() : typeComparators;
   }
 
   public FieldByFieldComparator() {
@@ -58,8 +58,8 @@ public class FieldByFieldComparator implements Comparator<Object> {
 
   protected boolean areEqual(Object actual, Object other) {
     try {
-      return Objects.instance().areEqualToIgnoringGivenFields(actual, other, comparatorByPropertyOrField,
-                                                              comparatorByType);
+      return Objects.instance().areEqualToIgnoringGivenFields(actual, other, comparatorsByPropertyOrField,
+                                                              comparatorsByType);
     } catch (IntrospectionError e) {
       return false;
     }
@@ -75,22 +75,22 @@ public class FieldByFieldComparator implements Comparator<Object> {
   }
 
   protected String describeUsedComparators() {
-    if (comparatorByPropertyOrField.isEmpty()) {
+    if (comparatorsByPropertyOrField.isEmpty()) {
       return format("%nComparators used:%n%s", describeFieldComparatorsByType());
     }
     return format("%nComparators used:%n%s%n%s", describeFieldComparatorsByName(), describeFieldComparatorsByType());
   }
 
   protected String describeFieldComparatorsByType() {
-    return format("- for elements fields (by type): %s", comparatorByType);
+    return format("- for elements fields (by type): %s", comparatorsByType);
   }
 
   protected String describeFieldComparatorsByName() {
-    if (comparatorByPropertyOrField.isEmpty()) {
+    if (comparatorsByPropertyOrField.isEmpty()) {
       return "";
     }
     List<String> fieldComparatorsDescription = new ArrayList<>();
-    for (Entry<String, Comparator<?>> registeredComparator : this.comparatorByPropertyOrField.entrySet()) {
+    for (Entry<String, Comparator<?>> registeredComparator : this.comparatorsByPropertyOrField.entrySet()) {
       fieldComparatorsDescription.add(formatFieldComparator(registeredComparator));
     }
     return format("- for elements fields (by name): {%s}", join(fieldComparatorsDescription).with(", "));

@@ -109,9 +109,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private static final String ASSERT = "Assert";
 
-  private TypeComparators comparatorsByType = defaultTypeComparators();
+  private TypeComparators comparatorsByType;
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+  private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   protected Iterables iterables = Iterables.instance();
 
@@ -674,7 +674,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @CheckReturnValue
   private SELF usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
-    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, comparatorsByType));
+    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
   }
 
   /**
@@ -1686,7 +1686,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <T> SELF usingComparatorForElementFieldsWithType(Comparator<T> comparator, Class<T> type) {
-    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
     return myself;
   }
 
@@ -1720,11 +1720,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <T> SELF usingComparatorForType(Comparator<T> comparator, Class<T> type) {
     if (iterables.getComparator() == null) {
-      usingElementComparator(new ExtendedByTypesComparator(comparatorsByType));
+      usingElementComparator(new ExtendedByTypesComparator(getComparatorsByType()));
     }
 
-    comparatorsForElementPropertyOrFieldTypes.put(type, comparator);
-    comparatorsByType.put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
+    getComparatorsByType().put(type, comparator);
 
     return myself;
   }
@@ -1758,7 +1758,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public SELF usingFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                            comparatorsForElementPropertyOrFieldTypes));
+                                                                            getComparatorsForElementPropertyOrFieldTypes()));
   }
 
   /**
@@ -1808,7 +1808,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                                     comparatorsForElementPropertyOrFieldTypes));
+                                                                                     getComparatorsForElementPropertyOrFieldTypes()));
   }
 
   /**
@@ -1842,7 +1842,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public SELF usingElementComparatorOnFields(String... fields) {
     return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                        comparatorsForElementPropertyOrFieldTypes,
+                                                                        getComparatorsForElementPropertyOrFieldTypes(),
                                                                         fields));
   }
 
@@ -1882,7 +1882,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public SELF usingElementComparatorIgnoringFields(String... fields) {
     return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                              comparatorsForElementPropertyOrFieldTypes,
+                                                                              getComparatorsForElementPropertyOrFieldTypes(),
                                                                               fields));
   }
 
@@ -2681,4 +2681,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null iterable.");
     return new IterableSizeAssert(this, IterableUtil.sizeOf(actual));
   }
+
+  // lazy init TypeComparators
+  protected TypeComparators getComparatorsByType() {
+    if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
+    return comparatorsByType;
+  }
+
+  // lazy init TypeComparators
+  protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
+    if (comparatorsForElementPropertyOrFieldTypes == null) comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+    return comparatorsForElementPropertyOrFieldTypes;
+  }
+
 }

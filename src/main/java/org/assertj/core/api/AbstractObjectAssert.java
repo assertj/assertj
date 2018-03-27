@@ -51,7 +51,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     extends AbstractAssert<SELF, ACTUAL> {
 
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new TreeMap<>();
-  private TypeComparators comparatorByType = defaultTypeComparators();
+  private TypeComparators comparatorByType;
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -107,7 +107,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
   public SELF isEqualToIgnoringNullFields(Object other) {
-    objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorByPropertyOrField, comparatorByType);
+    objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType());
     return myself;
   }
 
@@ -150,7 +150,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if a property/field does not exist in actual.
    */
   public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
-    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType,
+    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType(),
                                                     propertiesOrFieldsUsedInComparison);
     return myself;
   }
@@ -190,7 +190,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType,
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType(),
                                                propertiesOrFieldsToIgnore);
     return myself;
   }
@@ -292,8 +292,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   public SELF isEqualToComparingFieldByField(Object other) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, comparatorByType);
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType());
     return myself;
+  }
+
+  // lazy init TypeComparators
+  protected TypeComparators getComparatorsByType() {
+    if (comparatorByType == null) comparatorByType = defaultTypeComparators();
+    return comparatorByType;
   }
 
   /**
@@ -411,7 +417,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T> SELF usingComparatorForType(Comparator<? super T> comparator, Class<T> type) {
-    comparatorByType.put(type, comparator);
+    getComparatorsByType().put(type, comparator);
     return myself;
   }
 
@@ -646,7 +652,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
     objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorByPropertyOrField,
-                                                            comparatorByType);
+                                                            getComparatorsByType());
     return myself;
   }
 

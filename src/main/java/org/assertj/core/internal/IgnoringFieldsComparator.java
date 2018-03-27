@@ -44,8 +44,8 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   @Override
   protected boolean areEqual(Object actualElement, Object otherElement) {
     try {
-      return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, comparatorByPropertyOrField,
-                                                              comparatorByType, fields);
+      return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, comparatorsByPropertyOrField,
+                                                              comparatorsByType, fields);
     } catch (IntrospectionError e) {
       return false;
     }
