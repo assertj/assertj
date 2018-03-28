@@ -14,6 +14,8 @@ package org.assertj.core.error;
 
 import org.assertj.core.internal.DigestDiff;
 
+import java.nio.file.Path;
+
 /**
  * Creates an error message indicating that an assertion that verifies that file/inputStream/path have digest failed.
  *
@@ -21,11 +23,11 @@ import org.assertj.core.internal.DigestDiff;
  */
 public class ShouldHaveDigest extends BasicErrorMessageFactory {
 
-  public static ErrorMessageFactory shouldHaveDigest(String actualSource, DigestDiff diff) {
+  public static ErrorMessageFactory shouldHaveDigest(Path actualSource, DigestDiff diff) {
     return new ShouldHaveDigest(actualSource, diff);
   }
 
-  private ShouldHaveDigest(String actualSource, DigestDiff diff) {
+  private ShouldHaveDigest(Path actualSource, DigestDiff diff) {
     super("%nPath:%n  <%s>%n  expected to have %s-digest <%s>%n  but have <%s>"
       , actualSource, diff.getDigest().getAlgorithm(), diff.getExpected(), diff.getActual()
     );

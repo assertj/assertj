@@ -24,6 +24,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
+import java.security.MessageDigest;
 
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.internal.Paths;
@@ -1169,5 +1170,25 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   public SELF endsWithRaw(final Path other) {
 	paths.assertEndsWithRaw(info, actual, other);
 	return myself;
+  }
+
+  public SELF hasDigest(MessageDigest digest, byte[] expected) {
+    paths.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(MessageDigest digest, String expected) {
+    paths.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(String algorithm, byte[] expected) {
+    paths.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(String algorithm, String expected) {
+    paths.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
   }
 }
