@@ -85,11 +85,20 @@ public final class Strings {
    */
   public static String formatIfArgs(String message, Object... args) {
     return Arrays.isNullOrEmpty(args)
-            // here we need to format %n but not other % since we do not have arguments. %% is formatted to % so
-            // replacing % into %% and then format it will have no effect. Nevertheless, we want to format %n
-            // correctly so we replace all % to %% except if they are followed by a 'n'.
-            ? format(message.replaceAll("%([^n])","%%$1"))
-            : format (message, args);
+        // here we need to format %n but not other % since we do not have arguments.
+        // => we replace all % to %% except if they are followed by a 'n'.
+        ? format(escapePercentExceptWhenFollowedBy_n(message))
+        : format(message, args);
+  }
+
+  /**
+   * Escape any {@code %} to {@code %%} to avoid interpreting it in {@link String#format(String, Object...)}.
+   *  
+   * @param value the String to escape
+   * @return the escaped String 
+   */
+  public static String escapePercent(String value) {
+    return value == null ? null : value.replace("%", "%%");
   }
 
   /**
@@ -227,6 +236,15 @@ public final class Strings {
     }
   }
 
-  private Strings() {
+  // change %%n back to %n which could have been done by calling escapePercent
+  private static String escapePercentExceptWhenFollowedBy_n(String message) {
+    return revertEscapingPercent_n(escapePercent(message));
   }
+
+  private static String revertEscapingPercent_n(String value) {
+    return value == null ? null : value.replace("%%n", "%n");
+  }
+
+  private Strings() {}
+
 }

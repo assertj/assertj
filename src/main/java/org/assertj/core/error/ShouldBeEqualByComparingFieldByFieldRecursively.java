@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.ArrayList;
@@ -69,10 +70,6 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                   join(difference.getPath()).with("."),
                   escapePercent(actualFieldValueRepresentation),
                   escapePercent(otherFieldValueRepresentation));
-  }
-
-  protected static String escapePercent(String value) {
-    return value == null ? null : value.replace("%", "%%");
   }
 
 }

@@ -1608,4 +1608,19 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(0)).hasMessageContaining("John");
   }
 
+  @Test
+  public void bug_1209() {
+    // GIVEN
+    String string = "%%E";
+    // WHEN
+    softly.assertThat(string).matches("fffff");
+    // THEN
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("%%E")
+                                      .hasMessageContaining("to match pattern")
+                                      .hasMessageContaining("fffff");
+  }
+
 }

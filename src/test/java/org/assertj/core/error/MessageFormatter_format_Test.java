@@ -12,22 +12,33 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.test.ExpectedException.none;
+import static com.tngtech.junit.dataprovider.DataProviders.$;
+import static com.tngtech.junit.dataprovider.DataProviders.$$;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.test.ExpectedException.none;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
-
-import org.assertj.core.description.*;
-import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * Tests for <code>{@link MessageFormatter#format(Description, String, Object...)}</code>.
  * 
  * @author Alex Ruiz
  */
+@RunWith(DataProviderRunner.class)
 public class MessageFormatter_format_Test {
 
   @Rule
@@ -59,9 +70,29 @@ public class MessageFormatter_format_Test {
   @Test
   public void should_format_message() {
     Description description = new TextDescription("Test");
-    Representation representation = new StandardRepresentation();
-    String s = messageFormatter.format(description, representation, "Hello %s", "World");
+    String s = messageFormatter.format(description, STANDARD_REPRESENTATION, "Hello %s", "World");
     assertThat(s).isEqualTo("[Test] Hello \"World\"");
     verify(descriptionFormatter).format(description);
+  }
+
+  @Test
+  @UseDataProvider("messages")
+  public void should_format_message_and_correctly_escape_percentage(String input, String formatted) {
+    // GIVEN
+    Description description = new TextDescription("Test");
+    // WHEN
+    String finalMessage = messageFormatter.format(description, STANDARD_REPRESENTATION, input);
+    // THEN
+    assertThat(finalMessage).isEqualTo("[Test] " + formatted);
+  }
+
+  @DataProvider
+  public static Object[][] messages() {
+    return $$($("%E", "%E"),
+              $("%%E", "%%E"),
+              $("%%%E", "%%%E"),
+              $("%n", format("%n")),
+              $("%%%n%E", "%%" + format("%n") + "%E"),
+              $("%%n", "%" + format("%n")));
   }
 }

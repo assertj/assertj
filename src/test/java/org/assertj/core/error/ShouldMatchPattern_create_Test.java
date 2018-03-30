@@ -15,9 +15,10 @@ package org.assertj.core.error;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 
-import org.assertj.core.description.*;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ShouldMatchPattern#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -37,5 +38,12 @@ public class ShouldMatchPattern_create_Test {
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n \"Yoda\"%nto match pattern:%n \"Luke\""));
+  }
+
+  @Test
+  public void should_create_error_message_escaping_percent() {
+    factory = shouldMatch("%%E", "fffff");
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n \"%%%%E\"%nto match pattern:%n \"fffff\""));
   }
 }
