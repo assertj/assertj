@@ -45,19 +45,19 @@ public class ArrayWrapperList_get_Test {
 
   @Test
   public void should_throw_error_if_index_is_negative() {
-    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive,) but was -1");
+    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive) but was -1");
     list.get(-1);
   }
 
   @Test
   public void should_throw_error_if_index_is_equal_to_size() {
-    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive,) but was 2");
+    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive) but was 2");
     list.get(2);
   }
 
   @Test
   public void should_throw_error_if_index_is_greater_than_size() {
-    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive,) but was 6");
+    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive) but was 6");
     list.get(6);
   }
 }

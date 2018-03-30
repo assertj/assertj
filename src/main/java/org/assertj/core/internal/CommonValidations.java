@@ -46,8 +46,8 @@ public final class CommonValidations {
   static void checkIndexValueIsValid(Index index, int maximum) {
     checkNotNull(index, "Index should not be null");
     if (index.value <= maximum) return;
-    String errorMessage = "Index should be between <%d> and <%d> (inclusive,) but was:%n <%d>";
-    throw new IndexOutOfBoundsException(format(errorMessage, 0, maximum, index.value));
+    String errorMessage = "Index should be between <0> and <%d> (inclusive) but was:%n <%d>";
+    throw new IndexOutOfBoundsException(format(errorMessage, maximum, index.value));
   }
 
   static void checkOffsetIsNotNull(Offset<?> offset) {

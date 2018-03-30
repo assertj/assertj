@@ -52,7 +52,7 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_index_is_out_of_bound() {
-    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was:%n <3>");
+    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive) but was:%n <3>");
     lists.satisfies(info, jedis, shouldBeLuke, atIndex(3));
   }
 

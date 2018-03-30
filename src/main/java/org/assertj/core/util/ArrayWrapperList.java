@@ -65,7 +65,7 @@ public class ArrayWrapperList extends AbstractList<Object> {
     if (index >= 0 && index < size()) {
       return;
     }
-    String message = String.format("Index should be between 0 and %d (inclusive,) but was %d", size - 1, index);
+    String message = String.format("Index should be between 0 and %d (inclusive) but was %d", size - 1, index);
     throw new IndexOutOfBoundsException(message);
   }
 
