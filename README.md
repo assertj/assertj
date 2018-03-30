@@ -18,15 +18,14 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 
 The AssertJ web site contains all projects documentation and can be found **[here](http://joel-costigliola.github.io/assertj/index.html)**. It notably includes the [**AssertJ Core documentation**](http://joel-costigliola.github.io/assertj/assertj-core.html).
 
-You can ask questions [**stackoverflow (assertj tag)**](https://stackoverflow.com/questions/tagged/assertj?mixed=1) and make suggestions by simply creating an issue.
+You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow.com/questions/tagged/assertj?mixed=1) and make suggestions by simply creating an issue.
 
 ## <a name="goals"/>AssertJ's goals
 
 AssertJ's ambition is to provide a rich and intuitive set of strongly-typed assertions for unit testing.
 
-The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects
-we are checking. If you're checking the value of a `String`, you use String-specific assertions. Checking the value of
-a `Map`? Use Map-specific assertions, which make it easy to check the contents of the map.
+The idea is that disposal assertions should be specific to the type of the objects we are checking when writing unit tests. If you're checking the value of a `String`, you use String-specific assertions. Checking the value of
+a `Map`? Use Map-specific assertions to easily check the contents of the map.
 
 AssertJ is composed of several modules:
 * A core module (this one) to provide assertions for JDK types (`String`, `Iterable`, `Stream`, `Path`, `File`, `Map`...) - see [AssertJ Core documentation](http://joel-costigliola.github.io/assertj/assertj-core.html) and [javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
@@ -42,7 +41,7 @@ AssertJ's assertions are super easy to use: just type **```assertThat```** follo
 then any Java IDE will show you all assertions available for the type of the object. No more confusion about the 
 order of "expected" and "actual" value.
 
-AssertJ's assertions read very close to plain English.
+AssertJ's assertions are very close to plain English.
 
 A lot of effort has been spent to provide intuitive failure messages showing clearly why the assertion failed.
 
@@ -58,7 +57,7 @@ To read details on the latest releases, please go to [**AssertJ Core latest news
 
 ## <a name="custom types-assertions"/>Assertions for custom types
 
-Having assertions for common types like `List` is great, but you might want some that are specific to your own types. This is possible with AssertJ because it is easily extensible so it's simple to [write assertions for your custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html).  
+Having assertions for common types like `List` is great, but you might want some assertions specific to your own types. It is simple to [write assertions for your custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html) with AssertJ because it is easily extensible.  
 
 Moreover, to ease your work, we provide assertions generator that can take a set of custom types and create specific assertions. The tools provided are: 
 * A **[CLI assertions generator](http://joel-costigliola.github.io/assertj/assertj-assertions-generator.html)** 
