@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
@@ -36,6 +37,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Jacek Jackowiak
  */
 //@format:off
 public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
@@ -145,6 +147,48 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    */
   public SELF isSortedAccordingTo(Comparator<? super ELEMENT> comparator) {
     lists.assertIsSortedAccordingToComparator(info, actual, comparator);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual @{code List} contains the value at given {@code Index} that satisfy given {@code requirements}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * List&lt;String&gt; ringBearers = newArrayList(frodo, elrond, gandalf);
+   *
+   * // this assertion will pass
+   * assertThat(ringBearers).satisfies(
+   *     character -&gt; {
+   *         assertThat(character.getAge()).isGreaterThan(200);
+   *         assertThat(character.getRace()).isEqualTo(ELF);
+   *     },
+   *     atIndex(1));
+   *
+   * // this assertion will fail
+   * assertThat(ringBearers).satisfies(
+   *     character -&gt; {
+   *         assertThat(character.getRace()).isEqualTo(ELF);
+   *     },
+   *     atIndex(0);
+   * </code></pre>
+   *
+   * @param requirements the given requirements for element at {@code Index}.
+   * @param index the index where the object should be stored in the actual {@code List}.
+   *
+   * @return {@code this} assertion object.
+   *
+   * @throws AssertionError if the value at given {@code Index} does not satisfy the {@code requirements}.
+   * @throws AssertionError if the actual list is {@code null}.
+   * @throws NullPointerException if the given {@code requirements} are {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size
+   *            of the actual {@code List}.
+   *
+   * @since 3.10.0
+   */
+  public SELF satisfies(Consumer<? super ELEMENT> requirements, Index index) {
+    lists.satisfies(info, actual, requirements, index);
     return myself;
   }
 
