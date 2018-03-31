@@ -28,7 +28,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
 
   private ThrowableAssert delegate;
 
-  ThrowableAssertAlternative(final T actual) {
+  public ThrowableAssertAlternative(final T actual) {
     super(actual, ThrowableAssertAlternative.class);
     delegate = new ThrowableAssert(actual);
   }

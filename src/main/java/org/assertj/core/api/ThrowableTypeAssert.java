@@ -31,17 +31,16 @@ import org.assertj.core.util.VisibleForTesting;
 public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
 
   @VisibleForTesting
-  final Class<? extends T> expectedThrowableType;
+  protected final Class<? extends T> expectedThrowableType;
 
-  @VisibleForTesting
-  private Description description;
+  protected Description description;
 
   /**
    * Default constructor.
    *
    * @param throwableType class representing the target (expected) exception.
    */
-  ThrowableTypeAssert(final Class<? extends T> throwableType) {
+  public ThrowableTypeAssert(final Class<? extends T> throwableType) {
     this.expectedThrowableType = requireNonNull(throwableType, "exceptionType");
   }
 
