@@ -25,6 +25,7 @@ package org.assertj.core.api;
  * 
  * @since 2.5.0 / 3.5.0
  */
+@FunctionalInterface
 public interface AssertFactory<T, ASSERT> {
 
   /**
