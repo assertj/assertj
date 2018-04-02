@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
@@ -42,7 +43,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -74,6 +74,8 @@ import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
@@ -765,17 +767,10 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(4);
   }
 
-  // bug #447
-
-  public class TolkienCharacter {
-    String name;
-    int age;
-  }
-
   @Test
   public void check_477_bugfix() {
     // GIVEN
-    TolkienCharacter frodo = new TolkienCharacter();
+    TolkienCharacter frodo = TolkienCharacter.of("frodo", 33, HOBBIT);
     TolkienCharacter samnullGamgee = null;
     TolkienSoftAssertions softly = new TolkienSoftAssertions();
     // WHEN
@@ -785,44 +780,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(2);
   }
 
-  public static class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAssert, TolkienCharacter> {
-
-    public TolkienCharacterAssert(TolkienCharacter actual) {
-      super(actual, TolkienCharacterAssert.class);
-    }
-
-    public static TolkienCharacterAssert assertThat(TolkienCharacter actual) {
-      return new TolkienCharacterAssert(actual);
-    }
-
-    // 4 - a specific assertion !
-    public TolkienCharacterAssert hasName(String name) {
-      // check that actual TolkienCharacter we want to make assertions on is not null.
-      isNotNull();
-
-      // check condition
-      if (!Objects.equals(actual.name, name)) {
-        failWithMessage("Expected character's name to be <%s> but was <%s>", name, actual.name);
-      }
-
-      // return the current assertion for method chaining
-      return this;
-    }
-
-    // 4 - another specific assertion !
-    public TolkienCharacterAssert hasAge(int age) {
-      // check that actual TolkienCharacter we want to make assertions on is not null.
-      isNotNull();
-
-      // check condition
-      if (actual.age != age) {
-        failWithMessage("Expected character's age to be <%s> but was <%s>", age, actual.age);
-      }
-
-      // return the current assertion for method chaining
-      return this;
-    }
-  }
   public static class TolkienSoftAssertions extends SoftAssertions {
 
     public TolkienCharacterAssert assertThat(TolkienCharacter actual) {

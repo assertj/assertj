@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.AbstractList;
 import java.util.Iterator;
@@ -69,6 +70,11 @@ public class ListAssert<ELEMENT> extends
   @SuppressWarnings({ "unchecked", "rawtypes" })
   protected ListAssert(DoubleStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
+  }
+
+  @Override
+  protected ListAssert<ELEMENT> newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+    return new ListAssert<>(newArrayList(iterable));
   }
 
   @Override

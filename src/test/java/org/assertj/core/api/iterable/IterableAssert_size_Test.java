@@ -12,10 +12,10 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
 import org.assertj.core.test.ExpectedException;
@@ -29,13 +29,13 @@ public class IterableAssert_size_Test {
 
   @Test
   public void should_be_able_to_use_integer_assertions_on_iterable_size() {
-    Iterable<String> strings = new HashSet<String>(Arrays.asList("a", "b", "c"));
+    Iterable<String> strings = new HashSet<>(asList("a", "b", "c"));
     // @format:off
     assertThat(strings).size().isGreaterThan(0)
                               .isLessThanOrEqualTo(3)
                        .returnToIterable().contains("a")
                                           .doesNotContain("d");
-    Iterable<Integer> integers = Arrays.asList(1, 2, 3);
+    Iterable<Integer> integers = asList(1, 2, 3);
     assertThat(integers).size().isGreaterThan(0)
                                .isLessThanOrEqualTo(3)
                         .returnToIterable().contains(1)

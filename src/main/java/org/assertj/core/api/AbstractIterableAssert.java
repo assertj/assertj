@@ -2013,11 +2013,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the iterable elements.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
-                                                                                                   Object expectedValue) {
+  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, expectedValue).get();
-    return newListAssertInstance(newArrayList(filteredIterable));
+    return newAbstractIterableAssert(filteredIterable);
   }
 
   /**
@@ -2059,12 +2058,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the iterable elements.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOnNull(String propertyOrFieldName) {
+  public SELF filteredOnNull(String propertyOrFieldName) {
     // can't call filteredOn(String propertyOrFieldName, null) as it does not work with soft assertions proxying
     // mechanism, it would lead to double proxying which is not handle properly (improvements needed in our proxy mechanism)
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, null).get();
-    return newListAssertInstance(newArrayList(filteredIterable));
+    return newAbstractIterableAssert(filteredIterable);
   }
 
   /**
@@ -2132,12 +2131,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
-                                                                                                   FilterOperator<?> filterOperator) {
+  public SELF filteredOn(String propertyOrFieldName, FilterOperator<?> filterOperator) {
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return newListAssertInstance(newArrayList(filter.get()));
+    return newAbstractIterableAssert(filter.get());
   }
 
   /**
@@ -2175,10 +2173,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Condition<? super ELEMENT> condition) {
+  public SELF filteredOn(Condition<? super ELEMENT> condition) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.being(condition).get();
-    return newListAssertInstance(newArrayList(filteredIterable));
+    return newAbstractIterableAssert(filteredIterable);
   }
 
   // navigable assertions
@@ -2384,9 +2382,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object with the filtered iterable under test
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    */
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Predicate<? super ELEMENT> predicate) {
+  public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
     checkArgument(predicate != null, "The filter predicate should not be null");
-    return newListAssertInstance(stream(actual.spliterator(), false).filter(predicate).collect(toList()));
+    List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(predicate).collect(toList());
+    return newAbstractIterableAssert(filteredIterable);
   }
 
   /**
@@ -2693,5 +2692,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     if (comparatorsForElementPropertyOrFieldTypes == null) comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
     return comparatorsForElementPropertyOrFieldTypes;
   }
+
+  // use to build the the assert instance with a filtered iterable
+  protected abstract SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable);
 
 }

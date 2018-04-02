@@ -10,34 +10,20 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.iterable;
+package org.assertj.core.api.list;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+
+import java.util.List;
 
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.junit.Test;
 
-public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTest {
-
-  @Test
-  public void should_filter_iterable_under_test_on_null_property_values() {
-    assertThat(employees).filteredOnNull("name").containsOnly(noname);
-  }
-
-  @Test
-  public void should_filter_iterable_under_test_on_null_nested_property_values() {
-    assertThat(employees).filteredOnNull("name.last").containsOnly(yoda, obiwan, noname);
-  }
-
-  @Test
-  public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOnNull("secret");
-  }
+public class ListAssert_filteredOn_null_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
 
   @Test
   public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
@@ -72,10 +58,9 @@ public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_
                                                      .hasAge(33);
   }
 
-  protected static Iterable<TolkienCharacter> hobbitsWithoutNames() {
+  protected static List<TolkienCharacter> hobbitsWithoutNames() {
     TolkienCharacter frodo = TolkienCharacter.of(null, 33, HOBBIT);
     TolkienCharacter sam = TolkienCharacter.of(null, 35, HOBBIT);
     return asList(frodo, sam);
   }
-
 }

@@ -37,4 +37,9 @@ public class ProxyableIterableAssert<ELEMENT> extends
     return new ProxyableListAssert<>(newActual);
   }
 
+  @Override
+  protected ProxyableIterableAssert<ELEMENT> newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+    return new ProxyableIterableAssert<>(iterable);
+  }
+
 }

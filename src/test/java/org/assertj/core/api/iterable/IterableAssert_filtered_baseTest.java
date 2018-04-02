@@ -12,12 +12,15 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
+import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
+import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
@@ -46,6 +49,12 @@ public class IterableAssert_filtered_baseTest {
 
   public IterableAssert_filtered_baseTest() {
     super();
+  }
+
+  protected static Iterable<TolkienCharacter> hobbits() {
+    TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+    TolkienCharacter sam = TolkienCharacter.of("Sam", 35, HOBBIT);
+    return asList(frodo, sam);
   }
 
 }

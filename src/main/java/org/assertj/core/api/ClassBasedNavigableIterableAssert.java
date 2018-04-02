@@ -34,6 +34,13 @@ public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableI
     this.assertClass = assertClass;
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+    return (SELF) new ClassBasedNavigableIterableAssert<>(iterable, ClassBasedNavigableIterableAssert.class, assertClass);
+  }
+
+  @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
     return buildAssert(value, description, value.getClass());
   }

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.lang.reflect.Constructor;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
   private Class<ELEMENT_ASSERT> assertClass;
 
   public ClassBasedNavigableListAssert(ACTUAL actual, Class<ELEMENT_ASSERT> assertClass) {
-    super(actual ,ClassBasedNavigableListAssert.class);
+    super(actual, ClassBasedNavigableListAssert.class);
     this.assertClass = assertClass;
   }
 
@@ -57,5 +59,12 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
     } catch (Exception e) {
       throw new RuntimeException("Failed to build an assert object with " + value + ": " + e.getMessage(), e);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+    checkArgument(iterable instanceof List, "Expecting %s to be a List", iterable);
+    return (SELF) new ClassBasedNavigableListAssert<>((List<? extends ELEMENT>) iterable, assertClass);
   }
 }

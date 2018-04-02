@@ -16,6 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
+import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.data.TolkienCharacterAssert;
+import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_baseTest {
@@ -92,6 +95,42 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
     thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
     assertThat(employees).filteredOn("secret", in("???"));
+  }
+
+  // these tests validate any FilterOperator with strongly typed navigation assertions
+  // no need to write tests for all FilterOperators
+
+  @Test
+  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+    // GIVEN
+    Iterable<TolkienCharacter> hobbits = hobbits();
+    TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
+    // THEN
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", in("Frodo"))
+                                                      .first()
+                                                      .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", in("Frodo"))
+                                                      .last()
+                                                      .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", in("Frodo"))
+                                                      .element(0)
+                                                      .hasAge(33);
+  }
+
+  @Test
+  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+    // GIVEN
+    Iterable<TolkienCharacter> hobbits = hobbits();
+    // THEN
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", in("Frodo"))
+                                                     .first()
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", in("Frodo"))
+                                                     .last()
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", in("Frodo"))
+                                                     .element(0)
+                                                     .hasAge(33);
   }
 
 }

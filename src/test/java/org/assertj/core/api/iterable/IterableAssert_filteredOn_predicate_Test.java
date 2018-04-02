@@ -17,10 +17,15 @@ import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.function.Predicate;
 
+import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.data.TolkienCharacterAssert;
+import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Employee;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_baseTest {
+
+  private static Predicate<? super TolkienCharacter> nameStartingWithFro = hobbit -> hobbit.getName().startsWith("Fro");
 
   @Test
   public void should_filter_iterable_under_test_on_predicate() {
@@ -33,6 +38,39 @@ public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_fil
     thrown.expectIllegalArgumentException("The filter predicate should not be null");
     Predicate<? super Employee> predicate = null;
     assertThat(employees).filteredOn(predicate);
+  }
+
+  @Test
+  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+    // GIVEN
+    Iterable<TolkienCharacter> hobbits = hobbits();
+    TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
+    // THEN
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn(nameStartingWithFro)
+                                                      .first()
+                                                      .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn(nameStartingWithFro)
+                                                      .last()
+                                                      .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn(nameStartingWithFro)
+                                                      .element(0)
+                                                      .hasAge(33);
+  }
+
+  @Test
+  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+    // GIVEN
+    Iterable<TolkienCharacter> hobbits = hobbits();
+    // THEN
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
+                                                     .first()
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
+                                                     .last()
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
+                                                     .element(0)
+                                                     .hasAge(33);
   }
 
 }

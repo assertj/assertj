@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Preconditions.checkArgument;
+
 import java.util.List;
 
 /**
@@ -36,7 +38,18 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
     this.assertFactory = assertFactory;
   }
 
+  @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
     return assertFactory.createAssert(value).as(description);
   }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+    checkArgument(iterable instanceof List, "Expecting %s to be a List", iterable);
+    return (SELF) new FactoryBasedNavigableListAssert<>((List<? extends ELEMENT>) iterable,
+                                                        FactoryBasedNavigableListAssert.class,
+                                                        assertFactory);
+  }
+
 }

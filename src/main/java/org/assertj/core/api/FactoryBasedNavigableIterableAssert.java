@@ -28,12 +28,20 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
 
   private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
-  public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+  public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType,
+                                             AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     super(actual, selfType);
     this.assertFactory = assertFactory;
   }
 
+  @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
     return assertFactory.createAssert(value).as(description);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+    return (SELF) new FactoryBasedNavigableIterableAssert<>(iterable, FactoryBasedNavigableIterableAssert.class, assertFactory);
   }
 }

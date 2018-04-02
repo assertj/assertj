@@ -20,6 +20,9 @@ import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.Set;
 
+import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.data.TolkienCharacterAssert;
+import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Employee;
 import org.junit.Test;
 
@@ -33,7 +36,8 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
   @Test
   public void should_filter_set_under_test_on_property_values() {
     Set<Employee> employeeSet = newHashSet(employees);
-    assertThat(employeeSet).filteredOn("age", 800).containsOnly(yoda, obiwan);
+    assertThat(employeeSet).filteredOn("age", 800)
+                           .containsOnly(yoda, obiwan);
   }
 
   @Test
@@ -102,7 +106,7 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
   public void should_fail_if_given_expected_value_is_null() {
     thrown.expectWithMessageContaining(IllegalArgumentException.class,
                                        "The expected value should not be null.%n"
-                                     + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
+                                                                       + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
     assertThat(employees).filteredOn("name", null);
   }
 
@@ -117,4 +121,38 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
     thrown.expectWithMessageStartingWith(UnsupportedOperationException.class, "Combining operator is not supported");
     assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
   }
+
+  @Test
+  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+    // GIVEN
+    Iterable<TolkienCharacter> hobbits = hobbits();
+    TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
+    // THEN
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
+                                                      .first()
+                                                      .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
+                                                      .last()
+                                                      .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
+                                                      .element(0)
+                                                      .hasAge(33);
+  }
+
+  @Test
+  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+    // GIVEN
+    Iterable<TolkienCharacter> hobbits = hobbits();
+    // THEN
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
+                                                     .first()
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
+                                                     .last()
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
+                                                     .element(0)
+                                                     .hasAge(33);
+  }
+
 }
