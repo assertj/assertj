@@ -23,7 +23,7 @@ import org.junit.Test;
 public class ListAssert_filteredOn_condition_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
 
   private static Condition<TolkienCharacter> nameStartingWithFro = new Condition<>(hobbit -> hobbit.getName().startsWith("Fro"),
-                                                                            "name starts with Fro");
+                                                                                   "name starts with Fro");
 
   @Test
   public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
