@@ -1247,7 +1247,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(myIcelanderFriends).noneSatisfy(person -&gt; {
    *                                 assertThat(person.getCountry()).isEqualTo("Austria");
    *                               });
-   *
+   *</code></pre>
    *
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
