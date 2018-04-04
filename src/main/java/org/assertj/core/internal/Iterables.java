@@ -27,6 +27,7 @@ import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHav
 import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHaveAtMost;
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
+import static org.assertj.core.error.ElementsShouldNoneSatisfy.noneElementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
@@ -1083,6 +1084,23 @@ public class Iterables {
       throw failures.failure(info, elementsShouldMatch(actual,
                                                        nonMatches.size() == 1 ? nonMatches.get(0) : nonMatches,
                                                        predicateDescription));
+    }
+  }
+
+  public <E> void assertNoneSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
+    assertNotNull(info, actual);
+    requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
+    boolean nonMatch = stream(actual.spliterator(), false).noneMatch(e -> {
+      try {
+        requirements.accept(e);
+      } catch (AssertionError ex) {
+        return false;
+      }
+      return true;
+    });
+
+    if (!nonMatch) {
+      throw failures.failure(info, noneElementsShouldSatisfy(actual));
     }
   }
 
