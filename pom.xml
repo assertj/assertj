@@ -102,7 +102,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Automatic-Module-Name>assertj-core</Automatic-Module-Name>
+              <Automatic-Module-Name>org.assertj.core</Automatic-Module-Name>
             </manifestEntries>
           </archive>
         </configuration>
