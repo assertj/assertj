@@ -28,7 +28,7 @@
 
   <properties>
     <guava.version>19.0</guava.version>
-    <assertj-core.version>3.5.2</assertj-core.version>
+    <assertj-core.version>3.9.1</assertj-core.version>
   </properties>
 
   <dependencies>
