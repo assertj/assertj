@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.copyOf;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.filter.Filters.filter;
@@ -95,9 +96,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  private TypeComparators comparatorsByType;
-  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes;
+  // not private because AbstractIterableAssert.withAssertionState needs to access them
+  TypeComparators comparatorsByType;
+  Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
+  TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   public AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
     super(actual, selfType);
@@ -2452,10 +2454,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
-                                                                                                   Object expectedValue) {
-    Iterable<? extends ELEMENT> filteredIterable = filter(actual).with(propertyOrFieldName, expectedValue).get();
-    return newListAssertInstance(newArrayList(filteredIterable));
+  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
+    List<ELEMENT> filteredList = filter(actual).with(propertyOrFieldName, expectedValue).get();
+    return newObjectArrayAssert(filteredList);
   }
 
   /**
@@ -2495,11 +2496,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOnNull(String propertyOrFieldName) {
+  public SELF filteredOnNull(String propertyOrFieldName) {
     // can't call filteredOn(String propertyOrFieldName, null) as it does not work with soft assertions proxying
     // mechanism, it would lead to double proxying which is not handle properly (improvements needed in our proxy mechanism)
-    Iterable<? extends ELEMENT> filteredIterable = filter(actual).with(propertyOrFieldName, null).get();
-    return newListAssertInstance(newArrayList(filteredIterable));
+    List<ELEMENT> filteredList = filter(actual).with(propertyOrFieldName, null).get();
+    return newObjectArrayAssert(filteredList);
   }
 
   /**
@@ -2567,12 +2568,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(String propertyOrFieldName,
-                                                                                                   FilterOperator<?> filterOperator) {
+  public SELF filteredOn(String propertyOrFieldName, FilterOperator<?> filterOperator) {
     checkNotNull(filterOperator);
-    Filters<? extends ELEMENT> filter = filter(actual).with(propertyOrFieldName);
+    Filters<ELEMENT> filter = filter(actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return newListAssertInstance(newArrayList(filter.get()));
+    return newObjectArrayAssert(filter.get());
   }
 
   /**
@@ -2609,9 +2609,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Condition<? super ELEMENT> condition) {
-    Iterable<? extends ELEMENT> filteredIterable = filter(actual).being(condition).get();
-    return newListAssertInstance(newArrayList(filteredIterable));
+  public SELF filteredOn(Condition<? super ELEMENT> condition) {
+    List<ELEMENT> filteredList = filter(actual).being(condition).get();
+    return newObjectArrayAssert(filteredList);
   }
 
   /**
@@ -2633,10 +2633,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    */
-  public AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> filteredOn(Predicate<? super ELEMENT> predicate) {
+  public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
     checkArgument(predicate != null, "The filter predicate should not be null");
-    List<ELEMENT> filtered = stream(actual).filter(predicate).collect(toList());
-    return newListAssertInstance(filtered);
+    List<ELEMENT> filteredList = stream(actual).filter(predicate).collect(toList());
+    return newObjectArrayAssert(filteredList);
   }
 
   /**
@@ -2870,6 +2870,68 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
     if (comparatorsForElementPropertyOrFieldTypes == null) comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
     return comparatorsForElementPropertyOrFieldTypes;
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @Override
+  SELF withAssertionState(AbstractAssert assertInstance) {
+    if (assertInstance instanceof AbstractObjectArrayAssert) {
+      AbstractObjectArrayAssert objectArrayAssert = (AbstractObjectArrayAssert) assertInstance;
+      return (SELF) super.withAssertionState(assertInstance).withIterables(objectArrayAssert.iterables)
+                                                            .withObjectArrays(objectArrayAssert.arrays)
+                                                            .withTypeComparators(objectArrayAssert.comparatorsByType)
+                                                            .withComparatorsForElementPropertyOrFieldNames(objectArrayAssert.comparatorsForElementPropertyOrFieldNames)
+                                                            .withComparatorsForElementPropertyOrFieldTypes(objectArrayAssert.comparatorsForElementPropertyOrFieldTypes);
+    }
+    return super.withAssertionState(assertInstance);
+  }
+
+  SELF withIterables(Iterables iterables) {
+    this.iterables = iterables;
+    return myself;
+  }
+
+  SELF withObjectArrays(ObjectArrays arrays) {
+    this.arrays = arrays;
+    return myself;
+  }
+
+  SELF withTypeComparators(TypeComparators comparatorsByType) {
+    this.comparatorsByType = comparatorsByType;
+    return myself;
+  }
+
+  SELF withComparatorsForElementPropertyOrFieldNames(Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames) {
+    this.comparatorsForElementPropertyOrFieldNames = comparatorsForElementPropertyOrFieldNames;
+    return myself;
+  }
+
+  SELF withComparatorsForElementPropertyOrFieldTypes(TypeComparators comparatorsForElementPropertyOrFieldTypes) {
+    this.comparatorsForElementPropertyOrFieldTypes = comparatorsForElementPropertyOrFieldTypes;
+    return myself;
+  }
+
+  // to implement to return the corrct AbstractObjectArrayAssert subtype
+  protected abstract SELF newObjectArrayAssert(ELEMENT[] array);
+
+  /**
+   * build a new ObjectArrayAssert from the filtered list propagating the assertion state (description, comparators, ...)
+   * @param filteredList the list to convert
+   * @return a new ObjectArrayAssert
+   */
+  private SELF newObjectArrayAssert(List<ELEMENT> filteredList) {
+    ELEMENT[] filteredArray = toGenericArray(filteredList);
+    return newObjectArrayAssert(filteredArray).withAssertionState(myself);
+  }
+
+  // this method assumes list size < actual array.
+  @SuppressWarnings("unchecked")
+  private ELEMENT[] toGenericArray(List<ELEMENT> filteredList) {
+    // this is the only way to create a generic array:
+    // - make a copy of an existing one (actual!) to the correct size
+    // - fill the new array with some list elements
+    ELEMENT[] actualCopy = (ELEMENT[]) copyOf(actual, filteredList.size(), actual.getClass());
+    return filteredList.toArray(actualCopy);
   }
 
 }

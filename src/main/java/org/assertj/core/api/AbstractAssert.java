@@ -684,4 +684,16 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return new ListAssert<>(newActual);
   }
 
+  SELF withAssertionState(@SuppressWarnings("rawtypes") AbstractAssert assertInstance) {
+    this.objects = assertInstance.objects;
+    propagateAssertionInfoFrom(assertInstance);
+    return myself;
+  }
+
+  private void propagateAssertionInfoFrom(AbstractAssert<?, ?> assertInstance) {
+    this.info.useRepresentation(assertInstance.info.representation());
+    this.info.description(assertInstance.info.description());
+    this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
+  }
+
 }

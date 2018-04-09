@@ -84,16 +84,17 @@ import net.bytebuddy.matcher.ElementMatchers;
 public class Assumptions {
 
   private static final TypeCache<SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
+  private static ByteBuddy byteBuddy = new ByteBuddy();
 
   private static final class AssumptionMethodInterceptor {
 
     @RuntimeType
-    public Object intercept(@This Object assertion,
+    public Object intercept(@This AbstractAssert<?, ?> assertion,
                             @SuperCall Callable<Object> proxy) throws Exception {
       try {
         Object result = proxy.call();
         if (result != assertion && result instanceof AbstractAssert) {
-          return asAssumption((AbstractAssert<?, ?>) result);
+          return asAssumption((AbstractAssert<?, ?>) result).withAssertionState(assertion);
         }
         return result;
       } catch (AssertionError e) {
@@ -1150,24 +1151,24 @@ public class Assumptions {
   }
 
   private static <ASSERTION> Class<? extends ASSERTION> createAssumption(Class<ASSERTION> assertionType) {
-    // TODO ignore special methods like extracting ?
-    return new ByteBuddy().subclass(assertionType)
-                          .method(ElementMatchers.any())
-                          .intercept(MethodDelegation.to(new AssumptionMethodInterceptor()))
-                          .make()
-                          .load(Assumptions.class.getClassLoader())
-                          .getLoaded();
+
+    return byteBuddy.subclass(assertionType)
+                    .method(ElementMatchers.any())
+                    .intercept(MethodDelegation.to(new AssumptionMethodInterceptor()))
+                    .make()
+                    .load(Assumptions.class.getClassLoader())
+                    .getLoaded();
   }
 
-  private static RuntimeException assumptionNotMet(AssertionError e) throws ReflectiveOperationException {
+  private static RuntimeException assumptionNotMet(AssertionError assertionError) throws ReflectiveOperationException {
     Class<?> assumptionClass = getAssumptionClass("org.junit.AssumptionViolatedException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, e);
+    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
 
     assumptionClass = getAssumptionClass("org.opentest4j.TestAbortedException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, e);
+    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
 
     assumptionClass = getAssumptionClass("org.testng.SkipException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, e);
+    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
 
     throw new IllegalStateException("Assumptions require JUnit, opentest4j or TestNG on the classpath");
   }
@@ -1186,7 +1187,7 @@ public class Assumptions {
                                             .newInstance("assumption was not met due to: " + e.getMessage(), e);
   }
 
-  private static Object asAssumption(AbstractAssert<?, ?> assertion) {
+  private static AbstractAssert<?, ?> asAssumption(AbstractAssert<?, ?> assertion) {
     Object actual = assertion.actual;
     if (assertion instanceof StringAssert) return asAssumption(StringAssert.class, String.class, actual);
     if (assertion instanceof FactoryBasedNavigableListAssert) {

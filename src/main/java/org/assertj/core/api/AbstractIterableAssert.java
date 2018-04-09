@@ -2016,7 +2016,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, expectedValue).get();
-    return newAbstractIterableAssert(filteredIterable);
+    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
   /**
@@ -2063,7 +2063,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     // mechanism, it would lead to double proxying which is not handle properly (improvements needed in our proxy mechanism)
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, null).get();
-    return newAbstractIterableAssert(filteredIterable);
+    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
   /**
@@ -2135,7 +2135,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     checkNotNull(filterOperator);
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return newAbstractIterableAssert(filter.get());
+    return newAbstractIterableAssert(filter.get()).withAssertionState(myself);
   }
 
   /**
@@ -2176,7 +2176,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public SELF filteredOn(Condition<? super ELEMENT> condition) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.being(condition).get();
-    return newAbstractIterableAssert(filteredIterable);
+    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
   // navigable assertions
@@ -2385,7 +2385,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
     checkArgument(predicate != null, "The filter predicate should not be null");
     List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(predicate).collect(toList());
-    return newAbstractIterableAssert(filteredIterable);
+    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
   /**
@@ -2695,5 +2695,46 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   // use to build the the assert instance with a filtered iterable
   protected abstract SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable);
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @Override
+  SELF withAssertionState(AbstractAssert assertInstance) {
+    if (assertInstance instanceof AbstractIterableAssert) {
+      AbstractIterableAssert iterableAssert = (AbstractIterableAssert) assertInstance;
+      return (SELF) super.withAssertionState(assertInstance).withIterables(iterableAssert.iterables)
+                                                            .withTypeComparators(iterableAssert.comparatorsByType)
+                                                            .withComparatorsForElementPropertyOrFieldNames(iterableAssert.comparatorsForElementPropertyOrFieldNames)
+                                                            .withComparatorsForElementPropertyOrFieldTypes(iterableAssert.comparatorsForElementPropertyOrFieldTypes);
+    }
+    // we can go from ObjectArrayAssert -> IterableAssert when using extracting on an object array
+    if (assertInstance instanceof AbstractObjectArrayAssert) {
+      AbstractObjectArrayAssert objectArrayAssert = (AbstractObjectArrayAssert) assertInstance;
+      return (SELF) super.withAssertionState(assertInstance).withIterables(objectArrayAssert.iterables)
+                                                            .withTypeComparators(objectArrayAssert.comparatorsByType)
+                                                            .withComparatorsForElementPropertyOrFieldNames(objectArrayAssert.comparatorsForElementPropertyOrFieldNames)
+                                                            .withComparatorsForElementPropertyOrFieldTypes(objectArrayAssert.comparatorsForElementPropertyOrFieldTypes);
+    }
+    return super.withAssertionState(assertInstance);
+  }
+
+  SELF withIterables(Iterables iterables) {
+    this.iterables = iterables;
+    return myself;
+  }
+
+  SELF withTypeComparators(TypeComparators comparatorsByType) {
+    this.comparatorsByType = comparatorsByType;
+    return myself;
+  }
+
+  SELF withComparatorsForElementPropertyOrFieldNames(Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames) {
+    this.comparatorsForElementPropertyOrFieldNames = comparatorsForElementPropertyOrFieldNames;
+    return myself;
+  }
+
+  SELF withComparatorsForElementPropertyOrFieldTypes(TypeComparators comparatorsForElementPropertyOrFieldTypes) {
+    this.comparatorsForElementPropertyOrFieldTypes = comparatorsForElementPropertyOrFieldTypes;
+    return myself;
+  }
 
 }

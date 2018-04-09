@@ -59,7 +59,7 @@ public class Filters<E> {
   // initialIterable is never modified, it represents the group before any filters have been performed
   @VisibleForTesting
   final Iterable<E> initialIterable;
-  Iterable<E> filteredIterable;
+  List<E> filteredIterable;
 
   private final PropertyOrFieldSupport propertyOrFieldSupport = PropertyOrFieldSupport.EXTRACTION;
 
@@ -378,7 +378,7 @@ public class Filters<E> {
    * 
    * @return the Iterable&lt;E&gt; containing the filtered elements.
    */
-  public Iterable<E> get() {
+  public List<E> get() {
     return filteredIterable;
   }
 

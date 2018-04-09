@@ -12,15 +12,19 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.function.Predicate;
 
+import org.assertj.core.api.IterableAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Employee;
+import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_baseTest {
@@ -71,6 +75,23 @@ public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_fil
     assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
                                                      .element(0)
                                                      .hasAge(33);
+  }
+
+  @Test
+  public void should_keep_assertion_state() {
+    // GIVEN
+    Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
+    // WHEN
+    IterableAssert<String> assertion = assertThat(names).as("test description")
+                                                        .withFailMessage("error message")
+                                                        .withRepresentation(UNICODE_REPRESENTATION)
+                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                        .filteredOn(string -> string.length() == 4)
+                                                        .containsExactly("JOHN", "JANE");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
   }
 
 }

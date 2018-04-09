@@ -30,6 +30,15 @@ public class ProxyableObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAsse
     this(array(actual));
   }
 
+  public ProxyableObjectArrayAssert(ProxyableObjectArrayAssert<ELEMENT> actual) {
+    this(actual.actual);
+  }
+
+  @Override
+  protected ProxyableObjectArrayAssert<ELEMENT> newObjectArrayAssert(ELEMENT[] array) {
+    return new ProxyableObjectArrayAssert<>(array);
+  }
+
   @Override
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
     return new ProxyableListAssert<>(newActual);

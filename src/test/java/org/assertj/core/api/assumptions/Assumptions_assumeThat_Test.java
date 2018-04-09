@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api.assumptions;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
+import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.AfterClass;
 import org.junit.Test;
 
@@ -42,6 +45,12 @@ public class Assumptions_assumeThat_Test {
                      .isEqualTo("foo");
     assumeThat("bar").contains("ar")
                      .isNotBlank();
+    assumeThat(asList("John", "Doe", "Jane", "Doe")).as("test description")
+                                                    .withFailMessage("error message")
+                                                    .withRepresentation(UNICODE_REPRESENTATION)
+                                                    .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                    .filteredOn(string -> string.length() == 4)
+                                                    .containsExactly("JOHN", "JANE");
     ranTests++;
   }
 

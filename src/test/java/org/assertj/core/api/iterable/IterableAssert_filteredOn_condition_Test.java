@@ -12,14 +12,19 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.not;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.IterableAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.test.Employee;
+import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -86,4 +91,38 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
                                                      .hasAge(33);
   }
 
+  @Test
+  public void should_keep_existing_assertion_contextual_information() {
+    // GIVEN
+    Iterable<TolkienCharacter> hobbits = hobbits();
+    String description = "should find Frodo";
+    String errorMessage = "should have found Frodo";
+    Representation representation = UNICODE_REPRESENTATION;
+    // WHEN
+    IterableAssert<TolkienCharacter> filteredAssertion = assertThat(hobbits).as(description)
+                                                                            .overridingErrorMessage(errorMessage)
+                                                                            .withRepresentation(representation)
+                                                                            .filteredOn(nameStartingWithFro);
+    // THEN
+    assertThat(filteredAssertion.info.descriptionText()).isEqualTo(description);
+    assertThat(filteredAssertion.info.overridingErrorMessage()).isEqualTo(errorMessage);
+    assertThat(filteredAssertion.info.representation()).isEqualTo(representation);
+  }
+
+  @Test
+  public void should_keep_assertion_state() {
+    // GIVEN
+    Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
+    // WHEN
+    IterableAssert<String> assertion = assertThat(names).as("test description")
+                                                        .withFailMessage("error message")
+                                                        .withRepresentation(UNICODE_REPRESENTATION)
+                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                        .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
+                                                        .containsExactly("JOHN", "JANE");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+  }
 }

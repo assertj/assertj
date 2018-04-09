@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static net.bytebuddy.matcher.ElementMatchers.any;
 import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.not;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -23,14 +25,52 @@ import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
 import net.bytebuddy.TypeCache.Sort;
 import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatcher.Junction;
 import net.bytebuddy.matcher.ElementMatchers;
 
 class SoftProxies {
 
+  private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsNamed("extracting").or(named("filteredOn"))
+                                                                                                                      .or(named("filteredOnNull"))
+                                                                                                                      .or(named("map"))
+                                                                                                                      .or(named("asString"))
+                                                                                                                      .or(named("asList"))
+                                                                                                                      .or(named("size"))
+                                                                                                                      .or(named("toAssert"))
+                                                                                                                      .or(named("flatMap"))
+                                                                                                                      .or(named("extractingResultOf"))
+                                                                                                                      .or(named("flatExtracting"));
+
+  private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
+                                                                                            .or(named("describedAs"))
+                                                                                            .or(named("descriptionText"))
+                                                                                            .or(named("getWritableAssertionInfo"))
+                                                                                            .or(named("inBinary"))
+                                                                                            .or(named("inHexadecimal"))
+                                                                                            .or(named("newAbstractIterableAssert"))
+                                                                                            .or(named("newObjectArrayAssert"))
+                                                                                            .or(named("removeCustomAssertRelatedElementsFromStackTraceIfNeeded"))
+                                                                                            .or(named("overridingErrorMessage"))
+                                                                                            .or(named("usingDefaultComparator"))
+                                                                                            .or(named("usingElementComparator"))
+                                                                                            .or(named("withComparatorsForElementPropertyOrFieldNames"))
+                                                                                            .or(named("withComparatorsForElementPropertyOrFieldTypes"))
+                                                                                            .or(named("withIterables"))
+                                                                                            .or(named("withFailMessage"))
+                                                                                            .or(named("withAssertionInfo"))
+                                                                                            .or(named("withAssertionState"))
+                                                                                            .or(named("withRepresentation"))
+                                                                                            .or(named("withTypeComparators"))
+                                                                                            .or(named("withThreadDumpOnError"));
+
   private final ErrorCollector collector = new ErrorCollector();
   private final TypeCache<TypeCache.SimpleKey> cache = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
+
+  public boolean wasSuccess() {
+    return collector.wasSuccess();
+  }
 
   void collectError(Throwable error) {
     collector.addError(error);
@@ -40,6 +80,7 @@ class SoftProxies {
     return collector.errors();
   }
 
+  // TODO V extends AbstractAssert ?
   @SuppressWarnings("unchecked")
   <V, T> V create(final Class<V> assertClass, Class<T> actualClass, T actual) {
 
@@ -55,51 +96,41 @@ class SoftProxies {
     }
   }
 
-  Object createIterableSizeAssertProxy(IterableSizeAssert<?> iterableSizeAssert) {
+  private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
+
+    return new ByteBuddy().with(TypeValidation.DISABLED)
+                          .subclass(assertClass)
+                          .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
+                          .intercept(MethodDelegation.to(new ProxifyMethodChangingTheObjectUnderTest(this)))
+                          .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
+                                       .and(not(METHODS_NOT_TO_PROXY)))
+                          .intercept(MethodDelegation.to(collector))
+                          .make()
+                          // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
+                          // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj bundle.
+                          .load(assertClass.getClassLoader())
+                          .getLoaded();
+  }
+
+  private static Junction<MethodDescription> methodsNamed(String name) {
+    return ElementMatchers.<MethodDescription> named(name);
+  }
+
+  IterableSizeAssert<?> createIterableSizeAssertProxy(IterableSizeAssert<?> iterableSizeAssert) {
     Class<?> proxyClass = createProxy(IterableSizeAssert.class, collector);
     try {
       Constructor<?> constructor = proxyClass.getConstructor(AbstractIterableAssert.class, Integer.class);
-      return constructor.newInstance(iterableSizeAssert.returnToIterable(), iterableSizeAssert.actual);
+      return (IterableSizeAssert<?>) constructor.newInstance(iterableSizeAssert.returnToIterable(), iterableSizeAssert.actual);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
-  private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
-    Junction<MethodDescription> specialMethods = ElementMatchers.<MethodDescription> named("extracting")
-                                                                .or(named("filteredOn"))
-                                                                .or(named("filteredOnNull"))
-                                                                .or(named("map"))
-                                                                .or(named("asString"))
-                                                                .or(named("asList"))
-                                                                .or(named("size"))
-                                                                .or(named("toAssert"))
-                                                                .or(named("flatMap"))
-                                                                .or(named("extractingResultOf"))
-                                                                .or(named("flatExtracting"));
-
-    return new ByteBuddy().subclass(assertClass)
-                          .method(specialMethods)
-                          .intercept(MethodDelegation.to(new ProxifyMethodChangingTheObjectUnderTest(this)))
-                          .method(ElementMatchers.<MethodDescription> any().and(ElementMatchers.not(specialMethods)))
-                          .intercept(MethodDelegation.to(collector))
-                          .make()
-                          // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
-                          // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj
-                          // bundle.
-                          .load(assertClass.getClassLoader())
-                          .getLoaded();
-  }
-
-  public boolean wasSuccess() {
-    return collector.wasSuccess();
-  }
-
-  public Object createMapSizeAssertProxy(MapSizeAssert<?, ?> mapSizeAssert) {
+  MapSizeAssert<?, ?> createMapSizeAssertProxy(MapSizeAssert<?, ?> mapSizeAssert) {
     Class<?> proxyClass = createProxy(MapSizeAssert.class, collector);
     try {
       Constructor<?> constructor = proxyClass.getConstructor(AbstractMapAssert.class, Integer.class);
-      return constructor.newInstance(mapSizeAssert.returnToMap(), mapSizeAssert.actual);
+      return (MapSizeAssert<?, ?>) constructor.newInstance(mapSizeAssert.returnToMap(), mapSizeAssert.actual);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

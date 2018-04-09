@@ -12,10 +12,15 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.util.Arrays.array;
 
+import org.assertj.core.api.IterableAssert;
+import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_baseTest {
@@ -99,4 +104,22 @@ public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_
     thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
     assertThat(employees).filteredOn("secret", not("???"));
   }
+
+  @Test
+  public void should_keep_assertion_state() {
+    // GIVEN
+    Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
+    // WHEN
+    IterableAssert<String> assertion = assertThat(names).as("test description")
+                                                        .withFailMessage("error message")
+                                                        .withRepresentation(UNICODE_REPRESENTATION)
+                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                        .filteredOn("value", not(array('J', 'a', 'n', 'e')))
+                                                        .containsExactly("JOHN", "dOE", "dOE");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+  }
+
 }

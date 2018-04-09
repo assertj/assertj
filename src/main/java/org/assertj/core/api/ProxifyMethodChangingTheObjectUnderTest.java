@@ -24,6 +24,7 @@ import java.util.concurrent.Callable;
 
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import net.bytebuddy.implementation.bind.annotation.This;
 
 public class ProxifyMethodChangingTheObjectUnderTest {
 
@@ -33,27 +34,32 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     this.proxies = proxies;
   }
 
-  @SuppressWarnings("unchecked")
   @RuntimeType
-  public Object intercept(@SuperCall Callable<Object> proxy) throws Exception {
+  public AbstractAssert<?, ?> intercept(@SuperCall Callable<AbstractAssert<?, ?>> assertionMethod,
+                                        @This AbstractAssert<?, ?> currentAssertInstance) throws Exception {
+    Object result = assertionMethod.call();
+    return createAssertProxy(result).withAssertionState(currentAssertInstance);
+  }
 
-    Object result = proxy.call();
-    if (result instanceof IterableSizeAssert) {
-      IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) result;
+  // can't return AbstractAssert<?, ?> otherwise withAssertionState(currentAssertInstance) does not compile.
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  protected AbstractAssert createAssertProxy(Object currentActual) {
+    if (currentActual instanceof IterableSizeAssert) {
+      IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) currentActual;
       // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
       return proxies.createIterableSizeAssertProxy(iterableSizeAssert);
     }
-    if (result instanceof MapSizeAssert) {
-      MapSizeAssert<?, ?> iterableSizeAssert = (MapSizeAssert<?, ?>) result;
+    if (currentActual instanceof MapSizeAssert) {
+      MapSizeAssert<?, ?> iterableSizeAssert = (MapSizeAssert<?, ?>) currentActual;
       // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
       return proxies.createMapSizeAssertProxy(iterableSizeAssert);
     }
-    return proxies.create(result.getClass(), actualClass(result), actual(result));
+    return (AbstractAssert) proxies.create(currentActual.getClass(), actualClass(currentActual), actual(currentActual));
   }
 
   @SuppressWarnings("rawtypes")
   private static Class actualClass(Object result) {
-    if (result instanceof ObjectArrayAssert) {
+    if (result instanceof ObjectArrayAssert || result instanceof ProxyableObjectArrayAssert) {
       return Array.newInstance(Object.class, 0).getClass();
     }
     if (result instanceof OptionalAssert) {

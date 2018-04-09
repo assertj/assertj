@@ -20,9 +20,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.in;
+import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
@@ -78,6 +81,7 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.Before;
@@ -425,50 +429,50 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     List<Name> names = asList(Name.name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.assertThat(names)
+          .overridingErrorMessage("overridingErrorMessage with extracting(String)")
           .extracting("first")
-          .as("using extracting()")
           .contains("John")
           .contains("Jane")
           .contains("Foo1");
 
     softly.assertThat(names)
-          .extracting(Name::getFirst)
           .as("using extracting(Extractor)")
+          .extracting(Name::getFirst)
           .contains("John")
           .contains("Jane")
           .contains("Foo2");
 
     softly.assertThat(names)
-          .extracting("first", String.class)
           .as("using extracting(..., Class)")
+          .extracting("first", String.class)
           .contains("John")
           .contains("Jane")
           .contains("Foo3");
 
     softly.assertThat(names)
-          .extracting("first", "last")
           .as("using extracting(...)")
+          .extracting("first", "last")
           .contains(tuple("John", "Doe"))
           .contains(tuple("Jane", "Doe"))
           .contains(tuple("Foo", "4"));
 
     softly.assertThat(names)
-          .extractingResultOf("getFirst", String.class)
           .as("using extractingResultOf(method, Class)")
+          .extractingResultOf("getFirst", String.class)
           .contains("John")
           .contains("Jane")
           .contains("Foo5");
 
     softly.assertThat(names)
-          .extractingResultOf("getFirst")
           .as("using extractingResultOf(method)")
+          .extractingResultOf("getFirst")
           .contains("John")
           .contains("Jane")
           .contains("Foo6");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(6);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("Foo1");
+    assertThat(errorsCollected.get(0)).hasMessage("overridingErrorMessage with extracting(String)");
     assertThat(errorsCollected.get(1)).hasMessageContaining("Foo2");
     assertThat(errorsCollected.get(2)).hasMessageContaining("Foo3");
     assertThat(errorsCollected.get(3)).hasMessageContaining("Foo")
@@ -484,38 +488,38 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       softly.assertThat(names)
-            .extracting("first")
             .as("using extracting()")
+            .extracting("first")
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(names)
-            .extracting(Name::getFirst)
             .as("using extracting(Extractor)")
+            .extracting(Name::getFirst)
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(names)
-            .extracting("first", String.class)
             .as("using extracting(..., Class)")
+            .extracting("first", String.class)
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(names)
-            .extracting("first", "last")
             .as("using extracting(...)")
+            .extracting("first", "last")
             .contains(tuple("John", "Doe"))
             .contains(tuple("Jane", "Doe"));
 
       softly.assertThat(names)
-            .extractingResultOf("getFirst", String.class)
             .as("using extractingResultOf(method, Class)")
+            .extractingResultOf("getFirst", String.class)
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(names)
-            .extractingResultOf("getFirst")
             .as("using extractingResultOf(method)")
+            .extractingResultOf("getFirst")
             .contains("John")
             .contains("Jane");
     }
@@ -528,38 +532,38 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       softly.assertThat(namesAsArray)
-            .extracting("first")
             .as("using extracting()")
+            .extracting("first")
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(namesAsArray)
-            .extracting(Name::getFirst)
             .as("using extracting(Extractor)")
+            .extracting(Name::getFirst)
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(namesAsArray)
-            .extracting("first", String.class)
             .as("using extracting(..., Class)")
+            .extracting("first", String.class)
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(namesAsArray)
-            .extracting("first", "last")
             .as("using extracting(...)")
+            .extracting("first", "last")
             .contains(tuple("John", "Doe"))
             .contains(tuple("Jane", "Doe"));
 
       softly.assertThat(namesAsArray)
-            .extractingResultOf("getFirst", String.class)
             .as("using extractingResultOf(method, Class)")
+            .extractingResultOf("getFirst", String.class)
             .contains("John")
             .contains("Jane");
 
       softly.assertThat(namesAsArray)
-            .extractingResultOf("getFirst")
             .as("using extractingResultOf(method)")
+            .extractingResultOf("getFirst")
             .contains("John")
             .contains("Jane");
     }
@@ -572,8 +576,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       softly.assertThat(names)
-            .extracting("first")
             .as("using extracting()")
+            .extracting("first")
             .contains("John")
             .contains("Jane");
     }
@@ -586,22 +590,42 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[characters.size()]);
     // WHEN
     softly.assertThat(characters)
-          .flatExtracting(CartoonCharacter::getChildren)
           .as("using flatExtracting on Iterable")
+          .overridingErrorMessage("error message")
+          .flatExtracting(CartoonCharacter::getChildren)
           .containsAnyOf(homer, fred)
           .hasSize(123);
     softly.assertThat(charactersAsArray)
-          .flatExtracting(CartoonCharacter::getChildren)
           .as("using flatExtracting on array")
+          .overridingErrorMessage("error message")
+          .flatExtracting(CartoonCharacter::getChildren)
           .containsAnyOf(homer, fred)
           .hasSize(456);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(4);
-    assertThat(errorsCollected.get(0)).hasMessageContaining(homer.toString());
-    assertThat(errorsCollected.get(1)).hasMessageContaining("123");
-    assertThat(errorsCollected.get(2)).hasMessageContaining(fred.toString());
-    assertThat(errorsCollected.get(3)).hasMessageContaining("456");
+    assertThat(errorsCollected.get(0)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(2)).hasMessage("[using flatExtracting on array] error message");
+    assertThat(errorsCollected.get(3)).hasMessage("[using flatExtracting on array] error message");
+  }
+
+  @Test
+  public void should_work_with_flat_extracting_arrays() {
+    // GIVEN
+    CartoonCharacter[] charactersAsArray = array(homer, fred);
+    // WHEN
+    softly.assertThat(charactersAsArray)
+          .as("using flatExtracting on array")
+          .overridingErrorMessage("error message")
+          .flatExtracting(CartoonCharacter::getChildren)
+          .containsAnyOf(homer, fred)
+          .hasSize(456);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessage("[using flatExtracting on array] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[using flatExtracting on array] error message");
   }
 
   @Test
@@ -610,14 +634,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.assertThat(names)
-          .extracting("first")
           .overridingErrorMessage("error 1")
+          .extracting("first")
           .contains("gandalf")
           .overridingErrorMessage("error 2")
           .contains("frodo");
     softly.assertThat(names)
-          .extracting("last")
           .overridingErrorMessage("error 3")
+          .extracting("last")
           .isEmpty();
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
@@ -630,8 +654,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     List<CartoonCharacter> characters = asList(homer, fred);
     // WHEN
     softly.assertThat(characters)
-          .flatExtracting(CartoonCharacter::getChildren)
           .overridingErrorMessage("error 1")
+          .flatExtracting(CartoonCharacter::getChildren)
           .hasSize(0)
           .overridingErrorMessage("error 2")
           .isEmpty();
@@ -662,7 +686,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     LinkedHashSet<CartoonCharacter> dads = newLinkedHashSet(homer, fred);
     // WHEN
     softly.assertThat(dads)
-          .filteredOn(c -> c.getName().equals("Homer Simpson"))
+          .filteredOn(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"))
           .hasSize(10)
           .isEmpty();
     // THEN
@@ -691,14 +715,15 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   public void should_work_with_stream() {
     // WHEN
     softly.assertThat(Stream.of("a", "b", "c")).contains("a", "foo");
-    softly.assertThat(IntStream.of(1, 2, 3)).contains(2, 4, 6);
+    softly.assertThat(IntStream.of(1, 2, 3)).as("IntStream").contains(2, 4, 6);
     softly.assertThat(LongStream.of(1, 2, 3)).contains(-1L, -2L, -3L);
     softly.assertThat(DoubleStream.of(1, 2, 3)).contains(10.0, 20.0, 30.0);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(4);
     assertThat(errorsCollected.get(0)).hasMessageContaining("foo");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("6");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("6")
+                                      .hasMessageContaining("IntStream");
     assertThat(errorsCollected.get(2)).hasMessageContaining("-3");
     assertThat(errorsCollected.get(3)).hasMessageContaining("30.0");
   }
@@ -723,11 +748,12 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // GIVEN
     Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
     // WHEN
-    softly.assertThat(lowercasePredicate).accepts("a", "b", "c");
-    softly.assertThat(lowercasePredicate).accepts("a", "b", "C");
+    softly.assertThat(lowercasePredicate).as("abc").accepts("a", "b", "c");
+    softly.assertThat(lowercasePredicate).as("abC").accepts("a", "b", "C");
     // THEN
     assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageContaining("C");
+    assertThat(softly.errorsCollected().get(0)).hasMessageContaining("abC")
+                                               .hasMessageContaining("C");
   }
 
   @Test
@@ -897,34 +923,43 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.assertThat(names)
+          .as("size isGreaterThan(10)")
+          .overridingErrorMessage("error message")
           .size()
           .isGreaterThan(10);
     softly.assertThat(names)
+          .as("size isGreaterThan(22)")
+          .overridingErrorMessage("error message")
           .size()
           .isGreaterThan(22)
           .returnToIterable()
+          .as("shoud not be empty") // TODO returnToIterable() does not yet propagate assertion info
+          .overridingErrorMessage("error message 2")
           .isEmpty();
     softly.assertThat(names)
-          .first()
           .as("first element")
+          .overridingErrorMessage("error message")
+          .first()
           .isNull();
     softly.assertThat(names)
-          .element(0)
           .as("element(0)")
+          .overridingErrorMessage("error message")
+          .element(0)
           .isNull();
     softly.assertThat(names)
-          .last()
           .as("last element")
+          .overridingErrorMessage("error message")
+          .last()
           .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(6);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("10");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("22");
-    assertThat(errorsCollected.get(2)).hasMessageContaining("empty");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
-    assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
-    assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
+    assertThat(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
+    assertThat(errorsCollected.get(2)).hasMessage("[shoud not be empty] error message 2");
+    assertThat(errorsCollected.get(3)).hasMessage("[first element] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[element(0)] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[last element] error message");
   }
 
   @Test
@@ -933,34 +968,43 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.assertThat(names)
+          .as("size isGreaterThan(10)")
+          .overridingErrorMessage("error message")
           .size()
           .isGreaterThan(10);
     softly.assertThat(names)
+          .as("size isGreaterThan(22)")
+          .overridingErrorMessage("error message")
           .size()
           .isGreaterThan(22)
           .returnToIterable()
+          .as("shoud not be empty") // TODO returnToIterable() does not yet propagate assertion info
+          .overridingErrorMessage("error message 2")
           .isEmpty();
     softly.assertThat(names)
-          .first()
           .as("first element")
+          .overridingErrorMessage("error message")
+          .first()
           .isNull();
     softly.assertThat(names)
-          .element(0)
           .as("element(0)")
+          .overridingErrorMessage("error message")
+          .element(0)
           .isNull();
     softly.assertThat(names)
-          .last()
           .as("last element")
+          .overridingErrorMessage("error message")
+          .last()
           .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(6);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("10");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("22");
-    assertThat(errorsCollected.get(2)).hasMessageContaining("empty");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
-    assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
-    assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
+    assertThat(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
+    assertThat(errorsCollected.get(2)).hasMessage("[shoud not be empty] error message 2");
+    assertThat(errorsCollected.get(3)).hasMessage("[first element] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[element(0)] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[last element] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -970,21 +1014,28 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // GIVEN
     Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
     Iterable<CartoonCharacter> characters = asList(homer, fred);
+    // WHEN
     softly.assertThat(names)
+          .as("extracting(throwingFirstNameExtractor)")
+          .overridingErrorMessage("error message")
           .extracting(throwingFirstNameExtractor)
           .contains("gandalf")
           .contains("frodo");
     softly.assertThat(names)
+          .as("extracting(\"last\")")
+          .overridingErrorMessage("error message")
           .extracting("last")
           .containsExactly("foo", "bar");
     softly.assertThat(characters)
-          .flatExtracting(childrenExtractor)
           .as("using flatExtracting on Iterable")
+          .overridingErrorMessage("error message")
+          .flatExtracting(childrenExtractor)
           .hasSize(1)
           .containsAnyOf(homer, fred);
     softly.assertThat(characters)
-          .flatExtracting(CartoonCharacter::getChildrenWithException)
           .as("using flatExtracting on Iterable with exception")
+          .overridingErrorMessage("error message")
+          .flatExtracting(CartoonCharacter::getChildrenWithException)
           .containsExactlyInAnyOrder(homer, fred);
     softly.assertThat(characters)
           .containsOnly(bart);
@@ -1007,82 +1058,105 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(characters)
           .endsWith(bart);
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(firstNameFunction, lastNameFunction)")
           .extracting(firstNameFunction, lastNameFunction)
           .contains(tuple("John", "Doe"))
           .contains(tuple("Frodo", "Baggins"));
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(\"first\", \"last\")")
           .extracting("first", "last")
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(firstNameExtractor)")
           .extracting(firstNameExtractor)
           .contains("John")
           .contains("sam");
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(\"first\", String.class)")
           .extracting("first", String.class)
           .contains("John")
           .contains("Aragorn");
     softly.assertThat(names)
+          .as("filteredOn(name -> name.first.startsWith(\"Jo\"))")
+          .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
           .hasSize(123);
     softly.assertThat(names)
+          .as("name.first.startsWith(\"Jo\")")
+          .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
           .extracting(firstNameExtractor)
           .contains("Sauron");
     softly.assertThat(names)
-          .flatExtracting(firstNameExtractor, lastNameExtractor)
+          .overridingErrorMessage("error message")
           .as("flatExtracting with multiple Extractors")
+          .flatExtracting(firstNameExtractor, lastNameExtractor)
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
     softly.assertThat(names)
-          .flatExtracting(throwingFirstNameExtractor, throwingLastNameExtractor)
+          .overridingErrorMessage("error message")
           .as("flatExtracting with multiple ThrowingExtractors")
+          .flatExtracting(throwingFirstNameExtractor, throwingLastNameExtractor)
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extractingResultOf(\"getFirst\")")
           .extractingResultOf("getFirst")
           .contains("John", "Jane")
           .contains("Sam", "Aragorn");
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extractingResultOf(\"getFirst\", String.class)")
           .extractingResultOf("getFirst", String.class)
           .contains("John", "Jane")
           .contains("Messi", "Ronaldo");
     softly.assertThat(names)
-          .filteredOn(new Condition<>(name -> name.first.startsWith("Jo"), "startsWith Jo"))
+          .overridingErrorMessage("error message")
           .as("filteredOn with condition")
+          .filteredOn(new Condition<>(name -> name.first.startsWith("Jo"), "startsWith Jo"))
           .hasSize(5);
     softly.assertThat(names)
-          .filteredOn("first", in("John", "Frodo"))
+          .overridingErrorMessage("error message")
           .as("filteredOn firstName in {John, Frodo}")
+          .filteredOn("first", in("John", "Frodo"))
           .isEmpty();
     softly.assertThat(names)
-          .filteredOn("first", "John")
+          .overridingErrorMessage("error message")
           .as("filteredOn firstName = John")
+          .filteredOn("first", "John")
           .isEmpty();
     softly.assertThat(names)
-          .filteredOnNull("first")
+          .overridingErrorMessage("error message")
           .as("filteredOn firstName = null")
+          .filteredOnNull("first")
           .isNotEmpty();
     softly.assertThat(names)
-          .flatExtracting("first", "last")
+          .overridingErrorMessage("error message")
           .as("using flatExtracting(String... fieldOrPropertyNames)")
+          .flatExtracting("first", "last")
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
     softly.assertThat(characters)
-          .flatExtracting("children")
           .as("using flatExtracting(String fieldOrPropertyName)")
+          .overridingErrorMessage("error message")
+          .flatExtracting("children")
           .contains(bart, maggie)
           .contains("Sauron");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(32);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
-    assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
-                                      .hasMessageContaining("bar");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("size");
-    assertThat(errorsCollected.get(4)).hasMessageContaining(fred.toString());
-    assertThat(errorsCollected.get(5)).hasMessageContaining(homer.toString());
+    assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
+    assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
+    assertThat(errorsCollected.get(3)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[using flatExtracting on Iterable with exception] error message");
     assertThat(errorsCollected.get(6)).hasMessageContaining(bart.toString());
     assertThat(errorsCollected.get(7)).hasMessageContaining(maggie.toString());
     assertThat(errorsCollected.get(8)).hasMessageContaining(bart.toString());
@@ -1093,22 +1167,22 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(13)).hasMessageContaining(bart.toString());
     assertThat(errorsCollected.get(14)).hasMessageContaining(fred.toString());
     assertThat(errorsCollected.get(15)).hasMessageContaining(bart.toString());
-    assertThat(errorsCollected.get(16)).hasMessageContaining("Baggins");
-    assertThat(errorsCollected.get(17)).hasMessageContaining("Bilbo");
-    assertThat(errorsCollected.get(18)).hasMessageContaining("sam");
-    assertThat(errorsCollected.get(19)).hasMessageContaining("Aragorn");
-    assertThat(errorsCollected.get(20)).hasMessageContaining("123");
-    assertThat(errorsCollected.get(21)).hasMessageContaining("Sauron");
-    assertThat(errorsCollected.get(22)).hasMessageContaining("flatExtracting with multiple Extractors");
-    assertThat(errorsCollected.get(23)).hasMessageContaining("flatExtracting with multiple ThrowingExtractors");
-    assertThat(errorsCollected.get(24)).hasMessageContaining("Sam");
-    assertThat(errorsCollected.get(25)).hasMessageContaining("Ronaldo");
-    assertThat(errorsCollected.get(26)).hasMessageContaining("filteredOn with condition");
-    assertThat(errorsCollected.get(27)).hasMessageContaining("filteredOn firstName in {John, Frodo}");
-    assertThat(errorsCollected.get(28)).hasMessageContaining("filteredOn firstName = John");
-    assertThat(errorsCollected.get(29)).hasMessageContaining("filteredOn firstName = null");
-    assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
-    assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
+    assertThat(errorsCollected.get(16)).hasMessage("[extracting(firstNameFunction, lastNameFunction)] error message");
+    assertThat(errorsCollected.get(17)).hasMessage("[extracting(\"first\", \"last\")] error message");
+    assertThat(errorsCollected.get(18)).hasMessage("[extracting(firstNameExtractor)] error message");
+    assertThat(errorsCollected.get(19)).hasMessage("[extracting(\"first\", String.class)] error message");
+    assertThat(errorsCollected.get(20)).hasMessage("[filteredOn(name -> name.first.startsWith(\"Jo\"))] error message");
+    assertThat(errorsCollected.get(21)).hasMessage("[name.first.startsWith(\"Jo\")] error message");
+    assertThat(errorsCollected.get(22)).hasMessage("[flatExtracting with multiple Extractors] error message");
+    assertThat(errorsCollected.get(23)).hasMessage("[flatExtracting with multiple ThrowingExtractors] error message");
+    assertThat(errorsCollected.get(24)).hasMessage("[extractingResultOf(\"getFirst\")] error message");
+    assertThat(errorsCollected.get(25)).hasMessage("[extractingResultOf(\"getFirst\", String.class)] error message");
+    assertThat(errorsCollected.get(26)).hasMessage("[filteredOn with condition] error message");
+    assertThat(errorsCollected.get(27)).hasMessage("[filteredOn firstName in {John, Frodo}] error message");
+    assertThat(errorsCollected.get(28)).hasMessage("[filteredOn firstName = John] error message");
+    assertThat(errorsCollected.get(29)).hasMessage("[filteredOn firstName = null] error message");
+    assertThat(errorsCollected.get(30)).hasMessage("[using flatExtracting(String... fieldOrPropertyNames)] error message");
+    assertThat(errorsCollected.get(31)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1120,20 +1194,26 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     List<CartoonCharacter> characters = asList(homer, fred);
     // WHEN
     softly.assertThat(names)
-          .extracting(Name::getFirst)
+          .as("extracting(throwingFirstNameExtractor)")
+          .overridingErrorMessage("error message")
+          .extracting(throwingFirstNameExtractor)
           .contains("gandalf")
           .contains("frodo");
     softly.assertThat(names)
+          .as("extracting(\"last\")")
+          .overridingErrorMessage("error message")
           .extracting("last")
           .containsExactly("foo", "bar");
     softly.assertThat(characters)
-          .flatExtracting(CartoonCharacter::getChildren)
           .as("using flatExtracting on Iterable")
+          .overridingErrorMessage("error message")
+          .flatExtracting(childrenExtractor)
           .hasSize(1)
           .containsAnyOf(homer, fred);
     softly.assertThat(characters)
-          .flatExtracting(CartoonCharacter::getChildrenWithException)
           .as("using flatExtracting on Iterable with exception")
+          .overridingErrorMessage("error message")
+          .flatExtracting(CartoonCharacter::getChildrenWithException)
           .containsExactlyInAnyOrder(homer, fred);
     softly.assertThat(characters)
           .containsOnly(bart);
@@ -1156,82 +1236,105 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(characters)
           .endsWith(bart);
     softly.assertThat(names)
-          .extracting(Name::getFirst, Name::getLast)
+          .overridingErrorMessage("error message")
+          .as("extracting(firstNameFunction, lastNameFunction)")
+          .extracting(firstNameFunction, lastNameFunction)
           .contains(tuple("John", "Doe"))
           .contains(tuple("Frodo", "Baggins"));
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(\"first\", \"last\")")
           .extracting("first", "last")
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.assertThat(names)
+          .as("extracting(firstNameExtractor)")
+          .overridingErrorMessage("error message")
           .extracting(firstNameExtractor)
           .contains("John")
           .contains("sam");
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(\"first\", String.class)")
           .extracting("first", String.class)
           .contains("John")
           .contains("Aragorn");
     softly.assertThat(names)
+          .as("filteredOn(name -> name.first.startsWith(\"Jo\"))")
+          .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
           .hasSize(123);
     softly.assertThat(names)
+          .as("name.first.startsWith(\"Jo\")")
+          .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
           .extracting(firstNameExtractor)
           .contains("Sauron");
     softly.assertThat(names)
-          .flatExtracting(firstNameExtractor, lastNameExtractor)
+          .overridingErrorMessage("error message")
           .as("flatExtracting with multiple Extractors")
+          .flatExtracting(firstNameExtractor, lastNameExtractor)
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
     softly.assertThat(names)
-          .flatExtracting(throwingFirstNameExtractor, throwingLastNameExtractor)
+          .overridingErrorMessage("error message")
           .as("flatExtracting with multiple ThrowingExtractors")
+          .flatExtracting(throwingFirstNameExtractor, throwingLastNameExtractor)
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extractingResultOf(\"getFirst\")")
           .extractingResultOf("getFirst")
           .contains("John", "Jane")
           .contains("Sam", "Aragorn");
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extractingResultOf(\"getFirst\", String.class)")
           .extractingResultOf("getFirst", String.class)
           .contains("John", "Jane")
           .contains("Messi", "Ronaldo");
     softly.assertThat(names)
-          .filteredOn(new Condition<>(name -> name.first.startsWith("Jo"), "startsWith Jo"))
           .as("filteredOn with condition")
+          .overridingErrorMessage("error message")
+          .filteredOn(new Condition<>(name -> name.first.startsWith("Jo"), "startsWith Jo"))
           .hasSize(5);
     softly.assertThat(names)
-          .filteredOn("first", in("John", "Frodo"))
           .as("filteredOn firstName in {John, Frodo}")
+          .overridingErrorMessage("error message")
+          .filteredOn("first", in("John", "Frodo"))
           .isEmpty();
     softly.assertThat(names)
-          .filteredOn("first", "John")
           .as("filteredOn firstName = John")
+          .overridingErrorMessage("error message")
+          .filteredOn("first", "John")
           .isEmpty();
     softly.assertThat(names)
-          .filteredOnNull("first")
           .as("filteredOn firstName = null")
+          .overridingErrorMessage("error message")
+          .filteredOnNull("first")
           .isNotEmpty();
     softly.assertThat(names)
-          .flatExtracting("first", "last")
           .as("using flatExtracting(String... fieldOrPropertyNames)")
+          .overridingErrorMessage("error message")
+          .flatExtracting("first", "last")
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
     softly.assertThat(characters)
-          .flatExtracting("children")
           .as("using flatExtracting(String fieldOrPropertyName)")
+          .overridingErrorMessage("error message")
+          .flatExtracting("children")
           .contains(bart, maggie)
           .contains("Sauron");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(32);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
-    assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
-                                      .hasMessageContaining("bar");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("size");
-    assertThat(errorsCollected.get(4)).hasMessageContaining(fred.toString());
-    assertThat(errorsCollected.get(5)).hasMessageContaining(homer.toString());
+    assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
+    assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
+    assertThat(errorsCollected.get(3)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[using flatExtracting on Iterable with exception] error message");
     assertThat(errorsCollected.get(6)).hasMessageContaining(bart.toString());
     assertThat(errorsCollected.get(7)).hasMessageContaining(maggie.toString());
     assertThat(errorsCollected.get(8)).hasMessageContaining(bart.toString());
@@ -1242,22 +1345,22 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(13)).hasMessageContaining(bart.toString());
     assertThat(errorsCollected.get(14)).hasMessageContaining(fred.toString());
     assertThat(errorsCollected.get(15)).hasMessageContaining(bart.toString());
-    assertThat(errorsCollected.get(16)).hasMessageContaining("Baggins");
-    assertThat(errorsCollected.get(17)).hasMessageContaining("Bilbo");
-    assertThat(errorsCollected.get(18)).hasMessageContaining("sam");
-    assertThat(errorsCollected.get(19)).hasMessageContaining("Aragorn");
-    assertThat(errorsCollected.get(20)).hasMessageContaining("123");
-    assertThat(errorsCollected.get(21)).hasMessageContaining("Sauron");
-    assertThat(errorsCollected.get(22)).hasMessageContaining("flatExtracting with multiple Extractors");
-    assertThat(errorsCollected.get(23)).hasMessageContaining("flatExtracting with multiple ThrowingExtractors");
-    assertThat(errorsCollected.get(24)).hasMessageContaining("Sam");
-    assertThat(errorsCollected.get(25)).hasMessageContaining("Ronaldo");
-    assertThat(errorsCollected.get(26)).hasMessageContaining("filteredOn with condition");
-    assertThat(errorsCollected.get(27)).hasMessageContaining("filteredOn firstName in {John, Frodo}");
-    assertThat(errorsCollected.get(28)).hasMessageContaining("filteredOn firstName = John");
-    assertThat(errorsCollected.get(29)).hasMessageContaining("filteredOn firstName = null");
-    assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
-    assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
+    assertThat(errorsCollected.get(16)).hasMessage("[extracting(firstNameFunction, lastNameFunction)] error message");
+    assertThat(errorsCollected.get(17)).hasMessage("[extracting(\"first\", \"last\")] error message");
+    assertThat(errorsCollected.get(18)).hasMessage("[extracting(firstNameExtractor)] error message");
+    assertThat(errorsCollected.get(19)).hasMessage("[extracting(\"first\", String.class)] error message");
+    assertThat(errorsCollected.get(20)).hasMessage("[filteredOn(name -> name.first.startsWith(\"Jo\"))] error message");
+    assertThat(errorsCollected.get(21)).hasMessage("[name.first.startsWith(\"Jo\")] error message");
+    assertThat(errorsCollected.get(22)).hasMessage("[flatExtracting with multiple Extractors] error message");
+    assertThat(errorsCollected.get(23)).hasMessage("[flatExtracting with multiple ThrowingExtractors] error message");
+    assertThat(errorsCollected.get(24)).hasMessage("[extractingResultOf(\"getFirst\")] error message");
+    assertThat(errorsCollected.get(25)).hasMessage("[extractingResultOf(\"getFirst\", String.class)] error message");
+    assertThat(errorsCollected.get(26)).hasMessage("[filteredOn with condition] error message");
+    assertThat(errorsCollected.get(27)).hasMessage("[filteredOn firstName in {John, Frodo}] error message");
+    assertThat(errorsCollected.get(28)).hasMessage("[filteredOn firstName = John] error message");
+    assertThat(errorsCollected.get(29)).hasMessage("[filteredOn firstName = null] error message");
+    assertThat(errorsCollected.get(30)).hasMessage("[using flatExtracting(String... fieldOrPropertyNames)] error message");
+    assertThat(errorsCollected.get(31)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1269,20 +1372,26 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     CartoonCharacter[] characters = array(homer, fred);
     // WHEN
     softly.assertThat(names)
+          .as("extracting(Name::getFirst)")
+          .overridingErrorMessage("error message")
           .extracting(Name::getFirst)
           .contains("gandalf")
           .contains("frodo");
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(\"last\")")
           .extracting("last")
           .containsExactly("foo", "bar");
     softly.assertThat(characters)
-          .flatExtracting(CartoonCharacter::getChildren)
           .as("using flatExtracting on Iterable")
+          .overridingErrorMessage("error message")
+          .flatExtracting(CartoonCharacter::getChildren)
           .hasSize(1)
           .containsAnyOf(homer, fred);
     softly.assertThat(characters)
-          .flatExtracting(CartoonCharacter::getChildrenWithException)
+          .overridingErrorMessage("error message")
           .as("using flatExtracting on Iterable with exception")
+          .flatExtracting(CartoonCharacter::getChildrenWithException)
           .containsExactlyInAnyOrder(homer, fred);
     softly.assertThat(characters)
           .containsOnly(bart);
@@ -1305,67 +1414,88 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(characters)
           .endsWith(bart);
     softly.assertThat(names)
+          .as("extracting(Name::getFirst, Name::getLast)")
+          .overridingErrorMessage("error message")
           .extracting(Name::getFirst, Name::getLast)
           .contains(tuple("John", "Doe"))
           .contains(tuple("Frodo", "Baggins"));
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(\"first\", \"last\")")
           .extracting("first", "last")
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("extracting(firstNameExtractor)")
           .extracting(firstNameExtractor)
           .contains("John")
           .contains("sam");
     softly.assertThat(names)
+          .as("extracting(\"first\", String.class)")
+          .overridingErrorMessage("error message")
           .extracting("first", String.class)
           .contains("John")
           .contains("Aragorn");
     softly.assertThat(names)
+          .as("filteredOn(name -> name.first.startsWith(\"Jo\"))")
+          .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
           .hasSize(123);
     softly.assertThat(names)
+          .as("filteredOn + extracting")
+          .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
           .extracting(firstNameExtractor)
           .contains("Sauron");
     softly.assertThat(names)
+          .as("extractingResultOf(\"getFirst\")")
+          .overridingErrorMessage("error message")
           .extractingResultOf("getFirst")
           .contains("John", "Jane")
           .contains("Sam", "Aragorn");
     softly.assertThat(names)
+          .as("extractingResultOf(\"getFirst\", String.class)")
+          .overridingErrorMessage("error message")
           .extractingResultOf("getFirst", String.class)
           .contains("John", "Jane")
           .contains("Messi", "Ronaldo");
     softly.assertThat(names)
-          .filteredOn(new Condition<>(name -> name.first.startsWith("Jo"), "startsWith Jo"))
           .as("filteredOn with condition")
+          .overridingErrorMessage("error message")
+          .filteredOn(new Condition<>(name -> name.first.startsWith("Jo"), "startsWith Jo"))
           .hasSize(5);
     softly.assertThat(names)
-          .filteredOn("first", in("John", "Frodo"))
           .as("filteredOn firstName in {John, Frodo}")
+          .overridingErrorMessage("error message")
+          .filteredOn("first", in("John", "Frodo"))
           .isEmpty();
     softly.assertThat(names)
-          .filteredOn("first", "John")
           .as("filteredOn firstName = John")
+          .overridingErrorMessage("error message")
+          .filteredOn("first", "John")
           .isEmpty();
     softly.assertThat(names)
-          .filteredOnNull("first")
           .as("filteredOn firstName = null")
+          .overridingErrorMessage("error message")
+          .filteredOnNull("first")
           .isNotEmpty();
     softly.assertThat(characters)
-          .flatExtracting("children")
           .as("using flatExtracting(String fieldOrPropertyName)")
+          .overridingErrorMessage("error message")
+          .flatExtracting("children")
           .contains(bart, maggie)
           .contains("Sauron");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(29);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
-    assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
-                                      .hasMessageContaining("bar");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("size");
-    assertThat(errorsCollected.get(4)).hasMessageContaining(fred.toString());
-    assertThat(errorsCollected.get(5)).hasMessageContaining(homer.toString());
+    assertThat(errorsCollected.get(0)).hasMessage("[extracting(Name::getFirst)] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[extracting(Name::getFirst)] error message");
+    assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message")
+                                      .hasMessage("[extracting(\"last\")] error message");
+    assertThat(errorsCollected.get(3)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[using flatExtracting on Iterable] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[using flatExtracting on Iterable with exception] error message");
     assertThat(errorsCollected.get(6)).hasMessageContaining(bart.toString());
     assertThat(errorsCollected.get(7)).hasMessageContaining(maggie.toString());
     assertThat(errorsCollected.get(8)).hasMessageContaining(bart.toString());
@@ -1376,19 +1506,19 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(13)).hasMessageContaining(bart.toString());
     assertThat(errorsCollected.get(14)).hasMessageContaining(fred.toString());
     assertThat(errorsCollected.get(15)).hasMessageContaining(bart.toString());
-    assertThat(errorsCollected.get(16)).hasMessageContaining("Baggins");
-    assertThat(errorsCollected.get(17)).hasMessageContaining("Bilbo");
-    assertThat(errorsCollected.get(18)).hasMessageContaining("sam");
-    assertThat(errorsCollected.get(19)).hasMessageContaining("Aragorn");
-    assertThat(errorsCollected.get(20)).hasMessageContaining("123");
-    assertThat(errorsCollected.get(21)).hasMessageContaining("Sauron");
-    assertThat(errorsCollected.get(22)).hasMessageContaining("Sam");
-    assertThat(errorsCollected.get(23)).hasMessageContaining("Ronaldo");
-    assertThat(errorsCollected.get(24)).hasMessageContaining("filteredOn with condition");
-    assertThat(errorsCollected.get(25)).hasMessageContaining("filteredOn firstName in {John, Frodo}");
-    assertThat(errorsCollected.get(26)).hasMessageContaining("filteredOn firstName = John");
-    assertThat(errorsCollected.get(27)).hasMessageContaining("filteredOn firstName = null");
-    assertThat(errorsCollected.get(28)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
+    assertThat(errorsCollected.get(16)).hasMessage("[extracting(Name::getFirst, Name::getLast)] error message");
+    assertThat(errorsCollected.get(17)).hasMessage("[extracting(\"first\", \"last\")] error message");
+    assertThat(errorsCollected.get(18)).hasMessage("[extracting(firstNameExtractor)] error message");
+    assertThat(errorsCollected.get(19)).hasMessage("[extracting(\"first\", String.class)] error message");
+    assertThat(errorsCollected.get(20)).hasMessage("[filteredOn(name -> name.first.startsWith(\"Jo\"))] error message");
+    assertThat(errorsCollected.get(21)).hasMessage("[filteredOn + extracting] error message");
+    assertThat(errorsCollected.get(22)).hasMessage("[extractingResultOf(\"getFirst\")] error message");
+    assertThat(errorsCollected.get(23)).hasMessage("[extractingResultOf(\"getFirst\", String.class)] error message");
+    assertThat(errorsCollected.get(24)).hasMessage("[filteredOn with condition] error message");
+    assertThat(errorsCollected.get(25)).hasMessage("[filteredOn firstName in {John, Frodo}] error message");
+    assertThat(errorsCollected.get(26)).hasMessage("[filteredOn firstName = John] error message");
+    assertThat(errorsCollected.get(27)).hasMessage("[filteredOn firstName = null] error message");
+    assertThat(errorsCollected.get(28)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1418,28 +1548,36 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     Object vowels = asList("a", "e", "i", "o", "u");
     // WHEN
     softly.assertThat(name)
+          .as("extracting(\"first\", \"last\")")
+          .overridingErrorMessage("error message")
           .extracting("first", "last")
           .contains("John")
           .contains("gandalf");
     softly.assertThat(name)
+          .as("extracting(Name::getFirst, Name::getLast)")
+          .overridingErrorMessage("error message")
           .extracting(Name::getFirst, Name::getLast)
           .contains("John")
           .contains("frodo");
     softly.assertThat(alphabet)
+          .overridingErrorMessage("error message")
+          .as("asString()")
           .asString()
           .startsWith("abc")
           .startsWith("123");
     softly.assertThat(vowels)
+          .as("asList()")
+          .overridingErrorMessage("error message")
           .asList()
           .startsWith("a", "e")
           .startsWith("1", "2");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(4);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
-    assertThat(errorsCollected.get(2)).hasMessageContaining("123");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("\"1\", \"2\"");
+    assertThat(errorsCollected.get(0)).hasMessage("[extracting(\"first\", \"last\")] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[extracting(Name::getFirst, Name::getLast)] error message");
+    assertThat(errorsCollected.get(2)).hasMessage("[asString()] error message");
+    assertThat(errorsCollected.get(3)).hasMessage("[asList()] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1458,14 +1596,24 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map).containsValues("V1", "V2");
     softly.assertThat(map).doesNotContain(entry("a", "1"), entry("abc", "ABC"));
     softly.assertThat(map).doesNotContainKeys("a", "b");
-    softly.assertThat(map).extracting("a", "b").contains("456");
+    softly.assertThat(map)
+          .as("extracting(\"a\", \"b\")")
+          .overridingErrorMessage("error message")
+          .extracting("a", "b")
+          .contains("456");
     softly.assertThat(iterableMap)
+          .as("flatExtracting(\"name\", \"job\", \"city\", \"rank\")")
+          .overridingErrorMessage("error message")
           .flatExtracting("name", "job", "city", "rank")
           .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3);
-    // softly.assertThat(map).size().isGreaterThan(1000); not yet supported
+    softly.assertThat(map)
+          .as("size()")
+          .overridingErrorMessage("error message")
+          .size()
+          .isGreaterThan(1000);
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(12);
+    assertThat(errors).hasSize(13);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1477,8 +1625,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(7)).hasMessageContaining("V2");
     assertThat(errors.get(8)).hasMessageContaining("ABC");
     assertThat(errors.get(9)).hasMessageContaining("b");
-    assertThat(errors.get(10)).hasMessageContaining("456");
-    assertThat(errors.get(11)).hasMessageContaining("Unexpected");
+    assertThat(errors.get(10)).hasMessage("[extracting(\"a\", \"b\")] error message");
+    assertThat(errors.get(11)).hasMessage("[flatExtracting(\"name\", \"job\", \"city\", \"rank\")] error message");
+    assertThat(errors.get(12)).hasMessage("[size()] error message");
   }
 
   @Test
@@ -1487,11 +1636,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
     // WHEN
     softly.assertThat(map)
+          .as("navigate to size")
+          .overridingErrorMessage("error message")
           .size()
           .isGreaterThan(10);
     softly.assertThat(map)
           .size()
           .isGreaterThan(1)
+          // .as("returnToMap") TODO not yet supported
           .returnToMap()
           .as("returnToMap")
           .isEmpty();
@@ -1500,13 +1652,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .isGreaterThan(1)
           .returnToMap()
           .containsKey("nope")
-          .size()
           .as("check size after navigating back")
+          .size()
           .isLessThan(2);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(4);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("10");
+    assertThat(errorsCollected.get(0)).hasMessageContaining("[navigate to size] error message");
     assertThat(errorsCollected.get(1)).hasMessageContaining("returnToMap");
     assertThat(errorsCollected.get(2)).hasMessageContaining("nope");
     assertThat(errorsCollected.get(3)).hasMessageContaining("check size after navigating back");
@@ -1535,22 +1687,28 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     Function<String, Optional<String>> upperCaseOptional = s -> s == null ? Optional.empty() : Optional.of(s.toUpperCase());
     // WHEN
     softly.assertThat(optional)
+          .as("map(String::length)")
+          .overridingErrorMessage("error message")
           .map(String::length)
           .hasValue(4)
           .hasValue(777); // fail
     softly.assertThat(optional)
+          .as("flatMap(upperCaseOptional)")
           .flatMap(upperCaseOptional)
           .contains("YODA")
           .contains("yoda") // fail
+          .as("map(String::length) after flatMap(upperCaseOptional)")
           .map(String::length)
           .hasValue(4)
           .hasValue(888); // fail
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(3);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("777");
-    assertThat(errorsCollected.get(1)).hasMessageContaining("yoda");
-    assertThat(errorsCollected.get(2)).hasMessageContaining("888");
+    assertThat(errorsCollected.get(0)).hasMessage("[map(String::length)] error message");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("flatMap(upperCaseOptional)")
+                                      .hasMessageContaining("yoda");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("map(String::length) after flatMap(upperCaseOptional)")
+                                      .hasMessageContaining("888");
   }
 
   @Test
@@ -1558,11 +1716,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // GIVEN
     List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
-    softly.assertThat(names).zipSatisfy(names, (n1, n2) -> softly.assertThat(n1).isNotEqualTo(n2));
+    softly.assertThat(names)
+          .as("zipSatisfy")
+          .overridingErrorMessage("error message")
+          .zipSatisfy(names, (n1, n2) -> softly.assertThat(n1).isNotEqualTo(n2));
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("John");
+    assertThat(errorsCollected.get(0)).hasMessage("[zipSatisfy] error message");
   }
 
   @Test
@@ -1578,6 +1739,114 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(0)).hasMessageContaining("%%E")
                                       .hasMessageContaining("to match pattern")
                                       .hasMessageContaining("fffff");
+  }
+
+  @Test
+  public void should_keep_representation_after_changing_the_object_under_test() {
+    // GIVEN
+    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    // WHEN
+    softly.assertThat(names)
+          .as("unicode")
+          .withRepresentation(UNICODE_REPRESENTATION)
+          .extracting(throwingFirstNameExtractor)
+          .contains("ó");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("unicode")
+                                      .hasMessageContaining("\\u00f3");
+  }
+
+  @Test
+  public void should_keep_registered_comparators_after_changing_the_iterable_under_test() {
+    // GIVEN
+    Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
+    // WHEN
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn(string -> string.length() == 4)
+          .containsExactly("JOHN", "JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
+          .containsExactly("JOHN", "JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn("value", array('J', 'a', 'n', 'e'))
+          .containsExactly("JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn("value", not(array('J', 'a', 'n', 'e')))
+          .containsExactly("JOHN", "dOE", "dOE");
+    Iterable<Name> namesWithNullLast = asList(name("John", null), name("Jane", "Doe"));
+    softly.assertThat(namesWithNullLast)
+          .usingElementComparator(alwaysEqual())
+          .filteredOnNull("last")
+          .hasSize(1)
+          .contains(name("Can be", "anybody"));
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+  }
+
+  @Test
+  public void should_keep_registered_comparators_after_changing_the_list_under_test() {
+    // GIVEN
+    List<String> names = asList("John", "Doe", "Jane", "Doe");
+    // WHEN
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn(string -> string.length() == 4)
+          .containsExactly("JOHN", "JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
+          .containsExactly("JOHN", "JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn("value", array('J', 'a', 'n', 'e'))
+          .containsExactly("JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn("value", not(array('J', 'a', 'n', 'e')))
+          .containsExactly("JOHN", "dOE", "dOE");
+    softly.assertThat(asList(name("John", null), name("Jane", "Doe")))
+          .usingElementComparator(alwaysEqual())
+          .filteredOnNull("last")
+          .hasSize(1)
+          .contains(name("Can be", "anybody"));
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+  }
+
+  @Test
+  public void should_keep_registered_comparators_after_changing_the_object_array_under_test() {
+    // GIVEN
+    String[] names = array("John", "Doe", "Jane", "Doe");
+    // WHEN
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn(string -> string.length() == 4)
+          .containsExactly("JOHN", "JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
+          .containsExactly("JOHN", "JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn("value", array('J', 'a', 'n', 'e'))
+          .containsExactly("JANE");
+    softly.assertThat(names)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOn("value", not(array('J', 'a', 'n', 'e')))
+          .containsExactly("JOHN", "dOE", "dOE");
+    softly.assertThat(array(name("John", null), name("Jane", "Doe")))
+          .usingElementComparator(alwaysEqual())
+          .filteredOnNull("last")
+          .hasSize(1)
+          .contains(name("Can be", "anybody"));
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
   }
 
 }

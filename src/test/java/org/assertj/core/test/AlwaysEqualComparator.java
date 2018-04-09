@@ -30,4 +30,8 @@ public class AlwaysEqualComparator<T> implements Comparator<T> {
   public String toString() {
     return "AlwaysEqualComparator";
   }
+
+  public static <T> AlwaysEqualComparator<T> alwaysEqual() {
+    return new AlwaysEqualComparator<>();
+  }
 }
