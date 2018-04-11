@@ -65,6 +65,8 @@ class SoftProxies {
                                                                                             .or(named("withTypeComparators"))
                                                                                             .or(named("withThreadDumpOnError"));
 
+  private static ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.DISABLED);
+
   private final ErrorCollector collector = new ErrorCollector();
   private final TypeCache<TypeCache.SimpleKey> cache = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
 
@@ -98,18 +100,17 @@ class SoftProxies {
 
   private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
 
-    return new ByteBuddy().with(TypeValidation.DISABLED)
-                          .subclass(assertClass)
-                          .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
-                          .intercept(MethodDelegation.to(new ProxifyMethodChangingTheObjectUnderTest(this)))
-                          .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
-                                       .and(not(METHODS_NOT_TO_PROXY)))
-                          .intercept(MethodDelegation.to(collector))
-                          .make()
-                          // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
-                          // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj bundle.
-                          .load(assertClass.getClassLoader())
-                          .getLoaded();
+    return byteBuddy.subclass(assertClass)
+                    .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
+                    .intercept(MethodDelegation.to(new ProxifyMethodChangingTheObjectUnderTest(this)))
+                    .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
+                                 .and(not(METHODS_NOT_TO_PROXY)))
+                    .intercept(MethodDelegation.to(collector))
+                    .make()
+                    // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
+                    // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj bundle.
+                    .load(assertClass.getClassLoader())
+                    .getLoaded();
   }
 
   private static Junction<MethodDescription> methodsNamed(String name) {
