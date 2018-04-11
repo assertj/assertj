@@ -470,6 +470,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Overrides AssertJ default error message by the given one.
    * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * the chained call by throwing an AssertionError.
+   * <p>
    * The new error message is built using {@link String#format(String, Object...)} if you provide args parameter (if you
    * don't, the error message is taken as it is).
    * <p>
@@ -489,7 +492,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /**
    * Alternative method for {@link AbstractAssert#overridingErrorMessage}
-   *
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(player.isRookie()).withFailMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
+   *                              .isTrue();</code></pre>
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
