@@ -15,15 +15,17 @@ package org.assertj.core.api;
 import static org.assertj.core.util.Preconditions.checkState;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import net.bytebuddy.implementation.bind.annotation.SuperMethod;
 import net.bytebuddy.implementation.bind.annotation.This;
 
 public class ProxifyMethodChangingTheObjectUnderTest {
@@ -35,9 +37,15 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   }
 
   @RuntimeType
-  public AbstractAssert<?, ?> intercept(@SuperCall Callable<AbstractAssert<?, ?>> assertionMethod,
-                                        @This AbstractAssert<?, ?> currentAssertInstance) throws Exception {
-    Object result = assertionMethod.call();
+  public Object intercept(@This AbstractAssert<?, ?> currentAssertInstance,
+                          @SuperMethod Method method,
+                          @AllArguments Object[] args) throws Throwable {
+    Object result;
+    try {
+      result = method.invoke(currentAssertInstance, args);
+    } catch (InvocationTargetException e) {
+      throw e.getCause();
+    }
     return createAssertProxy(result).withAssertionState(currentAssertInstance);
   }
 
