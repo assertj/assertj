@@ -35,7 +35,7 @@ public class Offset<T extends Number> {
   public final boolean strict;
 
   /**
-   * Creates a new strict {@link Offset} that let {@code isCloseTo} assertions pass when {@code |actual-expected| == offset value}.
+   * Creates a new {@link Offset} that let {@code isCloseTo} assertions pass when {@code |actual-expected| <= offset value}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
@@ -58,7 +58,7 @@ public class Offset<T extends Number> {
   }
 
   /**
-   * Creates a new strict {@link Offset} that make {@code isCloseTo} assertion fail when {@code |actual-expected| == offset value}.
+   * Creates a new strict {@link Offset} that let {@code isCloseTo} assertion pass when {@code |actual-expected| < offset value}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds

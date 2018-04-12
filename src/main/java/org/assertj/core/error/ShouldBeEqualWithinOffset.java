@@ -33,9 +33,7 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
    */
   public static <T extends Number> ErrorMessageFactory shouldBeEqual(T actual, T expected, Offset<T> offset,
                                                                      T difference) {
-    return offset.strict
-        ? new ShouldBeEqualWithinOffset(actual, expected, offset, difference)
-        : new ShouldBeEqualWithinOffset(actual, expected, offset, difference);
+    return new ShouldBeEqualWithinOffset(actual, expected, offset, difference);
   }
 
   private <T extends Number> ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<T> offset,
