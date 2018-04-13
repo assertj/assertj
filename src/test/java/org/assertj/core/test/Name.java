@@ -12,12 +12,17 @@
  */
 package org.assertj.core.test;
 
+import static java.util.Comparator.comparing;
+
+import java.util.Comparator;
 
 /**
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
 public class Name {
+  
+  public static final Comparator<Name> lastNameComparator = comparing(Name::getLast);
 
   // intentionally public to test field retrieval
   // getter have been created to test property retrieval

@@ -27,6 +27,7 @@ import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.test.Name.lastNameComparator;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
@@ -1761,26 +1762,27 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_keep_registered_comparators_after_changing_the_iterable_under_test() {
     // GIVEN
-    Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
+    Iterable<Name> names = asList(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
           .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn(string -> string.length() == 4)
-          .containsExactly("JOHN", "JANE");
+          .filteredOn(string -> string.startsWith("Ma"))
+          .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
           .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
-          .containsExactly("JOHN", "JANE");
+          .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
+          .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn("value", array('J', 'a', 'n', 'e'))
-          .containsExactly("JANE");
+          .usingElementComparator(lastNameComparator)
+          .filteredOn("first", "Manu")
+          .containsExactly(name("Whoever", "Ginobili"));
     softly.assertThat(names)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn("value", not(array('J', 'a', 'n', 'e')))
-          .containsExactly("JOHN", "dOE", "dOE");
-    Iterable<Name> namesWithNullLast = asList(name("John", null), name("Jane", "Doe"));
-    softly.assertThat(namesWithNullLast)
+          .usingElementComparator(lastNameComparator)
+          .filteredOn("first", not("Manu"))
+          .containsExactly(name("Whoever", "Johnson"));
+    softly.assertThat(array(name("John", null), name("Jane", "Doe")))
           .usingElementComparator(alwaysEqual())
           .filteredOnNull("last")
           .hasSize(1)
@@ -1792,25 +1794,27 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_keep_registered_comparators_after_changing_the_list_under_test() {
     // GIVEN
-    List<String> names = asList("John", "Doe", "Jane", "Doe");
+    List<Name> names = asList(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
           .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn(string -> string.length() == 4)
-          .containsExactly("JOHN", "JANE");
+          .filteredOn(string -> string.startsWith("Ma"))
+          .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
           .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
-          .containsExactly("JOHN", "JANE");
+          .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
+          .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn("value", array('J', 'a', 'n', 'e'))
-          .containsExactly("JANE");
+          .usingElementComparator(lastNameComparator)
+          .filteredOn("first", "Manu")
+          .containsExactly(name("Whoever", "Ginobili"));
     softly.assertThat(names)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn("value", not(array('J', 'a', 'n', 'e')))
-          .containsExactly("JOHN", "dOE", "dOE");
-    softly.assertThat(asList(name("John", null), name("Jane", "Doe")))
+          .usingElementComparator(lastNameComparator)
+          .filteredOn("first", not("Manu"))
+          .containsExactly(name("Whoever", "Johnson"));
+    softly.assertThat(array(name("John", null), name("Jane", "Doe")))
           .usingElementComparator(alwaysEqual())
           .filteredOnNull("last")
           .hasSize(1)
@@ -1822,24 +1826,26 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_keep_registered_comparators_after_changing_the_object_array_under_test() {
     // GIVEN
-    String[] names = array("John", "Doe", "Jane", "Doe");
+    Name[] names = array(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
           .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn(string -> string.length() == 4)
-          .containsExactly("JOHN", "JANE");
+          .filteredOn(string -> string.startsWith("Ma"))
+          .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
           .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
-          .containsExactly("JOHN", "JANE");
+          .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
+          .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn("value", array('J', 'a', 'n', 'e'))
-          .containsExactly("JANE");
+          .usingElementComparator(lastNameComparator)
+          .filteredOn("first", "Manu")
+          .containsExactly(name("Whoever", "Ginobili"));
     softly.assertThat(names)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
-          .filteredOn("value", not(array('J', 'a', 'n', 'e')))
-          .containsExactly("JOHN", "dOE", "dOE");
+          .usingElementComparator(lastNameComparator)
+          .filteredOn("first", not("Manu"))
+          .containsExactly(name("Whoever", "Johnson"));
     softly.assertThat(array(name("John", null), name("Jane", "Doe")))
           .usingElementComparator(alwaysEqual())
           .filteredOnNull("last")

@@ -18,7 +18,8 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.test.Name.lastNameComparator;
+import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.Set;
@@ -28,7 +29,7 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Employee;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.Name;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_baseTest {
@@ -163,14 +164,14 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
   @Test
   public void should_keep_assertion_state() {
     // GIVEN
-    Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
+    Iterable<Name> names = asList(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
-    IterableAssert<String> assertion = assertThat(names).as("test description")
-                                                        .withFailMessage("error message")
-                                                        .withRepresentation(UNICODE_REPRESENTATION)
-                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
-                                                        .filteredOn("value", array('J', 'a', 'n', 'e'))
-                                                        .containsExactly("JANE");
+    IterableAssert<Name> assertion = assertThat(names).as("test description")
+                                                      .withFailMessage("error message")
+                                                      .withRepresentation(UNICODE_REPRESENTATION)
+                                                      .usingElementComparator(lastNameComparator)
+                                                      .filteredOn("first", "Manu")
+                                                      .containsExactly(name("Whoever", "Ginobili"));
     // THEN
     assertThat(assertion.descriptionText()).isEqualTo("test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
