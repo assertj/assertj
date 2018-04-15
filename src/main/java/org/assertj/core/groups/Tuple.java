@@ -24,11 +24,11 @@ public class Tuple {
   private final List<Object> datas = newArrayList();
 
   public Tuple(Object... values) {
-	addAll(datas, values);
+    addAll(datas, values);
   }
 
   public Object[] toArray() {
-	return datas.toArray();
+    return datas.toArray();
   }
 
   public List<Object> toList() {
@@ -37,19 +37,19 @@ public class Tuple {
 
   @Override
   public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + datas.hashCode();
-	return result;
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + datas.hashCode();
+    return result;
   }
 
   @Override
   public boolean equals(Object obj) {
-	if (this == obj) return true;
-	if (obj == null) return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
     if (!(obj instanceof Tuple)) return false;
-	Tuple other = (Tuple) obj;
-	// datas can't be null
+    Tuple other = (Tuple) obj;
+    // datas can't be null
     return areEqual(datas.toArray(), other.datas.toArray());
   }
 
@@ -59,7 +59,7 @@ public class Tuple {
   }
 
   public static Tuple tuple(Object... values) {
-	return new Tuple(values);
+    return new Tuple(values);
   }
 
 }

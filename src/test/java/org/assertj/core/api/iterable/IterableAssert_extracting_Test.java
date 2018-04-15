@@ -15,18 +15,31 @@ package org.assertj.core.api.iterable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
+import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
+import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
+import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
+import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
+import static org.assertj.core.api.GroupAssertTestHelper.throwingFirstNameExtractor;
 import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.data.TolkienCharacter.Race.MAIA;
 import static org.assertj.core.data.TolkienCharacter.Race.MAN;
+import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.Tuple;
@@ -48,7 +61,7 @@ public class IterableAssert_extracting_Test {
 
   private Employee yoda;
   private Employee luke;
-  private Iterable<Employee> employees;
+  private Iterable<Employee> jedis;
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
@@ -71,13 +84,13 @@ public class IterableAssert_extracting_Test {
       if (employee.getAge() < 20) throw new Exception("age < 20");
       return employee.getName().getFirst();
     }
-  }; 
+  };
 
   @Before
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
-    employees = newArrayList(yoda, luke);
+    jedis = newArrayList(yoda, luke);
     fellowshipOfTheRing.add(TolkienCharacter.of("Frodo", 33, HOBBIT));
     fellowshipOfTheRing.add(TolkienCharacter.of("Sam", 38, HOBBIT));
     fellowshipOfTheRing.add(TolkienCharacter.of("Gandalf", 2020, MAIA));
@@ -93,99 +106,99 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
-    assertThat(employees).extracting("age")
-                         .as("extract property backed by a private field")
-                         .containsOnly(800, 26);
-    assertThat(employees).extracting("adult")
-                         .as("extract pure property")
-                         .containsOnly(true, true);
-    assertThat(employees).extracting("name.first")
-                         .as("nested property")
-                         .containsOnly("Yoda", "Luke");
-    assertThat(employees).extracting("name")
-                         .as("extract field that is also a property")
-                         .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
-    assertThat(employees).extracting("name", Name.class)
-                         .as("extract field that is also a property but specifying the extracted type")
-                         .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
+    assertThat(jedis).extracting("age")
+                     .as("extract property backed by a private field")
+                     .containsOnly(800, 26);
+    assertThat(jedis).extracting("adult")
+                     .as("extract pure property")
+                     .containsOnly(true, true);
+    assertThat(jedis).extracting("name.first")
+                     .as("nested property")
+                     .containsOnly("Yoda", "Luke");
+    assertThat(jedis).extracting("name")
+                     .as("extract field that is also a property")
+                     .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
+    assertThat(jedis).extracting("name", Name.class)
+                     .as("extract field that is also a property but specifying the extracted type")
+                     .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test
   public void should_allow_assertions_on_null_property_values_extracted_from_given_iterable() {
     yoda.name.setFirst(null);
-    assertThat(employees).extracting("name.first")
-                         .as("not null property but null nested property")
-                         .containsOnly(null, "Luke");
+    assertThat(jedis).extracting("name.first")
+                     .as("not null property but null nested property")
+                     .containsOnly(null, "Luke");
     yoda.setName(null);
-    assertThat(employees).extracting("name.first")
-                         .as("extract nested property when top property is null")
-                         .containsOnly(null, "Luke");
-    assertThat(employees).extracting("name")
-                         .as("null property")
-                         .containsOnly(null, new Name("Luke", "Skywalker"));
+    assertThat(jedis).extracting("name.first")
+                     .as("extract nested property when top property is null")
+                     .containsOnly(null, "Luke");
+    assertThat(jedis).extracting("name")
+                     .as("null property")
+                     .containsOnly(null, new Name("Luke", "Skywalker"));
   }
 
   @Test
   public void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
-    assertThat(employees).extracting("id")
-                         .as("extract field")
-                         .containsOnly(1L, 2L);
-    assertThat(employees).extracting("surname")
-                         .as("null field")
-                         .containsNull();
-    assertThat(employees).extracting("surname.first")
-                         .as("null nested field")
-                         .containsNull();
+    assertThat(jedis).extracting("id")
+                     .as("extract field")
+                     .containsOnly(1L, 2L);
+    assertThat(jedis).extracting("surname")
+                     .as("null field")
+                     .containsNull();
+    assertThat(jedis).extracting("surname.first")
+                     .as("null nested field")
+                     .containsNull();
     yoda.surname = new Name();
-    assertThat(employees).extracting("surname.first")
-                         .as("not null field but null nested field")
-                         .containsNull();
+    assertThat(jedis).extracting("surname.first")
+                     .as("not null field but null nested field")
+                     .containsNull();
     yoda.surname = new Name("Master");
-    assertThat(employees).extracting("surname.first")
-                         .as("nested field")
-                         .containsOnly("Master", null);
-    assertThat(employees).extracting("surname", Name.class)
-                         .as("extract field specifying the extracted type")
-                         .containsOnly(new Name("Master"), null);
+    assertThat(jedis).extracting("surname.first")
+                     .as("nested field")
+                     .containsOnly("Master", null);
+    assertThat(jedis).extracting("surname", Name.class)
+                     .as("extract field specifying the extracted type")
+                     .containsOnly(new Name("Master"), null);
   }
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     // extract field that is also a property and check generic for comparator.
-    assertThat(employees).extracting("name", Name.class)
-                         .usingElementComparator((o1, o2) -> o1.getFirst().compareTo(o2.getFirst()))
-                         .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
+    assertThat(jedis).extracting("name", Name.class)
+                     .usingElementComparator((o1, o2) -> o1.getFirst().compareTo(o2.getFirst()))
+                     .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test
   public void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
     thrown.expectIntrospectionError();
-    assertThat(employees).extracting("unknown");
+    assertThat(jedis).extracting("unknown");
   }
 
   @Test
   public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
-    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
-                                                                             tuple("Luke", 26, 2L));
+    assertThat(jedis).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+                                                                         tuple("Luke", 26, 2L));
   }
 
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
     thrown.expectIntrospectionError();
-    assertThat(employees).extracting("unknown", "age", "id")
-                         .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(jedis).extracting("unknown", "age", "id")
+                     .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
   @Test
   public void should_allow_extracting_single_values_using_extractor() {
-    assertThat(employees).extracting(firstName).containsOnly("Yoda", "Luke");
-    assertThat(employees).extracting(age).containsOnly(26, 800);
+    assertThat(jedis).extracting(firstName).containsOnly("Yoda", "Luke");
+    assertThat(jedis).extracting(age).containsOnly(26, 800);
   }
 
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
     thrown.expect(RuntimeException.class);
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
+    assertThat(jedis).extracting(new Extractor<Employee, String>() {
       @Override
       public String extract(Employee input) {
         if (input.getAge() > 100) {
@@ -198,13 +211,13 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
-    assertThat(employees).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
+    assertThat(jedis).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
   public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     thrown.expect(RuntimeException.class, "java.lang.Exception: age > 100");
-    assertThat(employees).extracting(employee -> {
+    assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
       return employee.getName().getFirst();
     });
@@ -213,7 +226,7 @@ public class IterableAssert_extracting_Test {
   @Test
   public void should_let_throwing_extractor_runtime_exception_bubble_up() {
     thrown.expect(RuntimeException.class, "age > 100");
-    assertThat(employees).extracting(employee -> {
+    assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
       return employee.getName().getFirst();
     });
@@ -221,7 +234,7 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_with_throwing_extractor() {
-    assertThat(employees).extracting(employee -> {
+    assertThat(jedis).extracting(employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
       return employee.getName().getFirst();
     }).containsOnly("Yoda", "Luke");
@@ -229,7 +242,7 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
+    assertThat(jedis).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
       @Override
       public Object extractThrows(Employee employee) throws Exception {
         if (employee.getAge() < 20) throw new Exception("age < 20");
@@ -240,7 +253,7 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_multiple_values_using_extractor() {
-    assertThat(employees).extracting(new Extractor<Employee, Tuple>() {
+    assertThat(jedis).extracting(new Extractor<Employee, Tuple>() {
       @Override
       public Tuple extract(Employee input) {
         return new Tuple(input.getName().getFirst(), input.getAge(), input.id);
@@ -250,9 +263,9 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_by_toString_method() {
-    assertThat(employees).extracting(Extractors.toStringMethod())
-                         .containsOnly("Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
-                                       "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
+    assertThat(jedis).extracting(Extractors.toStringMethod())
+                     .containsOnly("Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
+                                   "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
   }
 
   @Test
@@ -359,49 +372,55 @@ public class IterableAssert_extracting_Test {
   public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
     thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
 
-    assertThat(employees).extracting("name.first").isEmpty();
+    assertThat(jedis).extracting("name.first").isEmpty();
   }
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
     thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
 
-    assertThat(employees).extracting("name.first", String.class).isEmpty();
+    assertThat(jedis).extracting("name.first", String.class).isEmpty();
   }
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
     thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
 
-    assertThat(employees).extracting("name.first", "name.last").isEmpty();
+    assertThat(jedis).extracting("name.first", "name.last").isEmpty();
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
     thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
 
-    assertThat(employees).as("check employees first name").extracting("name.first", String.class).isEmpty();
+    assertThat(jedis).as("check employees first name")
+                     .extracting("name.first", String.class)
+                     .isEmpty();
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
     thrown.expectAssertionErrorWithMessageContaining("[check employees name]");
 
-    assertThat(employees).as("check employees name").extracting("name.first", "name.last").isEmpty();
+    assertThat(jedis).as("check employees name")
+                     .extracting("name.first", "name.last")
+                     .isEmpty();
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
     thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
 
-    assertThat(employees).as("check employees first name").extracting("name.first").isEmpty();
+    assertThat(jedis).as("check employees first name")
+                     .extracting("name.first")
+                     .isEmpty();
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
 
-    assertThat(employees).as("check employees first name").extracting(new Extractor<Employee, String>() {
+    assertThat(jedis).as("check employees first name").extracting(new Extractor<Employee, String>() {
       @Override
       public String extract(Employee input) {
         return input.getName().getFirst();
@@ -413,7 +432,153 @@ public class IterableAssert_extracting_Test {
   public void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
     thrown.expectAssertionErrorWithMessageContaining("[expected exception]");
 
-    assertThat(employees).as("expected exception").extracting(throwingExtractor).containsOnly("Luke");
+    assertThat(jedis).as("expected exception")
+                     .extracting(throwingExtractor)
+                     .containsOnly("Luke");
+  }
+
+  @Test
+  public void should_extract_tuples_according_to_given_functions() {
+    assertThat(jedis).extracting(firstNameFunction, lastNameFunction)
+                     .contains(tuple("Yoda", null), tuple("Luke", "Skywalker"));
+  }
+
+  @Test
+  public void extracting_by_several_functions_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(ALWAY_EQUALS_TUPLE, Tuple.class)
+                                                                .extracting(firstNameFunction, lastNameFunction)
+                                                                .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(Tuple.class)).isSameAs(ALWAY_EQUALS_TUPLE);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+  }
+
+  @Test
+  public void extracting_by_name_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                                                .extracting("name.first")
+                                                                .contains("YODA", "Luke");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+  }
+
+  @Test
+  public void extracting_by_strongly_typed_name_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                                                .extracting("name.first", String.class)
+                                                                .contains("YODA", "Luke");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+  }
+
+  @Test
+  public void extracting_by_multiple_names_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(ALWAY_EQUALS_TUPLE, Tuple.class)
+                                                                .extracting("name.first", "name.last")
+                                                                .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(Tuple.class)).isSameAs(ALWAY_EQUALS_TUPLE);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+  }
+
+  @Test
+  public void extracting_by_single_extractor_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                                                .extracting(byName("name.first"))
+                                                                .contains("YODA", "Luke");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+  }
+
+  @Test
+  public void extracting_by_throwing_extractor_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                                                .extracting(throwingFirstNameExtractor)
+                                                                .contains("YODA", "Luke");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
 }

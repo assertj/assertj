@@ -1467,6 +1467,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> elementComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
+    this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(elementComparator));
     // to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
     // elements with elementComparator parameter
     objects = new Objects(new ObjectArrayElementComparisonStrategy<>(elementComparator));
@@ -1869,7 +1870,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(newArrayList(values)).as(description);
+    return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
   }
 
   /**
@@ -1923,7 +1924,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).as(description);
+    return newListAssertInstance(values).withAssertionState(myself).as(description);
   }
 
   /**
@@ -1981,7 +1982,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertiesOrFields));
     String extractedDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).as(description);
+    return newListAssertInstance(values).withAssertionState(myself).as(description);
   }
 
   /**
@@ -2018,7 +2019,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Extractor<? super ELEMENT, U> extractor) {
     List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
-    return newListAssertInstance(values).as(info.description());
+    return newListAssertInstance(values).withAssertionState(myself);
   }
 
   /**
@@ -2062,7 +2063,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
-    return newListAssertInstance(values).as(info.description());
+    return newListAssertInstance(values).withAssertionState(myself);
   }
 
   /**
@@ -2120,7 +2121,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
     List<Tuple> tuples = stream(actual).map(tupleExtractor).collect(toList());
-    return newListAssertInstance(tuples).as(info.description());
+    return newListAssertInstance(tuples).withAssertionState(myself);
   }
 
   /**

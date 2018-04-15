@@ -15,11 +15,14 @@ package org.assertj.core.test;
 import java.sql.Timestamp;
 import java.util.Comparator;
 
+import org.assertj.core.groups.Tuple;
+
 public class AlwaysEqualComparator<T> implements Comparator<T> {
 
-  public static final AlwaysEqualComparator<Object> ALWAY_EQUALS = new AlwaysEqualComparator<>();
-  public static final AlwaysEqualComparator<String> ALWAY_EQUALS_STRING = new AlwaysEqualComparator<>();
-  public static final AlwaysEqualComparator<Timestamp> ALWAY_EQUALS_TIMESTAMP = new AlwaysEqualComparator<>();
+  public static final AlwaysEqualComparator<Object> ALWAY_EQUALS = alwaysEqual();
+  public static final AlwaysEqualComparator<String> ALWAY_EQUALS_STRING = alwaysEqual();
+  public static final AlwaysEqualComparator<Timestamp> ALWAY_EQUALS_TIMESTAMP = alwaysEqual();
+  public static final AlwaysEqualComparator<Tuple> ALWAY_EQUALS_TUPLE = alwaysEqual();
 
   @Override
   public int compare(T o1, T o2) {

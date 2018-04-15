@@ -105,14 +105,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private Map<String, Object> iterableMap;
 
-  private ThrowingExtractor<Name, String, Exception> throwingFirstNameExtractor;
-  private ThrowingExtractor<Name, String, Exception> throwingLastNameExtractor;
-  private Extractor<Name, String> firstNameExtractor;
-  private Extractor<Name, String> lastNameExtractor;
-  private Function<Name, String> firstNameFunction;
-  private Function<Name, String> lastNameFunction;
+  private static final ThrowingExtractor<Name, String, Exception> throwingFirstNameExtractor = Name::getFirst;
+  private static final ThrowingExtractor<Name, String, Exception> throwingLastNameExtractor = Name::getLast;
+  private static final Extractor<Name, String> firstNameExtractor = Name::getFirst;
+  private static final Extractor<Name, String> lastNameExtractor = Name::getLast;
+  private static final Function<Name, String> firstNameFunction = Name::getFirst;
+  private static final Function<Name, String> lastNameFunction = Name::getLast;
 
-  private Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
+  private static final Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor = CartoonCharacter::getChildren;
 
   @Before
   public void setup() {
@@ -141,15 +141,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     iterableMap.put("job", jobs);
     iterableMap.put("city", cities);
     iterableMap.put("rank", ranks);
-
-    throwingFirstNameExtractor = Name::getFirst;
-    throwingLastNameExtractor = Name::getLast;
-    firstNameFunction = Name::getFirst;
-    lastNameFunction = Name::getLast;
-    firstNameExtractor = Name::getFirst;
-    lastNameExtractor = Name::getLast;
-
-    childrenExtractor = CartoonCharacter::getChildren;
   }
 
   @Test
