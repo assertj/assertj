@@ -17,7 +17,7 @@ public class NoElementsShouldSatisfy_create_Test {
                                                           "Yoda violates some restrictions");
       String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
       assertThat(message).isEqualTo(format("[Test] %n" +
-                                           "Expecting none element of:%n" +
+                                           "Expecting no element of:%n" +
                                            "  <[\"Luke\", \"Yoda\"]>%n" +
                                            "to satisfy given requirements, but this element did:%n" +
                                            "  <\"Yoda\"> %n" +
@@ -29,7 +29,7 @@ public class NoElementsShouldSatisfy_create_Test {
       ErrorMessageFactory factory = NoElementsShouldSatisfy.noElementsShouldSatisfy(newArrayList("Luke", "Yoda"));
       String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
       assertThat(message).isEqualTo(format("[Test] %n" +
-                                           "Expecting none element of:%n" +
+                                           "Expecting no element of:%n" +
                                            "  <[\"Luke\", \"Yoda\"]>%n" +
                                            "to satisfy the given assertions requirements but one did."));
     }
