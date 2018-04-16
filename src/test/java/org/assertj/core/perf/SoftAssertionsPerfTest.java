@@ -58,6 +58,7 @@ import org.junit.Test;
 /**
  * results in 3.9.0  : ~3500ms
  * results in 3.9.1+ : ~9300ms
+ * results in 3.10.0 : ~6000ms
  */
 @Ignore
 public class SoftAssertionsPerfTest extends BaseAssertionsTest {

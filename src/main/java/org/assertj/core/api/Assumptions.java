@@ -71,6 +71,7 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
 import net.bytebuddy.TypeCache.Sort;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
@@ -84,7 +85,7 @@ import net.bytebuddy.matcher.ElementMatchers;
 public class Assumptions {
 
   private static final TypeCache<SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
-  private static ByteBuddy byteBuddy = new ByteBuddy();
+  private static ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.DISABLED);
 
   private static final class AssumptionMethodInterceptor {
 
@@ -845,7 +846,7 @@ public class Assumptions {
    * // assertion fails
    * assumeThatCode(callable).doesNotThrowAnyException();</code></pre>
    * <p>
-   * This method was not named {@code assumeThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code assumeThat} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return the created {@link ThrowableAssert}.
@@ -1074,7 +1075,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link Stream}. 
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link Stream}.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the Stream to test
