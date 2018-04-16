@@ -22,11 +22,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
 
 public class ProxifyMethodChangingTheObjectUnderTest {
+
+  public static final String FIELD_NAME = "dispatcher";
 
   private final SoftProxies proxies;
 
@@ -35,10 +38,12 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   }
 
   @RuntimeType
-  public AbstractAssert<?, ?> intercept(@SuperCall Callable<AbstractAssert<?, ?>> assertionMethod,
-                                        @This AbstractAssert<?, ?> currentAssertInstance) throws Exception {
+  public static AbstractAssert<?, ?> intercept(
+    @FieldValue(FIELD_NAME) ProxifyMethodChangingTheObjectUnderTest dispatcher,
+    @SuperCall Callable<AbstractAssert<?, ?>> assertionMethod,
+    @This AbstractAssert<?, ?> currentAssertInstance) throws Exception {
     Object result = assertionMethod.call();
-    return createAssertProxy(result).withAssertionState(currentAssertInstance);
+    return dispatcher.createAssertProxy(result).withAssertionState(currentAssertInstance);
   }
 
   // can't return AbstractAssert<?, ?> otherwise withAssertionState(currentAssertInstance) does not compile.
