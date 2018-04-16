@@ -13,24 +13,34 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
+import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
+import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 
+import java.sql.Timestamp;
+
+import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.FluentJedi;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Tests for: 
+ * Tests for:
  * <ul>
  *  <li><code>{@link ObjectArrayAssert#extractingResultOf(String)}</code>,
  *  <li><code>{@link ObjectArrayAssert#extractingResultOf(String, Class)}</code>.
  * </ul>
- * 
+ *
  * @author Michał Piotrkowski
  */
 public class ObjectArrayAssert_extractingResultOf_Test {
@@ -84,6 +94,54 @@ public class ObjectArrayAssert_extractingResultOf_Test {
     thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
 
     assertThat(jedis).extractingResultOf("age", Integer.class).isEmpty();
+  }
+
+  @Test
+  public void extractingResultOf_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(CaseInsensitiveStringComparator.instance,
+                                                                                        String.class)
+                                                                .extractingResultOf("toString")
+                                                                .containsOnly("YODA", "darth vader");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+  }
+
+  @Test
+  public void strongly_typed_extractingResultOf_should_keep_assertion_state() {
+    // WHEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
+                                                                .withFailMessage("error message")
+                                                                .withRepresentation(UNICODE_REPRESENTATION)
+                                                                .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING,
+                                                                                                          "foo")
+                                                                .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP,
+                                                                                                         Timestamp.class)
+                                                                .usingComparatorForType(CaseInsensitiveStringComparator.instance,
+                                                                                        String.class)
+                                                                .extractingResultOf("toString", String.class)
+                                                                .containsOnly("YODA", "darth vader");
+    // THEN
+    assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 }
 

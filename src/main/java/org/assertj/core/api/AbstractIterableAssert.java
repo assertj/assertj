@@ -883,7 +883,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).as(description);
+    return newListAssertInstance(values).withAssertionState(myself).as(description);
   }
 
   /**
@@ -934,7 +934,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).as(description);
+    return newListAssertInstance(values).withAssertionState(myself).as(description);
   }
 
   /**
@@ -2422,17 +2422,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...  
-   * all satisfy the given {@code zipRequirements}. 
+   * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...
+   * all satisfy the given {@code zipRequirements}.
    * <p>
-   * This assertion assumes that actual and other have the same size but they can contain different type of elements 
-   * making it handy to compare objects converted to another type, for example Domain and View/DTO objects.  
+   * This assertion assumes that actual and other have the same size but they can contain different type of elements
+   * making it handy to compare objects converted to another type, for example Domain and View/DTO objects.
    * <p>
    * Example:
    * <pre><code class='java'> List&lt;Adress&gt; addressModels = findGoodRestaurants();
    * List&lt;AdressView&gt; addressViews = convertToView(addressModels);
-   * 
-   * // compare addressViews and addressModels respective paired elements. 
+   *
+   * // compare addressViews and addressModels respective paired elements.
    * assertThat(addressViews).zipSatisfy(addressModels, (AdressView view, Adress model) -&gt; {
    *    assertThat(view.getZipcode() + ' ' + view.getCity()).isEqualTo(model.getCityLine());
    *    assertThat(view.getStreet()).isEqualTo(model.getStreet().toUpperCase());
