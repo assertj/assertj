@@ -12,14 +12,14 @@
  */
 package org.assertj.core.api;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.SuperMethod;
 import net.bytebuddy.implementation.bind.annotation.This;
 
@@ -36,21 +36,27 @@ public class ErrorCollector {
   private final LastResult lastResult = new LastResult();
 
   @RuntimeType
-  public Object intercept(@This Object obj, @SuperCall Callable<Object> proxy,
-                          @SuperMethod(nullIfImpossible = true) Method method) throws Exception {
+  public Object intercept(@This Object obj,
+                          @SuperMethod Method method,
+                          @AllArguments Object[] args) throws Throwable {
     try {
-      Object returnResult = proxy.call();
+      Object returnResult = method.invoke(obj, args);
       lastResult.setSuccess(true);
       return returnResult;
-    } catch (AssertionError e) {
-      if (isNestedErrorCollectorProxyCall()) {
-        // let the most outer call handle the assertion error
-        throw e;
+    } catch (InvocationTargetException e) {
+      Throwable cause = e.getCause();
+      if (cause instanceof AssertionError) {
+        if (isNestedErrorCollectorProxyCall()) {
+          // let the most outer call handle the assertion error
+          throw cause;
+        }
+        lastResult.setSuccess(false);
+        errors.add(cause);
+      } else {
+        throw e.getCause();
       }
-      lastResult.setSuccess(false);
-      errors.add(e);
     }
-    if (method != null && !method.getReturnType().isInstance(obj)) {
+    if (!method.getReturnType().isInstance(obj)) {
       // In case the object is not an instance of the return type, just return null to avoid ClassCastException
       // with ByteBuddy
       return null;
