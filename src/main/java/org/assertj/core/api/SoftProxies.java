@@ -16,8 +16,10 @@ import static net.bytebuddy.matcher.ElementMatchers.any;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import net.bytebuddy.ByteBuddy;
@@ -25,8 +27,13 @@ import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
 import net.bytebuddy.TypeCache.Sort;
 import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.description.modifier.Visibility;
+import net.bytebuddy.dynamic.loading.ClassInjector;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
+import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.matcher.ElementMatcher.Junction;
 import net.bytebuddy.matcher.ElementMatchers;
 
@@ -65,10 +72,25 @@ class SoftProxies {
                                                                                             .or(named("withTypeComparators"))
                                                                                             .or(named("withThreadDumpOnError"));
 
-  private static ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.DISABLED);
+  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(new AuxiliaryType.NamingStrategy.SuffixingRandom("AssertJ$SoftProxies"))
+                                                             .with(TypeValidation.DISABLED);
+
+  private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
+  private static final Method PRIVATE_LOOKUP_IN;
+
+  private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
+
+  static {
+    Method privateLookupIn;
+    try {
+      privateLookupIn = MethodHandles.class.getMethod("privateLookupIn", Class.class, MethodHandles.Lookup.class);
+    } catch (Exception e) {
+      privateLookupIn = null;
+    }
+    PRIVATE_LOOKUP_IN = privateLookupIn;
+  }
 
   private final ErrorCollector collector = new ErrorCollector();
-  private final TypeCache<TypeCache.SimpleKey> cache = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
 
   public boolean wasSuccess() {
     return collector.wasSuccess();
@@ -83,58 +105,89 @@ class SoftProxies {
   }
 
   // TODO V extends AbstractAssert ?
-  @SuppressWarnings("unchecked")
-  <V, T> V create(final Class<V> assertClass, Class<T> actualClass, T actual) {
-
+  <V, T> V create(Class<V> assertClass, Class<T> actualClass, T actual) {
     try {
-      ClassLoader classLoader = getClass().getClassLoader();
-      SimpleKey key = new SimpleKey(assertClass);
-      Class<V> proxyClass = (Class<V>) cache.findOrInsert(classLoader, key, () -> createProxy(assertClass, collector));
-
+      Class<? extends V> proxyClass = createProxy(assertClass);
       Constructor<? extends V> constructor = proxyClass.getConstructor(actualClass);
-      return constructor.newInstance(actual);
+      V proxyInstance = constructor.newInstance(actual);
+      // instance is a AssertJProxySetup since it is a generated proxy implementing it (see createProxy)
+      ((AssertJProxySetup) proxyInstance).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return proxyInstance;
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
       throw new RuntimeException(e);
     }
   }
 
-  private <V> Class<?> createProxy(Class<V> assertClass, ErrorCollector collector) {
+  @SuppressWarnings("unchecked")
+  private static <V> Class<? extends V> createProxy(Class<V> assertClass) {
+    return (Class<V>) CACHE.findOrInsert(SoftProxies.class.getClassLoader(),
+                                         new SimpleKey(assertClass),
+                                         () -> BYTE_BUDDY.subclass(assertClass)
+                                                         .defineField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME,
+                                                                      ProxifyMethodChangingTheObjectUnderTest.class,
+                                                                      Visibility.PRIVATE)
+                                                         .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
+                                                         .intercept(MethodDelegation.to(ProxifyMethodChangingTheObjectUnderTest.class))
+                                                         .defineField(ErrorCollector.FIELD_NAME, ErrorCollector.class,
+                                                                      Visibility.PRIVATE)
+                                                         .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
+                                                                      .and(not(METHODS_NOT_TO_PROXY)))
+                                                         .intercept(MethodDelegation.to(ErrorCollector.class))
+                                                         //
+                                                         .implement(AssertJProxySetup.class)
+                                                         .intercept(FieldAccessor.ofField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME)
+                                                                                 .setsArgumentAt(0)
+                                                                                 .andThen(FieldAccessor.ofField(ErrorCollector.FIELD_NAME)
+                                                                                                       .setsArgumentAt(1)))
+                                                         .make()
+                                                         // Use ClassLoader of soft assertion class to allow ByteBuddy to always
+                                                         // find it. This is needed in OSGI runtime when custom soft assertion is
+                                                         // defined outside of assertj bundle.
+                                                         .load(assertClass.getClassLoader(), classLoadingStrategy(assertClass))
+                                                         .getLoaded());
+  }
 
-    return byteBuddy.subclass(assertClass)
-                    .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
-                    .intercept(MethodDelegation.to(new ProxifyMethodChangingTheObjectUnderTest(this)))
-                    .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
-                                 .and(not(METHODS_NOT_TO_PROXY)))
-                    .intercept(MethodDelegation.to(collector))
-                    .make()
-                    // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
-                    // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj bundle.
-                    .load(assertClass.getClassLoader())
-                    .getLoaded();
+  private static ClassLoadingStrategy<ClassLoader> classLoadingStrategy(Class<?> assertClass) {
+    if (ClassInjector.UsingReflection.isAvailable()) {
+      return ClassLoadingStrategy.Default.INJECTION;
+    } else if (ClassInjector.UsingLookup.isAvailable()) {
+      try {
+        return ClassLoadingStrategy.UsingLookup.of(PRIVATE_LOOKUP_IN.invoke(null, assertClass, LOOKUP));
+      } catch (Exception e) {
+        throw new IllegalStateException("Could not access package of " + assertClass, e);
+      }
+    } else {
+      throw new IllegalStateException("No code generation strategy available");
+    }
   }
 
   private static Junction<MethodDescription> methodsNamed(String name) {
-    return ElementMatchers.<MethodDescription> named(name);
+    return ElementMatchers.<MethodDescription>named(name);
   }
 
   IterableSizeAssert<?> createIterableSizeAssertProxy(IterableSizeAssert<?> iterableSizeAssert) {
-    Class<?> proxyClass = createProxy(IterableSizeAssert.class, collector);
+    Class<?> proxyClass = createProxy(IterableSizeAssert.class);
     try {
       Constructor<?> constructor = proxyClass.getConstructor(AbstractIterableAssert.class, Integer.class);
-      return (IterableSizeAssert<?>) constructor.newInstance(iterableSizeAssert.returnToIterable(), iterableSizeAssert.actual);
+      IterableSizeAssert<?> instance = (IterableSizeAssert<?>) constructor.newInstance(iterableSizeAssert.returnToIterable(),
+                                                                                       iterableSizeAssert.actual);
+      ((AssertJProxySetup) instance).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return instance;
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
   MapSizeAssert<?, ?> createMapSizeAssertProxy(MapSizeAssert<?, ?> mapSizeAssert) {
-    Class<?> proxyClass = createProxy(MapSizeAssert.class, collector);
+    Class<?> proxyClass = createProxy(MapSizeAssert.class);
     try {
       Constructor<?> constructor = proxyClass.getConstructor(AbstractMapAssert.class, Integer.class);
-      return (MapSizeAssert<?, ?>) constructor.newInstance(mapSizeAssert.returnToMap(), mapSizeAssert.actual);
+      MapSizeAssert<?, ?> instance = (MapSizeAssert<?, ?>) constructor.newInstance(mapSizeAssert.returnToMap(),
+                                                                                   mapSizeAssert.actual);
+      ((AssertJProxySetup) instance).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return instance;
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
-
 }

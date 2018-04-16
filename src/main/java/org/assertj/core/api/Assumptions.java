@@ -17,8 +17,10 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -64,6 +66,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import net.bytebuddy.dynamic.loading.ClassInjector;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -71,8 +76,11 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
 import net.bytebuddy.TypeCache.Sort;
+import net.bytebuddy.dynamic.loading.ClassInjector;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
@@ -84,14 +92,32 @@ import net.bytebuddy.matcher.ElementMatchers;
  */
 public class Assumptions {
 
-  private static final TypeCache<SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
-  private static ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.DISABLED);
+  /**
+   * This NamingStrategy takes the original class's name and adds a suffix to distinguish it.
+   * The default is ByteBuddy but for debugging purposes, it makes sense to add AssertJ as a name.
+   */
+  private static ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED)
+                                                       .with(new AuxiliaryType.NamingStrategy.SuffixingRandom("Assertj$Assumptions"));
+
+  private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
+  private static final Method PRIVATE_LOOKUP_IN;
+
+  private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
+
+  static {
+    Method privateLookupIn;
+    try {
+      privateLookupIn = MethodHandles.class.getMethod("privateLookupIn", Class.class, MethodHandles.Lookup.class);
+    } catch (Exception e) {
+      privateLookupIn = null;
+    }
+    PRIVATE_LOOKUP_IN = privateLookupIn;
+  }
 
   private static final class AssumptionMethodInterceptor {
 
     @RuntimeType
-    public Object intercept(@This AbstractAssert<?, ?> assertion,
-                            @SuperCall Callable<Object> proxy) throws Exception {
+    public static Object intercept(@This AbstractAssert<?, ?> assertion, @SuperCall Callable<Object> proxy) throws Exception {
       try {
         Object result = proxy.call();
         if (result != assertion && result instanceof AbstractAssert) {
@@ -1135,15 +1161,11 @@ public class Assumptions {
     return asAssumption(assertionType, array(actualType), array(actual));
   }
 
-  @SuppressWarnings({ "unchecked" })
-  private static <ASSERTION> ASSERTION asAssumption(final Class<ASSERTION> assertionType,
+  private static <ASSERTION> ASSERTION asAssumption(Class<ASSERTION> assertionType,
                                                     Class<?>[] constructorTypes,
                                                     Object... constructorParams) {
     try {
-      Class<? extends ASSERTION> type = (Class<? extends ASSERTION>) CACHE.findOrInsert(Assumptions.class.getClassLoader(),
-                                                                                        new SimpleKey(assertionType),
-                                                                                        () -> createAssumption(assertionType));
-
+      Class<? extends ASSERTION> type = createAssumption(assertionType);
       Constructor<? extends ASSERTION> constructor = type.getConstructor(constructorTypes);
       return constructor.newInstance(constructorParams);
     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
@@ -1151,14 +1173,31 @@ public class Assumptions {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private static <ASSERTION> Class<? extends ASSERTION> createAssumption(Class<ASSERTION> assertionType) {
+    return (Class<? extends ASSERTION>) CACHE.findOrInsert(Assumptions.class.getClassLoader(),
+                                                           new SimpleKey(assertionType),
+                                                           () -> BYTE_BUDDY.subclass(assertionType)
+                                                                           .method(ElementMatchers.any())
+                                                                           .intercept(MethodDelegation.to(AssumptionMethodInterceptor.class))
+                                                                           .make()
+                                                                           .load(Assumptions.class.getClassLoader(),
+                                                                                 classLoadingStrategy(assertionType))
+                                                                           .getLoaded());
+  }
 
-    return byteBuddy.subclass(assertionType)
-                    .method(ElementMatchers.any())
-                    .intercept(MethodDelegation.to(new AssumptionMethodInterceptor()))
-                    .make()
-                    .load(Assumptions.class.getClassLoader())
-                    .getLoaded();
+  private static ClassLoadingStrategy<ClassLoader> classLoadingStrategy(Class<?> assertClass) {
+    if (ClassInjector.UsingReflection.isAvailable()) {
+      return ClassLoadingStrategy.Default.INJECTION;
+    } else if (ClassInjector.UsingLookup.isAvailable()) {
+      try {
+        return ClassLoadingStrategy.UsingLookup.of(PRIVATE_LOOKUP_IN.invoke(null, assertClass, LOOKUP));
+      } catch (Exception e) {
+        throw new IllegalStateException("Could not access package of " + assertClass, e);
+      }
+    } else {
+      throw new IllegalStateException("No code generation strategy available");
+    }
   }
 
   private static RuntimeException assumptionNotMet(AssertionError assertionError) throws ReflectiveOperationException {
