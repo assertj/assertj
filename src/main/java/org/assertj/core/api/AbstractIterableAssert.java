@@ -1304,7 +1304,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       result.addAll(iterable);
     }
 
-    return newListAssertInstance(result).as(info.description());
+    return newListAssertInstance(result).withAssertionState(myself);
   }
 
   /**
@@ -1338,7 +1338,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
                                       .collect(Collectors.toList());
-    return newListAssertInstance(result).as(info.description());
+    return newListAssertInstance(result).withAssertionState(myself);
   }
 
   /**
@@ -1382,7 +1382,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
                                       .collect(Collectors.toList());
-    return newListAssertInstance(result).as(info.description());
+    return newListAssertInstance(result).withAssertionState(myself);
   }
 
   /**
@@ -1434,7 +1434,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return newListAssertInstance(extractedValues).as(info.description());
+    return newListAssertInstance(extractedValues).withAssertionState(myself);
   }
 
   /**
@@ -1526,7 +1526,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     for (Tuple tuple : FieldsOrPropertiesExtractor.extract(actual, Extractors.byName(fieldOrPropertyNames))) {
       extractedValues.addAll(tuple.toList());
     }
-    return newListAssertInstance(extractedValues).as(info.description());
+    return newListAssertInstance(extractedValues).withAssertionState(myself);
   }
 
   /**

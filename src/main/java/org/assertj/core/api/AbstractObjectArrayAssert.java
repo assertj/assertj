@@ -2209,7 +2209,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
       result.addAll(e);
     }
 
-    return newListAssertInstance(result).as(info.description());
+    return newListAssertInstance(result).withAssertionState(myself);
   }
 
   /**
