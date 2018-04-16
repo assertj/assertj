@@ -50,7 +50,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
     try {
       iterables.assertNoneSatisfy(someInfo(), actual, restrictions);
     } catch (AssertionError e) {
-      assertThat(e.getMessage()).contains("Expecting none element of:");
+      assertThat(e.getMessage()).contains("Expecting no element of:");
       assertThat(e.getMessage()).contains("<[\"Luke\", \"Leia\", \"Yoda\"]>");
       assertThat(e.getMessage()).contains("to satisfy the given assertions requirements but one did.");
       return;
