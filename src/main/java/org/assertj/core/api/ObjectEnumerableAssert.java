@@ -1238,12 +1238,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF anySatisfy(Consumer<? super ELEMENT> requirements);
 
   /**
-   * Verifies that at none element satisfies the given requirements expressed as a {@link Consumer}.
-   * <p>
-   * This is useful to check that a group of assertions is verified by none element.
-   * <p>
+   * Verifies that no elements satisfy the given requirements expressed as a {@link Consumer}.
    * Example:
-   * <pre><code class='java'> // assume that all icelander in myIcelanderFriends have not Austria as country
+   * <pre><code class='java'> // assume that all icelander in myIcelanderFriends are not from Austria
    * assertThat(myIcelanderFriends).noneSatisfy(person -&gt; {
    *                                 assertThat(person.getCountry()).isEqualTo("Austria");
    *                               });

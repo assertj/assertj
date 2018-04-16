@@ -2469,7 +2469,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> requirements) {
-    iterables.assertAnySatisfy(info, actual, requirements);
+    iterables.assertNoneSatisfy(info, actual, requirements);
     return myself;
   }
 

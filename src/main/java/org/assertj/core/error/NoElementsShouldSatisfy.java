@@ -12,30 +12,30 @@
  */
 package org.assertj.core.error;
 
-public class ElementsShouldNoneSatisfy extends BasicErrorMessageFactory {
+public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
 
-  public static <T> ErrorMessageFactory noneElementsShouldSatisfy(Object actual, T elementNotSatisfyingRestrictions,
-                                                              String assertionErrorDetails) {
-    return new ElementsShouldNoneSatisfy(actual, elementNotSatisfyingRestrictions, assertionErrorDetails);
+  public static <T> ErrorMessageFactory noElementsShouldSatisfy(Object actual, T elementNotSatisfyingRestrictions,
+                                                                String assertionErrorDetails) {
+    return new NoElementsShouldSatisfy(actual, elementNotSatisfyingRestrictions, assertionErrorDetails);
   }
 
-  public static <T> ErrorMessageFactory noneElementsShouldSatisfy(Object actual) {
-    return new ElementsShouldNoneSatisfy(actual);
+  public static <T> ErrorMessageFactory noElementsShouldSatisfy(Object actual) {
+    return new NoElementsShouldSatisfy(actual);
   }
 
-  private ElementsShouldNoneSatisfy(Object actual, Object notSatisfies, String assertionErrorDetails) {
+  private NoElementsShouldSatisfy(Object actual, Object elementThatShouldHaveNotSatisfiedrequirements, String assertionErrorDetails) {
     super("%n" +
-          "Expecting none element of:%n" +
+          "Expecting no element of:%n" +
           "  <%s>%n" +
           "to satisfy given requirements, but this element did:%n" +
           "  <%s> %n" +
           "Details: %s",
-          actual, notSatisfies, assertionErrorDetails);
+          actual, elementThatShouldHaveNotSatisfiedrequirements, assertionErrorDetails);
   }
 
-  private ElementsShouldNoneSatisfy(Object actual) {
+  private NoElementsShouldSatisfy(Object actual) {
     super("%n" +
-          "Expecting none element of:%n" +
+          "Expecting no element of:%n" +
           "  <%s>%n" +
           "to satisfy the given assertions requirements but one did.",
           actual);

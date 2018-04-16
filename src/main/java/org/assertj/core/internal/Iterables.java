@@ -27,7 +27,7 @@ import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHav
 import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHaveAtMost;
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
-import static org.assertj.core.error.ElementsShouldNoneSatisfy.noneElementsShouldSatisfy;
+import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
@@ -88,6 +88,7 @@ import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.NoElementsShouldSatisfy;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -1090,7 +1091,7 @@ public class Iterables {
   public <E> void assertNoneSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    boolean nonMatch = stream(actual.spliterator(), false).noneMatch(e -> {
+    boolean anyMatch = stream(actual.spliterator(), false).anyMatch(e -> {
       try {
         requirements.accept(e);
       } catch (AssertionError ex) {
@@ -1099,8 +1100,8 @@ public class Iterables {
       return true;
     });
 
-    if (!nonMatch) {
-      throw failures.failure(info, noneElementsShouldSatisfy(actual));
+    if (anyMatch) {
+      throw failures.failure(info, NoElementsShouldSatisfy.noElementsShouldSatisfy(actual));
     }
   }
 

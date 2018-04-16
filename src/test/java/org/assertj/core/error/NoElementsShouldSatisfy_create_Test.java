@@ -6,14 +6,14 @@ import org.junit.Test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ElementsShouldNoneSatisfy.noneElementsShouldSatisfy;
+import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.util.Lists.newArrayList;
 
-public class ElementsShouldNoneSatisfy_create_Test {
+public class NoElementsShouldSatisfy_create_Test {
 
     @Test
     public void should_create_error_message() {
-      ErrorMessageFactory factory = noneElementsShouldSatisfy(newArrayList("Luke", "Yoda"), "Yoda",
+      ErrorMessageFactory factory = noElementsShouldSatisfy(newArrayList("Luke", "Yoda"), "Yoda",
                                                           "Yoda violates some restrictions");
       String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
       assertThat(message).isEqualTo(format("[Test] %n" +
@@ -26,7 +26,7 @@ public class ElementsShouldNoneSatisfy_create_Test {
 
     @Test
     public void should_create_error_message_any() {
-      ErrorMessageFactory factory = noneElementsShouldSatisfy(newArrayList("Luke", "Yoda"));
+      ErrorMessageFactory factory = NoElementsShouldSatisfy.noElementsShouldSatisfy(newArrayList("Luke", "Yoda"));
       String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
       assertThat(message).isEqualTo(format("[Test] %n" +
                                            "Expecting none element of:%n" +
