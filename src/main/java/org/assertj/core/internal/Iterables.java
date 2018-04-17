@@ -88,7 +88,6 @@ import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
-import org.assertj.core.error.NoElementsShouldSatisfy;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -1101,7 +1100,7 @@ public class Iterables {
     });
 
     if (anyMatch) {
-      throw failures.failure(info, NoElementsShouldSatisfy.noElementsShouldSatisfy(actual));
+      throw failures.failure(info, noElementsShouldSatisfy(actual));
     }
   }
 
