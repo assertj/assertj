@@ -25,7 +25,7 @@ public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
 
   private NoElementsShouldSatisfy(Object actual, Object elementThatShouldHaveNotSatisfiedrequirements, String assertionErrorDetails) {
     super("%n" +
-          "Expecting no element of:%n" +
+          "Expecting no elements of:%n" +
           "  <%s>%n" +
           "to satisfy given requirements, but this element did:%n" +
           "  <%s> %n" +
@@ -35,7 +35,7 @@ public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
 
   private NoElementsShouldSatisfy(Object actual) {
     super("%n" +
-          "Expecting no element of:%n" +
+          "Expecting no elements of:%n" +
           "  <%s>%n" +
           "to satisfy the given assertions requirements but one did.",
           actual);

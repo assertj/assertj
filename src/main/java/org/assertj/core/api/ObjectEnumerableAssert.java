@@ -1250,7 +1250,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.
    * @throws AssertionError at least one element satisfy the given requirements.
-   * @since 3.9.1
+   * @since 3.10.0
    */
   SELF noneSatisfy(Consumer<? super ELEMENT> requirements);
 
