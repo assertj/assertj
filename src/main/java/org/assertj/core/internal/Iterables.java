@@ -1090,18 +1090,16 @@ public class Iterables {
   public <E> void assertNoneSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    boolean anyMatch = stream(actual.spliterator(), false).anyMatch(e -> {
-      try {
-        requirements.accept(e);
-      } catch (AssertionError ex) {
-        return false;
-      }
-      return true;
-    });
 
-    if (anyMatch) {
-      throw failures.failure(info, noElementsShouldSatisfy(actual));
+    for(E element : actual) {
+      try {
+        requirements.accept(element);
+      } catch(AssertionError e) {
+        return;
+      }
     }
+
+    throw failures.failure(info, noElementsShouldSatisfy(actual));
   }
 
   public <E> void assertAnyMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
