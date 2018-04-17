@@ -32,6 +32,7 @@ import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
+import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
@@ -714,7 +715,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} satisfies the given condition.
    *
-   * @param <T> the type of actual elements 
+   * @param <T> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -737,7 +738,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} not satisfies the given condition.
    *
-   * @param <E> the type of actual elements 
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -760,7 +761,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} satisfies the given condition.
    *
-   * @param <E> the type of actual elements 
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -783,7 +784,7 @@ public class Iterables {
   /**
    * Assert that each element of given {@code Iterable} not satisfies the given condition.
    *
-   * @param <E> the type of actual elements 
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -807,7 +808,7 @@ public class Iterables {
    * Assert that there are <b>at least</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
-   * @param <E> the type of actual elements 
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param times the minimum number of times the condition should be verified.
@@ -838,7 +839,7 @@ public class Iterables {
    * Assert that there are <b>at most</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
-   * @param <E> the type of actual elements 
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the number of times the condition should be at most verified.
@@ -869,7 +870,7 @@ public class Iterables {
    * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
    * condition.
    *
-   * @param <E> the type of actual elements 
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param times the exact number of times the condition should be verified.
@@ -899,8 +900,8 @@ public class Iterables {
   /**
    * An alias method of {@link #assertAreAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
-   * 
-   * @param <E> the type of actual elements 
+   *
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param times the minimum number of times the condition should be verified.
@@ -925,7 +926,7 @@ public class Iterables {
    * An alias method of {@link #assertAreAtMost(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api
    * (same logic, only error message differs).
    *
-   * @param <E> the type of actual elements 
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param times the number of times the condition should be at most verified.
@@ -949,8 +950,8 @@ public class Iterables {
   /**
    * An alias method of {@link #assertAreExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
-   * 
-   * @param <E> the type of actual elements 
+   *
+   * @param <E> the type of actual elements
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param times the exact number of times the condition should be verified.
@@ -1084,6 +1085,24 @@ public class Iterables {
                                                        nonMatches.size() == 1 ? nonMatches.get(0) : nonMatches,
                                                        predicateDescription));
     }
+  }
+
+  public <E> void assertNoneSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> restrictions) {
+    assertNotNull(info, actual);
+    requireNonNull(restrictions, "The Consumer<T> expressing the restrictions must not be null");
+    actual.forEach(element -> failIfElementSatisfyRestrictions(element, restrictions, actual, info));
+  }
+
+  private <E> void failIfElementSatisfyRestrictions(E element, Consumer<? super E> restrictions, Iterable<? extends E> actual,
+                                                    AssertionInfo info) {
+    try {
+      restrictions.accept(element);
+    } catch (AssertionError e) {
+      // no problem, element is supposed not to meet the given restrictions
+      return;
+    }
+    // proble: element meets the given restrictions!
+    throw failures.failure(info, noElementsShouldSatisfy(actual, element));
   }
 
   public <E> void assertAnyMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,

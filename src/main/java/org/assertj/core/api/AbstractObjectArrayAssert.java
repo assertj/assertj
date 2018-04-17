@@ -2754,6 +2754,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     iterables.assertAnySatisfy(info, newArrayList(actual), requirements);
     return myself;
   }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
+    iterables.assertNoneSatisfy(info, newArrayList(actual), restrictions);
+    return myself;
+  }
 
   /**
    * Verifies that the actual array contains at least one of the given values.

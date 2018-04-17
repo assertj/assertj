@@ -10,30 +10,33 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.objectarray;
+package org.assertj.core.api.iterable;
 
-import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import java.util.function.Consumer;
 
+import org.assertj.core.api.ConcreteIterableAssert;
+import org.assertj.core.api.IterableAssertBaseTest;
+import org.junit.Before;
 
-/**
- * Tests for <code>{@link ObjectArrayAssert#startsWith(Object...)}</code>.
- *
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- */
-public class ObjectArrayAssert_startsWith_Test extends ObjectArrayAssertBaseTest {
+public class IterableAssert_noneSatisfy_Test extends IterableAssertBaseTest {
+
+  private Consumer<Object> restrictions;
+
+  @Before
+  public void beforeOnce() {
+    restrictions = element -> assertThat(element).isNotNull();
+  }
 
   @Override
-  protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.startsWith("Luke", "Yoda");
+  protected ConcreteIterableAssert<Object> invoke_api_method() {
+    return assertions.noneSatisfy(restrictions);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+    verify(iterables).assertNoneSatisfy(getInfo(assertions), getActual(assertions), restrictions);
   }
 }

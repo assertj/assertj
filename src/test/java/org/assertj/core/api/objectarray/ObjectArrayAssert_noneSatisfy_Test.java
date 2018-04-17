@@ -12,28 +12,32 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
+
+import java.util.function.Consumer;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.junit.Before;
 
+public class ObjectArrayAssert_noneSatisfy_Test extends ObjectArrayAssertBaseTest {
 
-/**
- * Tests for <code>{@link ObjectArrayAssert#startsWith(Object...)}</code>.
- *
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- */
-public class ObjectArrayAssert_startsWith_Test extends ObjectArrayAssertBaseTest {
+  private Consumer<Object> restrictions;
+
+  @Before
+  public void beforeOnce() {
+    restrictions = element -> assertThat(element).isNotNull();
+  }
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.startsWith("Luke", "Yoda");
+    return assertions.noneSatisfy(restrictions);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+    verify(iterables).assertNoneSatisfy(getInfo(assertions), newArrayList(getActual(assertions)), restrictions);
   }
 }

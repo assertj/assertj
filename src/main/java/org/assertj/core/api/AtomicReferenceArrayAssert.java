@@ -2810,6 +2810,15 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
+  /*
+   * {@inheritDoc}
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> noneSatisfy(Consumer<? super T> restrictions) {
+    iterables.assertNoneSatisfy(info, newArrayList(array), restrictions);
+    return myself;
+  }
+
   /**
    * Verifies that the actual AtomicReferenceArray contains at least one of the given values.
    * <p>
