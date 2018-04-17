@@ -12,19 +12,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 public class NoElementsShouldSatisfy_create_Test {
 
     @Test
-    public void should_create_error_message() {
-      ErrorMessageFactory factory = noElementsShouldSatisfy(newArrayList("Luke", "Yoda"), "Yoda",
-                                                          "Yoda violates some restrictions");
-      String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-      assertThat(message).isEqualTo(format("[Test] %n" +
-                                           "Expecting no elements of:%n" +
-                                           "  <[\"Luke\", \"Yoda\"]>%n" +
-                                           "to satisfy given requirements, but this element did:%n" +
-                                           "  <\"Yoda\"> %n" +
-                                           "Details: \"Yoda violates some restrictions\""));
-    }
-
-    @Test
     public void should_create_error_message_any() {
       ErrorMessageFactory factory = NoElementsShouldSatisfy.noElementsShouldSatisfy(newArrayList("Luke", "Yoda"));
       String message = factory.create(new TextDescription("Test"), new StandardRepresentation());

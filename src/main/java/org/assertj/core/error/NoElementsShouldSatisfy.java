@@ -14,23 +14,8 @@ package org.assertj.core.error;
 
 public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
 
-  public static <T> ErrorMessageFactory noElementsShouldSatisfy(Object actual, T elementNotSatisfyingRestrictions,
-                                                                String assertionErrorDetails) {
-    return new NoElementsShouldSatisfy(actual, elementNotSatisfyingRestrictions, assertionErrorDetails);
-  }
-
   public static <T> ErrorMessageFactory noElementsShouldSatisfy(Object actual) {
     return new NoElementsShouldSatisfy(actual);
-  }
-
-  private NoElementsShouldSatisfy(Object actual, Object elementThatShouldHaveNotSatisfiedrequirements, String assertionErrorDetails) {
-    super("%n" +
-          "Expecting no elements of:%n" +
-          "  <%s>%n" +
-          "to satisfy given requirements, but this element did:%n" +
-          "  <%s> %n" +
-          "Details: %s",
-          actual, elementThatShouldHaveNotSatisfiedrequirements, assertionErrorDetails);
   }
 
   private NoElementsShouldSatisfy(Object actual) {
