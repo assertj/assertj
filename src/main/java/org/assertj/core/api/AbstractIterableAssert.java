@@ -2468,8 +2468,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF noneSatisfy(Consumer<? super ELEMENT> requirements) {
-    iterables.assertNoneSatisfy(info, actual, requirements);
+  public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
+    iterables.assertNoneSatisfy(info, actual, restrictions);
     return myself;
   }
 
