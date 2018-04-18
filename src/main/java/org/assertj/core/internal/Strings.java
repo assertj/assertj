@@ -824,7 +824,7 @@ public class Strings {
     if (!diff.differencesFound()) return;
 
     throw failures
-      .failure(info, shouldContainExactlyInAnyOrder(actual, values, valuesAsList, actualAsList, comparisonStrategy));
+      .failure(info, shouldContainExactlyInAnyOrder(actual, values, diff.missing, diff.unexpected, comparisonStrategy));
   }
 
   /**
