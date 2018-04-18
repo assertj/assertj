@@ -527,7 +527,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given charSequences <b>in a sequential order with no more or less elements</b>.
+   * Verifies that the actual {@code CharSequence} contains exactly all the <b>non-null</b> values of the given charSequences <b>in a sequential order with no more or less elements</b>.
    * <p>
    * Example:
    * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
@@ -554,7 +554,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given Iterable <b>in a sequential order with no more or less elements</b>.
+   * Verifies that the actual {@code CharSequence} contains exactly all the <b>non-null</b> values of the given Iterable <b>in a sequential order with no more or less elements</b>.
    * <p>
    * Example:
    * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
@@ -581,7 +581,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given charSequences <b>in any order with no more or less elements</b>.
+   * Verifies that the actual {@code CharSequence} contains exactly all the <b>non-null</b> values of the given charSequences <b>in any order with no more or less elements</b>.
    * <p>
    * Example:
    * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
@@ -608,7 +608,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains exactly all the values of the given Iterable <b>in any order with no more or less elements</b>.
+   * Verifies that the actual {@code CharSequence} contains exactly all the <b>non-null</b> values of the given Iterable <b>in any order with no more or less elements</b>.
    * <p>
    * Example:
    * <pre><code class='java'> String actual = &quot;foo, bar&quot;;
