@@ -22,10 +22,10 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
-import static org.assertj.core.error.ShouldHaveSameSizeAs.*;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.TestData.*;
 import static org.assertj.core.util.FailureMessages.*;
+import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * Tests for <code>{@link Strings#assertContainsExactlyInAnyOrder(AssertionInfo, CharSequence, CharSequence[])}</code>.
@@ -102,4 +102,25 @@ public class Strings_assertContainsExactlyInAnyOrder_Test extends StringsBaseTes
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, values);
   }
 
+  @Test
+  public void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
+    String actual = "LukeLeiaLuke";
+    String[] values = { "Luke", "Leia" };
+    thrown.expectAssertionError(
+      shouldContainExactlyInAnyOrder(actual, values, newArrayList(),
+                                     newArrayList("L", "u", "k", "e"),
+                                     StandardComparisonStrategy.instance()));
+    strings.assertContainsExactlyInAnyOrder(someInfo(), actual, values);
+  }
+
+  @Test
+  public void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
+    String actual = "LukeLeia";
+    String[] values = { "Luke", "Leia", "Luke" };
+    thrown.expectAssertionError(
+      shouldContainExactlyInAnyOrder(actual, values, newArrayList("L", "u", "k", "e"),
+                                     newArrayList(),
+                                     StandardComparisonStrategy.instance()));
+    strings.assertContainsExactlyInAnyOrder(someInfo(), actual, values);
+  }
 }
