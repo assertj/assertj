@@ -791,10 +791,6 @@ public class Strings {
     List<String> actualAsList = splitCharSequencesToListOfElements(actual);
     List<String> valuesAsList = splitCharSequencesToListOfElements(values);
 
-    if (actualAsList.size() != valuesAsList.size()) {
-      throw failures.failure(info, shouldHaveSameSizeAs(actual, actualAsList.size(), valuesAsList.size()));
-    }
-
     IterableDiff diff = diff(actualAsList, valuesAsList, comparisonStrategy);
 
     if (!diff.differencesFound()) {
@@ -822,10 +818,6 @@ public class Strings {
 
     List<String> actualAsList = splitCharSequencesToListOfElements(actual);
     List<String> valuesAsList = splitCharSequencesToListOfElements(values);
-
-    if (actualAsList.size() != valuesAsList.size()) {
-      throw failures.failure(info, shouldHaveSameSizeAs(actual, actualAsList.size(), valuesAsList.size()));
-    }
 
     IterableDiff diff = diff(actualAsList, valuesAsList, comparisonStrategy);
 

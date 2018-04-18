@@ -81,24 +81,6 @@ public class Strings_assertContainsExactlyInAnyOrder_Test extends StringsBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_contains_more_chars_than_values() {
-    String[] values = { "Practice ", "makes ", "!" };
-    int sizeOfCharsOfValues = 16;
-    thrown.expectAssertionError(
-      shouldHaveSameSizeAs(actual, actual.length(), sizeOfCharsOfValues));
-    strings.assertContainsExactlyInAnyOrder(someInfo(), actual, values);
-  }
-
-  @Test
-  public void should_fail_if_actual_contains_less_chars_than_values() {
-    String[] values = { "Practice makes perfect", "!", "more" };
-    int sizeOfCharsOfValues = 27;
-    thrown.expectAssertionError(
-      shouldHaveSameSizeAs(actual, actual.length(), sizeOfCharsOfValues));
-    strings.assertContainsExactlyInAnyOrder(someInfo(), actual, values);
-  }
-
-  @Test
   public void should_fail_if_actual_does_not_contain_values() {
     String actual = "Yoda";
     String[] values = { "Lu", "ke" };
