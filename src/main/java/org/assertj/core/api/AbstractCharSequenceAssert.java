@@ -570,8 +570,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the charSequences to check.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the Iterable or one of its values is {@code null}.
-   * @throws IllegalArgumentException if the Iterable of values is empty.
+   * @throws NullPointerException if the iterable or one of its values is {@code null}.
+   * @throws IllegalArgumentException if the iterable of values is empty.
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the given {@code CharSequence} does not contain exactly the values in a sequential order.
    */
