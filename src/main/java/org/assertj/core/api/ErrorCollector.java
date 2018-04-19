@@ -54,16 +54,15 @@ public class ErrorCollector {
                                  @SuperMethod(nullIfImpossible = true) Method method,
                                  @StubValue Object stub) throws Exception {
     try {
-      Object returnResult = proxy.call();
+      Object result = proxy.call();
       errorCollector.lastResult.setSuccess(true);
-      return returnResult;
-    } catch (AssertionError e) {
+      return result;
+    } catch (AssertionError assertionError) {
       if (errorCollector.isNestedErrorCollectorProxyCall()) {
         // let the most outer call handle the assertion error
-        throw e;
+        throw assertionError;
       }
-      errorCollector.lastResult.setSuccess(false);
-      errorCollector.errors.add(e);
+      collectAssertionError(assertionError, errorCollector);
     }
     if (method != null && !method.getReturnType().isInstance(assertion)) {
       // In case the object is not an instance of the return type, just default value for the return type:
@@ -71,6 +70,11 @@ public class ErrorCollector {
       return stub;
     }
     return assertion;
+  }
+
+  protected static void collectAssertionError(AssertionError error, ErrorCollector errorCollector) {
+    errorCollector.lastResult.setSuccess(false);
+    errorCollector.errors.add(error);
   }
 
   public void addError(Throwable error) {

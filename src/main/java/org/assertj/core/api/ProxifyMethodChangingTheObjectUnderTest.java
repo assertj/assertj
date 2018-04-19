@@ -47,40 +47,34 @@ public class ProxifyMethodChangingTheObjectUnderTest {
 
   // can't return AbstractAssert<?, ?> otherwise withAssertionState(currentAssertInstance) does not compile.
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  protected AbstractAssert createAssertProxy(Object currentActual) {
-    if (currentActual instanceof IterableSizeAssert) {
-      IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) currentActual;
-      // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
-      return proxies.createIterableSizeAssertProxy(iterableSizeAssert);
-    }
-    if (currentActual instanceof MapSizeAssert) {
-      MapSizeAssert<?, ?> iterableSizeAssert = (MapSizeAssert<?, ?>) currentActual;
-      // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
-      return proxies.createMapSizeAssertProxy(iterableSizeAssert);
-    }
-    return (AbstractAssert) proxies.create(currentActual.getClass(), actualClass(currentActual), actual(currentActual));
+  private AbstractAssert createAssertProxy(Object currentActual) {
+    if (currentActual instanceof IterableSizeAssert) return createIterableSizeAssertProxy(currentActual);
+    if (currentActual instanceof MapSizeAssert) return createMapSizeAssertProxy(currentActual);
+    return (AbstractAssert) proxies.createSoftAssertionProxy(currentActual.getClass(), actualClass(currentActual), actual(currentActual));
+  }
+
+  private MapSizeAssert<?, ?> createMapSizeAssertProxy(Object currentActual) {
+    MapSizeAssert<?, ?> iterableSizeAssert = (MapSizeAssert<?, ?>) currentActual;
+    // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
+    return proxies.createMapSizeAssertProxy(iterableSizeAssert);
+  }
+
+  private IterableSizeAssert<?> createIterableSizeAssertProxy(Object currentActual) {
+    IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) currentActual;
+    // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
+    return proxies.createIterableSizeAssertProxy(iterableSizeAssert);
   }
 
   @SuppressWarnings("rawtypes")
   private static Class actualClass(Object result) {
-    if (result instanceof ObjectArrayAssert || result instanceof ProxyableObjectArrayAssert) {
-      return Array.newInstance(Object.class, 0).getClass();
-    }
-    if (result instanceof OptionalAssert) {
-      return Optional.class;
-    }
-    if (result instanceof ObjectAssert) {
-      return Object.class;
-    }
-    if (result instanceof MapAssert) {
-      return Map.class;
-    }
-
+    if (result instanceof AbstractObjectArrayAssert) return Array.newInstance(Object.class, 0).getClass();
+    if (result instanceof OptionalAssert) return Optional.class;
+    if (result instanceof ObjectAssert) return Object.class;
+    if (result instanceof MapAssert) return Map.class;
     // Trying to create a proxy will only match exact constructor argument types.
     // To initialize one for ListAssert for example we can't use an ArrayList, we have to use a List.
     // So we can't just return actual.getClass() as we could read a concrete class whereas
     // *Assert classes define a constructor using interface (@see ListAssert for example).
-    //
     // Instead we can read generic types from *Assert definition.
     // Inspecting: class ListAssert<T> extends AbstractListAssert<ListAssert<T>, List<? extends T>, T>
     // will return the generic defined by the super class AbstractListAssert at index 1, which is a List<? extends T>
@@ -91,7 +85,8 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   }
 
   private static Object actual(Object result) {
-    checkState(result instanceof AbstractAssert, "We should be trying to make a proxy of an *Assert class.");
+    checkState(result instanceof AbstractAssert,
+               "We should be trying to make a proxy of an *Assert class but it was: %s", result.getClass());
     return ((AbstractAssert<?, ?>) result).actual;
   }
 
