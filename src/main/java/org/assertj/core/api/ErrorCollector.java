@@ -18,7 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.StubValue;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.SuperMethod;
 import net.bytebuddy.implementation.bind.annotation.This;
@@ -26,8 +28,9 @@ import net.bytebuddy.implementation.bind.annotation.This;
 /** Collects error messages of all AssertionErrors thrown by the proxied method. */
 public class ErrorCollector {
 
-  private static final String INTERCEPT_METHOD_NAME = "intercept";
+  public static final String FIELD_NAME = "errorCollector";
 
+  private static final String INTERCEPT_METHOD_NAME = "intercept";
   private static final String CLASS_NAME = ErrorCollector.class.getName();
 
   // scope : the current softassertion object
@@ -36,24 +39,28 @@ public class ErrorCollector {
   private final LastResult lastResult = new LastResult();
 
   @RuntimeType
-  public Object intercept(@This Object obj, @SuperCall Callable<Object> proxy,
-                          @SuperMethod(nullIfImpossible = true) Method method) throws Exception {
+  public static Object intercept(
+    @FieldValue(FIELD_NAME) ErrorCollector errorCollector,
+    @This Object obj,
+    @SuperCall Callable<?> proxy,
+    @SuperMethod(nullIfImpossible = true) Method method,
+    @StubValue Object stub) throws Exception {
     try {
       Object returnResult = proxy.call();
-      lastResult.setSuccess(true);
+      errorCollector.lastResult.setSuccess(true);
       return returnResult;
     } catch (AssertionError e) {
-      if (isNestedErrorCollectorProxyCall()) {
+      if (errorCollector.isNestedErrorCollectorProxyCall()) {
         // let the most outer call handle the assertion error
         throw e;
       }
-      lastResult.setSuccess(false);
-      errors.add(e);
+      errorCollector.lastResult.setSuccess(false);
+      errorCollector.errors.add(e);
     }
     if (method != null && !method.getReturnType().isInstance(obj)) {
       // In case the object is not an instance of the return type, just return null to avoid ClassCastException
       // with ByteBuddy
-      return null;
+      return stub;
     }
     return obj;
   }
