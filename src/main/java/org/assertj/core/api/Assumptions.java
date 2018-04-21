@@ -66,6 +66,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import net.bytebuddy.implementation.Implementation;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -92,6 +93,8 @@ public class Assumptions {
    */
   private static ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED)
                                                        .with(new AuxiliaryType.NamingStrategy.SuffixingRandom("Assertj$Assumptions"));
+
+  private static final Implementation ASSUMPTION = MethodDelegation.to(AssumptionMethodInterceptor.class);
 
   private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
 
@@ -1166,7 +1169,7 @@ public class Assumptions {
     return BYTE_BUDDY.subclass(assertionType)
                      // TODO ignore non assertion methods ?
                      .method(any())
-                     .intercept(MethodDelegation.to(AssumptionMethodInterceptor.class))
+                     .intercept(ASSUMPTION)
                      .make()
                      .load(Assumptions.class.getClassLoader(), classLoadingStrategy(assertionType))
                      .getLoaded();
