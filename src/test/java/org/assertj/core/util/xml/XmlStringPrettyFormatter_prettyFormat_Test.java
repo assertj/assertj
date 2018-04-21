@@ -35,14 +35,15 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
   @Rule
   public ExpectedException thrown = none();
 
+  private final String javaVersion = System.getProperty("java.specification.version");
   private String expected_formatted_xml;
 
   @Before
   public void before() {
     // Set locale to be able to check exception message in English.
     Locale.setDefault(ENGLISH);
-    if (System.getProperty("java.specification.version").equals("9")) {
-      // seems to be a bug in java 9
+    if (javaVersion.equals("9") || javaVersion.equals("10")) {
+      // seems to be a bug in java 9/10
       expected_formatted_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\">\n"
                                + "    <channel>\n"
                                + "        <title>Java Tutorials and Examples 1</title>\n"
@@ -69,7 +70,7 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
   @Test
   public void should_format_xml_string_without_xml_declaration_prettily() {
     String xmlString = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
-    if (System.getProperty("java.specification.version").equals("9")) {
+    if (javaVersion.equals("9") || javaVersion.equals("10")) {
       assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml.substring("<?xml version='1.0' encoding='UTF-8'?>".length()));
     } else {
       assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml.substring("<?xml version='1.0' encoding='UTF-8'?>\n".length()));
