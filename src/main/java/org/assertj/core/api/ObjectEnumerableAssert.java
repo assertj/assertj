@@ -1238,6 +1238,23 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF anySatisfy(Consumer<? super ELEMENT> requirements);
 
   /**
+   * Verifies that no elements satisfy the given requirements expressed as a {@link Consumer}.
+   * Example:
+   * <pre><code class='java'> // assume that all icelander in myIcelanderFriends are not from Austria
+   * assertThat(myIcelanderFriends).noneSatisfy(person -&gt; {
+   *                                 assertThat(person.getCountry()).isEqualTo("Austria");
+   *                               });
+   *</code></pre>
+   *
+   * @param requirements the given {@link Consumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given {@link Consumer} is {@code null}.
+   * @throws AssertionError at least one element satisfy the given requirements.
+   * @since 3.10.0
+   */
+  SELF noneSatisfy(Consumer<? super ELEMENT> requirements);
+
+  /**
    * Verifies that the actual {@link Iterable} contains at least one of the given values.
    * <p>
    * Example:
