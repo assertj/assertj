@@ -29,6 +29,7 @@ import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FieldAccessor;
+import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.matcher.ElementMatcher.Junction;
@@ -71,6 +72,9 @@ class SoftProxies {
 
   private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(new AuxiliaryType.NamingStrategy.SuffixingRandom("AssertJ$SoftProxies"))
                                                              .with(TypeValidation.DISABLED);
+
+  private static final Implementation PROXIFY_METHOD = MethodDelegation.to(ProxifyMethodChangingTheObjectUnderTest.class);
+  private static final Implementation ERROR_COLLECTOR = MethodDelegation.to(ErrorCollector.class);
 
   private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
 
@@ -140,11 +144,11 @@ class SoftProxies {
                                   ProxifyMethodChangingTheObjectUnderTest.class,
                                   Visibility.PRIVATE)
                      .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
-                     .intercept(MethodDelegation.to(ProxifyMethodChangingTheObjectUnderTest.class))
+                     .intercept(PROXIFY_METHOD)
                      .defineField(ErrorCollector.FIELD_NAME, ErrorCollector.class, Visibility.PRIVATE)
                      .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
                                   .and(not(METHODS_NOT_TO_PROXY)))
-                     .intercept(MethodDelegation.to(ErrorCollector.class))
+                     .intercept(ERROR_COLLECTOR)
                      .implement(AssertJProxySetup.class)
                      // set ProxifyMethodChangingTheObjectUnderTest and ErrorCollector fields on the generated proxy
                      .intercept(FieldAccessor.ofField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME).setsArgumentAt(0)
