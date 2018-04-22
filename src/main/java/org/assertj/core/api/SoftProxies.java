@@ -73,7 +73,7 @@ class SoftProxies {
   private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(new AuxiliaryType.NamingStrategy.SuffixingRandom("AssertJ$SoftProxies"))
                                                              .with(TypeValidation.DISABLED);
 
-  private static final Implementation PROXIFY_METHOD = MethodDelegation.to(ProxifyMethodChangingTheObjectUnderTest.class);
+  private static final Implementation PROXIFY_METHOD_CHANGING_THE_OBJECT_UNDER_TEST = MethodDelegation.to(ProxifyMethodChangingTheObjectUnderTest.class);
   private static final Implementation ERROR_COLLECTOR = MethodDelegation.to(ErrorCollector.class);
 
   private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
@@ -144,7 +144,7 @@ class SoftProxies {
                                   ProxifyMethodChangingTheObjectUnderTest.class,
                                   Visibility.PRIVATE)
                      .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
-                     .intercept(PROXIFY_METHOD)
+                     .intercept(PROXIFY_METHOD_CHANGING_THE_OBJECT_UNDER_TEST)
                      .defineField(ErrorCollector.FIELD_NAME, ErrorCollector.class, Visibility.PRIVATE)
                      .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
                                   .and(not(METHODS_NOT_TO_PROXY)))
