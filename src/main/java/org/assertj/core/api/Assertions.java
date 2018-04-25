@@ -43,6 +43,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.SortedSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -1081,7 +1082,7 @@ public class Assertions {
    * assertThat(thrown).as("display me")
    *                   .isInstanceOf(Exception.class);</code></pre>
    *
-   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
+   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -1093,7 +1094,7 @@ public class Assertions {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method 
+   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
    * Example:
@@ -1106,7 +1107,7 @@ public class Assertions {
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
-   * <p> 
+   * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
    * assertThatThrownBy(() -&gt; {}).as("display me")
@@ -1132,14 +1133,14 @@ public class Assertions {
   /**
    * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
    * <p>
-   * The main difference with {@code assertThatThrownBy(ThrowingCallable)} is that 
+   * The main difference with {@code assertThatThrownBy(ThrowingCallable)} is that
    * this method does not fail if no exception was thrown.
    * <p>
    * Example :
    * <pre><code class='java'> ThrowingCallable boomCode = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * ThrowingCallable doNothing = () -&gt; {}; 
+   * ThrowingCallable doNothing = () -&gt; {};
    *
    * // assertions succeed
    * assertThatCode(doNothing).doesNotThrowAnyException();
@@ -1149,16 +1150,16 @@ public class Assertions {
    * // assertion fails
    * assertThatCode(boomCode).doesNotThrowAnyException();</code></pre>
    *
-   * Contrary to <code>assertThatThrownBy(ThrowingCallable)</code> the test description provided with 
+   * Contrary to <code>assertThatThrownBy(ThrowingCallable)</code> the test description provided with
    * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
    *
-   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {}; 
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {};
    *
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")
    *                          .isInstanceOf(Exception.class);</code></pre>
    * <p>
-   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return the created {@link ThrowableAssert}.
@@ -1201,7 +1202,7 @@ public class Assertions {
   /**
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null 
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
    * otherwise it checks that the caught {@link Throwable} has the specified type and casts it making it convenient to perform subtype-specific assertions on it.
    * <p>
    * Example:
@@ -1223,11 +1224,11 @@ public class Assertions {
    * assertThat(e.line).isEqualTo(1);
    * assertThat(e.column).isEqualTo(5);
    *
-   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions 
+   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions
    * assertThat(catchThrowableOfType(() -&gt; {}, Exception.class)).isNull();
    *
    * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
+   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                      RuntimeException.class);</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
@@ -1764,7 +1765,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
-   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * LocalTime _07_12 = LocalTime.of(7, 12);
    * assertThat(_07_10).isCloseTo(_07_12, within(5, ChronoUnit.MINUTES));</code></pre>
    *
    * @param value the allowed offset
@@ -1827,7 +1828,7 @@ public class Assertions {
   /**
    * Build a {@link Offset#strictOffset(Number) <b>strict</b> Offset} to use with {@link AbstractDoubleAssert#isCloseTo(double, Offset)} and {@link AbstractDoubleAssert#isNotCloseTo(double, Offset)} assertions.
    * <p>
-   * A strict offset implies a strict comparison which means that {@code isCloseTo} will fail when <i>abs(actual - expected) == offset</i>.  
+   * A strict offset implies a strict comparison which means that {@code isCloseTo} will fail when <i>abs(actual - expected) == offset</i>.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds
@@ -1958,7 +1959,7 @@ public class Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
-   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * LocalTime _07_12 = LocalTime.of(7, 12);
    * assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, ChronoUnit.MINUTES));</code></pre>
    *
    * @param value the value of the offset.
@@ -2583,6 +2584,11 @@ public class Assertions {
    */
   @CheckReturnValue
   public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterable<? extends ELEMENT> actual) {
+    if (actual instanceof SortedSet) {
+      @SuppressWarnings("unchecked")
+      SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
+      return new IterableAssert<ELEMENT>(actual).usingElementComparator(sortedSet.comparator());
+    }
     return new IterableAssert<>(actual);
   }
 
@@ -2776,8 +2782,8 @@ public class Assertions {
    * <p>
    * {@link Representation} are used to format types in assertions error messages.
    * <p>
-   * An alternative way of using a different representation is to register one as a service, 
-   * this approach is described in {@link Representation}, it requires more work than this method 
+   * An alternative way of using a different representation is to register one as a service,
+   * this approach is described in {@link Representation}, it requires more work than this method
    * but has the advantage of not having to do anything in your tests and it would be applied to all the tests globally
    * <p>
    * Example :
@@ -2846,7 +2852,7 @@ public class Assertions {
    * // now Long will be formatted between in $$ in error message.
    * assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
    *
-   * // fails with error : expected:&lt;$456$&gt; but was:&lt;$123$&gt; 
+   * // fails with error : expected:&lt;$456$&gt; but was:&lt;$123$&gt;
    * assertThat(123L).isEqualTo(456L);</code></pre>
    *
    * @param <T> the type of format.
