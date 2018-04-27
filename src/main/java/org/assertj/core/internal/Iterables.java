@@ -14,8 +14,8 @@ package org.assertj.core.internal;
 
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
-import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -73,6 +73,7 @@ import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -80,6 +81,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -88,6 +90,7 @@ import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -1044,15 +1047,23 @@ public class Iterables {
     requireNonNull(other, "The iterable to zip actual with must not be null");
     assertHasSameSizeAs(info, actual, other);
     Iterator<OTHER_ELEMENT> otherIterator = other.iterator();
-    for (ACTUAL_ELEMENT actualElement : actual) {
-      OTHER_ELEMENT otherElement = otherIterator.next();
-      try {
-        zipRequirements.accept(actualElement, otherElement);
-      } catch (AssertionError ex) {
-        throw failures.failure(info, zippedElementsShouldSatisfy(actual, other,
-                                                                 tuple(actualElement, otherElement),
-                                                                 ex.getMessage()));
-      }
+
+    List<ZipSatisfyError> errors = stream(actual).map(actualElement -> failsZipRequirements(actualElement, otherIterator.next(),
+                                                                                            zipRequirements))
+                                                 .filter(Optional::isPresent)
+                                                 .map(Optional::get)
+                                                 .collect(toList());
+    if (!errors.isEmpty()) throw failures.failure(info, zippedElementsShouldSatisfy(actual, other, errors));
+  }
+
+  private <ACTUAL_ELEMENT, OTHER_ELEMENT> Optional<ZipSatisfyError> failsZipRequirements(ACTUAL_ELEMENT actualElement,
+                                                                                         OTHER_ELEMENT otherElement,
+                                                                                         BiConsumer<ACTUAL_ELEMENT, OTHER_ELEMENT> zipRequirements) {
+    try {
+      zipRequirements.accept(actualElement, otherElement);
+      return Optional.empty();
+    } catch (AssertionError ex) {
+      return Optional.of(new ZipSatisfyError(actualElement, otherElement, ex.getMessage()));
     }
   }
 

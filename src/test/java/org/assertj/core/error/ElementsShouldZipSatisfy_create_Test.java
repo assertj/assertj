@@ -14,12 +14,15 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.List;
+
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.junit.Test;
 
 public class ElementsShouldZipSatisfy_create_Test {
@@ -27,10 +30,11 @@ public class ElementsShouldZipSatisfy_create_Test {
   @Test
   public void should_create_error_message() {
     // GIVEN
+    List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", "error luke"),
+                                        new ZipSatisfyError("Yo-da", "YODA", "error yoda"));
     ErrorMessageFactory factory = zippedElementsShouldSatisfy(newArrayList("Luke", "Yo-da"),
                                                               newArrayList("LUKE", "YODA"),
-                                                              tuple("Yo-da", "YODA"),
-                                                              "Yo-da should be equal to YODA ignoring case");
+                                                              errors);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -39,9 +43,10 @@ public class ElementsShouldZipSatisfy_create_Test {
                                          "  <[\"Luke\", \"Yo-da\"]>%n" +
                                          "and:%n" +
                                          "  <[\"LUKE\", \"YODA\"]>%n" +
-                                         "to satisfy given requirements, but this pair of elements did not:%n" +
-                                         "  <(\"Yo-da\", \"YODA\")> %n" +
-                                         "Reason: \"Yo-da should be equal to YODA ignoring case\""));
+                                         "to satisfy given requirements but these zipped elements did not:%n" +
+                                         "%n" +
+                                         "- (Luke, LUKE) error: error luke%n" +
+                                         "- (Yo-da, YODA) error: error yoda"));
   }
 
 }

@@ -12,19 +12,22 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
+import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.Test;
 
@@ -54,18 +57,17 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_according_to_requirements() {
-    try {
-      iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).startsWith(s2));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, zippedElementsShouldSatisfy(actual, other, tuple("Luke", "LUKE"),
-                                                                 format("%n" +
-                                                                        "Expecting:%n" +
-                                                                        " <\"Luke\">%n" +
-                                                                        "to start with:%n" +
-                                                                        " <\"LUKE\">%n")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // GIVEN
+    ThrowingCallable assertion = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
+                                                                  (s1, s2) -> assertThat(s1).startsWith(s2));
+    // WHEN
+    AssertionError assertionError = catchThrowableOfType(assertion, AssertionError.class);
+    // THEN
+    assertThat(assertionError).isNotNull();
+    List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", shouldStartWith("Luke", "LUKE").create()),
+                                        new ZipSatisfyError("Yoda", "YODA", shouldStartWith("Yoda", "YODA").create()),
+                                        new ZipSatisfyError("Leia", "LEIA", shouldStartWith("Leia", "LEIA").create()));
+    verify(failures).failure(info, zippedElementsShouldSatisfy(actual, other, errors));
   }
 
   @Test

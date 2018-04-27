@@ -12,27 +12,53 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.groups.Tuple;
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
 
 public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
 
-  public static <T> ErrorMessageFactory zippedElementsShouldSatisfy(Object actual, Object other,
-                                                                    Tuple pairNotSatisfyingRequirements,
-                                                                    String assertionErrorDetails) {
-    return new ZippedElementsShouldSatisfy(actual, other, pairNotSatisfyingRequirements, assertionErrorDetails);
+  private static final String DELIMITER = String.format("%n") + "- ";
+
+  public static ErrorMessageFactory zippedElementsShouldSatisfy(Object actual, Object other,
+                                                                List<ZipSatisfyError> zipSatisfyErrors) {
+    return new ZippedElementsShouldSatisfy(actual, other, zipSatisfyErrors);
   }
 
-  private ZippedElementsShouldSatisfy(Object actual, Object other, Tuple pairNotSatisfyingRequirements,
-                                      String assertionErrorDetails) {
+  private ZippedElementsShouldSatisfy(Object actual, Object other, List<ZipSatisfyError> zipSatisfyErrors) {
+    // no use of %s for describe(zipSatisfyErrors) to avoid extra ""
     super("%n" +
           "Expecting zipped elements of:%n" +
           "  <%s>%n" +
           "and:%n" +
           "  <%s>%n" +
-          "to satisfy given requirements, but this pair of elements did not:%n" +
-          "  <%s> %n" +
-          "Reason: %s",
-          actual, other, pairNotSatisfyingRequirements, assertionErrorDetails);
+          "to satisfy given requirements but these zipped elements did not:%n" + describe(zipSatisfyErrors),
+          actual, other);
+  }
+
+  private static String describe(List<ZipSatisfyError> zipSatisfyErrors) {
+    List<String> errorsToStrings = zipSatisfyErrors.stream()
+                                                   .map(ZipSatisfyError::toString)
+                                                   .collect(toList());
+    return DELIMITER + String.join(DELIMITER, errorsToStrings);
+  }
+
+  public static class ZipSatisfyError {
+    public final Object actualElement;
+    public final Object otherElement;
+    public final String error;
+
+    public ZipSatisfyError(Object actualElement, Object otherElement, String error) {
+      this.actualElement = actualElement;
+      this.otherElement = otherElement;
+      this.error = error;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("(%s, %s) error: %s", actualElement, otherElement, error);
+    }
+
   }
 
 }
