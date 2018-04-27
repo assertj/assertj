@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Utility methods related to {@code java.util.List}s.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -27,7 +27,7 @@ import java.util.List;
 public final class Lists {
   /**
    * Creates a <em>mutable</em> {@link ArrayList} containing the given elements.
-   * 
+   *
    * @param <T> the generic type of the {@code ArrayList} to create.
    * @param elements the elements to store in the {@code ArrayList}.
    * @return the created {@code ArrayList}, of {@code null} if the given array of elements is {@code null}.
@@ -42,9 +42,14 @@ public final class Lists {
     return list;
   }
 
+  @SafeVarargs
+  public static <T> ArrayList<T> list(T... elements) {
+    return newArrayList(elements);
+  }
+
   /**
    * Creates a <em>mutable</em> {@link ArrayList} containing the given elements.
-   * 
+   *
    * @param <T> the generic type of the {@code ArrayList} to create.
    * @param elements the elements to store in the {@code ArrayList}.
    * @return the created {@code ArrayList}, or {@code null} if the given {@code Iterable} is {@code null}.
@@ -62,7 +67,7 @@ public final class Lists {
 
   /**
    * Creates a <em>mutable</em> {@link ArrayList} containing the given elements.
-   * 
+   *
    * @param <T> the generic type of the {@code ArrayList} to create.
    * @param elements the elements to store in the {@code ArrayList}.
    * @return the created {@code ArrayList}, or {@code null} if the given {@code Iterator} is {@code null}.
@@ -80,7 +85,7 @@ public final class Lists {
 
   /**
    * Creates a <em>mutable</em> {@link ArrayList}.
-   * 
+   *
    * @param <T> the generic type of the {@code ArrayList} to create.
    * @return the created {@code ArrayList}, of {@code null} if the given array of elements is {@code null}.
    */

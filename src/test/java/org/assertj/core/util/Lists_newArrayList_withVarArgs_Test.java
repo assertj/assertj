@@ -12,35 +12,43 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.ArrayList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import org.junit.Test;
 
 /**
  * Tests for {@link Lists#newArrayList(Object...)}.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
 public class Lists_newArrayList_withVarArgs_Test {
   @Test
   public void should_return_List_containing_all_elements_in_array() {
+    // GIVEN
     String[] expected = { "One", "Two" };
-    ArrayList<String> list = Lists.newArrayList(expected);
-    assertThat(list.toArray()).isEqualTo(expected);
+    // THEN
+    assertThat(newArrayList(expected).toArray()).isEqualTo(expected);
+    assertThat(list(expected).toArray()).isEqualTo(expected);
   }
 
   @Test
   public void should_return_null_if_array_is_null() {
+    // GIVEN
     Object[] elements = null;
-    assertThat(Lists.newArrayList(elements)).isNull();
+    // THEN
+    assertThat(newArrayList(elements)).isNull();
+    assertThat(list(elements)).isNull();
   }
 
   @Test
   public void should_return_empty_List_if_array_is_empty() {
-    ArrayList<Object> list = Lists.newArrayList(new Object[0]);
-    assertThat(list).isEmpty();
+    // GIVEN
+    Object[] elements = new Object[0];
+    // THEN
+    assertThat(newArrayList(elements)).isEmpty();
+    assertThat(list(elements)).isEmpty();
   }
 }
