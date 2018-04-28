@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
 
-  private static final String DELIMITER = String.format("%n") + "- ";
+  private static final String DELIMITER = String.format("%n%n- ");
 
   public static ErrorMessageFactory zippedElementsShouldSatisfy(Object actual, Object other,
                                                                 List<ZipSatisfyError> zipSatisfyErrors) {
@@ -32,7 +32,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
           "  <%s>%n" +
           "and:%n" +
           "  <%s>%n" +
-          "to satisfy given requirements but these zipped elements did not:%n" + describe(zipSatisfyErrors),
+          "to satisfy given requirements but these zipped elements did not:" + describe(zipSatisfyErrors),
           actual, other);
   }
 

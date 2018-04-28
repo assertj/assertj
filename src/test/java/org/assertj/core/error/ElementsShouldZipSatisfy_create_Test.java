@@ -43,10 +43,9 @@ public class ElementsShouldZipSatisfy_create_Test {
                                          "  <[\"Luke\", \"Yo-da\"]>%n" +
                                          "and:%n" +
                                          "  <[\"LUKE\", \"YODA\"]>%n" +
-                                         "to satisfy given requirements but these zipped elements did not:%n" +
-                                         "%n" +
-                                         "- (Luke, LUKE) error: error luke%n" +
-                                         "- (Yo-da, YODA) error: error yoda"));
+                                         "to satisfy given requirements but these zipped elements did not:" +
+                                         "%n%n- (Luke, LUKE) error: error luke" +
+                                         "%n%n- (Yo-da, YODA) error: error yoda"));
   }
 
 }
