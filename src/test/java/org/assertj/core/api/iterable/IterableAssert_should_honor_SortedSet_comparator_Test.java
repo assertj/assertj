@@ -15,6 +15,7 @@ package org.assertj.core.api.iterable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.util.Comparator;
 import java.util.Set;
@@ -30,11 +31,13 @@ public class IterableAssert_should_honor_SortedSet_comparator_Test {
 
   @Before
   public void setup() {
-    Set<String> treeSet = new TreeSet<>(Comparator.comparing(String::toUpperCase));
-    SortedSet<String> sortedSet = new TreeSet<>(Comparator.comparing(String::toUpperCase));
-    treeSet.add("FOO");
-    sortedSet.add("FOO");
-    sets = newArrayList(sortedSet, treeSet);
+    Set<String> treeSetWithComparator = new TreeSet<>(Comparator.comparing(String::toUpperCase));
+    treeSetWithComparator.add("FOO");
+    SortedSet<String> sortedSetWithComparator = new TreeSet<>(Comparator.comparing(String::toUpperCase));
+    sortedSetWithComparator.add("FOO");
+    Set<String> treeSet = newTreeSet("foo");
+    SortedSet<String> sortedSet = newTreeSet("foo");
+    sets = newArrayList(sortedSetWithComparator, treeSetWithComparator, sortedSet, treeSet);
   }
 
   @Test

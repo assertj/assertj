@@ -35,6 +35,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -2587,7 +2588,10 @@ public class Assertions {
     if (actual instanceof SortedSet) {
       @SuppressWarnings("unchecked")
       SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
-      return new IterableAssert<ELEMENT>(actual).usingElementComparator(sortedSet.comparator());
+      Comparator<? super ELEMENT> comparator = sortedSet.comparator();
+      return comparator == null
+          ? new IterableAssert<>(actual)
+          : new IterableAssert<ELEMENT>(actual).usingElementComparator(comparator);
     }
     return new IterableAssert<>(actual);
   }
@@ -2877,7 +2881,6 @@ public class Assertions {
   /**
    * Creates a new <code>{@link Assertions}</code>.
    */
-  protected Assertions() {
-  }
+  protected Assertions() {}
 
 }

@@ -19,13 +19,13 @@ import java.util.TreeSet;
 
 /**
  * Utility methods related to {@link Set}s.
- * 
+ *
  * @author alruiz
  */
 public final class Sets {
   /**
    * Creates a <em>mutable</em> {@code HashSet}.
-   * 
+   *
    * @param <T> the generic type of the {@code HashSet} to create.
    * @return the created {@code HashSet}.
    */
@@ -35,7 +35,7 @@ public final class Sets {
 
   /**
    * Creates a <em>mutable</em> {@code HashSet} containing the given elements.
-   * 
+   *
    * @param <T> the generic type of the {@code HashSet} to create.
    * @param elements the elements to store in the {@code HashSet}.
    * @return the created {@code HashSet}, or {@code null} if the given array of elements is {@code null}.
@@ -53,7 +53,7 @@ public final class Sets {
 
   /**
    * Creates a <em>mutable</em> {@code LinkedHashSet}.
-   * 
+   *
    * @param <T> the generic type of the {@code LinkedHashSet} to create.
    * @return the created {@code LinkedHashSet}.
    */
@@ -63,7 +63,7 @@ public final class Sets {
 
   /**
    * Creates a <em>mutable</em> {@link LinkedHashSet} containing the given elements.
-   * 
+   *
    * @param <T> the generic type of the {@code LinkedHashSet} to create.
    * @param elements the elements to store in the {@code LinkedHashSet}.
    * @return the created {@code LinkedHashSet}, or {@code null} if the given array of elements is {@code null}.
