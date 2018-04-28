@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.guava.api;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
-import org.junit.Test;
-
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
+
+import org.junit.Test;
+
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 
 public class MultisetAssert_contains_Test extends BaseTest {
 
@@ -79,5 +80,15 @@ public class MultisetAssert_contains_Test extends BaseTest {
                                           "exactly 1 times but was found 2 times.");
     // when
     assertThat(actual).contains(1, "test");
+  }
+
+  @Test
+  public void should_work_with_filtering() {
+    // given
+    Multiset<String> actual = HashMultiset.create();
+    actual.add("test", 2);
+    // then
+    assertThat(actual).filteredOn(s -> s.startsWith("t"))
+                      .contains(2, "test");
   }
 }

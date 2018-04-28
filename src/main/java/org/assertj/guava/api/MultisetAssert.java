@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2018 the original author or authors.
  */
 package org.assertj.guava.api;
 
@@ -23,6 +23,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
 /**
@@ -51,12 +52,12 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();   
+   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();
    * actual.add("shoes", 2);
-   *             
+   *
    * // assertion succeeds
    * assertThat(actual).contains(2, "shoes");
-   * 
+   *
    * // assertions fail
    * assertThat(actual).contains(1, "shoes");
    * assertThat(actual).contains(3, "shoes");</code></pre>
@@ -84,13 +85,13 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();   
+   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();
    * actual.add("shoes", 2);
-   *             
+   *
    * // assertions succeed
    * assertThat(actual).containsAtLeast(1, "shoes");
    * assertThat(actual).containsAtLeast(2, "shoes");
-   *             
+   *
    * // assertion fails
    * assertThat(actual).containsAtLeast(3, "shoes");</code></pre>
    *
@@ -117,13 +118,13 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();   
+   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();
    * actual.add("shoes", 2);
-   *             
+   *
    * // assertions succeed
    * assertThat(actual).containsAtMost(3, "shoes");
    * assertThat(actual).containsAtMost(2, "shoes");
-   *             
+   *
    * // assertion fails
    * assertThat(actual).containsAtMost(1, "shoes");</code></pre>
    *
@@ -149,5 +150,13 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
   @Override
   protected ObjectAssert<T> toAssert(T value, String description) {
     return null;
+  }
+
+  @Override
+  protected MultisetAssert<T> newAbstractIterableAssert(Iterable<? extends T> iterable) {
+    // actual may not have been a HashMultiset but there is no easy elegant to build the same Multiset subtype.
+    Multiset<T> filtered = HashMultiset.create();
+    iterable.forEach(filtered::add);
+    return new MultisetAssert<>(filtered);
   }
 }

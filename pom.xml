@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-guava</artifactId>
-  <version>3.1.1-SNAPSHOT</version>
+  <version>3.2.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>AssertJ fluent assertions for Guava</name>
   <url>https://github.com/joel-costigliola/assertj-guava</url>
@@ -11,7 +11,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.1.4</version>
+    <version>2.1.9</version>
   </parent>
 
   <scm>
@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
+      <version>[${assertj-core.version}, 4.0)</version>
     </dependency>
     <!-- test dependencies -->
     <dependency>
