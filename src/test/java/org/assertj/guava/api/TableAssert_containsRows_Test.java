@@ -56,7 +56,7 @@ public class TableAssert_containsRows_Test extends TableAssertBaseTest {
     } catch (AssertionError e) {
       assertThat(e).hasMessage(format("%n" +
                                       "Expecting:%n" +
-                                      "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>%n" +
+                                      "  <{1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}>%n" +
                                       "to contain rows:%n" +
                                       "  <[3, 4]>%n" +
                                       "but could not find:%n" +

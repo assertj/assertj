@@ -27,7 +27,8 @@
   </issueManagement>
 
   <properties>
-    <guava.version>19.0</guava.version>
+    <!-- guava 21+ is for java 8 -->
+    <guava.version>21.0</guava.version>
     <assertj-core.version>3.9.1</assertj-core.version>
   </properties>
 

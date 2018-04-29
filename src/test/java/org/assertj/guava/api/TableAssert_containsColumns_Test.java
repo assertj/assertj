@@ -56,7 +56,7 @@ public class TableAssert_containsColumns_Test extends TableAssertBaseTest {
     } catch (AssertionError e) {
       assertThat(e).hasMessage(format("%n" +
                                       "Expecting:%n" +
-                                      "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>%n" +
+                                      "  <{1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}>%n" +
                                       "to contain columns:%n" +
                                       "  <[9, 6]>%n" +
                                       "but could not find:%n" +

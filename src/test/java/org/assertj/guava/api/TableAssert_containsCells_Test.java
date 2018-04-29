@@ -49,7 +49,8 @@ public class TableAssert_containsCells_Test extends TableAssertBaseTest {
                                       "but was:%n" +
                                       "  <Franklin Pierce>%n" +
                                       "in:%n" +
-                                      "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>"));
+                                      "  <{1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}>"));
+
       return;
     }
   }

@@ -14,8 +14,8 @@ package org.assertj.guava.api;
 
 import org.junit.Before;
 
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 
 /**
  * @author Jan Gorman
@@ -26,7 +26,7 @@ public class TableAssertBaseTest extends BaseTest {
 
   @Before
   public void setUp() {
-    actual = HashBasedTable.create();
+    actual = TreeBasedTable.create();
     actual.put(1, 3, "Millard Fillmore");
     actual.put(1, 4, "Franklin Pierce");
     actual.put(2, 5, "Grover Cleveland");

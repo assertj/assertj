@@ -12,13 +12,12 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
-
 import static org.junit.Assert.fail;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -44,8 +43,7 @@ public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
     try {
       assertThat(actual).isEmpty();
     } catch (AssertionError e) {
-      Assertions.assertThat(e).hasMessage(
-          String.format("%nExpecting empty but was:<{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>"));
+      assertThat(e).hasMessage(format("%nExpecting empty but was:<{1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}>"));
       return;
     }
     fail("Assertion error expected");

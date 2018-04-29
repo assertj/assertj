@@ -39,7 +39,7 @@ public class RangeAssert_isEmpty_Test extends BaseTest {
     // given
     final Range<Integer> actual = Range.openClosed(1, 10);
     // expect
-    expectException(AssertionError.class, "Expecting empty but was:<(1‥10]>");
+    expectException(AssertionError.class, "Expecting empty but was:<(1..10]>");
     // when
     assertThat(actual).isEmpty();
   }

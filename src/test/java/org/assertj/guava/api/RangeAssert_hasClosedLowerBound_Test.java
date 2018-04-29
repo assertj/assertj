@@ -42,7 +42,7 @@ public class RangeAssert_hasClosedLowerBound_Test extends BaseTest {
     // expect
     expectException(AssertionError.class, format("%n" +
                                                  "Expecting:%n" +
-                                                 "  <(1‥10]>%n" +
+                                                 "  <(1..10]>%n" +
                                                  "to be closed in the lower bound but was opened"));
     // when
     assertThat(actual).hasClosedLowerBound();

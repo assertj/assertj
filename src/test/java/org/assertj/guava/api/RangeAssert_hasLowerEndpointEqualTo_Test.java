@@ -42,7 +42,7 @@ public class RangeAssert_hasLowerEndpointEqualTo_Test extends BaseTest {
     // expect
     expectException(AssertionError.class, format("%n" +
                                                  "Expecting:%n" +
-                                                 "  <[1‥10]>%n" +
+                                                 "  <[1..10]>%n" +
                                                  "to have lower endpoint equal to:%n" +
                                                  "  <2>%n" +
                                                  "but was:%n" +

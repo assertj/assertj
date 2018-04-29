@@ -42,7 +42,7 @@ public class RangeAssert_doesNotContain_Test extends BaseTest {
     // expect
     expectException(AssertionError.class, format("%n" +
                                                  "Expecting%n" +
-                                                 " <[1‥10]>%n" +
+                                                 " <[1..10]>%n" +
                                                  "not to contain%n" +
                                                  " <[9, 10, 11]>%n" +
                                                  "but found%n" +
