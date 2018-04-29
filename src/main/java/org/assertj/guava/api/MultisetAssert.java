@@ -36,7 +36,6 @@ import com.google.common.collect.Multiset;
  * @param <T> the type of elements contained in the tested Multiset value
  *
  * @author Max Daniline
- * ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>
  */
 public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>, Multiset<? extends T>, T, ObjectAssert<T>> {
 

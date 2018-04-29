@@ -25,8 +25,8 @@ import com.google.common.io.ByteSource;
 /**
  * The entry point for all Guava assertions.
  *
- * @author @marcelfalliere
- * @author @miralak
+ * @author marcelfalliere
+ * @author miralak
  * @author Kornel
  * @author Jan Gorman
  * @author Joel Costigliola
@@ -44,7 +44,7 @@ public class Assertions {
   }
 
   public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
-    return new OptionalAssert<T>(actual);
+    return new OptionalAssert<>(actual);
   }
 
   public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
@@ -60,7 +60,7 @@ public class Assertions {
   }
 
   public static <T> MultisetAssert<T> assertThat(final Multiset<T> actual) {
-    return new MultisetAssert<T>(actual);
+    return new MultisetAssert<>(actual);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -78,6 +78,13 @@ public class Assertions {
    * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
    *
    * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;)); </code></pre>
+   *
+   * @param <K> the type of the key of this entry.
+   * @param <V> the type of the value of this entry.
+   * @param key the key of the entry to create.
+   * @param value the value of the entry to create.
+   *
+   * @return the built entry
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);

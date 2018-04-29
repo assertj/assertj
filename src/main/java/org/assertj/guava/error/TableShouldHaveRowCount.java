@@ -23,7 +23,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 public class TableShouldHaveRowCount extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link TableShouldHaveRowCount}</code>.
+   * Creates a new <code>{@link TableShouldHaveRowCount}</code>.
    * @param actual the actual value in the failed assertion.
    * @param actualSize the number of row keys in {@code actual}.
    * @param expectedSize the expected number of row keys.

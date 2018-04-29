@@ -14,10 +14,10 @@ package org.assertj.guava.error;
 
 import static java.lang.String.format;
 
-import com.google.common.collect.Table;
-
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+
+import com.google.common.collect.Table;
 
 /**
  * @author David Harris
@@ -25,12 +25,16 @@ import org.assertj.core.error.ErrorMessageFactory;
 public class TableShouldContainCell extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link TableShouldContainCell}</code>.
+   * Creates a new <code>{@link TableShouldContainCell}</code>.
    * @param actual the actual value in the failed assertion.
    * @param row the row where actualValue was read.
    * @param column the column where actualValue was read.
    * @param expectedValue the expected value of the cell.
    * @param actualValue the expected actual value of the cell.
+   *
+  * @param <R> the type of the table row keys
+  * @param <C> the type of the table column keys
+  * @param <V> the type of the mapped values
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <R,C,V> ErrorMessageFactory tableShouldContainCell(Table<R,C,V> actual, R row, C column, V expectedValue, V actualValue) {

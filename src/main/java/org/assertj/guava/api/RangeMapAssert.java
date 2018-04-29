@@ -200,6 +200,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    *
    * assertThat(actual).isEmpty();</code></pre>
    *
+   * @return this {@link RangeMapAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is not empty.
    */
@@ -227,6 +228,8 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    *
    * assertThat(spectralColors).isNotEmpty();</code></pre>
    *
+   * @return this {@link RangeMapAssert} for assertions chaining.
+   *
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is empty.
    */
@@ -235,7 +238,6 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     if (actual.asMapOfRanges().isEmpty()) {
       throw failures.failure(info, shouldNotBeEmpty());
     }
-
     return myself;
   }
 }

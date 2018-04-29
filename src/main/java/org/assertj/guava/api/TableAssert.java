@@ -50,7 +50,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table &lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -63,7 +63,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws IllegalArgumentException if the expected size is negative
    * @throws AssertionError           if the actual {@link Table} is {@code null}.
    * @throws AssertionError           if the actual {@link Table} does not have the expected row size.
-   */  
+   */
   public TableAssert<R, C, V> hasRowCount(int expectedSize) {
     Objects.instance().assertNotNull(info, actual);
     checkExpectedSizeArgument(expectedSize);
@@ -80,7 +80,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -93,7 +93,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws IllegalArgumentException if the expected size is negative
    * @throws AssertionError           if the actual {@link Table} is {@code null}.
    * @throws AssertionError           if the actual {@link Table} does not have the expected column size.
-   */  
+   */
   public TableAssert<R, C, V> hasColumnCount(int expectedSize) {
     Objects.instance().assertNotNull(info, actual);
     checkExpectedSizeArgument(expectedSize);
@@ -110,7 +110,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -123,7 +123,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws IllegalArgumentException if the expected size is negative
    * @throws AssertionError           if the actual {@link Table} is {@code null}.
    * @throws AssertionError           if the actual {@link Table} does not have the expected number of cells.
-   */  
+   */
   public TableAssert<R, C, V> hasSize(int expectedSize) {
     Objects.instance().assertNotNull(info, actual);
     checkExpectedSizeArgument(expectedSize);
@@ -140,7 +140,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -178,7 +178,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -217,7 +217,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -256,7 +256,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -293,7 +293,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
    *
    * assertThat(actual).isEmpty();</code></pre>
    *

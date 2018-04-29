@@ -21,17 +21,11 @@ import org.assertj.core.error.ShouldContainValue;
 /**
  * Creates an error message indicating that an assertion that verifies a map contains some values failed. TODO : move to
  * assertj-core to replace {@link ShouldContainValue}
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldContainValues extends BasicErrorMessageFactory {
 
-  /**
-   * Creates a new </code>{@link ShouldContainValues}</code>.
-   * 
-   * @param actual the actual value in the failed assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
   public static ErrorMessageFactory shouldContainValues(Object actual, Object[] values, Set<?> valuesNotFound) {
     return values.length == 1 ? new ShouldContainValues(actual, values[0]) : new ShouldContainValues(actual, values,
         valuesNotFound);

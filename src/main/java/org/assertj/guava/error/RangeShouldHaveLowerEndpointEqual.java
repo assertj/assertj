@@ -32,7 +32,7 @@ public class RangeShouldHaveLowerEndpointEqual extends BasicErrorMessageFactory 
   }
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.BasicErrorMessageFactory}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.BasicErrorMessageFactory}</code>.
    *
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
