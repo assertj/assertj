@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import org.assertj.core.internal.DigestDiff;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Path;
 
 /**
@@ -41,6 +42,16 @@ public class ShouldHaveDigest extends BasicErrorMessageFactory {
   private ShouldHaveDigest(File actualSource, DigestDiff diff) {
     super("%nFile:%n  <%s>%n  expected to have %s-digest <%s>%n  but have <%s>"
       , actualSource, diff.getDigest().getAlgorithm(), diff.getExpected(), diff.getActual()
+    );
+  }
+
+  public static ErrorMessageFactory shouldHaveDigest(InputStream actualSource, DigestDiff diff) {
+    return new ShouldHaveDigest(actualSource, diff);
+  }
+
+  public ShouldHaveDigest(@SuppressWarnings("unused") InputStream actualSource, DigestDiff diff) {
+    super("%nInputStream:%n  expected to have %s-digest <%s>%n  but have <%s>"
+      , diff.getDigest().getAlgorithm(), diff.getExpected(), diff.getActual()
     );
   }
 }

@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.io.InputStream;
+import java.security.MessageDigest;
 
 import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsException;
@@ -76,6 +77,26 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    */
   public SELF hasSameContentAs(InputStream expected) {
     inputStreams.assertSameContentAs(info, actual, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(MessageDigest digest, byte[] expected) {
+    inputStreams.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(MessageDigest digest, String expected) {
+    inputStreams.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(String algorithm, byte[] expected) {
+    inputStreams.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(String algorithm, String expected) {
+    inputStreams.assertHasDigest(info, actual, algorithm, expected);
     return myself;
   }
 }
