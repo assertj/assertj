@@ -40,6 +40,9 @@ matrix:
 # Java 11 "Oracle JDK" (not yet provided by Travis CI)
     - env: JDK='Oracle JDK 11'
       install: . ./install-jdk.sh -F 11 -L BCL
+# Compile Errors: ambiguous reference both <T>assertThat(T) and method assertThat(java.lang.CharSequence)
+  allow_failures:
+    - env: JDK='Oracle JDK 11'
 
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./mvnw clean verify javadoc:javadoc; fi'
