@@ -18,6 +18,8 @@ import org.assertj.core.api.PathAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
+ * Tests for <code>{@link PathAssert#hasDigest(String, byte[])}</code>
+ *
  * @author Valeriy Vyrva
  */
 public class PathAssert_hasDigest_AlgorithmBytes_Test extends PathAssertBaseTest {

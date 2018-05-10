@@ -316,6 +316,7 @@ public class Paths {
   public void assertHasDigest(AssertionInfo info, Path actual, MessageDigest digest, byte[] expected) {
     checkNotNull(digest, "The message digest algorithm should not be null");
     checkNotNull(expected, "The binary representation of digest to compare to should not be null");
+    assertIsRegularFile(info, actual);
     assertIsReadable(info, actual);
     try (
       InputStream actualStream = nioFilesWrapper.newInputStream(actual)

@@ -18,6 +18,8 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.io.File;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.security.MessageDigest;
+
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
@@ -578,6 +580,26 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   public SELF hasNoParent() {
     files.assertHasNoParent(info, actual);
+    return myself;
+  }
+
+  public SELF hasDigest(MessageDigest digest, byte[] expected) {
+    files.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(MessageDigest digest, String expected) {
+    files.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(String algorithm, byte[] expected) {
+    files.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
+  }
+
+  public SELF hasDigest(String algorithm, String expected) {
+    files.assertHasDigest(info, actual, algorithm, expected);
     return myself;
   }
 }

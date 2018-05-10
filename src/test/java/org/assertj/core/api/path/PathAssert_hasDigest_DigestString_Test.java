@@ -21,6 +21,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
+ * Tests for <code>{@link PathAssert#hasDigest(MessageDigest, String)}</code>
+ *
  * @author Valeriy Vyrva
  */
 public class PathAssert_hasDigest_DigestString_Test extends PathAssertBaseTest {

@@ -12,16 +12,20 @@
  */
 package org.assertj.core.internal.paths;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DigestDiff;
+import org.assertj.core.internal.Paths;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
+import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -30,6 +34,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.*;
 
 /**
+ * Tests for <code>{@link Paths#assertHasDigest(AssertionInfo, Path, MessageDigest, String)}</code>
+ *
  * @author Valeriy Vyrva
  */
 public class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
@@ -56,8 +62,23 @@ public class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
   }
 
   @Test
+  public void should_fail_if_actual_exists_but_is_not_file() {
+  when(nioFilesWrapper.exists(actual)).thenReturn(true);
+  when(nioFilesWrapper.isRegularFile(actual)).thenReturn(false);
+  try {
+    paths.assertHasDigest(info, actual, digest, expected);
+    wasExpectingAssertionError();
+  } catch (AssertionError e) {
+    verify(failures).failure(info, shouldBeRegularFile(actual));
+    return;
+  }
+  failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
   public void should_fail_if_actual_exists_but_is_not_readable() {
   when(nioFilesWrapper.exists(actual)).thenReturn(true);
+  when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
   when(nioFilesWrapper.isReadable(actual)).thenReturn(false);
   try {
 	  paths.assertHasDigest(info, actual, digest, expected);
@@ -85,6 +106,7 @@ public class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
   IOException cause = new IOException();
   when(nioFilesWrapper.exists(actual)).thenReturn(true);
+  when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
   when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
   when(nioFilesWrapper.newInputStream(actual)).thenThrow(cause);
   thrown.expectWithCause(UncheckedIOException.class, cause);
@@ -103,6 +125,7 @@ public class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
   public void should_fail_if_actual_does_not_have_expected_digest() throws IOException {
   InputStream stream = getClass().getResourceAsStream("/red.png");
   when(nioFilesWrapper.exists(actual)).thenReturn(true);
+  when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
   when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
   when(nioFilesWrapper.newInputStream(actual)).thenReturn(stream);
   when(digest.digest()).thenReturn(new byte[]{0, 1});
@@ -121,6 +144,7 @@ public class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
   public void should_pass_if_actual_has_expected_digest() throws IOException {
   InputStream stream = getClass().getResourceAsStream("/red.png");
   when(nioFilesWrapper.exists(actual)).thenReturn(true);
+  when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
   when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
   when(nioFilesWrapper.newInputStream(actual)).thenReturn(stream);
   when(digest.digest()).thenReturn(new byte[0]);

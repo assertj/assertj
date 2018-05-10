@@ -10,30 +10,33 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.path;
+package org.assertj.core.api.file;
 
-import org.assertj.core.api.PathAssert;
-import org.assertj.core.api.PathAssertBaseTest;
+import org.assertj.core.api.FileAssert;
+import org.assertj.core.api.FileAssertBaseTest;
 
+import java.security.MessageDigest;
+
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link PathAssert#hasDigest(String, String)}</code>
+ * Tests for <code>{@link FileAssert#hasDigest(MessageDigest, byte[])}</code>
  *
  * @author Valeriy Vyrva
  */
-public class PathAssert_hasDigest_AlgorithmString_Test extends PathAssertBaseTest {
+public class FileAssert_hasDigest_DigestBytes_Test extends FileAssertBaseTest {
 
-  private final String algorithm = "MD5";
-  private final String expected = "";
+  private final MessageDigest digest = mock(MessageDigest.class);
+  private final byte[] expected = new byte[0];
 
   @Override
-  protected PathAssert invoke_api_method() {
-  return assertions.hasDigest(algorithm, expected);
+  protected FileAssert invoke_api_method() {
+  return assertions.hasDigest(digest, expected);
   }
 
   @Override
   protected void verify_internal_effects() {
-  verify(paths).assertHasDigest(getInfo(assertions), getActual(assertions), algorithm, expected);
+  verify(files).assertHasDigest(getInfo(assertions), getActual(assertions), digest, expected);
   }
 }

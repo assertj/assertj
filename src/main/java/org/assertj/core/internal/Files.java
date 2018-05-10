@@ -23,6 +23,7 @@ import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
+import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
@@ -33,11 +34,11 @@ import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -71,6 +72,8 @@ public class Files {
   BinaryDiff binaryDiff = new BinaryDiff();
   @VisibleForTesting
   Failures failures = Failures.instance();
+  @VisibleForTesting
+  NioFilesWrapper nioFilesWrapper = NioFilesWrapper.instance();
 
   @VisibleForTesting
   Files() {}
@@ -361,5 +364,41 @@ public class Files {
     assertNotNull(info, actual);
     if (actual.getParentFile() == null) return;
     throw failures.failure(info, shouldHaveNoParent(actual));
+  }
+
+  public void assertHasDigest(AssertionInfo info, File actual, MessageDigest digest, byte[] expected) {
+    checkNotNull(digest, "The message digest algorithm should not be null");
+    checkNotNull(expected, "The binary representation of digest to compare to should not be null");
+    assertExists(info, actual);
+    assertIsFile(info, actual);
+    assertCanRead(info, actual);
+    try (
+      InputStream actualStream = nioFilesWrapper.newInputStream(actual.toPath())
+    ) {
+      DigestDiff diff = Digests.digestDiff(actualStream, digest, expected);
+      if (diff.isEquals()) return;
+      throw failures.failure(info, shouldHaveDigest(actual, diff));
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Unable to calculate digest of path:<%s>", actual), e);
+    }
+  }
+
+  public void assertHasDigest(AssertionInfo info, File actual, MessageDigest digest, String expected) {
+    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(info, actual, digest, Digests.fromHex(expected));
+  }
+
+  public void assertHasDigest(AssertionInfo info, File actual, String algorithm, byte[] expected) {
+    checkNotNull(algorithm, "The message digest algorithm should not be null");
+    try {
+      assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException(format("Unable to find digest implementation for: <%s>", algorithm), e);
+    }
+  }
+
+  public void assertHasDigest(AssertionInfo info, File actual, String algorithm, String expected) {
+    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
 }
