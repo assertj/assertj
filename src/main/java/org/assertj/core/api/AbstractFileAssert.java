@@ -18,17 +18,19 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.io.File;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.security.MessageDigest;
+
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link File}s.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * 
+ *
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -55,11 +57,11 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Example:
    * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
    * File tmpDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
-   * 
+   *
    * // assertions will pass
    * assertThat(tmpFile).exists();
    * assertThat(tmpDir).exists();
-   * 
+   *
    * tmpFile.delete();
    * tmpDir.delete();
    *
@@ -83,14 +85,14 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <pre><code class='java'> File parentDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
    * File tmpDir = new File(parentDir, &quot;subDir&quot;);
    * File tmpFile = new File(parentDir, &quot;a.txt&quot;);
-   * 
+   *
    * // assertions will pass
    * assertThat(tmpDir).doesNotExist();
    * assertThat(tmpFile).doesNotExist();
-   * 
+   *
    * tmpDir.mkdir();
    * tmpFile.createNewFile();
-   * 
+   *
    * // assertions will fail
    * assertThat(tmpFile).doesNotExist();
    * assertThat(tmpDir).doesNotExist();</code></pre>
@@ -109,13 +111,13 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Example:
    * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(tmpFile).isFile();
-   * 
+   *
    * tmpFile.delete();
    * File tmpDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
-   * 
+   *
    * // assertions will fail
    * assertThat(tmpFile).isFile();
    * assertThat(tmpDir).isFile();</code></pre>
@@ -134,13 +136,13 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Example:
    * <pre><code class='java'> File tmpDir = Files.createTempDirectory(&quot;tmpDir&quot;).toFile();
-   * 
+   *
    * // assertion will pass
    * assertThat(tmpDir).isDirectory();
-   * 
+   *
    * tmpDir.delete();
    * File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
-   * 
+   *
    * // assertions will fail
    * assertThat(tmpFile).isDirectory();
    * assertThat(tmpDir).isDirectory();</code></pre>
@@ -159,12 +161,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Example:
    * <pre><code class='java'> File absoluteFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
-   * 
+   *
    * // assertions will pass
    * assertThat(absoluteFile).isAbsolute();
-   * 
+   *
    * File relativeFile = new File(&quot;./test&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(relativeFile).isAbsolute();</code></pre>
    *
@@ -182,12 +184,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Example:
    * <pre><code class='java'> File relativeFile = new File(&quot;./test&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(relativeFile).isRelative();
-   * 
+   *
    * File absoluteFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(absoluteFile).isRelative();</code></pre>
    *
@@ -205,7 +207,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
-   * 
+   *
    * Examples:
    * <pre><code class="java"> // use the default charset
    * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
@@ -213,15 +215,15 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
    * // use UTF-8 charset
    * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
-   * 
+   *
    * // The following assertion succeeds (default charset is used):
    * assertThat(xFile).hasSameContentAs(xFileClone);
    * // The following assertion succeeds (UTF-8 charset is used to read xFile):
    * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
-   * 
+   *
    * // The following assertion fails:
    * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
-   * 
+   *
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code File} is {@code null}.
@@ -243,7 +245,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
-   * 
+   *
    * Examples:
    * <pre><code class="java"> // use the default charset
    * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
@@ -251,15 +253,15 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
    * // use UTF-8 charset
    * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
-   * 
+   *
    * // The following assertion succeeds (default charset is used):
    * assertThat(xFile).hasSameContentAs(xFileClone);
    * // The following assertion succeeds (UTF-8 charset is used to read xFile):
    * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
-   * 
+   *
    * // The following assertion fails:
    * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
-   * 
+   *
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code File} is {@code null}.
@@ -270,8 +272,8 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public SELF hasSameContentAs(File expected) {
-      files.assertSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
-      return myself;
+    files.assertSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
+    return myself;
   }
 
   /**
@@ -284,10 +286,10 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <pre><code class="java"> File fileUTF8 = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8).toFile();
    * Charset turkishCharset = Charset.forName("windows-1254");
    * File fileTurkischCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset).toFile();
-   * 
+   *
    * // The following assertion succeeds:
    * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, turkishCharset);
-   * 
+   *
    * // The following assertion fails:
    * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
    *
@@ -302,8 +304,8 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public SELF hasSameContentAs(File expected, Charset expectedCharset) {
-      files.assertSameContentAs(info, actual, charset, expected, expectedCharset);
-      return myself;
+    files.assertSameContentAs(info, actual, charset, expected, expectedCharset);
+    return myself;
   }
 
   /**
@@ -312,10 +314,10 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Example:
    * <pre><code class='java'> File bin = File.createTempFile(&quot;tmp&quot;, &quot;bin&quot;);
    * Files.write(bin.toPath(), new byte[] {1, 1});
-   * 
+   *
    * // assertion will pass
    * assertThat(bin).hasBinaryContent(new byte[] {1, 1});
-   * 
+   *
    * // assertions will fail
    * assertThat(bin).hasBinaryContent(new byte[] { });
    * assertThat(bin).hasBinaryContent(new byte[] {0, 0});</code></pre>
@@ -335,7 +337,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
 
   /**
    * Specifies the name of the charset to use for text-based assertions on the file's contents.
-   * 
+   *
    * @param charsetName the name of the charset to use.
    * @return {@code this} assertion object.
    * @throws IllegalArgumentException if the given encoding is not supported on this platform.
@@ -348,7 +350,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
 
   /**
    * Specifies the charset to use for text-based assertions on the file's contents.
-   * 
+   *
    * @param charset the charset to use.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given charset is {@code null}.
@@ -368,21 +370,21 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Example:
    * <pre><code class='java'> // use the default charset
    * File xFile = Files.write(Paths.get(&quot;xfile.txt&quot;), &quot;The Truth Is Out There&quot;.getBytes()).toFile();
-   * 
+   *
    * // The following assertion succeeds (default charset is used):
    * assertThat(xFile).hasContent(&quot;The Truth Is Out There&quot;);
-   * 
+   *
    * // The following assertion fails:
    * assertThat(xFile).hasContent(&quot;La Vérité Est Ailleurs&quot;);
-   * 
-   * // using a specific charset 
+   *
+   * // using a specific charset
    * Charset turkishCharset = Charset.forName(&quot;windows-1254&quot;);
-   * 
+   *
    * File xFileTurkish = Files.write(Paths.get(&quot;xfile.turk&quot;), Collections.singleton(&quot;Gerçek&quot;), turkishCharset).toFile();
-   * 
+   *
    * // The following assertion succeeds:
    * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent(&quot;Gerçek&quot;);
-   * 
+   *
    * // The following assertion fails :
    * assertThat(xFileTurkish).usingCharset(StandardCharsets.UTF_8).hasContent(&quot;Gerçek&quot;);</code></pre>
    *
@@ -405,14 +407,14 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Example:
    * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
    * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
-   * 
+   *
    * // assertions will pass
    * assertThat(tmpFile).canWrite();
    * assertThat(tmpDir).canWrite();
-   * 
+   *
    * tmpFile.setReadOnly();
    * tmpDir.setReadOnly();
-   * 
+   *
    * // assertions will fail
    * assertThat(tmpFile).canWrite();
    * assertThat(tmpDir).canWrite();</code></pre>
@@ -432,14 +434,14 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Example:
    * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
    * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
-   * 
+   *
    * // assertions will pass
    * assertThat(tmpFile).canRead();
    * assertThat(tmpDir).canRead();
-   * 
+   *
    * tmpFile.setReadable(false);
    * tmpDir.setReadable(false);
-   * 
+   *
    * // assertions will fail
    * assertThat(tmpFile).canRead();
    * assertThat(tmpDir).canRead();</code></pre>
@@ -459,20 +461,20 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Example:
    * <pre><code class='java'> File xFile = new File(&quot;mulder/xFile&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(xFile).hasParent(new File(&quot;mulder&quot;));
    *
    * // assertion will fail
    * assertThat(xFile).hasParent(new File(&quot;scully&quot;));</code></pre>
-   * 
+   *
    * @param expected the expected parent {@code File}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} parent is not equal to the expected one.
-   * 
+   *
    * @see java.io.File#getParentFile() parent definition.
    */
   public SELF hasParent(File expected) {
@@ -482,17 +484,17 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
 
   /**
    * Same as {@link #hasParent(java.io.File)} but takes care of converting given {@code String} as {@code File} for you
-   * 
+   *
    * <p>
    * Example:
    * <pre><code class='java'> File xFile = new File(&quot;mulder/xFile&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(xFile).hasParent(&quot;mulder&quot;);
    *
    * // assertion will fail
    * assertThat(xFile).hasParent(&quot;scully&quot;);</code></pre>
-   * 
+   *
    * @param expected the expected parent file path.
    * @return {@code this} assertion object.
    */
@@ -503,24 +505,24 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
 
   /**
    * Verifies that the actual {@code File} has given extension.
-   * 
+   *
    * <p>
    * Example:
    * <pre><code class='java'> File xFile = new File(&quot;xFile.java&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(xFile).hasExtension(&quot;java&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(xFile).hasExtension(&quot;png&quot;);</code></pre>
-   * 
+   *
    * @param expected the expected extension, it does not contains the {@code '.'}
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected extension is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not a file (ie a directory).
    * @throws AssertionError if the actual {@code File} does not have the expected extension.
-   * 
+   *
    * @see <a href="http://en.wikipedia.org/wiki/Filename_extension">Filename extension</a>
    */
   public SELF hasExtension(String expected) {
@@ -530,26 +532,26 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
 
   /**
    * Verifies that the actual {@code File} has given name.
-   * 
+   *
    * <p>
    * Example:
    * <pre><code class='java'> File xFile = new File(&quot;somewhere/xFile.java&quot;);
    * File xDirectory = new File(&quot;somewhere/xDirectory&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(xFile).hasName(&quot;xFile.java&quot;);
    * assertThat(xDirectory).hasName(&quot;xDirectory&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(xFile).hasName(&quot;xFile&quot;);
    * assertThat(xDirectory).hasName(&quot;somewhere&quot;);</code></pre>
-   * 
+   *
    * @param expected the expected {@code File} name.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected name is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} does not have the expected name.
-   * 
+   *
    * @see java.io.File#getName() name definition.
    */
   public SELF hasName(String expected) {
@@ -559,25 +561,165 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
 
   /**
    * Verifies that the actual {@code File} does not have a parent.
-   * 
+   *
    * <p>
    * Example:
    * <pre><code class='java'> File xFile = new File(&quot;somewhere/xFile.java&quot;);
    * File xDirectory = new File(&quot;xDirectory&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(xDirectory).hasNoParent();
-   * 
+   *
    * // assertion will fail
    * assertThat(xFile).hasNoParent();</code></pre>
-   * 
+   *
    * @return {@code this} assertion object.
-   * 
+   *
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} has a parent.
    */
   public SELF hasNoParent() {
     files.assertHasNoParent(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link File} digest (calculated with the specified {@link MessageDigest}) is equal to the given one.
+   * <p>
+   * Note that the {@link File} must be readable.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * File tested = new File("assertj-core-2.9.0.jar");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "dcb3015cd28447644c810af352832c19".getBytes());
+   *
+   * // The following assertions fail:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f".getBytes()); </code></pre>
+   *
+   * @param digest the MessageDigest used to calculate the digests.
+   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
+   * @since 3.11.0
+   */
+  public SELF hasDigest(MessageDigest digest, byte[] expected) {
+    files.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link File} digest (calculated with the specified {@link MessageDigest}) is equal to the given one.
+   * <p>
+   * Note that the {@link File} must be readable.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * File tested = new File("assertj-core-2.9.0.jar");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c");
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "dcb3015cd28447644c810af352832c19");
+   *
+   * // The following assertions fail:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad");
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f"); </code></pre>
+   *
+   * @param digest the MessageDigest used to calculate the digests.
+   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
+   * @since 3.11.0
+   */
+  public SELF hasDigest(MessageDigest digest, String expected) {
+    files.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link File} digest (calculated with the specified algorithm) is equal to the given one.
+   * <p>
+   * Note that the {@link File} must be readable.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * File tested = new File("assertj-core-2.9.0.jar");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
+   * assertThat(tested).hasDigest("MD5", "dcb3015cd28447644c810af352832c19".getBytes());
+   *
+   * // The following assertions fail:
+   * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
+   * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f".getBytes()); </code></pre>
+   *
+   * @param algorithm the algorithm used to calculate the digests.
+   * @param expected the expected digest to compare the actual {@code File}'s digest to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if any I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
+   * @since 3.11.0
+   */
+  public SELF hasDigest(String algorithm, byte[] expected) {
+    files.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link File} digest (calculated with the specified algorithm) is equal to the given one.
+   * <p>
+   * Note that the {@link File} must be readable.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * File tested = new File("assertj-core-2.9.0.jar");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c");
+   * assertThat(tested).hasDigest("MD5", "dcb3015cd28447644c810af352832c19");
+   *
+   * // The following assertions fail:
+   * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad");
+   * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f"); </code></pre>
+   *
+   * @param algorithm the algorithm used to calculate the digests.
+   * @param expected the expected digest to compare the actual {@code File}'s digest to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if any I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
+   * @since 3.11.0
+   */
+  public SELF hasDigest(String algorithm, String expected) {
+    files.assertHasDigest(info, actual, algorithm, expected);
     return myself;
   }
 }

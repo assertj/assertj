@@ -13,21 +13,24 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.internal.Digests.digestDiff;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
-
 /**
  * Reusable assertions for <code>{@link InputStream}</code>s.
- * 
+ *
  * @author Matthieu Baechler
  */
 public class InputStreams {
@@ -52,7 +55,7 @@ public class InputStreams {
 
   /**
    * Asserts that the given InputStreams have same content.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the "actual" InputStream.
    * @param expected the "expected" InputStream.
@@ -101,5 +104,37 @@ public class InputStreams {
 
   private static void assertNotNull(AssertionInfo info, InputStream stream) {
     Objects.instance().assertNotNull(info, stream);
+  }
+
+  public void assertHasDigest(AssertionInfo info, InputStream actual, MessageDigest digest, byte[] expected) {
+    checkNotNull(digest, "The message digest algorithm should not be null");
+    checkNotNull(expected, "The binary representation of digest to compare to should not be null");
+    assertNotNull(info, actual);
+    try {
+      DigestDiff diff = digestDiff(actual, digest, expected);
+      if (diff.digestsDiffer()) throw failures.failure(info, shouldHaveDigest(actual, diff));
+    } catch (IOException e) {
+      String msg = format("Unable to calculate digest of InputStream:%n  <%s>", actual);
+      throw new InputStreamsException(msg, e);
+    }
+  }
+
+  public void assertHasDigest(AssertionInfo info, InputStream actual, MessageDigest digest, String expected) {
+    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(info, actual, digest, Digests.fromHex(expected));
+  }
+
+  public void assertHasDigest(AssertionInfo info, InputStream actual, String algorithm, byte[] expected) {
+    checkNotNull(algorithm, "The message digest algorithm should not be null");
+    try {
+      assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException(format("Unable to find digest implementation for: <%s>", algorithm), e);
+    }
+  }
+
+  public void assertHasDigest(AssertionInfo info, InputStream actual, String algorithm, String expected) {
+    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
 }

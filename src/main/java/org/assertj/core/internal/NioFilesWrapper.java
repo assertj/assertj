@@ -12,12 +12,14 @@
  */
 package org.assertj.core.internal;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Wrapper for <code>{@link java.nio.file.Files}</code> to test {@link Paths}.
@@ -40,34 +42,36 @@ public class NioFilesWrapper {
   public boolean isRegularFile(Path path) {
     return Files.isRegularFile(path);
   }
-  
+
   public boolean isSymbolicLink(Path path) {
-	return Files.isSymbolicLink(path);
+    return Files.isSymbolicLink(path);
   }
-  
+
   public boolean isDirectory(Path path) {
-	return Files.isDirectory(path);
+    return Files.isDirectory(path);
   }
-  
+
   public boolean exists(Path path, LinkOption... options) {
-	return Files.exists(path, options);
+    return Files.exists(path, options);
   }
 
   public boolean notExists(Path path, LinkOption... options) {
-	return Files.notExists(path, options);
+    return Files.notExists(path, options);
   }
-  
-  public boolean isReadable(Path path) {
-	return Files.isReadable(path);
-  }
-  
-  public boolean isWritable(Path path) {
-	return Files.isWritable(path);
-  }
-  
-  public boolean isExecutable(Path path) {
-	return Files.isExecutable(path);
-  }
-  
-}
 
+  public boolean isReadable(Path path) {
+    return Files.isReadable(path);
+  }
+
+  public boolean isWritable(Path path) {
+    return Files.isWritable(path);
+  }
+
+  public boolean isExecutable(Path path) {
+    return Files.isExecutable(path);
+  }
+
+  public InputStream newInputStream(Path path, OpenOption... options) throws IOException {
+    return Files.newInputStream(path, options);
+  }
+}

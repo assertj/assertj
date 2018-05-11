@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.io.InputStream;
+import java.security.MessageDigest;
 
 import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsException;
@@ -66,7 +67,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * // assertions will fail
    * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameContentAs(new ByteArrayInputStream(new byte[] {}));
    * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameContentAs(new ByteArrayInputStream(new byte[] {0xa, 0xc, 0xd}));</code></pre>
-   * 
+   *
    * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
@@ -100,6 +101,130 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    */
   public SELF hasContent(String expected) {
     inputStreams.assertHasContent(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link InputStream} digest (calculated with the specified {@link MessageDigest}) is equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * InputStream tested = new FileInputStream(new File("assertj-core-2.9.0.jar"));
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "dcb3015cd28447644c810af352832c19".getBytes());
+   *
+   * // The following assertions fail:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f".getBytes());</code></pre>
+   *
+   * @param digest the MessageDigest used to calculate the digests.
+   * @param expected the expected binary content to compare the actual {@code InputStream}'s digest to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException  if the given algorithm is {@code null}.
+   * @throws NullPointerException  if the given digest is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws InputStreamsException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
+   * @since 3.11.0
+   */
+  public SELF hasDigest(MessageDigest digest, byte[] expected) {
+    inputStreams.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link InputStream} digest (calculated with the specified {@link MessageDigest}) is equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * InputStream tested = new FileInputStream(new File("assertj-core-2.9.0.jar"));
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c");
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "dcb3015cd28447644c810af352832c19");
+   *
+   * // The following assertions fail:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad");
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f");</code></pre>
+   *
+   * @param digest the MessageDigest used to calculate the digests.
+   * @param expected the expected binary content to compare the actual {@code InputStream}'s digest to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException  if the given algorithm is {@code null}.
+   * @throws NullPointerException  if the given digest is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws InputStreamsException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
+   * @since 3.11.0
+   */
+  public SELF hasDigest(MessageDigest digest, String expected) {
+    inputStreams.assertHasDigest(info, actual, digest, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link InputStream} digest (calculated with the specified algorithm) is equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * InputStream tested = new FileInputStream(new File("assertj-core-2.9.0.jar"));
+   *
+   * // The following assertion succeeds:
+   * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
+   * assertThat(tested).hasDigest("MD5", "dcb3015cd28447644c810af352832c19".getBytes());
+   *
+   * // The following assertion fails:
+   * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
+   * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f".getBytes()); </code></pre>
+   *
+   * @param algorithm the algorithm used to calculate the digests.
+   * @param expected the expected binary content to compare the actual {@code InputStream}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException  if the given algorithm is {@code null}.
+   * @throws NullPointerException  if the given digest is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws InputStreamsException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
+   * @since 3.11.0
+   */
+  public SELF hasDigest(String algorithm, byte[] expected) {
+    inputStreams.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the tested {@link InputStream} digest (calculated with the specified algorithm) is equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * InputStream tested = new FileInputStream(new File("assertj-core-2.9.0.jar"));
+   *
+   * // The following assertion succeeds:
+   * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c");
+   * assertThat(tested).hasDigest("MD5", "dcb3015cd28447644c810af352832c19");
+   *
+   * // The following assertion fails:
+   * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad");
+   * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f"); </code></pre>
+   *
+   * @param algorithm the algorithm used to calculate the digests.
+   * @param expected the expected binary content to compare the actual {@code InputStream}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException  if the given algorithm is {@code null}.
+   * @throws NullPointerException  if the given digest is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws InputStreamsException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
+   * @since 3.110.0
+   */
+  public SELF hasDigest(String algorithm, String expected) {
+    inputStreams.assertHasDigest(info, actual, algorithm, expected);
     return myself;
   }
 }

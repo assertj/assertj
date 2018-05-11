@@ -12,22 +12,37 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.Before;
 
 public class MockPathsBaseTest extends PathsBaseTest {
+
+  static final AssertionInfo INFO = someInfo();
 
   Path actual;
   Path other;
 
   @Before
   public void init() {
-	actual = mock(Path.class);
-	other = mock(Path.class);
+    actual = mock(Path.class);
+    other = mock(Path.class);
+  }
+
+  static void failIfStreamIsOpen(InputStream stream) {
+    try {
+      assertThat(stream.read()).as("Stream should be closed").isNegative();
+    } catch (IOException e) {
+      assertThat(e).hasNoCause().hasMessage("Stream closed");
+    }
   }
 
 }

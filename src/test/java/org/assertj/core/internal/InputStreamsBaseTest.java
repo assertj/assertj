@@ -12,17 +12,17 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
-
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
-import org.assertj.core.internal.Diff;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.InputStreams;
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -33,11 +33,13 @@ import org.junit.Rule;
  * Base class for {@link InputStreams} unit tests
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link InputStreams} attributes appropriately.
- * 
+ *
  * @author Joel Costigliola
- * 
+ *
  */
 public class InputStreamsBaseTest {
+
+  protected static final AssertionInfo INFO = someInfo();
 
   @Rule
   public ExpectedException thrown = none();
@@ -63,6 +65,14 @@ public class InputStreamsBaseTest {
     inputStreams = new InputStreams();
     inputStreams.diff = diff;
     inputStreams.failures = failures;
+  }
+
+  protected static void failIfStreamIsOpen(InputStream stream) {
+    try {
+      assertThat(stream.read()).as("Stream should be closed").isNegative();
+    } catch (IOException e) {
+      assertThat(e).hasNoCause().hasMessage("Stream closed");
+    }
   }
 
 }

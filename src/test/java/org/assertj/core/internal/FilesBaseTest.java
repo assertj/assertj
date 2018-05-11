@@ -12,13 +12,18 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.diff.Delta;
 import org.junit.Before;
@@ -28,10 +33,12 @@ import org.junit.Rule;
 /**
  * Base class for testing <code>{@link Files}</code>, set up diff and failures attributes (which is why it is in
  * <code>org.assertj.core.internal</code> package.
- * 
+ *
  * @author Joel Costigliola
  */
 public class FilesBaseTest {
+
+  protected static final AssertionInfo INFO = someInfo();
 
   @Rule
   public ExpectedException thrown = none();
@@ -42,13 +49,13 @@ public class FilesBaseTest {
   protected Diff diff;
   protected Delta<String> delta;
   protected BinaryDiff binaryDiff;
+  protected NioFilesWrapper nioFilesWrapper;
 
-  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     actual = mock(File.class);
     failures = spy(new Failures());
-    files = new Files(); 
+    files = new Files();
     unMockedFiles = new Files();
     files.failures = failures;
     diff = mock(Diff.class);
@@ -57,6 +64,16 @@ public class FilesBaseTest {
     files.diff = diff;
     binaryDiff = mock(BinaryDiff.class);
     files.binaryDiff = binaryDiff;
+    nioFilesWrapper = mock(NioFilesWrapper.class);
+    files.nioFilesWrapper = nioFilesWrapper;
+  }
+
+  protected static void failIfStreamIsOpen(InputStream stream) {
+    try {
+      assertThat(stream.read()).as("Stream should be closed").isNegative();
+    } catch (IOException e) {
+      assertThat(e).hasNoCause().hasMessage("Stream closed");
+    }
   }
 
 }
