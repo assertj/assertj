@@ -1172,21 +1172,145 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 	return myself;
   }
 
+  /**
+   * Verifies that the content of the tested {@link Path} (which must be a readable file) has digest calculated
+   * by given algorithm equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java">
+   * // fs is a filesystem
+   * // the current directory is supposed to have file downloaded from 'https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar'.
+   * final Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   *
+   * // The following assertion succeeds:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), new byte[]{92, 90, -28, 91, 88, -15, 32, 35, -127, 122, -66, 73, 36, 71, -51, -57, -111, 44, 26, 44});
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), new byte[]{-36, -77, 1, 92, -46, -124, 71, 100, 76, -127, 10, -13, 82, -125, 44, 25});
+   *
+   * // The following assertion fails:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), new byte[]{-109, -71, -50, -46, -18, 91, 63, 15, 76, -114, 100, 14, 119, 71, 13, -85, 3, 29, 76, -83});
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), new byte[]{55, 53, -33, -8, -31, -7, -33, 4, -110, -93, 78, -16, 117, 32, 91, -113});
+   * </code></pre>
+   *
+   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File} has digest which is not equal to the given one.
+   * @since 3.10.0
+   */
   public SELF hasDigest(MessageDigest digest, byte[] expected) {
     paths.assertHasDigest(info, actual, digest, expected);
     return myself;
   }
 
+  /**
+   * Verifies that the content of the tested {@link Path} (which must be a readable file) has digest calculated
+   * by given algorithm equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java">
+   * // fs is a filesystem
+   * // the current directory is supposed to have file downloaded from 'https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar'.
+   * final Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   *
+   * // The following assertion succeeds:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c");
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "dcb3015cd28447644c810af352832c19");
+   *
+   * // The following assertion fails:
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad");
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f");
+   * </code></pre>
+   *
+   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File} has digest which is not equal to the given one.
+   * @since 3.10.0
+   */
   public SELF hasDigest(MessageDigest digest, String expected) {
     paths.assertHasDigest(info, actual, digest, expected);
     return myself;
   }
 
+  /**
+   * Verifies that the content of the tested {@link Path} (which must be a readable file) has digest calculated
+   * by given algorithm equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java">
+   * // fs is a filesystem
+   * // the current directory is supposed to have file downloaded from 'https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar'.
+   * final Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   *
+   * // The following assertion succeeds:
+   * assertThat(tested).hasDigest("SHA1", new byte[]{92, 90, -28, 91, 88, -15, 32, 35, -127, 122, -66, 73, 36, 71, -51, -57, -111, 44, 26, 44});
+   * assertThat(tested).hasDigest("MD5", new byte[]{-36, -77, 1, 92, -46, -124, 71, 100, 76, -127, 10, -13, 82, -125, 44, 25});
+   *
+   * // The following assertion fails:
+   * assertThat(tested).hasDigest("SHA1", new byte[]{-109, -71, -50, -46, -18, 91, 63, 15, 76, -114, 100, 14, 119, 71, 13, -85, 3, 29, 76, -83});
+   * assertThat(tested).hasDigest("MD5", new byte[]{55, 53, -33, -8, -31, -7, -33, 4, -110, -93, 78, -16, 117, 32, 91, -113});
+   * </code></pre>
+   *
+   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File} has digest which is not equal to the given one.
+   * @since 3.10.0
+   */
   public SELF hasDigest(String algorithm, byte[] expected) {
     paths.assertHasDigest(info, actual, algorithm, expected);
     return myself;
   }
 
+  /**
+   * Verifies that the content of the tested {@link Path} (which must be a readable file) has digest calculated
+   * by given algorithm equal to the given one.
+   * <p>
+   * Examples:
+   * <pre><code class="java">
+   * // fs is a filesystem
+   * // the current directory is supposed to have file downloaded from 'https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar'.
+   * final Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   *
+   * // The following assertion succeeds:
+   * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c");
+   * assertThat(tested).hasDigest("MD5", "dcb3015cd28447644c810af352832c19");
+   *
+   * // The following assertion fails:
+   * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad");
+   * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f");
+   * </code></pre>
+   *
+   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is not exist.
+   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not readable.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError       if the content of the tested {@code File} has digest which is not equal to the given one.
+   * @since 3.10.0
+   */
   public SELF hasDigest(String algorithm, String expected) {
     paths.assertHasDigest(info, actual, algorithm, expected);
     return myself;
