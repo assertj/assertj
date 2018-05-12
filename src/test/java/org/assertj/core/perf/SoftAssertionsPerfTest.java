@@ -55,11 +55,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * results in 3.9.0  : ~3500ms
+ * results in 3.9.0  : ~3000ms
  * results in 3.9.1+ : ~9300ms
  * results in 3.10.0 : ~6000ms
  * results in 3.10.0 with Raphael changes < 1.8.10: ~5500ms
  * results in 3.10.0 with 1.8.10: ~5100ms
+ * results in 3.10.0 with 1.8.11: ~5000ms
  */
 // @Ignore
 public class SoftAssertionsPerfTest extends BaseAssertionsTest {
@@ -144,28 +145,28 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertAll();
   }
 
-  // @Test
+  @Test
   public void should_return_success_of_last_assertion() {
     softly.assertThat(true).isFalse();
     softly.assertThat(true).isEqualTo(true);
     assertThat(softly.wasSuccess()).isTrue();
   }
 
-  // @Test
+  @Test
   public void should_return_success_of_last_assertion_with_nested_calls() {
     softly.assertThat(true).isFalse();
     softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
     assertThat(softly.wasSuccess()).isTrue();
   }
 
-  // @Test
+  @Test
   public void should_return_failure_of_last_assertion() {
     softly.assertThat(true).isTrue();
     softly.assertThat(true).isEqualTo(false);
     assertThat(softly.wasSuccess()).isFalse();
   }
 
-  // @Test
+  @Test
   public void should_return_failure_of_last_assertion_with_nested_calls() {
     softly.assertThat(true).isTrue();
     softly.assertThat(true).isFalse(); // isFalse() calls isEqualTo(false)
@@ -173,7 +174,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
   }
 
   @SuppressWarnings("unchecked")
-  // @Test
+  @Test
   public void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     // GIVEN
     Map<String, String> map = mapOf(MapEntry.entry("54", "55"));
@@ -193,7 +194,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
   }
 
   @SuppressWarnings("unchecked")
-  // @Test
+  @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws URISyntaxException {
     try {
       softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
