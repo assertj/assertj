@@ -40,9 +40,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Jacek Jackowiak
  */
 //@format:off
-public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
-                                         ACTUAL extends List<? extends ELEMENT>, 
-                                         ELEMENT, 
+public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
+                                         ACTUAL extends List<? extends ELEMENT>,
+                                         ELEMENT,
                                          ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
        implements IndexedObjectEnumerableAssert<SELF, ELEMENT> {
@@ -71,7 +71,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   /**
    * Verifies that the actual object at the given index in the actual group satisfies the given condition.
-   * 
+   *
    * @param condition the given condition.
    * @param index the index where the object should be stored in the actual group.
    * @return this assertion object.
@@ -90,7 +90,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   /**
    * Verifies that the actual object at the given index in the actual group satisfies the given condition.
-   * 
+   *
    * @param condition the given condition.
    * @param index the index where the object should be stored in the actual group.
    * @return this assertion object.
@@ -151,11 +151,10 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   /**
-   * Verifies that the actual @{code List} contains the value at given {@code Index} that satisfy given {@code requirements}.
+   * Verifies that the actual {@link List} contains a value at given {@code Index} that satisfies the given {@code requirements}.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * List&lt;TolkienCharacter&gt; ringBearers = newArrayList(frodo, elrond, gandalf);
+   * <pre><code class='java'> List&lt;TolkienCharacter&gt; ringBearers = newArrayList(frodo, elrond, gandalf);
    *
    * // this assertion will pass
    * assertThat(ringBearers).satisfies(
@@ -170,8 +169,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    *     ringBearer -&gt; {
    *         assertThat(ringBearer.getRace()).isEqualTo(ELF);
    *     },
-   *     atIndex(0);
-   * </code></pre>
+   *     atIndex(0);</code></pre>
    *
    * @param requirements the given requirements for the element at {@code Index} to meet.
    * @param index the index where the object should be stored in the actual {@code List}.
