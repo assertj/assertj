@@ -60,9 +60,7 @@ public class AllOf<T> extends Join<T> {
   /** {@inheritDoc} */
   @Override
   public boolean matches(T value) {
-    for (Condition<? super T> condition : conditions)
-      if (!condition.matches(value)) return false;
-    return true;
+    return conditions.stream().allMatch(condition -> condition.matches(value));
   }
 
   @Override

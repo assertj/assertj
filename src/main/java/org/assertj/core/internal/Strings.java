@@ -15,6 +15,9 @@ package org.assertj.core.internal;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -336,12 +339,8 @@ public class Strings {
    */
   public void assertContains(AssertionInfo info, CharSequence actual, CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
-    Set<CharSequence> notFound = new LinkedHashSet<>();
-    for (CharSequence value : values) {
-      if (!stringContains(actual, value)) {
-        notFound.add(value);
-      }
-    }
+    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actual, value))
+                                               .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
     if (notFound.size() == 1 && values.length == 1) {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
@@ -412,10 +411,8 @@ public class Strings {
    */
   public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
-    Set<CharSequence> found = new LinkedHashSet<>();
-    for (CharSequence value : values) {
-      if (stringContains(actual, value)) found.add(value);
-    }
+    Set<CharSequence> found = stream(values).filter(value -> stringContains(actual, value))
+                                            .collect(toCollection(LinkedHashSet::new));
     if (found.isEmpty()) return;
     if (found.size() == 1 && values.length == 1) {
       throw failures.failure(info, shouldNotContain(actual, values[0], comparisonStrategy));
@@ -782,11 +779,8 @@ public class Strings {
   public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
     doCommonCheckForCharSequence(info, actual, sequence);
 
-    StringBuilder stringBuilder = new StringBuilder();
-    Set<CharSequence> notFound = new LinkedHashSet<>();
-    for (CharSequence value : sequence) {
-      if (!stringContains(actual, value)) notFound.add(value);
-    }
+    Set<CharSequence> notFound = stream(sequence).filter(value -> !stringContains(actual, value))
+                                                 .collect(toCollection(LinkedHashSet::new));
 
     if (!notFound.isEmpty()) {
       // don't bother looking for a sequence, some of the sequence elements were not found !
@@ -801,10 +795,7 @@ public class Strings {
 
     // convert all values to one char sequence to compare with the actual char sequence
     String strActual = actual.toString();
-    for (CharSequence value : sequence) {
-      stringBuilder.append(value);
-    }
-    String strSequence = stringBuilder.toString();
+    String strSequence = stream(sequence).collect(joining());
     if (!stringContains(strActual, strSequence)) {
       throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
     }
@@ -825,10 +816,8 @@ public class Strings {
   public void assertContainsSubsequence(AssertionInfo info, CharSequence actual, CharSequence[] subsequence) {
     doCommonCheckForCharSequence(info, actual, subsequence);
 
-    Set<CharSequence> notFound = new LinkedHashSet<>();
-    for (CharSequence value : subsequence) {
-      if (!stringContains(actual, value)) notFound.add(value);
-    }
+    Set<CharSequence> notFound = stream(subsequence).filter(value -> !stringContains(actual, value))
+                                                    .collect(toCollection(LinkedHashSet::new));
 
     if (!notFound.isEmpty()) {
       // don't bother looking for a subsequence, some of the subsequence elements were not found !

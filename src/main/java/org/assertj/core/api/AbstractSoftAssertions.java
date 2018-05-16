@@ -130,9 +130,7 @@ public class AbstractSoftAssertions {
   }
 
   private List<Throwable> addLineNumberToErrorMessages(List<Throwable> errors) {
-    for (Throwable error : errors) {
-      addLineNumberToErrorMessage(error);
-    }
+    errors.forEach(this::addLineNumberToErrorMessage);
     return errors;
   }
 

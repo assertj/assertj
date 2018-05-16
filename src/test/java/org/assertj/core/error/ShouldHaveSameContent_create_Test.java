@@ -36,7 +36,7 @@ public class ShouldHaveSameContent_create_Test {
   @Test
   public void should_create_error_message_file_even_if_content_contains_format_specifier() {
     ErrorMessageFactory factory = shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), emptyList());
-    String expectedErrorMessage = format("[Test] %nFile:%n  <abc>%nand file:%n  <xyz>%ndo not have same content:%n");
+    String expectedErrorMessage = format("[Test] %nFile:%n  <abc>%nand file:%n  <xyz>%ndo not have same content:%n%n");
     assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(expectedErrorMessage);
   }
 
@@ -45,7 +45,7 @@ public class ShouldHaveSameContent_create_Test {
     ErrorMessageFactory factory = shouldHaveSameContent(new ByteArrayInputStream(new byte[] { 'a' }),
                                                         new ByteArrayInputStream(new byte[] { 'b' }),
                                                         emptyList());
-    String expectedErrorMessage = format("[Test] %nInputStreams do not have same content:%n");
+    String expectedErrorMessage = format("[Test] %nInputStreams do not have same content:%n%n");
     assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(expectedErrorMessage);
   }
 

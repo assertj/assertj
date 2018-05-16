@@ -61,9 +61,7 @@ public class AnyOf<T> extends Join<T> {
   /** {@inheritDoc} */
   @Override
   public boolean matches(T value) {
-    for (Condition<? super T> condition : conditions)
-      if (condition.matches(value)) return true;
-    return false;
+    return conditions.stream().anyMatch(condition -> condition.matches(value));
   }
 
   @Override

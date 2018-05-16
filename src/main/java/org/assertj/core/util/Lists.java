@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util;
 
+import static java.util.stream.Collectors.toCollection;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -58,11 +60,7 @@ public final class Lists {
     if (elements == null) {
       return null;
     }
-    ArrayList<T> list = newArrayList();
-    for (T e : elements) {
-      list.add(e);
-    }
-    return list;
+    return Streams.stream(elements).collect(toCollection(ArrayList::new));
   }
 
   /**

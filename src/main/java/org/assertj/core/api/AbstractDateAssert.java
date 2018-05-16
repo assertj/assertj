@@ -16,6 +16,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.DateUtil.*;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -24,7 +25,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -524,11 +524,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public SELF isInWithStringDateCollection(Collection<String> datesAsString) {
-    Collection<Date> dates = new ArrayList<>(datesAsString.size());
-    for (String dateAsString : datesAsString) {
-      dates.add(parse(dateAsString));
-    }
-    return isIn(dates);
+    return isIn(datesAsString.stream().map(this::parse).collect(toList()));
   }
 
   /**
@@ -612,11 +608,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public SELF isNotInWithStringDateCollection(Collection<String> datesAsString) {
-    Collection<Date> dates = new ArrayList<>(datesAsString.size());
-    for (String dateAsString : datesAsString) {
-      dates.add(parse(dateAsString));
-    }
-    return isNotIn(dates);
+    return isNotIn(datesAsString.stream().map(this::parse).collect(toList()));
   }
 
   /**

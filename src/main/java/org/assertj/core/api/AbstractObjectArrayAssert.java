@@ -2202,13 +2202,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Extractor<? super ELEMENT, C> extractor) {
-    final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
-
-    final List<V> result = newArrayList();
-    for (C e : extractedValues) {
-      result.addAll(e);
-    }
-
+    List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
+                                                .flatMap(Collection::stream).collect(toList());
     return newListAssertInstance(result).withAssertionState(myself);
   }
 

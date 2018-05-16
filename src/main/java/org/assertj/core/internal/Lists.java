@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldBeAtIndex.shouldBeAtIndex;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
@@ -23,7 +24,6 @@ import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtI
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -257,11 +257,7 @@ public class Lists {
 
   @SuppressWarnings("unchecked")
   private static List<Comparable<Object>> listOfComparableElements(List<?> collection) {
-    List<Comparable<Object>> listOfComparableElements = new ArrayList<>();
-    for (Object object : collection) {
-      listOfComparableElements.add((Comparable<Object>) object);
-    }
-    return listOfComparableElements;
+    return collection.stream().map(object -> (Comparable<Object>) object).collect(toList());
   }
 
   private void assertNotNull(AssertionInfo info, List<?> actual) {

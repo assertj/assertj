@@ -12,9 +12,10 @@
  */
 package org.assertj.core.extractor;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.api.iterable.Extractor;
@@ -41,22 +42,11 @@ public class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
   }
 
   private List<Object> extractValues(T input, List<Extractor<T, Object>> singleExtractors) {
-    List<Object> values = new ArrayList<>();
-    
-    for (Extractor<T, Object> extractor : singleExtractors) {
-      values.add(extractor.extract(input));
-    }
-    return values;
+    return singleExtractors.stream().map(extractor -> extractor.extract(input)).collect(toList());
   }
 
   private List<Extractor<T, Object>> buildExtractors() {
-    List<Extractor<T, Object>> result = new ArrayList<>();
-    
-    for (String name : fieldsOrProperties) {
-      result.add(new ByNameSingleExtractor<T>(name));
-    }
-    
-    return result;
+    return Arrays.stream(fieldsOrProperties).map(ByNameSingleExtractor<T>::new).collect(toList());
   }
 
 }

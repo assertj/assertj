@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -2235,13 +2236,8 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Extractor<? super T, C> extractor) {
-    final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), extractor);
-
-    final List<U> result = newArrayList();
-    for (C e : extractedValues) {
-      result.addAll(e);
-    }
-
+    List<U> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), extractor).stream()
+                                                .flatMap(Collection::stream).collect(toList());
     return new ObjectArrayAssert<>(IterableUtil.toArray(result));
   }
 

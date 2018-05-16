@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util;
 
+import static java.util.stream.Collectors.toCollection;
+
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -44,11 +46,7 @@ public final class Sets {
     if (elements == null) {
       return null;
     }
-    HashSet<T> set = newHashSet();
-    for (T e : elements) {
-      set.add(e);
-    }
-    return set;
+    return Streams.stream(elements).collect(toCollection(HashSet::new));
   }
 
   /**

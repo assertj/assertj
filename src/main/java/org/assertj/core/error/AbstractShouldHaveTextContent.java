@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.List;
 
 import org.assertj.core.description.Description;
@@ -49,10 +51,7 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
   }
 
   protected static String diffsAsString(List<Delta<String>> diffsList) {
-    StringBuilder stringBuilder = new StringBuilder();
-    for (Delta<String> diff : diffsList)
-      stringBuilder.append(System.lineSeparator()).append(diff);
-    return stringBuilder.toString();
+    return diffsList.stream().map(Delta::toString).collect(joining(System.lineSeparator()));
   }
 
 }

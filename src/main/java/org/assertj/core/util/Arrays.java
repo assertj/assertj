@@ -12,14 +12,16 @@
  */
 package org.assertj.core.util;
 
+import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -154,11 +156,7 @@ public class Arrays {
    */
   public static <T> List<T> nonNullElementsIn(T[] array) {
     if (array == null) return emptyList();
-    List<T> nonNullElements = new ArrayList<>();
-    for (T o : array) {
-      if (o != null) nonNullElements.add(o);
-    }
-    return nonNullElements;
+    return stream(array).filter(Objects::nonNull).collect(toList());
   }
 
   /**

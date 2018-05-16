@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -94,14 +95,11 @@ public class ErrorCollector {
     return countErrorCollectorProxyCalls() > 1;
   }
 
-  private static int countErrorCollectorProxyCalls() {
-    int nbCalls = 0;
-    for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
-      if (CLASS_NAME.equals(stackTraceElement.getClassName())
-          && stackTraceElement.getMethodName().startsWith(INTERCEPT_METHOD_NAME))
-        nbCalls++;
-    }
-    return nbCalls;
+  private static long countErrorCollectorProxyCalls() {
+    return Arrays.stream(Thread.currentThread().getStackTrace())
+                 .filter(stackTraceElement -> CLASS_NAME.equals(stackTraceElement.getClassName())
+                                              && stackTraceElement.getMethodName().startsWith(INTERCEPT_METHOD_NAME))
+                 .count();
   }
 
   private static class LastResult {
