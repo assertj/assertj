@@ -12,13 +12,19 @@
  */
 package org.assertj.core.util;
 
+import java.util.Collection;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class Streams {
 
-  public static <T> Stream<T> stream(Iterable<T> actual) {
-    return StreamSupport.stream(actual.spliterator(), false);
-
+  /**
+   * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
+   * Collection#stream} if possible.
+   */
+  public static <T> Stream<T> stream(Iterable<T> iterable) {
+    return (iterable instanceof Collection)
+        ? ((Collection<T>) iterable).stream()
+        : StreamSupport.stream(iterable.spliterator(), false);
   }
 }
