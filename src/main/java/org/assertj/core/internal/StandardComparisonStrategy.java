@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.assertj.core.util.Objects;
+import org.assertj.core.util.Streams;
 
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on
@@ -90,12 +91,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     if (iterable == null) {
       return false;
     }
-    for (Object next : iterable) {
-      if (areEqual(next, value)) {
-        return true;
-      }
-    }
-    return false;
+    return Streams.stream(iterable).anyMatch(object -> areEqual(object, value));
   }
 
   /**

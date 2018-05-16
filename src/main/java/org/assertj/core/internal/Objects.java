@@ -14,6 +14,8 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
@@ -50,7 +52,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -776,12 +778,9 @@ public class Objects {
    * @return the declared fields of given class excluding any synthetic fields.
    */
   private static Set<Field> getDeclaredFieldsIgnoringSyntheticAndStatic(Class<?> clazz) {
-    final Set<Field> fields = newLinkedHashSet(clazz.getDeclaredFields());
-    for (Iterator<Field> iterator = fields.iterator(); iterator.hasNext();) {
-      final Field next = iterator.next();
-      if (next.isSynthetic() || Modifier.isStatic(next.getModifiers())) iterator.remove();
-    }
-    return fields;
+    return stream(clazz.getDeclaredFields()).filter(field -> !(field.isSynthetic()
+                                                               || Modifier.isStatic(field.getModifiers())))
+                                            .collect(toCollection(LinkedHashSet::new));
   }
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other,

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
@@ -351,11 +352,7 @@ public class Classes {
   }
 
   private static Set<String> fieldsToName(Set<Field> fields) {
-    Set<String> fieldsName = new LinkedHashSet<>();
-    for (Field field : fields) {
-      fieldsName.add(field.getName());
-    }
-    return fieldsName;
+    return fields.stream().map(Field::getName).collect(toCollection(LinkedHashSet::new));
   }
 
   /**

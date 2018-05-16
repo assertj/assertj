@@ -63,17 +63,17 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
   }
 
   private ShouldHaveSameContent(File actual, File expected, String diffs) {
-    super("%nFile:%n  <%s>%nand file:%n  <%s>%ndo not have same content:%n", actual, expected);
+    super("%nFile:%n  <%s>%nand file:%n  <%s>%ndo not have same content:%n%n", actual, expected);
     this.diffs = diffs;
   }
 
   private ShouldHaveSameContent(InputStream actual, InputStream expected, String diffs) {
-    super("%nInputStreams do not have same content:%n", actual, expected);
+    super("%nInputStreams do not have same content:%n%n", actual, expected);
     this.diffs = diffs;
   }
   
   private ShouldHaveSameContent(Path actual, Path expected, String diffs) {
-    super("%nPath:%n  <%s>%nand path:%n  <%s>%ndo not have same content:%n", actual, expected);
+    super("%nPath:%n  <%s>%nand path:%n  <%s>%ndo not have same content:%n%n", actual, expected);
     this.diffs = diffs;
   }
 }

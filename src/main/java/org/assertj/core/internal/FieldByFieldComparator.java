@@ -13,11 +13,11 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Strings.join;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -89,10 +89,9 @@ public class FieldByFieldComparator implements Comparator<Object> {
     if (comparatorsByPropertyOrField.isEmpty()) {
       return "";
     }
-    List<String> fieldComparatorsDescription = new ArrayList<>();
-    for (Entry<String, Comparator<?>> registeredComparator : this.comparatorsByPropertyOrField.entrySet()) {
-      fieldComparatorsDescription.add(formatFieldComparator(registeredComparator));
-    }
+    List<String> fieldComparatorsDescription = this.comparatorsByPropertyOrField.entrySet().stream()
+                                                                                .map(FieldByFieldComparator::formatFieldComparator)
+                                                                                .collect(toList());
     return format("- for elements fields (by name): {%s}", join(fieldComparatorsDescription).with(", "));
   }
 

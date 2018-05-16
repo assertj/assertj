@@ -12,12 +12,12 @@
  */
 package org.assertj.core.api.filter;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -196,13 +196,7 @@ public class Filters<E> {
   }
 
   private Filters<E> applyFilterCondition(Condition<? super E> condition) {
-    List<E> newFilteredIterable = new ArrayList<>();
-    for (E element : filteredIterable) {
-      if (condition.matches(element)) {
-        newFilteredIterable.add(element);
-      }
-    }
-    this.filteredIterable = newFilteredIterable;
+    this.filteredIterable = filteredIterable.stream().filter(condition::matches).collect(toList());
     return this;
   }
 
@@ -265,8 +259,7 @@ public class Filters<E> {
 
   /**
    * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>equals to</b>
-   * given
-   * value.
+   * given value.
    * <p>
    * Typical usage :
    * <pre><code class='java'> filter(employees).with("name").equalsTo("Luke").get();</code></pre>
@@ -277,12 +270,10 @@ public class Filters<E> {
    */
   public Filters<E> equalsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<>();
-    for (E element : filteredIterable) {
+    this.filteredIterable = filteredIterable.stream().filter(element -> {
       Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
-      if (areEqual(propertyValueOfCurrentElement, propertyValue)) newFilteredIterable.add(element);
-    }
-    this.filteredIterable = newFilteredIterable;
+      return areEqual(propertyValueOfCurrentElement, propertyValue);
+    }).collect(toList());
     return this;
   }
 
@@ -300,12 +291,10 @@ public class Filters<E> {
    */
   public Filters<E> notEqualsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<>();
-    for (E element : filteredIterable) {
+    this.filteredIterable = filteredIterable.stream().filter(element -> {
       Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
-      if (!areEqual(propertyValueOfCurrentElement, propertyValue)) newFilteredIterable.add(element);
-    }
-    this.filteredIterable = newFilteredIterable;
+      return !areEqual(propertyValueOfCurrentElement, propertyValue);
+    }).collect(toList());
     return this;
   }
 
@@ -316,8 +305,7 @@ public class Filters<E> {
 
   /**
    * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>equals to</b>
-   * one of the
-   * given values.
+   * one of the given values.
    * <p>
    * Typical usage :
    * <pre><code class='java'>filter(players).with("team").in("Bulls", "Lakers").get();</code></pre>
@@ -328,19 +316,16 @@ public class Filters<E> {
    */
   public Filters<E> in(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<>();
-    for (E element : filteredIterable) {
+    this.filteredIterable = filteredIterable.stream().filter(element -> {
       Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
-      if (isItemInArray(propertyValueOfCurrentElement, propertyValues)) newFilteredIterable.add(element);
-    }
-    this.filteredIterable = newFilteredIterable;
+      return isItemInArray(propertyValueOfCurrentElement, propertyValues);
+    }).collect(toList());
     return this;
   }
 
   /**
    * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>not in</b> the
-   * given
-   * values.
+   * given values.
    * <p>
    * Typical usage :
    * <pre><code class='java'> filter(players).with("team").notIn("Heat", "Lakers").get();</code></pre>
@@ -351,12 +336,10 @@ public class Filters<E> {
    */
   public Filters<E> notIn(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<>();
-    for (E element : filteredIterable) {
+    this.filteredIterable = filteredIterable.stream().filter(element -> {
       Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
-      if (!isItemInArray(propertyValueOfCurrentElement, propertyValues)) newFilteredIterable.add(element);
-    }
-    this.filteredIterable = newFilteredIterable;
+      return !isItemInArray(propertyValueOfCurrentElement, propertyValues);
+    }).collect(toList());
     return this;
   }
 

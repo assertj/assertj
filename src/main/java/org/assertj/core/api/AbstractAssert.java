@@ -14,9 +14,9 @@ package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -151,13 +151,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (!Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace()) return;
     if (isAssertjAssertClass()) return;
 
-    List<StackTraceElement> filtered = newArrayList(assertionError.getStackTrace());
-    for (StackTraceElement element : assertionError.getStackTrace()) {
-      if (isElementOfCustomAssert(element)) {
-        filtered.remove(element);
-      }
-    }
-    StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[filtered.size()]);
+    StackTraceElement[] newStackTrace = Arrays.stream(assertionError.getStackTrace())
+                                              .filter(element -> !isElementOfCustomAssert(element))
+                                              .toArray(StackTraceElement[]::new);
     assertionError.setStackTrace(newStackTrace);
   }
 

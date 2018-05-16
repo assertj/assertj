@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 
 import java.util.Arrays;
@@ -131,11 +132,9 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
       return throwable.getMessage();
     }
     // error has a cause, display the cause message and the first stack trace elements.
-    StackTraceElement[] stackTraceFirstElements = Arrays.copyOf(cause.getStackTrace(), 5);
-    String stackTraceDescription = "";
-    for (StackTraceElement stackTraceElement : stackTraceFirstElements) {
-      stackTraceDescription += format("\tat %s%n", stackTraceElement);
-    }
+    String stackTraceDescription = Arrays.stream(cause.getStackTrace()).limit(5)
+                                         .map(stackTraceElement -> format("\tat %s%n", stackTraceElement))
+                                         .collect(joining());
     return format("%s%n" +
                   "cause message: %s%n" +
                   "cause first five stack trace elements:%n" +

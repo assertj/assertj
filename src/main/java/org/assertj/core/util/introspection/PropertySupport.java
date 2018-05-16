@@ -14,13 +14,15 @@ package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.util.VisibleForTesting;
@@ -96,11 +98,8 @@ public class PropertySupport {
   }
 
   private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
-    List<T> propertyValues = new ArrayList<>();
-    for (Object e : target) {
-      propertyValues.add(e == null ? null : propertyValue(propertyName, clazz, e));
-    }
-    return unmodifiableList(propertyValues);
+    return stream(target).map(e -> e == null ? null : propertyValue(propertyName, clazz, e))
+                         .collect(collectingAndThen(toList(), Collections::unmodifiableList));
   }
 
   private String popPropertyNameFrom(String propertyNameChain) {

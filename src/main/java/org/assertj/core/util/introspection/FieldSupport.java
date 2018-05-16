@@ -15,13 +15,15 @@ package org.assertj.core.util.introspection;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.introspection.FieldUtils.readField;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -136,11 +138,8 @@ public enum FieldSupport {
   }
 
   private <T> List<T> simpleFieldValues(String fieldName, Class<T> clazz, Iterable<?> target) {
-    List<T> fieldValues = new ArrayList<>();
-    for (Object e : target) {
-      fieldValues.add(e == null ? null : fieldValue(fieldName, clazz, e));
-    }
-    return unmodifiableList(fieldValues);
+    return stream(target).map(e -> e == null ? null : fieldValue(fieldName, clazz, e))
+                         .collect(collectingAndThen(toList(), Collections::unmodifiableList));
   }
 
   private String popFieldNameFrom(String fieldNameChain) {

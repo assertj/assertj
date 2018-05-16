@@ -1297,13 +1297,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Extractor<? super ELEMENT, ? extends Collection<V>> extractor) {
-    List<V> result = newArrayList();
-    final List<? extends Collection<V>> extractedValues = FieldsOrPropertiesExtractor.extract(actual, extractor);
-
-    for (Collection<? extends V> iterable : extractedValues) {
-      result.addAll(iterable);
-    }
-
+    List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream().flatMap(Collection::stream).collect(toList());
     return newListAssertInstance(result).withAssertionState(myself);
   }
 
@@ -1522,10 +1516,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String... fieldOrPropertyNames) {
-    List<Object> extractedValues = newArrayList();
-    for (Tuple tuple : FieldsOrPropertiesExtractor.extract(actual, Extractors.byName(fieldOrPropertyNames))) {
-      extractedValues.addAll(tuple.toList());
-    }
+    List<Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, Extractors.byName(fieldOrPropertyNames))
+                                                              .stream()
+                                                              .flatMap(tuple -> tuple.toList().stream())
+                                                              .collect(toList());
     return newListAssertInstance(extractedValues).withAssertionState(myself);
   }
 

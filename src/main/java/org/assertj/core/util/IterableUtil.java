@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public final class IterableUtil {
 
@@ -65,11 +67,7 @@ public final class IterableUtil {
    */
   public static <T> List<T> nonNullElementsIn(Iterable<? extends T> i) {
     if (isNullOrEmpty(i)) return emptyList();
-    List<T> nonNull = new ArrayList<>();
-    for (T element : i) {
-      if (element != null) nonNull.add(element);
-    }
-    return nonNull;
+    return Streams.stream(i).filter(Objects::nonNull).collect(toList());
   }
 
   /**

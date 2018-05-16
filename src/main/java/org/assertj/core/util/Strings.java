@@ -13,10 +13,9 @@
 package org.assertj.core.util;
 
 import static java.lang.String.format;
-import static org.assertj.core.util.Lists.newArrayList;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Preconditions.checkArgument;
-
-import java.util.List;
 
 /**
  * Utility methods related to {@code String}s.
@@ -68,11 +67,7 @@ public final class Strings {
     if (Arrays.isNullOrEmpty(objects)) {
       return null;
     }
-    StringBuilder b = new StringBuilder();
-    for (Object o : objects) {
-      b.append(o);
-    }
-    return b.toString();
+    return stream(objects).map(String::valueOf).collect(joining());
   }
 
   /**
@@ -128,11 +123,8 @@ public final class Strings {
    * @see StringsToJoin#with(String)
    */
   public static StringsToJoin join(Iterable<?> toStringable) {
-    List<String> strings = newArrayList();
-    for (Object o : toStringable) {
-      strings.add(String.valueOf(o));
-    }
-    return new StringsToJoin(strings.toArray(new String[strings.size()]));
+    String[] strings = Streams.stream(toStringable).map(String::valueOf).toArray(String[]::new);
+    return new StringsToJoin(strings);
   }
 
   /**

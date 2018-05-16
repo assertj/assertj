@@ -13,7 +13,9 @@
 package org.assertj.core.internal;
 
 import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
@@ -75,7 +77,6 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -92,6 +93,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.util.Streams;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -246,12 +248,7 @@ public class Iterables {
   }
 
   private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {
-    Set<Object> notFound = new LinkedHashSet<>();
-    for (Object value : values) {
-      if (!iterableContains(actual, value)) {
-        notFound.add(value);
-      }
-    }
+    Set<Object> notFound = stream(values).filter(value -> !iterableContains(actual, value)).collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty())
       return;
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
@@ -358,10 +355,7 @@ public class Iterables {
     // empty => no null elements => failure
     if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
     // look for any non null elements
-    List<Object> nonNullElements = new ArrayList<>();
-    for (Object element : actual) {
-      if (element != null) nonNullElements.add(element);
-    }
+    List<Object> nonNullElements = Streams.stream(actual).filter(java.util.Objects::nonNull).collect(toList());
     if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
@@ -492,10 +486,8 @@ public class Iterables {
   public void assertIsSubsetOf(AssertionInfo info, Iterable<?> actual, Iterable<?> values) {
     assertNotNull(info, actual);
     checkIterableIsNotNull(info, values);
-    List<Object> extra = newArrayList();
-    for (Object actualElement : actual) {
-      if (!iterableContains(values, actualElement)) extra.add(actualElement);
-    }
+    List<Object> extra = Streams.stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
+                                .collect(toList());
     if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 

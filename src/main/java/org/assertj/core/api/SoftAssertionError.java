@@ -52,7 +52,7 @@ public class SoftAssertionError extends AssertionError {
     for (int i = 0; i < size; i++) {
       msg.append(i + 1).append(") ").append(errors.get(i)).append("%n");
     }
-    return formatter.format(null,null,msg.toString());
+    return formatter.format(null, null, msg.toString());
   }
 
   /**

@@ -13,10 +13,10 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Strings.join;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -28,10 +28,10 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
   public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursive(Object actual, Object other,
                                                                                   List<Difference> differences,
                                                                                   Representation representation) {
-    List<String> descriptionOfDifferences = new ArrayList<>(differences.size());
-    for (Difference difference : differences) {
-      descriptionOfDifferences.add(describeDifference(difference, representation));
-    }
+    List<String> descriptionOfDifferences = differences.stream()
+                                                       .map(difference -> describeDifference(difference,
+                                                                                             representation))
+                                                       .collect(toList());
     return new ShouldBeEqualByComparingFieldByFieldRecursively("%n" +
                                                                "Expecting:%n" +
                                                                "  <%s>%n" +

@@ -13,7 +13,7 @@
 package org.assertj.core.condition;
 
 import static java.util.Collections.unmodifiableCollection;
-
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.*;
@@ -43,9 +43,7 @@ public abstract class Join<T> extends Condition<T> {
   @SafeVarargs
   protected Join(Condition<? super T>... conditions) {
     if (conditions == null) throw conditionsIsNull();
-    this.conditions = new ArrayList<>();
-    for (Condition<? super T> condition : conditions)
-      this.conditions.add(notNull(condition));
+    this.conditions = Arrays.stream(conditions).map(Join::notNull).collect(toList());
   }
 
   /**
