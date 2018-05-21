@@ -801,6 +801,30 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code> from a {@link StringBuilder}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(StringBuilder actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code> from a {@link StringBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(StringBuffer actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.StringAssert}</code>.
    *
    * @param actual the actual value.

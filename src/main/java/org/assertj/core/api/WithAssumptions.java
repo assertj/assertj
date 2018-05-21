@@ -372,6 +372,29 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption from a {@link StringBuilder}.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  default AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(final StringBuilder actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption from a {@link StringBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  default AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(final StringBuffer actual) {
+    return Assumptions.assumeThat(actual);
+  }
+  /**
    * Creates a new instance of <code>{@link ShortArrayAssert}</code> assumption.
    *
    * @param actual the actual value.

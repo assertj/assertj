@@ -488,6 +488,30 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  public CharSequenceAssert then(StringBuilder actual) {
+    return proxy(CharSequenceAssert.class, CharSequence.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  public CharSequenceAssert then(StringBuffer actual) {
+    return proxy(CharSequenceAssert.class, CharSequence.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link StringAssert}</code>.
    *
    * @param actual the actual value.
