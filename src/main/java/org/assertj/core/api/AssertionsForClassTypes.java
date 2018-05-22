@@ -488,7 +488,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}..
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
