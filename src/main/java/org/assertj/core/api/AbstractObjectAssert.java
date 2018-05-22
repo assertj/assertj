@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
@@ -26,6 +27,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
@@ -218,7 +220,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some fields or properties of the actual object are null.
-   * 
+   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrProperties() {
@@ -249,7 +251,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are null.
-   * 
+   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
@@ -310,8 +312,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
    * <p>
-   * When used with {@link #isEqualToComparingFieldByFieldRecursively(Object)}, the fields/properties must be specified from the root object, 
-   * for example if Foo class as a Bar field and Bar class has an id, to set a comparator for Bar's id use {@code "bar.id"}. 
+   * When used with {@link #isEqualToComparingFieldByFieldRecursively(Object)}, the fields/properties must be specified from the root object,
+   * for example if Foo class as a Bar field and Bar class has an id, to set a comparator for Bar's id use {@code "bar.id"}.
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -402,7 +404,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    *
-   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance 
+   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance
    * chain to the given {@code type} is chosen in the following order:
    * <ol>
    * <li>The comparator for the exact given {@code type}</li>
@@ -524,7 +526,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
-   * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties. 
+   * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
@@ -552,18 +554,18 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Use the given {@link Function}s to extract the values from the object under test into a list, this new list becoming 
-   * the object under test. 
+   * Use the given {@link Function}s to extract the values from the object under test into a list, this new list becoming
+   * the object under test.
    * <p>
-   * If the given {@link Function}s extract the id, name and email values then the list will contain the id, name and email values 
+   * If the given {@link Function}s extract the id, name and email values then the list will contain the id, name and email values
    * of the object under test, you can then perform list assertions on the extracted values.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
-   * 
+   *
    * // let's verify Frodo's name, age and race name:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, 
+   * assertThat(frodo).extracting(TolkienCharacter::getName,
    *                              character -&gt; character.age, // public field
    *                              character -&gt; character.getRace().getName())
    *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
@@ -579,6 +581,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
                                 .map(extractor -> extractor.apply(actual))
                                 .collect(Collectors.toList());
     return newListAssertInstance(values).as(info.description());
+  }
+
+  public AbstractObjectAssert<?, ?> extracting(Extractor<? super ACTUAL, Object> extractor) {
+    return null;
+  }
+
+  public void should_testName() {
+    assertThat(new Object()).extracting(s -> s);
   }
 
   /**
@@ -657,13 +667,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Verify that the object under test returns the given expected value from the given {@link Function}, 
+   * Verify that the object under test returns the given expected value from the given {@link Function},
    * a typical usage is to pass a method reference to assert object's property.
    * <p>
    * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
    * <p>
    * Example:
-   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable 
+   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
    * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName))
    *                  .returns("Frodo", TolkienCharacter::getName) // no from :(
    *                  .returns(HOBBIT, from(TolkienCharacter::getRace));</code></pre>

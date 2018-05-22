@@ -38,6 +38,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -53,7 +54,6 @@ import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
-import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -835,7 +835,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).withAssertionState(myself).as(description);
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -883,7 +883,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).withAssertionState(myself).as(description);
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -934,7 +934,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).withAssertionState(myself).as(description);
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -1025,7 +1025,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).withAssertionState(myself).as(description);
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -1117,7 +1117,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
     String extractedDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).withAssertionState(myself).as(description);
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -1163,7 +1163,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Extractor<? super ELEMENT, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    return newListAssertInstance(values).withAssertionState(myself);
+    return newListAssertInstanceForMethodsChangingElementType(values);
   }
 
   /**
@@ -1209,6 +1209,20 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
+    return newListAssertInstanceForMethodsChangingElementType(values);
+  }
+
+  /**
+   * Should be used after any methods changing the elements type like {@link #extracting(Extractor)} as it will propagate the correct
+   * assertions state, that is everyting but the element comparator (since the element type has changed).
+   */
+  private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> newListAssertInstanceForMethodsChangingElementType(List<V> values) {
+    if (actual instanceof SortedSet) {
+      // Reset the natural element comparator set when building an iterable assert instance for a SortedSet as it is likely not
+      // compatible with extracted values type, example with a SortedSet<Person> using a comparator on the Person's age, after
+      // extracting names we get a a List<String> which is mot suitable for the age comparator
+      usingDefaultElementComparator();
+    }
     return newListAssertInstance(values).withAssertionState(myself);
   }
 
@@ -1297,8 +1311,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Extractor<? super ELEMENT, ? extends Collection<V>> extractor) {
-    List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream().flatMap(Collection::stream).collect(toList());
-    return newListAssertInstance(result).withAssertionState(myself);
+    List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream()
+                                                .flatMap(Collection::stream)
+                                                .collect(toList());
+    return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
@@ -1332,7 +1348,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
                                       .collect(Collectors.toList());
-    return newListAssertInstance(result).withAssertionState(myself);
+    return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
@@ -1376,7 +1392,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.extract(element)))
                                       .collect(Collectors.toList());
-    return newListAssertInstance(result).withAssertionState(myself);
+    return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
@@ -1428,7 +1444,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return newListAssertInstance(extractedValues).withAssertionState(myself);
+    return newListAssertInstanceForMethodsChangingElementType(extractedValues);
   }
 
   /**
@@ -1488,7 +1504,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                                                                                           .toArray());
     List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
                                                             .collect(toList());
-    return newListAssertInstance(tuples).withAssertionState(myself);
+    return newListAssertInstanceForMethodsChangingElementType(tuples);
   }
 
   /**
@@ -1516,11 +1532,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String... fieldOrPropertyNames) {
-    List<Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, Extractors.byName(fieldOrPropertyNames))
-                                                              .stream()
+    List<Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyNames)).stream()
                                                               .flatMap(tuple -> tuple.toList().stream())
                                                               .collect(toList());
-    return newListAssertInstance(extractedValues).withAssertionState(myself);
+    return newListAssertInstanceForMethodsChangingElementType(extractedValues);
   }
 
   /**
