@@ -44,8 +44,8 @@ public class ErrorCollector {
    * @param proxy A proxy to invoke the original method.
    * @param method A reference to the original method.
    * @param stub A default value for the return type. null for reference type and 0 for the corresponding primitive types.
-   * @return
-   * @throws Exception
+   * @return the assertion result
+   * @throws Exception may be thrown from the assertion proxy call
    */
   @RuntimeType
   public static Object intercept(@FieldValue(FIELD_NAME) ErrorCollector errorCollector,

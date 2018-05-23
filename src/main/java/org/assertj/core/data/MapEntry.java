@@ -77,8 +77,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
   }
 
   /**
-   * Always throws <tt>UnsupportedOperationException</tt>,
-   * as this class represents an <i>immutable</i> map entry.
+   * Always throws {@link UnsupportedOperationException} as this class represents an <i>immutable</i> map entry.
    *
    * @param value ignored
    * @return (Does not return)
