@@ -565,6 +565,30 @@ public interface WithAssertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  default AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(final StringBuilder actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  default AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(final StringBuffer actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortArrayAssert}</code>.
    *
    * @param actual the actual value.

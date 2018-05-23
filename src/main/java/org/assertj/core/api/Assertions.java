@@ -2566,6 +2566,29 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(StringBuilder actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.11.0
+   */
+  @CheckReturnValue
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(StringBuffer actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}from a {@link String}</code>.
    *
    * @param actual the actual value.
