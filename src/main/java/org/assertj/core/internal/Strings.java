@@ -558,7 +558,7 @@ public class Strings {
   }
 
   private String normalizeWhitespace(CharSequence toNormalize) {
-    final StringBuilder result = new StringBuilder();
+    final StringBuilder result = new StringBuilder(toNormalize.length());
     boolean lastWasSpace = true;
     for (int i = 0; i < toNormalize.length(); i++) {
       char c = toNormalize.charAt(i);
