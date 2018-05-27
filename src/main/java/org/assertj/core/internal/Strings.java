@@ -510,7 +510,7 @@ public class Strings {
   }
 
   private String removeAllWhitespaces(CharSequence toBeStripped) {
-    final StringBuilder result = new StringBuilder();
+    final StringBuilder result = new StringBuilder(toBeStripped.length());
     for (int i = 0; i < toBeStripped.length(); i++) {
       char c = toBeStripped.charAt(i);
       if (isWhitespace(c)) {
@@ -518,7 +518,7 @@ public class Strings {
       }
       result.append(c);
     }
-    return result.toString().trim();
+    return result.toString();
   }
 
   /**
