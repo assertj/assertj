@@ -122,7 +122,7 @@ public class Uris {
         }
 
         if (!parameters.containsKey(key)) {
-          parameters.put(key, new ArrayList<String>());
+          parameters.put(key, new ArrayList<>());
         }
 
         parameters.get(key).add(value);

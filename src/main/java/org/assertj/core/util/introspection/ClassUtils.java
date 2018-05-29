@@ -30,7 +30,7 @@ public class ClassUtils {
     if (cls == null) {
       return null;
     }
-    final List<Class<?>> classes = new ArrayList<Class<?>>();
+    final List<Class<?>> classes = new ArrayList<>();
     Class<?> superclass = cls.getSuperclass();
     while (superclass != null) {
       classes.add(superclass);

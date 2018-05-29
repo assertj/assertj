@@ -850,7 +850,7 @@ public class Objects {
     }
 
     public ByFieldsComparison() {
-      this(new ArrayList<String>(), new ArrayList<>(), new ArrayList<>());
+      this(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
     public boolean isFieldsNamesEmpty() {
