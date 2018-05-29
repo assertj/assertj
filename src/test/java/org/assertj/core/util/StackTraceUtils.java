@@ -12,6 +12,8 @@
  */
 package org.assertj.core.util;
 
+import java.util.Arrays;
+
 public class StackTraceUtils {
 
   /**
@@ -21,10 +23,7 @@ public class StackTraceUtils {
    * @return true if given {@link Throwable} stack trace contains AssertJ related elements, false otherwise.
    */
   public static boolean hasStackTraceElementRelatedToAssertJ(Throwable throwable) {
-    StackTraceElement[] stackTrace = throwable.getStackTrace();
-    for (StackTraceElement stackTraceElement : stackTrace) {
-      if (stackTraceElement.getClassName().contains("org.assert")) return true;
-    }
-    return false;
+    return Arrays.stream(throwable.getStackTrace())
+                 .anyMatch(stackTraceElement -> stackTraceElement.getClassName().contains("org.assertj"));
   }
 }

@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -174,12 +175,10 @@ public class TypeCanonizerTest {
   }
 
   private static Type resolveGenericReturnType(Class<?> cls, String methodName) {
-    for (Method method : cls.getMethods()) {
-      if (method.getName().equals(methodName)) {
-        return TypeCanonizer.canonize(method.getGenericReturnType());
-      }
-    }
-
-    throw new RuntimeException("Method not found: class=" + cls + " name=" + methodName);
+    return Arrays.stream(cls.getMethods())
+                 .filter(method -> method.getName().equals(methodName))
+                 .map(method -> TypeCanonizer.canonize(method.getGenericReturnType()))
+                 .findAny()
+                 .orElseThrow(() -> new RuntimeException("Method not found: class=" + cls + " name=" + methodName));
   }
 }

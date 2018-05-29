@@ -24,6 +24,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -295,15 +296,9 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toStringOf_method() {
-    Method method = null;
-    for (Method m : GenericClass.class.getMethods()) {
-      if (m.getName().equals("someGenericMethod")) {
-        method = m;
-        break;
-      }
-    }
+    Method method = Arrays.stream(GenericClass.class.getMethods()).filter(m -> m.getName().equals("someGenericMethod"))
+                          .findAny().get();
 
-    assertThat(method).as("someGenericMethod in GenericClass").isNotNull();
     assertThat(STANDARD_REPRESENTATION.toStringOf(method)).isEqualTo(method.toGenericString());
   }
 

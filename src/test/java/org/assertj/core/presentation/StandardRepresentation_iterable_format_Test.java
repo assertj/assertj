@@ -14,10 +14,12 @@ package org.assertj.core.presentation;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -109,11 +111,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   private static String stringOfLength(int length) {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < length; i++) {
-      sb.append(i % 10);
-    }
-    return sb.toString();
+    return Stream.generate(() -> "a").limit(length).collect(joining());
   }
 
 }

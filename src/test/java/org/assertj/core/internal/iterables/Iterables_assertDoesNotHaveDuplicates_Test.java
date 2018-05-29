@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.TestData.someInfo;
@@ -23,10 +24,10 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -76,10 +77,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
 
   @Test
   public void should_pass_within_time_constraints() {
-    List<String> generated = new ArrayList<>(GENERATED_OBJECTS_NUMBER);
-    for (int count = 0; count < GENERATED_OBJECTS_NUMBER; count++) {
-      generated.add(UUID.randomUUID().toString());
-    }
+    List<UUID> generated = Stream.generate(UUID::randomUUID).limit(GENERATED_OBJECTS_NUMBER).collect(toList());
 
     long time = System.currentTimeMillis();
     iterables.assertDoesNotHaveDuplicates(someInfo(), generated);
@@ -130,11 +128,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   
   @Test
   public void should_pass_within_time_constraints_with_custom_comparison_strategy() {
-    List<String> generated = new ArrayList<>(GENERATED_OBJECTS_NUMBER);
-    for (int count = 0; count < GENERATED_OBJECTS_NUMBER; count++) {
-      generated.add(UUID.randomUUID().toString());
-    }
-
+    List<String> generated = Stream.generate(() -> UUID.randomUUID().toString()).limit(GENERATED_OBJECTS_NUMBER).collect(toList());
     long time = System.currentTimeMillis();
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), generated);
     // check that it takes less than 10 seconds, usually it takes 1000ms on an average computer

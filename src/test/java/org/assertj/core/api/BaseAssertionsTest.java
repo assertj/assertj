@@ -20,16 +20,15 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 
 /**
  * @author Filip Hrisafov
  */
 public abstract class BaseAssertionsTest {
-  
+
   {
     setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
@@ -53,14 +52,11 @@ public abstract class BaseAssertionsTest {
                                                                Object.class);
 
   static Method[] findMethodsWithName(Class<?> clazz, String name, Class<?>... ignoredReturnTypes) {
-    List<Method> matchingMethods = new ArrayList<>();
     Set<Class<?>> ignoredReturnTypesSet = newLinkedHashSet(ignoredReturnTypes);
-    for (Method method : clazz.getMethods()) {
-      if (!ignoredReturnTypesSet.contains(method.getReturnType()) && method.getName().equals(name)) {
-        matchingMethods.add(method);
-      }
-    }
-    return matchingMethods.toArray(new Method[matchingMethods.size()]);
+    return Arrays.stream(clazz.getMethods())
+                 .filter(method -> method.getName().equals(name))
+                 .filter(method -> !ignoredReturnTypesSet.contains(method.getReturnType()))
+                 .toArray(Method[]::new);
   }
 
   private static Comparator<Method> internalMethodComparator(final boolean ignoreReturnType,

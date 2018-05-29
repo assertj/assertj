@@ -13,12 +13,14 @@
 package org.assertj.core.internal.inputstreams;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.internal.Diff;
@@ -33,7 +35,6 @@ import org.junit.Test;
  */
 public class Diff_diff_InputStream_Test {
 
-  private final static String LINE_SEPARATOR = System.getProperty("line.separator");
   private static Diff diff;
 
   @BeforeClass
@@ -45,11 +46,8 @@ public class Diff_diff_InputStream_Test {
   private InputStream expected;
 
   private InputStream stream(String... lines) throws UnsupportedEncodingException {
-    StringBuilder stringBuilder = new StringBuilder();
-    for (String line : lines) {
-      stringBuilder.append(line).append(LINE_SEPARATOR);
-    }
-    return new ByteArrayInputStream(stringBuilder.toString().getBytes("ASCII"));
+    String joinedLines = Arrays.stream(lines).collect(joining(System.lineSeparator()));
+    return new ByteArrayInputStream(joinedLines.getBytes("ASCII"));
   }
 
   @Test

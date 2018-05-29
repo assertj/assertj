@@ -15,8 +15,9 @@ package org.assertj.core.test;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.error.AssertionErrorFactory;
@@ -146,10 +147,9 @@ public class ExpectedException implements TestRule {
   }
 
   private void expectMessageContaining(String... parts) {
-    List<Matcher<? super String>> matchers = new ArrayList<>();
-    for (String part : parts) {
-      matchers.add(StringContains.containsString(format(part)));
-    }
+    List<Matcher<? super String>> matchers = Arrays.stream(parts)
+                                                   .map(part -> StringContains.containsString(format(part)))
+                                                   .collect(toList());
     delegate.expectMessage(AllOf.allOf(matchers));
   }
 

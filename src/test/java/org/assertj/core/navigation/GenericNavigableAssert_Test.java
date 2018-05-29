@@ -14,14 +14,13 @@ package org.assertj.core.navigation;
 
 import static org.assertj.core.test.ExpectedException.none;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
 import org.assertj.core.test.VehicleFactory;
 import org.assertj.core.test.VehicleFactory.Car;
+import org.assertj.core.util.Streams;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,11 +55,7 @@ public abstract class GenericNavigableAssert_Test<T extends Iterable<Vehicle>, A
   }
   
   private Vehicle getVehicle(int index) {
-    Iterator<Vehicle> actualIterator = expectedVehicles.iterator();
-    for (int i = 0; i < index; i++) {
-      actualIterator.next();
-    }
-    return actualIterator.next();
+    return Streams.stream(expectedVehicles).skip(index).findFirst().get();
   }
 
   @Test
