@@ -18,8 +18,10 @@ import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnly
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 /**
@@ -29,9 +31,7 @@ public class ShouldHaveOnlyElementsOfType_create_Test {
 
   @Test
   public void should_create_error_message_for_iterable() {
-	List<Object> list = new ArrayList<>();
-	list.add("Yoda");
-	list.add(5L);
+	List<Object> list = Lists.newArrayList("Yoda", 5L);
 	ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(list, String.class, Long.class);
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 	assertThat(message).isEqualTo(String.format("[Test] %n"

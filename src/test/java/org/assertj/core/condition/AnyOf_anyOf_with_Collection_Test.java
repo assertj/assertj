@@ -14,11 +14,11 @@ package org.assertj.core.condition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 /**
@@ -30,8 +30,7 @@ public class AnyOf_anyOf_with_Collection_Test {
 
   @Test
   public void should_create_new_AnyOf_with_passed_Conditions() {
-    Collection<Condition<Object>> conditions = new ArrayList<>();
-    conditions.add(new TestCondition<>());
+    Collection<Condition<Object>> conditions = Lists.newArrayList(new TestCondition<>());
     Condition<Object> created = AnyOf.anyOf(conditions);
     assertThat(created.getClass()).isEqualTo(AnyOf.class);
     AnyOf<Object> anyOf = (AnyOf<Object>) created;

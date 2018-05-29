@@ -21,6 +21,7 @@ import java.util.Collection;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.test.ExpectedException;
+import org.assertj.core.util.Lists;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -46,16 +47,13 @@ public class Join_constructor_with_Collection_Test {
   @Test
   public void should_throw_error_if_Collection_contains_nulls() {
     thrown.expectNullPointerException("The given conditions should not have null entries");
-    Collection<Condition<Object>> conditions = new ArrayList<>();
-    conditions.add(new TestCondition<>());
-    conditions.add(null);
+    Collection<Condition<Object>> conditions = Lists.newArrayList(new TestCondition<>(), null);
     new ConcreteJoin(conditions);
   }
 
   @Test
   public void should_create_new_Join_with_passed_Conditions() {
-    Collection<Condition<Object>> conditions = new ArrayList<>();
-    conditions.add(new TestCondition<>());
+    Collection<Condition<Object>> conditions = Lists.newArrayList(new TestCondition<>());
     Join<Object> join = new ConcreteJoin(conditions);
     assertThat(join.conditions).isEqualTo(conditions);
   }

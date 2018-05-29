@@ -23,7 +23,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -111,18 +110,13 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toString_of_Collection_of_Collections() {
-    Collection<List<String>> collection = new ArrayList<>();
-    collection.add(newArrayList("s1", "s2"));
-    collection.add(newArrayList("s3", "s4", "s5"));
+    Collection<List<String>> collection = newArrayList(newArrayList("s1", "s2"), newArrayList("s3", "s4", "s5"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
   public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
-    Collection<List<String>> collection = new ArrayList<>();
-    collection.add(newArrayList("s1", "s2"));
-    collection.add(newArrayList("s3", "s4", "s5"));
-    collection.add(newArrayList("s6", "s7"));
+    Collection<List<String>> collection = newArrayList(newArrayList("s1", "s2"), newArrayList("s3", "s4", "s5"), newArrayList("s6", "s7"));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
                                                               .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");

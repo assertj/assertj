@@ -16,10 +16,9 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,18 +31,13 @@ public class ShouldNotHaveAnyElementsOfTypes_create_Test {
   @Test
   public void should_create_error_message() {
     // GIVEN
-    List<Number> actual = new ArrayList<>();
-    actual.add(1);
-    actual.add(2);
-    actual.add(3.0);
-    actual.add(4.1);
-    actual.add(BigDecimal.ONE);
+    List<Number> actual = newArrayList(1, 2, 3.0, 4.1, BigDecimal.ONE);
 
     Class<?>[] unexpectedTypes = { Long.class, Double.class, BigDecimal.class };
 
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
-    nonMatchingElementsByType.put(BigDecimal.class, asObjectList(BigDecimal.ONE));
-    nonMatchingElementsByType.put(Double.class, asObjectList(3.0, 4.1));
+    nonMatchingElementsByType.put(BigDecimal.class, newArrayList(BigDecimal.ONE));
+    nonMatchingElementsByType.put(Double.class, newArrayList(3.0, 4.1));
 
     ShouldNotHaveAnyElementsOfTypes shouldNotHaveAnyElementsOfTypes = shouldNotHaveAnyElementsOfTypes(actual,
                                                                                                       unexpectedTypes,
@@ -59,9 +53,5 @@ public class ShouldNotHaveAnyElementsOfTypes_create_Test {
                                          "  <[java.lang.Long, java.lang.Double, java.math.BigDecimal]>%n" +
                                          "but found:%n" +
                                          "  <{java.math.BigDecimal=[1], java.lang.Double=[3.0, 4.1]}>"));
-  }
-
-  private static List<Object> asObjectList(Object... objects) {
-    return Arrays.asList(objects);
   }
 }
