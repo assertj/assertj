@@ -47,7 +47,7 @@ public class ComparatorBasedComparisonStrategy_duplicatesFrom_Test extends Abstr
 
   @Test
   public void should_not_return_any_duplicates_if_collection_is_empty() {
-    Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(new ArrayList<String>());
+    Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(new ArrayList<>());
     assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 

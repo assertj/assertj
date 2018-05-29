@@ -31,7 +31,7 @@ import org.junit.Test;
 public class IterableUtil_sizeOf_Test {
   @Test
   public void should_return_zero_if_iterable_is_empty() {
-    assertThat(IterableUtil.sizeOf(new ArrayList<String>())).isEqualTo(0);
+    assertThat(IterableUtil.sizeOf(new ArrayList<>())).isEqualTo(0);
   }
 
   @Test(expected = NullPointerException.class)

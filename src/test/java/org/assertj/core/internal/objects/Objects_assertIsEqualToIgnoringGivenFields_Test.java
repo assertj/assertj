@@ -135,9 +135,9 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("lightSaberColor"),
-                                                                        newArrayList((Object) "Green"),
-                                                                        newArrayList((Object) "Blue"),
-                                                                        new ArrayList<String>()));
+                                                                        newArrayList("Green"),
+                                                                        newArrayList("Blue"),
+                                                                        new ArrayList<>()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -154,8 +154,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                         newArrayList("name"),
-                                                                        newArrayList((Object) "Yoda"),
-                                                                        newArrayList((Object) "Luke"),
+                                                                        newArrayList("Yoda"),
+                                                                        newArrayList("Luke"),
                                                                         newArrayList("lightSaberColor")));
       return;
     }

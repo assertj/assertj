@@ -44,7 +44,6 @@ import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.assertj.core.condition.AnyOf;
 import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 
@@ -205,7 +204,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_map_Test() {
-    assertThat(new HashMap<String, String>()).isEmpty();
+    assertThat(new HashMap<>()).isEmpty();
   }
 
   /**
@@ -213,7 +212,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_list_Test() {
-    assertThat(new ArrayList<String>()).isEmpty();
+    assertThat(new ArrayList<>()).isEmpty();
   }
 
   /**
@@ -566,7 +565,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_anyOf_iterable_Test() {
-    assertThat(anyOf(new ArrayList<AnyOf<String>>())).isNotNull();
+    assertThat(anyOf(new ArrayList<>())).isNotNull();
   }
 
   /**
@@ -623,7 +622,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_allOf_iterable_Test() {
-    assertThat(allOf(new ArrayList<AnyOf<String>>())).isNotNull();
+    assertThat(allOf(new ArrayList<>())).isNotNull();
   }
 
   /**

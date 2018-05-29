@@ -45,7 +45,7 @@ public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends Objec
   public void should_fail_if_one_element_is_one_of_the_unexpected_types() {
     // GIVEN
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
-    nonMatchingElementsByType.put(Long.class, newArrayList((Object) 8L));
+    nonMatchingElementsByType.put(Long.class, newArrayList(8L));
     Class<?>[] unexpectedTypes = { Long.class };
 
     // THEN
@@ -60,7 +60,7 @@ public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends Objec
   public void should_fail_if_one_element_type_is_a_subclass_one_of_the_unexpected_types() {
     // GIVEN
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
-    nonMatchingElementsByType.put(Number.class, newArrayList(6, 7.0, (Object) 8L));
+    nonMatchingElementsByType.put(Number.class, newArrayList(6, 7.0, 8L));
     Class<?>[] unexpectedTypes = { Number.class };
 
     // THEN

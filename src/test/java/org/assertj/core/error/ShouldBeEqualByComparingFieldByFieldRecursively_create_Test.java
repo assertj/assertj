@@ -90,8 +90,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   @Test
   public void should_use_unambiguous_fields_description_when_standard_description_of_actual_and_expected_map_fields_values_are_identical() {
     // GIVEN
-    WithMap<Long, Boolean> withLinkedHashMap = new WithMap<>(new LinkedHashMap<Long, Boolean>());
-    WithMap<Long, Boolean> withTreeMap = new WithMap<>(new TreeMap<Long, Boolean>());
+    WithMap<Long, Boolean> withLinkedHashMap = new WithMap<>(new LinkedHashMap<>());
+    WithMap<Long, Boolean> withTreeMap = new WithMap<>(new TreeMap<>());
     withLinkedHashMap.map.put(1L, true);
     withLinkedHashMap.map.put(2L, false);
     withTreeMap.map.putAll(withLinkedHashMap.map);

@@ -39,7 +39,7 @@ public class StandardRepresentation_map_format_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_empty_braces_if_Map_is_empty() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new HashMap<String, String>())).isEqualTo("{}");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(new HashMap<>())).isEqualTo("{}");
   }
 
   @Test

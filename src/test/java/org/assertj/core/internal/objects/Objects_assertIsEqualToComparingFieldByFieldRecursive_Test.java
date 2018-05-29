@@ -315,10 +315,10 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   public void should_fail_when_comparing_unsorted_with_sorted_map() {
-    WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<Long, Boolean>());
+    WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<>());
     actual.map.put(1L, true);
     actual.map.put(2L, false);
-    WithMap<Long, Boolean> expected = new WithMap<>(new TreeMap<Long, Boolean>());
+    WithMap<Long, Boolean> expected = new WithMap<>(new TreeMap<>());
     expected.map.put(2L, false);
     expected.map.put(1L, true);
 

@@ -55,7 +55,7 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
 
   @Test
   public void should_pass_if_inputstreams_have_equal_content() throws IOException {
-    when(diff.diff(actual, expected)).thenReturn(new ArrayList<Delta<String>>());
+    when(diff.diff(actual, expected)).thenReturn(new ArrayList<>());
     inputStreams.assertSameContentAs(someInfo(), actual, expected);
   }
 
