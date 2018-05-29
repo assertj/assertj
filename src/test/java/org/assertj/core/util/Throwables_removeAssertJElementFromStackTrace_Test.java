@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
 import org.junit.Test;
 
@@ -27,20 +28,10 @@ public class Throwables_removeAssertJElementFromStackTrace_Test {
     try {
       throw new AssertJThrowable();
     } catch (AssertJThrowable throwable) {
-      assertThat(hasStackTraceElementContainingAssertJClass(throwable)).isTrue();
+      assertThat(hasStackTraceElementRelatedToAssertJ(throwable)).isTrue();
       Throwables.removeAssertJRelatedElementsFromStackTrace(throwable);
-      assertThat(hasStackTraceElementContainingAssertJClass(throwable)).isFalse();
+      assertThat(hasStackTraceElementRelatedToAssertJ(throwable)).isFalse();
     }
-  }
-
-  private static boolean hasStackTraceElementContainingAssertJClass(AssertJThrowable throwable) {
-    StackTraceElement[] stackTrace = throwable.getStackTrace();
-    for (StackTraceElement stackTraceElement : stackTrace) {
-      if (stackTraceElement.getClassName().contains("org.assertj")) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private static class AssertJThrowable extends Throwable {
