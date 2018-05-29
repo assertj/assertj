@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static java.lang.System.lineSeparator;
 import static org.assertj.core.error.ShouldHaveLineCount.shouldHaveLinesCount;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -27,8 +28,6 @@ import org.junit.Test;
  */
 public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
 
-  public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
@@ -38,7 +37,7 @@ public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_lines_count_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    String actual = "Begin" + LINE_SEPARATOR + "End";
+    String actual = "Begin" + lineSeparator() + "End";
 
     thrown.expectAssertionError(shouldHaveLinesCount(actual, 2, 6).create());
 
@@ -47,7 +46,7 @@ public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
 
   @Test
   public void should_pass_if_lines_count_of_actual_is_equal_to_expected_lines_count() {
-    strings.assertHasLineCount(someInfo(), String.format("Begin" + LINE_SEPARATOR + "Middle%nEnd"), 3);
+    strings.assertHasLineCount(someInfo(), String.format("Begin" + lineSeparator() + "Middle%nEnd"), 3);
   }
 
   @Test
@@ -59,7 +58,7 @@ public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_lines_count_of_actual_is_not_equal_to_expected_lines_count_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    String actual = "Begin" + LINE_SEPARATOR + "End";
+    String actual = "Begin" + lineSeparator() + "End";
 
     thrown.expectAssertionError(shouldHaveLinesCount(actual, 2, 3).create());
 
@@ -68,6 +67,6 @@ public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
 
   @Test
   public void should_pass_if_lines_count_of_actual_is_equal_to_expected_lines_count_whatever_custom_comparison_strategy_is() {
-    stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(someInfo(), "Begin" + LINE_SEPARATOR + "End", 2);
+    stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(someInfo(), "Begin" + lineSeparator() + "End", 2);
   }
 }

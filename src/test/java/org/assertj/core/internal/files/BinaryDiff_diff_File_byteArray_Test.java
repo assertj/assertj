@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.lang.System.lineSeparator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -34,8 +35,6 @@ import org.junit.rules.TemporaryFolder;
  * @author Joel Costigliola
  */
 public class BinaryDiff_diff_File_byteArray_Test {
-
-  private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
   @Rule
   public TemporaryFolder folder = new TemporaryFolder();
@@ -61,7 +60,7 @@ public class BinaryDiff_diff_File_byteArray_Test {
   public void should_return_no_diff_if_file_and_array_have_equal_content() throws IOException {
     writer.write(actual, "test");
     // Note: writer inserts a new line after each line so we need it in our expected content
-    expected = ("test" + LINE_SEPARATOR).getBytes();
+    expected = ("test" + lineSeparator()).getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
     assertThat(result.hasNoDiff()).isTrue();
   }
@@ -69,7 +68,7 @@ public class BinaryDiff_diff_File_byteArray_Test {
   @Test
   public void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
     writer.write(actual, "test");
-    expected = ("fest" + LINE_SEPARATOR).getBytes();
+    expected = ("fest" + lineSeparator()).getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
     assertThat(result.offset).isEqualTo(0);
     assertThat(result.actual).isEqualTo("0x74");
@@ -79,9 +78,9 @@ public class BinaryDiff_diff_File_byteArray_Test {
   @Test
   public void should_return_diff_if_actual_is_shorter() throws IOException {
     writer.write(actual, "foo");
-    expected = ("foo" + LINE_SEPARATOR + "bar").getBytes();
+    expected = ("foo" + lineSeparator() + "bar").getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertThat(result.offset).isEqualTo(3 + LINE_SEPARATOR.length());
+    assertThat(result.offset).isEqualTo(3 + lineSeparator().length());
     assertThat(result.actual).isEqualTo("EOF");
     assertThat(result.expected).isEqualTo("0x62");
   }
