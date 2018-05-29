@@ -212,7 +212,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
    * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
    * // use UTF-8 charset
-   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
+   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
    * 
    * // The following assertion succeeds (default charset is used):
    * assertThat(xFile).hasSameContentAs(xFileClone);
@@ -250,7 +250,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
    * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
    * // use UTF-8 charset
-   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), Charset.forName("UTF-8")).toFile();
+   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
    * 
    * // The following assertion succeeds (default charset is used):
    * assertThat(xFile).hasSameContentAs(xFileClone);
