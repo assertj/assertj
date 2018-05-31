@@ -80,7 +80,6 @@ import static org.assertj.core.util.Streams.stream;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -1181,19 +1180,11 @@ public class Iterables {
   }
 
   private <E> List<E> notSatisfyingCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
-    List<E> notSatisfiesCondition = new LinkedList<>();
-    for (E o : actual) {
-      if (!condition.matches(o)) notSatisfiesCondition.add(o);
-    }
-    return notSatisfiesCondition;
+    return Streams.stream(actual).filter(o -> !condition.matches(o)).collect(toList());
   }
 
   private <E> List<E> satisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
-    List<E> satisfiesCondition = new LinkedList<>();
-    for (E o : actual) {
-      if (condition.matches(o)) satisfiesCondition.add(o);
-    }
-    return satisfiesCondition;
+    return Streams.stream(actual).filter(o -> condition.matches(o)).collect(toList());
   }
 
   private static void checkIsNotEmptySequence(Object[] sequence) {
