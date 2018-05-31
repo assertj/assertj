@@ -17,7 +17,6 @@ import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -86,13 +85,11 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.Streams;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -354,7 +351,7 @@ public class Iterables {
     // empty => no null elements => failure
     if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
     // look for any non null elements
-    List<Object> nonNullElements = Streams.stream(actual).filter(java.util.Objects::nonNull).collect(toList());
+    List<Object> nonNullElements = stream(actual).filter(java.util.Objects::nonNull).collect(toList());
     if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
@@ -485,8 +482,8 @@ public class Iterables {
   public void assertIsSubsetOf(AssertionInfo info, Iterable<?> actual, Iterable<?> values) {
     assertNotNull(info, actual);
     checkIterableIsNotNull(info, values);
-    List<Object> extra = Streams.stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
-                                .collect(toList());
+    List<Object> extra = stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
+                                       .collect(toList());
     if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 
@@ -1020,7 +1017,7 @@ public class Iterables {
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    stream(actual.spliterator(), false).forEach(e -> {
+    stream(actual).forEach(e -> {
       try {
         requirements.accept(e);
       } catch (AssertionError ex) {
@@ -1061,7 +1058,7 @@ public class Iterables {
   public <E> void assertAnySatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    boolean anyMatch = stream(actual.spliterator(), false).anyMatch(e -> {
+    boolean anyMatch = stream(actual).anyMatch(e -> {
       try {
         requirements.accept(e);
       } catch (AssertionError ex) {
@@ -1079,8 +1076,7 @@ public class Iterables {
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
-    List<? extends E> nonMatches = stream(actual.spliterator(), false).filter(predicate.negate())
-                                                                      .collect(Collectors.toList());
+    List<? extends E> nonMatches = stream(actual).filter(predicate.negate()).collect(toList());
 
     if (!nonMatches.isEmpty()) {
       throw failures.failure(info, elementsShouldMatch(actual,
@@ -1111,23 +1107,23 @@ public class Iterables {
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
-    stream(actual.spliterator(), false).filter(predicate)
-                                       .findFirst()
-                                       .orElseGet(() -> {
-                                         throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
-                                       });
+    stream(actual).filter(predicate)
+                  .findFirst()
+                  .orElseGet(() -> {
+                    throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
+                  });
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
                                   PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
-    stream(actual.spliterator(), false).filter(predicate)
-                                       .findFirst()
-                                       .ifPresent(e -> {
-                                         throw failures.failure(info, noElementsShouldMatch(actual, e,
-                                                                                            predicateDescription));
-                                       });
+    stream(actual).filter(predicate)
+                  .findFirst()
+                  .ifPresent(e -> {
+                    throw failures.failure(info, noElementsShouldMatch(actual, e,
+                                                                       predicateDescription));
+                  });
   }
 
   /**
@@ -1180,11 +1176,11 @@ public class Iterables {
   }
 
   private <E> List<E> notSatisfyingCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
-    return Streams.stream(actual).filter(o -> !condition.matches(o)).collect(toList());
+    return stream(actual).filter(o -> !condition.matches(o)).collect(toList());
   }
 
   private <E> List<E> satisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
-    return Streams.stream(actual).filter(o -> condition.matches(o)).collect(toList());
+    return stream(actual).filter(o -> condition.matches(o)).collect(toList());
   }
 
   private static void checkIsNotEmptySequence(Object[] sequence) {

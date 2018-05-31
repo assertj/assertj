@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
@@ -29,6 +28,7 @@ import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Streams.stream;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -1328,10 +1328,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") Extractor<? super ELEMENT, ?>... extractors) {
-    Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
-    List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
-                                                                .map(extractor -> extractor.extract(element)))
-                                      .collect(Collectors.toList());
+    List<Object> result = stream(actual).flatMap(element -> Stream.of(extractors)
+                                                                  .map(extractor -> extractor.extract(element)))
+                                        .collect(Collectors.toList());
     return newListAssertInstance(result).withAssertionState(myself);
   }
 
@@ -1372,10 +1371,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
-    Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
-    List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
-                                                                .map(extractor -> extractor.extract(element)))
-                                      .collect(Collectors.toList());
+    List<Object> result = stream(actual).flatMap(element -> Stream.of(extractors)
+                                                                  .map(extractor -> extractor.extract(element)))
+                                        .collect(toList());
     return newListAssertInstance(result).withAssertionState(myself);
   }
 
@@ -1486,8 +1484,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
-    List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
-                                                            .collect(toList());
+    List<Tuple> tuples = stream(actual).map(tupleExtractor).collect(toList());
     return newListAssertInstance(tuples).withAssertionState(myself);
   }
 
@@ -2378,7 +2375,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
     checkArgument(predicate != null, "The filter predicate should not be null");
-    List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(predicate).collect(toList());
+    List<? extends ELEMENT> filteredIterable = stream(actual).filter(predicate).collect(toList());
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
