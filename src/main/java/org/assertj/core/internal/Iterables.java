@@ -390,7 +390,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does contain the given sequence of objects.
    */
   public void assertDoesNotContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    checkIsNotNullSequence(sequence);
+    requireNonNull(sequence, nullSequence());
     checkIsNotEmptySequence(sequence);
     assertNotNull(info, actual);
     // check for elements in values that are missing in actual.
@@ -447,7 +447,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} contains the given subsequence of objects.
    */
   public void assertDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    checkIsNotNullSubsequence(subsequence);
+    requireNonNull(subsequence, nullSubsequence());
     checkIsNotEmptySubsequence(subsequence);
     assertNotNull(info, actual);
 
@@ -1187,16 +1187,8 @@ public class Iterables {
     if (sequence.length == 0) throw new IllegalArgumentException(emptySequence());
   }
 
-  private static void checkIsNotNullSequence(Object sequence) {
-    if (sequence == null) throw new NullPointerException(nullSequence());
-  }
-
   private static void checkIsNotEmptySubsequence(Object[] subsequence) {
     if (subsequence.length == 0) throw new IllegalArgumentException(emptySubsequence());
-  }
-
-  private static void checkIsNotNullSubsequence(Object subsequence) {
-    if (subsequence == null) throw new NullPointerException(nullSubsequence());
   }
 
 }
