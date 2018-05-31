@@ -15,10 +15,8 @@ package org.assertj.core.error;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Lists;

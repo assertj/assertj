@@ -15,7 +15,6 @@ package org.assertj.core.condition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.assertj.core.api.Condition;
