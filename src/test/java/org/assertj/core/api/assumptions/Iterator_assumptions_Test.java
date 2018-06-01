@@ -12,13 +12,13 @@
  */
 package org.assertj.core.api.assumptions;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.IterableUtil.iterator;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
@@ -27,6 +27,7 @@ import org.assertj.core.api.ProxyableIterableAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.util.Streams;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -160,11 +161,7 @@ public class Iterator_assumptions_Test extends BaseAssumptionsRunnerTest {
     }
 
     private static <T> Iterable<T> toIterable(Iterator<T> iterator) {
-      ArrayList<T> list = new ArrayList<>();
-      while (iterator.hasNext()) {
-        list.add(iterator.next());
-      }
-      return list;
+      return Streams.stream(iterator).collect(toList());
     }
   }
 

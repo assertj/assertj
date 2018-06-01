@@ -48,13 +48,7 @@ public final class IterableUtil {
   public static int sizeOf(Iterable<?> iterable) {
     checkNotNull(iterable, "Iterable must not be null");
     if (iterable instanceof Collection) return ((Collection<?>) iterable).size();
-    int size = 0;
-    Iterator<?> iterator = iterable.iterator();
-    while (iterator.hasNext()) {
-      size++;
-      iterator.next();
-    }
-    return size;
+    return Math.toIntExact(Streams.stream(iterable).count());
   }
 
   /**

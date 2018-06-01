@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 
 import java.util.AbstractCollection;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -25,6 +25,7 @@ import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.util.Streams;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -211,23 +212,13 @@ public class IterableAssert<ELEMENT> extends
 
     @Override
     public int size() {
-      int size = 0;
-      Iterator<T> localIterator = iterator();
-      while (localIterator.hasNext()) {
-        localIterator.next();
-        size++;
-      }
-      return size;
+      return Math.toIntExact(Streams.stream(iterator()).count());
     }
 
   }
 
   private static <T> Iterable<T> toIterable(Iterator<T> iterator) {
-    ArrayList<T> list = new ArrayList<>();
-    while (iterator.hasNext()) {
-      list.add(iterator.next());
-    }
-    return list;
+    return Streams.stream(iterator).collect(toList());
   }
 
   @Override

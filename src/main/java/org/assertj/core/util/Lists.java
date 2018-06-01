@@ -74,11 +74,7 @@ public final class Lists {
     if (elements == null) {
       return null;
     }
-    ArrayList<T> list = newArrayList();
-    while (elements.hasNext()) {
-      list.add(elements.next());
-    }
-    return list;
+    return Streams.stream(elements).collect(toCollection(ArrayList::new));
   }
 
   /**
