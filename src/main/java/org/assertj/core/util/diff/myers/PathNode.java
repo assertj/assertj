@@ -83,11 +83,7 @@ public abstract class PathNode {
     StringBuilder buf = new StringBuilder("[");
     PathNode node = this;
     while (node != null) {
-      buf.append("(");
-      buf.append(Integer.toString(node.i));
-      buf.append(",");
-      buf.append(Integer.toString(node.j));
-      buf.append(")");
+      buf.append("(").append(node.i).append(",").append(node.j).append(")");
       node = node.prev;
     }
     buf.append("]");
