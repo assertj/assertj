@@ -88,6 +88,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
@@ -244,7 +245,8 @@ public class Iterables {
   }
 
   private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {
-    Set<Object> notFound = stream(values).filter(value -> !iterableContains(actual, value)).collect(toCollection(LinkedHashSet::new));
+    Set<Object> notFound = stream(values).filter(value -> !iterableContains(actual, value))
+                                         .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty())
       return;
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
@@ -1017,13 +1019,21 @@ public class Iterables {
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    stream(actual).forEach(e -> {
-      try {
-        requirements.accept(e);
-      } catch (AssertionError ex) {
-        throw failures.failure(info, elementsShouldSatisfy(actual, e, ex.getMessage()));
-      }
-    });
+
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = stream(actual).map(element -> failsRequirements(requirements, element))
+                                                                         .filter(Optional::isPresent)
+                                                                         .map(Optional::get)
+                                                                         .collect(toList());
+    if (!unsatisfiedRequirements.isEmpty()) throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements));
+  }
+
+  private static <E> Optional<UnsatisfiedRequirement> failsRequirements(Consumer<? super E> requirements, E element) {
+    try {
+      requirements.accept(element);
+    } catch (AssertionError ex) {
+      return Optional.of(new UnsatisfiedRequirement(element, ex.getMessage()));
+    }
+    return Optional.empty();
   }
 
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,

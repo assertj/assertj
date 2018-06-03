@@ -16,35 +16,44 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Lists.list;
+
+import java.util.List;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.junit.Test;
 
 public class ElementsShouldSatisfy_create_Test {
 
   @Test
-  public void should_create_error_message() {
-    ErrorMessageFactory factory = elementsShouldSatisfy(newArrayList("Luke", "Yoda"), "Yoda",
-                                                        "Yoda violates some restrictions");
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+  public void should_create_error_message_all() {
+    // GIVEN
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(new UnsatisfiedRequirement("Leia", "Leia mistake."),
+                                                                new UnsatisfiedRequirement("Luke", "Luke mistake."));
+    ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia", "Luke", "Yoda"), unsatisfiedRequirements);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting all elements of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to satisfy given requirements, but this element did not:%n" +
-                                         "  <\"Yoda\"> %n" +
-                                         "Details: \"Yoda violates some restrictions\""));
+                                         "  <[\"Leia\", \"Luke\", \"Yoda\"]>%n" +
+                                         "to satisfy given requirements, but these elements did not:%n%n" +
+                                         "  <Leia> Leia mistake.%n%n" +
+                                         "  <Luke> Luke mistake."));
   }
 
   @Test
   public void should_create_error_message_any() {
-    ErrorMessageFactory factory = elementsShouldSatisfyAny(newArrayList("Luke", "Yoda"));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // GIVEN
+    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Luke", "Yoda"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting any element of:%n" +
                                          "  <[\"Luke\", \"Yoda\"]>%n" +
                                          "to satisfy the given assertions requirements but none did."));
   }
-
 }
