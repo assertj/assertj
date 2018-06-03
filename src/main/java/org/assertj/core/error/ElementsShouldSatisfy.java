@@ -12,25 +12,18 @@
  */
 package org.assertj.core.error;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.joining;
+
 public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
-
-  public static <T> ErrorMessageFactory elementsShouldSatisfy(Object actual, T elementNotSatisfyingRestrictions,
-                                                              String assertionErrorDetails) {
-    return new ElementsShouldSatisfy(actual, elementNotSatisfyingRestrictions, assertionErrorDetails);
-  }
-
-  public static <T> ErrorMessageFactory elementsShouldSatisfyAny(Object actual) {
+  public static ErrorMessageFactory elementsShouldSatisfyAny(Object actual) {
     return new ElementsShouldSatisfy(actual);
   }
 
-  private ElementsShouldSatisfy(Object actual, Object notSatisfies, String assertionErrorDetails) {
-    super("%n" +
-          "Expecting all elements of:%n" +
-          "  <%s>%n" +
-          "to satisfy given requirements, but this element did not:%n" +
-          "  <%s> %n" +
-          "Details: %s",
-          actual, notSatisfies, assertionErrorDetails);
+  public static ErrorMessageFactory elementsShouldSatisfy(Object actual,
+                                                          List<UnsatisfiedRequirementError> elementsNotSatisfyingRestrictions) {
+    return new ElementsShouldSatisfy(actual, elementsNotSatisfyingRestrictions);
   }
 
   private ElementsShouldSatisfy(Object actual) {
@@ -39,6 +32,35 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
           "  <%s>%n" +
           "to satisfy the given assertions requirements but none did.",
           actual);
+  }
+
+  private ElementsShouldSatisfy(Object actual, List<UnsatisfiedRequirementError> elementsNotSatisfyingRequirements) {
+    super("%n" +
+          "Expecting all elements of:%n" +
+          "  <%s>%n" +
+          "to satisfy given requirements, but these elements did not:%n%n" +
+          describeErrors(elementsNotSatisfyingRequirements),
+          actual);
+  }
+
+  private static String describeErrors(List<UnsatisfiedRequirementError> elementsNotSatisfyingRequirements) {
+    return elementsNotSatisfyingRequirements.stream().map(UnsatisfiedRequirementError::toString)
+                                            .collect(joining("%n%n"));
+  }
+
+  public static class UnsatisfiedRequirementError {
+    private final Object elementNotSatisfyRequirement;
+    private final String errorMessage;
+
+    public UnsatisfiedRequirementError(Object elementNotSatisfyRequirement, String errorMessage) {
+      this.elementNotSatisfyRequirement = elementNotSatisfyRequirement;
+      this.errorMessage = errorMessage;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("  <%s> %s", elementNotSatisfyRequirement, errorMessage);
+    }
   }
 
 }

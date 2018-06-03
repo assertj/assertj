@@ -12,6 +12,23 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
+import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
@@ -30,6 +47,7 @@ import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHav
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
+import static org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirementError;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
@@ -75,22 +93,6 @@ import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
-
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
-import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -1017,13 +1019,20 @@ public class Iterables {
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    stream(actual).forEach(e -> {
+
+    List<UnsatisfiedRequirementError> unsatisfiedRequirements = new ArrayList<>();
+
+    actual.forEach(element -> {
       try {
-        requirements.accept(e);
+        requirements.accept(element);
       } catch (AssertionError ex) {
-        throw failures.failure(info, elementsShouldSatisfy(actual, e, ex.getMessage()));
+        unsatisfiedRequirements.add(new UnsatisfiedRequirementError(element, ex.getMessage()));
       }
     });
+
+    if (!unsatisfiedRequirements.isEmpty()) {
+      throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements));
+    }
   }
 
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,
