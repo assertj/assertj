@@ -12,29 +12,37 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
-import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
-import static org.assertj.core.util.Lists.newArrayList;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
-public class ElementsShouldSatisfy_create_Test {
+import java.util.List;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirementError;
+import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
+import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
+import static org.assertj.core.util.Lists.newArrayList;
+
+public class ElementsShouldSatisfy_create_Test {
   @Test
-  public void should_create_error_message() {
-    ErrorMessageFactory factory = elementsShouldSatisfy(newArrayList("Luke", "Yoda"), "Yoda",
-                                                        "Yoda violates some restrictions");
+  public void should_create_error_message_all() {
+    List<UnsatisfiedRequirementError> elementsNotSatisfyingRestrictions = newArrayList(new UnsatisfiedRequirementError("Leia",
+                                                                                                                       "Leia violates some requirement."),
+                                                                                       new UnsatisfiedRequirementError("Luke",
+                                                                                                                       "Luke violates some requirement."));
+
+    ErrorMessageFactory factory = elementsShouldSatisfy(newArrayList("Leia", "Luke", "Yoda"),
+                                                        elementsNotSatisfyingRestrictions);
+
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting all elements of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to satisfy given requirements, but this element did not:%n" +
-                                         "  <\"Yoda\"> %n" +
-                                         "Details: \"Yoda violates some restrictions\""));
+                                         "  <[\"Leia\", \"Luke\", \"Yoda\"]>%n" +
+                                         "to satisfy given requirements, but these elements did not:%n%n" +
+                                         "  <Leia> Leia violates some requirement.%n%n" +
+                                         "  <Luke> Luke violates some requirement."));
   }
 
   @Test
@@ -46,5 +54,4 @@ public class ElementsShouldSatisfy_create_Test {
                                          "  <[\"Luke\", \"Yoda\"]>%n" +
                                          "to satisfy the given assertions requirements but none did."));
   }
-
 }

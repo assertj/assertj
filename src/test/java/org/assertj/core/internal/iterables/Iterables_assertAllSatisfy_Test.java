@@ -12,20 +12,21 @@
  */
 package org.assertj.core.internal.iterables;
 
+import org.assertj.core.internal.IterablesBaseTest;
+import org.junit.Test;
+
+import java.util.List;
+import java.util.function.Consumer;
+
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirementError;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
-
-import java.util.List;
-import java.util.function.Consumer;
-
-import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Test;
 
 public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 
@@ -53,11 +54,17 @@ public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
     try {
       iterables.assertAllSatisfy(someInfo(), actual, restrictions);
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldSatisfy(actual, "Yoda", format("%n" +
-                                                                                  "Expecting:%n" +
-                                                                                  " <\"Yoda\">%n" +
-                                                                                  "to start with:%n" +
-                                                                                  " <\"L\">%n")));
+      List<UnsatisfiedRequirementError> errors = newArrayList(new UnsatisfiedRequirementError("Yoda", format("%n" +
+                                                                                                             "Expecting:%n"
+                                                                                                             +
+                                                                                                             " <\"Yoda\">%n"
+                                                                                                             +
+                                                                                                             "to start with:%n"
+                                                                                                             +
+                                                                                                             " <\"L\">%n")));
+
+      verify(failures).failure(info, elementsShouldSatisfy(actual, errors));
+
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
