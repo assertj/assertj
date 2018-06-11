@@ -54,14 +54,14 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   }
 
   private MapSizeAssert<?, ?> createMapSizeAssertProxy(Object currentActual) {
-    MapSizeAssert<?, ?> iterableSizeAssert = (MapSizeAssert<?, ?>) currentActual;
-    // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
-    return proxies.createMapSizeAssertProxy(iterableSizeAssert);
+    MapSizeAssert<?, ?> mapSizeAssert = (MapSizeAssert<?, ?>) currentActual;
+    // can't use the usual way of building soft proxy since MapSizeAssert takes 2 parameters
+    return proxies.createMapSizeAssertProxy(mapSizeAssert);
   }
 
   private IterableSizeAssert<?> createIterableSizeAssertProxy(Object currentActual) {
     IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) currentActual;
-    // can' use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
+    // can't use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
     return proxies.createIterableSizeAssertProxy(iterableSizeAssert);
   }
 
@@ -69,7 +69,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   private static Class actualClass(Object result) {
     if (result instanceof AbstractObjectArrayAssert) return Array.newInstance(Object.class, 0).getClass();
     if (result instanceof OptionalAssert) return Optional.class;
-    if (result instanceof ObjectAssert) return Object.class;
+    if (result instanceof ObjectAssert || result instanceof ProxyableObjectAssert) return Object.class;
     if (result instanceof MapAssert) return Map.class;
     // Trying to create a proxy will only match exact constructor argument types.
     // To initialize one for ListAssert for example we can't use an ArrayList, we have to use a List.

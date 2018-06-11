@@ -415,6 +415,25 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     }
   }
 
+  @SuppressWarnings("unchecked")
+  @Test
+  public void should_pass_when_using_extracting_with_object() {
+    // GIVEN
+    Name name = name("John", "Doe");
+    // WHEN
+    softly.assertThat(name)
+          .extracting("first", "last")
+          .contains("John", "Doe");
+    softly.assertThat(name)
+          .extracting(Name::getFirst, Name::getLast)
+          .contains("John", "Doe");
+    softly.assertThat(name)
+          .extracting(Name::getFirst)
+          .isEqualTo("John");
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+  }
+
   @Test
   public void should_pass_when_using_extracting_with_list() {
     // GIVEN
@@ -1563,13 +1582,19 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .asList()
           .startsWith("a", "e")
           .startsWith("1", "2");
+    softly.assertThat(name)
+          .as("extracting(Name::getFirst)")
+          .overridingErrorMessage("error message")
+          .extracting(Name::getFirst)
+          .isEqualTo("Jack");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(4);
+    assertThat(errorsCollected).hasSize(5);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(\"first\", \"last\")] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(Name::getFirst, Name::getLast)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[asString()] error message");
     assertThat(errorsCollected.get(3)).hasMessage("[asList()] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[extracting(Name::getFirst)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

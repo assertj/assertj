@@ -23,7 +23,7 @@ public class ProxyableObjectAssert<ACTUAL> extends AbstractObjectAssert<Proxyabl
   public ProxyableObjectAssert(ACTUAL actual) {
     super(actual, ProxyableObjectAssert.class);
   }
-  
+
   public ProxyableObjectAssert(AtomicReference<ACTUAL> actual) {
     this(actual == null ? null: actual.get());
   }
@@ -33,4 +33,8 @@ public class ProxyableObjectAssert<ACTUAL> extends AbstractObjectAssert<Proxyabl
     return new ProxyableListAssert<>(newActual);
   }
 
+  @Override
+  protected AbstractObjectAssert<?, ?> newObjectAssert(Object objectUnderTest) {
+    return new ProxyableObjectAssert<>(objectUnderTest);
+  }
 }

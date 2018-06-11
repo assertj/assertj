@@ -26,7 +26,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * verify that assertions final methods or methods changing the object under test in {@link ObjectAssert} work with assumptions 
+ * verify that assertions final methods or methods changing the object under test in {@link ObjectAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableObjectAssert}).
  */
 @RunWith(Parameterized.class)
@@ -52,6 +52,11 @@ public class Object_special_assertion_methods_in_assumptions_Test extends BaseAs
                                       .contains("Frodo", 33),
             value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
                                       .contains("Gandalf", 1000)),
+        run(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+            value -> assumeThat(value).extracting(TolkienCharacter::getName)
+                                      .isEqualTo("Frodo"),
+            value -> assumeThat(value).extracting(TolkienCharacter::getName)
+                                      .isEqualTo("Gandalf")),
         run(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
             value -> assumeThat(value).extracting("name", "age")
                                       .contains("Frodo", 33),

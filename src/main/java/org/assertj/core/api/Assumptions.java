@@ -66,7 +66,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import net.bytebuddy.implementation.Implementation;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -75,6 +74,7 @@ import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
 import net.bytebuddy.TypeCache.Sort;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
+import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -1227,6 +1227,7 @@ public class Assumptions {
                                             .newInstance("assumption was not met due to: " + e.getMessage(), e);
   }
 
+  // for method that change the object under test (e.g. extracting)
   private static AbstractAssert<?, ?> asAssumption(AbstractAssert<?, ?> assertion) {
     // @format:off
     Object actual = assertion.actual;
@@ -1237,6 +1238,7 @@ public class Assumptions {
     if (assertion instanceof AbstractObjectArrayAssert) return asAssumption(ProxyableObjectArrayAssert.class, Object[].class, actual);
     if (assertion instanceof IterableSizeAssert) return asIterableSizeAssumption(assertion);
     if (assertion instanceof MapSizeAssert) return asMapSizeAssumption(assertion);
+    if (assertion instanceof ProxyableObjectAssert) return asAssumption(ObjectAssert.class, Object.class, actual);
     if (assertion instanceof ObjectAssert) return asAssumption(ObjectAssert.class, Object.class, actual);
     // @format:on
     // should not arrive here

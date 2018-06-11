@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
@@ -24,10 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
@@ -572,23 +570,42 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Note that the order of extracted values is consistent with the order of given extractor functions.
    *
-   * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
+   * @param extractors the extractor functions to extract values from the Object under test.
    * @return a new assertion object whose object under test is the list containing the extracted values
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, Object>... extractors) {
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
-                                .collect(Collectors.toList());
+                                .collect(toList());
     return newListAssertInstance(values).as(info.description());
   }
 
-  public AbstractObjectAssert<?, ?> extracting(Extractor<? super ACTUAL, Object> extractor) {
-    return null;
-  }
-
-  public void should_testName() {
-    assertThat(new Object()).extracting(s -> s);
+  /**
+   * Use the given {@link Function} to extract a value from the object under test, the extracted value becoming the new object under test.
+   * <p>
+   * Note that since the value is extracted as an Object, only Object assertions can be chained after extraction.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Create frodo, setting its name, age and Race
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   *
+   * // let's extract and verify Frodo's name:
+   * assertThat(frodo).extracting(TolkienCharacter::getName)
+   *                  .isEqualTo(&quot;Frodo&quot;);
+   *
+   * // The extracted value being a String, we would like to use String assertions but we can't due to Java generics limitations.
+   * // The following assertion does NOT compile:
+   * assertThat(frodo).extracting(TolkienCharacter::getName)
+   *                  .startsWith(&quot;Fro&quot;);</code></pre>
+   *
+   * @param extractor the extractor function used to extract the value from the object under test.
+   * @return a new {@link ObjectAssert} instance whose object under test is the extracted value
+   */
+  public AbstractObjectAssert<?, ?> extracting(Function<? super ACTUAL, ? extends Object> extractor) {
+    requireNonNull(extractor, "The given java.util.function.Function extractor must not be null");
+    Object extractedValue = extractor.apply(actual);
+    return newObjectAssert(extractedValue).withAssertionState(myself);
   }
 
   /**
@@ -687,6 +704,32 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
     objects.assertEqual(info, from.apply(actual), expected);
+    return myself;
+  }
+
+  // override for proxyable friendly AbstractObjectAssert
+  protected AbstractObjectAssert<?, ?> newObjectAssert(Object objectUnderTest) {
+    return new ObjectAssert<>(objectUnderTest);
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @Override
+  SELF withAssertionState(AbstractAssert assertInstance) {
+    if (assertInstance instanceof AbstractObjectAssert) {
+      AbstractObjectAssert objectAssert = (AbstractObjectAssert) assertInstance;
+      return (SELF) super.withAssertionState(assertInstance).withTypeComparator(objectAssert.comparatorByType)
+                                                            .withComparatorByPropertyOrField(objectAssert.comparatorByPropertyOrField);
+    }
+    return super.withAssertionState(assertInstance);
+  }
+
+  SELF withTypeComparator(TypeComparators comparatorsByType) {
+    this.comparatorByType = comparatorsByType;
+    return myself;
+  }
+
+  SELF withComparatorByPropertyOrField(Map<String, Comparator<?>> comparatorsToPropaget) {
+    this.comparatorByPropertyOrField = comparatorsToPropaget;
     return myself;
   }
 
