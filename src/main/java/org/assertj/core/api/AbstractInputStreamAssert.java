@@ -78,4 +78,28 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
     inputStreams.assertSameContentAs(info, actual, expected);
     return myself;
   }
+
+  /**
+   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("a");
+   *
+   * // assertions will fail
+   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("");
+   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("ab");</code></pre>
+   *
+   * @param expected the given {@code String} to compare the actual {@code InputStream} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the given {@code String}.
+   * @throws InputStreamsException if an I/O error occurs.
+   * @since 3.11.0
+   */
+  public SELF hasContent(String expected) {
+    inputStreams.assertHasContent(info, actual, expected);
+    return myself;
+  }
 }
