@@ -42,12 +42,18 @@ import org.assertj.core.util.diff.Patch;
  * @author Matthieu Baechler
  * @author Olivier Michallat
  * @author Joel Costigliola
+ * @author Stephan Windmüller
  */
 @VisibleForTesting
 public class Diff {
 
   @VisibleForTesting
   public List<Delta<String>> diff(InputStream actual, InputStream expected) throws IOException {
+    return diff(readerFor(actual), readerFor(expected));
+  }
+
+  @VisibleForTesting
+  public List<Delta<String>> diff(InputStream actual, String expected) throws IOException {
     return diff(readerFor(actual), readerFor(expected));
   }
 

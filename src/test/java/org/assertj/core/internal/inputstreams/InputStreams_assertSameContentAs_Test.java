@@ -36,7 +36,7 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link InputStreams#assertSameContentAs(AssertionInfo, InputStream, InputStream)}</code>.
- * 
+ *
  * @author Matthieu Baechler
  */
 public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest {
@@ -71,7 +71,6 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
 
   @Test
   public void should_fail_if_inputstreams_do_not_have_equal_content() throws IOException {
-    @SuppressWarnings("unchecked")
     List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();

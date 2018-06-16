@@ -47,11 +47,13 @@ public class InputStreamsBaseTest {
 
   protected static InputStream actual;
   protected static InputStream expected;
+  protected static String expectedString;
 
   @BeforeClass
   public static void setUpOnce() {
     actual = new ByteArrayInputStream(new byte[0]);
     expected = new ByteArrayInputStream(new byte[0]);
+    expectedString = "";
   }
 
   @Before
