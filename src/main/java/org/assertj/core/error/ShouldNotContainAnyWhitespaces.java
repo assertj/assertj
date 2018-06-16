@@ -16,20 +16,20 @@ package org.assertj.core.error;
  * Creates an error message indicating that an assertion that verifies that a {@link CharSequence}
  * does not contain whitespace characters.
  */
-public class ShouldNotContainWhitespaces extends BasicErrorMessageFactory {
+public class ShouldNotContainAnyWhitespaces extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldNotContainWhitespaces}</code>.
+   * Creates a new <code>{@link ShouldNotContainAnyWhitespaces}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainWhitespaces(CharSequence actual) {
-    return new ShouldNotContainWhitespaces(actual);
+  public static ErrorMessageFactory shouldNotContainAnyWhitespaces(CharSequence actual) {
+    return new ShouldNotContainAnyWhitespaces(actual);
   }
 
-  private ShouldNotContainWhitespaces(Object actual) {
+  private ShouldNotContainAnyWhitespaces(Object actual) {
     super("%n" +
-          "Expecting string not to contain whitespaces but was:%n" +
+          "Expecting string not to contain any whitespaces but found some, string was:%n" +
           "  <%s>", actual);
   }
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldNotContainWhitespaces.shouldNotContainWhitespaces;
+import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.StringsBaseTest;
@@ -23,7 +23,7 @@ import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
 @RunWith(DataProviderRunner.class)
-public class Strings_assertDoesNotContainWhitespaces_Test extends StringsBaseTest {
+public class Strings_assertDoesNotContainAnyWhitespaces_Test extends StringsBaseTest {
 
   @Test
   @DataProvider(value = {
@@ -32,7 +32,7 @@ public class Strings_assertDoesNotContainWhitespaces_Test extends StringsBaseTes
     "a",
     "bc",
   }, trimValues = false)
-  public void should_pass_if_string_does_not_contain_whitespaces(String actual) {
+  public void should_pass_if_string_does_not_contain_any_whitespaces(String actual) {
     strings.assertDoesNotContainWhitespaces(someInfo(), actual);
   }
 
@@ -47,7 +47,7 @@ public class Strings_assertDoesNotContainWhitespaces_Test extends StringsBaseTes
     "a \u005Cn\u005Cr  b"
   }, trimValues = false)
   public void should_fail_if_string_contains_whitespaces(String actual) {
-    thrown.expectAssertionError(shouldNotContainWhitespaces(actual));
+    thrown.expectAssertionError(shouldNotContainAnyWhitespaces(actual));
     strings.assertDoesNotContainWhitespaces(someInfo(), actual);
   }
 }

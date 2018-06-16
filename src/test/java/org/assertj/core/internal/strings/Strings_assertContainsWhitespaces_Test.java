@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldContainWhitespaces.shouldContainWhitespaces;
+import static org.assertj.core.error.ShouldContainAnyWhitespaces.shouldContainAnyWhitespaces;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.StringsBaseTest;
@@ -58,8 +58,8 @@ public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
       "a",
       "bc",
   }, trimValues = false)
-  public void should_fail_if_string_does_not_contain_whitespaces(String actual) {
-    thrown.expectAssertionError(shouldContainWhitespaces(actual));
+  public void should_fail_if_string_does_not_contain_any_whitespaces(String actual) {
+    thrown.expectAssertionError(shouldContainAnyWhitespaces(actual));
     strings.assertContainsWhitespaces(someInfo(), actual);
   }
 }

@@ -38,7 +38,7 @@ import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainO
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
-import static org.assertj.core.error.ShouldContainWhitespaces.shouldContainWhitespaces;
+import static org.assertj.core.error.ShouldContainAnyWhitespaces.shouldContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
@@ -49,7 +49,7 @@ import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shoul
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
-import static org.assertj.core.error.ShouldNotContainWhitespaces.shouldNotContainWhitespaces;
+import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
@@ -188,7 +188,7 @@ public class Strings {
   }
 
   private boolean containsWhitespaces(CharSequence actual) {
-    return !isNullOrEmpty(actual) && containsAnyWhitespace(actual);
+    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
   }
 
   private boolean containsOnlyWhitespaces(CharSequence actual) {
@@ -199,18 +199,12 @@ public class Strings {
     return actual == null || actual.length() == 0;
   }
 
-  private boolean containsAnyWhitespace(CharSequence actual) {
-    for (int i = 0; i < actual.length(); i++) {
-      if (isWhitespace(actual.charAt(i))) return true;
-    }
-    return false;
+  private boolean containsOneOrMoreWhitespaces(CharSequence actual) {
+    return actual.chars().anyMatch(Character::isWhitespace);
   }
 
   private boolean strictlyContainsWhitespaces(CharSequence actual) {
-    for (int i = 0; i < actual.length(); i++) {
-      if (!isWhitespace(actual.charAt(i))) return false;
-    }
-    return true;
+    return actual.chars().allMatch(Character::isWhitespace);
   }
 
 
@@ -222,7 +216,7 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence} does not contain any whitespace characters.
    */
   public void assertContainsWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (!containsWhitespaces(actual)) throw failures.failure(info, shouldContainWhitespaces(actual));
+    if (!containsWhitespaces(actual)) throw failures.failure(info, shouldContainAnyWhitespaces(actual));
   }
 
   /**
@@ -244,7 +238,7 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence} contains one or more whitespace characters.
    */
   public void assertDoesNotContainWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (containsWhitespaces(actual)) throw failures.failure(info, shouldNotContainWhitespaces(actual));
+    if (containsWhitespaces(actual)) throw failures.failure(info, shouldNotContainAnyWhitespaces(actual));
   }
 
   /**
