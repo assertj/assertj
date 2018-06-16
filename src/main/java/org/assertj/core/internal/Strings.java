@@ -30,6 +30,7 @@ import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
+import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
@@ -45,6 +46,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
+import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
@@ -78,7 +80,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link CharSequence}</code>s.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
@@ -94,7 +96,7 @@ public class Strings {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
-   * 
+   *
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Strings instance() {
@@ -120,7 +122,7 @@ public class Strings {
 
   /**
    * Asserts that the given {@code CharSequence} is {@code null} or empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is not {@code null} *and* it is not empty.
@@ -131,7 +133,7 @@ public class Strings {
 
   /**
    * Asserts that the given {@code CharSequence} is empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
@@ -144,7 +146,7 @@ public class Strings {
 
   /**
    * Asserts that the given {@code CharSequence} is not empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
@@ -185,6 +187,10 @@ public class Strings {
     return isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
   }
 
+  private boolean containsWhitespaces(CharSequence actual) {
+    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
+  }
+
   private boolean containsOnlyWhitespaces(CharSequence actual) {
     return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
   }
@@ -193,11 +199,23 @@ public class Strings {
     return actual == null || actual.length() == 0;
   }
 
+  private boolean containsOneOrMoreWhitespaces(CharSequence actual) {
+    return actual.chars().anyMatch(Character::isWhitespace);
+  }
+
   private boolean strictlyContainsWhitespaces(CharSequence actual) {
-    for (int i = 0; i < actual.length(); i++) {
-      if (!isWhitespace(actual.charAt(i))) return false;
-    }
-    return true;
+    return actual.chars().allMatch(Character::isWhitespace);
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} contains one or more whitespace characters.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} does not contain any whitespace characters.
+   */
+  public void assertContainsWhitespaces(AssertionInfo info, CharSequence actual) {
+    if (!containsWhitespaces(actual)) throw failures.failure(info, shouldContainOneOrMoreWhitespaces(actual));
   }
 
   /**
@@ -209,6 +227,17 @@ public class Strings {
    */
   public void assertContainsOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
     if (!containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldContainOnlyWhitespaces(actual));
+  }
+
+  /**
+   * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains only non-whitespace characters.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} contains one or more whitespace characters.
+   */
+  public void assertDoesNotContainAnyWhitespaces(AssertionInfo info, CharSequence actual) {
+    if (containsWhitespaces(actual)) throw failures.failure(info, shouldNotContainAnyWhitespaces(actual));
   }
 
   /**
@@ -225,7 +254,7 @@ public class Strings {
   /**
    * Asserts that the given {@code CharSequence} consists of one or more whitespace characters
    * according to {@link Character#isWhitespace(char)}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is not blank.
@@ -237,7 +266,7 @@ public class Strings {
   /**
    * Asserts that the given {@code CharSequence} is {@code Null}, empty or contains at least one non-whitespace character
    * according to {@link Character#isWhitespace(char)}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence} is blank.
@@ -256,7 +285,7 @@ public class Strings {
 
   /**
    * Asserts that the size of the given {@code CharSequence} is equal to the expected one.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param expectedSize the expected size of {@code actual}.
@@ -291,7 +320,7 @@ public class Strings {
   /**
    * Asserts that the number of entries in the given {@code CharSequence} has the same size as the other
    * {@code Iterable}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param other the group to compare
@@ -328,7 +357,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} contains the given strings.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param values the values to look for.
@@ -382,7 +411,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} contains the given sequence, ignoring case considerations.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param sequence the sequence to search for.
@@ -399,7 +428,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} does not contain any one of the given values.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param values the values to search for.
@@ -426,7 +455,7 @@ public class Strings {
 
   /**
    * Verifies that two {@code CharSequence}s are equal, ignoring case considerations.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param expected the expected {@code CharSequence}.
@@ -519,7 +548,7 @@ public class Strings {
   }
 
   /**
-   * Verifies that two {@code CharSequence}s are equal, after the whitespace of both strings 
+   * Verifies that two {@code CharSequence}s are equal, after the whitespace of both strings
    * has been normalized.
    *
    * @param info contains information about the assertion.
@@ -534,9 +563,9 @@ public class Strings {
   }
 
   /**
-   * Verifies that two {@code CharSequence}s are not equal, after the whitespace of both strings 
+   * Verifies that two {@code CharSequence}s are not equal, after the whitespace of both strings
    * has been normalized.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param expected the expected {@code CharSequence}.
@@ -572,7 +601,7 @@ public class Strings {
 
   /**
    * Verifies that actual {@code CharSequence}s contains only once the given sequence.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param sequence the given {@code CharSequence}.
@@ -592,7 +621,7 @@ public class Strings {
 
   /**
    * Count occurrences of sequenceToSearch in actual {@link CharSequence}.
-   * 
+   *
    * @param sequenceToSearch the sequence to search in in actual {@link CharSequence}.
    * @param actual the {@link CharSequence} to search occurrences in.
    * @return the number of occurrences of sequenceToSearch in actual {@link CharSequence}.
@@ -611,7 +640,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} starts with the given prefix.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param prefix the given prefix.
@@ -649,7 +678,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} ends with the given suffix.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param suffix the given suffix.
@@ -687,7 +716,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} matches the given regular expression.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
@@ -704,7 +733,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} does not match the given regular expression.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
@@ -725,7 +754,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} matches the given regular expression.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
@@ -741,7 +770,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} does not match the given regular expression.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
@@ -879,7 +908,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} contains the given regular expression.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param regex the regular expression to find in the actual {@code CharSequence}.
@@ -898,7 +927,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code CharSequence} contains the given regular expression.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param pattern the regular expression to find in the actual {@code CharSequence}.
