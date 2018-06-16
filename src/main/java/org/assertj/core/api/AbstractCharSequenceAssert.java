@@ -183,6 +183,29 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains one or more whitespace characters (according to
+   * {@link Character#isWhitespace(char)}).
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> assertThat(" ").containsWhitespaces();
+   * assertThat("a b").containsWhitespaces();</code></pre>
+   *
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat("").containsWhitespaces();
+   * assertThat("a").containsWhitespaces();
+   * String nullString = null;
+   * assertThat(nullString).containsWhitespaces();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain any whitespace characters.
+   * @since 3.11.0
+   */
+  public SELF containsWhitespaces() {
+    strings.assertContainsWhitespaces(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} consists of one or more whitespace characters (according to
    * {@link Character#isWhitespace(char)}).
    * <p>
@@ -204,6 +227,34 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF containsOnlyWhitespaces() {
     strings.assertContainsOnlyWhitespaces(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is either:
+   * <ul>
+   *   <li>{@code null}</li>
+   *   <li>empty</li>
+   *   <li>containing only non-whitespace characters (according to {@link Character#isWhitespace(char)}).</li>
+   * </ul>
+   * <p>
+   * These assertions will succeed:
+   * <pre><code class='java'> assertThat("a").doesNotContainWhitespaces();
+   * assertThat("").doesNotContainWhitespaces();
+   * assertThat("ab").doesNotContainWhitespaces();
+   * String nullString = null;
+   * assertThat(nullString).doesNotContainWhitespaces();</code></pre>
+   *
+   * Whereas these assertions will fail:
+   * <pre><code class='java'> assertThat(" ").doesNotContainWhitespaces();
+   * assertThat(" a").doesNotContainWhitespaces();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} contains one or more whitespace characters.
+   * @since 3.11.0
+   */
+  public SELF doesNotContainWhitespaces() {
+    strings.assertDoesNotContainWhitespaces(info, actual);
     return myself;
   }
 
