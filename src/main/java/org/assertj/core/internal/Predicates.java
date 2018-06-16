@@ -37,7 +37,7 @@ public class Predicates {
   Predicates() {}
 
   /**
-   * Asserts the the given <code>{@link Predicate}</code> is not null.
+   * Asserts the given <code>{@link Predicate}</code> is not null.
    * @param predicate the given {@code Predicate}.
    * @throws NullPointerException if the given {@code Predicate} is {@code null}.
    */

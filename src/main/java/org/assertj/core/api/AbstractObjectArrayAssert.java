@@ -1931,7 +1931,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Extract the values of given fields/properties from the array's elements under test into a list composed of
    * Tuple (a simple data structure), this new list becoming the object under test.
    * <p>
-   * It allows you to test fields/properties of the the array's elements instead of testing the elements themselves, it
+   * It allows you to test fields/properties of the array's elements instead of testing the elements themselves, it
    * can be sometimes much less work !
    * <p>
    * The Tuple data corresponds to the extracted values of the given fields/properties, for instance if you ask to
@@ -2729,7 +2729,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param zipRequirements the given requirements that each pair must sastify.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given zipRequirements {@link BiConsumer} is {@code null}.
-   * @throws NullPointerException if the the other array to zip actual with is {@code null}.
+   * @throws NullPointerException if the other array to zip actual with is {@code null}.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if actual and other don't have the same size.
    * @throws AssertionError if one or more pairs don't satisfy the given requirements.

@@ -2353,7 +2353,7 @@ public interface WithAssertions {
    *           .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
-   * @param <T> the the exception type.
+   * @param <T> the exception type.
    * @param exceptionType the exception type class.
    * @return the created {@link ThrowableTypeAssert}.
    */

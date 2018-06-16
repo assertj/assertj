@@ -42,7 +42,7 @@ public class DescriptionFormatter {
    * Formats the given <code>{@link Description}</code> by surrounding its text value with square brackets and adding a space at
    * the end.
    * @param d the description to format. It can be {@code null}.
-   * @return the formatted description, or an empty {@code String} if the the {@code Description} is {@code null}.
+   * @return the formatted description, or an empty {@code String} if the {@code Description} is {@code null}.
    */
   public String format(Description d) {
     String s = (d != null) ? d.value() : null;

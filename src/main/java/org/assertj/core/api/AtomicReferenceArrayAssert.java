@@ -1997,7 +1997,7 @@ public class AtomicReferenceArrayAssert<T>
    * Extract the values of given fields/properties from the array's elements under test into a new array composed of
    * Tuple (a simple data structure), this new array becoming the array under test.
    * <p>
-   * It allows you to test fields/properties of the the array's elements instead of testing the elements themselves, it
+   * It allows you to test fields/properties of the array's elements instead of testing the elements themselves, it
    * can be sometimes much less work !
    * <p>
    * The Tuple data corresponds to the extracted values of the given fields/properties, for instance if you ask to

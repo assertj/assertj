@@ -41,7 +41,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
   /**
    * Creates a new <code>{@link ShouldHaveContent}</code>.
    * @param actual the actual path in the failed assertion.
-   * @param charset the charset that was used to read the the path.
+   * @param charset the charset that was used to read the path.
    * @param diffs the differences between {@code actual} and the expected text that was provided in the assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

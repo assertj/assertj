@@ -1202,7 +1202,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * // assertion will fail:
    * assertThat(ringBearers).size().isGreaterThan(5);</code></pre>
    *
-   * @return a {@link AbstractMapSizeAssert} to allow assertions on the the number of key-value mappings in this map
+   * @return a {@link AbstractMapSizeAssert} to allow assertions on the number of key-value mappings in this map
    * @throws NullPointerException if the given map is {@code null}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })

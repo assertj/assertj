@@ -753,7 +753,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Extract the values of the given field or property from the Iterable's elements under test into a new Iterable, this new
    * Iterable becoming the Iterable under test.
    * <p>
-   * It allows you to test a property/field of the the Iterable's elements instead of testing the elements themselves, which
+   * It allows you to test a property/field of the Iterable's elements instead of testing the elements themselves, which
    * can be be much less work !
    * <p>
    * Let's take a look at an example to make things clearer :
@@ -941,7 +941,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Extract the values of given field or property from the Iterable's elements under test into a new Iterable, this new
    * Iterable becoming the Iterable under test.
    * <p>
-   * It allows you to test a property/field of the the Iterable's elements instead of testing the elements themselves,
+   * It allows you to test a property/field of the Iterable's elements instead of testing the elements themselves,
    * which can be much less work !
    * <p>
    * Let's take an example to make things clearer :
@@ -1032,7 +1032,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Extract the values of the given fields/properties from the Iterable's elements under test into a new Iterable composed
    * of Tuples (a simple data structure), this new Iterable becoming the Iterable under test.
    * <p>
-   * It allows you to test fields/properties of the the Iterable's elements instead of testing the elements themselves,
+   * It allows you to test fields/properties of the Iterable's elements instead of testing the elements themselves,
    * which can be much less work!
    * <p>
    * The Tuple data corresponds to the extracted values of the given fields/properties, for instance if you ask to
@@ -2452,7 +2452,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param zipRequirements the given requirements that each pair must satisfy.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given zipRequirements {@link BiConsumer} is {@code null}.
-   * @throws NullPointerException if the the other iterable to zip actual with is {@code null}.
+   * @throws NullPointerException if the other iterable to zip actual with is {@code null}.
    * @throws AssertionError if the {@code Iterable} under test is {@code null}.
    * @throws AssertionError if actual and other don't have the same size.
    * @throws AssertionError if one or more pairs don't satisfy the given requirements.
@@ -2711,7 +2711,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return comparatorsForElementPropertyOrFieldTypes;
   }
 
-  // use to build the the assert instance with a filtered iterable
+  // use to build the assert instance with a filtered iterable
   protected abstract SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable);
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
