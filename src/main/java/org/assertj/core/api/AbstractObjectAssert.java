@@ -70,7 +70,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the actual object is equal to the given one by comparing actual's properties/fields with other's
+   * Asserts that the actual object is equal to the given one by comparing actual's properties/fields with other's
    * <b>not null</b> properties/fields only (including inherited ones).
    * <p>
    * It means that if an actual field is not null and the corresponding field in other is null, this field will be
@@ -112,7 +112,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the actual object is equal to the given one using a property/field by property/field comparison <b>on the given properties/fields only</b>
+   * Asserts that the actual object is equal to the given one using a property/field by property/field comparison <b>on the given properties/fields only</b>
    * (fields can be inherited fields or nested fields). This can be handy if {@code equals} implementation of objects to compare does not suit you.
    * <p>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
@@ -156,7 +156,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
+   * Asserts that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
    * (inherited ones are taken into account). This can be handy if {@code equals} implementation of objects to compare does not suit you.
    * <p>
    * Note that comparison is <b>not</b> recursive, if one of the property/field is an Object, it will be compared to the other
@@ -196,7 +196,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the actual object has no null fields or properties (inherited ones are taken into account).
+   * Asserts that the actual object has no null fields or properties (inherited ones are taken into account).
    * <p>
    * If an object has a field and a property with the same name, the property value will be used over the  field.
    * <p>
@@ -227,7 +227,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the actual object has no null fields or properties <b>except for the given ones</b>
+   * Asserts that the actual object has no null fields or properties <b>except for the given ones</b>
    * (inherited ones are taken into account).
    * <p>
    * If an object has a field and a property with the same name, the property value will be used over the  field.
@@ -258,7 +258,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that actual object is equal to the given object based on a property/field by property/field comparison (including
+   * Asserts that actual object is equal to the given object based on a property/field by property/field comparison (including
    * inherited ones). This can be handy if {@code equals} implementation of objects to compare does not suit you.
    * <p>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
@@ -422,7 +422,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the actual object has the specified field or property.
+   * Asserts that the actual object has the specified field or property.
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -464,11 +464,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the actual object has the specified field or property with the given value.
+   * Asserts that the actual object has the specified field or property with the given value.
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
-   *
+   * If you are looking to chain multiple assertions on different properties in a type safe way, consider chaining {@link #returns(Object, Function)} calls.
+   * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
@@ -513,7 +514,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Extract the values of given fields/properties from the object under test into a list, this new list becoming
+   * Extracts the values of given fields/properties from the object under test into a list, this new list becoming
    * the object under test.
    * <p>
    * If you extract "id", "name" and "email" fields/properties then the list will contain the id, name and email values
@@ -552,7 +553,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Use the given {@link Function}s to extract the values from the object under test into a list, this new list becoming
+   * Uses the given {@link Function}s to extract the values from the object under test into a list, this new list becoming
    * the object under test.
    * <p>
    * If the given {@link Function}s extract the id, name and email values then the list will contain the id, name and email values
@@ -582,7 +583,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Use the given {@link Function} to extract a value from the object under test, the extracted value becoming the new object under test.
+   * Uses the given {@link Function} to extract a value from the object under test, the extracted value becoming the new object under test.
    * <p>
    * Note that since the value is extracted as an Object, only Object assertions can be chained after extraction.
    * <p>
@@ -609,7 +610,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Assert that the object under test (actual) is equal to the given object based on recursive a property/field by property/field comparison (including
+   * Asserts that the object under test (actual) is equal to the given object based on recursive a property/field by property/field comparison (including
    * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
    * the overridden {@code equals} method will be used instead of a field by field comparison.
@@ -684,7 +685,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Verify that the object under test returns the given expected value from the given {@link Function},
+   * Verifies that the object under test returns the given expected value from the given {@link Function},
    * a typical usage is to pass a method reference to assert object's property.
    * <p>
    * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
