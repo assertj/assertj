@@ -26,10 +26,6 @@
     <url>https://github.com/joel-costigliola/assertj-maven-parent-pom</url>
     <tag>HEAD</tag>
   </scm>
-  <ciManagement>
-    <system>jenkins</system>
-    <url>https://assertj.ci.cloudbees.com/</url>
-  </ciManagement>
   <issueManagement>
     <system>github</system>
     <url>https://github.com/joel-costigliola/assertj-maven-parent-pom/issues</url>
