@@ -40,18 +40,20 @@ import org.junit.runners.model.Statement;
  */
 public class JUnitBDDSoftAssertions extends AbstractBDDSoftAssertions implements TestRule {
 
+  @Override
   public Statement apply(final Statement base, Description description) {
-	return new Statement() {
-	  @Override
-	  public void evaluate() throws Throwable {
-		base.evaluate();
-		MultipleFailureException.assertEmpty(errorsCollected());
-	  }
-	};
+    return new Statement() {
+      @Override
+      public void evaluate() throws Throwable {
+        base.evaluate();
+        MultipleFailureException.assertEmpty(errorsCollected());
+      }
+    };
   }
 
-	@VisibleForTesting List<Throwable> getErrors() {
-	return proxies.errorsCollected();
+  @VisibleForTesting
+  List<Throwable> getErrors() {
+    return proxies.errorsCollected();
   }
 
 }
