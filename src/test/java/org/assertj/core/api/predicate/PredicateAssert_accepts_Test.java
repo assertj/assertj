@@ -17,7 +17,11 @@ import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ShouldAccept.shouldAccept;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.function.Predicate;
 
@@ -77,6 +81,16 @@ public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     Predicate<String> predicate = val -> val.equals("something");
 
     assertThat(predicate).accepts("something");
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void should_pass_and_only_invoke_predicate_once_for_single_value() {
+    Predicate<Object> predicate = mock(Predicate.class);
+    when(predicate.test(any())).thenReturn(true);
+
+    assertThat(predicate).accepts("something");
+    verify(predicate, times(1)).test("something");
   }
 
 
