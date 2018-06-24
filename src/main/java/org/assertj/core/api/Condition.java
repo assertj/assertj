@@ -22,9 +22,9 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * A condition to be met by an object.
- * 
+ *
  * @param <T> the type of object this condition accepts.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
@@ -41,23 +41,23 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * condition's class.
    */
   public Condition() {
-	as(getClass().getSimpleName());
+    as(getClass().getSimpleName());
   }
 
   /**
    * Creates a new <code>{@link Condition}</code>.
-   * 
+   *
    * @param description the description of this condition.
    * @throws NullPointerException if the given description is {@code null}.
    */
   public Condition(String description) {
-	as(description);
+    as(description);
   }
 
   /**
    * Creates a new <code>{@link Condition}</code> with the given {@link Predicate}, the built Condition will be met if
    * the Predicate is.
-   * 
+   *
    * <p>
    * You must give a description, it will be used to build a nice error message when the condition fails, you can pass
    * args to build the description as in {@link String#format(String, Object...)}.
@@ -65,10 +65,10 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * Example:
    * <pre><code class='java'> // build condition with Predicate&lt;String&gt; and set description using String#format pattern.
    * Condition&lt;String&gt; fairyTale = new Condition&lt;String&gt;(s -&gt; s.startsWith("Once upon a time"), "a %s tale", "fairy");
-   * 
+   *
    * String littleRedCap = "Once upon a time there was a dear little girl ...";
    * assertThat(littleRedCap).is(fairyTale);</code></pre>
-   * 
+   *
    * Error message example:
    * <pre><code class='java'> // unfortunately this assertion fails ... but contact me if you can make it pass :)
    * assertThat("life").is(fairyTale);
@@ -76,7 +76,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * Expecting:
    *  &lt;"life"&gt;
    * to be &lt;a fairy tale&gt;</code></pre>
-   * 
+   *
    * @param predicate the {@link Predicate} used to build the condition.
    * @param description the description of this condition.
    * @param args optional parameter if description is a format String.
@@ -84,25 +84,25 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @throws NullPointerException if the given description is {@code null}.
    */
   public Condition(Predicate<T> predicate, String description, Object... args) {
-	checkPredicate(predicate);
-	this.predicate = predicate;
-	this.description = new TextDescription(description, args);
+    checkPredicate(predicate);
+    this.predicate = predicate;
+    this.description = new TextDescription(description, args);
   }
 
   /**
    * Creates a new <code>{@link Condition}</code>.
-   * 
+   *
    * @param description the description of this condition.
    * @throws NullPointerException if the given description is {@code null}.
    */
   public Condition(Description description) {
-	as(description);
+    as(description);
   }
 
   /** {@inheritDoc} */
   @Override
   public Condition<T> describedAs(String newDescription, Object... args) {
-	return as(newDescription, args);
+    return as(newDescription, args);
   }
 
   /** {@inheritDoc} */
@@ -115,7 +115,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   /** {@inheritDoc} */
   @Override
   public Condition<T> describedAs(Description newDescription) {
-	return as(newDescription);
+    return as(newDescription);
   }
 
   /** {@inheritDoc} */
@@ -127,31 +127,31 @@ public class Condition<T> implements Descriptable<Condition<T>> {
 
   /**
    * Returns the description of this condition.
-   * 
+   *
    * @return the description of this condition.
    */
   public Description description() {
-	return description;
+    return description;
   }
 
   /**
    * Verifies that the given value satisfies this condition.
-   * 
+   *
    * @param value the value to verify.
    * @return {@code true} if the given value satisfies this condition; {@code false} otherwise.
    */
   public boolean matches(T value) {
-	checkPredicate(predicate);
-	return predicate.test(value);
+    checkPredicate(predicate);
+    return predicate.test(value);
   }
 
   private void checkPredicate(Predicate<T> predicate) {
-	requireNonNull(predicate,
-	               "Unless you subclass Condition and override matches, you need to pass a non null Predicate to build a Condition.");
+    requireNonNull(predicate,
+                   "Unless you subclass Condition and override matches, you need to pass a non null Predicate to build a Condition.");
   }
 
   @Override
   public String toString() {
-	return description.value();
+    return description.value();
   }
 }
