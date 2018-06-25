@@ -12,24 +12,27 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.SoftAssertionsStatement.softAssertionsStatement;
-
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
+import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
 
-/**
- * Duplicate of {@link JUnitBDDSoftAssertions} compatible with Android.
- *
- * @see JUnitBDDSoftAssertions
- *
- * @since 2.5.0 / 3.5.0
- */
-public class Java6JUnitBDDSoftAssertions extends Java6AbstractBDDSoftAssertions
-    implements TestRule {
+class SoftAssertionsStatement {
+  private AbstractSoftAssertions soft;
 
-  @Override
-  public Statement apply(final Statement base, Description description) {
-    return softAssertionsStatement(this, base);
+  private SoftAssertionsStatement(AbstractSoftAssertions soft) {
+    this.soft = soft;
+  }
+
+  public static Statement softAssertionsStatement(AbstractSoftAssertions soft, final Statement base) {
+    return new SoftAssertionsStatement(soft).softAssertionsStatement(base);
+  }
+
+  private Statement softAssertionsStatement(final Statement base) {
+    return new Statement() {
+      @Override
+      public void evaluate() throws Throwable {
+        base.evaluate();
+        MultipleFailureException.assertEmpty(soft.errorsCollected());
+      }
+    };
   }
 }

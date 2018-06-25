@@ -12,12 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.SoftAssertionsStatement.softAssertionsStatement;
+
 import java.util.List;
 
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
-import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
 
 /**
@@ -42,13 +43,7 @@ public class JUnitBDDSoftAssertions extends AbstractBDDSoftAssertions implements
 
   @Override
   public Statement apply(final Statement base, Description description) {
-    return new Statement() {
-      @Override
-      public void evaluate() throws Throwable {
-        base.evaluate();
-        MultipleFailureException.assertEmpty(errorsCollected());
-      }
-    };
+      return softAssertionsStatement(this, base);
   }
 
   @VisibleForTesting

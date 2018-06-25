@@ -12,24 +12,18 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.SoftAssertionsStatement.softAssertionsStatement;
+import static org.assertj.core.util.Lists.list;
 
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
+import org.junit.Rule;
+import org.junit.Test;
 
-/**
- * Duplicate of {@link JUnitBDDSoftAssertions} compatible with Android.
- *
- * @see JUnitBDDSoftAssertions
- *
- * @since 2.5.0 / 3.5.0
- */
-public class Java6JUnitBDDSoftAssertions extends Java6AbstractBDDSoftAssertions
-    implements TestRule {
+public class Java6JUnitBDDSoftAssertionsSuccessTest {
+  @Rule
+  public final Java6JUnitBDDSoftAssertions softly = new Java6JUnitBDDSoftAssertions();
 
-  @Override
-  public Statement apply(final Statement base, Description description) {
-    return softAssertionsStatement(this, base);
+  @Test
+  public void all_assertions_should_pass() throws Throwable {
+    softly.then(1).isEqualTo(1);
+    softly.then(list(1, 2)).containsOnly(1, 2);
   }
 }
