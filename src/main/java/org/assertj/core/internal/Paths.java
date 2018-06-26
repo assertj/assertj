@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
+import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
@@ -38,10 +39,13 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -309,4 +313,38 @@ public class Paths {
 	}
   }
 
+  public void assertHasDigest(AssertionInfo info, Path actual, MessageDigest digest, byte[] expected) {
+    checkNotNull(digest, "The message digest algorithm should not be null");
+    checkNotNull(expected, "The binary representation of digest to compare to should not be null");
+    assertIsRegularFile(info, actual);
+    assertIsReadable(info, actual);
+    try (
+      InputStream actualStream = nioFilesWrapper.newInputStream(actual)
+    ) {
+      DigestDiff diff = Digests.digestDiff(actualStream, digest, expected);
+      if (diff.isEquals()) return;
+      throw failures.failure(info, shouldHaveDigest(actual, diff));
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Unable to calculate digest of path:<%s>", actual), e);
+    }
+  }
+
+  public void assertHasDigest(AssertionInfo info, Path actual, MessageDigest digest, String expected) {
+    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(info, actual, digest, Digests.fromHex(expected));
+  }
+
+  public void assertHasDigest(AssertionInfo info, Path actual, String algorithm, byte[] expected) {
+    checkNotNull(algorithm, "The message digest algorithm should not be null");
+    try {
+      assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException(format("Unable to find digest implementation for: <%s>", algorithm), e);
+    }
+  }
+
+  public void assertHasDigest(AssertionInfo info, Path actual, String algorithm, String expected) {
+    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
+  }
 }

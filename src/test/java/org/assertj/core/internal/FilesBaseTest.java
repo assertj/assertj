@@ -42,6 +42,7 @@ public class FilesBaseTest {
   protected Diff diff;
   protected Delta<String> delta;
   protected BinaryDiff binaryDiff;
+  protected NioFilesWrapper nioFilesWrapper;
 
   @SuppressWarnings("unchecked")
   @Before
@@ -57,6 +58,8 @@ public class FilesBaseTest {
     files.diff = diff;
     binaryDiff = mock(BinaryDiff.class);
     files.binaryDiff = binaryDiff;
+    nioFilesWrapper = mock(NioFilesWrapper.class);
+    files.nioFilesWrapper = nioFilesWrapper;
   }
 
 }
