@@ -12,15 +12,17 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.Lists;
-import org.junit.Test;
-import org.junit.runners.model.MultipleFailureException;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.util.Lists.list;
+import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import org.junit.Test;
+import org.junit.runners.model.Statement;
+import org.opentest4j.MultipleFailuresError;
 
 public class JUnitSoftAssertionsFailureTest {
 
@@ -30,26 +32,25 @@ public class JUnitSoftAssertionsFailureTest {
 
   @Test
   public void should_report_all_errors() throws Throwable {
-    try {
-      softly.assertThat(1).isEqualTo(1);
-      softly.assertThat(1).isEqualTo(2);
-      softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 3);
-      MultipleFailureException.assertEmpty(softly.errorsCollected());
-      fail("Should not reach here");
-    } catch (MultipleFailureException e) {
-      List<Throwable> failures = e.getFailures();
-
-      assertThat(failures).hasSize(2);
-      assertThat(failures.get(0)).hasMessageStartingWith("expected:<[2]> but was:<[1]>");
-      assertThat(failures.get(1)).hasMessageStartingWith(format("%n" +
-                                                                "Expecting:%n" +
-                                                                "  <[1, 2]>%n" +
-                                                                "to contain only:%n" +
-                                                                "  <[1, 3]>%n" +
-                                                                "elements not found:%n" +
-                                                                "  <[3]>%n" +
-                                                                "and elements not expected:%n" +
-                                                                "  <[2]>%n"));
-    }
+    // GIVEN
+    softly.assertThat(1).isEqualTo(1);
+    softly.assertThat(1).isEqualTo(2);
+    softly.assertThat(list(1, 2)).containsOnly(1, 3);
+    // WHEN simulating the rule
+    MultipleFailuresError multipleFailuresError = catchThrowableOfType(() -> softly.apply(mock(Statement.class), null).evaluate(),
+                                                                       MultipleFailuresError.class);
+    // THEN
+    List<Throwable> failures = multipleFailuresError.getFailures();
+    assertThat(failures).hasSize(2);
+    assertThat(failures.get(0)).hasMessageStartingWith("expected:<[2]> but was:<[1]>");
+    assertThat(failures.get(1)).hasMessageStartingWith(format("%n" +
+                                                              "Expecting:%n" +
+                                                              "  <[1, 2]>%n" +
+                                                              "to contain only:%n" +
+                                                              "  <[1, 3]>%n" +
+                                                              "elements not found:%n" +
+                                                              "  <[3]>%n" +
+                                                              "and elements not expected:%n" +
+                                                              "  <[2]>%n"));
   }
 }

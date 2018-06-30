@@ -12,26 +12,38 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.AbstractSoftAssertions.tryThrowingMultipleFailuresError;
+
+import java.util.List;
+
 import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
 
+// used for JUnit4 soft assertion rules
 class SoftAssertionsStatement {
+
   private AbstractSoftAssertions soft;
 
   private SoftAssertionsStatement(AbstractSoftAssertions soft) {
     this.soft = soft;
   }
 
-  public static Statement softAssertionsStatement(AbstractSoftAssertions soft, final Statement base) {
-    return new SoftAssertionsStatement(soft).softAssertionsStatement(base);
+  public static Statement softAssertionsStatement(AbstractSoftAssertions softAssertions, final Statement baseStatement) {
+    return new SoftAssertionsStatement(softAssertions).build(baseStatement);
   }
 
-  private Statement softAssertionsStatement(final Statement base) {
+  private Statement build(final Statement baseStatement) {
+    // no lambda to keep java 6 compatibility
     return new Statement() {
       @Override
       public void evaluate() throws Throwable {
-        base.evaluate();
-        MultipleFailureException.assertEmpty(soft.errorsCollected());
+        baseStatement.evaluate();
+        List<Throwable> errors = soft.errorsCollected();
+        if (errors.isEmpty()) return;
+        // tests assertions raised some errors
+        tryThrowingMultipleFailuresError(errors);
+        // failed to throw MultipleFailuresError -> throw MultipleFailureException instead
+        MultipleFailureException.assertEmpty(errors);
       }
     };
   }

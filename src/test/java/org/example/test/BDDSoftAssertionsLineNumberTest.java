@@ -14,10 +14,9 @@ package org.example.test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.BDDSoftAssertions;
-import org.assertj.core.api.SoftAssertionError;
 import org.junit.Test;
 
 /**
@@ -29,25 +28,24 @@ public class BDDSoftAssertionsLineNumberTest {
 
   @Test
   public void should_print_line_numbers_of_failed_assertions() {
-      BDDSoftAssertions softly = new BDDSoftAssertions();
-    try {
-      softly.then(1).isLessThan(0)
-                    .isLessThan(1);
-      softly.assertAll();
-      fail("Should not reach here");
-    } catch (SoftAssertionError e) {
-      assertThat(e).hasMessageContaining(format("1) %n"
-                                                + "Expecting:%n"
-                                                + " <1>%n"
-                                                + "to be less than:%n"
-                                                + " <0> %n"
-                                                + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:34)%n"
-                                                + "2) %n"
-                                                + "Expecting:%n"
-                                                + " <1>%n"
-                                                + "to be less than:%n"
-                                                + " <1> %n"
-                                                + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:35)"));
-    }
+    BDDSoftAssertions softly = new BDDSoftAssertions();
+    softly.then(1)
+          .isLessThan(0)
+          .isLessThan(1);
+    // WHEN
+    AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
+    // THEN
+    assertThat(error).hasMessageContaining(format("%n"
+                                                  + "Expecting:%n"
+                                                  + " <1>%n"
+                                                  + "to be less than:%n"
+                                                  + " <0> %n"
+                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:33)%n"))
+                     .hasMessageContaining(format("%n"
+                                                  + "Expecting:%n"
+                                                  + " <1>%n"
+                                                  + "to be less than:%n"
+                                                  + " <1> %n"
+                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:34)"));
   }
 }

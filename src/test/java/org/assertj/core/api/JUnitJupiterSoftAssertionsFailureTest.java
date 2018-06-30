@@ -29,7 +29,7 @@ public class JUnitJupiterSoftAssertionsFailureTest {
 
   // we cannot register the extension here, because we need to test the failure without this test failing!
   // @RegisterExtension
-  JUnitJupiterSoftAssertions softly = new JUnitJupiterSoftAssertions();
+  private JUnitJupiterSoftAssertions softly = new JUnitJupiterSoftAssertions();
 
   @Test
   public void should_report_all_errors() {

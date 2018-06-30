@@ -12,6 +12,10 @@
  */
 package org.assertj.core.util;
 
+import static java.lang.String.format;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
+import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.PrintWriter;
@@ -19,9 +23,11 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.api.iterable.Extractor;
+
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
- * 
+ *
  * @author Alex Ruiz
  * @author Daniel Zlotin
  */
@@ -30,9 +36,29 @@ public final class Throwables {
   private static final String JAVA_LANG_REFLECT_CONSTRUCTOR = "java.lang.reflect.Constructor";
   private static final String ORG_ASSERTJ = "org.assert";
 
+  private static final Extractor<Throwable, String> ERROR_DESCRIPTION_EXTRACTOR = throwable -> {
+    Throwable cause = throwable.getCause();
+    if (cause == null) return throwable.getMessage();
+    // error has a cause, display the cause message and the first stack trace elements.
+    String stackTraceDescription = stream(cause.getStackTrace()).limit(5)
+                                                                .map(stackTraceElement -> format("\tat %s%n", stackTraceElement))
+                                                                .collect(joining());
+    return format("%s%n" +
+                  "cause message: %s%n" +
+                  "cause first five stack trace elements:%n" +
+                  "%s",
+                  throwable.getMessage(),
+                  cause.getMessage(),
+                  stackTraceDescription);
+  };
+
+  public static List<String> describeErrors(List<Throwable> errors) {
+    return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
+  }
+
   /**
    * Appends the stack trace of the current thread to the one in the given <code>{@link Throwable}</code>.
-   * 
+   *
    * @param t the given {@code Throwable}.
    * @param methodToStartFrom the name of the method used as the starting point of the current thread's stack trace.
    */
@@ -108,29 +134,29 @@ public final class Throwables {
     throwable.setStackTrace(newStackTrace);
   }
 
-
   /**
    * Get the root cause (ie the last non null cause) from a {@link Throwable}.
-   * 
+   *
    * @param throwable the {@code Throwable} to get root cause from.
    * @return the root cause if any, else {@code null}.
    */
   public static Throwable getRootCause(Throwable throwable) {
     if (throwable.getCause() == null) return null;
     Throwable cause;
-    while ((cause = throwable.getCause()) != null) throwable = cause;
+    while ((cause = throwable.getCause()) != null)
+      throwable = cause;
     return throwable;
   }
 
   /**
    * Get the stack trace from a {@link Throwable} as a {@link String}.
-   * 
+   *
    * <p>
    * The result of this method vary by JDK version as this method uses
    * {@link Throwable#printStackTrace(java.io.PrintWriter)}. On JDK1.3 and earlier, the cause exception will not be
    * shown unless the specified throwable alters printStackTrace.
    * </p>
-   * 
+   *
    * @param throwable the {@code Throwable} to get stack trace from.
    * @return the stack trace as a {@link String}.
    */
@@ -148,4 +174,5 @@ public final class Throwables {
   }
 
   private Throwables() {}
+
 }

@@ -14,10 +14,9 @@ package org.example.test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.AutoCloseableSoftAssertions;
-import org.assertj.core.api.SoftAssertionError;
 import org.junit.Test;
 
 /**
@@ -29,25 +28,24 @@ public class AutoClosableSoftAssertionsLineNumberTest {
 
   @Test
   public void should_print_line_numbers_of_failed_assertions() {
-    try {
-      AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions();
-      softly.assertThat(1).isLessThan(0)
-                          .isLessThan(1);
-      softly.close();
-      fail("Should not reach here");
-    } catch (SoftAssertionError e) {
-      assertThat(e).hasMessageContaining(format("1) %n"
-                                                + "Expecting:%n"
-                                                + " <1>%n"
-                                                + "to be less than:%n"
-                                                + " <0> %n"
-                                                + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:34)%n"
-                                                + "2) %n"
-                                                + "Expecting:%n"
-                                                + " <1>%n"
-                                                + "to be less than:%n"
-                                                + " <1> %n"
-                                                + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:35)"));
-    }
+    AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions();
+    softly.assertThat(1)
+          .isLessThan(0)
+          .isLessThan(1);
+    // WHEN
+    AssertionError error = catchThrowableOfType(() -> softly.close(), AssertionError.class);
+    // THEN
+    assertThat(error).hasMessageContaining(format("%n"
+                                                  + "Expecting:%n"
+                                                  + " <1>%n"
+                                                  + "to be less than:%n"
+                                                  + " <0> %n"
+                                                  + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:33)%n"))
+                     .hasMessageContaining(format("%n"
+                                                  + "Expecting:%n"
+                                                  + " <1>%n"
+                                                  + "to be less than:%n"
+                                                  + " <1> %n"
+                                                  + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:34)"));
   }
 }

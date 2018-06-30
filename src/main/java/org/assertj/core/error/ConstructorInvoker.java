@@ -12,18 +12,22 @@
  */
 package org.assertj.core.error;
 
-import java.lang.reflect.*;
-import java.security.*;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 /**
  * Access to constructors using Java reflection.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-class ConstructorInvoker {
+public class ConstructorInvoker {
 
-  Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws Exception {
+  public static final ConstructorInvoker CONSTRUCTOR_INVOKER = new ConstructorInvoker();
+
+  public Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws Exception {
     Class<?> targetType = Class.forName(className);
     Constructor<?> constructor = targetType.getConstructor(parameterTypes);
     setAccessible(constructor, true);

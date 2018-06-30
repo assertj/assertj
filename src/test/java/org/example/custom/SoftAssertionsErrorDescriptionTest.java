@@ -14,6 +14,7 @@ package org.example.custom;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
@@ -22,18 +23,15 @@ public class SoftAssertionsErrorDescriptionTest {
 
   @Test
   public void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
-    try {
-      SoftAssertions softly = new SoftAssertions();
-      softly.fail("failure", throwRuntimeException());
-      softly.assertAll();
-    } catch (AssertionError e) {
-      assertThat(e).hasMessageStartingWith(format("%nThe following assertion failed:%n"
-                                                  + "1) failure%n"
-                                                  + "at SoftAssertionsErrorDescriptionTest.should_display_the_error_cause_and_the_cause_first_stack_trace_elements(SoftAssertionsErrorDescriptionTest.java:27)%n"
-                                                  + "cause message: abc%n"
-                                                  + "cause first five stack trace elements:%n"
-                                                  + "\tat org.example.custom.SoftAssertionsErrorDescriptionTest.throwRuntimeException"));
-    }
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    softly.fail("failure", throwRuntimeException());
+    // WHEN
+    AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
+    // THEN
+    assertThat(error).hasMessageStartingWith(format("Multiple Failures (1 failure)%n"
+                                                    + "\tfailure%n"
+                                                    + "at SoftAssertionsErrorDescriptionTest.should_display_the_error_cause_and_the_cause_first_stack_trace_elements(SoftAssertionsErrorDescriptionTest.java:28)"));
   }
 
   protected static RuntimeException throwRuntimeException() {

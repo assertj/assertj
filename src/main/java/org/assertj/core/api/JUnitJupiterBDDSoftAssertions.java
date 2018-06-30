@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.opentest4j.MultipleFailuresError;
 
 /**
  * Same as {@link SoftAssertions}, but with the following differences: <br>
@@ -41,6 +40,6 @@ public class JUnitJupiterBDDSoftAssertions extends AbstractBDDSoftAssertions imp
   @Override
   public void afterEach(ExtensionContext extensionContext) throws Exception {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throw new MultipleFailuresError(null, errors);
+    if (!errors.isEmpty()) throwsBestMultipleAssertionsError(errors);
   }
 }

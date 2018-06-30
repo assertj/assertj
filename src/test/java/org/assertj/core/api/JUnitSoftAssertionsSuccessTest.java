@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class JUnitSoftAssertionsSuccessTest {
   @Test
   public void all_assertions_should_pass() throws Throwable {
     softly.assertThat(1).isEqualTo(1);
-    softly.assertThat(newArrayList(1, 2)).containsOnly(1, 2);
+    softly.assertThat(list(1, 2)).containsOnly(1, 2);
   }
 
 }

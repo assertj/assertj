@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api;
 
-import java.util.List;
-
 import static org.assertj.core.groups.Properties.extractProperty;
+
+import java.util.List;
 
 /**
  * BDD-style Android-compatible soft assertions. Duplicated from {@link BDDSoftAssertions}.
  *
  * @see BDDSoftAssertions
- * 
+ *
  * @since 2.5.0 / 3.5.0
  */
 public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
@@ -31,6 +31,9 @@ public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
+    if (!errors.isEmpty()) {
+      tryThrowingMultipleFailuresError(errors);
+      throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
+    }
   }
 }

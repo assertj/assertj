@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.groups.Properties.extractProperty;
-
 import java.util.List;
 
 /**
@@ -107,11 +105,11 @@ public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
   /**
    * Verifies that no proxied assertion methods have failed.
    *
-   * @throws SoftAssertionError if any proxied assertion objects threw
+   * @throws SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
+    if (!errors.isEmpty()) throwsBestMultipleAssertionsError(errors);
   }
 
 }

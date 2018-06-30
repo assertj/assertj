@@ -12,15 +12,10 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.joining;
-import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.assertj.core.api.iterable.Extractor;
+import org.opentest4j.MultipleFailuresError;
 
 /**
  * <p>
@@ -126,39 +121,17 @@ import org.assertj.core.api.iterable.Extractor;
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 
-  private Extractor<Throwable, String> errorDescriptionExtractor = throwable -> {
-    Throwable cause = throwable.getCause();
-    if (cause == null) {
-      return throwable.getMessage();
-    }
-    // error has a cause, display the cause message and the first stack trace elements.
-    String stackTraceDescription = Arrays.stream(cause.getStackTrace()).limit(5)
-                                         .map(stackTraceElement -> format("\tat %s%n", stackTraceElement))
-                                         .collect(joining());
-    return format("%s%n" +
-                  "cause message: %s%n" +
-                  "cause first five stack trace elements:%n" +
-                  "%s",
-                  throwable.getMessage(),
-                  cause.getMessage(),
-                  stackTraceDescription);
-  };
-
   /**
-   * Verifies that no proxied assertion methods have failed.
+   * Verifies that no soft assertions have failed.
    *
-   * @throws SoftAssertionError if any proxied assertion objects threw
+   * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throw new SoftAssertionError(describeErrors(errors));
+    if (!errors.isEmpty()) throwsBestMultipleAssertionsError(errors);
   }
 
-  private List<String> describeErrors(List<Throwable> errors) {
-    return extract(errors, errorDescriptionExtractor);
-  }
-
- /**
+  /**
   * Use this to avoid having to call assertAll manually.
   *
   * <pre><code class='java'> &#064;Test
@@ -177,7 +150,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   * }</code></pre>
   *
   * @param softly the SoftAssertions instance that you can call your own assertions on.
-  * @throws SoftAssertionError if any proxied assertion objects threw
+  * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
   * @since 3.6.0
   */
 public static void assertSoftly(Consumer<SoftAssertions> softly) {

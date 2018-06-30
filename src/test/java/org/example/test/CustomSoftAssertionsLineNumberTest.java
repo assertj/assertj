@@ -14,9 +14,8 @@ package org.example.test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
-import org.assertj.core.api.SoftAssertionError;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -30,15 +29,14 @@ public class CustomSoftAssertionsLineNumberTest {
   @Test
   @Ignore
   public void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() {
+    // GIVEN
     MyProjectSoftAssertions softly = new MyProjectSoftAssertions();
-    try {
-      softly.assertThat(new MyProjectClass("v1")).hasValue("v2");
-      softly.assertAll();
-      fail("Should not reach here");
-    } catch (SoftAssertionError e) {
-      assertThat(e).hasMessageContaining(format("1) Expecting value to be <v2> but was <v1>:%n" +
-                                                "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:31)"));
-    }
+    softly.assertThat(new MyProjectClass("v1")).hasValue("v2");
+    // WHEN
+    AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
+    // THEN
+    assertThat(error).hasMessageContaining(format("Expecting value to be <v2> but was <v1>:%n" +
+                                                  "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:31)"));
   }
 
 }

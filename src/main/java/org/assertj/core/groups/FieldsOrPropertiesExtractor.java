@@ -15,13 +15,13 @@ package org.assertj.core.groups;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Streams.stream;
 
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractObjectArrayAssert;
 import org.assertj.core.api.iterable.Extractor;
-import org.assertj.core.util.Streams;
 
 /**
  * Understands how to retrieve fields or values from a collection/array of objects.
@@ -61,7 +61,7 @@ public class FieldsOrPropertiesExtractor {
    */
   public static <F, T> List<T> extract(Iterable<? extends F> objects, Extractor<? super F, T> extractor) {
     checkObjectToExtractFromIsNotNull(objects);
-    return Streams.stream(objects).map(extractor::extract).collect(toList());
+    return stream(objects).map(extractor::extract).collect(toList());
   }
 
   private static void checkObjectToExtractFromIsNotNull(Object object) {

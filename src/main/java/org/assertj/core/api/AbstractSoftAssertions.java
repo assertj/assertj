@@ -13,6 +13,9 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
+import static org.assertj.core.error.ConstructorInvoker.CONSTRUCTOR_INVOKER;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Throwables.describeErrors;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -20,6 +23,8 @@ import java.util.List;
 import org.assertj.core.internal.Failures;
 
 public class AbstractSoftAssertions {
+
+  private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
 
   protected final SoftProxies proxies;
 
@@ -33,7 +38,7 @@ public class AbstractSoftAssertions {
 
   /**
    * Fails with the given message.
-   * 
+   *
    * @param failureMessage error message.
    * @since 2.6.0 / 3.6.0
    */
@@ -44,7 +49,7 @@ public class AbstractSoftAssertions {
 
   /**
    * Fails with the given message built like {@link String#format(String, Object...)}.
-   * 
+   *
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
    * @since 2.6.0 / 3.6.0
@@ -53,10 +58,10 @@ public class AbstractSoftAssertions {
     AssertionError error = Failures.instance().failure(String.format(failureMessage, args));
     proxies.collectError(error);
   }
-  
+
   /**
    * Fails with the given message and with the {@link Throwable} that caused the failure.
-   * 
+   *
    * @param failureMessage error message.
    * @param realCause cause of the error.
    * @since 2.6.0 / 3.6.0
@@ -70,7 +75,7 @@ public class AbstractSoftAssertions {
   /**
    * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
-   * 
+   *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
@@ -79,21 +84,21 @@ public class AbstractSoftAssertions {
    * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
   public void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
-      shouldHaveThrown(throwableClass);
+    shouldHaveThrown(throwableClass);
   }
 
   /**
    * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
-   * 
+   *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    * @since 2.6.0 / 3.6.0
    */
   public void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-      AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
-      proxies.collectError(error);
+    AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
+    proxies.collectError(error);
   }
 
   /**
@@ -103,7 +108,7 @@ public class AbstractSoftAssertions {
   public List<Throwable> errorsCollected() {
     return decorateErrorsCollected(proxies.errorsCollected());
   }
-  
+
   /**
    * Modifies collected errors. Override to customize modification.
    * @param errors list of errors to decorate
@@ -186,5 +191,28 @@ public class AbstractSoftAssertions {
 
   private boolean isProxiedAssertionClass(String className) {
     return className.contains("$ByteBuddy$");
+  }
+
+  protected static void throwsBestMultipleAssertionsError(List<Throwable> errors) {
+    tryThrowingMultipleFailuresError(errors);
+    throw new SoftAssertionError(describeErrors(errors));
+  }
+
+  protected static void tryThrowingMultipleFailuresError(List<Throwable> errorsCollected) {
+    if (errorsCollected.isEmpty()) return; // no errors, nothing to throw
+    try {
+      Object[] constructorArguments = array(null, errorsCollected);
+      Object multipleFailuresError = CONSTRUCTOR_INVOKER.newInstance("org.opentest4j.MultipleFailuresError",
+                                                                     MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
+                                                                     constructorArguments);
+      if (multipleFailuresError instanceof AssertionError) {
+        AssertionError assertionError = (AssertionError) multipleFailuresError;
+        Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+        throw assertionError;
+      }
+    } catch (Exception e) {
+      // do nothing, MultipleFailuresError was not in the classpath
+    }
+
   }
 }
