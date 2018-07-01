@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
-
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
   <version>3.11.0-SNAPSHOT</version>
@@ -213,7 +212,7 @@
                 <Export-Package>org.assertj.core.*</Export-Package>
                 <!-- Don't import what assertj-core exports but import everything else -->
                 <Import-Package>!org.assertj.core.*, *</Import-Package>
-				        <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+                <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
                 <_removeheaders>Bnd-LastModified</_removeheaders>
               </instructions>
               <niceManifest>true</niceManifest>
