@@ -57,7 +57,7 @@
       <artifactId>junit-platform-runner</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- required to run JUnit4 tests in eclipse without to explicitely select JUnit 4 runner ... -->
+    <!-- required to run JUnit4 tests in eclipse without to explicitly select JUnit 4 runner ... -->
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
@@ -211,7 +211,7 @@
             <configuration>
               <instructions>
                 <Export-Package>org.assertj.core.*</Export-Package>
-                <!-- Don't import what assertj-core exports but import everthing else -->
+                <!-- Don't import what assertj-core exports but import everything else -->
                 <Import-Package>!org.assertj.core.*, *</Import-Package>
 				        <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
                 <_removeheaders>Bnd-LastModified</_removeheaders>
@@ -227,7 +227,7 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <configuration>
           <excludes>
-            <!-- exclude hamcrest as its classes are compiled in target/classes for an unknown reason related to hancrest dependency being optional -->
+            <!-- exclude hamcrest as its classes are compiled in target/classes for an unknown reason related to hamcrest dependency being optional -->
             <exclude>**/*hamcrest*/**</exclude>
           </excludes>
         </configuration>
