@@ -74,6 +74,31 @@ public class InputStreams {
     }
   }
 
+  /**
+   * Asserts that the given InputStream has the same content as the given String.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual InputStream.
+   * @param expected the expected String.
+   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the given InputStream does not have the same content as the given String.
+   * @throws InputStreamsException if an I/O error occurs.
+   */
+  public void assertHasContent(AssertionInfo info, InputStream actual, String expected) {
+    checkNotNull(expected, "The String to compare to should not be null");
+    assertNotNull(info, actual);
+
+    try {
+      List<Delta<String>> diffs = diff.diff(actual, expected);
+      if (diffs.isEmpty()) return;
+      throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
+    } catch (IOException e) {
+      String msg = format("Unable to compare contents of InputStream:%n  <%s>%nand String:%n  <%s>", actual, expected);
+      throw new InputStreamsException(msg, e);
+    }
+  }
+
   private static void assertNotNull(AssertionInfo info, InputStream stream) {
     Objects.instance().assertNotNull(info, stream);
   }

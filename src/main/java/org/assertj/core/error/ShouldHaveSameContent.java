@@ -50,6 +50,17 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
   public static ErrorMessageFactory shouldHaveSameContent(InputStream actual, InputStream expected, List<Delta<String>> diffs) {
     return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
+
+  /**
+   * Creates a new <code>{@link ShouldHaveSameContent}</code>.
+   * @param actual the actual InputStream in the failed assertion.
+   * @param expected the expected String in the failed assertion.
+   * @param diffs the differences between {@code actual} and {@code expected}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveSameContent(InputStream actual, String expected, List<Delta<String>> diffs) {
+    return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
+  }
   
   /**
    * Creates a new <code>{@link ShouldHaveSameContent}</code>.
@@ -69,6 +80,11 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
 
   private ShouldHaveSameContent(InputStream actual, InputStream expected, String diffs) {
     super("%nInputStreams do not have same content:%n%n", actual, expected);
+    this.diffs = diffs;
+  }
+
+  private ShouldHaveSameContent(InputStream actual, String expected, String diffs) {
+    super("%nInputStream does not have same content as String:%n%n", actual, expected);
     this.diffs = diffs;
   }
   
