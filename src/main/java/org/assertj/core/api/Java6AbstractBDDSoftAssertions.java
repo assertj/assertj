@@ -212,17 +212,17 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first
-   * converted
-   * into an <code>{@link Iterable}</code>
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * <b>This is a breaking change in version 3.12.0:</b> this method used to return an {@link ProxyableIterableAssert}.
    *
    * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public <T> ProxyableIterableAssert<T> then(Iterator<? extends T> actual) {
-    return proxy(ProxyableIterableAssert.class, Iterator.class, actual);
+  public <T> IteratorAssert<T> then(Iterator<? extends T> actual) {
+    return proxy(IteratorAssert.class, Iterator.class, actual);
   }
 
   /**

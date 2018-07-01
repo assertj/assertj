@@ -216,7 +216,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat(22).isEqualTo(23);
     softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
     softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-    softly.assertThat(Lists.newArrayList("28").iterator()).contains("29");
+    softly.assertThat(Lists.newArrayList("28").iterator()).hasNext();
     softly.assertThat(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
     softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
     softly.assertThat(34L).isEqualTo(35L);

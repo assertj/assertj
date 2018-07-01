@@ -48,7 +48,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
@@ -118,13 +117,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   public AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
-  }
-
-  protected static <T> Iterable<T> toLazyIterable(Iterator<T> actual) {
-    if (actual == null) {
-      return null;
-    }
-    return new LazyIterable<>(actual);
   }
 
   /**

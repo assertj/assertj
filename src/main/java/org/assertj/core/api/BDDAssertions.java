@@ -356,17 +356,27 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.IterableAssert}</code>. The <code>{@link
-   * java.util.Iterator}</code> is first
-   * converted
-   * into an <code>{@link Iterable}</code>
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link IterableAssert} but an {@link IteratorAssert}.<br>
+   * In order to access assertions from {@link IterableAssert}, use {@link IteratorAssert#toIterable()}.
+   * <p>
+   * {@link IteratorAssert} instances have limited assertions because it does not consume iterator's elements.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Iterator&lt;String&gt; bestBasketBallPlayers = getBestBasketBallPlayers();
+   * 
+   * then(bestBasketBallPlayers).hasNext() // Iterator assertion
+   *                            .toIterable() // switch to Iterable assertions
+   *                            .contains("Jordan", "Magic", "Lebron"); // Iterable assertion </code></pre>
+   *
    *
    * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> IterableAssert<T> then(Iterator<? extends T> actual) {
+  public static <T> IteratorAssert<T> then(Iterator<? extends T> actual) {
     return assertThat(actual);
   }
 

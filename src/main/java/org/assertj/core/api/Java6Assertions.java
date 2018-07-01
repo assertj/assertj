@@ -416,19 +416,27 @@ public class Java6Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * <b>Be aware that calls to most methods on returned IterableAssert will consume Iterator so it won't be possible to
-   * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
-   * cached by IterableAssert first time Iterator is consumed.
+   * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link IterableAssert} but an {@link IteratorAssert}.<br>
+   * In order to access assertions from {@link IterableAssert}, use {@link IteratorAssert#toIterable()}.
+   * <p>
+   * {@link IteratorAssert} instances have limited assertions because it does not consume iterator's elements.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Iterator&lt;String&gt; bestBasketBallPlayers = getBestBasketBallPlayers();
+   * 
+   * assertThat(bestBasketBallPlayers).hasNext() // Iterator assertion
+   *                                  .toIterable() // switch to Iterable assertions
+   *                                  .contains("Jordan", "Magic", "Lebron"); // Iterable assertion </code></pre>
    *
-   * @param <T> the actual elements type
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterator<? extends T> actual) {
-    return new IterableAssert<>(actual);
+  public static <T> AbstractIteratorAssert<?, T> assertThat(Iterator<? extends T> actual) {
+    return new IteratorAssert<>(actual);
   }
 
   /**

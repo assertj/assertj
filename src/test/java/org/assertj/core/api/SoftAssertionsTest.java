@@ -32,6 +32,7 @@ import static org.assertj.core.test.Name.lastNameComparator;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.ByteArrayInputStream;
@@ -43,7 +44,6 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -244,8 +244,8 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
       softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-      softly.assertThat(Lists.newArrayList("28").iterator()).contains("29");
-      softly.assertThat(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
+      softly.assertThat(list("28").iterator()).isExhausted();
+      softly.assertThat(list("30")).isEqualTo(Lists.newArrayList("31"));
 
       softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
       softly.assertThat(34L).isEqualTo(35L);
@@ -357,12 +357,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(23)).contains(format("%nExpecting:%n <[24]>%nto be equal to:%n <[25]>%nbut was not."));
 
       assertThat(errors.get(24)).contains(format("%nExpecting:%n <[\"26\"]>%nto be equal to:%n <[\"27\"]>%nbut was not."));
-      assertThat(errors.get(25)).contains(format("%nExpecting:%n" +
-                                                 " <[\"28\"]>%n" +
-                                                 "to contain:%n" +
-                                                 " <[\"29\"]>%n" +
-                                                 "but could not find:%n" +
-                                                 " <[\"29\"]>%n"));
+      assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
       assertThat(errors.get(26)).contains(format("%nExpecting:%n <[\"30\"]>%nto be equal to:%n <[\"31\"]>%nbut was not."));
 
       assertThat(errors.get(27)).contains(format("%nExpecting:%n <32L>%nto be equal to:%n <33L>%nbut was not."));
@@ -583,24 +578,10 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_pass_when_using_extracting_with_iterator() {
-
-    Iterator<Name> names = asList(name("John", "Doe"), name("Jane", "Doe")).iterator();
-
-    try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
-      softly.assertThat(names)
-            .as("using extracting()")
-            .extracting("first")
-            .contains("John")
-            .contains("Jane");
-    }
-  }
-
-  @Test
   public void should_work_with_flat_extracting() {
     // GIVEN
     List<CartoonCharacter> characters = asList(homer, fred);
-    CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[characters.size()]);
+    CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[0]);
     // WHEN
     softly.assertThat(characters)
           .as("using flatExtracting on Iterable")

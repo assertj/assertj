@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
@@ -104,8 +105,8 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_Iterator() {
-    Iterator<String> iterator = Arrays.asList("1").iterator();
-    then(iterator).contains("1");
+    Iterator<String> iterator = singletonList("1").iterator();
+    then(iterator).hasNext();
   }
 
   @Test

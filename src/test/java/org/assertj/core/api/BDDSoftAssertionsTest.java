@@ -38,7 +38,6 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -228,7 +227,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(22).isEqualTo(23);
     softly.then(new int[] { 24 }).isEqualTo(new int[] { 25 });
     softly.then((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-    softly.then(Lists.newArrayList("28").iterator()).contains("29");
+    softly.then(Lists.newArrayList("28").iterator()).isExhausted();
     softly.then(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
     softly.then(new Long(32L)).isEqualTo(new Long(33L));
     softly.then(34L).isEqualTo(35L);
@@ -314,12 +313,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(22)).contains(format("%nExpecting:%n <22>%nto be equal to:%n <23>%nbut was not."));
     assertThat(errors.get(23)).contains(format("%nExpecting:%n <[24]>%nto be equal to:%n <[25]>%nbut was not."));
     assertThat(errors.get(24)).contains(format("%nExpecting:%n <[\"26\"]>%nto be equal to:%n <[\"27\"]>%nbut was not."));
-    assertThat(errors.get(25)).contains(format("%nExpecting:%n" +
-                                               " <[\"28\"]>%n" +
-                                               "to contain:%n" +
-                                               " <[\"29\"]>%n" +
-                                               "but could not find:%n" +
-                                               " <[\"29\"]>%n"));
+    assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
     assertThat(errors.get(26)).contains(format("%nExpecting:%n <[\"30\"]>%nto be equal to:%n <[\"31\"]>%nbut was not."));
     assertThat(errors.get(27)).contains(format("%nExpecting:%n <32L>%nto be equal to:%n <33L>%nbut was not."));
     assertThat(errors.get(28)).contains(format("%nExpecting:%n <34L>%nto be equal to:%n <35L>%nbut was not."));
@@ -523,20 +517,6 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
       softly.then(namesAsArray)
             .extractingResultOf("getFirst")
             .as("using extractingResultOf(method)")
-            .contains("John")
-            .contains("Jane");
-    }
-  }
-
-  @Test
-  public void should_pass_when_using_extracting_with_iterator() {
-
-    Iterator<Name> names = asList(name("John", "Doe"), name("Jane", "Doe")).iterator();
-
-    try (AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
-      softly.then(names)
-            .extracting("first")
-            .as("using extracting()")
             .contains("John")
             .contains("Jane");
     }

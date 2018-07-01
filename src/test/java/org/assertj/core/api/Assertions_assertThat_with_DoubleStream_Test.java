@@ -21,7 +21,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
-import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.junit.jupiter.api.Test;
 
 public class Assertions_assertThat_with_DoubleStream_Test {
@@ -115,17 +114,17 @@ public class Assertions_assertThat_with_DoubleStream_Test {
 
   @Test
   public void isNotInstanceOf_should_check_the_original_stream() {
-    assertThat(intStream).isNotInstanceOf(LazyIterable.class);
+    assertThat(intStream).isNotInstanceOf(String.class);
   }
 
   @Test
   public void isNotInstanceOfAny_should_check_the_original_stream() {
-    assertThat(intStream).isNotInstanceOfAny(LazyIterable.class, String.class);
+    assertThat(intStream).isNotInstanceOfAny(Long.class, String.class);
   }
 
   @Test
   public void isNotOfAnyClassIn_should_check_the_original_stream() {
-    assertThat(intStream).isNotOfAnyClassIn(LazyIterable.class, String.class);
+    assertThat(intStream).isNotOfAnyClassIn(Long.class, String.class);
   }
 
   @Test

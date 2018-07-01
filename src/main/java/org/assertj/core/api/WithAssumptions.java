@@ -493,15 +493,17 @@ public interface WithAssumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code> assumption.
-   *
+   * Creates a new instance of <code>{@link IteratorAssert}</code> assumption.
+   * <p>
+   * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link ProxyableIterableAssert} but an {@link IteratorAssert}.
+   * 
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
-  default <ELEMENT> ProxyableIterableAssert<ELEMENT> assumeThat(final Iterator<? extends ELEMENT> actual) {
+  default <ELEMENT> IteratorAssert<ELEMENT> assumeThat(final Iterator<? extends ELEMENT> actual) {
     return Assumptions.assumeThat(actual);
   }
 

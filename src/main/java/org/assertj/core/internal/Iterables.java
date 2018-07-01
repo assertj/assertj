@@ -12,18 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
-import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
-import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
-
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
@@ -70,15 +58,45 @@ import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplic
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
-import static org.assertj.core.internal.CommonValidations.*;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
+import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
+import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
+import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.CommonValidations.iterableToLookForIsNull;
-import static org.assertj.core.internal.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.emptySequence;
+import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
+import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
+import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -186,8 +204,10 @@ public class Iterables {
   /**
    * Asserts that the unique element of the {@link Iterable} satisfies the given assertions expressed as a {@link Consumer},
    *
+   * @param <T> the type of elements in actual.
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
+   * @param consumer the given requirements.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
    * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
    */
