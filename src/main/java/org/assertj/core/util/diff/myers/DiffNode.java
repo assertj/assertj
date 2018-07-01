@@ -50,6 +50,7 @@ public final class DiffNode extends PathNode {
    * {@inheritDoc}
    * @return false, always
    */
+  @Override
   public boolean isSnake() {
     return false;
   }

@@ -37,6 +37,7 @@ public class UnicodeRepresentation extends StandardRepresentation {
     return super.toStringOf(object);
   }
 
+  @Override
   protected String toStringOf(Character string) {
     return escapeUnicode(string.toString());
   }

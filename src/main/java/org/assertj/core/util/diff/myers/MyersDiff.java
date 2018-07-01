@@ -56,6 +56,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    *
    * Return empty diff if get the error while procession the difference.
    */
+  @Override
   public Patch<T> diff(final List<T> original, final List<T> revised) {
     checkArgument(original != null, "original list must not be null");
     checkArgument(revised != null, "revised list must not be null");

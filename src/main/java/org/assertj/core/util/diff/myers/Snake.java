@@ -42,6 +42,7 @@ public final class Snake extends PathNode {
    * {@inheritDoc}
    * @return true always
    */
+  @Override
   public boolean isSnake() {
     return true;
   }

@@ -42,6 +42,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
     return super.toStringOf(object);
   }
 
+  @Override
   protected String toStringOf(Number number) {
     if (number instanceof Byte) return toStringOf((Byte) number);
     else if (number instanceof Short) return toStringOf((Short) number);
@@ -64,10 +65,12 @@ public class HexadecimalRepresentation extends StandardRepresentation {
     return toGroupedHex(i, 32);
   }
 
+  @Override
   protected String toStringOf(Long l) {
     return toGroupedHex(l, 64);
   }
 
+  @Override
   protected String toStringOf(Float f) {
     return toGroupedHex(Float.floatToIntBits(f), 32);
   }
@@ -76,6 +79,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
     return toGroupedHex(Double.doubleToRawLongBits(d), 64);
   }
 
+  @Override
   protected String toStringOf(Character character) {
     return concat("'", toStringOf((short) (int) character), "'");
   }
