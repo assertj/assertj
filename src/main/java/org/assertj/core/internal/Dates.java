@@ -791,7 +791,7 @@ public class Dates {
    *         {@link #comparisonStrategy}, false otherwise.
    */
   private boolean areEqual(Date actual, Date other) {
-    return comparisonStrategy.areEqual(other, actual);
+    return comparisonStrategy.areEqual(actual, other);
   }
 
   /**
