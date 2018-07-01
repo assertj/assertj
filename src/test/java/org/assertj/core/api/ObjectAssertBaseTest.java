@@ -26,9 +26,6 @@ import org.junit.Rule;
  */
 public abstract class ObjectAssertBaseTest extends BaseTestTemplate<ObjectAssert<Jedi>, Jedi> {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   @Override
   protected ObjectAssert<Jedi> create_assertions() {
     return new ObjectAssert<>(new Jedi("Yoda", "Green"));
