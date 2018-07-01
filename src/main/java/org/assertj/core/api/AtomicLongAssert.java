@@ -388,17 +388,15 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
   @Override
   @CheckReturnValue
   public AtomicLongAssert usingComparator(Comparator<? super AtomicLong> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public AtomicLongAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
     longs = Longs.instance();
-    return myself;
+    return super.usingDefaultComparator();
   }
 
 }

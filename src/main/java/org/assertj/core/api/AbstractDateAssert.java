@@ -2586,17 +2586,15 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Date> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
-    super.usingDefaultComparator();
     this.dates = Dates.instance();
-    return myself;
+    return super.usingDefaultComparator();
   }
 
 }

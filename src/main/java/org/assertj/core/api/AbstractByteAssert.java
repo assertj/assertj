@@ -564,16 +564,14 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Byte> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     this.bytes = new Bytes(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
-    super.usingDefaultComparator();
     this.bytes = Bytes.instance();
-    return myself;
+    return super.usingDefaultComparator();
   }
 }

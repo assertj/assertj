@@ -652,17 +652,15 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Double> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     doubles = new Doubles(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
-    super.usingDefaultComparator();
     doubles = Doubles.instance();
-    return myself;
+    return super.usingDefaultComparator();
   }
 
   private void assertIsPrimitiveZero() {

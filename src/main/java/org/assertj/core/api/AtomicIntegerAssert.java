@@ -384,21 +384,19 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
   public AtomicIntegerAssert usingComparator(Comparator<? super AtomicInteger> customComparator) {
     return usingComparator(customComparator, null);
   }
-  
+
   @Override
   @CheckReturnValue
   public AtomicIntegerAssert usingComparator(Comparator<? super AtomicInteger> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public AtomicIntegerAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
     integers = Integers.instance();
-    return myself;
+    return super.usingDefaultComparator();
   }
 
 }

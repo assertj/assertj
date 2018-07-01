@@ -694,17 +694,15 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Float> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     floats = new Floats(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
-    super.usingDefaultComparator();
     floats = Floats.instance();
-    return myself;
+    return super.usingDefaultComparator();
   }
 
 }

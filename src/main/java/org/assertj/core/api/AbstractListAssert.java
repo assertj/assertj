@@ -193,17 +193,15 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   @Override
   @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> customComparator) {
-    super.usingElementComparator(customComparator);
     lists = new Lists(new ComparatorBasedComparisonStrategy(customComparator));
-    return myself;
+    return super.usingElementComparator(customComparator);
   }
 
   @Override
   @CheckReturnValue
   public SELF usingDefaultElementComparator() {
-    super.usingDefaultElementComparator();
     lists = Lists.instance();
-    return myself;
+    return super.usingDefaultElementComparator();
   }
 
   // can't really honor basic assertion consistently with this comparisonStrategy

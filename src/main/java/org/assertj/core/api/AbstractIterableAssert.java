@@ -683,9 +683,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @CheckReturnValue
   public SELF usingDefaultElementComparator() {
-    usingDefaultComparator();
     this.iterables = Iterables.instance();
-    return myself;
+    return usingDefaultComparator();
   }
 
   /**
