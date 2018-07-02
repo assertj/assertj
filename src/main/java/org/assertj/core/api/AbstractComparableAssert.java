@@ -105,17 +105,15 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
-    super.usingDefaultComparator();
     this.comparables = new Comparables();
-    return myself;
+    return super.usingDefaultComparator();
   }
 
   @Override

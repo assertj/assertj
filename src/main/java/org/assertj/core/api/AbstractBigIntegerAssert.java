@@ -434,17 +434,15 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super BigInteger> customComparator, String customComparatorDescription) {
-    super.usingComparator(customComparator, customComparatorDescription);
     this.bigIntegers = new BigIntegers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
+    return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
-    super.usingDefaultComparator();
     this.bigIntegers = BigIntegers.instance();
-    return myself;
+    return super.usingDefaultComparator();
   }
 
 }

@@ -501,8 +501,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
-    overridingErrorMessage(newErrorMessage, args);
-    return myself;
+    return overridingErrorMessage(newErrorMessage, args);
   }
 
   /** {@inheritDoc} */

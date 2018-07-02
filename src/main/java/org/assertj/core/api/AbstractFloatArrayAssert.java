@@ -139,8 +139,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array does not contain the given values.
    */
   public SELF contains(float[] values, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return contains(values);
+    return usingComparatorWithPrecision(precision.value).contains(values);
   }
 
   /**
@@ -203,8 +202,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public SELF containsOnly(float[] values, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return containsOnly(values);
+    return usingComparatorWithPrecision(precision.value).containsOnly(values);
   }
 
   /**
@@ -262,8 +260,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   *           or none of the given values, or the actual group contains more than once these values.
   */
   public SELF containsOnlyOnce(float[] values, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return containsOnlyOnce(values);
+    return usingComparatorWithPrecision(precision.value).containsOnlyOnce(values);
   }
 
   /**
@@ -323,8 +320,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(float[] sequence, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return containsSequence(sequence);
+    return usingComparatorWithPrecision(precision.value).containsSequence(sequence);
   }
 
   /**
@@ -384,8 +380,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(float[] subsequence, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return containsSubsequence(subsequence);
+    return usingComparatorWithPrecision(precision.value).containsSubsequence(subsequence);
   }
 
   /**
@@ -449,8 +444,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public SELF contains(float value, Index index, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return contains(value, index);
+    return usingComparatorWithPrecision(precision.value).contains(value, index);
   }
 
   /**
@@ -506,9 +500,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public SELF doesNotContain(float[] values, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return usingComparatorWithPrecision(precision.value).doesNotContain(values);
   }
 
   /**
@@ -566,8 +558,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public SELF doesNotContain(float value, Index index, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return doesNotContain(value, index);
+    return usingComparatorWithPrecision(precision.value).doesNotContain(value, index);
   }
 
   /**
@@ -614,8 +605,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array contains duplicates.
    */
   public SELF doesNotHaveDuplicates(Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return doesNotHaveDuplicates();
+    return usingComparatorWithPrecision(precision.value).doesNotHaveDuplicates();
   }
 
   /**
@@ -675,8 +665,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
   public SELF startsWith(float[] values, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return startsWith(values);
+    return usingComparatorWithPrecision(precision.value).startsWith(values);
   }
 
   /**
@@ -736,8 +725,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
   public SELF endsWith(float[] values, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return endsWith(values);
+    return usingComparatorWithPrecision(precision.value).endsWith(values);
   }
 
   /** {@inheritDoc} */
@@ -826,8 +814,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    *           more values than the given ones or values are the same but the order is not.
    */
   public SELF containsExactly(float[] values, Offset<Float> precision) {
-    usingComparatorWithPrecision(precision.value);
-    return containsExactly(values);
+    return usingComparatorWithPrecision(precision.value).containsExactly(values);
   }
 
   /**
