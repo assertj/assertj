@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -44,9 +45,10 @@ public class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArrays
 
   @Test
   public void should_throw_exception_if_no_expected_types_are_given() {
-    thrown.expectNullPointerException();
-    Class<?>[] types = null;
-    arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Class<?>[] types = null;
+      arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
+    });
   }
 
   @Test

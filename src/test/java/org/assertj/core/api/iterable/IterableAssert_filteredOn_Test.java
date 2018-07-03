@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
@@ -30,6 +31,7 @@ import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_baseTest {
@@ -65,10 +67,11 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
-    thrown.expectIntrospectionError();
     setAllowExtractingPrivateFields(false);
     try {
-      assertThat(employees).filteredOn("city", "New York").isEmpty();
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+        assertThat(employees).filteredOn("city", "New York").isEmpty();
+      });
     } finally {
       setAllowExtractingPrivateFields(true);
     }

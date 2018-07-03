@@ -13,9 +13,11 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_filtered_baseTest {
@@ -44,10 +46,11 @@ public class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_fil
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
-    thrown.expectIntrospectionError();
     setAllowExtractingPrivateFields(false);
     try {
-      assertThat(employees).filteredOn("city", not("New York"));
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+        assertThat(employees).filteredOn("city", not("New York"));
+      });
     } finally {
       setAllowExtractingPrivateFields(true);
     }

@@ -14,10 +14,12 @@ package org.assertj.core.api.atomic.referencearray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceArrayAssert_filtered_baseTest {
@@ -46,10 +48,11 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
-    thrown.expectIntrospectionError();
     setAllowExtractingPrivateFields(false);
     try {
-      assertThat(employees).filteredOn("city", "New York").isEmpty();
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+        assertThat(employees).filteredOn("city", "New York").isEmpty();
+      });
     } finally {
       setAllowExtractingPrivateFields(true);
     }

@@ -13,6 +13,7 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.data.Offset.strictOffset;
 import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
@@ -32,9 +33,10 @@ public class Offset_built_with_BigDecimal_Test {
 
   @Test
   public void should_throw_error_if_value_is_null() {
-    thrown.expectNullPointerException();
-    BigDecimal value = null;
-    offset(value);
+    assertThatNullPointerException().isThrownBy(() -> {
+      BigDecimal value = null;
+      offset(value);
+    });
   }
 
   @Test

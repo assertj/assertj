@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.lists;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSorted.*;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -71,8 +72,7 @@ public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTes
 
   @Test
   public void should_fail_if_comparator_is_null() {
-    thrown.expectNullPointerException();
-    lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(), null);
+    assertThatNullPointerException().isThrownBy(() -> lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(), null));
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -47,7 +48,6 @@ public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_
 
   @Test
   public void should_fail_if_first_parameter_is_not_comparable() {
-    thrown.expectIllegalArgumentException();
-    standardComparisonStrategy.isGreaterThan(new Rectangle(), "foo");
+    assertThatIllegalArgumentException().isThrownBy(() -> standardComparisonStrategy.isGreaterThan(new Rectangle(), "foo"));
   }
 }

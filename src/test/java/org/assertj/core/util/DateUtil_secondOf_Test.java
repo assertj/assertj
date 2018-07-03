@@ -12,16 +12,15 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.util.DateUtil.secondOf;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
-
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.junit.*;
-import org.assertj.core.test.ExpectedException;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link DateUtil#secondOf(Date)}</code>.
@@ -29,9 +28,6 @@ import org.assertj.core.test.ExpectedException;
  * @author Joel Costigliola
  */
 public class DateUtil_secondOf_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_return_second_of_date() throws ParseException {
@@ -42,8 +38,7 @@ public class DateUtil_secondOf_Test {
 
   @Test
   public void should_throws_NullPointerException_if_date_parameter_is_null() {
-    thrown.expectNullPointerException();
-    secondOf(null);
+    assertThatNullPointerException().isThrownBy(() -> secondOf(null));
   }
 
 }

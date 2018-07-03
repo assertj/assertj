@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Comparator.comparing;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
@@ -98,8 +99,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
 
   @Test
   public void should_throw_null_pointer_exception_when_extracting_from_null() {
-    thrown.expectNullPointerException();
-    assertThat(newSortedSet(homer, null)).flatExtracting(children);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(newSortedSet(homer, null)).flatExtracting(children));
   }
 
   @Test

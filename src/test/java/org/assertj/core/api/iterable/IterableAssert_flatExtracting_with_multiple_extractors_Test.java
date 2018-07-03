@@ -13,6 +13,8 @@
 package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
@@ -31,16 +33,11 @@ import java.util.List;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
@@ -74,29 +71,25 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
   @Test
   public void should_throw_IllegalArgumentException_when_no_fields_or_properties_are_specified() {
-    thrown.expectIllegalArgumentException();
-    assertThat(fellowshipOfTheRing).flatExtracting(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(new String[0]));
   }
 
   @Test
   public void should_throw_IllegalArgumentException_when_null_fields_or_properties_vararg() {
-    thrown.expectIllegalArgumentException();
     String[] fields = null;
-    assertThat(fellowshipOfTheRing).flatExtracting(fields);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(fields));
   }
 
   @Test
   public void should_throw_IllegalArgumentException_when_extracting_from_null() {
-    thrown.expectIllegalArgumentException();
     fellowshipOfTheRing.add(null);
-    assertThat(fellowshipOfTheRing).flatExtracting("age", "name");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting("age", "name"));
   }
 
   @Test
   public void should_throw_IllegalArgumentException_when_extracting_from_null_extractors() {
-    thrown.expect(NullPointerException.class);
     fellowshipOfTheRing.add(null);
-    assertThat(fellowshipOfTheRing).flatExtracting(age, name);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(age, name));
   }
 
   @Test

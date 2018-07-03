@@ -14,6 +14,8 @@ package org.assertj.core.extractor;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.extractor.Extractors.byName;
 
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import java.util.Map;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -55,9 +58,7 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
-	thrown.expectIntrospectionError();
-
-	new ByNameSingleExtractor<Employee>("unknown").extract(yoda);
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> new ByNameSingleExtractor<Employee>("unknown").extract(yoda));
   }
 
   @Test
@@ -90,17 +91,15 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
-	thrown.expectIntrospectionError();
-
-	Employee employee = new BrokenEmployee();
-	adultExtractor().extract(employee);
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      Employee employee = new BrokenEmployee();
+      adultExtractor().extract(employee);
+    });
   }
 
   @Test
   public void should_throw_exception_if_no_object_is_given() {
-	thrown.expectIllegalArgumentException();
-
-	idExtractor().extract(null);
+	assertThatIllegalArgumentException().isThrownBy(() -> idExtractor().extract(null));
   }
 
   @Test

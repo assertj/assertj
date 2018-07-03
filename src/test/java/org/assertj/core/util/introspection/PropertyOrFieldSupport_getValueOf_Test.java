@@ -14,6 +14,8 @@ package org.assertj.core.util.introspection;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,19 +102,17 @@ public class PropertyOrFieldSupport_getValueOf_Test {
 
   @Test
   public void should_throw_error_when_no_property_nor_field_match_given_name() {
-    thrown.expectIntrospectionError();
-
-    propertyOrFieldSupport.getValueOf("unknown", yoda);
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> propertyOrFieldSupport.getValueOf("unknown", yoda));
   }
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_given_name_if_extraction_is_limited_to_public_fields() {
-    thrown.expectIntrospectionError();
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      propertyOrFieldSupport = new PropertyOrFieldSupport(new PropertySupport(),
+                                                          FieldSupport.EXTRACTION_OF_PUBLIC_FIELD_ONLY);
 
-    propertyOrFieldSupport = new PropertyOrFieldSupport(new PropertySupport(),
-                                                        FieldSupport.EXTRACTION_OF_PUBLIC_FIELD_ONLY);
-
-    propertyOrFieldSupport.getValueOf("city", yoda);
+      propertyOrFieldSupport.getValueOf("city", yoda);
+    });
   }
 
   @Test
@@ -129,15 +129,12 @@ public class PropertyOrFieldSupport_getValueOf_Test {
 
   @Test
   public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
-    thrown.expectIntrospectionError();
-
-    propertyOrFieldSupport.getValueOf("adult", brokenEmployee());
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> propertyOrFieldSupport.getValueOf("adult", brokenEmployee()));
   }
 
   @Test
   public void should_throw_exception_if_no_object_is_given() {
-    thrown.expectIllegalArgumentException();
-    propertyOrFieldSupport.getValueOf("name", null);
+    assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf("name", null));
   }
 
   @Test

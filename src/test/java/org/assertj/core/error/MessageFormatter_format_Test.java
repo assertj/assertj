@@ -16,6 +16,7 @@ import static com.tngtech.junit.dataprovider.DataProviders.$;
 import static com.tngtech.junit.dataprovider.DataProviders.$$;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
@@ -56,15 +57,15 @@ public class MessageFormatter_format_Test {
 
   @Test
   public void should_throw_error_if_format_string_is_null() {
-    thrown.expectNullPointerException();
-    messageFormatter.format(null, null, null);
+    assertThatNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, null));
   }
 
   @Test
   public void should_throw_error_if_args_array_is_null() {
-    thrown.expectNullPointerException();
-    Object[] args = null;
-    messageFormatter.format(null, null, "", args);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Object[] args = null;
+      messageFormatter.format(null, null, "", args);
+    });
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.ByteArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
@@ -68,8 +69,7 @@ public class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArr
 
   @Test
   public void should_fail_if_comparator_is_null() {
-    thrown.expectNullPointerException();
-    arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null));
   }
 
   @Test

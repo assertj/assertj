@@ -13,6 +13,8 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.File;
@@ -39,14 +41,12 @@ public class Files_contentOf_Test {
   @Test
   public void should_throw_exception_if_charset_is_null() {
     Charset charset = null;
-    thrown.expectNullPointerException();
-    Files.contentOf(new File("test"), charset);
+    assertThatNullPointerException().isThrownBy(() -> Files.contentOf(new File("test"), charset));
   }
 
   @Test
   public void should_throw_exception_if_charset_name_does_not_exist() {
-    thrown.expectIllegalArgumentException();
-    Files.contentOf(new File("test"), "Klingon");
+    assertThatIllegalArgumentException().isThrownBy(() -> Files.contentOf(new File("test"), "Klingon"));
   }
 
   @Test

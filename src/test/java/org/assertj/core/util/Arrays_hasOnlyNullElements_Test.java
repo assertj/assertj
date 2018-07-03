@@ -31,8 +31,7 @@ public class Arrays_hasOnlyNullElements_Test {
 
   @Test
   public void should_throw_error_if_array_is_null() {
-    thrown.expectNullPointerException();
-    Arrays.hasOnlyNullElements(null);
+    assertThatNullPointerException().isThrownBy(() -> Arrays.hasOnlyNullElements(null));
   }
 
   @Test

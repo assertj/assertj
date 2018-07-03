@@ -39,8 +39,7 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
   @Test
   public void should_throw_error_if_directory_does_not_exist() {
     String path = concat("root", separator, "not_existing_dir");
-    thrown.expectIllegalArgumentException();
-    Files.fileNamesIn(path, false);
+    assertThatIllegalArgumentException().isThrownBy(() -> Files.fileNamesIn(path, false));
   }
 
   @Test
@@ -48,8 +47,7 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
     String fileName = "file_1";
     root.addFiles(fileName);
     String path = concat("root", separator, fileName);
-    thrown.expectIllegalArgumentException();
-    Files.fileNamesIn(path, false);
+    assertThatIllegalArgumentException().isThrownBy(() -> Files.fileNamesIn(path, false));
   }
 
   @Test
