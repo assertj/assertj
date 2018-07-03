@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -39,14 +40,14 @@ public class BigIntegers_assertIsBetween_Test extends BigIntegersBaseTest {
     numbers.assertIsBetween(someInfo(), null, ZERO, ONE);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_start_is_null() {
-    numbers.assertIsBetween(someInfo(), ONE, null, ONE);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsBetween(someInfo(), ONE, null, ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_end_is_null() {
-    numbers.assertIsBetween(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test

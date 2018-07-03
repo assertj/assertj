@@ -14,6 +14,7 @@ package org.assertj.core.api.optionaldouble;
 
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -55,10 +56,9 @@ public class OptionalDoubleAssert_hasValueCloseTo_Test extends BaseTest {
     assertThat(actual).hasValueCloseTo(expectedValue, offset);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_offset_is_null() {
-    double expectedValue = 10.0;
-    assertThat(OptionalDouble.of(10.0)).hasValueCloseTo(expectedValue, null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(OptionalDouble.of(10.0)).hasValueCloseTo(10.0, null));
   }
 
   @Test

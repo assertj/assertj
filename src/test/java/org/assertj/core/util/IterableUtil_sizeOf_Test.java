@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.sql.SQLException;
@@ -34,9 +34,9 @@ public class IterableUtil_sizeOf_Test {
     assertThat(IterableUtil.sizeOf(new ArrayList<>())).isEqualTo(0);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_throws_exception_if_iterable_is_null() {
-    IterableUtil.sizeOf(null);
+    assertThatNullPointerException().isThrownBy(() -> IterableUtil.sizeOf(null));
   }
 
   @Test

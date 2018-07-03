@@ -16,6 +16,7 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
@@ -85,14 +86,14 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
     doubles.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    doubles.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_offset_is_null() {
-    doubles.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   @Test

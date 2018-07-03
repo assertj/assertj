@@ -13,7 +13,7 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
-
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -43,14 +43,14 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
     numbers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_start_is_null() {
-    numbers.assertIsStrictlyBetween(someInfo(), ONE, null, ONE);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, null, ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_end_is_null() {
-    numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test

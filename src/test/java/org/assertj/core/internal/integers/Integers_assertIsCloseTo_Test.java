@@ -13,6 +13,7 @@
 package org.assertj.core.internal.integers;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
@@ -104,14 +105,14 @@ public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
     integers.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    integers.assertIsCloseTo(someInfo(), ONE, null, within(ONE));
+    assertThatNullPointerException().isThrownBy(() -> integers.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_offset_is_null() {
-    integers.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> integers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
 }

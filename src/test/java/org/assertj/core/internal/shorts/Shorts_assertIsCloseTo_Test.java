@@ -13,6 +13,7 @@
 package org.assertj.core.internal.shorts;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
@@ -108,13 +109,13 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     shorts.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    shorts.assertIsCloseTo(someInfo(), ONE, null, within(ONE));
+    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_offset_is_null() {
-    shorts.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 }

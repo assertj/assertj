@@ -140,17 +140,17 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = AssertionError.class)
+  @Test
   public void withAssertions_fail_Test() {
-    fail("Failed");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail("Failed"));
   }
 
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = AssertionError.class)
+  @Test
   public void withAssertions_fail_with_throwable_Test() {
-    fail("Failed", new RuntimeException("expected"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail("Failed", new RuntimeException("expected")));
   }
 
   /**
@@ -588,33 +588,33 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = UncheckedIOException.class)
+  @Test
   public void withAssertions_contentOf_Test() {
-    contentOf(new File("/non-existent file")).contains("a");
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file")).contains("a"));
   }
 
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = UncheckedIOException.class)
+  @Test
   public void withAssertions_contentOf_with_charset_Test() {
-    contentOf(new File("/non-existent file", "UTF-8")).contains("a");
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file", "UTF-8")).contains("a"));
   }
 
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = UncheckedIOException.class)
+  @Test
   public void withAssertions_linesOf_Test() {
-    linesOf(new File("/non-existent file")).contains("a");
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(new File("/non-existent file")).contains("a"));
   }
 
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = UncheckedIOException.class)
+  @Test
   public void withAssertions_linesOf_with_charsetTest() {
-    linesOf(new File("/non-existent file", "UTF-8")).contains("a");
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(new File("/non-existent file", "UTF-8")).contains("a"));
   }
 
   /**
@@ -645,9 +645,9 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = AssertionError.class)
+  @Test
   public void withAssertions_failBecauseExceptionWasNotThrown_Test() {
-    failBecauseExceptionWasNotThrown(Throwable.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> failBecauseExceptionWasNotThrown(Throwable.class));
   }
 
   /**
