@@ -16,13 +16,8 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 
 public class AbstractComparableAssert_isBetween_Test extends AbstractComparableAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Override
   protected ConcreteComparableAssert invoke_api_method() {
