@@ -15,6 +15,8 @@ package org.assertj.core.internal.bigdecimals;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static java.math.BigDecimal.ZERO;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -42,19 +44,19 @@ public class BigDecimals_assertIsCloseToPercentage_Test extends BigDecimalsBaseT
     numbers.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    numbers.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(1));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(1)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_percentage_is_null() {
-    numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_fail_if_percentage_is_negative() {
-    numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
+    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
   // @format:off

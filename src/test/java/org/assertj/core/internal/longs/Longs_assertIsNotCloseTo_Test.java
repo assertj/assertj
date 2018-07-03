@@ -13,6 +13,7 @@
 package org.assertj.core.internal.longs;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
@@ -118,14 +119,14 @@ public class Longs_assertIsNotCloseTo_Test extends LongsBaseTest {
     longs.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    longs.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE));
+    assertThatNullPointerException().isThrownBy(() -> longs.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_offset_is_null() {
-    longs.assertIsNotCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> longs.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 
 }

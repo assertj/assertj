@@ -15,6 +15,7 @@ package org.assertj.core.internal.doubles;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
@@ -84,9 +85,9 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
     doubles.assertIsCloseTo(someInfo(), 6d, null, offset(1d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_throw_error_if_offset_is_null() {
-    doubles.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   @Test

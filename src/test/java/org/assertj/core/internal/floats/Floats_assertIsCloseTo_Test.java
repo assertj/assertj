@@ -15,6 +15,7 @@ package org.assertj.core.internal.floats;
 import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.NaN;
 import static java.lang.Float.POSITIVE_INFINITY;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
@@ -84,9 +85,9 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     floats.assertIsCloseTo(someInfo(), 6f, null, offset(1f));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_throw_error_if_offset_is_null() {
-    floats.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> floats.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   @Test
