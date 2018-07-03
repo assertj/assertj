@@ -22,6 +22,8 @@ import org.junit.runner.RunWith;
 import java.math.BigDecimal;
 
 import static java.math.BigDecimal.*;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
@@ -39,19 +41,19 @@ public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBa
     numbers.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_percentage_is_null() {
-    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_fail_if_percentage_is_negative() {
-    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
+    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
   // @format:off

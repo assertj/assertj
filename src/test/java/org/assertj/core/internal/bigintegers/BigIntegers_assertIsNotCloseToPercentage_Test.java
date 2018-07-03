@@ -15,6 +15,8 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
@@ -42,19 +44,19 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
     numbers.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_percentage_is_null() {
-    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_fail_if_percentage_is_negative() {
-    numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
+    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
   // @format:off

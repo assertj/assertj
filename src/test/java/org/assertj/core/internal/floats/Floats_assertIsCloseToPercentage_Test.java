@@ -15,6 +15,8 @@ package org.assertj.core.internal.floats;
 import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.NaN;
 import static java.lang.Float.POSITIVE_INFINITY;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -44,19 +46,19 @@ public class Floats_assertIsCloseToPercentage_Test extends FloatsBaseTest {
     floats.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    floats.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE));
+    assertThatNullPointerException().isThrownBy(() -> floats.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_percentage_is_null() {
-    floats.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> floats.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_fail_if_percentage_is_negative() {
-    floats.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0f));
+    assertThatIllegalArgumentException().isThrownBy(() -> floats.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0f)));
   }
 
   // @format:off

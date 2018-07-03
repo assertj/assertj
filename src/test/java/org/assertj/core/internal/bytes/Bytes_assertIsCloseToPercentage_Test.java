@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -41,19 +43,19 @@ public class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
     bytes.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    bytes.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE));
+    assertThatNullPointerException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_percentage_is_null() {
-    bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_fail_if_percentage_is_negative() {
-    bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1));
+    assertThatIllegalArgumentException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
   // @format:off

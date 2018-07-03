@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.throwable;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
@@ -31,9 +32,9 @@ public class ThrowableAssert_hasMessage_with_String_format_syntax_Test extends T
     verify(throwables).assertHasMessage(getInfo(assertions), getActual(assertions), "throwable message foo");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_throw_if_String_format_syntax_is_not_met() {
-    assertions.hasMessage("throwable message %s %s %s", "foo");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertions.hasMessage("throwable message %s %s %s", "foo"));
   }
 
 }

@@ -15,6 +15,8 @@ package org.assertj.core.internal.doubles;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -44,19 +46,19 @@ public class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
     doubles.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE));
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_percentage_is_null() {
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_fail_if_percentage_is_negative() {
-    doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0));
+    assertThatIllegalArgumentException().isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0)));
   }
 
   // @format:off

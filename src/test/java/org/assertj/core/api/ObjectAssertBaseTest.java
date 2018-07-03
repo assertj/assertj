@@ -12,11 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.test.ExpectedException.none;
-
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
-import org.junit.Rule;
 
 
 /**

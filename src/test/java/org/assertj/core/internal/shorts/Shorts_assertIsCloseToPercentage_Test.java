@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -41,19 +43,19 @@ public class Shorts_assertIsCloseToPercentage_Test extends ShortsBaseTest {
     shorts.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_expected_value_is_null() {
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE));
+    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_percentage_is_null() {
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void should_fail_if_percentage_is_negative() {
-    shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage((short) -1));
+    assertThatIllegalArgumentException().isThrownBy(() -> shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage((short) -1)));
   }
 
   // @format:off

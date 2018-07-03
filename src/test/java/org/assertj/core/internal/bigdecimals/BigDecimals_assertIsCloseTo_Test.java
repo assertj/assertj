@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigdecimals;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static java.math.BigDecimal.ZERO;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
@@ -82,9 +83,9 @@ public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
     numbers.assertIsCloseTo(someInfo(), new BigDecimal(6.0), null, offset(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_throw_error_if_offset_is_null() {
-    numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   @Test

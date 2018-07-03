@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
@@ -100,14 +101,14 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
     numbers.assertIsCloseTo(someInfo(), null, ONE, offset(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if__expected_value_is_null() {
-    numbers.assertIsCloseTo(someInfo(), ONE, null, within(ONE));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_fail_if_offset_is_null() {
-    numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   // @format:off
@@ -125,9 +126,9 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
     numbers.assertIsCloseTo(someInfo(), SIX, null, offset(ONE));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void should_throw_error_if_offset_is_null() {
-    numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   @Test
