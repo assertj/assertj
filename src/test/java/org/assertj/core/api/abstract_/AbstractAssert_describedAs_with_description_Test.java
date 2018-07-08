@@ -13,15 +13,12 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someDescription;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.description.Description;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -30,9 +27,6 @@ import org.junit.Test;
  * @author Alex Ruiz
  */
 public class AbstractAssert_describedAs_with_description_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private ConcreteAssert assertions;
   private Description description;
