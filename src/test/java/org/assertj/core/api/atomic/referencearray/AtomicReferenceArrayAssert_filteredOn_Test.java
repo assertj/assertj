@@ -97,7 +97,10 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
 
   @Test
   public void should_fail_if_filter_operators_are_combined() {
-    thrown.expectWithMessageStartingWith(UnsupportedOperationException.class, "Combining operator is not supported");
-    assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(employees).filteredOn("age",
+                                                                                                                     not(in(800)))
+                                                                                                         .containsOnly(luke,
+                                                                                                                       noname))
+                                                                  .withMessageStartingWith("Combining operator is not supported");
   }
 }

@@ -128,8 +128,11 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_filter_operators_are_combined() {
-    thrown.expectWithMessageStartingWith(UnsupportedOperationException.class, "Combining operator is not supported");
-    assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(employees).filteredOn("age",
+                                                                                                                     not(in(800)))
+                                                                                                         .containsOnly(luke,
+                                                                                                                       noname))
+                                                                  .withMessageStartingWith("Combining operator is not supported");
   }
 
   @Test

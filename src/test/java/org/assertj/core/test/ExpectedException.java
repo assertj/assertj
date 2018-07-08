@@ -27,7 +27,6 @@ import org.hamcrest.core.AllOf;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
 import org.hamcrest.core.StringContains;
-import org.hamcrest.core.StringStartsWith;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -86,11 +85,6 @@ public class ExpectedException implements TestRule {
     expectMessageContaining(parts);
   }
 
-  public void expectWithMessageStartingWith(Class<? extends Throwable> type, String start) {
-    expect(type);
-    expectMessageStartingWith(start);
-  }
-
   public void expect(Class<? extends Throwable> type) {
     delegate.expect(type);
   }
@@ -115,10 +109,6 @@ public class ExpectedException implements TestRule {
                                                    .map(part -> StringContains.containsString(format(part)))
                                                    .collect(toList());
     delegate.expectMessage(AllOf.allOf(matchers));
-  }
-
-  private void expectMessageStartingWith(String start) {
-    delegate.expectMessage(StringStartsWith.startsWith(format(start)));
   }
 
   private void expectCause(Throwable cause) {
