@@ -12,8 +12,9 @@
  */
 package org.assertj.core.internal.lists;
 
+import static java.lang.String.format;
 import static java.util.Collections.emptyList;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.TestData.*;
@@ -63,8 +64,10 @@ public class Lists_assertContains_Test extends ListsBaseTest {
 
   @Test
   public void should_throw_error_if_Index_is_out_of_bounds() {
-    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive) but was:%n <6>");
-    lists.assertContains(someInfo(), actual, "Yoda", atIndex(6));
+    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> lists.assertContains(someInfo(), actual,
+                                                                                                     "Yoda",
+                                                                                                     atIndex(6)))
+                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
   }
 
   @Test

@@ -78,10 +78,6 @@ public class ExpectedException implements TestRule {
     expect(IllegalArgumentException.class, message);
   }
 
-  public void expectIndexOutOfBoundsException(String message) {
-    expect(IndexOutOfBoundsException.class, message);
-  }
-
   public void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);

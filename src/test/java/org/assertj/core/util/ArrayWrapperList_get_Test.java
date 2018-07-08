@@ -13,8 +13,9 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.ArrayWrapperList;
@@ -45,19 +46,19 @@ public class ArrayWrapperList_get_Test {
 
   @Test
   public void should_throw_error_if_index_is_negative() {
-    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive) but was -1");
-    list.get(-1);
+    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> list.get(-1))
+                                                              .withMessageContaining("Index should be between 0 and 1 (inclusive) but was -1");
   }
 
   @Test
   public void should_throw_error_if_index_is_equal_to_size() {
-    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive) but was 2");
-    list.get(2);
+    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> list.get(2))
+                                                              .withMessageContaining("Index should be between 0 and 1 (inclusive) but was 2");
   }
 
   @Test
   public void should_throw_error_if_index_is_greater_than_size() {
-    thrown.expectIndexOutOfBoundsException("Index should be between 0 and 1 (inclusive) but was 6");
-    list.get(6);
+    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> list.get(6))
+                                                              .withMessageContaining("Index should be between 0 and 1 (inclusive) but was 6");
   }
 }
