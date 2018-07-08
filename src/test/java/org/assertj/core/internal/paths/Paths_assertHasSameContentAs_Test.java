@@ -14,6 +14,7 @@ package org.assertj.core.internal.paths;
 
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
@@ -110,9 +111,12 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
 
-    thrown.expectWithCause(UncheckedIOException.class, cause);
-
-    paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), other, defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasSameContentAs(someInfo(),
+                                                                                                        actual,
+                                                                                                        defaultCharset(),
+                                                                                                        other,
+                                                                                                        defaultCharset()))
+                                                         .withCause(cause);
   }
 
   @Test

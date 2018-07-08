@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -92,9 +93,9 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
 
-    thrown.expectWithCause(UncheckedIOException.class, cause);
-
-    files.assertHasContent(someInfo(), actual, expected, charset);
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasContent(someInfo(), actual,
+                                                                                                  expected, charset))
+                                                         .withCause(cause);
   }
 
   @Test

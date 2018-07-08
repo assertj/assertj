@@ -105,9 +105,11 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenThrow(cause);
 
-    thrown.expectWithCause(UncheckedIOException.class, cause);
-
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected, defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), actual,
+                                                                                                     defaultCharset(),
+                                                                                                     expected,
+                                                                                                     defaultCharset()))
+                                                         .withCause(cause);
   }
 
   @Test

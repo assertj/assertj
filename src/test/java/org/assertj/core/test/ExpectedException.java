@@ -25,7 +25,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.AllOf;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsSame;
 import org.hamcrest.core.StringContains;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -89,11 +88,6 @@ public class ExpectedException implements TestRule {
     delegate.expect(type);
   }
 
-  public void expectWithCause(Class<? extends Throwable> type, Throwable cause) {
-    expect(type);
-    expectCause(cause);
-  }
-
   public void expectMessage(String message) {
     delegate.expectMessage(IsEqual.equalTo(format(message)));
   }
@@ -103,10 +97,6 @@ public class ExpectedException implements TestRule {
                                                    .map(part -> StringContains.containsString(format(part)))
                                                    .collect(toList());
     delegate.expectMessage(AllOf.allOf(matchers));
-  }
-
-  private void expectCause(Throwable cause) {
-    delegate.expectCause(IsSame.sameInstance(cause));
   }
 
   private static class ThrowableMatcher<T extends Throwable> extends TypeSafeMatcher<T> {

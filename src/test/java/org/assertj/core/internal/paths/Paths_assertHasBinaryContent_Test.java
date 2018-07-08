@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
@@ -111,9 +112,9 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 
-    thrown.expectWithCause(UncheckedIOException.class, cause);
-
-    paths.assertHasBinaryContent(someInfo(), path, expected);
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(),
+                                                                                                        path, expected))
+                                                         .withCause(cause);
   }
 
   @Test
