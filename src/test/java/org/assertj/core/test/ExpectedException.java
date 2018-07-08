@@ -94,12 +94,6 @@ public class ExpectedException implements TestRule {
     expectCause(cause);
   }
 
-  public void expectWithCause(Class<? extends Throwable> type, String message, Throwable cause) {
-    expect(type);
-    expectMessage(message);
-    expectCause(cause);
-  }
-
   public void expectMessage(String message) {
     delegate.expectMessage(IsEqual.equalTo(format(message)));
   }

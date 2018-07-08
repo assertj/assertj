@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -56,9 +57,9 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 	final IOException exception = new IOException();
 	when(actual.toRealPath()).thenThrow(exception);
 
-    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", exception);
-
-    paths.assertStartsWith(info, actual, other);
+    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertStartsWith(info, actual, other))
+                                                   .withMessage("failed to resolve actual real path")
+                                                   .withCause(exception);
   }
 
   @Test
@@ -67,9 +68,9 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 	when(actual.toRealPath()).thenReturn(canonicalActual);
 	when(other.toRealPath()).thenThrow(exception);
 
-    thrown.expectWithCause(PathsException.class, "failed to resolve argument real path", exception);
-
-    paths.assertStartsWith(info, actual, other);
+    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertStartsWith(info, actual, other))
+                                                   .withMessage("failed to resolve argument real path")
+                                                   .withCause(exception);
   }
 
   @Test

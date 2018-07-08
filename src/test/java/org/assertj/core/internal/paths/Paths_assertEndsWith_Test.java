@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -41,12 +42,12 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_with_PathsException_if_actual_cannot_be_resolved() throws IOException {
-	final IOException causeException = new IOException();
-	when(actual.toRealPath()).thenThrow(causeException);
+    final IOException causeException = new IOException();
+    when(actual.toRealPath()).thenThrow(causeException);
 
-    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", causeException);
-
-    paths.assertEndsWith(info, actual, other);
+    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertEndsWith(info, actual, other))
+                                                   .withMessage("failed to resolve actual real path")
+                                                   .withCause(causeException);
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -38,9 +39,9 @@ public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
 	final IOException exception = new IOException();
 	when(actual.toRealPath()).thenThrow(exception);
 
-    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", exception);
-
-    paths.assertIsCanonical(info, actual);
+    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertIsCanonical(info, actual))
+                                                   .withMessage("failed to resolve actual real path")
+                                                   .withCause(exception);
   }
 
   @Test

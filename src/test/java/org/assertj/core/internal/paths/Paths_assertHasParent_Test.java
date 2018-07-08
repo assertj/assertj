@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -54,12 +55,12 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_cannot_be_canonicalized() throws IOException {
-	final IOException exception = new IOException();
-	when(actual.toRealPath()).thenThrow(exception);
+    final IOException exception = new IOException();
+    when(actual.toRealPath()).thenThrow(exception);
 
-    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", exception);
-
-    paths.assertHasParent(info, actual, expected);
+    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertHasParent(info, actual, expected))
+                                                   .withMessage("failed to resolve actual real path")
+                                                   .withCause(exception);
   }
 
   @Test
@@ -69,9 +70,9 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 	when(actual.toRealPath()).thenReturn(canonicalActual);
 	when(expected.toRealPath()).thenThrow(exception);
 
-    thrown.expectWithCause(PathsException.class, "failed to resolve argument real path", exception);
-
-    paths.assertHasParent(info, actual, expected);
+    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertHasParent(info, actual, expected))
+                                                   .withMessage("failed to resolve argument real path")
+                                                   .withCause(exception);
   }
 
   @Test
