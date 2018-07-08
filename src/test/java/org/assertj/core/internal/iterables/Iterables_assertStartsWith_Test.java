@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -60,8 +61,7 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    iterables.assertStartsWith(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertStartsWith(someInfo(), actual, emptyArray()));
   }
 
   @Test

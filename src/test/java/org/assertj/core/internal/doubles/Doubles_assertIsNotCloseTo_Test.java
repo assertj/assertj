@@ -16,6 +16,7 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
@@ -139,20 +140,17 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_if_actual_and_expected_are_NaN() {
-    thrown.expectAssertionError();
-    doubles.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
   }
 
 }

@@ -13,6 +13,7 @@
 package org.assertj.core.api.date;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.DateUtil.parseDatetime;
@@ -52,8 +53,7 @@ public class DateAssert_hasSameTimeAsDateInString_Test extends DateAssertBaseTes
   @Test
   public void should_fail_when_checking_if_date_has_same_time_as_other_date() {
     Date date = parseDatetime("2003-04-26T12:00:00");
-    thrown.expectAssertionError();
-    assertThat(date).hasSameTimeAs("2003-04-27T12:00:00");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(date).hasSameTimeAs("2003-04-27T12:00:00"));
   }
 
   @Test

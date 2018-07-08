@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -59,14 +60,12 @@ public class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extend
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(6, 8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(6, 8)));
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray()));
   }
 
   @Test
@@ -132,8 +131,7 @@ public class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extend
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError();
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray()));
   }
 
   @Test

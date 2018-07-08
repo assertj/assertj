@@ -13,6 +13,7 @@
 package org.assertj.core.api.date;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.setLenientDateParsing;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.DateUtil.parseDatetime;
@@ -73,8 +74,7 @@ public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
   @Test
   public void should_fail_if_given_date_string_representation_cant_be_parsed() {
     final String dateAsString = "2001/02/03";
-    thrown.expectAssertionError();
-    assertThat(new Date()).isEqualTo(dateAsString);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Date()).isEqualTo(dateAsString));
   }
 
   @Test

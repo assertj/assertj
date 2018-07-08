@@ -16,6 +16,7 @@ import org.assertj.core.api.*;
 import org.assertj.core.internal.*;
 import org.junit.*;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.TestData.*;
@@ -50,14 +51,12 @@ public class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArr
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array()));
   }
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Luke", "Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Luke", "Yoda")));
   }
 
   @Test

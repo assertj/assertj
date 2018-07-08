@@ -16,6 +16,7 @@ import org.assertj.core.api.*;
 import org.assertj.core.internal.*;
 import org.junit.*;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.ShortArrays.*;
@@ -48,14 +49,12 @@ public class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArray
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6, 8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6, 8)));
   }
 
   @Test
   public void should_fail_if_expected_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray()));
   }
 
   @Test
@@ -147,8 +146,7 @@ public class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArray
 
   @Test
   public void should_fail_if_expected_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError();
-    arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray()));
   }
 
   @Test

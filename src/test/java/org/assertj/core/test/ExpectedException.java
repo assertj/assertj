@@ -54,10 +54,6 @@ public class ExpectedException implements TestRule {
     return delegate.apply(base, description);
   }
 
-  public void expectAssertionError() {
-    expect(AssertionError.class);
-  }
-
   public void expectAssertionError(String message) {
     expect(AssertionError.class, message);
   }
