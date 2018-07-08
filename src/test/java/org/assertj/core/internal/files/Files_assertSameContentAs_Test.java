@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -133,14 +135,16 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_files_are_not_binary_identical() throws IOException {
-    thrown.expectWithMessageEndingWith(AssertionError.class,
-                                       "does not have expected binary content at offset <0>, expecting:%n" +
-                                       " <\"EOF\">%n" +
-                                       "but was:%n" +
-                                       " <\"0x0\">");
-    unMockedFiles.assertSameContentAs(someInfo(),
-                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
-                                      expected, StandardCharsets.UTF_8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(someInfo(),
+                                                                                                       createFileWithNonUTF8Character(),
+                                                                                                       StandardCharsets.UTF_8,
+                                                                                                       expected,
+                                                                                                       StandardCharsets.UTF_8))
+                                                   .withMessageEndingWith(format("does not have expected binary content at offset <0>, expecting:%n"
+                                                                                 +
+                                                                                 " <\"EOF\">%n" +
+                                                                                 "but was:%n" +
+                                                                                 " <\"0x0\">"));
   }
 
   private File createFileWithNonUTF8Character() throws IOException {

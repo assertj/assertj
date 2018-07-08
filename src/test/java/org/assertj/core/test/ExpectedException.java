@@ -12,10 +12,9 @@
  */
 package org.assertj.core.test;
 
-import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +27,6 @@ import org.hamcrest.core.AllOf;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
 import org.hamcrest.core.StringContains;
-import org.hamcrest.core.StringEndsWith;
 import org.hamcrest.core.StringStartsWith;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -93,11 +91,6 @@ public class ExpectedException implements TestRule {
     expectMessageStartingWith(start);
   }
 
-  public void expectWithMessageEndingWith(Class<? extends Throwable> type, String end) {
-    expect(type);
-    expectMessageEndingWith(end);
-  }
-
   public void expect(Class<? extends Throwable> type) {
     delegate.expect(type);
   }
@@ -126,10 +119,6 @@ public class ExpectedException implements TestRule {
 
   private void expectMessageStartingWith(String start) {
     delegate.expectMessage(StringStartsWith.startsWith(format(start)));
-  }
-
-  private void expectMessageEndingWith(String end) {
-    delegate.expectMessage(StringEndsWith.endsWith(format(end)));
   }
 
   private void expectCause(Throwable cause) {
