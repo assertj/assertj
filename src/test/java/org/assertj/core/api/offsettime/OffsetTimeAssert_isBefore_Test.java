@@ -20,29 +20,22 @@ import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
 
-  @Theory
-  public void test_isBefore_assertion(OffsetTime referenceTime, OffsetTime timeBefore, OffsetTime timeEqual,
-                                      OffsetTime timeAfter) {
-    // GIVEN
-    testAssumptions(referenceTime, timeBefore, timeEqual, timeAfter);
+  @Test
+  public void test_isBefore_assertion() {
     // WHEN
-    assertThat(timeBefore).isBefore(referenceTime);
-    assertThat(timeBefore).isBefore(referenceTime.toString());
+    assertThat(BEFORE).isBefore(REFERENCE);
+    assertThat(BEFORE).isBefore(REFERENCE.toString());
     // THEN
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(referenceTime, referenceTime);
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(timeAfter, referenceTime);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test

@@ -21,29 +21,22 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.OffsetDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetDateTimeAssert_isBefore_Test extends OffsetDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isBefore_assertion(OffsetDateTime reference, OffsetDateTime dateBefore, OffsetDateTime dateEqual,
-                                      OffsetDateTime dateAfter) {
-    // GIVEN
-    testAssumptions(reference, dateBefore, dateEqual, dateAfter);
+  @Test
+  public void test_isBefore_assertion() {
     // WHEN
-    assertThat(dateBefore).isBefore(reference);
-    assertThat(dateBefore).isBefore(reference.toString());
+    assertThat(BEFORE).isBefore(REFERENCE);
+    assertThat(BEFORE).isBefore(REFERENCE.toString());
     // THEN
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(reference, reference);
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(dateAfter, reference);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test

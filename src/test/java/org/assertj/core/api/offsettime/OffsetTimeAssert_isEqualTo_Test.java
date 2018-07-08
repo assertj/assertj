@@ -19,22 +19,16 @@ import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
 
-  @Theory
-  public void test_isEqualTo_assertion(OffsetTime referenceTime, OffsetTime timeBefore, OffsetTime timeEqual,
-                                       OffsetTime timeAfter) {
-    testAssumptions(referenceTime, timeBefore, timeEqual, timeAfter);
+  @Test
+  public void test_isEqualTo_assertion() {
     // WHEN
-    assertThat(timeEqual).isEqualTo(referenceTime);
-    assertThat(timeEqual).isEqualTo(referenceTime.toString());
+    assertThat(REFERENCE).isEqualTo(REFERENCE);
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
     // THEN
-    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(referenceTime);
+    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(REFERENCE);
   }
 
   @Test

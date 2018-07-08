@@ -19,9 +19,6 @@ import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link java.time.OffsetTime} are already defined in assertj-core)
@@ -29,16 +26,15 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetTimeAssert_isIn_Test extends OffsetTimeAssertBaseTest {
 
-  @Theory
-  public void test_isIn_assertion(OffsetTime referenceTime) {
+  @Test
+  public void test_isIn_assertion() {
     // WHEN
-    assertThat(referenceTime).isIn(referenceTime, referenceTime.plusHours(1));
-    assertThat(referenceTime).isIn(referenceTime.toString(), referenceTime.plusHours(1).toString());
+    assertThat(REFERENCE).isIn(REFERENCE, REFERENCE.plusHours(1));
+    assertThat(REFERENCE).isIn(REFERENCE.toString(), REFERENCE.plusHours(1).toString());
     // THEN
-    verify_that_isIn_assertion_fails_and_throws_AssertionError(referenceTime);
+    verify_that_isIn_assertion_fails_and_throws_AssertionError(REFERENCE);
   }
 
   @Test

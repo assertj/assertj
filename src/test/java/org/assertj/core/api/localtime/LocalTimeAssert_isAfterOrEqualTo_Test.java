@@ -19,28 +19,21 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.LocalTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalTimeAssert_isAfterOrEqualTo_Test extends LocalTimeAssertBaseTest {
 
-  @Theory
-  public void test_isAfterOrEqual_assertion(LocalTime referenceTime, LocalTime timeBefore,
-	                                        LocalTime timeAfter) {
-	// GIVEN
-	testAssumptions(referenceTime, timeBefore, timeAfter);
+  @Test
+  public void test_isAfterOrEqual_assertion() {
 	// WHEN
-	assertThat(timeAfter).isAfterOrEqualTo(referenceTime);
-	assertThat(referenceTime).isAfterOrEqualTo(referenceTime);
+	assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
+	assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
 	// THEN
-	verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(timeBefore, referenceTime);
+	verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test

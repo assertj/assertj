@@ -19,28 +19,21 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.LocalDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalDateTimeAssert_isBeforeOrEqualTo_Test extends LocalDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isBeforeOrEqual_assertion(LocalDateTime referenceDate, LocalDateTime dateBefore,
-      LocalDateTime dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isBeforeOrEqual_assertion() {
     // WHEN
-    assertThat(dateBefore).isBeforeOrEqualTo(referenceDate);
-    assertThat(referenceDate).isBeforeOrEqualTo(referenceDate);
+    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
     // THEN
-    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);
+    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test

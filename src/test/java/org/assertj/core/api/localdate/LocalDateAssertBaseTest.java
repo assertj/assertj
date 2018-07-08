@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api.localdate;
 
-import static org.junit.Assume.assumeTrue;
-
 import java.time.LocalDate;
 
 import org.assertj.core.api.AbstractLocalDateAssert;
 import org.assertj.core.api.BaseTest;
-import org.junit.experimental.theories.DataPoint;
 
 
 /**
@@ -28,16 +25,8 @@ import org.junit.experimental.theories.DataPoint;
  */
 public class LocalDateAssertBaseTest extends BaseTest {
 
-  @DataPoint
-  public static LocalDate localDate1 = LocalDate.now().minusDays(10);
-  @DataPoint
-  public static LocalDate localDate2 = LocalDate.now();
-  @DataPoint
-  public static LocalDate localDate3 = LocalDate.now().plusDays(10);
-
-  protected static void testAssumptions(LocalDate reference, LocalDate dateBefore, LocalDate dateAfter) {
-    assumeTrue(dateBefore.isBefore(reference));
-    assumeTrue(dateAfter.isAfter(reference));
-  }
+  public static final LocalDate BEFORE = LocalDate.now().minusDays(1);
+  public static final LocalDate REFERENCE = LocalDate.now();
+  public static final LocalDate AFTER = LocalDate.now().plusDays(1);
 
 }

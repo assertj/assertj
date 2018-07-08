@@ -12,25 +12,21 @@
  */
 package org.assertj.core.api.instant;
 
-import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
-
-import java.time.Instant;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@RunWith(Theories.class)
+import java.time.Instant;
+
+import org.junit.Test;
+
 public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
 
-  @Theory
-  public void test_isEqualTo_assertion(Instant referenceDate) {
+  @Test
+  public void test_isEqualTo_assertion() {
     // WHEN
-    assertThat(referenceDate).isEqualTo(referenceDate.toString());
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(referenceDate).isEqualTo(referenceDate.plusSeconds(1)
+    assertThatThrownBy(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusSeconds(1)
                                                                               .toString())).isInstanceOf(AssertionError.class);
   }
 

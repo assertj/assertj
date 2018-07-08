@@ -18,9 +18,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link LocalDateTime} are already defined in assertj-core)
@@ -28,15 +25,14 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalDateTimeAssert_isNotEqualTo_Test extends LocalDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isNotEqualTo_assertion(LocalDateTime referenceDate) {
+  @Test
+  public void test_isNotEqualTo_assertion() {
     // WHEN
-    assertThat(referenceDate).isNotEqualTo(referenceDate.plusDays(1).toString());
+    assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusDays(1).toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(referenceDate).isNotEqualTo(referenceDate.toString())).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test

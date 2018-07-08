@@ -19,20 +19,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.Instant;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class InstantAssert_isIn_Test extends InstantAssertBaseTest {
 
-  @Theory
-  public void test_isIn_assertion(Instant referenceDate) {
+  @Test
+  public void test_isIn_assertion() {
     // WHEN
-    assertThat(referenceDate).isIn(referenceDate.toString(), referenceDate.plusSeconds(1).toString());
+    assertThat(REFERENCE).isIn(REFERENCE.toString(), REFERENCE.plusSeconds(1).toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(referenceDate).isIn(referenceDate.plusSeconds(1).toString(),
-                                                            referenceDate.plusSeconds(2).toString()))
+    assertThatThrownBy(() -> assertThat(REFERENCE).isIn(REFERENCE.plusSeconds(1).toString(),
+                                                        REFERENCE.plusSeconds(2).toString()))
                                                                                                      .isInstanceOf(AssertionError.class);
   }
 

@@ -20,30 +20,23 @@ import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetTimeAssert_isAfterOrEqualTo_Test extends OffsetTimeAssertBaseTest {
 
-  @Theory
-  public void test_isAfterOrEqual_assertion(OffsetTime referenceTime, OffsetTime timeBefore, OffsetTime timeEqual,
-                                            OffsetTime timeAfter) {
-    // GIVEN
-    testAssumptions(referenceTime, timeBefore, timeEqual, timeAfter);
+  @Test
+  public void test_isAfterOrEqual_assertion() {
     // WHEN
-    assertThat(timeAfter).isAfterOrEqualTo(referenceTime);
-    assertThat(timeAfter).isAfterOrEqualTo(referenceTime.toString());
-    assertThat(timeEqual).isAfterOrEqualTo(referenceTime);
-    assertThat(timeEqual).isAfterOrEqualTo(referenceTime.toString());
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE.toString());
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE.toString());
     // THEN
-    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(timeBefore, referenceTime);
+    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test

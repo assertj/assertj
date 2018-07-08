@@ -30,20 +30,16 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetDateTimeAssert_isEqualTo_Test extends OffsetDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isEqualTo_assertion(OffsetDateTime reference, OffsetDateTime dateBefore, OffsetDateTime dateEqual,
-                                       OffsetDateTime dateAfter) {
-    // GIVEN
-    testAssumptions(reference, dateBefore, dateEqual, dateAfter);
+  @Test
+  public void test_isEqualTo_assertion() {
     // WHEN
-    assertThat(dateEqual).isEqualTo(reference);
-    assertThat(dateEqual).isEqualTo(reference.toString());
+    assertThat(REFERENCE).isEqualTo(REFERENCE);
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(reference).isEqualTo(reference.plusSeconds(1)
-                                                                 .toString())).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusSeconds(1)
+                                                                      .toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test

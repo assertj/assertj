@@ -21,30 +21,23 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.OffsetDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetDateTimeAssert_isAfterOrEqualTo_Test extends OffsetDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isAfterOrEqual_assertion(OffsetDateTime reference, OffsetDateTime dateBefore, OffsetDateTime dateEqual,
-                                            OffsetDateTime dateAfter) {
-    // GIVEN
-    testAssumptions(reference, dateBefore, dateEqual, dateAfter);
+  @Test
+  public void test_isAfterOrEqual_assertion() {
     // WHEN
-    assertThat(dateAfter).isAfterOrEqualTo(reference);
-    assertThat(dateAfter).isAfterOrEqualTo(reference.toString());
-    assertThat(dateEqual).isAfterOrEqualTo(reference);
-    assertThat(dateEqual).isAfterOrEqualTo(reference.toString());
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE.toString());
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE.toString());
     // THEN
-    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(dateBefore, reference);
+    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test

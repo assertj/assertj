@@ -18,9 +18,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link java.time.LocalDateTime} are already defined in assertj-core)
@@ -28,16 +25,15 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalDateTimeAssert_isEqualTo_Test extends LocalDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isEqualTo_assertion(LocalDateTime referenceDate) {
+  @Test
+  public void test_isEqualTo_assertion() {
     // WHEN
-    assertThat(referenceDate).isEqualTo(referenceDate.toString());
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(referenceDate).isEqualTo(referenceDate.plusSeconds(1)
-                                                                 .toString())).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusSeconds(1)
+                                                                      .toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test

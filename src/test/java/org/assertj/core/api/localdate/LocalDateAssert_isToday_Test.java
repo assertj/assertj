@@ -20,22 +20,16 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.LocalDate;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
 
-  @Theory
-  public void test_isToday_assertion(LocalDate referenceDate, LocalDate dateBefore, LocalDate dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isToday_assertion() {
     // WHEN
-    assertThat(referenceDate).isToday();
+    assertThat(REFERENCE).isToday();
     // THEN
-    verify_that_isToday_assertion_fails_and_throws_AssertionError(dateBefore);
-    verify_that_isToday_assertion_fails_and_throws_AssertionError(dateAfter);
+    verify_that_isToday_assertion_fails_and_throws_AssertionError(BEFORE);
+    verify_that_isToday_assertion_fails_and_throws_AssertionError(AFTER);
   }
 
   @Test

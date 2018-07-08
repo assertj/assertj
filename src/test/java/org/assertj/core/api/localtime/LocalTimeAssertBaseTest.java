@@ -12,35 +12,17 @@
  */
 package org.assertj.core.api.localtime;
 
-import static org.junit.Assume.assumeTrue;
-
 import java.time.LocalTime;
 
 import org.assertj.core.api.AbstractLocalTimeAssert;
 import org.assertj.core.api.BaseTest;
-import org.junit.experimental.theories.DataPoint;
 
 /**
  * Base test class for {@link AbstractLocalTimeAssert} tests.
  */
 public class LocalTimeAssertBaseTest extends BaseTest {
 
-  @DataPoint
-  public static LocalTime localTime1 = LocalTime.of(0, 0);
-  @DataPoint
-  public static LocalTime localTime2 = LocalTime.of(23, 59, 59, 999);
-  @DataPoint
-  public static LocalTime localTime3 = LocalTime.of(0, 0, 0, 1);
-  @DataPoint
-  public static LocalTime localTime4 = LocalTime.of(22, 15, 15, 875);
-  @DataPoint
-  public static LocalTime localTime5 = LocalTime.of(22, 15, 15, 874);
-  @DataPoint
-  public static LocalTime localTime6 = LocalTime.of(22, 15, 15, 876);
-
-  protected static void testAssumptions(LocalTime reference, LocalTime timeBefore, LocalTime timeAfter) {
-    assumeTrue(timeBefore.isBefore(reference));
-    assumeTrue(timeAfter.isAfter(reference));
-  }
-
+  public static final LocalTime REFERENCE = LocalTime.of(0, 0, 0, 1);
+  public static final LocalTime BEFORE = LocalTime.of(0, 0, 0, 0);
+  public static final LocalTime AFTER = LocalTime.of(0, 0, 0, 2);
 }
