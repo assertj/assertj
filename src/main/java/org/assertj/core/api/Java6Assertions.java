@@ -1019,7 +1019,6 @@ public class Java6Assertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }

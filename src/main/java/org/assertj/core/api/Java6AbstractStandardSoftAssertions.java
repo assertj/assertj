@@ -721,7 +721,6 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  @CheckReturnValue
   public AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
