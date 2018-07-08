@@ -82,10 +82,6 @@ public class ExpectedException implements TestRule {
     expect(IndexOutOfBoundsException.class, message);
   }
 
-  public void expectUnsupportedOperationException(String message) {
-    expect(UnsupportedOperationException.class, message);
-  }
-
   public void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);
