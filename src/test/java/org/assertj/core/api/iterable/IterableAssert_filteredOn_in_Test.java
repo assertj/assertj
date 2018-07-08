@@ -96,8 +96,9 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOn("secret", in("???"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
+                                                                                                          in("???")))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   // these tests validate any FilterOperator with strongly typed navigation assertions

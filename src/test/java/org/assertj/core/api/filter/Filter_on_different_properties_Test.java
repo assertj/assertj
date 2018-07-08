@@ -13,10 +13,12 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.filter.Filters.filter;
 
 import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class Filter_on_different_properties_Test extends WithPlayerData {
@@ -31,8 +33,11 @@ public class Filter_on_different_properties_Test extends WithPlayerData {
 
   @Test
   public void should_fail_if_elements_to_filter_do_not_have_one_of_the_property_or_field_used_by_filter() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'numberOfTitle'");
-    filter(players).with("reboundsPerGame").equalsTo(5).and("numberOfTitle").notEqualsTo(0);
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> filter(players).with("reboundsPerGame")
+                                                                                        .equalsTo(5)
+                                                                                        .and("numberOfTitle")
+                                                                                        .notEqualsTo(0))
+                                                       .withMessageContaining("Can't find any field or property with name 'numberOfTitle'");
   }
 
 }

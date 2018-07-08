@@ -90,8 +90,9 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOn("secret", "???");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
+                                                                                                          "???"))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test

@@ -85,8 +85,9 @@ public class ObjectArrayAssert_filteredOn_notIn_Test extends ObjectArrayAssert_f
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOn("secret", notIn("???"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
+                                                                                                          notIn("???")))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
 }

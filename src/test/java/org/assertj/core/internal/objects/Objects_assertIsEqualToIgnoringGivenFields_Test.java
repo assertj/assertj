@@ -13,6 +13,7 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.TestData.someInfo;
@@ -38,6 +39,7 @@ import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Person;
 import org.assertj.core.test.TestClassWithRandomId;
 import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 /**
@@ -167,10 +169,10 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
 
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'lightSaberColor'");
-
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
-                                               defaultTypeComparators(), "name");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                                 defaultTypeComparators(), "name");
+    }).withMessageContaining("Can't find any field or property with name 'lightSaberColor'");
   }
 
   @Test

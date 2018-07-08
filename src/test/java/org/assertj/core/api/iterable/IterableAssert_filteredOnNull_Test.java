@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
@@ -24,6 +25,7 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTest {
@@ -40,8 +42,8 @@ public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOnNull("secret");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOnNull("secret"))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test

@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.AllOf;
@@ -85,10 +84,6 @@ public class ExpectedException implements TestRule {
 
   public void expectUnsupportedOperationException(String message) {
     expect(UnsupportedOperationException.class, message);
-  }
-
-  public void expectIntrospectionErrorWithMessageContaining(String... parts) {
-    expectWithMessageContaining(IntrospectionError.class, parts);
   }
 
   public void expect(Class<? extends Throwable> type, String message) {

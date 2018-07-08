@@ -105,8 +105,9 @@ public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOn("secret", not("???"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
+                                                                                                          not("???")))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test
