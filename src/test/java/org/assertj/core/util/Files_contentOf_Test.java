@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
@@ -54,8 +55,8 @@ public class Files_contentOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
-    thrown.expect(UncheckedIOException.class);
-    Files.contentOf(missingFile, Charset.defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> Files.contentOf(missingFile,
+                                                                                           Charset.defaultCharset()));
   }
 
   @Test

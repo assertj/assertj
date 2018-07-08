@@ -12,17 +12,14 @@
  */
 package org.assertj.core.api.boolean_;
 
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.BooleanAssert;
 import org.assertj.core.api.BooleanAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -32,9 +29,6 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  */
 public class BooleanAssert_usingComparator_Test extends BooleanAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Mock
   private Comparator<Boolean> comparator;
@@ -48,9 +42,9 @@ public class BooleanAssert_usingComparator_Test extends BooleanAssertBaseTest {
   @Test
   @SuppressWarnings("deprecation")
   public void should_have_internal_effects() {
-    thrown.expect(UnsupportedOperationException.class);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
     // in that, we don't care of the comparator, the point to check is that we can't use a comparator
-    assertions.usingComparator(comparator);
+    assertions.usingComparator(comparator));
   }
 
   @Override

@@ -134,11 +134,10 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_RuntimeException() {
-    thrown.expect(RuntimeException.class);
-    assertThat(jedis).extracting(input -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(input -> {
       if (input.getAge() > 100) throw new RuntimeException("age > 100");
       return input.getName().getFirst();
-    });
+    }));
   }
 
   @Test
@@ -148,20 +147,18 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
-    thrown.expect(RuntimeException.class, "java.lang.Exception: age > 100");
-    assertThat(jedis).extracting(employee -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
       return employee.getName().getFirst();
-    });
+    })).withMessage("java.lang.Exception: age > 100");
   }
 
   @Test
   public void should_let_throwing_extractor_runtime_exception_bubble_up() {
-    thrown.expect(RuntimeException.class, "age > 100");
-    assertThat(jedis).extracting(employee -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
       return employee.getName().getFirst();
-    });
+    })).withMessage("age > 100");
   }
 
   @Test

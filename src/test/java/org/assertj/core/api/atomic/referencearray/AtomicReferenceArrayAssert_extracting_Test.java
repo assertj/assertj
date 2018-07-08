@@ -134,32 +134,29 @@ public class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   public void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
-    thrown.expect(RuntimeException.class, "age > 100");
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Extractor<Employee, String>() {
       @Override
       public String extract(Employee employee) {
         if (employee.getAge() > 100) throw new RuntimeException("age > 100");
         return employee.getName().getFirst();
       }
-    });
+    })).withMessage("age > 100");
   }
 
   @Test
   public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
-    thrown.expect(RuntimeException.class, "java.lang.Exception: age > 100");
-    assertThat(employees).extracting(employee -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
       return employee.getName().getFirst();
-    });
+    })).withMessage("java.lang.Exception: age > 100");
   }
 
   @Test
   public void should_let_throwing_extractor_runtime_exception_bubble_up() {
-    thrown.expect(RuntimeException.class, "age > 100");
-    assertThat(employees).extracting(employee -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
       return employee.getName().getFirst();
-    });
+    })).withMessage("age > 100");
   }
 
   @Test

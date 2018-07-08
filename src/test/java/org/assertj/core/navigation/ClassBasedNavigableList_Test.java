@@ -22,6 +22,7 @@ import org.assertj.core.test.VehicleFactory;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
 
@@ -32,9 +33,11 @@ public class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
 
   @Test
   public void do_not_swallow_reflection_problem() {
-    thrown.expectWithMessageContaining(RuntimeException.class, "not access a member of class org.assertj.core.test.IllegalVehicleAssert");
-    assertThat(expectedVehicles, IllegalVehicleAssert.class)
-      .toAssert(new VehicleFactory.Car("car"), "unused");
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(expectedVehicles,
+                                                                                  IllegalVehicleAssert.class)
+                                                                                                             .toAssert(new VehicleFactory.Car("car"),
+                                                                                                                       "unused"))
+                                                     .withMessageContaining("not access a member of class org.assertj.core.test.IllegalVehicleAssert");
   }
 
 }

@@ -113,8 +113,7 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_given_expected_value_is_null() {
-    thrown.expectWithMessageContaining(IllegalArgumentException.class,
-                                       "The expected value should not be null.%n"
+    thrown.expectIllegalArgumentException("The expected value should not be null.%n"
                                                                        + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
     assertThat(employees).filteredOn("name", null);
   }

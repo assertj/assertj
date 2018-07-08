@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
@@ -62,8 +63,8 @@ public class Files_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    thrown.expect(UncheckedIOException.class);
-    linesOf(missingFile, Charset.defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(missingFile,
+                                                                                   Charset.defaultCharset()));
   }
 
   @Test

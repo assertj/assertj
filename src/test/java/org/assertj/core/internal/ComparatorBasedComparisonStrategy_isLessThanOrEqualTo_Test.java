@@ -41,8 +41,8 @@ public class ComparatorBasedComparisonStrategy_isLessThanOrEqualTo_Test extends 
 
   @Test
   public void should_fail_if_a_parameter_is_not_comparable() {
-    thrown.expect(ClassCastException.class);
-    caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(new Rectangle(), new Rectangle());
+    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(new Rectangle(),
+                                                                                                                               new Rectangle()));
   }
 
 }

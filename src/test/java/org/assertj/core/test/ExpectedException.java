@@ -75,12 +75,12 @@ public class ExpectedException implements TestRule {
     expect(IllegalArgumentException.class, message);
   }
 
-  public void expect(Class<? extends Throwable> type, String message) {
+  private void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);
   }
 
-  public void expectWithMessageContaining(Class<? extends Throwable> type, String... parts) {
+  private void expectWithMessageContaining(Class<? extends Throwable> type, String... parts) {
     expect(type);
     expectMessageContaining(parts);
   }

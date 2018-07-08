@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
@@ -162,15 +163,16 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
 
   @Test
   public void should_fail_when_selected_field_does_not_exist() {
-    thrown.expect(IntrospectionError.class, "%nCan't find any field or property with name 'age'.%n" +
-                                            "Error when introspecting properties was :%n" +
-                                            "- No getter for property 'age' in org.assertj.core.test.Jedi %n" +
-                                            "Error when introspecting fields was :%n" +
-                                            "- Unable to obtain the value of the field <'age'> from <Yoda the Jedi>");
-    Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
-                                                    defaultTypeComparators(), "age");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      Jedi actual = new Jedi("Yoda", "Green");
+      Jedi other = new Jedi("Yoda", "Blue");
+      objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                                      defaultTypeComparators(), "age");
+    }).withMessage(format("%nCan't find any field or property with name 'age'.%n" +
+                          "Error when introspecting properties was :%n" +
+                          "- No getter for property 'age' in org.assertj.core.test.Jedi %n" +
+                          "Error when introspecting fields was :%n" +
+                          "- Unable to obtain the value of the field <'age'> from <Yoda the Jedi>"));
   }
 
   @Test
