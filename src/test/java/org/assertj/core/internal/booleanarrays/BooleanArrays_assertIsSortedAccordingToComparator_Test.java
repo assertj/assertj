@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
@@ -68,8 +69,7 @@ public class BooleanArrays_assertIsSortedAccordingToComparator_Test extends Bool
 
   @Test
   public void should_fail_if_comparator_is_null() {
-    thrown.expectNullPointerException();
-    arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null));
   }
 
   @Test

@@ -13,12 +13,10 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Strings#join(String...)}</code>.
@@ -27,18 +25,14 @@ import org.assertj.core.test.ExpectedException;
  */
 public class Strings_join_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   @Test
   public void should_throw_error_if_delimiter_is_null() {
-    thrown.expectIllegalArgumentException();
-    Strings.join(null, "Uno", "Dos").with(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> Strings.join(null, "Uno", "Dos").with(null));
   }
 
   @Test
   public void should_return_empty_String_if_array_to_join_is_null() {
-    assertThat( Strings.join((String[]) null).with("|")).isEmpty();
+    assertThat(Strings.join((String[]) null).with("|")).isEmpty();
   }
 
   @Test

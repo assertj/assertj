@@ -13,6 +13,7 @@
 package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
@@ -81,8 +82,7 @@ public class IterableAssert_flatExtracting_with_String_parameter_Test {
 
   @Test
   public void should_throw_exception_when_extracting_from_null() {
-    thrown.expectIllegalArgumentException();
-    assertThat(newArrayList(homer, null)).flatExtracting("children");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting("children"));
   }
 
   @Test

@@ -16,6 +16,7 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
@@ -113,20 +114,17 @@ public class Doubles_assertIsNotCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_if_actual_and_expected_are_NaN() {
-    thrown.expectAssertionError();
-    doubles.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    thrown.expectAssertionError();
-    doubles.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE)));
   }
 
   @Test

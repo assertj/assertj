@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.booleanarray;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.Comparator;
@@ -38,8 +39,7 @@ public class BooleanArrayAssert_usingDefaultElementComparator_Test extends Boole
   @Test
   @SuppressWarnings("deprecation")
   public void should_have_internal_effects() {
-    thrown.expect(UnsupportedOperationException.class);
-    assertions.usingDefaultElementComparator();
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertions.usingDefaultElementComparator());
   }
 
   @Override

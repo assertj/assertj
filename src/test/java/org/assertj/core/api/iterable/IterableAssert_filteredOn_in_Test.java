@@ -13,12 +13,14 @@
 package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_baseTest {
@@ -48,10 +50,11 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
-    thrown.expectIntrospectionError();
     setAllowExtractingPrivateFields(false);
     try {
-      assertThat(employees).filteredOn("city", in("New York")).isEmpty();
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+        assertThat(employees).filteredOn("city", in("New York")).isEmpty();
+      });
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -93,8 +96,9 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOn("secret", in("???"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
+                                                                                                          in("???")))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   // these tests validate any FilterOperator with strongly typed navigation assertions

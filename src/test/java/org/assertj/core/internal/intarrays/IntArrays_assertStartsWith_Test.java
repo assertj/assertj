@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.intarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.IntArrays.*;
@@ -55,8 +56,7 @@ public class IntArrays_assertStartsWith_Test extends IntArraysBaseTest {
   
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertStartsWith(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertStartsWith(someInfo(), actual, emptyArray()));
   }
 
   @Test
@@ -126,8 +126,7 @@ public class IntArrays_assertStartsWith_Test extends IntArraysBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError();
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray()));
   }
 
   @Test

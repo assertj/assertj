@@ -13,6 +13,8 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.List;
@@ -72,28 +74,25 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
 
   @Test
   public void should_throw_null_pointer_exception_when_extracting_from_null() {
-    thrown.expectNullPointerException();
-    assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(children);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(children));
   }
 
   @Test
   public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
-    thrown.expect(RuntimeException.class, "java.lang.Exception: no children");
-    assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
       return cartoonCharacter.getChildren();
-    });
+    })).withMessage("java.lang.Exception: no children");
   }
 
   @Test
   public void should_let_throwing_extractor_runtime_exception_bubble_up() {
     AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
-    thrown.expect(RuntimeException.class, "no children");
-    assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new RuntimeException("no children");
       return cartoonCharacter.getChildren();
-    });
+    })).withMessage("no children");
   }
 
   @Test

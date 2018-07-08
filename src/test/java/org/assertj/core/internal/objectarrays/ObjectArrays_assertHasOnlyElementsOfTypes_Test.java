@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -44,9 +46,10 @@ public class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArrays
 
   @Test
   public void should_throw_exception_if_no_expected_types_are_given() {
-    thrown.expectNullPointerException();
-    Class<?>[] types = null;
-    arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Class<?>[] types = null;
+      arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
+    });
   }
 
   @Test
@@ -57,9 +60,10 @@ public class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArrays
 
   @Test
   public void should_fail_if_expected_types_are_empty_but_actual_is_not() {
-    thrown.expectAssertionError();
-    Class<?>[] types = new Class<?>[0];
-    arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Class<?>[] types = new Class<?>[0];
+      arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
+    });
   }
 
   @Test

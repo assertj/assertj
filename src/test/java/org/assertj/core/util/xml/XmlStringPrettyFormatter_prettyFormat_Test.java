@@ -14,6 +14,7 @@ package org.assertj.core.util.xml;
 
 import static java.util.Locale.ENGLISH;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
@@ -85,8 +86,8 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
 
   @Test
   public void should_throw_error_when_xml_string_is_null() {
-    thrown.expectWithMessageStartingWith(IllegalArgumentException.class, "Expecting XML String not to be null");
-    xmlPrettyFormat(null);
+    assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> xmlPrettyFormat(null))
+                                                             .withMessageStartingWith("Expecting XML String not to be null");
   }
 
   @Test

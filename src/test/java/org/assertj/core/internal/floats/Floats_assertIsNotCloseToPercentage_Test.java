@@ -16,6 +16,7 @@ import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.NaN;
 import static java.lang.Float.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
@@ -111,20 +112,17 @@ public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_and_expected_are_NaN() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE)));
   }
 
   @Test

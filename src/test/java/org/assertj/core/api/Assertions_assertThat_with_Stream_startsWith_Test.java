@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -67,9 +68,10 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expect(AssertionError.class);
-    Stream<String> names = asList("Luke", "Leia").stream();
-    assertThat(names).startsWith(new String[0]);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Stream<String> names = asList("Luke", "Leia").stream();
+      assertThat(names).startsWith(new String[0]);
+    });
   }
 
   @Test
@@ -81,26 +83,29 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual() {
-    thrown.expect(AssertionError.class);
-    String[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    Stream<String> names = asList("Luke", "Leia").stream();
-    assertThat(names).startsWith(sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      String[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
+      Stream<String> names = asList("Luke", "Leia").stream();
+      assertThat(names).startsWith(sequence);
+    });
   }
 
   @Test
   public void should_fail_if_actual_does_not_start_with_sequence() {
-    thrown.expect(AssertionError.class);
-    String[] sequence = { "Han", "C-3PO" };
-    Stream<String> names = asList("Luke", "Leia").stream();
-    assertThat(names).startsWith(sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      String[] sequence = { "Han", "C-3PO" };
+      Stream<String> names = asList("Luke", "Leia").stream();
+      assertThat(names).startsWith(sequence);
+    });
   }
 
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
-    thrown.expect(AssertionError.class);
-    String[] sequence = { "Luke", "Yoda" };
-    Stream<String> names = asList("Luke", "Leia").stream();
-    assertThat(names).startsWith(sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      String[] sequence = { "Luke", "Yoda" };
+      Stream<String> names = asList("Luke", "Leia").stream();
+      assertThat(names).startsWith(sequence);
+    });
   }
 
   @Test
@@ -121,18 +126,20 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
-    thrown.expect(AssertionError.class);
-    Stream<String> names = asList("Luke", "Leia").stream();
-    String[] sequence = { "Han", "C-3PO" };
-    assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Stream<String> names = asList("Luke", "Leia").stream();
+      String[] sequence = { "Han", "C-3PO" };
+      assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+    });
   }
 
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
-    thrown.expect(AssertionError.class);
-    Stream<String> names = asList("Luke", "Leia").stream();
-    String[] sequence = { "Luke", "Obi-Wan", "Han" };
-    assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Stream<String> names = asList("Luke", "Leia").stream();
+      String[] sequence = { "Luke", "Obi-Wan", "Han" };
+      assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
+    });
   }
 
   @Test

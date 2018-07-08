@@ -16,6 +16,7 @@ import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.NaN;
 import static java.lang.Float.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
@@ -139,19 +140,16 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_and_expected_are_NaN() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
   }
 
   @Test
   public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    thrown.expectAssertionError();
-    floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.ByteArrays.*;
@@ -61,8 +62,7 @@ public class ByteArrays_assertContainsSequence_Test extends ByteArraysBaseTest {
   
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertContainsSequence(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
@@ -128,8 +128,7 @@ public class ByteArrays_assertContainsSequence_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError();
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test

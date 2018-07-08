@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -60,14 +61,12 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactly(someInfo(), actual, array());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, array()));
   }
 
   @Test
   public void should_fail_if_arrays_have_different_sizes() {
-    thrown.expectAssertionError();
-    arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda")));
   }
 
   @Test

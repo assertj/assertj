@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -55,10 +56,9 @@ public class Assertions_assertThatCode_Test {
     ThrowingCallable boom = raisingException("boom");
 
     // Expect
-    thrown.expectWithMessageStartingWith(AssertionError.class, "[Test]");
-
-    // When
-    assertThatCode(boom).as("Test").doesNotThrowAnyException();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatCode(boom).as("Test")
+                                                                                         .doesNotThrowAnyException())
+                                                   .withMessageStartingWith("[Test]");
   }
 
   @Test

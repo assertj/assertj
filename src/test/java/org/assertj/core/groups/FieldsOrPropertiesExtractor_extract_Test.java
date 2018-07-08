@@ -13,6 +13,7 @@
 package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 import static org.assertj.core.test.ExpectedException.none;
@@ -24,6 +25,7 @@ import java.util.List;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -91,8 +93,7 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
-    thrown.expectIntrospectionError();
-    extract(employees, byName("unknown"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> extract(employees, byName("unknown")));
   }
   
   @Test
@@ -125,11 +126,10 @@ public class FieldsOrPropertiesExtractor_extract_Test {
 
   @Test
   public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
-    
-    thrown.expectIntrospectionError();
-    
-    List<Employee> employees = Arrays.<Employee>asList(new BrokenEmployee());
-    extract(employees, byName("adult"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      List<Employee> employees = Arrays.<Employee> asList(new BrokenEmployee());
+      extract(employees, byName("adult"));
+    });
   }
 
   public static class EmployeeWithBrokenName extends Employee {

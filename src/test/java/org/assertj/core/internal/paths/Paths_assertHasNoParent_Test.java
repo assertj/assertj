@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -35,12 +36,12 @@ public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_throw_PathsException_if_actual_cannot_be_canonicalized() throws IOException {
-	final IOException exception = new IOException();
-	when(actual.toRealPath()).thenThrow(exception);
+    final IOException exception = new IOException();
+    when(actual.toRealPath()).thenThrow(exception);
 
-    thrown.expectWithCause(PathsException.class, "failed to resolve actual real path", exception);
-
-    paths.assertHasNoParent(info, actual);
+    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertHasNoParent(info, actual))
+                                                   .withMessage("failed to resolve actual real path")
+                                                   .withCause(exception);
   }
 
   @Test

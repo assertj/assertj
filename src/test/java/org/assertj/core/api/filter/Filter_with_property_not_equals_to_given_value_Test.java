@@ -13,12 +13,14 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -49,8 +51,9 @@ public class Filter_with_property_not_equals_to_given_value_Test extends WithPla
 
   @Test
   public void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'country'");
-    filter(players).with("country").notEqualsTo("France");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> filter(players).with("country")
+                                                                                        .notEqualsTo("France"))
+                                                       .withMessageContaining("Can't find any field or property with name 'country'");
   }
 
 }

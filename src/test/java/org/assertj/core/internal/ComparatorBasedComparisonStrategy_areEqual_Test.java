@@ -53,8 +53,8 @@ public class ComparatorBasedComparisonStrategy_areEqual_Test extends AbstractTes
 
   @Test
   public void should_fail_if_objects_are_not_mutually_comparable() {
-    thrown.expect(ClassCastException.class);
-    assertThat(caseInsensitiveComparisonStrategy.areEqual("Yoda", 5)).isFalse();
+    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> assertThat(caseInsensitiveComparisonStrategy.areEqual("Yoda",
+                                                                                                                               5)).isFalse());
   }
 
 }

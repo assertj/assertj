@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.matchAnything;
@@ -43,8 +44,9 @@ public class Strings_assertDoesNotContainPattern_CharSequence_Test extends Strin
 
   @Test
   public void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
-    thrown.expect(PatternSyntaxException.class);
-    strings.assertDoesNotContainPattern(someInfo(), ACTUAL, "*...");
+    assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> strings.assertDoesNotContainPattern(someInfo(),
+                                                                                                                 ACTUAL,
+                                                                                                                 "*..."));
   }
 
   @Test
@@ -73,8 +75,9 @@ public class Strings_assertDoesNotContainPattern_CharSequence_Test extends Strin
 
   @Test
   public void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
-    thrown.expect(PatternSyntaxException.class);
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, "*...");
+    assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(),
+                                                                                                                                                      ACTUAL,
+                                                                                                                                                      "*..."));
   }
 
   @Test

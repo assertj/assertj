@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.objects;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.TestData.someInfo;
@@ -151,36 +153,38 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
 
   @Test
   public void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'lightSaberColor'");
-    Jedi actual = new Jedi("Yoda", "Green");
-    Employee other = new Employee();
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
-                                                    defaultTypeComparators(), "lightSaberColor");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      Jedi actual = new Jedi("Yoda", "Green");
+      Employee other = new Employee();
+      objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                                      defaultTypeComparators(), "lightSaberColor");
+    }).withMessageContaining("Can't find any field or property with name 'lightSaberColor'");
   }
 
   @Test
   public void should_fail_when_selected_field_does_not_exist() {
-    thrown.expect(IntrospectionError.class, "%nCan't find any field or property with name 'age'.%n" +
-                                            "Error when introspecting properties was :%n" +
-                                            "- No getter for property 'age' in org.assertj.core.test.Jedi %n" +
-                                            "Error when introspecting fields was :%n" +
-                                            "- Unable to obtain the value of the field <'age'> from <Yoda the Jedi>");
-    Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
-                                                    defaultTypeComparators(), "age");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      Jedi actual = new Jedi("Yoda", "Green");
+      Jedi other = new Jedi("Yoda", "Blue");
+      objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                                      defaultTypeComparators(), "age");
+    }).withMessage(format("%nCan't find any field or property with name 'age'.%n" +
+                          "Error when introspecting properties was :%n" +
+                          "- No getter for property 'age' in org.assertj.core.test.Jedi %n" +
+                          "Error when introspecting fields was :%n" +
+                          "- Unable to obtain the value of the field <'age'> from <Yoda the Jedi>"));
   }
 
   @Test
   public void should_fail_when_selected_field_is_not_accessible_and_private_field_use_is_forbidden() {
     boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
     Assertions.setAllowComparingPrivateFields(false);
-    thrown.expectIntrospectionErrorWithMessageContaining(
-                                                         "Can't find any field or property with name 'strangeNotReadablePrivateField'.");
-    Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
-                                                    defaultTypeComparators(), "strangeNotReadablePrivateField");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      Jedi actual = new Jedi("Yoda", "Green");
+      Jedi other = new Jedi("Yoda", "Blue");
+      objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
+                                                      defaultTypeComparators(), "strangeNotReadablePrivateField");
+    }).withMessageContaining("Can't find any field or property with name 'strangeNotReadablePrivateField'.");
     Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
 

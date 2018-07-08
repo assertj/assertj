@@ -23,6 +23,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Files.linesOf;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -47,14 +50,12 @@ public class Files_linesOf_Test {
   @Test
   public void should_throw_exception_when_charset_is_null() {
     Charset charset = null;
-    thrown.expectNullPointerException();
-    linesOf(SAMPLE_UNIX_FILE, charset);
+    assertThatNullPointerException().isThrownBy(() -> linesOf(SAMPLE_UNIX_FILE, charset));
   }
 
   @Test
   public void should_throw_exception_if_charset_name_does_not_exist() {
-    thrown.expectIllegalArgumentException();
-    linesOf(new File("test"), "Klingon");
+    assertThatIllegalArgumentException().isThrownBy(() -> linesOf(new File("test"), "Klingon"));
   }
 
   @Test
@@ -62,8 +63,8 @@ public class Files_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    thrown.expect(UncheckedIOException.class);
-    linesOf(missingFile, Charset.defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(missingFile,
+                                                                                   Charset.defaultCharset()));
   }
 
   @Test

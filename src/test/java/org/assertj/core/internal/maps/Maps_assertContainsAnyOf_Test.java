@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
@@ -56,8 +57,7 @@ public class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   public void should_throw_error_if_array_of_entries_to_look_for_is_empty_and_the_map_under_test_is_not() {
-    thrown.expectAssertionError();
-    maps.assertContainsAnyOf(someInfo(), actual, new MapEntry[0]);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, new MapEntry[0]));
   }
 
   @Test

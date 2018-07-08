@@ -13,10 +13,12 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class ObjectArrayAssert_filteredOn_Test extends ObjectArrayAssert_filtered_baseTest {
@@ -45,10 +47,11 @@ public class ObjectArrayAssert_filteredOn_Test extends ObjectArrayAssert_filtere
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
-    thrown.expectIntrospectionError();
     setAllowExtractingPrivateFields(false);
     try {
-      assertThat(employees).filteredOn("city", "New York").isEmpty();
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+        assertThat(employees).filteredOn("city", "New York").isEmpty();
+      });
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -86,13 +89,17 @@ public class ObjectArrayAssert_filteredOn_Test extends ObjectArrayAssert_filtere
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOn("secret", "???");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
+                                                                                                          "???"))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test
   public void should_fail_if_filter_operators_are_combined() {
-    thrown.expectWithMessageStartingWith(UnsupportedOperationException.class, "Combining operator is not supported");
-    assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(employees).filteredOn("age",
+                                                                                                                     not(in(800)))
+                                                                                                         .containsOnly(luke,
+                                                                                                                       noname))
+                                                                  .withMessageStartingWith("Combining operator is not supported");
   }
 }

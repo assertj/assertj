@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.ByteArrays.emptyArray;
@@ -57,8 +59,10 @@ public class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest 
 
   @Test
   public void should_throw_error_if_Index_is_out_of_bounds() {
-    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive) but was:%n <6>");
-    arrays.assertContains(someInfo(), actual, (byte) 8, atIndex(6));
+    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
+                                                                                                      actual, (byte) 8,
+                                                                                                      atIndex(6)))
+                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
   }
 
   @Test
@@ -101,8 +105,11 @@ public class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest 
 
   @Test
   public void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
-    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive) but was:%n <6>");
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, (byte) -8, atIndex(6));
+    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                                  actual,
+                                                                                                                                  (byte) -8,
+                                                                                                                                  atIndex(6)))
+                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
   }
 
   @Test

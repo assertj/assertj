@@ -13,6 +13,7 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.TestData.someInfo;
@@ -35,6 +36,7 @@ import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Person;
 import org.assertj.core.test.TestClassWithRandomId;
 import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 /**
@@ -127,11 +129,12 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
 
   @Test
   public void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'lightSaberColor'");
-    Jedi actual = new Jedi("Yoda", "Green");
-    Employee other = new Employee();
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(),
-                                              defaultTypeComparators());
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      Jedi actual = new Jedi("Yoda", "Green");
+      Employee other = new Employee();
+      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(),
+                                                defaultTypeComparators());
+    }).withMessageContaining("Can't find any field or property with name 'lightSaberColor'");
   }
 
   @Test

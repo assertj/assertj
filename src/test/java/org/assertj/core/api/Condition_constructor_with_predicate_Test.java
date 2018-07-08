@@ -13,18 +13,13 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import java.util.function.Predicate;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Condition_constructor_with_predicate_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_create_condition_with_predicate() {
@@ -33,11 +28,9 @@ public class Condition_constructor_with_predicate_Test {
 	assertThat(littleRedCap).is(fairyTale);
   }
 
-  @SuppressWarnings("unused")
   @Test
   public void should_throw_error_if_predicate_is_null() {
-	thrown.expect(NullPointerException.class);
-	new Condition<Object>((Predicate<Object>) null, "");
+    assertThatNullPointerException().isThrownBy(() ->  new Condition<Object>((Predicate<Object>) null, ""));
   }
 }
 

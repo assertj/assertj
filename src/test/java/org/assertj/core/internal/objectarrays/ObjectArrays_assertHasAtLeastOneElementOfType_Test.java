@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -38,8 +39,7 @@ public class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectAr
 
   @Test
   public void should_throw_exception_if_expected_type_is_null() {
-	thrown.expectNullPointerException();
-	arrays.assertHasAtLeastOneElementOfType(someInfo(), array, null);
+	assertThatNullPointerException().isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), array, null));
   }
 
   @Test

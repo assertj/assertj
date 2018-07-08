@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
@@ -37,9 +38,10 @@ public class Preconditions_checkNotNullOrEmpty_GenericArray_Test {
 
   @Test
   public void should_throw_NullPointerException_if_array_is_null() {
-    thrown.expectNullPointerException();
-    String[] array = null;
-    Preconditions.checkNotNullOrEmpty(array);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String[] array = null;
+      Preconditions.checkNotNullOrEmpty(array);
+    });
   }
 
   @Test

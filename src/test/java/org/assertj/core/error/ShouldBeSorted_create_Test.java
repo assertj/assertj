@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.test.ExpectedException.none;
@@ -50,7 +51,6 @@ public class ShouldBeSorted_create_Test {
 
   @Test
   public void should_fail_if_object_parameter_is_not_an_array() {
-    thrown.expectIllegalArgumentException();
-    shouldBeSorted(1, "not an array");
+    assertThatIllegalArgumentException().isThrownBy(() -> shouldBeSorted(1, "not an array"));
   }
 }

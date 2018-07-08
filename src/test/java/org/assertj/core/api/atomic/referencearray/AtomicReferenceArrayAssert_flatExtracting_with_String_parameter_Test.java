@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -71,8 +72,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_with_String_parameter_Tes
 
   @Test
   public void should_throw_illegal_argument_exception_when_extracting_from_null() {
-    thrown.expectIllegalArgumentException();
-    assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting("children");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting("children"));
   }
 
   @Test

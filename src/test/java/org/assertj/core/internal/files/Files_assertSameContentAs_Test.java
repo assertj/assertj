@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -103,9 +105,11 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenThrow(cause);
 
-    thrown.expectWithCause(UncheckedIOException.class, cause);
-
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), expected, defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), actual,
+                                                                                                     defaultCharset(),
+                                                                                                     expected,
+                                                                                                     defaultCharset()))
+                                                         .withCause(cause);
   }
 
   @Test
@@ -125,22 +129,26 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() throws IOException {
-    thrown.expectWithMessageStartingWith(UncheckedIOException.class, "Unable to compare contents of files");
-    unMockedFiles.assertSameContentAs(someInfo(),
-                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
-                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8);
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(someInfo(),
+                                                                                                             createFileWithNonUTF8Character(),
+                                                                                                             StandardCharsets.UTF_8,
+                                                                                                             createFileWithNonUTF8Character(),
+                                                                                                             StandardCharsets.UTF_8))
+                                                         .withMessageStartingWith("Unable to compare contents of files");
   }
 
   @Test
   public void should_fail_if_files_are_not_binary_identical() throws IOException {
-    thrown.expectWithMessageEndingWith(AssertionError.class,
-                                       "does not have expected binary content at offset <0>, expecting:%n" +
-                                       " <\"EOF\">%n" +
-                                       "but was:%n" +
-                                       " <\"0x0\">");
-    unMockedFiles.assertSameContentAs(someInfo(),
-                                      createFileWithNonUTF8Character(), StandardCharsets.UTF_8,
-                                      expected, StandardCharsets.UTF_8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(someInfo(),
+                                                                                                       createFileWithNonUTF8Character(),
+                                                                                                       StandardCharsets.UTF_8,
+                                                                                                       expected,
+                                                                                                       StandardCharsets.UTF_8))
+                                                   .withMessageEndingWith(format("does not have expected binary content at offset <0>, expecting:%n"
+                                                                                 +
+                                                                                 " <\"EOF\">%n" +
+                                                                                 "but was:%n" +
+                                                                                 " <\"0x0\">"));
   }
 
   private File createFileWithNonUTF8Character() throws IOException {

@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
@@ -22,6 +23,7 @@ import static org.assertj.core.test.Name.name;
 
 import org.assertj.core.api.IterableAssert;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_baseTest {
@@ -50,10 +52,11 @@ public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_
 
   @Test
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
-    thrown.expectIntrospectionError();
     setAllowExtractingPrivateFields(false);
     try {
-      assertThat(employees).filteredOn("city", not("New York"));
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+        assertThat(employees).filteredOn("city", not("New York"));
+      });
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -102,8 +105,9 @@ public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'secret'");
-    assertThat(employees).filteredOn("secret", not("???"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
+                                                                                                          not("???")))
+                                                       .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -40,8 +41,7 @@ public class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException();
-    iterables.assertEndsWith(someInfo(), actual, "Luke", null);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertEndsWith(someInfo(), actual, "Luke", null));
   }
 
   @Test

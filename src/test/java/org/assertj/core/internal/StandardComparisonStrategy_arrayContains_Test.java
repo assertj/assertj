@@ -49,8 +49,7 @@ public class StandardComparisonStrategy_arrayContains_Test extends AbstractTest_
 
   @Test
   public void should_fail_if_first_parameter_is_not_an_array() {
-    thrown.expectIllegalArgumentException();
-    standardComparisonStrategy.arrayContains("not an array", "Pippin");
+    assertThatIllegalArgumentException().isThrownBy(() -> standardComparisonStrategy.arrayContains("not an array", "Pippin"));
   }
 
 }

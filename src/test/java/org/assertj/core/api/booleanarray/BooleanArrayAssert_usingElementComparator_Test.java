@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.booleanarray;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.Comparator;
@@ -42,9 +43,9 @@ public class BooleanArrayAssert_usingElementComparator_Test extends BooleanArray
   @Test
   @SuppressWarnings("deprecation")
   public void should_have_internal_effects() {
-    thrown.expect(UnsupportedOperationException.class);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
     // in that, we don't care of the comparator, the point to check is that we can't use a comparator
-    assertions.usingElementComparator(comparator);
+    assertions.usingElementComparator(comparator));
   }
 
   @Override

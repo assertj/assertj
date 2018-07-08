@@ -13,6 +13,7 @@
 package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 import static org.assertj.core.groups.Tuple.tuple;
@@ -26,6 +27,7 @@ import java.util.Set;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -70,8 +72,7 @@ public class FieldsOrPropertiesExtractor_extract_tuples_Test {
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
-    thrown.expectIntrospectionError();
-    extract(employees, byName("id", "age", "unknown"));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> extract(employees, byName("id", "age", "unknown")));
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
@@ -24,6 +25,7 @@ import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -66,8 +68,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   public void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
-    thrown.expectIntrospectionError();
-    assertThat(employees).extracting("unknown");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).extracting("unknown"));
   }
 
   @Test
@@ -78,9 +79,10 @@ public class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
-    thrown.expectIntrospectionError();
-    assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
-                                                                          tuple("Luke", 26, 2L));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
+      assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+                                                                            tuple("Luke", 26, 2L));
+    });
   }
 
   @Test
@@ -132,32 +134,29 @@ public class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   public void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
-    thrown.expect(RuntimeException.class, "age > 100");
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Extractor<Employee, String>() {
       @Override
       public String extract(Employee employee) {
         if (employee.getAge() > 100) throw new RuntimeException("age > 100");
         return employee.getName().getFirst();
       }
-    });
+    })).withMessage("age > 100");
   }
 
   @Test
   public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
-    thrown.expect(RuntimeException.class, "java.lang.Exception: age > 100");
-    assertThat(employees).extracting(employee -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
       return employee.getName().getFirst();
-    });
+    })).withMessage("java.lang.Exception: age > 100");
   }
 
   @Test
   public void should_let_throwing_extractor_runtime_exception_bubble_up() {
-    thrown.expect(RuntimeException.class, "age > 100");
-    assertThat(employees).extracting(employee -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
       return employee.getName().getFirst();
-    });
+    })).withMessage("age > 100");
   }
 
   @Test

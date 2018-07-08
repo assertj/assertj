@@ -52,8 +52,8 @@ public class ComparatorBasedComparisonStrategy_isGreaterThan_Test extends Abstra
 
   @Test
   public void should_fail_if_a_parameter_is_not_comparable() {
-    thrown.expect(ClassCastException.class);
-    caseInsensitiveComparisonStrategy.isGreaterThan(new Rectangle(), new Rectangle());
+    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isGreaterThan(new Rectangle(),
+                                                                                                                         new Rectangle()));
   }
 
 }

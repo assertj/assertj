@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
@@ -39,7 +40,7 @@ public class Assertions_fail_Test {
   public void should_include_message_with_cause_when_failing() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
-    thrown.expectWithCause(AssertionError.class, message, cause);
-    Assertions.fail(message, cause);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Assertions.fail(message, cause))
+                                                   .withMessage(message).withCause(cause);
   }
 }

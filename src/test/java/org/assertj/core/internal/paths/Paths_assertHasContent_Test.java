@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
@@ -119,9 +120,9 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 
-    thrown.expectWithCause(UncheckedIOException.class, cause);
-
-    paths.assertHasContent(someInfo(), path, expected, charset);
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasContent(someInfo(), path,
+                                                                                                  expected, charset))
+                                                         .withCause(cause);
   }
 
   @Test

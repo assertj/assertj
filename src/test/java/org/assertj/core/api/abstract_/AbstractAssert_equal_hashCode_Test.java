@@ -12,14 +12,11 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.api.Assertions.*;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -29,16 +26,13 @@ import org.junit.Test;
  */
 public class AbstractAssert_equal_hashCode_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   private ConcreteAssert assertions = new ConcreteAssert("myString");
 
   @Test
   @SuppressWarnings("deprecation")
   public void should_fail_because_not_supported_operation() {
-    thrown.expectUnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
-    assertions.equals("anotherString");
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertions.equals("anotherString"))
+                                                                  .withMessageContaining("'equals' is not supported...maybe you intended to call 'isEqualTo'");
   }
 
   @Test

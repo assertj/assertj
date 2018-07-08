@@ -13,6 +13,7 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.test.ExpectedException.none;
@@ -20,6 +21,7 @@ import static org.assertj.core.test.ExpectedException.none;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -61,8 +63,8 @@ public abstract class AbstractTest_equals_filter extends WithPlayerData {
 
   @Test
   public void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
-    thrown.expectIntrospectionErrorWithMessageContaining("Can't find any field or property with name 'country'");
-    filterIterable(players, "country", "France");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> filterIterable(players, "country", "France"))
+                                                       .withMessageContaining("Can't find any field or property with name 'country'");
   }
 
 }

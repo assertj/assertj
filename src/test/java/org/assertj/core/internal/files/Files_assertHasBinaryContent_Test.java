@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -86,9 +87,10 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
 
-    thrown.expectWithCause(UncheckedIOException.class, cause);
-
-    files.assertHasBinaryContent(someInfo(), actual, expected);
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasBinaryContent(someInfo(),
+                                                                                                        actual,
+                                                                                                        expected))
+                                                         .withCause(cause);
   }
 
   @Test

@@ -17,6 +17,7 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -89,8 +90,7 @@ public class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArr
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    thrown.expectAssertionError();
-    arrays.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
@@ -125,8 +125,7 @@ public class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArr
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError();
-    arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray()));
   }
 
   @Test

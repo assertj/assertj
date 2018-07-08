@@ -15,6 +15,7 @@ package org.assertj.core.util.introspection;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -89,9 +90,9 @@ public class FieldSupport_fieldValues_Test {
 
   @Test
   public void should_throw_error_if_field_not_found() {
-    thrown.expect(IntrospectionError.class,
-                  "Unable to obtain the value of the field <'id.'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>");
-    fieldSupport.fieldValues("id.", Long.class, employees);
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> fieldSupport.fieldValues("id.", Long.class,
+                                                                                                  employees))
+                                                       .withMessage("Unable to obtain the value of the field <'id.'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>");
   }
 
   @Test
@@ -104,9 +105,10 @@ public class FieldSupport_fieldValues_Test {
   public void should_throw_error_if_field_is_not_public_and_allowExtractingPrivateFields_set_to_false() {
     FieldSupport.EXTRACTION.setAllowUsingPrivateFields(false);
     try {
-      thrown.expect(IntrospectionError.class,
-                    "Unable to obtain the value of the field <'age'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>, check that field is public.");
-      fieldSupport.fieldValues("age", Integer.class, employees);
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> fieldSupport.fieldValues("age",
+                                                                                                    Integer.class,
+                                                                                                    employees))
+                                                         .withMessage("Unable to obtain the value of the field <'age'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>, check that field is public.");
     } finally { // back to default value
       FieldSupport.EXTRACTION.setAllowUsingPrivateFields(true);
     }

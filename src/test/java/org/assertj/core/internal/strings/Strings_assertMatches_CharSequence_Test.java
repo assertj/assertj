@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.*;
@@ -48,8 +49,8 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
-    thrown.expect(PatternSyntaxException.class);
-    strings.assertMatches(someInfo(), actual, "*...");
+    assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual,
+                                                                                                   "*..."));
   }
 
   @Test
@@ -78,8 +79,9 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
-    thrown.expect(PatternSyntaxException.class);
-    stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, "*...");
+    assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(),
+                                                                                                                                        actual,
+                                                                                                                                        "*..."));
   }
 
   @Test

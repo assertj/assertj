@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -69,8 +70,7 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test extends Objec
 
   @Test
   public void should_fail_if_comparator_is_null() {
-    thrown.expectNullPointerException();
-    arrays.assertIsSortedAccordingToComparator(someInfo(), array(), null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), array(), null));
   }
 
   @Test
