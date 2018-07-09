@@ -15,6 +15,7 @@ package org.assertj.core.internal.paths;
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
@@ -54,8 +55,9 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
   @Test
   public void should_throw_error_if_other_is_null() {
-	thrown.expectNullPointerException("The given Path to compare actual content to should not be null");
-	paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), null, defaultCharset());
+    assertThatNullPointerException().isThrownBy(() -> paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(),
+                                                                                   null, defaultCharset()))
+                                    .withMessage("The given Path to compare actual content to should not be null");
   }
 
   @Test

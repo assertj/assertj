@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
@@ -44,8 +45,9 @@ public class AtomicReferenceArrayAssert_doesNotContainSubsequence_List_Test exte
 
   @Test
   public void should_throw_error_if_subsequence_is_null() {
-    thrown.expectNullPointerException(nullSubsequence());
-    List<Object> nullList = null;
-    assertions.doesNotContainSubsequence(nullList);
+    assertThatNullPointerException().isThrownBy(() -> {
+      List<Object> nullList = null;
+      assertions.doesNotContainSubsequence(nullList);
+    }).withMessage(nullSubsequence());
   }
 }

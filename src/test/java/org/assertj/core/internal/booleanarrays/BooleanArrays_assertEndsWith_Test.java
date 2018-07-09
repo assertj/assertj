@@ -12,14 +12,14 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
-import static org.assertj.core.internal.ErrorMessages.*;
-import static org.assertj.core.test.BooleanArrays.*;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.BooleanArrays.arrayOf;
+import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -47,8 +47,8 @@ public class BooleanArrays_assertEndsWith_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertEndsWith(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

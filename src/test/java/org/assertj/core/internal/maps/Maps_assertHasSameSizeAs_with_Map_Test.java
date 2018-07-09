@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.Maps.mapOf;
@@ -49,8 +50,8 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("The Map to compare actual size with should not be null");
-    maps.assertHasSameSizeAs(someInfo(), actual, (Map<?, ?>) null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertHasSameSizeAs(someInfo(), actual, (Map<?, ?>) null))
+                                    .withMessage("The Map to compare actual size with should not be null");
   }
 
   @Test

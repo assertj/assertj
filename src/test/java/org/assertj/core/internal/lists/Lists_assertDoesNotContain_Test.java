@@ -13,15 +13,14 @@
 package org.assertj.core.internal.lists;
 
 import static java.util.Collections.emptyList;
-
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.assertj.core.test.TestData.*;
+import static org.assertj.core.test.TestData.someIndex;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -61,8 +60,8 @@ public class Lists_assertDoesNotContain_Test extends ListsBaseTest {
 
   @Test
   public void should_throw_error_if_index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    lists.assertDoesNotContain(someInfo(), actual, "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> lists.assertDoesNotContain(someInfo(), actual, "Yoda", null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test

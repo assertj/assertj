@@ -12,12 +12,11 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -48,8 +47,8 @@ public class Strings_assertStartsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_prefix_is_null() {
-    thrown.expectNullPointerException("The given prefix should not be null");
-    strings.assertStartsWith(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertStartsWith(someInfo(), "Yoda", null))
+                                    .withMessage("The given prefix should not be null");
   }
 
   @Test

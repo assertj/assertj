@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -39,8 +40,8 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertContainsIgnoringCase(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", null))
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
@@ -67,8 +68,10 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
+                                                                                                                              "Yoda",
+                                                                                                                              null))
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test

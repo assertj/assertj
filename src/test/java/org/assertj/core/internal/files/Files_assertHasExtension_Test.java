@@ -12,10 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FilesBaseTest;
-import org.junit.Test;
-
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.test.TestData.someInfo;
@@ -23,6 +20,10 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.FilesBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for
@@ -43,8 +44,8 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_npe_if_extension_is_null() throws Exception {
-    thrown.expectNullPointerException("The expected extension should not be null.");
-    files.assertHasExtension(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasExtension(someInfo(), actual, null))
+                                    .withMessage("The expected extension should not be null.");
   }
 
   @Test

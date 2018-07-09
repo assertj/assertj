@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -52,8 +53,8 @@ public class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException("Expecting CharSequence not to be null");
-    strings.assertIsSubstringOf(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertIsSubstringOf(someInfo(), "Yoda", null))
+                                    .withMessage("Expecting CharSequence not to be null");
   }
 
   @Test

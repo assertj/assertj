@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -53,11 +54,10 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
                      .endsWith("Leia");
   }
 
-  
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    assertThat(infiniteStream).startsWith((String[]) null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(infiniteStream).startsWith((String[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

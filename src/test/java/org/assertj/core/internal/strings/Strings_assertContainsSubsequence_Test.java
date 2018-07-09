@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
@@ -54,15 +55,17 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_subsequence_is_null() {
-    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
-    strings.assertContainsSubsequence(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSubsequence(someInfo(), "Yoda", null))
+                                    .withMessage(arrayOfValuesToLookForIsNull());
   }
 
   @Test
   public void should_throw_error_if_any_value_of_subsequence_is_null() {
     String[] sequenceValues = { "author", null };
-    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
-    strings.assertContainsSubsequence(someInfo(), "'author':'George Martin'", sequenceValues);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSubsequence(someInfo(),
+                                                                                        "'author':'George Martin'",
+                                                                                        sequenceValues))
+                                    .withMessage("Expecting CharSequence elements not to be null but found one at index 1");
   }
 
   @Test

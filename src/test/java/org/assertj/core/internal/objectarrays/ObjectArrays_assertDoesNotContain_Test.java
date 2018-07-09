@@ -12,16 +12,16 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.internal.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -56,8 +56,8 @@ public class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContain(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -91,8 +91,10 @@ public class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                              actual,
+                                                                                                              null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -55,8 +56,8 @@ public class Iterables_assertContainsAll_Test extends IterablesBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(iterableToLookForIsNull());
-    iterables.assertContainsAll(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsAll(someInfo(), actual, null))
+                                    .withMessage(iterableToLookForIsNull());
   }
 
   @Test

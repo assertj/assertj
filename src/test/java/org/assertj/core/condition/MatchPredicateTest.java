@@ -72,25 +72,21 @@ public class MatchPredicateTest implements WithAssertions {
 
   @Test
   public void should_fail_if_given_predicate_is_null() {
-	// then
-	thrown.expectNullPointerException(predicateIsNull());
-	// when
-	assertThat(yoda).matches(null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null))
+                                                         .withMessage(predicateIsNull());
   }
 
   @Test
   public void should_fail_if_given_predicate_with_description_is_null() {
-	// then
-	thrown.expectNullPointerException(predicateIsNull());
-	// when
-	assertThat(yoda).matches(null, "whatever ...");
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null,
+                                                                                                    "whatever ..."))
+                                                         .withMessage(predicateIsNull());
   }
   
   @Test
   public void should_fail_if_given_predicate_description_is_null() {
-	// then
-	thrown.expectNullPointerException("The predicate description must not be null");
-	// when
-	assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"), null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"),
+                                                                                                    null))
+                                                         .withMessage("The predicate description must not be null");
   }
 }

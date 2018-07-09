@@ -12,11 +12,10 @@
  */
 package org.assertj.core.internal.conditions;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -37,8 +36,8 @@ public class Conditions_assertDoesNotHave_Test extends ConditionsBaseTest {
 
   @Test
   public void should_throw_error_if_Condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate should not be null");
-    conditions.assertDoesNotHave(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> conditions.assertDoesNotHave(someInfo(), actual, null))
+                                    .withMessage("The condition to evaluate should not be null");
   }
 
   @Test

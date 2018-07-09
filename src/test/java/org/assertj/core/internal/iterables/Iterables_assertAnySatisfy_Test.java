@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -78,8 +79,8 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_consumer_is_null() {
-    thrown.expectNullPointerException("The Consumer<T> expressing the assertions requirements must not be null");
-    assertThat(actual).anySatisfy(null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).anySatisfy(null))
+                                    .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -38,8 +39,8 @@ public class Strings_assertEndsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_suffix_is_null() {
-    thrown.expectNullPointerException("The given suffix should not be null");
-    strings.assertEndsWith(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertEndsWith(someInfo(), "Yoda", null))
+                                       .withMessage("The given suffix should not be null");
   }
 
   @Test

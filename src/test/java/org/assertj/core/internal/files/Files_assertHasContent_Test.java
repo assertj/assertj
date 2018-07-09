@@ -13,6 +13,7 @@
 package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -59,8 +60,8 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The text to compare to should not be null");
-    files.assertHasContent(someInfo(), actual, null, charset);
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasContent(someInfo(), actual, null, charset))
+                                    .withMessage("The text to compare to should not be null");
   }
 
   @Test

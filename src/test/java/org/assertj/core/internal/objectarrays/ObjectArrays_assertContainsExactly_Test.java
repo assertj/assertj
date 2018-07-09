@@ -13,6 +13,7 @@
 package org.assertj.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -71,8 +72,8 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsExactly(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

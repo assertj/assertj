@@ -13,6 +13,7 @@
 package org.assertj.core.internal.bytearrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -71,8 +72,8 @@ public class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContains(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, (int[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -127,8 +128,10 @@ public class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                             actual,
+                                                                                                                             (int[]) null))
+                                                         .withMessage(valuesToLookForIsNull());
   }
 
   @Test

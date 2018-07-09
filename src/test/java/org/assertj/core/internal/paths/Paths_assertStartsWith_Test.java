@@ -13,6 +13,7 @@
 package org.assertj.core.internal.paths;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -47,8 +48,8 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("the expected start path should not be null");
-    paths.assertStartsWith(info, actual, null);
+    assertThatNullPointerException().isThrownBy(() -> paths.assertStartsWith(info, actual, null))
+                                    .withMessage("the expected start path should not be null");
   }
 
   @Test

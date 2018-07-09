@@ -12,13 +12,12 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSecondWindow;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -83,8 +82,8 @@ public class Dates_assertIsInSameSecondWindowAs_Test extends DatesBaseTest {
 
   @Test
   public void should_throw_error_if_given_date_is_null() {
-    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    dates.assertIsInSameSecondWindowAs(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameSecondWindowAs(someInfo(), actual, null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
@@ -108,8 +107,10 @@ public class Dates_assertIsInSameSecondWindowAs_Test extends DatesBaseTest {
 
   @Test
   public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    datesWithCustomComparisonStrategy.assertIsInSameSecondWindowAs(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameSecondWindowAs(someInfo(),
+                                                                                                                     actual,
+                                                                                                                     null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test

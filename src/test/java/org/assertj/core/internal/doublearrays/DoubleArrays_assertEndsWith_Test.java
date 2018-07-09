@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
@@ -41,8 +42,8 @@ public class DoubleArrays_assertEndsWith_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertEndsWith(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -95,8 +96,10 @@ public class DoubleArrays_assertEndsWith_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                             actual,
+                                                                                                                             null))
+                                                         .withMessage(valuesToLookForIsNull());
   }
 
   @Test

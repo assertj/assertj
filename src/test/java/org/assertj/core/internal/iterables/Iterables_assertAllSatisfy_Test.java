@@ -14,6 +14,7 @@ package org.assertj.core.internal.iterables;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.test.TestData.someInfo;
@@ -71,8 +72,8 @@ public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_consumer_is_null() {
-    thrown.expectNullPointerException("The Consumer<T> expressing the assertions requirements must not be null");
-    assertThat(actual).allSatisfy(null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).allSatisfy(null))
+                                    .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
   @Test

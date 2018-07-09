@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
@@ -63,15 +64,16 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
-    strings.assertContainsSequence(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, null))
+                                    .withMessage(arrayOfValuesToLookForIsNull());
   }
 
   @Test
   public void should_throw_error_if_any_value_of_sequence_is_null() {
     String[] sequenceValues = { "author", null };
-    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
-    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual,
+                                                                                     sequenceValues))
+                                    .withMessage("Expecting CharSequence elements not to be null but found one at index 1");
   }
 
   @Test

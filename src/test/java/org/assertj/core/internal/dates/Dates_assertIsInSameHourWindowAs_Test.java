@@ -12,13 +12,12 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeInSameHourWindow.shouldBeInSameHourWindow;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -26,7 +25,6 @@ import java.util.Date;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
-
 import org.junit.Test;
 
 
@@ -82,8 +80,8 @@ public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
 
   @Test
   public void should_throw_error_if_given_date_is_null() {
-    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    dates.assertIsInSameHourWindowAs(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameHourWindowAs(someInfo(), actual, null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
@@ -107,8 +105,10 @@ public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
 
   @Test
   public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(),
+                                                                                                                   actual,
+                                                                                                                   null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test

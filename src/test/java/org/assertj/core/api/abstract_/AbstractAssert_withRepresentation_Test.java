@@ -13,6 +13,7 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.presentation.StandardRepresentation;
@@ -27,8 +28,8 @@ public class AbstractAssert_withRepresentation_Test {
 
   @Test
   public void should_throw_error_if_description_is_null() {
-    thrown.expectNullPointerException("The representation to use should not be null.");
-    assertThat(new Example()).withRepresentation(null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(new Example()).withRepresentation(null))
+                                    .withMessage("The representation to use should not be null.");
   }
 
   @Test

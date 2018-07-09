@@ -13,6 +13,7 @@
 package org.assertj.core.internal.inputstreams;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -52,14 +53,15 @@ public class InputStreams_assertHasDigest_AlgorithmString_Test extends InputStre
 
   @Test
   public void should_throw_error_if_digest_is_null() {
-    thrown.expectNullPointerException("The message digest algorithm should not be null");
-    inputStreams.assertHasDigest(INFO, null, (MessageDigest) null, expected);
+    assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, (MessageDigest) null,
+                                                                                   expected))
+                                    .withMessage("The message digest algorithm should not be null");
   }
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The binary representation of digest to compare to should not be null");
-    inputStreams.assertHasDigest(INFO, null, MD5, (byte[]) null);
+    assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, MD5, (byte[]) null))
+                                    .withMessage("The binary representation of digest to compare to should not be null");
   }
 
   @Test

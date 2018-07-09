@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -48,8 +49,8 @@ public class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_expected_is_null() {
-    thrown.expectNullPointerException("The char sequence to look for should not be null");
-    strings.assertXmlEqualsTo(someInfo(), "<jedi>yoda</jedi>", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertXmlEqualsTo(someInfo(), "<jedi>yoda</jedi>", null))
+                                    .withMessage("The char sequence to look for should not be null");
   }
 
   @Test

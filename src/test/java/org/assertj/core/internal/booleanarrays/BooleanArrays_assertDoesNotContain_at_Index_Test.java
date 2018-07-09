@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
@@ -56,8 +57,9 @@ public class BooleanArrays_assertDoesNotContain_at_Index_Test extends BooleanArr
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    arrays.assertDoesNotContain(someInfo(), actual, true, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(),                                                                                actual, true,
+                                                                                  null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test

@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -46,9 +47,7 @@ public class ShouldMatch_create_Test {
   
   @Test
   public void should_fail_if_predicate_description_is_null() {
-	// then
-	thrown.expectNullPointerException("The predicate description must not be null");
-	// when
-	shouldMatch("Yoda", color -> color.equals("green"), null);
+    assertThatNullPointerException().isThrownBy(() -> shouldMatch("Yoda", color -> color.equals("green"), null))
+                                    .withMessage("The predicate description must not be null");
   }
 }

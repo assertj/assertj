@@ -14,6 +14,7 @@ package org.assertj.core.internal.maps;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -82,7 +83,7 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_given_requirements_are_null() {
-    thrown.expectNullPointerException("The BiConsumer<K, V> expressing the assertions requirements must not be null");
-    maps.assertAllSatisfy(someInfo(), greatPlayers, null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertAllSatisfy(someInfo(), greatPlayers, null))
+                                    .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");
   }
 }

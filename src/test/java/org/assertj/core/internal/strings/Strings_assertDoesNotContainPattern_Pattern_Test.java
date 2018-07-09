@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.matchAnything;
@@ -36,9 +37,10 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
 
   @Test
   public void should_throw_error_if_pattern_is_null() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    Pattern nullPattern = null;
-    strings.assertDoesNotContainPattern(someInfo(), ACTUAL, nullPattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Pattern nullPattern = null;
+      strings.assertDoesNotContainPattern(someInfo(), ACTUAL, nullPattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -60,9 +62,10 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
 
   @Test
   public void should_throw_error_if_pattern_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    Pattern nullPattern = null;
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, nullPattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Pattern nullPattern = null;
+      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, nullPattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test

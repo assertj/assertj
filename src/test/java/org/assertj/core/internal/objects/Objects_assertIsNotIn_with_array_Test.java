@@ -13,6 +13,7 @@
 package org.assertj.core.internal.objects;
 
 import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.assertj.core.internal.ErrorMessages.arrayIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.arrayIsNull;
@@ -46,9 +47,10 @@ public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_array_is_null() {
-    thrown.expectNullPointerException(arrayIsNull());
-    Object[] array = null;
-    objects.assertIsNotIn(someInfo(), "Yoda", array);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Object[] array = null;
+      objects.assertIsNotIn(someInfo(), "Yoda", array);
+    }).withMessage(arrayIsNull());
   }
 
   @Test

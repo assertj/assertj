@@ -12,12 +12,11 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -53,8 +52,8 @@ public class Objects_assertIsOfClassIn_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_type_is_null() {
-    thrown.expectNullPointerException("The given types should not be null");
-    objects.assertIsOfAnyClassIn(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> objects.assertIsOfAnyClassIn(someInfo(), actual, null))
+                                    .withMessage("The given types should not be null");
   }
 
   @Test

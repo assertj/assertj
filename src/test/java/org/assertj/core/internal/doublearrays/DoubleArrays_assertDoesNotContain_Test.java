@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -58,8 +59,8 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContain(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -93,8 +94,10 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                              actual,
+                                                                                                              null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

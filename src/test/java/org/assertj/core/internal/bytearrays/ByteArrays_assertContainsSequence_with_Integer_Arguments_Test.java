@@ -13,6 +13,7 @@
 package org.assertj.core.internal.bytearrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.ByteArrays.*;
@@ -48,8 +49,8 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsSequence(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, (int[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -117,13 +118,17 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                                     actual,
+                                                                                                                                     (int[]) null))
+                                                         .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               IntArrays.emptyArray()));
   }
 
   @Test

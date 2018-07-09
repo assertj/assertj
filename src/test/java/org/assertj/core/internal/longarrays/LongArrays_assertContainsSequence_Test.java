@@ -13,6 +13,7 @@
 package org.assertj.core.internal.longarrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.LongArrays.*;
@@ -50,8 +51,8 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsSequence(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -126,8 +127,10 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                actual,
+                                                                                                                null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

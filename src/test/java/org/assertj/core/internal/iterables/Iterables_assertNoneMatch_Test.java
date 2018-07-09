@@ -12,18 +12,19 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
 import java.util.List;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.Test;
-
-import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 /**
  * @author Filip Hrisafov
@@ -38,8 +39,9 @@ public class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
 
   @Test
   public void should_throw_error_if_predicate_is_null() {
-    thrown.expectNullPointerException("The predicate to evaluate should not be null");
-    iterables.assertNoneMatch(someInfo(), actual, null, PredicateDescription.GIVEN);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertNoneMatch(someInfo(), actual, null,
+                                                                                PredicateDescription.GIVEN))
+                                    .withMessage("The predicate to evaluate should not be null");
   }
 
   @Test

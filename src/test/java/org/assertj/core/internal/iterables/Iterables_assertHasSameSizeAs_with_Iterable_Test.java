@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -44,9 +45,10 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("The Iterable to compare actual size with should not be null");
-    Iterable<?> other = null;
-    iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Iterable<?> other = null;
+      iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
+    }).withMessage("The Iterable to compare actual size with should not be null");
   }
 
   @Test
@@ -74,9 +76,10 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
 
   @Test
   public void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("The Iterable to compare actual size with should not be null");
-    Iterable<?> other = null;
-    iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Iterable<?> other = null;
+      iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
+    }).withMessage("The Iterable to compare actual size with should not be null");
   }
 
   @Test

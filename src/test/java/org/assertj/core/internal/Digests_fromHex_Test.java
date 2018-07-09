@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -28,8 +29,8 @@ public class Digests_fromHex_Test extends DigestsBaseTest {
 
   @Test
   public void should_fail_if_digest_is_null() {
-    thrown.expectNullPointerException("The digest should not be null");
-    Digests.fromHex(null);
+    assertThatNullPointerException().isThrownBy(() -> Digests.fromHex(null))
+                                    .withMessage("The digest should not be null");
   }
 
   @Test
