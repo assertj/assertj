@@ -14,6 +14,7 @@ package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -112,8 +113,8 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    iterables.assertContainsOnlyOnce(someInfo(), emptyList(), null);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsOnlyOnce(someInfo(), emptyList(), null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

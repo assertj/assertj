@@ -13,6 +13,7 @@
 package org.assertj.core.internal.bytearrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.ByteArrays.*;
@@ -50,8 +51,8 @@ public class ByteArrays_assertContainsSequence_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsSequence(someInfo(), actual, (byte[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, (byte[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -122,8 +123,10 @@ public class ByteArrays_assertContainsSequence_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, (byte[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                                     actual,
+                                                                                                                                     (byte[]) null))
+                                                         .withMessage(valuesToLookForIsNull());
   }
 
   @Test

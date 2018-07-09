@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -63,8 +64,9 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The file to compare to should not be null");
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), null, defaultCharset());
+    assertThatNullPointerException().isThrownBy(() -> files.assertSameContentAs(someInfo(), actual, defaultCharset(),
+                                                                                null, defaultCharset()))
+                                    .withMessage("The file to compare to should not be null");
   }
 
   @Test

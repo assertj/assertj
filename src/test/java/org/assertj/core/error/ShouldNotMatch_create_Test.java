@@ -12,15 +12,16 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
+
 import org.assertj.core.api.BaseTest;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
-
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
 
 /**
  * @author Filip Hrisafov
@@ -46,9 +47,7 @@ public class ShouldNotMatch_create_Test extends BaseTest {
 
   @Test
   public void should_fail_if_predicate_description_is_null() {
-    // then
-    thrown.expectNullPointerException("The predicate description must not be null");
-    // when
-    shouldNotMatch("Yoda", color -> color.equals("green"), null);
+    assertThatNullPointerException().isThrownBy(() -> shouldNotMatch("Yoda", color -> color.equals("green"), null))
+                                    .withMessage("The predicate description must not be null");
   }
 }

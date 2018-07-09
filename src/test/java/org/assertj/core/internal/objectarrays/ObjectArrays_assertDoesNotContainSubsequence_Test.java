@@ -18,6 +18,7 @@ import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -84,8 +85,8 @@ public class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArr
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContainSubsequence(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContainSubsequence(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -119,8 +120,10 @@ public class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArr
 
   @Test
   public void should_throw_error_if_subsequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(),
+                                                                                                                         actual,
+                                                                                                                         null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

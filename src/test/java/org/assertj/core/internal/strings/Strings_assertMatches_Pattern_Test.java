@@ -12,13 +12,13 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
-import static org.assertj.core.test.TestData.*;
+import static org.assertj.core.test.TestData.matchAnything;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.regex.Pattern;
@@ -41,9 +41,10 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_Pattern_is_null() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    Pattern pattern = null;
-    strings.assertMatches(someInfo(), actual, pattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Pattern pattern = null;
+      strings.assertMatches(someInfo(), actual, pattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -65,9 +66,10 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_Pattern_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    Pattern pattern = null;
-    stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, pattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Pattern pattern = null;
+      stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, pattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test

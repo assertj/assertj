@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -46,8 +47,8 @@ public class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertContains(someInfo(), "Yoda", (String) null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", (String) null))
+                                                 .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test

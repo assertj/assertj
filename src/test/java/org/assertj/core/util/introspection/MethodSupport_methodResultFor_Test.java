@@ -13,6 +13,7 @@
 package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
@@ -56,14 +57,14 @@ public class MethodSupport_methodResultFor_Test {
 
   @Test
   public void should_fail_meaningfully_if_object_instance_not_provided() {
-    thrown.expectNullPointerException("Object instance can not be null!");
-    MethodSupport.methodResultFor(null, "methodName");
+    assertThatNullPointerException().isThrownBy(() -> MethodSupport.methodResultFor(null, "methodName"))
+                                    .withMessage("Object instance can not be null!");
   }
 
   @Test
   public void should_fail_meaningfully_if_method_name_not_provided() {
-    thrown.expectNullPointerException("Method name can not be empty!");
-    MethodSupport.methodResultFor(batman, null);
+    assertThatNullPointerException().isThrownBy(() -> MethodSupport.methodResultFor(batman, null))
+                                    .withMessage("Method name can not be empty!");
   }
 
   @Test

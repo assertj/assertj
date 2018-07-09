@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -39,23 +40,25 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_list_of_values_is_null() {
-    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
-    String[] expected = null;
-    strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String[] expected = null;
+      strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    }).withMessage(arrayOfValuesToLookForIsNull());
   }
 
   @Test
   public void should_throw_error_if_given_value_is_null() {
-    thrown.expectNullPointerException("The char sequence to look for should not be null");
-    String expected = null;
-    strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String expected = null;
+      strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    }).withMessage("The char sequence to look for should not be null");
   }
 
   @Test
   public void should_throw_error_if_any_element_of_values_is_null() {
     String[] values = { "author", null };
-    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
-    strings.assertDoesNotContain(someInfo(), "Yoda", values);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertDoesNotContain(someInfo(), "Yoda", values))
+                                    .withMessage("Expecting CharSequence elements not to be null but found one at index 1");
   }
 
   @Test

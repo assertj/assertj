@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.test.DoubleArrays.emptyArray;
@@ -52,8 +53,8 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    arrays.assertDoesNotContain(someInfo(), actual, 8d, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, 8d, null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -86,8 +87,11 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
 
   @Test
   public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("Index should not be null");
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, -8d, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                              actual,
+                                                                                                              -8d,
+                                                                                                              null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test

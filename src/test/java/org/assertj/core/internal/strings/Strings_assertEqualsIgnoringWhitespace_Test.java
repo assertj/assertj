@@ -14,9 +14,10 @@ package org.assertj.core.internal.strings;
 
 import static com.tngtech.java.junit.dataprovider.DataProviders.$;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
-import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
+import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
@@ -56,8 +57,8 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
 
   @Test
   public void should_fail_if_actual_is_not_null_and_expected_is_null() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertEqualsIgnoringWhitespace(someInfo(), "Luke", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertEqualsIgnoringWhitespace(someInfo(), "Luke", null))
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test

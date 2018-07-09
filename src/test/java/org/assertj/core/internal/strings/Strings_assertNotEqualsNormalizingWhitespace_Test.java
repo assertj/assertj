@@ -14,6 +14,7 @@ package org.assertj.core.internal.strings;
 
 import static com.tngtech.java.junit.dataprovider.DataProviders.$;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.CharArrays.arrayOf;
@@ -37,8 +38,9 @@ public class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBa
 
   @Test
   public void should_fail_if_actual_is_not_null_and_expected_is_null() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertNotEqualsNormalizingWhitespace(someInfo(), "Luke", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertNotEqualsNormalizingWhitespace(someInfo(), "Luke",
+                                                                                                   null))
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test

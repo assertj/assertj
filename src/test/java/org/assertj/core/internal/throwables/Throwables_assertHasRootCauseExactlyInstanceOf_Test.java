@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHaveRootCauseExactlyInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -46,8 +47,10 @@ public class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends Throwab
 
   @Test
   public void should_throw_NullPointerException_if_given_type_is_null() {
-    thrown.expectNullPointerException("The given type should not be null");
-    throwables.assertHasRootCauseExactlyInstanceOf(someInfo(), throwableWithCause, null);
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasRootCauseExactlyInstanceOf(someInfo(),
+                                                                                                     throwableWithCause,
+                                                                                                     null))
+                                    .withMessage("The given type should not be null");
   }
 
   @Test

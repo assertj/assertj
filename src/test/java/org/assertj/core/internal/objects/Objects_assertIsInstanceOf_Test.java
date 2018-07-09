@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -50,8 +51,8 @@ public class Objects_assertIsInstanceOf_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_type_is_null() {
-    thrown.expectNullPointerException("The given type should not be null");
-    objects.assertIsInstanceOf(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> objects.assertIsInstanceOf(someInfo(), actual, null))
+                                    .withMessage("The given type should not be null");
   }
 
   @Test

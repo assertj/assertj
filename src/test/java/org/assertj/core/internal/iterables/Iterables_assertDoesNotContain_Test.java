@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -61,8 +62,8 @@ public class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    iterables.assertDoesNotContain(someInfo(), emptyList(), null);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertDoesNotContain(someInfo(), emptyList(), null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

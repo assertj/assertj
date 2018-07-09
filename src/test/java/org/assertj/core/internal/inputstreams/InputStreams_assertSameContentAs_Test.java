@@ -13,6 +13,7 @@
 package org.assertj.core.internal.inputstreams;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -44,8 +45,8 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The InputStream to compare to should not be null");
-    inputStreams.assertSameContentAs(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> inputStreams.assertSameContentAs(someInfo(), actual, null))
+                                    .withMessage("The InputStream to compare to should not be null");
   }
 
   @Test

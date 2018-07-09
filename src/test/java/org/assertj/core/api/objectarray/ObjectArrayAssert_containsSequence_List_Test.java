@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.objectarray;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -44,9 +45,10 @@ public class ObjectArrayAssert_containsSequence_List_Test extends ObjectArrayAss
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(nullSequence());
-    List<Object> nullList = null;
-    assertions.containsSequence(nullList);
+    assertThatNullPointerException().isThrownBy(() -> {
+      List<Object> nullList = null;
+      assertions.containsSequence(nullList);
+    }).withMessage(nullSequence());
   }
 
 }

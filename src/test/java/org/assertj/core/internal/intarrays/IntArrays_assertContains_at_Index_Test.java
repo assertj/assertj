@@ -14,6 +14,7 @@ package org.assertj.core.internal.intarrays;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.IntArrays.emptyArray;
@@ -53,8 +54,8 @@ public class IntArrays_assertContains_at_Index_Test extends IntArraysBaseTest {
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    arrays.assertContains(someInfo(), actual, 8, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, 8, null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -97,8 +98,10 @@ public class IntArrays_assertContains_at_Index_Test extends IntArraysBaseTest {
 
   @Test
   public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("Index should not be null");
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, -8, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                        actual, -8,
+                                                                                                        null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSameHashCode.shouldHaveSameHashCode;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -47,8 +48,8 @@ public class Objects_assertHasSameHashCodeAs_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_other_is_null() {
-    thrown.expectNullPointerException("The object used to compare actual's hash code with should not be null");
-    objects.assertHasSameHashCodeAs(someInfo(), greenYoda, null);
+    assertThatNullPointerException().isThrownBy(() -> objects.assertHasSameHashCodeAs(someInfo(), greenYoda, null))
+                                    .withMessage("The object used to compare actual's hash code with should not be null");
   }
 
   @Test

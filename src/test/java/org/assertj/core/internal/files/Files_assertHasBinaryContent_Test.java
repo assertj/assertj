@@ -13,6 +13,7 @@
 package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -53,8 +54,8 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The binary content to compare to should not be null");
-    files.assertHasBinaryContent(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasBinaryContent(someInfo(), actual, null))
+                                    .withMessage("The binary content to compare to should not be null");
   }
 
   @Test

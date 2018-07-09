@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.core.test.Maps.mapOf;
@@ -57,8 +58,8 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_value_is_null() {
-    thrown.expectNullPointerException("The array of values to look for should not be null");
-    maps.assertContainsValues(someInfo(), actual, (String[])null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsValues(someInfo(), actual, (String[]) null))
+                                    .withMessage("The array of values to look for should not be null");
   }
 
   @Test

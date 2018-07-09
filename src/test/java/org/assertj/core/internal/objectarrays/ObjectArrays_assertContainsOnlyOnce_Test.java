@@ -13,6 +13,7 @@
 package org.assertj.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -88,8 +89,8 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsOnlyOnce(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -152,8 +153,10 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                actual,
+                                                                                                                null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

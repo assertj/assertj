@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -45,8 +46,9 @@ public class IterableAssert_containsSubsequence_List_Test extends IterableAssert
 
   @Test
   public void should_throw_error_if_subsequence_is_null() {
-    thrown.expectNullPointerException(nullSubsequence());
-    List<Object> nullList = null;
-    assertions.containsSubsequence(nullList);
+    assertThatNullPointerException().isThrownBy(() -> {
+      List<Object> nullList = null;
+      assertions.containsSubsequence(nullList);
+    }).withMessage(nullSubsequence());
   }
 }

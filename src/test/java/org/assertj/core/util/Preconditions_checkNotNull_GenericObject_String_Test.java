@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
@@ -32,9 +33,10 @@ public class Preconditions_checkNotNull_GenericObject_String_Test {
 
   @Test
   public void should_throw_nullpointerexception_if_object_is_null() {
-    thrown.expectNullPointerException(CUSTOM_MESSAGE);
-    Object object = null;
-    Preconditions.checkNotNull(object, CUSTOM_MESSAGE);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Object object = null;
+      Preconditions.checkNotNull(object, CUSTOM_MESSAGE);
+    }).withMessage(CUSTOM_MESSAGE);
   }
 
   @Test

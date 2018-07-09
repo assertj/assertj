@@ -66,10 +66,6 @@ public class ExpectedException implements TestRule {
     expectWithMessageContaining(AssertionError.class, parts);
   }
 
-  public void expectNullPointerException(String message) {
-    expect(NullPointerException.class, message);
-  }
-
   public void expectIllegalArgumentException(String message) {
     expect(IllegalArgumentException.class, message);
   }

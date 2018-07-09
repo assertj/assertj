@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.internal.ErrorMessages.emptySequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
@@ -45,9 +46,10 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(nullSequence());
-    Object[] nullArray = null;
-    iterables.assertDoesNotContainSequence(someInfo(), actual, nullArray);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Object[] nullArray = null;
+      iterables.assertDoesNotContainSequence(someInfo(), actual, nullArray);
+    }).withMessage(nullSequence());
   }
 
   @Test

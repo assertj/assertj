@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -20,11 +21,9 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArrays;
@@ -59,8 +58,8 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
 
   @Test
   public void should_throw_error_if_iterable_to_look_for_is_null() {
-    thrown.expectNullPointerException(iterableToLookForIsNull());
-    arrays.assertContainsAll(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsAll(someInfo(), actual, null))
+                                    .withMessage(iterableToLookForIsNull());
   }
 
   @Test
@@ -119,8 +118,10 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
 
   @Test
   public void should_throw_error_if_iterable_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(iterableToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(),
+                                                                                                           actual,
+                                                                                                           null))
+                                    .withMessage(iterableToLookForIsNull());
   }
 
   @Test

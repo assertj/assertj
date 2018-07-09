@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -30,8 +31,8 @@ public class Paths_assertEndsWithRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("the expected end path should not be null");
-    paths.assertEndsWithRaw(info, actual, null);
+    assertThatNullPointerException().isThrownBy(() -> paths.assertEndsWithRaw(info, actual, null))
+                                    .withMessage("the expected end path should not be null");
   }
 
   @Test

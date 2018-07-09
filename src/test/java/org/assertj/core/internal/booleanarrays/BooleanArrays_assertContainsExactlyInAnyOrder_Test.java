@@ -17,6 +17,7 @@ import org.assertj.core.internal.*;
 import org.junit.*;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.BooleanArrays.*;
@@ -59,8 +60,10 @@ public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanA
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
+                                                                                             actual,
+                                                                                             null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

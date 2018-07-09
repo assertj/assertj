@@ -18,6 +18,7 @@ import org.assertj.core.test.IntArrays;
 import org.junit.*;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.ByteArrays.*;
@@ -60,8 +61,9 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_with_Integer_Arguments_T
 
   @Test
   public void should_throw_error_expected_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual,
+                                                                                             (int[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -147,8 +149,10 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_with_Integer_Arguments_T
 
   @Test
   public void should_throw_error_if_expected_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
+                                                                                                                                              actual,
+                                                                                                                                              (int[]) null))
+                                                         .withMessage(valuesToLookForIsNull());
   }
 
   @Test

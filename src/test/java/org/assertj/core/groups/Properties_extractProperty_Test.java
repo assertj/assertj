@@ -13,6 +13,7 @@
 package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.groups.Properties.extractProperty;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -39,8 +40,8 @@ public class Properties_extractProperty_Test {
 
   @Test
   public void should_throw_error_if_property_name_is_null() {
-    thrown.expectNullPointerException("The name of the property to read should not be null");
-    Properties.extractProperty(null, Object.class);
+    assertThatNullPointerException().isThrownBy(() -> Properties.extractProperty(null, Object.class))
+                                    .withMessage("The name of the property to read should not be null");
   }
 
   @Test

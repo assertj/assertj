@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -69,8 +70,9 @@ public class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
 
   @Test
   public void should_throw_error_if_predicate_is_null() {
-    thrown.expectNullPointerException("The predicate to evaluate should not be null");
-    iterables.assertAnyMatch(someInfo(), actual, null, PredicateDescription.GIVEN);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertAnyMatch(someInfo(), actual, null,
+                                                                               PredicateDescription.GIVEN))
+                                    .withMessage("The predicate to evaluate should not be null");
   }
 
 }
