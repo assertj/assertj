@@ -12,11 +12,10 @@
  */
 package org.assertj.core.internal;
 
-import org.junit.Rule;
+import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
-
-import static org.assertj.core.test.ExpectedException.none;
+import org.junit.Rule;
 
 /**
  * Base class for {@link Digests} unit tests.

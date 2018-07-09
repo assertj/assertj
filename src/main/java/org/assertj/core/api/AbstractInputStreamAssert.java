@@ -112,8 +112,8 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * InputStream tested = new FileInputStream(new File("assertj-core-2.9.0.jar"));
    *
    * // The following assertions succeed:
-   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
-   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "dcb3015cd28447644c810af352832c19".getBytes());
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), new byte[]{92, 90, -28, 91, 88, -15, 32, 35, -127, 122, -66, 73, 36, 71, -51, -57, -111, 44, 26, 44});
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), new byte[]{-36, -77, 1, 92, -46, -124, 71, 100, 76, -127, 10, -13, 82, -125, 44, 25});
    *
    * // The following assertions fail:
    * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
@@ -174,8 +174,8 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * InputStream tested = new FileInputStream(new File("assertj-core-2.9.0.jar"));
    *
    * // The following assertion succeeds:
-   * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
-   * assertThat(tested).hasDigest("MD5", "dcb3015cd28447644c810af352832c19".getBytes());
+   * assertThat(tested).hasDigest("SHA1", new byte[]{92, 90, -28, 91, 88, -15, 32, 35, -127, 122, -66, 73, 36, 71, -51, -57, -111, 44, 26, 44});
+   * assertThat(tested).hasDigest("MD5", new byte[]{-36, -77, 1, 92, -46, -124, 71, 100, 76, -127, 10, -13, 82, -125, 44, 25});
    *
    * // The following assertion fails:
    * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());

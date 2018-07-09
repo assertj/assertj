@@ -1180,11 +1180,11 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Examples:
    * <pre><code class="java"> // fs is a filesystem
    * // assume that the current directory contains https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar.
-   * Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   * Path tested = Paths.get("assertj-core-2.9.0.jar");
    *
    * // The following assertions succeed:
-   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
-   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "dcb3015cd28447644c810af352832c19".getBytes());
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), new byte[]{92, 90, -28, 91, 88, -15, 32, 35, -127, 122, -66, 73, 36, 71, -51, -57, -111, 44, 26, 44});
+   * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), new byte[]{-36, -77, 1, 92, -46, -124, 71, 100, 76, -127, 10, -13, 82, -125, 44, 25});
    *
    * // The following assertions fail:
    * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
@@ -1216,7 +1216,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Examples:
    * <pre><code class="java"> // fs is a filesystem
    * // assume that the current directory contains https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar.
-   * Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   * Path tested = Paths.get("assertj-core-2.9.0.jar");
    *
    * // The following assertions succeed:
    * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "5c5ae45b58f12023817abe492447cdc7912c1a2c");
@@ -1252,11 +1252,11 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Examples:
    * <pre><code class="java"> // fs is a filesystem
    * // assume that the current directory contains https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar.
-   * Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   * Path tested = Paths.get("assertj-core-2.9.0.jar");
    *
    * // The following assertions succeed:
-   * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c".getBytes());
-   * assertThat(tested).hasDigest("MD5", "dcb3015cd28447644c810af352832c19".getBytes());
+   * assertThat(tested).hasDigest("SHA1", new byte[]{92, 90, -28, 91, 88, -15, 32, 35, -127, 122, -66, 73, 36, 71, -51, -57, -111, 44, 26, 44});
+   * assertThat(tested).hasDigest("MD5", new byte[]{-36, -77, 1, 92, -46, -124, 71, 100, 76, -127, 10, -13, 82, -125, 44, 25});
    *
    * // The following assertions fail:
    * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
@@ -1286,8 +1286,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Note that the {@link Path} must be readable.
    * <p>
    * Examples:
-   * <pre><code class="java"> // assume that fs is a filesystem containing https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
-   * Path tested = fs.getPath("assertj-core-2.9.0.jar");
+   * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
+   * Path tested = Paths.get("assertj-core-2.9.0.jar");
    *
    * // The following assertions succeed:
    * assertThat(tested).hasDigest("SHA1", "5c5ae45b58f12023817abe492447cdc7912c1a2c");
