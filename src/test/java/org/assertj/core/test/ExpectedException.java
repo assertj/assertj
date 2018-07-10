@@ -14,12 +14,10 @@ package org.assertj.core.test;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -55,11 +53,6 @@ public class ExpectedException implements TestRule {
 
   public void expectAssertionError(ErrorMessageFactory errorMessageFactory) {
     delegate.expect(new ThrowableMatcher<>(AssertionError.class, errorMessageFactory.create()));
-  }
-
-  public void expectAssertionError(AssertionErrorFactory assertionErrorFactory) {
-    AssertionError assertionError = assertionErrorFactory.newAssertionError(null, CONFIGURATION_PROVIDER.representation());
-    delegate.expect(new ThrowableMatcher<>(AssertionError.class, assertionError.getMessage()));
   }
 
   public void expectAssertionErrorWithMessageContaining(String... parts) {

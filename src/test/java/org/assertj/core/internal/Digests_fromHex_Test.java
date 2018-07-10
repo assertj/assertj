@@ -13,11 +13,9 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
-import org.assertj.core.presentation.Representation;
 import org.junit.Test;
 
 /**
@@ -45,12 +43,7 @@ public class Digests_fromHex_Test extends DigestsBaseTest {
 
   @Test
   public void should_fail_if_digest_converted_incorrectly() {
-    // GIVEN
-    Representation representation = STANDARD_REPRESENTATION;
-    // THEN
-    thrown.expectAssertionError(shouldBeEqual(EXPECTED_MD5_DIGEST, DIGEST_TEST_1_BYTES, representation));
-    // WHEN
-    assertThat(Digests.fromHex(EXPECTED_MD5_DIGEST_STR)).isEqualTo(DIGEST_TEST_1_BYTES);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Digests.fromHex(EXPECTED_MD5_DIGEST_STR)).isEqualTo(DIGEST_TEST_1_BYTES));
   }
 
   @Test
