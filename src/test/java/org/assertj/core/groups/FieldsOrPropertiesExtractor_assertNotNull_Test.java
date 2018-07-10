@@ -12,26 +12,22 @@
  */
 package org.assertj.core.groups;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class FieldsOrPropertiesExtractor_assertNotNull_Test {
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_throw_assertion_error_in_absence_of_iterable() {
-    thrown.expectAssertionErrorWithMessageContaining("Expecting actual not to be null");
-    extract((Iterable<?>) null, null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> extract((Iterable<?>) null, null))
+                                                   .withMessageContaining("Expecting actual not to be null");
   }
 
   @Test
   public void should_throw_assertion_error_in_absence_of_array() {
-    thrown.expectAssertionErrorWithMessageContaining("Expecting actual not to be null");
-    extract((Object[]) null, null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> extract((Object[]) null, null))
+                                                   .withMessageContaining("Expecting actual not to be null");
   }
 }

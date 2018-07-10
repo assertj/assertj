@@ -13,23 +13,20 @@
 package org.assertj.core.api.atomic.integer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicIntegerAssert_info_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_info_update() {
     String assertionDescription = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(assertionDescription);
-    assertThat(new AtomicInteger(0)).as(assertionDescription).hasValueLessThan(-1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicInteger(0)).as(assertionDescription)
+                                                                                                     .hasValueLessThan(-1))
+                                                   .withMessageContaining(assertionDescription);
   }
 
 }

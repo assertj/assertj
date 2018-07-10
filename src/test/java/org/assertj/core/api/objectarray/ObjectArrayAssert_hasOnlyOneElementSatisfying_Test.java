@@ -14,6 +14,7 @@ package org.assertj.core.api.objectarray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import org.assertj.core.api.SoftAssertions;
@@ -75,11 +76,11 @@ public class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
                               .hasMessageContaining(format("Expecting:%n <\"Yoda\">%nto start with:%n <\"M\">"));
   }
 
-  
   @Test
   public void fails_if_arry_has_more_than_one_element() {
-    thrown.expectAssertionErrorWithMessageContaining("Expected size:<1> but was:<2>");
-    Jedi[] jedis = { new Jedi("Yoda", "red"), new Jedi("Luke", "green") };
-    assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Jedi[] jedis = { new Jedi("Yoda", "red"), new Jedi("Luke", "green") };
+      assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
+    }).withMessageContaining("Expected size:<1> but was:<2>");
   }
 }

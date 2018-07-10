@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.reference;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -28,10 +29,11 @@ public class AtomicReferenceAssert_customRepresentation_Test {
 
   @Test
   public void should_honor_customRepresentation() {
-    thrown.expectAssertionErrorWithMessageContaining("*foo*");
-    AtomicReference<String> actual = new AtomicReference<>("foo");
-    assertThat(actual).withRepresentation(new CustomRepresentation())
-                      .isEqualTo("bar");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      AtomicReference<String> actual = new AtomicReference<>("foo");
+      assertThat(actual).withRepresentation(new CustomRepresentation())
+                        .isEqualTo("bar");
+    }).withMessageContaining("*foo*");
   }
 
   private class CustomRepresentation extends StandardRepresentation {

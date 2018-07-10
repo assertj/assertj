@@ -13,6 +13,7 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -41,9 +42,9 @@ public class AbstractAssert_withRepresentation_Test {
 
   @Test
   public void should_be_able_to_override_an_existing_representation() {
-    thrown.expectAssertionErrorWithMessageContaining("$foo$", "$bar$");
-    assertThat("foo").withRepresentation(new CustomRepresentation())
-                       .startsWith("bar");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("foo").withRepresentation(new CustomRepresentation())
+                                                                                      .startsWith("bar"))
+                                                   .withMessageContaining("$foo$").withMessageContaining("$bar$");
   }
 
   private class Example {

@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 
@@ -66,16 +67,17 @@ public class AtomicReferenceArrayAssert_extractingResultOf_Test {
 
   @Test
   public void should_use_method_name_as_description_when_extracting_result_of_method_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
-
-    assertThat(jedis).extractingResultOf("age").isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extractingResultOf("age")
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[Extracted: result of age()]");
   }
 
   @Test
   public void should_use_method_name_as_description_when_extracting_typed_result_of_method_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[Extracted: result of age()]");
-
-    assertThat(jedis).extractingResultOf("age", Integer.class).isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extractingResultOf("age",
+                                                                                                          Integer.class)
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[Extracted: result of age()]");
   }
 }
 
