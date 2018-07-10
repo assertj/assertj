@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.throwable;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.test.ExpectedException.none;
@@ -58,15 +59,15 @@ public class ThrowableTypeAssert_description_Test {
 
   @Test
   public void should_contain_provided_description_when_exception_type_is_wrong() {
-    thrown.expectAssertionErrorWithMessageContaining("[test description] %n" +
-                                                     "Expecting:%n" +
-                                                     "  <java.lang.IllegalArgumentException>%n" +
-                                                     "to be an instance of:%n" +
-                                                     "  <java.util.NoSuchElementException>");
-
-    descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class)).isThrownBy(() -> {
-      throw new IllegalArgumentException();
-    });
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class))
+                                                                                     .isThrownBy(() -> {
+                                                                                       throw new IllegalArgumentException();
+                                                                                     }))
+                                                   .withMessageContaining(format("[test description] %n" +
+                                                                                 "Expecting:%n" +
+                                                                                 "  <java.lang.IllegalArgumentException>%n" +
+                                                                                 "to be an instance of:%n" +
+                                                                                 "  <java.util.NoSuchElementException>"));
   }
 
   @Test

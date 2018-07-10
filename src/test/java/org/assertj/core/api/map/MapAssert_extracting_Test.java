@@ -13,25 +13,19 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class MapAssert_extracting_Test {
 
   private static final Object NAME = "name";
-
-  @Rule
-  public ExpectedException thrown = none();
-
   private Map<Object, Object> map;
 
   @Before
@@ -61,16 +55,15 @@ public class MapAssert_extracting_Test {
 
   @Test
   public void should_use_key_names_as_description() {
-    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name, age]");
-
-    assertThat(map).extracting(NAME, "age").isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).extracting(NAME, "age").isEmpty())
+                                                   .withMessageContaining("[Extracted: name, age]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_values_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[check name and age]");
-
-    assertThat(map).as("check name and age").extracting(NAME, "age").isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name and age")
+                                                                                    .extracting(NAME, "age").isEmpty())
+                                                   .withMessageContaining("[check name and age]");
   }
 
   @Test

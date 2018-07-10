@@ -12,23 +12,18 @@
  */
 package org.assertj.core.navigation;
 
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
 import org.assertj.core.test.VehicleFactory;
 import org.assertj.core.test.VehicleFactory.Car;
 import org.assertj.core.util.Streams;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public abstract class GenericNavigableAssert_Test<T extends Iterable<Vehicle>, ASSERT extends AbstractIterableAssert<?, T, Vehicle, VehicleAssert>> {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected VehicleFactory vehicleFactory;
   protected T expectedVehicles;
@@ -68,26 +63,27 @@ public abstract class GenericNavigableAssert_Test<T extends Iterable<Vehicle>, A
 
   @Test
   public void element_navigating_failing_test_index_greater_size() {
-    thrown.expectAssertionErrorWithMessageContaining("VehicleFactory.vehicles check index");
-    vehiclesAssert.element(10).isEqualTo(getVehicle(0));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> vehiclesAssert.element(10)
+                                                                                   .isEqualTo(getVehicle(0)))
+                                                   .withMessageContaining("VehicleFactory.vehicles check index");
   }
 
   @Test
   public void element_navigating_failing_test_actual_not_equal_to_given() {
-    thrown.expectAssertionErrorWithMessageContaining("VehicleFactory.vehicles element at index 1");
-    vehiclesAssert.element(1).isEqualTo(getVehicle(2));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> vehiclesAssert.element(1).isEqualTo(getVehicle(2)))
+                                                   .withMessageContaining("VehicleFactory.vehicles element at index 1");
   }
 
   @Test
   public void first_element_navigating_failing_test() {
-    thrown.expectAssertionErrorWithMessageContaining("VehicleFactory.vehicles check first element");
-    vehiclesAssert.first().isEqualTo(getVehicle(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> vehiclesAssert.first().isEqualTo(getVehicle(1)))
+                                                   .withMessageContaining("VehicleFactory.vehicles check first element");
   }
 
   @Test
   public void last_element_navigating_failing_test() {
-    thrown.expectAssertionErrorWithMessageContaining("VehicleFactory.vehicles check last element");
-    vehiclesAssert.last().isEqualTo(getVehicle(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> vehiclesAssert.last().isEqualTo(getVehicle(1)))
+                                                   .withMessageContaining("VehicleFactory.vehicles check last element");
   }
-  
+
 }

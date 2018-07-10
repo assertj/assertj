@@ -13,17 +13,10 @@
 package org.assertj.core.test;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
-
-import java.util.Arrays;
-import java.util.List;
 
 import org.assertj.core.error.ErrorMessageFactory;
-import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.AllOf;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.StringContains;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -55,10 +48,6 @@ public class ExpectedException implements TestRule {
     delegate.expect(new ThrowableMatcher<>(AssertionError.class, errorMessageFactory.create()));
   }
 
-  public void expectAssertionErrorWithMessageContaining(String... parts) {
-    expectWithMessageContaining(AssertionError.class, parts);
-  }
-
   public void expectIllegalArgumentException(String message) {
     expect(IllegalArgumentException.class, message);
   }
@@ -68,24 +57,12 @@ public class ExpectedException implements TestRule {
     expectMessage(message);
   }
 
-  private void expectWithMessageContaining(Class<? extends Throwable> type, String... parts) {
-    expect(type);
-    expectMessageContaining(parts);
-  }
-
   public void expect(Class<? extends Throwable> type) {
     delegate.expect(type);
   }
 
   public void expectMessage(String message) {
     delegate.expectMessage(IsEqual.equalTo(format(message)));
-  }
-
-  private void expectMessageContaining(String... parts) {
-    List<Matcher<? super String>> matchers = Arrays.stream(parts)
-                                                   .map(part -> StringContains.containsString(format(part)))
-                                                   .collect(toList());
-    delegate.expectMessage(AllOf.allOf(matchers));
   }
 
   private static class ThrowableMatcher<T extends Throwable> extends TypeSafeMatcher<T> {

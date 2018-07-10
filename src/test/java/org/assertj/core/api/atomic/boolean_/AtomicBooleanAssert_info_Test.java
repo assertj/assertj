@@ -13,23 +13,20 @@
 package org.assertj.core.api.atomic.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicBooleanAssert_info_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_info_update() {
     String assertionDescription = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(assertionDescription);
-    assertThat(new AtomicBoolean(true)).as(assertionDescription).isFalse();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).as(assertionDescription)
+                                                                                                        .isFalse())
+                                                   .withMessageContaining(assertionDescription);
   }
 
 }

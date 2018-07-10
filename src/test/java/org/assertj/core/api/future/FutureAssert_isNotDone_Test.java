@@ -13,6 +13,7 @@
 package org.assertj.core.api.future;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,8 +41,7 @@ public class FutureAssert_isNotDone_Test extends FutureAssertBaseTest {
     Future<?> actual = mock(Future.class);
     when(actual.isDone()).thenReturn(true);
 
-    thrown.expectAssertionErrorWithMessageContaining("not to be done");
-
-    assertThat(actual).isNotDone();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNotDone())
+                                                   .withMessageContaining("not to be done");
   }
 }
