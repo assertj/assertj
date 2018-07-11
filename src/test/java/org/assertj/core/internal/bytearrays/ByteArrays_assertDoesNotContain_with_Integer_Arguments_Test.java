@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
@@ -47,8 +48,9 @@ public class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertDoesNotContain(someInfo(), actual, IntArrays.emptyArray());
+    assertThatIllegalArgumentException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual,
+                                                                                      IntArrays.emptyArray()))
+                                        .withMessage(valuesToLookForIsEmpty());
   }
 
   @Test
@@ -87,8 +89,10 @@ public class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, IntArrays.emptyArray());
+    assertThatIllegalArgumentException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                  actual,
+                                                                                                                  IntArrays.emptyArray()))
+                                        .withMessage(valuesToLookForIsEmpty());
   }
 
   @Test

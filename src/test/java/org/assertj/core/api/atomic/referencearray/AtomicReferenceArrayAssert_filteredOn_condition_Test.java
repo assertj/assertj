@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.not;
 
 import org.assertj.core.api.Condition;
@@ -48,8 +49,8 @@ public class AtomicReferenceArrayAssert_filteredOn_condition_Test extends Atomic
 
   @Test
   public void should_fail_if_given_condition_is_null() {
-    thrown.expectIllegalArgumentException("The filter condition should not be null");
-    assertThat(employees).filteredOn(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null))
+                                        .withMessage("The filter condition should not be null");
   }
 
 }

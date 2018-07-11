@@ -14,27 +14,22 @@ package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class FieldsOrPropertiesExtractor_extract_Test {
-  
-  @Rule
-  public ExpectedException thrown = none();
-  
+
   private Employee yoda;
   private Employee luke;
   private List<Employee> employees;
@@ -95,19 +90,19 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> extract(employees, byName("unknown")));
   }
-  
+
   @Test
   public void should_throw_exception_when_given_name_is_null() {
-    thrown.expectIllegalArgumentException("The name of the field/property to read should not be null");
-    extract(employees, byName((String)null));
+    assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName((String) null)))
+                                        .withMessage("The name of the field/property to read should not be null");
   }
-  
+
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-    thrown.expectIllegalArgumentException("The name of the field/property to read should not be empty");
-    extract(employees, byName(""));
+    assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName("")))
+                                        .withMessage("The name of the field/property to read should not be empty");
   }
-  
+
   @Test
   public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
 

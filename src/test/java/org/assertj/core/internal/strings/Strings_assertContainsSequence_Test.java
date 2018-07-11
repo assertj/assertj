@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
@@ -78,8 +79,9 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_values_are_empty() {
-    thrown.expectIllegalArgumentException(arrayOfValuesToLookForIsEmpty());
-    strings.assertContainsSequence(someInfo(), actual, new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual,
+                                                                                         new String[0]))
+                                        .withMessage(arrayOfValuesToLookForIsEmpty());
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.internal.objects;
 
 import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.internal.ErrorMessages.arrayIsEmpty;
@@ -55,8 +56,8 @@ public class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_array_is_empty() {
-    thrown.expectIllegalArgumentException(arrayIsEmpty());
-    objects.assertIsIn(someInfo(), "Yoda", emptyArray());
+    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertIsIn(someInfo(), "Yoda", emptyArray()))
+                                        .withMessage(arrayIsEmpty());
   }
 
   @Test

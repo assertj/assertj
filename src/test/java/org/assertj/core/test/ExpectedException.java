@@ -48,10 +48,6 @@ public class ExpectedException implements TestRule {
     delegate.expect(new ThrowableMatcher<>(AssertionError.class, errorMessageFactory.create()));
   }
 
-  public void expectIllegalArgumentException(String message) {
-    expect(IllegalArgumentException.class, message);
-  }
-
   private void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);

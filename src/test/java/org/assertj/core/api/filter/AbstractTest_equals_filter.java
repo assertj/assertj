@@ -14,6 +14,7 @@ package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.test.ExpectedException.none;
@@ -57,8 +58,7 @@ public abstract class AbstractTest_equals_filter extends WithPlayerData {
 
   @Test
   public void should_fail_if_property_to_filter_on_is_null() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    filterIterable(players, null, 6000L);
+    assertThatIllegalArgumentException().isThrownBy(() -> filterIterable(players, null, 6000L)).withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test

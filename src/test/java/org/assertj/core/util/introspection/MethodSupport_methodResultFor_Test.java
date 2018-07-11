@@ -13,6 +13,7 @@
 package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -69,28 +70,28 @@ public class MethodSupport_methodResultFor_Test {
 
   @Test
   public void should_fail_meaningfully_if_method_name_is_empty() {
-    thrown.expectIllegalArgumentException("Method name can not be empty!");
-    MethodSupport.methodResultFor(batman, "");
+    assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, ""))
+                                        .withMessage("Method name can not be empty!");
   }
 
   @Test
   public void should_fail_meaningfully_if_method_not_found() {
-    thrown.expectIllegalArgumentException("Can't find method 'commitCrime' in class SuperHero.class. Make sure public" +
-                                            " method exists and accepts no arguments!");
-    MethodSupport.methodResultFor(batman, "commitCrime");
+    assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, "commitCrime"))
+                                        .withMessage("Can't find method 'commitCrime' in class SuperHero.class. Make sure public"
+                                                     + " method exists and accepts no arguments!");
   }
 
   @Test
   public void should_fail_meaningfully_if_method_does_not_return_value() {
-    thrown.expectIllegalArgumentException("Method 'saveTheDay' in class SuperHero.class has to return a value!");
-    MethodSupport.methodResultFor(batman, "saveTheDay");
+    assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, "saveTheDay"))
+                                        .withMessage("Method 'saveTheDay' in class SuperHero.class has to return a value!");
   }
 
   @Test
   public void should_fail_meaningfully_if_method_is_not_public() {
-    thrown.expectIllegalArgumentException("Can't find method 'trueIdentity' in class SuperHero.class. Make sure " +
-                                            "public method exists and accepts no arguments!");
-    MethodSupport.methodResultFor(batman, "trueIdentity");
+    assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, "trueIdentity"))
+                                        .withMessage("Can't find method 'trueIdentity' in class SuperHero.class. Make sure "
+                                                     + "public method exists and accepts no arguments!");
   }
 
 }

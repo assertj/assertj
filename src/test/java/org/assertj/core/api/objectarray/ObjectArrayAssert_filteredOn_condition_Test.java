@@ -13,6 +13,7 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.not;
 
 import org.assertj.core.api.Condition;
@@ -48,9 +49,10 @@ public class ObjectArrayAssert_filteredOn_condition_Test extends ObjectArrayAsse
 
   @Test
   public void should_fail_if_given_condition_is_null() {
-    thrown.expectIllegalArgumentException("The filter condition should not be null");
-    oldEmployees = null;
-    assertThat(employees).filteredOn(oldEmployees);
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      oldEmployees = null;
+      assertThat(employees).filteredOn(oldEmployees);
+    }).withMessage("The filter condition should not be null");
   }
 
 }

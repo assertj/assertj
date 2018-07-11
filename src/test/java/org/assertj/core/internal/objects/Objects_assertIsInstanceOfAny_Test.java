@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.test.TestData.someInfo;
@@ -58,8 +59,9 @@ public class Objects_assertIsInstanceOfAny_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_types_is_empty() {
-    thrown.expectIllegalArgumentException("The given array of types should not be empty");
-    objects.assertIsInstanceOfAny(someInfo(), actual, new Class<?>[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertIsInstanceOfAny(someInfo(), actual,
+                                                                                        new Class<?>[0]))
+                                        .withMessage("The given array of types should not be empty");
   }
 
   @Test

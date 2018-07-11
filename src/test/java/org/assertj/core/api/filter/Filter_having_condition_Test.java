@@ -13,6 +13,7 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.filter.Filters.filter;
 
 import org.assertj.core.test.Player;
@@ -35,8 +36,8 @@ public class Filter_having_condition_Test extends WithPlayerData {
 
   @Test
   public void should_fail_if_filter_condition_is_null() {
-    thrown.expectIllegalArgumentException("The filter condition should not be null");
-    filter(players).having(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> filter(players).having(null))
+                                        .withMessage("The filter condition should not be null");
   }
 
 }

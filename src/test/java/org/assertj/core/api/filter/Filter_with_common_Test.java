@@ -13,6 +13,7 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -34,14 +35,15 @@ public class Filter_with_common_Test extends WithPlayerData {
 
   @Test
   public void should_fail_if_property_or_field_to_filter_on_is_null() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    filter(players).with("reboundsPerGame").equalsTo(5).and(null).equalsTo("OKC");
+    assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with("reboundsPerGame").equalsTo(5).and(null)
+                                                                         .equalsTo("OKC"))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
   public void should_fail_if_property_or_field_to_filter_on_is_empty() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    filter(players).with("").equalsTo("OKC");
+    assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with("").equalsTo("OKC"))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
 }

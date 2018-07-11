@@ -15,6 +15,7 @@ package org.assertj.core.internal.paths;
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
@@ -100,11 +101,13 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   public void should_fail_if_other_is_not_a_readable_file() {
     when(nioFilesWrapper.isReadable(other)).thenReturn(false);
 
-    thrown.expectIllegalArgumentException(format("The given Path <%s> to compare actual content to should be readable", other));
-
-    paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), other, defaultCharset());
+    assertThatIllegalArgumentException().isThrownBy(() -> paths.assertHasSameContentAs(someInfo(), actual,
+                                                                                       defaultCharset(), other,
+                                                                                       defaultCharset()))
+                                        .withMessage(format("The given Path <%s> to compare actual content to should be readable",
+                                                            other));
   }
-  
+
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
 	IOException cause = new IOException();

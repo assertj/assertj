@@ -13,6 +13,7 @@
 package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
@@ -86,10 +87,9 @@ public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertB
 
   @Test
   public void should_fail_if_given_field_or_property_name_is_null() {
-    thrown.expectIllegalArgumentException("The name of the property/field to read should not be null");
-
-    Jedi jedi = new Jedi("Yoda", "Blue");
-
-    assertThat(jedi).hasFieldOrPropertyWithValue(null, FIELD_VALUE);
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      Jedi jedi = new Jedi("Yoda", "Blue");
+      assertThat(jedi).hasFieldOrPropertyWithValue(null, FIELD_VALUE);
+    }).withMessage("The name of the property/field to read should not be null");
   }
 }

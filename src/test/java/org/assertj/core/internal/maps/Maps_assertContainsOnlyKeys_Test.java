@@ -14,6 +14,7 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
@@ -55,8 +56,8 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_given_keys_array_is_empty() {
-    thrown.expectIllegalArgumentException(keysToLookForIsEmpty());
-    maps.assertContainsOnlyKeys(someInfo(), actual, emptyKeys());
+    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsOnlyKeys(someInfo(), actual, emptyKeys()))
+                                        .withMessage(keysToLookForIsEmpty());
   }
 
   @Test

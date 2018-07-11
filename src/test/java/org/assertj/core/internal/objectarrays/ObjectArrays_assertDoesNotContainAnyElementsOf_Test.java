@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
@@ -44,8 +45,9 @@ public class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectA
 
   @Test
   public void should_throw_error_if_given_iterable_is_empty() {
-	thrown.expectIllegalArgumentException(iterableValuesToLookForIsEmpty());
-	arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, Collections.<String> emptyList());
+    assertThatIllegalArgumentException().isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual,
+                                                                                                   Collections.<String> emptyList()))
+                                        .withMessage(iterableValuesToLookForIsEmpty());
   }
 
   @Test
