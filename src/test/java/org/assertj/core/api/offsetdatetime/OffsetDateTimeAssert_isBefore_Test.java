@@ -15,6 +15,7 @@ package org.assertj.core.api.offsetdatetime;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -58,9 +59,10 @@ public class OffsetDateTimeAssert_isBefore_Test extends OffsetDateTimeAssertBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    OffsetDateTime actual = null;
-    assertThat(actual).isBefore(OffsetDateTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      OffsetDateTime actual = null;
+      assertThat(actual).isBefore(OffsetDateTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

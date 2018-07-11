@@ -13,6 +13,7 @@
 package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -55,9 +56,10 @@ public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	expectException(AssertionError.class, actualIsNull());
-	LocalTime actual = null;
-	assertThat(actual).isBefore(LocalTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalTime actual = null;
+      assertThat(actual).isBefore(LocalTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

@@ -14,6 +14,7 @@ package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.AbstractLocalTimeAssert.NULL_LOCAL_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -54,9 +55,10 @@ public class LocalTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest 
 
   @Test
   public void should_fail_if_actual_is_null() {
-	expectException(AssertionError.class, actualIsNull());
-	LocalTime actual = null;
-	assertThat(actual).isEqualToIgnoringNanos(LocalTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalTime actual = null;
+      assertThat(actual).isEqualToIgnoringNanos(LocalTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

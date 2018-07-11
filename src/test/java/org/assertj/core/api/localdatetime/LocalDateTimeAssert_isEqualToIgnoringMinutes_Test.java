@@ -14,6 +14,7 @@ package org.assertj.core.api.localdatetime;
 
 import static org.assertj.core.api.AbstractLocalDateTimeAssert.NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -48,9 +49,10 @@ public class LocalDateTimeAssert_isEqualToIgnoringMinutes_Test extends BaseTest 
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    LocalDateTime actual = null;
-    assertThat(actual).isEqualToIgnoringMinutes(LocalDateTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalDateTime actual = null;
+      assertThat(actual).isEqualToIgnoringMinutes(LocalDateTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

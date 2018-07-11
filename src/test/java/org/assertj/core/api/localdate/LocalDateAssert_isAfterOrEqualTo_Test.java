@@ -13,6 +13,7 @@
 package org.assertj.core.api.localdate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -56,9 +57,10 @@ public class LocalDateAssert_isAfterOrEqualTo_Test extends LocalDateAssertBaseTe
 
   @Test
   public void should_fail_if_actual_is_null() {
-	expectException(AssertionError.class, actualIsNull());
-	LocalDate actual = null;
-	assertThat(actual).isAfterOrEqualTo(LocalDate.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalDate actual = null;
+      assertThat(actual).isAfterOrEqualTo(LocalDate.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

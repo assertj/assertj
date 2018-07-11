@@ -14,6 +14,7 @@ package org.assertj.core.api.localtime;
 
 import static java.time.LocalTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -52,9 +53,10 @@ public class LocalTimeAssert_isAfter_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	expectException(AssertionError.class, actualIsNull());
-	LocalTime actual = null;
-	assertThat(actual).isAfter(LocalTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalTime actual = null;
+      assertThat(actual).isAfter(LocalTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

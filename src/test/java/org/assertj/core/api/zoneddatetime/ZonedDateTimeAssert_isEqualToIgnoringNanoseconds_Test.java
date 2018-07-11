@@ -15,6 +15,7 @@ package org.assertj.core.api.zoneddatetime;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -49,9 +50,10 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    ZonedDateTime actual = null;
-    assertThat(actual).isEqualToIgnoringNanos(ZonedDateTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      ZonedDateTime actual = null;
+      assertThat(actual).isEqualToIgnoringNanos(ZonedDateTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

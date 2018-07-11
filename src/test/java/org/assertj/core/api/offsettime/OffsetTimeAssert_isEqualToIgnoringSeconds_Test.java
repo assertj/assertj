@@ -14,6 +14,7 @@ package org.assertj.core.api.offsettime;
 
 import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -54,9 +55,10 @@ public class OffsetTimeAssert_isEqualToIgnoringSeconds_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    OffsetTime actual = null;
-    assertThat(actual).isEqualToIgnoringSeconds(OffsetTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      OffsetTime actual = null;
+      assertThat(actual).isEqualToIgnoringSeconds(OffsetTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test
