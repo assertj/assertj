@@ -14,6 +14,7 @@ package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.AbstractLocalTimeAssert.NULL_LOCAL_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalTime;
@@ -61,8 +62,8 @@ public class LocalTimeAssert_hasSameHourAs_Test extends BaseTest {
 
   @Test
   public void should_throw_error_if_given_localtimetime_is_null() {
-	expectIllegalArgumentException(NULL_LOCAL_TIME_PARAMETER_MESSAGE);
-	assertThat(refLocalTime).hasSameHourAs(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(null))
+                                        .withMessage(NULL_LOCAL_TIME_PARAMETER_MESSAGE);
   }
 
 }

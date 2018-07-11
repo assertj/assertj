@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
@@ -73,8 +74,8 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
 
   @Test
   public void should_throw_error_if_given_datetime_is_null() {
-    expectIllegalArgumentException(NULL_DATE_TIME_PARAMETER_MESSAGE);
-    assertThat(refDatetime).isEqualToIgnoringHours(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringHours(null))
+                                        .withMessage(NULL_DATE_TIME_PARAMETER_MESSAGE);
   }
 
 }

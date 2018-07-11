@@ -16,6 +16,7 @@ import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
@@ -61,8 +62,8 @@ public class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test extends BaseTest
 
   @Test
   public void should_throw_error_if_given_offsetdatetime_is_null() {
-    expectIllegalArgumentException(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
-    assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(null))
+                                        .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }
 
 }
