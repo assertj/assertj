@@ -14,6 +14,7 @@ package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
@@ -70,14 +71,14 @@ public class ObjectArrayAssert_filteredOn_in_Test extends ObjectArrayAssert_filt
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_null() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    assertThat(employees).filteredOn(null, in(800));
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, in(800)))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_empty() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    assertThat(employees).filteredOn("", in(800));
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn("", in(800)))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test

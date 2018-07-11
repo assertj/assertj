@@ -117,14 +117,12 @@ public class PropertyOrFieldSupport_getValueOf_Test {
 
   @Test
   public void should_throw_exception_when_given_property_or_field_name_is_null() {
-    thrown.expectIllegalArgumentException("The name of the property/field to read should not be null");
-    propertyOrFieldSupport.getValueOf(null, yoda);
+    assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf(null, yoda)).withMessage("The name of the property/field to read should not be null");
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-    thrown.expectIllegalArgumentException("The name of the property/field to read should not be empty");
-    propertyOrFieldSupport.getValueOf("", yoda);
+    assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf("", yoda)).withMessage("The name of the property/field to read should not be empty");
   }
 
   @Test

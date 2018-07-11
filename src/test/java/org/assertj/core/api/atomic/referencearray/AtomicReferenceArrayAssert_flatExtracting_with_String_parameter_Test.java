@@ -77,7 +77,6 @@ public class AtomicReferenceArrayAssert_flatExtracting_with_String_parameter_Tes
 
   @Test
   public void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
-    thrown.expectIllegalArgumentException("Flat extracting expects extracted values to be Iterables or arrays but was a String");
-    assertThat(new CartoonCharacter[] { homer, fred }).flatExtracting("name");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new CartoonCharacter[] { homer, fred }).flatExtracting("name")).withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
   }
 }

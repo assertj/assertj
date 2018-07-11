@@ -13,6 +13,7 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
@@ -74,8 +75,9 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_given_entries_array_is_empty() {
-    thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
-    maps.assertContainsExactly(someInfo(), linkedActual, emptyEntries());
+    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual,
+                                                                                     emptyEntries()))
+                                        .withMessage(entriesToLookForIsEmpty());
   }
 
   @SuppressWarnings("unchecked")

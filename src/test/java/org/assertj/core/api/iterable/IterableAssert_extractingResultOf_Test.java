@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
@@ -79,8 +80,8 @@ public class IterableAssert_extractingResultOf_Test {
 
   @Test
   public void should_throw_error_if_no_method_with_given_name_can_be_extracted() {
-    thrown.expectIllegalArgumentException("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
-    assertThat(jedis).extractingResultOf("unknown");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(jedis).extractingResultOf("unknown"))
+                                        .withMessage("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
   }
 
   @Test

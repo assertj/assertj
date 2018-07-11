@@ -14,6 +14,7 @@ package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -45,8 +46,8 @@ public class Filter_with_property_in_given_values_Test extends WithPlayerData {
 
   @Test
   public void should_fail_if_property_to_filter_on_is_null() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    filter(players).with(null).in("foo", "bar");
+    assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with(null).in("foo", "bar"))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test

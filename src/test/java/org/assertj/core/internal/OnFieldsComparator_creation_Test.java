@@ -13,16 +13,11 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class OnFieldsComparator_creation_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_create_comparator_using_fields() {
@@ -34,43 +29,43 @@ public class OnFieldsComparator_creation_Test {
   @SuppressWarnings("unused")
   @Test
   public void should_fail_if_no_fields_are_given() {
-    thrown.expectIllegalArgumentException("No fields/properties specified");
-    new OnFieldsComparator();
+    assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator())
+                                        .withMessage("No fields/properties specified");
   }
 
   @SuppressWarnings("unused")
   @Test
   public void should_fail_if_null_array_fields_is_given() {
-    thrown.expectIllegalArgumentException("No fields/properties specified");
-    new OnFieldsComparator((String[]) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator((String[]) null))
+                                        .withMessage("No fields/properties specified");
   }
 
   @SuppressWarnings("unused")
   @Test
   public void should_fail_if_empty_array_fields_is_given() {
-    thrown.expectIllegalArgumentException("No fields/properties specified");
-    new OnFieldsComparator(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator(new String[0]))
+                                        .withMessage("No fields/properties specified");
   }
 
   @SuppressWarnings("unused")
   @Test
   public void should_fail_if_some_fields_are_null() {
-    thrown.expectIllegalArgumentException("Null/blank fields/properties are invalid, fields/properties were [\"a\", null]");
-    new OnFieldsComparator("a", null);
+    assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", null))
+                                        .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", null]");
   }
 
   @SuppressWarnings("unused")
   @Test
   public void should_fail_if_some_fields_are_empty() {
-    thrown.expectIllegalArgumentException("Null/blank fields/properties are invalid, fields/properties were [\"a\", \"\"]");
-    new OnFieldsComparator("a", "");
+    assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", ""))
+                                        .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", \"\"]");
   }
 
   @SuppressWarnings("unused")
   @Test
   public void should_fail_if_some_fields_are_blank() {
-    thrown.expectIllegalArgumentException("Null/blank fields/properties are invalid, fields/properties were [\"a\", \" \"]");
-    new OnFieldsComparator("a", " ");
+    assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", " "))
+                                        .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", \" \"]");
   }
 
 }

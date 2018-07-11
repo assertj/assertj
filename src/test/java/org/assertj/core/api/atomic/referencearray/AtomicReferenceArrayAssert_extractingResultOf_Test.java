@@ -14,16 +14,14 @@ package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.FluentJedi;
 import org.assertj.core.test.Name;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicReferenceArrayAssert_extractingResultOf_Test {
@@ -38,9 +36,6 @@ public class AtomicReferenceArrayAssert_extractingResultOf_Test {
     vader = new FluentJedi(new Name("Darth Vader"), 50 ,true);
     jedis = new AtomicReferenceArray<>(array(yoda, vader));
   }
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() {
@@ -61,8 +56,8 @@ public class AtomicReferenceArrayAssert_extractingResultOf_Test {
 
   @Test
   public void should_throw_error_if_no_method_with_given_name_can_be_extracted() {
-    thrown.expectIllegalArgumentException("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
-    assertThat(jedis).extractingResultOf("unknown");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(jedis).extractingResultOf("unknown"))
+                                        .withMessage("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
   }
 
   @Test

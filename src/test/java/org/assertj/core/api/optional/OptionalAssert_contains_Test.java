@@ -13,6 +13,7 @@
 package org.assertj.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -32,9 +33,8 @@ public class OptionalAssert_contains_Test extends BaseTest {
 
   @Test
   public void should_fail_if_expected_value_is_null() throws Exception {
-    thrown.expectIllegalArgumentException("The expected value should not be <null>.");
-
-	assertThat(Optional.of("something")).contains(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of("something")).contains(null))
+                                        .withMessage("The expected value should not be <null>.");
   }
 
   @Test

@@ -15,6 +15,7 @@ package org.assertj.core.api.atomic.referencearray;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
@@ -71,21 +72,21 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_null() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    assertThat(employees).filteredOn(null, 800);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, 800))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_empty() {
-    thrown.expectIllegalArgumentException("The property/field name to filter on should not be null or empty");
-    assertThat(employees).filteredOn("", 800);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn("", 800))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
   public void should_fail_if_given_expected_value_is_null() {
-    thrown.expectIllegalArgumentException(format("The expected value should not be null.%n"
-                                                 + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
-    assertThat(employees).filteredOn("name", null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn("name", null))
+                                        .withMessage(format("The expected value should not be null.%n"
+                                                            + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
   }
 
   @Test

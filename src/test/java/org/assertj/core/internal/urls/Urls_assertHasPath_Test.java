@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -41,8 +42,8 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
 
   @Test
   public void should_throw_an_exception_fail_if_given_path_is_null() throws MalformedURLException {
-    thrown.expectIllegalArgumentException("Expecting given path not to be null");
-    urls.assertHasPath(info, new URL("http://example.com"), null);
+    assertThatIllegalArgumentException().isThrownBy(() -> urls.assertHasPath(info, new URL("http://example.com"), null))
+                                        .withMessage("Expecting given path not to be null");
   }
 
   @Test

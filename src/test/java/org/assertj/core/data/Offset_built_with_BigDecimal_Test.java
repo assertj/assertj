@@ -13,23 +13,18 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.data.Offset.strictOffset;
 import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
 import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStrictlyPositive;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.math.BigDecimal;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Offset_built_with_BigDecimal_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_throw_error_if_value_is_null() {
@@ -41,14 +36,14 @@ public class Offset_built_with_BigDecimal_Test {
 
   @Test
   public void should_throw_error_if_value_is_negative() {
-    thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
-    offset(new BigDecimal(-1));
+    assertThatIllegalArgumentException().isThrownBy(() -> offset(new BigDecimal(-1)))
+                                        .withMessage(offsetValueIsNotPositive());
   }
 
   @Test
   public void should_throw_error_if_value_is_zero_strict_offset() {
-    thrown.expectIllegalArgumentException(strictOffsetValueIsNotStrictlyPositive());
-    strictOffset(BigDecimal.ZERO);
+    assertThatIllegalArgumentException().isThrownBy(() -> strictOffset(BigDecimal.ZERO))
+                                        .withMessage(strictOffsetValueIsNotStrictlyPositive());
   }
 
   @Test

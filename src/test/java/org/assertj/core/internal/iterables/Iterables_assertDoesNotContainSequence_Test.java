@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.internal.ErrorMessages.emptySequence;
@@ -54,8 +55,9 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
 
   @Test
   public void should_throw_error_if_sequence_is_empty() {
-    thrown.expectIllegalArgumentException(emptySequence());
-    iterables.assertDoesNotContainSequence(someInfo(), actual, emptyArray());
+    assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainSequence(someInfo(), actual,
+                                                                                                 emptyArray()))
+                                        .withMessage(emptySequence());
   }
 
   @Test

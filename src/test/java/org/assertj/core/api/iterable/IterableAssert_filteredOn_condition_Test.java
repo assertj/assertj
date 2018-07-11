@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
@@ -53,9 +54,10 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
 
   @Test
   public void should_fail_if_given_condition_is_null() {
-    thrown.expectIllegalArgumentException("The filter condition should not be null");
-    oldEmployees = null;
-    assertThat(employees).filteredOn(oldEmployees);
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      oldEmployees = null;
+      assertThat(employees).filteredOn(oldEmployees);
+    }).withMessage("The filter condition should not be null");
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
@@ -52,8 +53,10 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
 
   @Test
   public void should_throw_error_if_given_iterable_is_empty() {
-    thrown.expectIllegalArgumentException(iterableValuesToLookForIsEmpty());
-    iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, emptyList());
+    assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(),
+                                                                                                      actual,
+                                                                                                      emptyList()))
+                                        .withMessage(iterableValuesToLookForIsEmpty());
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.internal.comparables;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
@@ -79,14 +80,16 @@ public class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
 
   @Test
   public void should_fail_if_end_is_less_than_start() {
-    thrown.expectIllegalArgumentException("The end value <7> must not be less than or equal to the start value <8>!");
-    comparables.assertIsBetween(someInfo(), 8, 8, 7, false, false);
+    assertThatIllegalArgumentException().isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 8, 7, false,
+                                                                                      false))
+                                        .withMessage("The end value <7> must not be less than or equal to the start value <8>!");
   }
 
   @Test
   public void should_fail_if_end_is_equal_to_start() {
-    thrown.expectIllegalArgumentException("The end value <8> must not be less than or equal to the start value <8>!");
-    comparables.assertIsBetween(someInfo(), 8, 8, 8, false, false);
+    assertThatIllegalArgumentException().isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 8, 8, false,
+                                                                                      false))
+                                        .withMessage("The end value <8> must not be less than or equal to the start value <8>!");
   }
 
   // ------------------------------------------------------------------------------------------------------------------

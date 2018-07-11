@@ -13,6 +13,7 @@
 package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.groups.Properties.extractProperty;
 import static org.assertj.core.test.ExpectedException.none;
@@ -46,10 +47,10 @@ public class Properties_extractProperty_Test {
 
   @Test
   public void should_throw_error_if_property_name_is_empty() {
-    thrown.expectIllegalArgumentException("The name of the property to read should not be empty");
-    Properties.extractProperty("", Object.class);
+    assertThatIllegalArgumentException().isThrownBy(() -> Properties.extractProperty("", Object.class))
+                                        .withMessage("The name of the property to read should not be empty");
   }
-  
+
   @Test
   public void extractProperty_string_Test() {
     TestItem[] ITEMS = { new TestItem("n1", "v1"), new TestItem("n2", "v2") };

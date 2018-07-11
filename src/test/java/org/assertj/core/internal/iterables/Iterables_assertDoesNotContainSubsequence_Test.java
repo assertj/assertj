@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
@@ -53,8 +54,9 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
 
   @Test
   public void should_throw_error_if_subsequence_is_empty() {
-    thrown.expectIllegalArgumentException(emptySubsequence());
-    iterables.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray());
+    assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), actual,
+                                                                                                    emptyArray()))
+                                        .withMessage(emptySubsequence());
   }
 
   @Test

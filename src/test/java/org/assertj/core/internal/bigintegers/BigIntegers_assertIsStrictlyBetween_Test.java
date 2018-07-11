@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
@@ -117,8 +118,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
 
   @Test
   public void should_fail_if_actual_is_not_in_range_end() {
-    thrown.expectIllegalArgumentException("The end value <0> must not be less than or equal to the start value <0>!");
-    AssertionInfo info = someInfo();
-    numbers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
+    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, ZERO))
+                                        .withMessage("The end value <0> must not be less than or equal to the start value <0>!");
   }
 }
