@@ -44,10 +44,10 @@ public class Assertions_assertThatCode_Test {
     ThrowingCallable boom = raisingException(exception);
 
     // Expect
-    thrown.expectAssertionError(shouldNotHaveThrown(exception).create());
-
-    // When
-    assertThatCode(boom).doesNotThrowAnyException();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      // When;
+      assertThatCode(boom).doesNotThrowAnyException();
+    }).withMessage(shouldNotHaveThrown(exception).create());
   }
 
   @Test

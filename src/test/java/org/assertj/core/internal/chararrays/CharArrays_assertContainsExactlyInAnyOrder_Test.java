@@ -66,8 +66,8 @@ public class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysB
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf('b'));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf('b')))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -160,8 +160,8 @@ public class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysB
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf('b'));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf('b')))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

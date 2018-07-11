@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
@@ -62,8 +63,8 @@ public class Iterables_assertContainsAll_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsAll(someInfo(), null, newArrayList("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAll(someInfo(), null, newArrayList("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

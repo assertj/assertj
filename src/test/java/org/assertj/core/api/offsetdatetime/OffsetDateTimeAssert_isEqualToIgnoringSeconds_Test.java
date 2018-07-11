@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,24 +36,26 @@ public class OffsetDateTimeAssert_isEqualToIgnoringSeconds_Test extends BaseTest
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_offsetdatetime_with_second_ignored() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <2000-01-01T23:51Z>%n" +
-                                "to have same year, month, day, hour and minute as:%n" +
-                                "  <2000-01-01T23:52Z>%n" +
-                                "but had not.");
-    assertThat(refOffsetDateTime).isEqualToIgnoringSeconds(refOffsetDateTime.plusMinutes(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringSeconds(refOffsetDateTime.plusMinutes(1)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <2000-01-01T23:51Z>%n" +
+                                                                       "to have same year, month, day, hour and minute as:%n"
+                                                                       +
+                                                                       "  <2000-01-01T23:52Z>%n" +
+                                                                       "but had not."));
   }
 
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <2000-01-01T23:51Z>%n" +
-                                "to have same year, month, day, hour and minute as:%n" +
-                                "  <2000-01-01T23:50:59.999999999Z>%n" +
-                                "but had not.");
-    assertThat(refOffsetDateTime).isEqualToIgnoringSeconds(refOffsetDateTime.minusNanos(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringSeconds(refOffsetDateTime.minusNanos(1)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <2000-01-01T23:51Z>%n" +
+                                                                       "to have same year, month, day, hour and minute as:%n"
+                                                                       +
+                                                                       "  <2000-01-01T23:50:59.999999999Z>%n" +
+                                                                       "but had not."));
   }
 
   @Test

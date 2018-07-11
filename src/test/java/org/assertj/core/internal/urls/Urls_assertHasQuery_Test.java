@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -46,8 +47,8 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    urls.assertHasQuery(info, null, "http://www.helloworld.org/index.html?type=test");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasQuery(info, null, "http://www.helloworld.org/index.html?type=test"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

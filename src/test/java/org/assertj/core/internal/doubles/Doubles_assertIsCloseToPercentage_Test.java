@@ -43,8 +43,8 @@ public class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    doubles.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -32,20 +33,20 @@ public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
-    thrown.expectAssertionError(shouldBeEqual(null, "Luke").create());
-    strings.assertEqualsIgnoringCase(someInfo(), null, "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsIgnoringCase(someInfo(), null, "Luke"))
+                                                   .withMessage(shouldBeEqual(null, "Luke").create());
   }
 
   @Test
   public void should_fail_if_actual_is_not_null_and_expected_is() {
-    thrown.expectAssertionError(shouldBeEqual("Luke", null).create());
-    strings.assertEqualsIgnoringCase(someInfo(), "Luke", null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsIgnoringCase(someInfo(), "Luke", null))
+                                                   .withMessage(shouldBeEqual("Luke", null).create());
   }
 
   @Test
   public void should_fail_if_both_Strings_are_not_equal_regardless_of_case() {
-    thrown.expectAssertionError(shouldBeEqual("Yoda", "Luke").create());
-    strings.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldBeEqual("Yoda", "Luke").create());
   }
 
   @Test
@@ -71,14 +72,14 @@ public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldBeEqual(null, "Luke").create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), null, "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), null, "Luke"))
+                                                   .withMessage(shouldBeEqual(null, "Luke").create());
   }
 
   @Test
   public void should_fail_if_both_Strings_are_not_equal_regardless_of_case_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldBeEqual("Yoda", "Luke").create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldBeEqual("Yoda", "Luke").create());
   }
 
   @Test

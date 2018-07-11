@@ -49,8 +49,8 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_element_at_index_does_not_match_the_requirements() {
-    thrown.expectAssertionError("expected:<\"[Luke]\"> but was:<\"[Yoda]\">");
-    lists.satisfies(info, jedis, shouldBeLuke, atIndex(2));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, atIndex(2)))
+                                                   .withMessage("expected:<\"[Luke]\"> but was:<\"[Yoda]\">");
   }
 
   @Test
@@ -63,8 +63,8 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(shouldNotBeNull().create());
-    lists.satisfies(info, null, shouldBeLuke, index);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, null, shouldBeLuke, index))
+                                                   .withMessage(shouldNotBeNull().create());
   }
 
   @Test

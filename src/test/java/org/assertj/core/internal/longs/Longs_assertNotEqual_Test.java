@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.longs;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Longs_assertNotEqual_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    longs.assertNotEqual(someInfo(), null, 8L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertNotEqual(someInfo(), null, 8L))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +60,8 @@ public class Longs_assertNotEqual_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8L))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

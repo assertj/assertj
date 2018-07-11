@@ -69,8 +69,8 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsSequence(someInfo(), null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsSequence(someInfo(), null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

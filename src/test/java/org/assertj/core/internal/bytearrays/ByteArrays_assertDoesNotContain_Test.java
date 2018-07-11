@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
@@ -63,8 +64,8 @@ public class ByteArrays_assertDoesNotContain_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -108,8 +109,8 @@ public class ByteArrays_assertDoesNotContain_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

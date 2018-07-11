@@ -30,8 +30,8 @@ public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertHasNoParent(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParent(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

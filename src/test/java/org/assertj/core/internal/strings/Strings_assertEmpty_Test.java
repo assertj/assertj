@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -32,14 +33,14 @@ public class Strings_assertEmpty_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_empty() {
-    thrown.expectAssertionError(shouldBeEmpty("Yoda").create());
-    strings.assertEmpty(someInfo(), "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEmpty(someInfo(), "Yoda"))
+                                                   .withMessage(shouldBeEmpty("Yoda").create());
   }
 
   @Test
@@ -49,14 +50,14 @@ public class Strings_assertEmpty_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldBeEmpty("Yoda").create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), "Yoda"))
+                                                   .withMessage(shouldBeEmpty("Yoda").create());
   }
 
   @Test

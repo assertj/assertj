@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.test.TestData.someInfo;
@@ -41,8 +42,8 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    throwables.assertHasCauseExactlyInstanceOf(someInfo(), null, IllegalArgumentException.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasCauseExactlyInstanceOf(someInfo(), null, IllegalArgumentException.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdate;
 
+import static java.lang.String.format;
 import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -37,12 +38,12 @@ public class LocalDateAssert_isAfter_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isAfter_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <2000-01-01>%n" +
-                                "to be strictly after:%n" +
-                                "  <2000-01-01>");
-    assertThat(parse("2000-01-01")).isAfter(parse("2000-01-01"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("2000-01-01")).isAfter(parse("2000-01-01")))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <2000-01-01>%n" +
+                                                                       "to be strictly after:%n" +
+                                                                       "  <2000-01-01>"));
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.internal.integers;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
@@ -115,8 +116,8 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    integers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

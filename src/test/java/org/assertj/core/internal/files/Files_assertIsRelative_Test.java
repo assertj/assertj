@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -39,8 +40,8 @@ public class Files_assertIsRelative_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertIsRelative(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsRelative(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

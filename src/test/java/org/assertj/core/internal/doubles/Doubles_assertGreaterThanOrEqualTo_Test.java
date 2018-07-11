@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -34,8 +35,8 @@ public class Doubles_assertGreaterThanOrEqualTo_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    doubles.assertGreaterThanOrEqualTo(someInfo(), null, 8d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertGreaterThanOrEqualTo(someInfo(), null, 8d))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -62,8 +63,8 @@ public class Doubles_assertGreaterThanOrEqualTo_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    doublesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 8d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 8d))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

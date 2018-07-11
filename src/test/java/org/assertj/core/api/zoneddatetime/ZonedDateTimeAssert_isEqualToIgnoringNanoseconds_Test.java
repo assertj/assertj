@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,16 +37,16 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseT
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_datetime_with_nanoseconds_ignored() {
-    thrown.expectAssertionError(
-        "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02Z>%nbut had not.");
-    assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusSeconds(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusSeconds(1)))
+                                                   .withMessage(format(
+                                                                       "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02Z>%nbut had not."));
   }
 
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
-    thrown.expectAssertionError(
-        "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999Z>%nbut had not.");
-    assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.minusNanos(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.minusNanos(1)))
+                                                   .withMessage(format(
+                                                                       "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999Z>%nbut had not."));
   }
 
   @Test

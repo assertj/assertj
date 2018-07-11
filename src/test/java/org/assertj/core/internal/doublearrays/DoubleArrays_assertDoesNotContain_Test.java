@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
@@ -66,15 +68,15 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, arrayOf(8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, arrayOf(8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values() {
     double[] expected = { 6d, 8d, 20d };
-    thrown.expectAssertionError(shouldNotContain(actual, expected, newLinkedHashSet(6d, 8d)).create());
-    arrays.assertDoesNotContain(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, expected))
+                                                   .withMessage(shouldNotContain(actual, expected, newLinkedHashSet(6d, 8d)).create());
   }
 
   @Test
@@ -105,15 +107,17 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
-    thrown.expectAssertionError(shouldNotContain(actual, expected, newLinkedHashSet(6d, -8d),
-                                                 absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, expected))
+                                                   .withMessage(format(shouldNotContain(actual, expected,
+                                                                                        newLinkedHashSet(6d, -8d),
+                                                                                        absValueComparisonStrategy).create()));
   }
 }

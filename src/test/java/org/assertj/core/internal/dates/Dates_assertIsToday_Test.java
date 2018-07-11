@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -51,8 +52,8 @@ public class Dates_assertIsToday_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertIsToday(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsToday(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -75,8 +76,8 @@ public class Dates_assertIsToday_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsToday(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsToday(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

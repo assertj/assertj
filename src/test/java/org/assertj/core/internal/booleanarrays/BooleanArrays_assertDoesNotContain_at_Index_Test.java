@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
@@ -41,8 +42,8 @@ public class BooleanArrays_assertDoesNotContain_at_Index_Test extends BooleanArr
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, true, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, true, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

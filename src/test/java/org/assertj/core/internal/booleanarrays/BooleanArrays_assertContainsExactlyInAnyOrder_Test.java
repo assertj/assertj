@@ -68,8 +68,8 @@ public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanA
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf(true));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf(true)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

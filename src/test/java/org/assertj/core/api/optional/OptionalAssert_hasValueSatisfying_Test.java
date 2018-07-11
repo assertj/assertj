@@ -13,6 +13,7 @@
 package org.assertj.core.api.optional;
 
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,16 +27,18 @@ public class OptionalAssert_hasValueSatisfying_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optional_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    assertThat((Optional<String>) null).hasValueSatisfying(s -> {
-    });
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      assertThat((Optional<String>) null).hasValueSatisfying(s -> {;
+      });
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_when_optional_is_empty() {
-    thrown.expectAssertionError(shouldBePresent(Optional.empty()).create());
-    assertThat(Optional.empty()).hasValueSatisfying(o -> {
-    });
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      assertThat(Optional.empty()).hasValueSatisfying(o -> {;
+      });
+    }).withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
@@ -52,9 +55,10 @@ public class OptionalAssert_hasValueSatisfying_Test extends BaseTest {
 
   @Test
   public void should_fail_from_consumer() {
-    thrown.expectAssertionError("expected:<\"something[]\"> but was:<\"something[ else]\">");
-    assertThat(Optional.of("something else")).hasValueSatisfying(s -> {
-      assertThat(s).isEqualTo("something");
-    });
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      assertThat(Optional.of("something else")).hasValueSatisfying(s -> {
+        assertThat(s).isEqualTo("something");
+      });
+    }).withMessage("expected:<\"something[]\"> but was:<\"something[ else]\">");
   }
 }

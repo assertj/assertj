@@ -75,8 +75,8 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertHasBinaryContent(someInfo(), null, expected);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(), null, expected))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

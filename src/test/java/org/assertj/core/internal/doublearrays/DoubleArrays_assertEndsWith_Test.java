@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -59,29 +60,29 @@ public class DoubleArrays_assertEndsWith_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertEndsWith(someInfo(), null, arrayOf(8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, arrayOf(8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual() {
     double[] sequence = { 6d, 8d, 10d, 12d, 20d, 22d };
-    thrown.expectAssertionError(shouldEndWith(actual, sequence).create());
-    arrays.assertEndsWith(someInfo(), actual, sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, sequence))
+                                                   .withMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
   public void should_fail_if_actual_does_not_end_with_sequence() {
     double[] sequence = { 20d, 22d };
-    thrown.expectAssertionError(shouldEndWith(actual, sequence).create());
-    arrays.assertEndsWith(someInfo(), actual, sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, sequence))
+                                                   .withMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
   public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
     double[] sequence = { 6d, 20d, 22d };
-    thrown.expectAssertionError(shouldEndWith(actual, sequence).create());
-    arrays.assertEndsWith(someInfo(), actual, sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, sequence))
+                                                   .withMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -109,29 +110,29 @@ public class DoubleArrays_assertEndsWith_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, arrayOf(-8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, arrayOf(-8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, -8d, 10d, 12d, 20d, 22d };
-    thrown.expectAssertionError(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, sequence))
+                                                   .withMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
   public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     double[] sequence = { 20d, 22d };
-    thrown.expectAssertionError(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, sequence))
+                                                   .withMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
   public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, 20d, 22d };
-    thrown.expectAssertionError(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, sequence);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, sequence))
+                                                   .withMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test

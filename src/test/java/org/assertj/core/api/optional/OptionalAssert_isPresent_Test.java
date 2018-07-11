@@ -13,6 +13,7 @@
 package org.assertj.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -30,15 +31,13 @@ public class OptionalAssert_isPresent_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optional_is_empty() throws Exception {
-    thrown.expectAssertionError(shouldBePresent(Optional.empty()).create());
-
-    assertThat(Optional.empty()).isPresent();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).isPresent())
+                                                   .withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
   public void should_fail_when_optional_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-
-	assertThat((Optional<String>) null).isPresent();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).isPresent())
+                                                   .withMessage(actualIsNull());
   }
 }

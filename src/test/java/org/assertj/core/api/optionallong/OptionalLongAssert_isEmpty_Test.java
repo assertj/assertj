@@ -13,6 +13,7 @@
 package org.assertj.core.api.optionallong;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -30,17 +31,15 @@ public class OptionalLongAssert_isEmpty_Test extends BaseTest {
 
   @Test
   public void should_fail_when_OptionalLong_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((OptionalLong) null).isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalLong) null).isEmpty())
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_OptionalLong_is_present() {
     OptionalLong actual = OptionalLong.of(10L);
 
-    thrown.expectAssertionError(shouldBeEmpty(actual).create());
-
-    assertThat(actual).isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEmpty())
+                                                   .withMessage(shouldBeEmpty(actual).create());
   }
 }

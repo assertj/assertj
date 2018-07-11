@@ -78,8 +78,8 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, arrayOf('a'));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null, arrayOf('a')))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -131,8 +131,8 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf('A'));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf('A')))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

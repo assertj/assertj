@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -50,8 +51,8 @@ public class Iterables_assertContainsOnlyNulls_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsOnlyNulls(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnlyNulls(someInfo(), actual))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

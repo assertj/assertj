@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api.localtime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -38,12 +40,13 @@ public class LocalTimeAssert_isNotEqualTo_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                " <03:00:05>%n" +
-                                "not to be equal to:%n" +
-                                " <03:00:05>%n");
-    assertThat(LocalTime.of(3, 0, 5)).isNotEqualTo("03:00:05");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0,
+                                                                                             5)).isNotEqualTo("03:00:05"))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       " <03:00:05>%n" +
+                                                                       "not to be equal to:%n" +
+                                                                       " <03:00:05>%n"));
   }
 
   @Test

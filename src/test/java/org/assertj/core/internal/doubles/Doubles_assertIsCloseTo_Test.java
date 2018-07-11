@@ -76,8 +76,8 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    doubles.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

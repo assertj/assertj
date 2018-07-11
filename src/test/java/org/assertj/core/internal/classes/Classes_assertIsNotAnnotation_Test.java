@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.classes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -31,8 +32,8 @@ public class Classes_assertIsNotAnnotation_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertIsNotAnnotation(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotAnnotation(someInfo(), actual))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -44,7 +45,7 @@ public class Classes_assertIsNotAnnotation_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_actual_is_an_annotation() {
     actual = Override.class;
-    thrown.expectAssertionError(shouldNotBeAnnotation(actual).create());
-    classes.assertIsNotAnnotation(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotAnnotation(someInfo(), actual))
+                                                   .withMessage(shouldNotBeAnnotation(actual).create());
   }
 }

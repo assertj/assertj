@@ -89,8 +89,8 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContainSequence(someInfo(), null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSequence(someInfo(), null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -122,8 +122,8 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(), null, array("YOda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(), null, array("YOda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

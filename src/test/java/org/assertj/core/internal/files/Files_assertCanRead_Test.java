@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -40,8 +41,8 @@ public class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertCanRead(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertCanRead(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

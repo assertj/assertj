@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdatetime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -40,8 +41,8 @@ public class LocalDateTimeAssert_isBeforeOrEqualTo_Test extends LocalDateTimeAss
 
   @Test
   public void test_isBeforeOrEqual_assertion_error_message() {
-    thrown.expectAssertionError("%nExpecting:%n  <2000-01-05T03:00:05>%nto be before or equals to:%n  <1998-01-01T03:03:03>");
-    assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isBeforeOrEqualTo(LocalDateTime.of(1998, 1, 1, 3, 3, 3));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isBeforeOrEqualTo(LocalDateTime.of(1998, 1, 1, 3, 3, 3)))
+                                                   .withMessage(format("%nExpecting:%n  <2000-01-05T03:00:05>%nto be before or equals to:%n  <1998-01-01T03:03:03>"));
   }
 
   @Test

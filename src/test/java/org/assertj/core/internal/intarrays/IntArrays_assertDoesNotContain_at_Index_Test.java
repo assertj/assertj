@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.intarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
@@ -39,8 +40,8 @@ public class IntArrays_assertDoesNotContain_at_Index_Test extends IntArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, 8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -79,8 +80,8 @@ public class IntArrays_assertDoesNotContain_at_Index_Test extends IntArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, -8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, -8, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

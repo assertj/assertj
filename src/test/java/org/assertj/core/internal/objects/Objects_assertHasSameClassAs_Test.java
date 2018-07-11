@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
 import static org.assertj.core.test.TestData.someInfo;
@@ -55,8 +56,8 @@ public class Objects_assertHasSameClassAs_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertHasSameClassAs(someInfo(), null, new Person("Luke"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertHasSameClassAs(someInfo(), null, new Person("Luke")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bigintegers;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigInteger;
@@ -36,20 +38,20 @@ public class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <6>%nto be less than or equal to:%n <0> ");
-    numbers.assertIsNotPositive(someInfo(), new BigInteger("6"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotPositive(someInfo(), new BigInteger("6")))
+                                                   .withMessage(format("%nExpecting:%n <6>%nto be less than or equal to:%n <0> "));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator");
-    numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigInteger("-1"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigInteger("-1")))
+                                                   .withMessage(format("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator");
-    numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigInteger.ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigInteger.ONE))
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
 }

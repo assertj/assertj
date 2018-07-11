@@ -83,8 +83,8 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertHasContent(someInfo(), null, expected, charset);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasContent(someInfo(), null, expected, charset))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

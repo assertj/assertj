@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
@@ -68,8 +69,8 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -99,8 +100,8 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

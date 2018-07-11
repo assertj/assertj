@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -40,14 +41,14 @@ public class Bytes_assertIsOne_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one() {
-    thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    bytes.assertIsOne(someInfo(), (byte) 0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsOne(someInfo(), (byte) 0))
+                                                   .withMessage("expected:<[1]> but was:<[0]>");
   }
 
   @Test
   public void should_fail_since_actual_is_not_one_in_hex_representation() {
-    thrown.expectAssertionError("expected:<0x0[1]> but was:<0x0[0]>");
-    bytes.assertIsOne(someHexInfo(), (byte) 0x00);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsOne(someHexInfo(), (byte) 0x00))
+                                                   .withMessage("expected:<0x0[1]> but was:<0x0[0]>");
   }
 
   @Test
@@ -62,14 +63,14 @@ public class Bytes_assertIsOne_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    bytesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), (byte) 0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), (byte) 0))
+                                                   .withMessage("expected:<[1]> but was:<[0]>");
   }
 
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is_in_hex_representation() {
-    thrown.expectAssertionError("expected:<0x0[1]> but was:<0x0[0]>");
-    bytesWithAbsValueComparisonStrategy.assertIsOne(someHexInfo(), (byte) 0x0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsOne(someHexInfo(), (byte) 0x0))
+                                                   .withMessage("expected:<0x0[1]> but was:<0x0[0]>");
   }
 
 }

@@ -42,14 +42,14 @@ public class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest 
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, (byte) 8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, (byte) 8, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arrays.assertContains(someInfo(), emptyArray(), (byte) 8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), (byte) 8, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test
@@ -88,14 +88,14 @@ public class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest 
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, (byte) -8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, (byte) -8, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), (byte) -8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), (byte) -8, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test

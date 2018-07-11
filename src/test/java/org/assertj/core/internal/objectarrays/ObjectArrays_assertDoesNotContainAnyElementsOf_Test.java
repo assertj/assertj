@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
@@ -59,8 +60,8 @@ public class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectA
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	arrays.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda"));
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

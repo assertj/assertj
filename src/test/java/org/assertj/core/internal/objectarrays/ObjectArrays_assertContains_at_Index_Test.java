@@ -48,14 +48,14 @@ public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, "Yoda", someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, "Yoda", someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arrays.assertContains(someInfo(), emptyArray(), "Yoda", someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), "Yoda", someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test

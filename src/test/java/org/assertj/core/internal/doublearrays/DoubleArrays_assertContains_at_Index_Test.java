@@ -40,14 +40,14 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, 8d, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, 8d, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arrays.assertContains(someInfo(), emptyArray(), 8d, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8d, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test
@@ -68,8 +68,8 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
   public void should_fail_if_actual_does_not_contain_value_at_index() {
     double value = 6;
     Index index = atIndex(1);
-    thrown.expectAssertionError(shouldContainAtIndex(actual, value, index, 8d).create());
-    arrays.assertContains(someInfo(), actual, value, index);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), actual, value, index))
+                                                   .withMessage(shouldContainAtIndex(actual, value, index, 8d).create());
   }
 
   @Test
@@ -79,14 +79,14 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8d, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8d, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8d, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8d, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test
@@ -110,8 +110,8 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
   public void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
     double value = 6;
     Index index = atIndex(1);
-    thrown.expectAssertionError(shouldContainAtIndex(actual, value, index, 8d, absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, value, index);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, value, index))
+                                                   .withMessage(shouldContainAtIndex(actual, value, index, 8d, absValueComparisonStrategy).create());
   }
 
   @Test

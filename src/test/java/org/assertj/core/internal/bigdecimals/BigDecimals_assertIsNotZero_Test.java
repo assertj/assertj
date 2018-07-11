@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -43,8 +45,8 @@ public class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
-    numbers.assertIsNotZero(someInfo(), BigDecimal.ZERO);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotZero(someInfo(), BigDecimal.ZERO))
+                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
   }
 
   @Test
@@ -54,8 +56,8 @@ public class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
-    numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigDecimal.ZERO);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigDecimal.ZERO))
+                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
   }
 
 }

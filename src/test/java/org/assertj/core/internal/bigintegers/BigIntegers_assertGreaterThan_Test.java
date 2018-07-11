@@ -14,6 +14,7 @@ package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -34,8 +35,8 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertGreaterThan(someInfo(), null, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertGreaterThan(someInfo(), null, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

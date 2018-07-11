@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.characters;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Characters_assertGreaterThan_Test extends CharactersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    characters.assertGreaterThan(someInfo(), null, 'a');
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> characters.assertGreaterThan(someInfo(), null, 'a'))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

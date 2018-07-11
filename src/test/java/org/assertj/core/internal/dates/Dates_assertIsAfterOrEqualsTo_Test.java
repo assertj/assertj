@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
@@ -56,8 +57,8 @@ public class Dates_assertIsAfterOrEqualsTo_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertIsAfterOrEqualsTo(someInfo(), null, parseDate("2010-01-01"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfterOrEqualsTo(someInfo(), null, parseDate("2010-01-01")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -93,8 +94,8 @@ public class Dates_assertIsAfterOrEqualsTo_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsAfterOrEqualsTo(someInfo(), null, parseDate("2010-01-01"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfterOrEqualsTo(someInfo(), null, parseDate("2010-01-01")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

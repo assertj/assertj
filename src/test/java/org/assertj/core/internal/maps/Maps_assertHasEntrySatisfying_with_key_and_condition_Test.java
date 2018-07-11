@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.condition.Not.not;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -70,8 +71,8 @@ public class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends M
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasEntrySatisfying(someInfo(), null, 8, isDigits);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, 8, isDigits))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

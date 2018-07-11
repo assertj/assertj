@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -35,8 +36,8 @@ public class Uris_assertHasScheme_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    uris.assertHasScheme(info, null, "http");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasScheme(info, null, "http"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

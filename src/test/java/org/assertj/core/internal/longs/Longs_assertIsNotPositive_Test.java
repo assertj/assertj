@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.longs;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.LongsBaseTest;
@@ -37,20 +39,20 @@ public class Longs_assertIsNotPositive_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <6L>%nto be less than or equal to:%n <0L> ");
-    longs.assertIsNotPositive(someInfo(), 6L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotPositive(someInfo(), 6L))
+                                                   .withMessage(format("%nExpecting:%n <6L>%nto be less than or equal to:%n <0L> "));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <-1L>%nto be less than or equal to:%n <0L> when comparing values using AbsValueComparator");
-    longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1L))
+                                                   .withMessage(format("%nExpecting:%n <-1L>%nto be less than or equal to:%n <0L> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <1L>%nto be less than or equal to:%n <0L> when comparing values using AbsValueComparator");
-    longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1L))
+                                                   .withMessage(format("%nExpecting:%n <1L>%nto be less than or equal to:%n <0L> when comparing values using AbsValueComparator"));
   }
 
 }

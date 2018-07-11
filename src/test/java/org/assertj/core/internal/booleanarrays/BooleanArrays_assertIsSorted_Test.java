@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.test.BooleanArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
@@ -59,8 +60,8 @@ public class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertIsSorted(someInfo(), (boolean[]) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (boolean[]) null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

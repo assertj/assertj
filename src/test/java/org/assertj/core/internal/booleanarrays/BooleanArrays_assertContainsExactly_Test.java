@@ -77,8 +77,8 @@ public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsExactly(someInfo(), null, arrayOf(true));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, arrayOf(true)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

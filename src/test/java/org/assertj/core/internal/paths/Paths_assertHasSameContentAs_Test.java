@@ -63,9 +63,10 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-	paths.assertHasSameContentAs(someInfo(), null, defaultCharset(), other, defaultCharset());
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      when(nioFilesWrapper.isReadable(other)).thenReturn(true);
+      paths.assertHasSameContentAs(someInfo(), null, defaultCharset(), other, defaultCharset());
+    }).withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.comparables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -45,8 +46,8 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    comparables.assertNotEqualByComparison(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertNotEqualByComparison(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -75,8 +76,8 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(someInfo(), null, new Person("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(someInfo(), null, new Person("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

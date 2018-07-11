@@ -13,7 +13,7 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.test.Maps.mapOf;
@@ -48,8 +48,8 @@ public class Maps_assertNotEmpty_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertNotEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertNotEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

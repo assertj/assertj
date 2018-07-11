@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.test.DoubleArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
@@ -33,15 +34,15 @@ public class DoubleArrays_assertEmpty_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_empty() {
     double[] actual = { 6d, 8d };
-    thrown.expectAssertionError(shouldBeEmpty(actual).create());
-    arrays.assertEmpty(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEmpty(someInfo(), actual))
+                                                   .withMessage(shouldBeEmpty(actual).create());
   }
 
   @Test

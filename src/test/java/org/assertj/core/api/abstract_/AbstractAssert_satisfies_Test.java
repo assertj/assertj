@@ -13,6 +13,7 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -55,8 +56,8 @@ public class AbstractAssert_satisfies_Test {
 
   @Test
   public void should_fail_according_to_requirements() {
-    thrown.expectAssertionError("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
-    assertThat(new Jedi("Vader", "Red")).satisfies(jediRequirements);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).satisfies(jediRequirements))
+                                                   .withMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
   }
 
   @Test

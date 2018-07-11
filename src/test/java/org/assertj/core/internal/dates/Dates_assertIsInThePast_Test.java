@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -54,8 +55,8 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertIsInThePast(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInThePast(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -100,8 +101,8 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsInThePast(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInThePast(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

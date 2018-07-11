@@ -57,15 +57,16 @@ public class Lists_assertHas_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    lists.assertHas(someInfo(), null, condition, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertHas(someInfo(), null, condition, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    List<String> empty = emptyList();
-    lists.assertHas(someInfo(), empty, condition, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      List<String> empty = emptyList();
+      lists.assertHas(someInfo(), empty, condition, someIndex());
+    }).withMessage(actualIsEmpty());
   }
 
   @Test

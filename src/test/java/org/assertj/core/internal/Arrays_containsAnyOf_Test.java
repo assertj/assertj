@@ -78,8 +78,8 @@ public class Arrays_containsAnyOf_Test extends BaseArraysTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsAnyOf(someInfo(), failures, null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

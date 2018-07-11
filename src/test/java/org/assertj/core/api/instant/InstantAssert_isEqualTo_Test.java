@@ -13,10 +13,13 @@
 package org.assertj.core.api.instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Instant;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Test;
 
 public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
@@ -25,17 +28,18 @@ public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
   public void test_isEqualTo_assertion() {
     // WHEN
     assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
+    // WHEN
+    ThrowingCallable assertionCode = () -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusSeconds(1).toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusSeconds(1)
-                                                                      .toString())).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(assertionCode).isInstanceOf(AssertionError.class);
   }
 
   @Test
   public void test_isEqualTo_assertion_error_message() {
     Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
     Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    thrown.expectAssertionError("expected:<2007-12-03T10:15:3[5]Z> but was:<2007-12-03T10:15:3[0]Z>");
-    assertThat(instantReference).isEqualTo(instantAfter.toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isEqualTo(instantAfter.toString()))
+                                                   .withMessage("expected:<2007-12-03T10:15:3[5]Z> but was:<2007-12-03T10:15:3[0]Z>");
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.internal.lists;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
@@ -44,8 +45,8 @@ public class Lists_assertDoesNotContain_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    lists.assertDoesNotContain(someInfo(), null, "Yoda", someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertDoesNotContain(someInfo(), null, "Yoda", someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

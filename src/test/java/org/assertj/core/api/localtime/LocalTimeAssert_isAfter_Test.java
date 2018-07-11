@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localtime;
 
+import static java.lang.String.format;
 import static java.time.LocalTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -37,12 +38,12 @@ public class LocalTimeAssert_isAfter_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void test_isAfter_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                       "Expecting:%n" +
-                                       "  <03:00:05.123>%n" +
-                                       "to be strictly after:%n" +
-                                       "  <03:00:05.123456789>");
-    assertThat(parse("03:00:05.123")).isAfter(parse("03:00:05.123456789"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("03:00:05.123")).isAfter(parse("03:00:05.123456789")))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <03:00:05.123>%n" +
+                                                                       "to be strictly after:%n" +
+                                                                       "  <03:00:05.123456789>"));
   }
 
   @Test

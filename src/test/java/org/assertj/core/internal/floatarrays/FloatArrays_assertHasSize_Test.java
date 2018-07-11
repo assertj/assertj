@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.floatarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -34,8 +35,8 @@ public class FloatArrays_assertHasSize_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSize(someInfo(), null, 3);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), null, 3))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

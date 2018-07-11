@@ -47,14 +47,14 @@ public class Lists_assertContains_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    lists.assertContains(someInfo(), null, "Yoda", someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), null, "Yoda", someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test

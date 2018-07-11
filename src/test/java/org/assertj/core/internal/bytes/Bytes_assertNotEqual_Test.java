@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Bytes_assertNotEqual_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    bytes.assertNotEqual(someInfo(), null, (byte) 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertNotEqual(someInfo(), null, (byte) 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +60,8 @@ public class Bytes_assertNotEqual_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    bytesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, (byte) 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, (byte) 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

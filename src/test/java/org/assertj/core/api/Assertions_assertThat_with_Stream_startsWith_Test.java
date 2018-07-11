@@ -76,9 +76,10 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    Stream<Object> names = null;
-    assertThat(names).startsWith(emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      Stream<Object> names = null;
+      assertThat(names).startsWith(emptyArray());
+    }).withMessage(actualIsNull());
   }
 
   @Test

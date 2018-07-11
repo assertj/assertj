@@ -31,8 +31,8 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    paths.assertEndsWith(info, null, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertEndsWith(info, null, other))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.lang.String.format;
 import static java.time.OffsetTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -37,12 +38,12 @@ public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void test_isAfter_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <03:00:05.123Z>%n" +
-                                "to be strictly after:%n" +
-                                "  <03:00:05.123456789Z>");
-    assertThat(parse("03:00:05.123Z")).isAfter(parse("03:00:05.123456789Z"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("03:00:05.123Z")).isAfter(parse("03:00:05.123456789Z")))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <03:00:05.123Z>%n" +
+                                                                       "to be strictly after:%n" +
+                                                                       "  <03:00:05.123456789Z>"));
   }
 
   @Test

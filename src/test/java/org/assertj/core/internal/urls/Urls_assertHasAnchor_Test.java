@@ -41,8 +41,8 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    urls.assertHasAnchor(info, null, "http://www.helloworld.org/index.html#print");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasAnchor(info, null, "http://www.helloworld.org/index.html#print"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

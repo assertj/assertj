@@ -13,6 +13,7 @@
 package org.assertj.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -30,9 +31,8 @@ public class OptionalAssert_contains_usingValueComparator_Test extends BaseTest 
 
   @Test
   public void should_fail_when_optional_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((Optional<Foo>) null).usingValueComparator(FOO_COMPARATOR).contains(new Foo("something"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<Foo>) null).usingValueComparator(FOO_COMPARATOR).contains(new Foo("something")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -52,19 +52,18 @@ public class OptionalAssert_contains_usingValueComparator_Test extends BaseTest 
     Optional<Foo> actual = Optional.of(new Foo("something"));
     Foo expectedValue = new Foo("something else");
 
-    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
-
-    assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue))
+                                                   .withMessage(shouldContain(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_if_optional_is_empty() throws Exception {
     Foo expectedValue = new Foo("test");
 
-    thrown.expectAssertionError(shouldContain(expectedValue).create());
-
-    Optional<Foo> actual = Optional.empty();
-    assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      Optional<Foo> actual = Optional.empty();
+      assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue);
+    }).withMessage(shouldContain(expectedValue).create());
   }
 
   private static class Foo {

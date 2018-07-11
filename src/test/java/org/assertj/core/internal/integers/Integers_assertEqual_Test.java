@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.integers;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Integers_assertEqual_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    integers.assertEqual(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertEqual(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +60,8 @@ public class Integers_assertEqual_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    integersWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

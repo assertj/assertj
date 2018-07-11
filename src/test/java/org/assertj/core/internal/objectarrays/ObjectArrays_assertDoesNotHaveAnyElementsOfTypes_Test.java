@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -37,8 +38,8 @@ public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends Objec
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), null, Integer.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), null, Integer.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -50,10 +51,10 @@ public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends Objec
 
     // THEN
     String message = shouldNotHaveAnyElementsOfTypes(array, unexpectedTypes, nonMatchingElementsByType).create();
-    thrown.expectAssertionError(message);
-
-    // WHEN
-    arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Long.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      // WHEN;
+      arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Long.class);
+    }).withMessage(message);
   }
 
   @Test
@@ -65,9 +66,9 @@ public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends Objec
 
     // THEN
     String message = shouldNotHaveAnyElementsOfTypes(array, unexpectedTypes, nonMatchingElementsByType).create();
-    thrown.expectAssertionError(message);
-
-    // WHEN
-    arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Number.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      // WHEN;
+      arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Number.class);
+    }).withMessage(message);
   }
 }

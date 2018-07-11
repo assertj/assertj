@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.test.TestData.someInfo;
@@ -56,8 +57,8 @@ public class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends Map
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasEntrySatisfying(someInfo(), null, greenColorCondition);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, greenColorCondition))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

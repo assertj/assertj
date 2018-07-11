@@ -70,8 +70,8 @@ public class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBas
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsExactlyInAnyOrder(someInfo(), null, emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), null, emptyArray()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

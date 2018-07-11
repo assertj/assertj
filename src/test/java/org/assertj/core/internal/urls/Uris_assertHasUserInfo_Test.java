@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -39,8 +40,8 @@ public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    uris.assertHasUserInfo(info, null, "http://test:pass@www.helloworld.org/index.html");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasUserInfo(info, null, "http://test:pass@www.helloworld.org/index.html"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

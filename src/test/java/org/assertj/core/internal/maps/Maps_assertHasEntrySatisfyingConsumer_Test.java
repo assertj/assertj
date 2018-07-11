@@ -13,6 +13,7 @@
 package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
@@ -61,8 +62,8 @@ public class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasEntrySatisfying(someInfo(), (Map<Integer,?>) null, 8, o -> assertThat(o).isNotNull());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), (Map<Integer,?>) null, 8, o -> assertThat(o).isNotNull()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -80,13 +81,13 @@ public class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
-    thrown.expectAssertionError(shouldContainPattern("Yoda", IS_DIGITS.pattern()).create());
-    maps.assertHasEntrySatisfying(someInfo(), actual, "name", s -> assertThat(s).containsPattern(IS_DIGITS));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, "name", s -> assertThat(s).containsPattern(IS_DIGITS)))
+                                                   .withMessage(shouldContainPattern("Yoda", IS_DIGITS.pattern()).create());
   }
 
   @Test
   public void should_fail_if_actual_contains_null_key_with_value_does_not_matching_condition() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasEntrySatisfying(someInfo(), actual, null, s -> assertThat(s).isNotNull());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, null, s -> assertThat(s).isNotNull()))
+                                                   .withMessage(actualIsNull());
   }
 }

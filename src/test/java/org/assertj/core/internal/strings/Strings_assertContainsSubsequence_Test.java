@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
@@ -42,16 +43,16 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
-    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")).create());
-    strings.assertContainsSubsequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSubsequence(someInfo(), "Yoda", array("Yo", "da", "Han")))
+                                                   .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")).create());
   }
 
   @Test
   public void should_fail_if_actual_contains_values_but_not_in_given_order() {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
-    thrown.expectAssertionError(shouldContainSubsequence(actual, sequenceValues, 1).create());
-    strings.assertContainsSubsequence(someInfo(), actual, sequenceValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSubsequence(someInfo(), actual, sequenceValues))
+                                                   .withMessage(shouldContainSubsequence(actual, sequenceValues, 1).create());
   }
 
   @Test
@@ -78,8 +79,8 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsSubsequence(someInfo(), null, array("Yo", "da"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSubsequence(someInfo(), null, array("Yo", "da")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -108,8 +109,8 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
-    thrown.expectAssertionError(shouldContainSubsequence(actual, sequenceValues, 1, comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(someInfo(), actual, sequenceValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(someInfo(), actual, sequenceValues))
+                                                   .withMessage(shouldContainSubsequence(actual, sequenceValues, 1, comparisonStrategy).create());
   }
 
 }

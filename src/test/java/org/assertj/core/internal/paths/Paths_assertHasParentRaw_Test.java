@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
@@ -38,8 +39,8 @@ public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertHasParentRaw(info, null, expectedParent);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParentRaw(info, null, expectedParent))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

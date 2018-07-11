@@ -13,7 +13,9 @@
 package org.assertj.core.api.instant;
 
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -37,8 +39,8 @@ public class InstantAssert_isIn_Test extends InstantAssertBaseTest {
   public void test_isIn_assertion_error_message() {
     Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
     Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    thrown.expectAssertionError("%nExpecting:%n <2007-12-03T10:15:30Z>%nto be in:%n <[2007-12-03T10:15:35Z]>%n");
-    assertThat(instantReference).isIn(instantAfter.toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isIn(instantAfter.toString()))
+                                                   .withMessage(format("%nExpecting:%n <2007-12-03T10:15:30Z>%nto be in:%n <[2007-12-03T10:15:35Z]>%n"));
   }
 
   @Test

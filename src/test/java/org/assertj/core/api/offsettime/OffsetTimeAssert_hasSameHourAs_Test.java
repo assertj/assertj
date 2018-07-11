@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -35,24 +36,24 @@ public class OffsetTimeAssert_hasSameHourAs_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_offsetTime_with_minute_ignored() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <23:00Z>%n" +
-                                "to have same hour as:%n" +
-                                "  <22:59Z>%n" +
-                                "but had not.");
-    assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusMinutes(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusMinutes(1)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <23:00Z>%n" +
+                                                                       "to have same hour as:%n" +
+                                                                       "  <22:59Z>%n" +
+                                                                       "but had not."));
   }
 
   @Test
   public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <23:00Z>%n" +
-                                "to have same hour as:%n" +
-                                "  <22:59:59.999999999Z>%n" +
-                                "but had not.");
-    assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusNanos(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusNanos(1)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <23:00Z>%n" +
+                                                                       "to have same hour as:%n" +
+                                                                       "  <22:59:59.999999999Z>%n" +
+                                                                       "but had not."));
   }
 
   @Test

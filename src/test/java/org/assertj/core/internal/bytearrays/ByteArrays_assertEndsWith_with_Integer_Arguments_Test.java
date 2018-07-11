@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -58,8 +59,8 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertEndsWith(someInfo(), null, IntArrays.arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, IntArrays.arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -123,8 +124,8 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, IntArrays.arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, IntArrays.arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

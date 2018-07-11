@@ -14,6 +14,7 @@ package org.assertj.core.api.zoneddatetime;
 
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -42,20 +43,20 @@ public class ZonedDateTimeAssert_isEqualTo_errors_Test extends ZonedDateTimeAsse
 
   @Test
   public void test_isEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("expected:<20[12-01-01T03:03:03]Z> but was:<20[00-01-05T03:00:05]Z>");
-    assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isEqualTo(ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isEqualTo(ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
+                                                   .withMessage("expected:<20[12-01-01T03:03:03]Z> but was:<20[00-01-05T03:00:05]Z>");
   }
 
   @Test
   public void should_fail_if_actual_dateTime_is_null_and_expected_dateTime_is_not() {
-    thrown.expectAssertionError("expected:<2000-01-05T03:00:05Z> but was:<null>");
-    assertThat((ZonedDateTime) null).isEqualTo(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((ZonedDateTime) null).isEqualTo(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)))
+                                                   .withMessage("expected:<2000-01-05T03:00:05Z> but was:<null>");
   }
 
   @Test
   public void should_fail_if_actual_dateTime_is_null_and_expected_dateTime_as_string_is_not() {
-    thrown.expectAssertionError("expected:<2000-01-01T01:00+01:00> but was:<null>");
-    assertThat((ZonedDateTime) null).isEqualTo("2000-01-01T01:00:00+01:00");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((ZonedDateTime) null).isEqualTo("2000-01-01T01:00:00+01:00"))
+                                                   .withMessage("expected:<2000-01-01T01:00+01:00> but was:<null>");
   }
 
   @Test
@@ -66,8 +67,8 @@ public class ZonedDateTimeAssert_isEqualTo_errors_Test extends ZonedDateTimeAsse
 
   @Test
   public void should_fail_if_expected_ZoneDateTime_is_null_and_actual_is_not() {
-    thrown.expectAssertionError("expected:<null> but was:<2000-01-05T03:00:05Z>");
-    assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isEqualTo((ZonedDateTime) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isEqualTo((ZonedDateTime) null))
+                                                   .withMessage("expected:<null> but was:<2000-01-05T03:00:05Z>");
   }
 
   private static void verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(ZonedDateTime reference) {

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
@@ -27,8 +28,8 @@ public class Paths_assertIsSymbolicLink_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertIsSymbolicLink(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsSymbolicLink(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
@@ -42,8 +43,8 @@ public class Bytes_assertIsStrictlyBetween_Test extends BytesBaseTest {
   
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    bytes.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

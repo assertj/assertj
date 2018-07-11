@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigdecimals;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static java.math.BigDecimal.ZERO;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
@@ -118,8 +119,8 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -141,8 +142,8 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

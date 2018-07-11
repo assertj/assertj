@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
@@ -47,8 +48,8 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_matches_Pattern() {
     Pattern pattern = matchAnything();
-    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()).create());
-    strings.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), actual, pattern))
+                                                   .withMessage(shouldNotMatch(actual, pattern.pattern()).create());
   }
 
   @Test
@@ -72,8 +73,8 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
     Pattern pattern = matchAnything();
-    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern))
+                                                   .withMessage(shouldNotMatch(actual, pattern.pattern()).create());
   }
 
   @Test

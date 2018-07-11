@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.test.TestData.someInfo;
@@ -53,8 +54,8 @@ public class Strings_assertStartsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertStartsWith(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertStartsWith(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -39,9 +40,8 @@ public class AtomicIntegerFieldUpdater_hasValue_Test {
 
   @Test
   public void should_fail_when_atomicIntegerFieldUpdater_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((AtomicIntegerFieldUpdater<Person>) null).hasValue(25, person);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicIntegerFieldUpdater<Person>) null).hasValue(25, person))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -54,9 +54,8 @@ public class AtomicIntegerFieldUpdater_hasValue_Test {
   public void should_fail_if_atomicIntegerFieldUpdater_does_not_contain_expected_value() throws Exception {
     AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
 
-    thrown.expectAssertionError(shouldHaveValue(fieldUpdater, person.age, 25, person).create());
-
-    assertThat(fieldUpdater).hasValue(25, person);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue(25, person))
+                                                   .withMessage(shouldHaveValue(fieldUpdater, person.age, 25, person).create());
   }
 
   @Test

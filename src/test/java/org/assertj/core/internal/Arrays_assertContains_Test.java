@@ -74,8 +74,8 @@ public class Arrays_assertContains_Test extends BaseArraysTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), failures, null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), failures, null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -133,8 +133,8 @@ public class Arrays_assertContains_Test extends BaseArraysTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures, null, array("LUke"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures, null, array("LUke")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

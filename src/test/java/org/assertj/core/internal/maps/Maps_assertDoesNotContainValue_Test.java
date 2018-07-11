@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.test.Maps.mapOf;
@@ -51,8 +52,8 @@ public class Maps_assertDoesNotContainValue_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertDoesNotContainValue(someInfo(), null, "veryOld");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContainValue(someInfo(), null, "veryOld"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.test.TestData.someInfo;
@@ -37,8 +38,8 @@ public class Files_assertHasName_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertHasName(someInfo(), null, expectedName);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasName(someInfo(), null, expectedName))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

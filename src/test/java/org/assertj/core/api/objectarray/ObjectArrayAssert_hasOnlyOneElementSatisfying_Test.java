@@ -44,9 +44,10 @@ public class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
   public void fails_if_arry_has_only_one_element_and_that_element_does_not_statisfy_the_given_assertion() {
-    thrown.expectAssertionError("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n");
-    Jedi[] jedis = { new Jedi("Yoda", "red") };
-    assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      Jedi[] jedis = { new Jedi("Yoda", "red") };
+      assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
+    }).withMessage(format("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n"));
   }
 
   @Test

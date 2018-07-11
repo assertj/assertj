@@ -14,6 +14,7 @@ package org.assertj.core.internal.iterables;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
@@ -78,8 +79,9 @@ public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    actual = null;
-    assertThat(actual).allSatisfy(null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      actual = null;
+      assertThat(actual).allSatisfy(null);
+    }).withMessage(actualIsNull());
   }
 }

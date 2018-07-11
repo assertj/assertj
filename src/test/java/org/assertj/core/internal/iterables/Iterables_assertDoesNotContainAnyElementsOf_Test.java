@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
@@ -68,8 +69,8 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
@@ -63,8 +64,8 @@ public class Maps_assertDoesNotContain_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertDoesNotContain(someInfo(), null, array(entry("job", "Jedi")));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContain(someInfo(), null, array(entry("job", "Jedi"))))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

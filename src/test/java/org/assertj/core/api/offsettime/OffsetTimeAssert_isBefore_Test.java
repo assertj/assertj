@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -42,12 +43,17 @@ public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void test_isBefore_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <03:00:05Z>%n" +
-                                "to be strictly before:%n" +
-                                "  <03:00:04Z>");
-    assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isBefore(OffsetTime.of(3, 0, 4, 0, ZoneOffset.UTC));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
+                                                                                              ZoneOffset.UTC)).isBefore(OffsetTime.of(3,
+                                                                                                                                      0,
+                                                                                                                                      4,
+                                                                                                                                      0,
+                                                                                                                                      ZoneOffset.UTC)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <03:00:05Z>%n" +
+                                                                       "to be strictly before:%n" +
+                                                                       "  <03:00:04Z>"));
   }
 
   @Test

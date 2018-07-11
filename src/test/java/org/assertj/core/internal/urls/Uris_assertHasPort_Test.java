@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -29,8 +30,8 @@ public class Uris_assertHasPort_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    uris.assertHasPort(info, null, 8080);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasPort(info, null, 8080))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

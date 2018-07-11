@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.classes;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
 import static org.assertj.core.test.TestData.someInfo;
@@ -60,53 +62,63 @@ public class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertHasOnlyPublicFields(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(), actual))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_some_public_fields_are_not_present_in_the_expected_fields() {
-    thrown.expectAssertionError(shouldOnlyHaveFields(actual,
-                                                     newLinkedHashSet("publicField"),
-                                                     EMPTY_STRING_SET,
-                                                     newLinkedHashSet("publicField2")).create());
-    classes.assertHasOnlyPublicFields(someInfo(), actual, "publicField");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
+                                                                                                       actual,
+                                                                                                       "publicField"))
+                                                   .withMessage(format(shouldOnlyHaveFields(actual,
+                                                                                            newLinkedHashSet("publicField"),
+                                                                                            EMPTY_STRING_SET,
+                                                                                            newLinkedHashSet("publicField2")).create()));
   }
 
   @Test
   public void should_fail_if_some_public_fields_are_missing() {
     String[] expected = new String[] { "missingField", "publicField", "publicField2" };
-    thrown.expectAssertionError(shouldOnlyHaveFields(actual,
-                                                     newLinkedHashSet(expected),
-                                                     newLinkedHashSet("missingField"),
-                                                     EMPTY_STRING_SET).create());
-    classes.assertHasOnlyPublicFields(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
+                                                                                                       actual,
+                                                                                                       expected))
+                                                   .withMessage(format(shouldOnlyHaveFields(actual,
+                                                                                            newLinkedHashSet(expected),
+                                                                                            newLinkedHashSet("missingField"),
+                                                                                            EMPTY_STRING_SET).create()));
   }
 
   @Test
   public void should_fail_if_fields_are_protected_or_private() {
     String[] expected = new String[] { "publicField", "publicField2", "protectedField", "privateField" };
-    thrown.expectAssertionError(shouldOnlyHaveFields(actual,
-                                                     newLinkedHashSet(expected),
-                                                     newLinkedHashSet("protectedField", "privateField"),
-                                                     EMPTY_STRING_SET).create());
-    classes.assertHasOnlyPublicFields(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
+                                                                                                       actual,
+                                                                                                       expected))
+                                                   .withMessage(format(shouldOnlyHaveFields(actual,
+                                                                                            newLinkedHashSet(expected),
+                                                                                            newLinkedHashSet("protectedField",
+                                                                                                             "privateField"),
+                                                                                            EMPTY_STRING_SET).create()));
   }
 
   @Test
   public void should_fail_if_fields_are_not_found_and_not_expected() {
     String[] expected = new String[] { "publicField", "protectedField", "privateField" };
-    thrown.expectAssertionError(shouldOnlyHaveFields(actual,
-                                                     newLinkedHashSet(expected),
-                                                     newLinkedHashSet("protectedField", "privateField"),
-                                                     newLinkedHashSet("publicField2")).create());
-    classes.assertHasOnlyPublicFields(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
+                                                                                                       actual,
+                                                                                                       expected))
+                                                   .withMessage(format(shouldOnlyHaveFields(actual,
+                                                                                            newLinkedHashSet(expected),
+                                                                                            newLinkedHashSet("protectedField",
+                                                                                                             "privateField"),
+                                                                                            newLinkedHashSet("publicField2")).create()));
   }
 
   @Test
   public void should_fail_if_no_public_fields_are_expected_and_class_has_some() {
-    thrown.expectAssertionError(shouldHaveNoPublicFields(actual, newLinkedHashSet("publicField", "publicField2")).create());
-    classes.assertHasOnlyPublicFields(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(), actual))
+                                                   .withMessage(shouldHaveNoPublicFields(actual, newLinkedHashSet("publicField", "publicField2")).create());
   }
 
 }

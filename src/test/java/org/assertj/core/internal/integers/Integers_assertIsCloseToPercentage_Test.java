@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.integers;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
@@ -39,8 +40,8 @@ public class Integers_assertIsCloseToPercentage_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    integers.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

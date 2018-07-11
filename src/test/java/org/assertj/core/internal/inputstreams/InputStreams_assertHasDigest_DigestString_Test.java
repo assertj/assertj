@@ -13,6 +13,7 @@
 package org.assertj.core.internal.inputstreams;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
@@ -44,8 +45,8 @@ public class InputStreams_assertHasDigest_DigestString_Test extends InputStreams
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    inputStreams.assertHasDigest(INFO, null, digest, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, digest, expected))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

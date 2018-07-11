@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.test.TestData.someInfo;
@@ -41,8 +42,8 @@ public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    throwables.assertHasCause(someInfo(), null, new Throwable());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasCause(someInfo(), null, new Throwable()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

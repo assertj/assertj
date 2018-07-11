@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,8 +37,8 @@ public class Doubles_assertIsNotNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_equal_to_NaN() {
-    thrown.expectAssertionError("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n");
-    doubles.assertIsNotNaN(someInfo(), Double.NaN);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotNaN(someInfo(), Double.NaN))
+                                                   .withMessage(format("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n"));
   }
 
   @Test
@@ -46,7 +48,7 @@ public class Doubles_assertIsNotNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n");
-    doublesWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), Double.NaN);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), Double.NaN))
+                                                   .withMessage(format("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n"));
   }
 }

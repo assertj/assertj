@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -43,8 +44,8 @@ public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
-    numbers.assertIsZero(someInfo(), BigDecimal.ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsZero(someInfo(), BigDecimal.ONE))
+                                                   .withMessage("expected:<[0]> but was:<[1]>");
   }
 
   @Test
@@ -54,8 +55,8 @@ public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
-    numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE))
+                                                   .withMessage("expected:<[0]> but was:<[1]>");
   }
 
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
@@ -49,14 +50,14 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertMatches(someInfo(), null, matchAnything());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), null, matchAnything()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_match_Pattern() {
-    thrown.expectAssertionError(shouldMatch(actual, "Luke").create());
-    strings.assertMatches(someInfo(), actual, Pattern.compile("Luke"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual, Pattern.compile("Luke")))
+                                                   .withMessage(shouldMatch(actual, "Luke").create());
   }
 
   @Test
@@ -74,8 +75,8 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

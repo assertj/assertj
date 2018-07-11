@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeBeforeYear.shouldBeBeforeYear;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -62,8 +63,8 @@ public class Dates_assertIsBeforeYear_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertIsBeforeYear(someInfo(), null, 2010);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsBeforeYear(someInfo(), null, 2010))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -100,8 +101,8 @@ public class Dates_assertIsBeforeYear_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsBeforeYear(someInfo(), null, 2010);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeYear(someInfo(), null, 2010))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

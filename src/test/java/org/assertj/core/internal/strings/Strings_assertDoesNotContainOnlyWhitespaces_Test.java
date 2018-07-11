@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -48,7 +49,7 @@ public class Strings_assertDoesNotContainOnlyWhitespaces_Test extends StringsBas
       " \u005Cn\u005Cr  "
   }, trimValues = false)
   public void should_fail_if_string_contains_only_whitespaces(String actual) {
-    thrown.expectAssertionError(shouldNotContainOnlyWhitespaces(actual).create());
-    strings.assertDoesNotContainOnlyWhitespaces(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainOnlyWhitespaces(someInfo(), actual))
+                                                   .withMessage(shouldNotContainOnlyWhitespaces(actual).create());
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
@@ -74,8 +75,8 @@ public class Objects_assertIsInstanceOfAny_Test extends ObjectsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     Class<?>[] types = { Object.class };
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertIsInstanceOfAny(someInfo(), null, types);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsInstanceOfAny(someInfo(), null, types))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
