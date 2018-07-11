@@ -62,7 +62,7 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_match_regular_expression() {
-    thrown.expectAssertionError(shouldMatch(actual, "Luke"));
+    thrown.expectAssertionError(shouldMatch(actual, "Luke").create());
     strings.assertMatches(someInfo(), actual, "Luke");
   }
 

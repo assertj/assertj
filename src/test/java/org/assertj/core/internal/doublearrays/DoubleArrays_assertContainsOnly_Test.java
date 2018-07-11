@@ -83,7 +83,7 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     double[] expected = { 6d, 8d, 20d };
-    thrown.expectAssertionError(shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d)));
+    thrown.expectAssertionError(shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d)).create());
     arrays.assertContainsOnly(someInfo(), actual, expected);
   }
 
@@ -131,7 +131,7 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
     thrown.expectAssertionError(shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d),
-                                                  absValueComparisonStrategy));
+                                                  absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, expected);
   }
 }

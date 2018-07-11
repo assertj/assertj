@@ -41,13 +41,13 @@ public class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_given_string() {
-    thrown.expectAssertionError(shouldBeSubstring("Yoda", "oda", StandardComparisonStrategy.instance()));
+    thrown.expectAssertionError(shouldBeSubstring("Yoda", "oda", StandardComparisonStrategy.instance()).create());
     strings.assertIsSubstringOf(someInfo(), "Yoda", "oda");
   }
 
   @Test
   public void should_fail_if_actual_completely_different_from_given_string() {
-    thrown.expectAssertionError(shouldBeSubstring("Yoda", "Luke", StandardComparisonStrategy.instance()));
+    thrown.expectAssertionError(shouldBeSubstring("Yoda", "Luke", StandardComparisonStrategy.instance()).create());
     strings.assertIsSubstringOf(someInfo(), "Yoda", "Luke");
   }
 
@@ -72,7 +72,7 @@ public class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_a_substring_of_sequence_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldBeSubstring("Yoda", "Luke", comparisonStrategy));
+    thrown.expectAssertionError(shouldBeSubstring("Yoda", "Luke", comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertIsSubstringOf(someInfo(), "Yoda", "Luke");
   }
 

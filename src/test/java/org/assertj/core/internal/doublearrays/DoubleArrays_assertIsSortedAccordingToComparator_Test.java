@@ -72,7 +72,7 @@ public class DoubleArrays_assertIsSortedAccordingToComparator_Test extends Doubl
   @Test
   public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     actual = new double[] { 3.0, 2.0, 1.0, 9.0 };
-    thrown.expectAssertionError(shouldBeSortedAccordingToGivenComparator(2, actual, doubleDescendingOrderComparator));
+    thrown.expectAssertionError(shouldBeSortedAccordingToGivenComparator(2, actual, doubleDescendingOrderComparator).create());
     arrays.assertIsSortedAccordingToComparator(someInfo(), actual, doubleDescendingOrderComparator);
   }
 

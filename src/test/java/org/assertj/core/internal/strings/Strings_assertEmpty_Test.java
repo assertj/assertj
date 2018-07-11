@@ -38,7 +38,7 @@ public class Strings_assertEmpty_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_empty() {
-    thrown.expectAssertionError(shouldBeEmpty("Yoda"));
+    thrown.expectAssertionError(shouldBeEmpty("Yoda").create());
     strings.assertEmpty(someInfo(), "Yoda");
   }
 
@@ -55,7 +55,7 @@ public class Strings_assertEmpty_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldBeEmpty("Yoda"));
+    thrown.expectAssertionError(shouldBeEmpty("Yoda").create());
     stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), "Yoda");
   }
 

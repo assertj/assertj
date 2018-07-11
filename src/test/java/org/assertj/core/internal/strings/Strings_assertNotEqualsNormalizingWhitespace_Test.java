@@ -62,7 +62,7 @@ public class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBa
   @Test
   @UseDataProvider("equalNormalizingWhitespaceGenerator")
   public void should_fail_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
-    thrown.expectAssertionError(shouldNotBeEqualNormalizingWhitespace(actual, expected));
+    thrown.expectAssertionError(shouldNotBeEqualNormalizingWhitespace(actual, expected).create());
     strings.assertNotEqualsNormalizingWhitespace(someInfo(), actual, expected);  }
 
   @DataProvider

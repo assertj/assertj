@@ -61,7 +61,7 @@ public class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
     actual = HumanJedi.class;
     Class<?>[] expected = new Class[] { HumanJedi.class, Jedi.class };
     thrown.expectAssertionError(shouldBeAssignableFrom(actual, Sets.<Class<?>> newLinkedHashSet(expected),
-                                                       Sets.<Class<?>> newLinkedHashSet(Jedi.class)));
+                                                       Sets.<Class<?>> newLinkedHashSet(Jedi.class)).create());
     classes.assertIsAssignableFrom(someInfo(), actual, expected);
   }
 }

@@ -48,7 +48,7 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   public void should_fail_if_no_methods_are_expected_but_public_methods_are_available() {
     thrown.expectAssertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false,
                                                      newTreeSet("publicMethod", "wait", "equals", "toString",
-                                                                "hashCode", "getClass", "notify", "notifyAll")));
+                                                                "hashCode", "getClass", "notify", "notifyAll")).create());
     classes.assertHasPublicMethods(someInfo(), actual);
   }
 
@@ -57,7 +57,7 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
     String[] expected = array("publicMethod", "protectedMethod", "privateMethod");
     thrown.expectAssertionError(shouldHaveMethods(actual, false,
                                                   newTreeSet(expected),
-                                                  newTreeSet("protectedMethod", "privateMethod")));
+                                                  newTreeSet("protectedMethod", "privateMethod")).create());
     classes.assertHasPublicMethods(someInfo(), actual, expected);
   }
 
@@ -66,7 +66,7 @@ public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
     String[] expected = array("missingMethod", "publicMethod");
     thrown.expectAssertionError(shouldHaveMethods(actual, false,
                                                   newTreeSet(expected),
-                                                  newTreeSet("missingMethod")));
+                                                  newTreeSet("missingMethod")).create());
     classes.assertHasPublicMethods(someInfo(), actual, expected);
   }
 }

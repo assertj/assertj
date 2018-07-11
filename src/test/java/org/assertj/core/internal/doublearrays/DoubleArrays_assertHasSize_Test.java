@@ -38,7 +38,7 @@ public class DoubleArrays_assertHasSize_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
-    thrown.expectAssertionError(shouldHaveSize(actual, actual.length, 2));
+    thrown.expectAssertionError(shouldHaveSize(actual, actual.length, 2).create());
     arrays.assertHasSize(someInfo(), actual, 2);
   }
 

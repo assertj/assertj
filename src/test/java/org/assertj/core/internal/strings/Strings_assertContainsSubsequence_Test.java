@@ -42,7 +42,7 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
-    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")));
+    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")).create());
     strings.assertContainsSubsequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
   }
 
@@ -50,7 +50,7 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   public void should_fail_if_actual_contains_values_but_not_in_given_order() {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
-    thrown.expectAssertionError(shouldContainSubsequence(actual, sequenceValues, 1));
+    thrown.expectAssertionError(shouldContainSubsequence(actual, sequenceValues, 1).create());
     strings.assertContainsSubsequence(someInfo(), actual, sequenceValues);
   }
 
@@ -99,7 +99,7 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_subsequence_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
-                                              comparisonStrategy));
+                                              comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(someInfo(), "Yoda",
                                                                            array("Yo", "da", "Han"));
   }
@@ -108,7 +108,7 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] sequenceValues = { "{", "author", "A Game of Thrones", "}" };
-    thrown.expectAssertionError(shouldContainSubsequence(actual, sequenceValues, 1, comparisonStrategy));
+    thrown.expectAssertionError(shouldContainSubsequence(actual, sequenceValues, 1, comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(someInfo(), actual, sequenceValues);
   }
 

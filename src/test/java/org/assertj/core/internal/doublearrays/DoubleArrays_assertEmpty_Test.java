@@ -40,7 +40,7 @@ public class DoubleArrays_assertEmpty_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_empty() {
     double[] actual = { 6d, 8d };
-    thrown.expectAssertionError(shouldBeEmpty(actual));
+    thrown.expectAssertionError(shouldBeEmpty(actual).create());
     arrays.assertEmpty(someInfo(), actual);
   }
 

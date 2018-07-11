@@ -52,7 +52,7 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test extends DoubleArraysB
   @Test
   public void should_fail_if_actual_contains_duplicates() {
     actual = arrayOf(6d, 8d, 6d, 8d);
-    thrown.expectAssertionError(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, 8d)));
+    thrown.expectAssertionError(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, 8d)).create());
     arrays.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
@@ -75,7 +75,7 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test extends DoubleArraysB
   @Test
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     actual = arrayOf(6d, -8d, 6d, -8d);
-    thrown.expectAssertionError(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, -8d), absValueComparisonStrategy));
+    thrown.expectAssertionError(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, -8d), absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 }

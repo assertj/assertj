@@ -45,21 +45,21 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_contains_sequence_with_values_between() {
     String[] sequenceValues = { "{ ", "'author':'George Martin'}" };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues).create());
     strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
     String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "unexpectedString" };
-    thrown.expectAssertionError(shouldContain(actual, sequenceValues, newLinkedHashSet("unexpectedString")));
+    thrown.expectAssertionError(shouldContain(actual, sequenceValues, newLinkedHashSet("unexpectedString")).create());
     strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
   @Test
   public void should_fail_if_actual_contains_values_but_not_in_the_given_order() {
     String[] sequenceValues = { "'A Game of Thrones'", "'title':" };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues).create());
     strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
@@ -106,7 +106,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
-                                              comparisonStrategy));
+                                              comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy
                                                 .assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
   }
@@ -115,7 +115,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
     String[] sequenceValues = { ", 'author'", "'A Game of Thrones'" };
     thrown.expectAssertionError(
-                                shouldContainSequence(actual, sequenceValues, comparisonStrategy));
+                                shouldContainSequence(actual, sequenceValues, comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 }

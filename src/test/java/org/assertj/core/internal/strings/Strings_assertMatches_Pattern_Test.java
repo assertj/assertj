@@ -55,7 +55,7 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_match_Pattern() {
-    thrown.expectAssertionError(shouldMatch(actual, "Luke"));
+    thrown.expectAssertionError(shouldMatch(actual, "Luke").create());
     strings.assertMatches(someInfo(), actual, Pattern.compile("Luke"));
   }
 

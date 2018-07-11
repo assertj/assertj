@@ -38,13 +38,13 @@ public class Strings_assertIsUpperCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_only_uppercase() {
-    thrown.expectAssertionError(shouldBeUpperCase("Lego"));
+    thrown.expectAssertionError(shouldBeUpperCase("Lego").create());
     strings.assertUpperCase(someInfo(), "Lego");
   }
 
   @Test
   public void should_fail_if_actual_is_lowercase() {
-    thrown.expectAssertionError(shouldBeUpperCase("lego"));
+    thrown.expectAssertionError(shouldBeUpperCase("lego").create());
     strings.assertUpperCase(someInfo(), "lego");
   }
 

@@ -32,19 +32,19 @@ public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
-    thrown.expectAssertionError(shouldBeEqual(null, "Luke"));
+    thrown.expectAssertionError(shouldBeEqual(null, "Luke").create());
     strings.assertEqualsIgnoringCase(someInfo(), null, "Luke");
   }
 
   @Test
   public void should_fail_if_actual_is_not_null_and_expected_is() {
-    thrown.expectAssertionError(shouldBeEqual("Luke", null));
+    thrown.expectAssertionError(shouldBeEqual("Luke", null).create());
     strings.assertEqualsIgnoringCase(someInfo(), "Luke", null);
   }
 
   @Test
   public void should_fail_if_both_Strings_are_not_equal_regardless_of_case() {
-    thrown.expectAssertionError(shouldBeEqual("Yoda", "Luke"));
+    thrown.expectAssertionError(shouldBeEqual("Yoda", "Luke").create());
     strings.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke");
   }
 
@@ -71,13 +71,13 @@ public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldBeEqual(null, "Luke"));
+    thrown.expectAssertionError(shouldBeEqual(null, "Luke").create());
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), null, "Luke");
   }
 
   @Test
   public void should_fail_if_both_Strings_are_not_equal_regardless_of_case_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldBeEqual("Yoda", "Luke"));
+    thrown.expectAssertionError(shouldBeEqual("Yoda", "Luke").create());
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke");
   }
 

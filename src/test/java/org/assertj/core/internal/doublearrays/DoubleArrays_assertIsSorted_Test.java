@@ -61,7 +61,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     actual = arrayOf(1.0, 3.0, 2.0);
-    thrown.expectAssertionError(shouldBeSorted(1, actual));
+    thrown.expectAssertionError(shouldBeSorted(1, actual).create());
     arrays.assertIsSorted(someInfo(), actual);
   }
 
@@ -90,7 +90,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     actual = arrayOf(1.0, 3.0, 2.0);
-    thrown.expectAssertionError(shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
+    thrown.expectAssertionError(shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()).create());
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 

@@ -33,7 +33,7 @@ public class DoubleArrays_assertNullOrEmpty_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_array_is_not_null_and_is_not_empty() {
     double[] actual = { 6d, 8d };
-    thrown.expectAssertionError(shouldBeNullOrEmpty(actual));
+    thrown.expectAssertionError(shouldBeNullOrEmpty(actual).create());
     arrays.assertNullOrEmpty(someInfo(), actual);
   }
 

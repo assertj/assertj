@@ -33,7 +33,7 @@ public class Strings_assertEndsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_end_with_suffix() {
-    thrown.expectAssertionError(shouldEndWith("Yoda", "Luke"));
+    thrown.expectAssertionError(shouldEndWith("Yoda", "Luke").create());
     strings.assertEndsWith(someInfo(), "Yoda", "Luke");
   }
 
@@ -65,7 +65,7 @@ public class Strings_assertEndsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_end_with_suffix_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldEndWith("Yoda", "Luke", comparisonStrategy));
+    thrown.expectAssertionError(shouldEndWith("Yoda", "Luke", comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertEndsWith(someInfo(), "Yoda", "Luke");
   }
 

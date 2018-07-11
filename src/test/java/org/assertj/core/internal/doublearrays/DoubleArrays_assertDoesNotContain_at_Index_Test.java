@@ -65,7 +65,7 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
   @Test
   public void should_fail_if_actual_contains_value_at_index() {
     Index index = atIndex(0);
-    thrown.expectAssertionError(shouldNotContainAtIndex(actual, 6d, index));
+    thrown.expectAssertionError(shouldNotContainAtIndex(actual, 6d, index).create());
     arrays.assertDoesNotContain(someInfo(), actual, 6d, index);
   }
 
@@ -102,7 +102,7 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
   @Test
   public void should_fail_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     Index index = atIndex(0);
-    thrown.expectAssertionError(shouldNotContainAtIndex(actual, 6d, index, absValueComparisonStrategy));
+    thrown.expectAssertionError(shouldNotContainAtIndex(actual, 6d, index, absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, 6d, index);
   }
 }

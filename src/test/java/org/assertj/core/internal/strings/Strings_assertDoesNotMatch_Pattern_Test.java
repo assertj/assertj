@@ -47,7 +47,7 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_matches_Pattern() {
     Pattern pattern = matchAnything();
-    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()));
+    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()).create());
     strings.assertDoesNotMatch(someInfo(), actual, pattern);
   }
 
@@ -72,7 +72,7 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
     Pattern pattern = matchAnything();
-    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()));
+    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
   }
 

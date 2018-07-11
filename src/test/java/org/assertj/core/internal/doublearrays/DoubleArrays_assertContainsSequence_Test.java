@@ -66,21 +66,21 @@ public class DoubleArrays_assertContainsSequence_Test extends DoubleArraysBaseTe
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual() {
     double[] sequence = { 6d, 8d, 10d, 12d, 20d, 22d };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequence));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequence).create());
     arrays.assertContainsSequence(someInfo(), actual, sequence);
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_sequence() {
     double[] sequence = { 6d, 20d };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequence));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequence).create());
     arrays.assertContainsSequence(someInfo(), actual, sequence);
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_sequence() {
     double[] sequence = { 6d, 20d, 22d };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequence));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequence).create());
     arrays.assertContainsSequence(someInfo(), actual, sequence);
   }
 
@@ -116,21 +116,21 @@ public class DoubleArrays_assertContainsSequence_Test extends DoubleArraysBaseTe
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, -8d, 10d, 12d, 20d, 22d };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequence, absValueComparisonStrategy));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, sequence);
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, 20d };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequence, absValueComparisonStrategy));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, sequence);
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, 20d, 22d };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequence, absValueComparisonStrategy));
+    thrown.expectAssertionError(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, sequence);
   }
 
