@@ -15,6 +15,7 @@ package org.assertj.core.api.offsetdatetime;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -59,15 +60,14 @@ public class OffsetDateTimeAssert_isAfterOrEqualTo_Test extends OffsetDateTimeAs
 
   @Test
   public void should_fail_if_dateTime_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The OffsetDateTime to compare actual with should not be null");
-    assertThat(OffsetDateTime.now()).isAfterOrEqualTo((OffsetDateTime) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isAfterOrEqualTo((OffsetDateTime) null))
+                                        .withMessage("The OffsetDateTime to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the OffsetDateTime to compare actual with should not be null");
-    assertThat(OffsetDateTime.now()).isAfterOrEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isAfterOrEqualTo((String) null))
+                                        .withMessage("The String representing the OffsetDateTime to compare actual with should not be null");
   }
 
   private static void verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(OffsetDateTime dateToCheck,

@@ -13,6 +13,7 @@
 package org.assertj.core.api.offsettime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.OffsetTime;
@@ -48,14 +49,14 @@ public class OffsetTimeAssert_isNotIn_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void should_fail_if_offsetTimes_as_string_array_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The given OffsetTime array should not be null");
-    assertThat(OffsetTime.now()).isNotIn((String[]) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isNotIn((String[]) null))
+                                        .withMessage("The given OffsetTime array should not be null");
   }
 
   @Test
   public void should_fail_if_offsetTimes_as_string_array_parameter_is_empty() {
-    expectException(IllegalArgumentException.class, "The given OffsetTime array should not be empty");
-    assertThat(OffsetTime.now()).isNotIn(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isNotIn(new String[0]))
+                                        .withMessage("The given OffsetTime array should not be empty");
   }
 
   private static void verify_that_isNotIn_assertion_fails_and_throws_AssertionError(OffsetTime reference) {

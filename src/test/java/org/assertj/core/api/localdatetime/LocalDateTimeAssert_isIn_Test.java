@@ -13,6 +13,7 @@
 package org.assertj.core.api.localdatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDateTime;
@@ -45,14 +46,14 @@ public class LocalDateTimeAssert_isIn_Test extends LocalDateTimeAssertBaseTest {
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The given LocalDateTime array should not be null");
-    assertThat(LocalDateTime.now()).isIn((String[]) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isIn((String[]) null))
+                                        .withMessage("The given LocalDateTime array should not be null");
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
-    expectException(IllegalArgumentException.class, "The given LocalDateTime array should not be empty");
-    assertThat(LocalDateTime.now()).isIn(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isIn(new String[0]))
+                                        .withMessage("The given LocalDateTime array should not be empty");
   }
 
 }

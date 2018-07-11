@@ -14,6 +14,7 @@ package org.assertj.core.api.offsetdatetime;
 
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.OffsetDateTime;
@@ -51,14 +52,14 @@ public class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseT
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The given OffsetDateTime array should not be null");
-    assertThat(OffsetDateTime.now()).isNotIn((String[]) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isNotIn((String[]) null))
+                                        .withMessage("The given OffsetDateTime array should not be null");
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
-    expectException(IllegalArgumentException.class, "The given OffsetDateTime array should not be empty");
-    assertThat(OffsetDateTime.now()).isNotIn(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isNotIn(new String[0]))
+                                        .withMessage("The given OffsetDateTime array should not be empty");
   }
 
 }

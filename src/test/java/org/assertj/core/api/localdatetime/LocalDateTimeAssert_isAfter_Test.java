@@ -14,6 +14,7 @@ package org.assertj.core.api.localdatetime;
 
 import static java.time.LocalDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -57,15 +58,14 @@ public class LocalDateTimeAssert_isAfter_Test extends LocalDateTimeAssertBaseTes
 
   @Test
   public void should_fail_if_dateTime_parameter_is_null() {
-	expectException(IllegalArgumentException.class, "The LocalDateTime to compare actual with should not be null");
-	assertThat(LocalDateTime.now()).isAfter((LocalDateTime) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isAfter((LocalDateTime) null))
+                                        .withMessage("The LocalDateTime to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-	expectException(IllegalArgumentException.class,
-	                "The String representing the LocalDateTime to compare actual with should not be null");
-	assertThat(LocalDateTime.now()).isAfter((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isAfter((String) null))
+                                        .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
   private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(LocalDateTime dateToCheck,

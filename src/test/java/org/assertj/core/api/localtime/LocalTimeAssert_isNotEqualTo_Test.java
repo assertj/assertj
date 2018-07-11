@@ -13,6 +13,7 @@
 package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.LocalTime;
@@ -47,9 +48,8 @@ public class LocalTimeAssert_isNotEqualTo_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void should_fail_if_timeTime_as_string_parameter_is_null() {
-	expectException(IllegalArgumentException.class,
-	                "The String representing the LocalTime to compare actual with should not be null");
-	assertThat(LocalTime.now()).isNotEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isNotEqualTo((String) null))
+                                        .withMessage("The String representing the LocalTime to compare actual with should not be null");
   }
 
   private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(LocalTime reference) {
