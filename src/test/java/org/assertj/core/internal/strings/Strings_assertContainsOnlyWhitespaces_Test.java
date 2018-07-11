@@ -48,7 +48,7 @@ public class Strings_assertContainsOnlyWhitespaces_Test extends StringsBaseTest 
       "\u202F", // non-breaking space
   }, trimValues = false)
   public void should_fail_if_string_does_not_contain_only_whitespaces(String actual) {
-    thrown.expectAssertionError(shouldContainOnlyWhitespaces(actual));
+    thrown.expectAssertionError(shouldContainOnlyWhitespaces(actual).create());
     strings.assertContainsOnlyWhitespaces(someInfo(), actual);
   }
 }

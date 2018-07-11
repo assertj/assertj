@@ -14,8 +14,6 @@ package org.assertj.core.test;
 
 import static java.lang.String.format;
 
-import org.assertj.core.error.ErrorMessageFactory;
-import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsEqual;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -44,10 +42,6 @@ public class ExpectedException implements TestRule {
     expect(AssertionError.class, message);
   }
 
-  public void expectAssertionError(ErrorMessageFactory errorMessageFactory) {
-    delegate.expect(new ThrowableMatcher<>(AssertionError.class, errorMessageFactory.create()));
-  }
-
   private void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);
@@ -60,30 +54,4 @@ public class ExpectedException implements TestRule {
   public void expectMessage(String message) {
     delegate.expectMessage(IsEqual.equalTo(format(message)));
   }
-
-  private static class ThrowableMatcher<T extends Throwable> extends TypeSafeMatcher<T> {
-
-    private final Class<?> expectedType;
-    private final String expectedMessage;
-
-    public ThrowableMatcher(Class<?> expectedType, String expectedMessage) {
-      this.expectedType = expectedType;
-      this.expectedMessage = expectedMessage;
-    }
-
-    @Override
-    public void describeTo(org.hamcrest.Description description) {
-      description.appendText(buildStringRepresentation(expectedType, expectedMessage));
-    }
-
-    @Override
-    protected boolean matchesSafely(T actual) {
-      return expectedType.isInstance(actual) && expectedMessage.equals(actual.getMessage());
-    }
-
-    private String buildStringRepresentation(Class<?> clazz, String message) {
-      return format("<%s: %s>", clazz.getName(), message);
-    }
-  }
-
 }

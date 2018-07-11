@@ -42,7 +42,7 @@ public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseT
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
-    thrown.expectAssertionError(shouldBeEqualNormalizingWhitespace(null, "Luke"));
+    thrown.expectAssertionError(shouldBeEqualNormalizingWhitespace(null, "Luke").create());
     strings.assertEqualsNormalizingWhitespace(someInfo(), null, "Luke");  }
 
   @Test
@@ -54,7 +54,7 @@ public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseT
 
   @Test
   public void should_fail_if_both_Strings_are_not_equal_after_whitespace_is_normalized() {
-    thrown.expectAssertionError(shouldBeEqualNormalizingWhitespace("Yoda", "Luke"));
+    thrown.expectAssertionError(shouldBeEqualNormalizingWhitespace("Yoda", "Luke").create());
     strings.assertEqualsNormalizingWhitespace(someInfo(), "Yoda", "Luke");  }
 
   @Test

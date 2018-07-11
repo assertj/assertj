@@ -52,7 +52,7 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
 
   @Test
   public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
-    thrown.expectAssertionError(elementsDifferAtIndex(8d, 10d, 1));
+    thrown.expectAssertionError(elementsDifferAtIndex(8d, 10d, 1).create());
     arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 10d, 8d));
   }
 
@@ -81,14 +81,14 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
     double[] expected = { 6d, 8d, 20d };
-    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(20d), newArrayList(10d)));
+    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(20d), newArrayList(10d)).create());
     arrays.assertContainsExactly(someInfo(), actual, expected);
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     double[] expected = { 6d, 8d, 10d, 10d };
-    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(10d), newArrayList()));
+    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(10d), newArrayList()).create());
     arrays.assertContainsExactly(someInfo(), actual, expected);
   }
 
@@ -105,7 +105,7 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     double[] expected = { -6d, 10d, 8d };
-    thrown.expectAssertionError(elementsDifferAtIndex(8d, 10d, 1, absValueComparisonStrategy));
+    thrown.expectAssertionError(elementsDifferAtIndex(8d, 10d, 1, absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
   }
 
@@ -132,7 +132,7 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
     thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(20d),
-                                                     newArrayList(10d), absValueComparisonStrategy));
+                                                     newArrayList(10d), absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
   }
 
@@ -140,7 +140,7 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, 8d, 10d, 10d };
     thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(10d), newArrayList(),
-                                                     absValueComparisonStrategy));
+                                                     absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
   }
 }

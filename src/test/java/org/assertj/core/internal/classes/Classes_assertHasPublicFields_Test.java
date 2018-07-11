@@ -60,7 +60,7 @@ public class Classes_assertHasPublicFields_Test extends ClassesBaseTest {
     String[] expected = array("publicField", "protectedField", "privateField");
     thrown.expectAssertionError(shouldHaveFields(actual,
                                                  newLinkedHashSet(expected),
-                                                 newLinkedHashSet("protectedField", "privateField")));
+                                                 newLinkedHashSet("protectedField", "privateField")).create());
     classes.assertHasPublicFields(someInfo(), actual, expected);
   }
 
@@ -69,13 +69,13 @@ public class Classes_assertHasPublicFields_Test extends ClassesBaseTest {
     String[] expected = array("missingField", "publicField");
     thrown.expectAssertionError(shouldHaveFields(actual,
                                                  newLinkedHashSet(expected),
-                                                 newLinkedHashSet("missingField")));
+                                                 newLinkedHashSet("missingField")).create());
     classes.assertHasPublicFields(someInfo(), actual, expected);
   }
 
   @Test
   public void should_fail_if_no_public_fields_are_expected_and_class_has_some() {
-    thrown.expectAssertionError(shouldHaveNoPublicFields(actual, newLinkedHashSet("publicField", "publicField2")));
+    thrown.expectAssertionError(shouldHaveNoPublicFields(actual, newLinkedHashSet("publicField", "publicField2")).create());
     classes.assertHasPublicFields(someInfo(), actual);
   }
 

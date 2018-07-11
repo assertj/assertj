@@ -34,7 +34,7 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_any_of_values() {
-    thrown.expectAssertionError(shouldNotContain("Yoda", "oda", StandardComparisonStrategy.instance()));
+    thrown.expectAssertionError(shouldNotContain("Yoda", "oda", StandardComparisonStrategy.instance()).create());
     strings.assertDoesNotContain(someInfo(), "Yoda", "oda");
   }
 
@@ -79,7 +79,7 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldNotContain("Yoda", "yoda", comparisonStrategy));
+    thrown.expectAssertionError(shouldNotContain("Yoda", "yoda", comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "yoda");
   }
 
@@ -93,7 +93,7 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   public void should_fail_if_actual_contains_any_of_given_values() {
     String[] values = { "practice", "make", "good" };
     thrown.expectAssertionError(shouldNotContain("Practice makes perfect", values, newSet("make"),
-                                                 StandardComparisonStrategy.instance()));
+                                                 StandardComparisonStrategy.instance()).create());
     strings.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
   }
 
@@ -107,7 +107,7 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   public void should_fail_if_actual_contains_any_of_given_values_according_to_custom_comparison_strategy() {
     String[] values = { "practice", "made", "good" };
     thrown.expectAssertionError(shouldNotContain("Practice makes perfect", values, newSet("practice"),
-                                                 comparisonStrategy));
+                                                 comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
   }
 }

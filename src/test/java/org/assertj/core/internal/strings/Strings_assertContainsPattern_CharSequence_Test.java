@@ -60,7 +60,7 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_fail_if_actual_does_not_contain_regular_expression() {
-    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
+    thrown.expectAssertionError(shouldContainPattern(actual, "Luke").create());
     strings.assertContainsPattern(someInfo(), actual, "Luke");
   }
 
@@ -92,7 +92,7 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_fail_if_actual_does_not_contain_regular_expression_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
+    thrown.expectAssertionError(shouldContainPattern(actual, "Luke").create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, "Luke");
   }
 

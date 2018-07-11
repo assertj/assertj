@@ -59,7 +59,7 @@ public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
       "bc",
   }, trimValues = false)
   public void should_fail_if_string_does_not_contain_any_whitespaces(String actual) {
-    thrown.expectAssertionError(shouldContainOneOrMoreWhitespaces(actual));
+    thrown.expectAssertionError(shouldContainOneOrMoreWhitespaces(actual).create());
     strings.assertContainsWhitespaces(someInfo(), actual);
   }
 }

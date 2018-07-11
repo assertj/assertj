@@ -44,7 +44,7 @@ public class Assertions_assertThatCode_Test {
     ThrowingCallable boom = raisingException(exception);
 
     // Expect
-    thrown.expectAssertionError(shouldNotHaveThrown(exception));
+    thrown.expectAssertionError(shouldNotHaveThrown(exception).create());
 
     // When
     assertThatCode(boom).doesNotThrowAnyException();

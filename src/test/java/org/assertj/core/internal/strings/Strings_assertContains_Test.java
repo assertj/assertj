@@ -35,13 +35,13 @@ public class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence() {
-    thrown.expectAssertionError(shouldContain("Yoda", "Luke"));
+    thrown.expectAssertionError(shouldContain("Yoda", "Luke").create());
     strings.assertContains(someInfo(), "Yoda", "Luke");
   }
 
   @Test
   public void should_fail_if_actual_contains_sequence_but_in_different_case() {
-    thrown.expectAssertionError(shouldContain("Yoda", "yo"));
+    thrown.expectAssertionError(shouldContain("Yoda", "yo").create());
     strings.assertContains(someInfo(), "Yoda", "yo");
   }
 
@@ -64,7 +64,7 @@ public class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
-    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")));
+    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")).create());
     strings.assertContains(someInfo(), "Yoda", "Yo", "da", "Han");
   }
 
@@ -87,13 +87,13 @@ public class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContain("Yoda", "Luke", comparisonStrategy));
+    thrown.expectAssertionError(shouldContain("Yoda", "Luke", comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "Luke");
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"), comparisonStrategy));
+    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"), comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "Yo", "da", "Han");
   }
 

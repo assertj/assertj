@@ -67,7 +67,7 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_has_some_declared_methods_and_no_expected_methods_are_given() {
     thrown.expectAssertionError(shouldNotHaveMethods(actual, true,
-                                                     newTreeSet("publicMethod", "privateMethod", "protectedMethod")));
+                                                     newTreeSet("publicMethod", "privateMethod", "protectedMethod")).create());
     classes.assertHasDeclaredMethods(someInfo(), actual);
   }
 
@@ -76,7 +76,7 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
     String[] expected = new String[] { "missingMethod", "publicMethod" };
     thrown.expectAssertionError(shouldHaveMethods(actual, true,
                                                   newTreeSet(expected),
-                                                  newTreeSet("missingMethod")));
+                                                  newTreeSet("missingMethod")).create());
     classes.assertHasDeclaredMethods(someInfo(), actual, expected);
   }
 }

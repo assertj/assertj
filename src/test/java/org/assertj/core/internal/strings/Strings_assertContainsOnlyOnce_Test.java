@@ -36,19 +36,19 @@ public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_given_string_more_than_once() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yodayoda", "oda", 2));
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yodayoda", "oda", 2).create());
     strings.assertContainsOnlyOnce(someInfo(), "Yodayoda", "oda");
   }
 
   @Test
   public void should_fail_if_actual_contains_sequence_only_once_but_in_different_case() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "yo", 0));
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "yo", 0).create());
     strings.assertContainsOnlyOnce(someInfo(), "Yoda", "yo");
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_string() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0));
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0).create());
     strings.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
   }
 
@@ -73,13 +73,13 @@ public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_only_once_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy));
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
   }
 
   @Test
   public void should_fail_if_actual_contains_sequence_several_times_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy));
+    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
   }
 

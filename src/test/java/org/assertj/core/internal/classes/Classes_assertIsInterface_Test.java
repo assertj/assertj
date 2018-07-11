@@ -44,7 +44,7 @@ public class Classes_assertIsInterface_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_actual_is_not_an_interface() {
     actual = Classes_assertIsInterface_Test.class;
-    thrown.expectAssertionError(shouldBeInterface(actual));
+    thrown.expectAssertionError(shouldBeInterface(actual).create());
     classes.assertIsInterface(someInfo(), actual);
   }
 }

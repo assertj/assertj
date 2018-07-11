@@ -31,7 +31,7 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix() {
-    thrown.expectAssertionError(shouldNotStartWith("Yoda", "Yo"));
+    thrown.expectAssertionError(shouldNotStartWith("Yoda", "Yo").create());
     strings.assertDoesNotStartWith(someInfo(), "Yoda", "Yo");
   }
 
@@ -60,7 +60,7 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldNotStartWith("Yoda", "yODA", comparisonStrategy));
+    thrown.expectAssertionError(shouldNotStartWith("Yoda", "yODA", comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(someInfo(), "Yoda", "yODA");
   }
 

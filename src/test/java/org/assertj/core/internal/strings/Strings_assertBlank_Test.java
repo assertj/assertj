@@ -48,7 +48,7 @@ public class Strings_assertBlank_Test extends StringsBaseTest {
       "\u202F", // non-breaking space
   }, trimValues = false)
   public void should_fail_if_string_is_not_blank(String actual) {
-    thrown.expectAssertionError(shouldBeBlank(actual));
+    thrown.expectAssertionError(shouldBeBlank(actual).create());
     strings.assertBlank(someInfo(), actual);
   }
 }

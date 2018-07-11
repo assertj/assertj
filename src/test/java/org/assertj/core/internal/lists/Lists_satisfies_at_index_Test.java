@@ -63,7 +63,7 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(shouldNotBeNull());
+    thrown.expectAssertionError(shouldNotBeNull().create());
     lists.satisfies(info, null, shouldBeLuke, index);
   }
 

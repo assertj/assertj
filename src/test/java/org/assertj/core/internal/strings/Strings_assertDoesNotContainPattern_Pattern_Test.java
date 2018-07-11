@@ -51,7 +51,7 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
 
   @Test
   public void should_fail_if_actual_contains_pattern() {
-    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN));
+    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
     strings.assertDoesNotContainPattern(someInfo(), ACTUAL, Pattern.compile(CONTAINED_PATTERN));
   }
 
@@ -76,7 +76,7 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
 
   @Test
   public void should_fail_if_actual_contains_pattern_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN));
+    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL,
                                                                              Pattern.compile(CONTAINED_PATTERN));
   }

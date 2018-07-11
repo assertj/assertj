@@ -53,7 +53,7 @@ public class Strings_assertContainsPattern_Pattern_Test extends StringsBaseTest 
 
   @Test
   public void should_fail_if_actual_does_not_contain_Pattern() {
-    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
+    thrown.expectAssertionError(shouldContainPattern(actual, "Luke").create());
     strings.assertContainsPattern(someInfo(), actual, Pattern.compile("Luke"));
   }
 
@@ -78,7 +78,7 @@ public class Strings_assertContainsPattern_Pattern_Test extends StringsBaseTest 
 
   @Test
   public void should_fail_if_actual_does_not_contain_Pattern_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
+    thrown.expectAssertionError(shouldContainPattern(actual, "Luke").create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, Pattern.compile("Luke"));
   }
 

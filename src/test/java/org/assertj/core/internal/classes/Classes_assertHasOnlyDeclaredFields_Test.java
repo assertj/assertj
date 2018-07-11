@@ -73,7 +73,7 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
                                                              newLinkedHashSet("publicField", "protectedField",
                                                                               "privateField"),
                                                              EMPTY_STRING_SET,
-                                                             newLinkedHashSet("publicField2")));
+                                                             newLinkedHashSet("publicField2")).create());
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, "publicField", "protectedField", "privateField");
   }
 
@@ -83,7 +83,7 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
     thrown.expectAssertionError(shouldOnlyHaveDeclaredFields(actual,
                                                              newLinkedHashSet(expected),
                                                              newLinkedHashSet("missingField"),
-                                                             EMPTY_STRING_SET));
+                                                             EMPTY_STRING_SET).create());
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, expected);
   }
 
@@ -93,14 +93,14 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
     thrown.expectAssertionError(shouldOnlyHaveDeclaredFields(actual,
                                                              newLinkedHashSet(expected),
                                                              newLinkedHashSet("missing"),
-                                                             newLinkedHashSet("protectedField")));
+                                                             newLinkedHashSet("protectedField")).create());
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, expected);
   }
 
   @Test
   public void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
     thrown.expectAssertionError(shouldHaveNoDeclaredFields(actual, newLinkedHashSet("publicField", "publicField2",
-                                                                                    "protectedField", "privateField")));
+                                                                                    "protectedField", "privateField")).create());
     classes.assertHasOnlyDeclaredFields(someInfo(), actual);
   }
 

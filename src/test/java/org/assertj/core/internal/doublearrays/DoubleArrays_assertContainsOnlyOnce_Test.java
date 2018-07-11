@@ -49,7 +49,7 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8, 6);
     double[] expected = { 6, -8, 20 };
     thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
-                                                       newLinkedHashSet((double) 6, (double) -8)));
+                                                       newLinkedHashSet((double) 6, (double) -8)).create());
     arrays.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 
@@ -84,7 +84,7 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     double[] expected = { 6, 8, 20 };
-    thrown.expectAssertionError( shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet()));
+    thrown.expectAssertionError( shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet()).create());
     arrays.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 
@@ -103,7 +103,7 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
     double[] expected = { 6, -8, 20 };
     thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
-                                                       newLinkedHashSet((double) 6, (double) -8), absValueComparisonStrategy));
+                                                       newLinkedHashSet((double) 6, (double) -8), absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 
@@ -135,7 +135,7 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     double[] expected = { 6, -8, 20 };
     thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet(),
-                                                       absValueComparisonStrategy));
+                                                       absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected);
   }
 }

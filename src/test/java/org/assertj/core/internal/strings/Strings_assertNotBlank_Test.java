@@ -48,7 +48,7 @@ public class Strings_assertNotBlank_Test extends StringsBaseTest {
     " \u005Cn\u005Cr  "
   }, trimValues=false)
   public void should_fail_if_string_is_blank(String actual) {
-    thrown.expectAssertionError(shouldNotBeBlank(actual));
+    thrown.expectAssertionError(shouldNotBeBlank(actual).create());
     strings.assertNotBlank(someInfo(), actual);
   }
 }

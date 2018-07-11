@@ -58,14 +58,14 @@ public class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
     String[] expected = new String[] { "missingField", "publicField" };
     thrown.expectAssertionError(shouldHaveDeclaredFields(actual,
                                                          newLinkedHashSet(expected),
-                                                         newLinkedHashSet("missingField")));
+                                                         newLinkedHashSet("missingField")).create());
     classes.assertHasDeclaredFields(someInfo(), actual, expected);
   }
 
   @Test
   public void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
     thrown.expectAssertionError(shouldHaveNoDeclaredFields(actual, newLinkedHashSet("publicField", "publicField2",
-                                                                                    "protectedField", "privateField")));
+                                                                                    "protectedField", "privateField")).create());
     classes.assertHasDeclaredFields(someInfo(), actual);
   }
 

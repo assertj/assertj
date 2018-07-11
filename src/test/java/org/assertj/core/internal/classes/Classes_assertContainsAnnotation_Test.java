@@ -87,7 +87,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
     thrown.expectAssertionError(shouldHaveAnnotations(actual,
                                                       Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
                                                       Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class,
-                                                                                                          Deprecated.class)));
+                                                                                                          Deprecated.class)).create());
     classes.assertContainsAnnotations(someInfo(), actual, expected);
   }
 }

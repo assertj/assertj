@@ -47,7 +47,7 @@ public class Strings_assertDoesNotContainAnyWhitespaces_Test extends StringsBase
       "a \u005Cn\u005Cr  b"
   }, trimValues = false)
   public void should_fail_if_string_contains_whitespaces(String actual) {
-    thrown.expectAssertionError(shouldNotContainAnyWhitespaces(actual));
+    thrown.expectAssertionError(shouldNotContainAnyWhitespaces(actual).create());
     strings.assertDoesNotContainAnyWhitespaces(someInfo(), actual);
   }
 }

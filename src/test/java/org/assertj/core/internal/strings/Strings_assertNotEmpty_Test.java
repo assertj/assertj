@@ -42,7 +42,7 @@ public class Strings_assertNotEmpty_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(shouldNotBeEmpty());
+    thrown.expectAssertionError(shouldNotBeEmpty().create());
     strings.assertNotEmpty(someInfo(), "");
   }
 

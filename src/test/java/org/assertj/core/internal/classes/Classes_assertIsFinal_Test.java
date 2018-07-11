@@ -40,7 +40,7 @@ public class Classes_assertIsFinal_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_a_final_class() {
-    thrown.expectAssertionError(shouldBeFinal(Object.class));
+    thrown.expectAssertionError(shouldBeFinal(Object.class).create());
     classes.assertIsFinal(someInfo(), Object.class);
   }
 }

@@ -48,7 +48,7 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
                                                      newTreeSet("publicMethod", "protectedMethod", "privateMethod",
                                                                 "finalize", "wait", "equals", "toString", "hashCode",
                                                                 "getClass", "clone", "registerNatives", "notify",
-                                                                "notifyAll")));
+                                                                "notifyAll")).create());
     classes.assertHasMethods(someInfo(), actual);
   }
 
@@ -70,7 +70,7 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
     String[] expected = array("missingMethod", "publicMethod");
     thrown.expectAssertionError(shouldHaveMethods(actual, false,
                                                   newTreeSet(expected),
-                                                  newTreeSet("missingMethod")));
+                                                  newTreeSet("missingMethod")).create());
     classes.assertHasMethods(someInfo(), actual, expected);
   }
 }

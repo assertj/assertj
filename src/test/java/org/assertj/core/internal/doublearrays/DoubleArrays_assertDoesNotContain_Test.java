@@ -73,7 +73,7 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
   @Test
   public void should_fail_if_actual_contains_given_values() {
     double[] expected = { 6d, 8d, 20d };
-    thrown.expectAssertionError(shouldNotContain(actual, expected, newLinkedHashSet(6d, 8d)));
+    thrown.expectAssertionError(shouldNotContain(actual, expected, newLinkedHashSet(6d, 8d)).create());
     arrays.assertDoesNotContain(someInfo(), actual, expected);
   }
 
@@ -113,7 +113,7 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
   public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
     thrown.expectAssertionError(shouldNotContain(actual, expected, newLinkedHashSet(6d, -8d),
-                                                 absValueComparisonStrategy));
+                                                 absValueComparisonStrategy).create());
     arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, expected);
   }
 }

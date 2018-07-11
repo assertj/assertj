@@ -34,7 +34,7 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence() {
-    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke"));
+    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke").create());
     strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke");
   }
 
@@ -62,7 +62,7 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke"));
+    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke").create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke");
   }
 

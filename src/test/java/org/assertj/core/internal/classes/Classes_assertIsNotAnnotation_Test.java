@@ -44,7 +44,7 @@ public class Classes_assertIsNotAnnotation_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_actual_is_an_annotation() {
     actual = Override.class;
-    thrown.expectAssertionError(shouldNotBeAnnotation(actual));
+    thrown.expectAssertionError(shouldNotBeAnnotation(actual).create());
     classes.assertIsNotAnnotation(someInfo(), actual);
   }
 }

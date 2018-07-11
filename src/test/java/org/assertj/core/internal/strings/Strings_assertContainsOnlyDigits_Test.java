@@ -38,7 +38,7 @@ public class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_any_non_digit_character() {
-    thrown.expectAssertionError(shouldContainOnlyDigits("10$", '$', 2));
+    thrown.expectAssertionError(shouldContainOnlyDigits("10$", '$', 2).create());
     strings.assertContainsOnlyDigits(someInfo(), "10$");
   }
 
@@ -47,7 +47,7 @@ public class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
    */
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(shouldContainOnlyDigits(""));
+    thrown.expectAssertionError(shouldContainOnlyDigits("").create());
     strings.assertContainsOnlyDigits(someInfo(), "");
   }
 }
