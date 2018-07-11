@@ -13,6 +13,7 @@
 package org.assertj.core.api.offsettime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -52,9 +53,10 @@ public class OffsetTimeAssert_isAfterOrEqualTo_Test extends OffsetTimeAssertBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    OffsetTime actual = null;
-    assertThat(actual).isAfterOrEqualTo(OffsetTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      OffsetTime actual = null;
+      assertThat(actual).isAfterOrEqualTo(OffsetTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

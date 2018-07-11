@@ -13,6 +13,7 @@
 package org.assertj.core.api.instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -42,9 +43,10 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    Instant actual = null;
-    assertThat(actual).isBeforeOrEqualTo(Instant.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Instant actual = null;
+      assertThat(actual).isBeforeOrEqualTo(Instant.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test

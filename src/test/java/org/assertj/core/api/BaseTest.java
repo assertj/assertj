@@ -26,11 +26,6 @@ public class BaseTest {
   @Rule
   public ExpectedException thrown = none();
 
-  protected void expectException(Class<? extends Throwable> type, String message) {
-    thrown.expect(type);
-    thrown.expectMessage(message);
-  }
-
   public void failBecauseExpectedAssertionErrorWasNotThrown() {
     Assertions.fail("Assertion error expected");
   }
