@@ -13,6 +13,7 @@
 package org.assertj.core.api.localdate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -58,15 +59,14 @@ public class LocalDateAssert_isBeforeOrEqualTo_Test extends LocalDateAssertBaseT
 
   @Test
   public void should_fail_if_date_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The LocalDate to compare actual with should not be null");
-    assertThat(LocalDate.now()).isBeforeOrEqualTo((LocalDate) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDate.now()).isBeforeOrEqualTo((LocalDate) null))
+                                        .withMessage("The LocalDate to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_date_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-        "The String representing the LocalDate to compare actual with should not be null");
-    assertThat(LocalDate.now()).isBeforeOrEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDate.now()).isBeforeOrEqualTo((String) null))
+                                        .withMessage("The String representing the LocalDate to compare actual with should not be null");
   }
 
   private static void verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(LocalDate dateToCheck,

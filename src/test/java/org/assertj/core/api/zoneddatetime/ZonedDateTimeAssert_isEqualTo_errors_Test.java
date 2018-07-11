@@ -14,6 +14,7 @@ package org.assertj.core.api.zoneddatetime;
 
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.ZonedDateTime;
@@ -60,9 +61,8 @@ public class ZonedDateTimeAssert_isEqualTo_errors_Test extends ZonedDateTimeAsse
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the ZonedDateTime to compare actual with should not be null");
-    assertThat(ZonedDateTime.now()).isEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isEqualTo((String) null))
+                                        .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
   }
 
   @Test

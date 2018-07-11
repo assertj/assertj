@@ -13,6 +13,7 @@
 package org.assertj.core.api.instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Instant;
@@ -42,9 +43,8 @@ public class InstantAssert_isNotEqualTo_Test extends InstantAssertBaseTest {
 
   @Test
   public void should_fail_if_date_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-      "The String representing the Instant to compare actual with should not be null");
-    assertThat(Instant.now()).isNotEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isNotEqualTo((String) null))
+                                        .withMessage("The String representing the Instant to compare actual with should not be null");
   }
 
 }

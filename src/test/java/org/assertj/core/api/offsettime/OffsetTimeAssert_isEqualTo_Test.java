@@ -13,6 +13,7 @@
 package org.assertj.core.api.offsettime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.OffsetTime;
@@ -45,9 +46,8 @@ public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void should_fail_if_offsetTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the OffsetTime to compare actual with should not be null");
-    assertThat(OffsetTime.now()).isEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isEqualTo((String) null))
+                                        .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }
 
   private static void verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(OffsetTime reference) {

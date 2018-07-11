@@ -14,6 +14,7 @@ package org.assertj.core.api.instant;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Instant;
@@ -44,14 +45,14 @@ public class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
 
   @Test
   public void should_fail_if_dates_as_string_array_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The given Instant array should not be null");
-    assertThat(Instant.now()).isNotIn((String[]) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isNotIn((String[]) null))
+                                        .withMessage("The given Instant array should not be null");
   }
 
   @Test
   public void should_fail_if_dates_as_string_array_parameter_is_empty() {
-    expectException(IllegalArgumentException.class, "The given Instant array should not be empty");
-    assertThat(Instant.now()).isNotIn(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isNotIn(new String[0]))
+                                        .withMessage("The given Instant array should not be empty");
   }
 
 }

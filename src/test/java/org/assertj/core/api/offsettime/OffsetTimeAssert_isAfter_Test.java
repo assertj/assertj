@@ -14,6 +14,7 @@ package org.assertj.core.api.offsettime;
 
 import static java.time.OffsetTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -59,15 +60,14 @@ public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void should_fail_if_offsetTime_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The OffsetTime to compare actual with should not be null");
-    assertThat(OffsetTime.now()).isAfter((OffsetTime) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfter((OffsetTime) null))
+                                        .withMessage("The OffsetTime to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_offsetTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the OffsetTime to compare actual with should not be null");
-    assertThat(OffsetTime.now()).isAfter((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfter((String) null))
+                                        .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }
 
   private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(OffsetTime timeToCheck,
