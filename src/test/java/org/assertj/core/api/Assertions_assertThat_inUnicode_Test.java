@@ -13,10 +13,8 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -26,24 +24,22 @@ import org.junit.Test;
  */
 public class Assertions_assertThat_inUnicode_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   @Test
   public void should_assert_String_in_unicode() {
-    thrown.expectMessage("expected:<a[b\\u00f3]> but was:<a[6c]>");
-    assertThat("a6c").inUnicode().isEqualTo("abó");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c").inUnicode().isEqualTo("abó"))
+                                                   .withMessage("expected:<a[b\\u00f3]> but was:<a[6c]>");
   }
 
   @Test
   public void should_assert_Character_in_unicode() {
-    thrown.expectMessage("expected:<[\\u00f3]> but was:<[o]>");
-    assertThat('o').inUnicode().isEqualTo('ó');
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat('o').inUnicode().isEqualTo('ó'))
+                                                   .withMessage("expected:<[\\u00f3]> but was:<[o]>");
   }
 
   @Test
   public void should_assert_char_array_in_unicode_representation() {
-    thrown.expectMessage("expected:<[a, [b, \\u00f3]]> but was:<[a, [6, c]]>");
-    assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c".toCharArray()).inUnicode()
+                                                                                                    .isEqualTo("abó".toCharArray()))
+                                                   .withMessage("expected:<[a, [b, \\u00f3]]> but was:<[a, [6, c]]>");
   }
 }
