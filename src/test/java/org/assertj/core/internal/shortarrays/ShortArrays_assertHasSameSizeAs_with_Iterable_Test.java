@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.shortarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ShortArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -44,8 +45,8 @@ public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArr
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSameSizeAs(someInfo(), null, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(someInfo(), null, other))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

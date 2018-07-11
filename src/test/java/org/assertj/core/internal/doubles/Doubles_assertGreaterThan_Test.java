@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -34,8 +35,8 @@ public class Doubles_assertGreaterThan_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    doubles.assertGreaterThan(someInfo(), null, 8d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertGreaterThan(someInfo(), null, 8d))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

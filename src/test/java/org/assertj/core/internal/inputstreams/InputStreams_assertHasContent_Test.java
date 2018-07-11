@@ -14,6 +14,7 @@ package org.assertj.core.internal.inputstreams;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
@@ -50,8 +51,8 @@ public class InputStreams_assertHasContent_Test extends InputStreamsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    inputStreams.assertHasContent(someInfo(), null, "");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertHasContent(someInfo(), null, ""))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

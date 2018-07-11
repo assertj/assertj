@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigdecimals;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static java.math.BigDecimal.ZERO;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
@@ -40,8 +41,8 @@ public class BigDecimals_assertIsCloseToPercentage_Test extends BigDecimalsBaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(1)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

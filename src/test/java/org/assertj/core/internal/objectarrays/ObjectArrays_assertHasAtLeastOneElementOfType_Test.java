@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
 import static org.assertj.core.test.TestData.someInfo;
@@ -33,8 +34,8 @@ public class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectAr
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	arrays.assertHasAtLeastOneElementOfType(someInfo(), null, Integer.class);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), null, Integer.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -44,8 +45,8 @@ public class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectAr
 
   @Test
   public void should_fail_if_no_elements_in_actual_belongs_to_the_expected_type() {
-    thrown.expectAssertionError(shouldHaveAtLeastOneElementOfType(array, Float.class).create());
-    arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Float.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Float.class))
+                                                   .withMessage(shouldHaveAtLeastOneElementOfType(array, Float.class).create());
   }
 
 }

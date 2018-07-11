@@ -87,8 +87,8 @@ public class Maps_assertContains_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertContains(someInfo(), null, array(entry("name", "Yoda")));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContains(someInfo(), null, array(entry("name", "Yoda"))))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

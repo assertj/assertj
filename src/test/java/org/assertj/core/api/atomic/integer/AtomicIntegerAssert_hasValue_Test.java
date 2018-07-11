@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.integer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -38,15 +39,16 @@ public class AtomicIntegerAssert_hasValue_Test {
   public void should_fail_when_actual_does_not_have_the_expected_value() {
     AtomicInteger actual = new AtomicInteger(123);
     int expectedValue = 1234;
-    thrown.expectAssertionError(shouldHaveValue(actual, expectedValue).create());
-    assertThat(actual).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
+                                                   .withMessage(shouldHaveValue(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_when_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    AtomicInteger actual = null;
-    assertThat(actual).hasValue(1234);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      AtomicInteger actual = null;
+      assertThat(actual).hasValue(1234);
+    }).withMessage(actualIsNull());
   }
   
 }

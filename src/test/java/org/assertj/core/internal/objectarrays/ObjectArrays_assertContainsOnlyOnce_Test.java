@@ -95,8 +95,8 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnlyOnce(someInfo(), null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -161,8 +161,8 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, array("yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, array("yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

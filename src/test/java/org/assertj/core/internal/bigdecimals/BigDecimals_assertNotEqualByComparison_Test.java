@@ -13,7 +13,7 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -39,8 +39,8 @@ public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertNotEqualByComparison(someInfo(), null, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertNotEqualByComparison(someInfo(), null, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -62,8 +62,8 @@ public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBase
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

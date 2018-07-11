@@ -200,9 +200,10 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    Iterator<Object> names = null;
-    assertThat(names).startsWith(emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      Iterator<Object> names = null;
+      assertThat(names).startsWith(emptyArray());
+    }).withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,8 +36,8 @@ public class Doubles_assertIsNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN() {
-    thrown.expectAssertionError("expected:<[NaN]> but was:<[6.0]>");
-    doubles.assertIsNaN(someInfo(), 6d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNaN(someInfo(), 6d))
+                                                   .withMessage("expected:<[NaN]> but was:<[6.0]>");
   }
 
   @Test
@@ -46,7 +47,7 @@ public class Doubles_assertIsNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[NaN]> but was:<[6.0]>");
-    doublesWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6d))
+                                                   .withMessage("expected:<[NaN]> but was:<[6.0]>");
   }
 }

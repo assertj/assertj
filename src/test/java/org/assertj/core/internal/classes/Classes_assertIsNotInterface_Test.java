@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.classes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -31,8 +32,8 @@ public class Classes_assertIsNotInterface_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertIsNotInterface(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotInterface(someInfo(), actual))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -44,7 +45,7 @@ public class Classes_assertIsNotInterface_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_actual_is_an_interface() {
     actual = AssertionInfo.class;
-    thrown.expectAssertionError(shouldNotBeInterface(actual).create());
-    classes.assertIsNotInterface(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotInterface(someInfo(), actual))
+                                                   .withMessage(shouldNotBeInterface(actual).create());
   }
 }

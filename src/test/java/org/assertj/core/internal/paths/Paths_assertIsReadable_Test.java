@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
@@ -25,8 +26,8 @@ public class Paths_assertIsReadable_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertIsReadable(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsReadable(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

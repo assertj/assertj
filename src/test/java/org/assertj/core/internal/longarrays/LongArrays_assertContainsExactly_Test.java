@@ -76,8 +76,8 @@ public class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsExactly(someInfo(), null, arrayOf(8L));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, arrayOf(8L)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -145,8 +145,8 @@ public class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8L));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8L)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -247,14 +247,14 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
 
   @Test
   public void should_fail_outside_offset() {
-    thrown.expectAssertionError(differenceMessage);
-    temporalAssert.isCloseTo(farTemporal, offset);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert.isCloseTo(farTemporal, offset))
+                                                   .withMessage(differenceMessage);
   }
 
   @Test
   public void should_fail_when_temporal_passed_as_string_is_outside_offset() {
-    thrown.expectAssertionError(differenceMessage);
-    temporalAssert.isCloseTo(farTemporalAsString, offset);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert.isCloseTo(farTemporalAsString, offset))
+                                                   .withMessage(differenceMessage);
   }
 
 }

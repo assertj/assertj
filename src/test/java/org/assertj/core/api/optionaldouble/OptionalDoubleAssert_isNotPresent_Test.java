@@ -13,6 +13,7 @@
 package org.assertj.core.api.optionaldouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -30,17 +31,15 @@ public class OptionalDoubleAssert_isNotPresent_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optionaldouble_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((OptionalDouble) null).isNotPresent();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).isNotPresent())
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_optionaldouble_is_present() {
     OptionalDouble actual = OptionalDouble.of(10.0);
 
-    thrown.expectAssertionError(shouldBeEmpty(actual).create());
-
-    assertThat(actual).isNotPresent();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNotPresent())
+                                                   .withMessage(shouldBeEmpty(actual).create());
   }
 }

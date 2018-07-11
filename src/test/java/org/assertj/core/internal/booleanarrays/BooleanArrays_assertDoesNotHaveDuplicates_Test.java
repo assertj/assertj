@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.BooleanArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
@@ -48,8 +49,8 @@ public class BooleanArrays_assertDoesNotHaveDuplicates_Test extends BooleanArray
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotHaveDuplicates(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

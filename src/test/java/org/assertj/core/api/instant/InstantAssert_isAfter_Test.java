@@ -13,6 +13,7 @@
 package org.assertj.core.api.instant;
 
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -45,12 +46,12 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   public void test_isAfter_assertion_error_message() {
     Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
     Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    thrown.expectAssertionError("%n" +
-      "Expecting:%n" +
-      "  <2007-12-03T10:15:30Z>%n" +
-      "to be strictly after:%n" +
-      "  <2007-12-03T10:15:35Z>");
-    assertThat(instantReference).isAfter(instantAfter);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isAfter(instantAfter))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <2007-12-03T10:15:30Z>%n" +
+                                                                       "to be strictly after:%n" +
+                                                                       "  <2007-12-03T10:15:35Z>"));
   }
 
   @Test

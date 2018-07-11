@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.test.TestData.someInfo;
@@ -33,8 +34,8 @@ public class Strings_assertEndsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_end_with_suffix() {
-    thrown.expectAssertionError(shouldEndWith("Yoda", "Luke").create());
-    strings.assertEndsWith(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEndsWith(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldEndWith("Yoda", "Luke").create());
   }
 
   @Test
@@ -45,8 +46,8 @@ public class Strings_assertEndsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertEndsWith(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEndsWith(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -65,8 +66,8 @@ public class Strings_assertEndsWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_end_with_suffix_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldEndWith("Yoda", "Luke", comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertEndsWith(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEndsWith(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldEndWith("Yoda", "Luke", comparisonStrategy).create());
   }
 
 }

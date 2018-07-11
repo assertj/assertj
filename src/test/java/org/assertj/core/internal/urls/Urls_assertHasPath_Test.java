@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.test.TestData.someInfo;
@@ -36,8 +37,8 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    urls.assertHasPath(info, null, "path");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasPath(info, null, "path"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

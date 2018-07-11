@@ -44,14 +44,14 @@ public class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest 
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, 8L, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, 8L, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arrays.assertContains(someInfo(), emptyArray(), 8L, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8L, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test
@@ -89,14 +89,14 @@ public class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest 
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8L, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8L, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8L, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8L, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test

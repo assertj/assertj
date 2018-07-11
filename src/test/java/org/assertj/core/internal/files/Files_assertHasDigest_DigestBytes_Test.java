@@ -13,6 +13,7 @@
 package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -48,8 +49,8 @@ public class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertHasDigest(INFO, null, digest, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasDigest(INFO, null, digest, expected))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

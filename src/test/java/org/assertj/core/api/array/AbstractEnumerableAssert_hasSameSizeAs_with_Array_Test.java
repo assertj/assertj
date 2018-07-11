@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.array;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ExpectedException.none;
@@ -59,23 +60,24 @@ public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    final byte[] actual = null;
-    assertThat(actual).hasSameSizeAs(new byte[]{2, 3});
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      final byte[] actual = null;
+      assertThat(actual).hasSameSizeAs(new byte[]{2, 3});
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_other_is_not_an_array() {
-    thrown.expectAssertionError("%nExpecting an array but was:<\"a string\">");
-    assertThat(new byte[]{1, 2}).hasSameSizeAs("a string");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[]{1, 2}).hasSameSizeAs("a string"))
+                                                   .withMessage(format("%nExpecting an array but was:<\"a string\">"));
   }
 
   @Test
   public void should_fail_if_size_of_actual_has_same_as_other_array() {
     final byte[] actual = new byte[]{1, 2};
     final byte[] other = new byte[]{1, 2, 3};
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
-    assertThat(actual).hasSameSizeAs(other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
   }
 
 }

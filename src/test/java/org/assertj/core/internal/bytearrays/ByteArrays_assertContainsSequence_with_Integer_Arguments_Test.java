@@ -43,8 +43,8 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -112,8 +112,8 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

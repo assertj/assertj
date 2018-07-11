@@ -14,6 +14,7 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
@@ -47,8 +48,8 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertContainsOnly(someInfo(), null, entry("name", "Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsOnly(someInfo(), null, entry("name", "Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @SuppressWarnings("unchecked")

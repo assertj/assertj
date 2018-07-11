@@ -48,8 +48,8 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    uris.assertHasFragment(info, null, "http://www.helloworld.org/index.html#print");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasFragment(info, null, "http://www.helloworld.org/index.html#print"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

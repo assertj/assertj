@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -52,27 +53,27 @@ public class Strings_assertNotEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_both_Strings_are_null() {
-    thrown.expectAssertionError(shouldNotBeEqualIgnoringCase(null, null).create());
-    strings.assertNotEqualsIgnoringCase(someInfo(), null, null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEqualsIgnoringCase(someInfo(), null, null))
+                                                   .withMessage(shouldNotBeEqualIgnoringCase(null, null).create());
   }
 
   @Test
   public void should_fail_if_both_Strings_are_the_same() {
     String s = "Yoda";
-    thrown.expectAssertionError(shouldNotBeEqualIgnoringCase(s, s).create());
-    strings.assertNotEqualsIgnoringCase(someInfo(), s, s);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEqualsIgnoringCase(someInfo(), s, s))
+                                                   .withMessage(shouldNotBeEqualIgnoringCase(s, s).create());
   }
 
   @Test
   public void should_fail_if_both_Strings_are_equal_but_not_same() {
-    thrown.expectAssertionError(shouldNotBeEqualIgnoringCase("Yoda", "Yoda").create());
-    strings.assertNotEqualsIgnoringCase(someInfo(), "Yoda", new String(arrayOf('Y', 'o', 'd', 'a')));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEqualsIgnoringCase(someInfo(), "Yoda", new String(arrayOf('Y', 'o', 'd', 'a'))))
+                                                   .withMessage(shouldNotBeEqualIgnoringCase("Yoda", "Yoda").create());
   }
 
   @Test
   public void should_fail_if_both_Strings_are_equal_ignoring_case() {
-    thrown.expectAssertionError(shouldNotBeEqualIgnoringCase("Yoda", "YODA").create());
-    strings.assertNotEqualsIgnoringCase(someInfo(), "Yoda", "YODA");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEqualsIgnoringCase(someInfo(), "Yoda", "YODA"))
+                                                   .withMessage(shouldNotBeEqualIgnoringCase("Yoda", "YODA").create());
   }
 
   @Test

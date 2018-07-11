@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
@@ -45,14 +46,14 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotContainPattern(someInfo(), null, matchAnything());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainPattern(someInfo(), null, matchAnything()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_pattern() {
-    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
-    strings.assertDoesNotContainPattern(someInfo(), ACTUAL, Pattern.compile(CONTAINED_PATTERN));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainPattern(someInfo(), ACTUAL, Pattern.compile(CONTAINED_PATTERN)))
+                                                   .withMessage(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
   }
 
   @Test
@@ -70,15 +71,16 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), null, matchAnything());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), null, matchAnything()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_pattern_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL,
-                                                                             Pattern.compile(CONTAINED_PATTERN));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL,
+                                                                               Pattern.compile(CONTAINED_PATTERN));
+    }).withMessage(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
   }
 
   @Test

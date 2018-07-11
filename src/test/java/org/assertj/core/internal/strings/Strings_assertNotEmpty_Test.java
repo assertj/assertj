@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,14 +37,14 @@ public class Strings_assertNotEmpty_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertNotEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(shouldNotBeEmpty().create());
-    strings.assertNotEmpty(someInfo(), "");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEmpty(someInfo(), ""))
+                                                   .withMessage(shouldNotBeEmpty().create());
   }
 
   @Test
@@ -53,8 +54,8 @@ public class Strings_assertNotEmpty_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

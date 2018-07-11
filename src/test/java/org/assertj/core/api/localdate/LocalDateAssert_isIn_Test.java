@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api.localdate;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -44,8 +46,8 @@ public class LocalDateAssert_isIn_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isIn_assertion_error_message() {
-    thrown.expectAssertionError("%nExpecting:%n <2000-01-05>%nto be in:%n <[2012-01-01]>%n");
-    assertThat(LocalDate.of(2000, 1, 5)).isIn(LocalDate.of(2012, 1, 1).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDate.of(2000, 1, 5)).isIn(LocalDate.of(2012, 1, 1).toString()))
+                                                   .withMessage(format("%nExpecting:%n <2000-01-05>%nto be in:%n <[2012-01-01]>%n"));
   }
 
   @Test

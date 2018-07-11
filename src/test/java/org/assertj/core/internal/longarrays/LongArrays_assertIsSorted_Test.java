@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.longarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.LongArrays.*;
@@ -57,8 +58,8 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertIsSorted(someInfo(), (long[]) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (long[]) null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -91,8 +92,8 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (long[]) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (long[]) null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

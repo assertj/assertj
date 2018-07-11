@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -35,22 +36,22 @@ public class OffsetTimeAssert_isEqualToIgnoringSeconds_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_offsetTime_with_second_ignored() {
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                "  <23:51Z>%n" +
-                                "to have same hour and minute as:%n" +
-                                "  <23:52Z>%n" +
-                                "but had not.");
-    assertThat(refOffsetTime).isEqualToIgnoringSeconds(refOffsetTime.plusMinutes(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringSeconds(refOffsetTime.plusMinutes(1)))
+                                                   .withMessage(format("%nExpecting:%n" +
+                                                                       "  <23:51Z>%n" +
+                                                                       "to have same hour and minute as:%n" +
+                                                                       "  <23:52Z>%n" +
+                                                                       "but had not."));
   }
 
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                "  <23:51Z>%n" +
-                                "to have same hour and minute as:%n" +
-                                "  <23:50:59.999999999Z>%n" +
-                                "but had not.");
-    assertThat(refOffsetTime).isEqualToIgnoringSeconds(refOffsetTime.minusNanos(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringSeconds(refOffsetTime.minusNanos(1)))
+                                                   .withMessage(format("%nExpecting:%n" +
+                                                                       "  <23:51Z>%n" +
+                                                                       "to have same hour and minute as:%n" +
+                                                                       "  <23:50:59.999999999Z>%n" +
+                                                                       "but had not."));
   }
 
   @Test

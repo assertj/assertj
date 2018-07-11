@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.intarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.IntArrays.emptyArray;
@@ -63,8 +64,8 @@ public class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArray
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertIsSortedAccordingToComparator(someInfo(), null, intDescendingOrderComparator);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, intDescendingOrderComparator))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

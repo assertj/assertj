@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
@@ -74,8 +75,8 @@ public class Dates_assertIsAfter_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertIsAfter(someInfo(), null, parseDate("2010-01-01"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfter(someInfo(), null, parseDate("2010-01-01")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -119,8 +120,8 @@ public class Dates_assertIsAfter_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsAfter(someInfo(), null, parseDate("2010-01-01"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(), null, parseDate("2010-01-01")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -50,12 +51,17 @@ public class OffsetTimeAssert_isBeforeOrEqualTo_Test extends OffsetTimeAssertBas
 
   @Test
   public void test_isBeforeOrEqual_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <03:00:05Z>%n" +
-                                "to be before or equals to:%n" +
-                                "  <03:00:04Z>");
-    assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isBeforeOrEqualTo(OffsetTime.of(3, 0, 4, 0, ZoneOffset.UTC));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
+                                                                                              ZoneOffset.UTC)).isBeforeOrEqualTo(OffsetTime.of(3,
+                                                                                                                                               0,
+                                                                                                                                               4,
+                                                                                                                                               0,
+                                                                                                                                               ZoneOffset.UTC)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <03:00:05Z>%n" +
+                                                                       "to be before or equals to:%n" +
+                                                                       "  <03:00:04Z>"));
   }
 
   @Test

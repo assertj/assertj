@@ -62,8 +62,8 @@ public class CharArrays_assertStartsWith_Test extends CharArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertStartsWith(someInfo(), null, arrayOf('a'));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertStartsWith(someInfo(), null, arrayOf('a')))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -129,8 +129,8 @@ public class CharArrays_assertStartsWith_Test extends CharArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, arrayOf('A'));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, arrayOf('A')))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

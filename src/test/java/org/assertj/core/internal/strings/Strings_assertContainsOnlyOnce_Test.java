@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
@@ -36,20 +37,20 @@ public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_given_string_more_than_once() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yodayoda", "oda", 2).create());
-    strings.assertContainsOnlyOnce(someInfo(), "Yodayoda", "oda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yodayoda", "oda"))
+                                                   .withMessage(shouldContainOnlyOnce("Yodayoda", "oda", 2).create());
   }
 
   @Test
   public void should_fail_if_actual_contains_sequence_only_once_but_in_different_case() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "yo", 0).create());
-    strings.assertContainsOnlyOnce(someInfo(), "Yoda", "yo");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yoda", "yo"))
+                                                   .withMessage(shouldContainOnlyOnce("Yoda", "yo", 0).create());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_string() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0).create());
-    strings.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0).create());
   }
 
   @Test
@@ -60,8 +61,8 @@ public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsOnlyOnce(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -73,14 +74,14 @@ public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_only_once_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
   }
 
   @Test
   public void should_fail_if_actual_contains_sequence_several_times_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
   }
 
 }

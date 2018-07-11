@@ -18,6 +18,7 @@ import org.junit.Test;
 import java.util.OptionalInt;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -30,15 +31,13 @@ public class OptionalIntAssert_isNotEmpty_Test extends BaseTest {
 
   @Test
   public void should_fail_when_OptionalInt_is_empty() {
-    thrown.expectAssertionError(shouldBePresent(OptionalInt.empty()).create());
-
-    assertThat(OptionalInt.empty()).isNotEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalInt.empty()).isNotEmpty())
+                                                   .withMessage(shouldBePresent(OptionalInt.empty()).create());
   }
 
   @Test
   public void should_fail_when_OptionalInt_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((OptionalInt) null).isNotEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalInt) null).isNotEmpty())
+                                                   .withMessage(actualIsNull());
   }
 }

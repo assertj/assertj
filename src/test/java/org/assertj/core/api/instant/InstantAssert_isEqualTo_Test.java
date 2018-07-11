@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -39,8 +40,8 @@ public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
   public void test_isEqualTo_assertion_error_message() {
     Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
     Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    thrown.expectAssertionError("expected:<2007-12-03T10:15:3[5]Z> but was:<2007-12-03T10:15:3[0]Z>");
-    assertThat(instantReference).isEqualTo(instantAfter.toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isEqualTo(instantAfter.toString()))
+                                                   .withMessage("expected:<2007-12-03T10:15:3[5]Z> but was:<2007-12-03T10:15:3[0]Z>");
   }
 
   @Test

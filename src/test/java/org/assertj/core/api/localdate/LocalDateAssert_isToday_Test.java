@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdate;
 
+import static java.lang.String.format;
 import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -41,11 +42,11 @@ public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isToday_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                " <2000-01-01>%n" +
-                                "to be today but was not.");
-    assertThat(parse("2000-01-01")).isToday();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("2000-01-01")).isToday())
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       " <2000-01-01>%n" +
+                                                                       "to be today but was not."));
   }
 
   @Test

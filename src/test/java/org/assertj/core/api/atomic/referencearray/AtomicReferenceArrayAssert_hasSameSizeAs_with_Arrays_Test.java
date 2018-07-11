@@ -14,6 +14,7 @@ package org.assertj.core.api.atomic.referencearray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
@@ -44,22 +45,23 @@ public class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    final String[] actual = null;
-    assertThat(actual).hasSameSizeAs(new String[]{"1"});
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      final String[] actual = null;
+      assertThat(actual).hasSameSizeAs(new String[]{"1"});
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_other_is_not_an_array() {
-    thrown.expectAssertionError(format("%nExpecting an array but was:<\"a string\">"));
-    assertThat(new AtomicReferenceArray<Byte>(new Byte[]{1, 2})).hasSameSizeAs("a string");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicReferenceArray<Byte>(new Byte[]{1, 2})).hasSameSizeAs("a string"))
+                                                   .withMessage(format("%nExpecting an array but was:<\"a string\">"));
   }
 
   @Test
   public void should_fail_if_size_of_actual_has_same_as_other_array() {
     final String[] actual = array("Luke", "Yoda");
     final String[] other = array("Yoda");
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
-    assertThat(actual).hasSameSizeAs(other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
   }
 }

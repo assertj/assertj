@@ -85,8 +85,8 @@ public class IntArrays_assertContainsOnlyOnce_Test extends IntArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -150,8 +150,8 @@ public class IntArrays_assertContainsOnlyOnce_Test extends IntArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

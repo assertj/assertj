@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -60,8 +61,8 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertHasFileName(info, null, "file.txt");
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasFileName(info, null, "file.txt"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

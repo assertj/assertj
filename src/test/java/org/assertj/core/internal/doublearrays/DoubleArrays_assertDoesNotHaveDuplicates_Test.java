@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
 import static org.assertj.core.test.DoubleArrays.emptyArray;
@@ -45,15 +46,15 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test extends DoubleArraysB
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotHaveDuplicates(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_duplicates() {
     actual = arrayOf(6d, 8d, 6d, 8d);
-    thrown.expectAssertionError(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, 8d)).create());
-    arrays.assertDoesNotHaveDuplicates(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), actual))
+                                                   .withMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, 8d)).create());
   }
 
   @Test
@@ -68,14 +69,14 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test extends DoubleArraysB
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     actual = arrayOf(6d, -8d, 6d, -8d);
-    thrown.expectAssertionError(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, -8d), absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual))
+                                                   .withMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, -8d), absValueComparisonStrategy).create());
   }
 }

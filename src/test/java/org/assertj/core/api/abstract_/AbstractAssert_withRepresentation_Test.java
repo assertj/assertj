@@ -35,9 +35,9 @@ public class AbstractAssert_withRepresentation_Test {
 
   @Test
   public void should_be_able_to_use_a_custom_representation_for_error_messages() {
-    thrown.expectAssertionError("expected:<null> but was:<Example>");
-    assertThat(new Example()).withRepresentation(new CustomRepresentation())
-                             .isNull();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      assertThat(new Example()).withRepresentation(new CustomRepresentation()).isNull();
+    }).withMessage("expected:<null> but was:<Example>");
   }
 
   @Test

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -38,38 +40,38 @@ public class Bytes_assertIsNotPositive_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <6>%nto be less than or equal to:%n <0> ");
-    bytes.assertIsNotPositive(someInfo(), (byte) 6);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotPositive(someInfo(), (byte) 6))
+                                                   .withMessage(format("%nExpecting:%n <6>%nto be less than or equal to:%n <0> "));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_in_hex_representation() {
-    thrown.expectAssertionError("%nExpecting:%n <0x06>%nto be less than or equal to:%n <0x00> ");
-    bytes.assertIsNotPositive(someHexInfo(), (byte) 0x06);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotPositive(someHexInfo(), (byte) 0x06))
+                                                   .withMessage(format("%nExpecting:%n <0x06>%nto be less than or equal to:%n <0x00> "));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator");
-    bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) -1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) -1))
+                                                   .withMessage(format("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy_in_hex_representation() {
-    thrown.expectAssertionError("%nExpecting:%n <0xFF>%nto be less than or equal to:%n <0x00> when comparing values using AbsValueComparator");
-    bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someHexInfo(), (byte) 0xFF);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someHexInfo(), (byte) 0xFF))
+                                                   .withMessage(format("%nExpecting:%n <0xFF>%nto be less than or equal to:%n <0x00> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator");
-    bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) 1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) 1))
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy_in_hex_representation() {
-    thrown.expectAssertionError("%nExpecting:%n <0x01>%nto be less than or equal to:%n <0x00> when comparing values using AbsValueComparator");
-    bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someHexInfo(), (byte) 0x01);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someHexInfo(), (byte) 0x01))
+                                                   .withMessage(format("%nExpecting:%n <0x01>%nto be less than or equal to:%n <0x00> when comparing values using AbsValueComparator"));
   }
 
 }

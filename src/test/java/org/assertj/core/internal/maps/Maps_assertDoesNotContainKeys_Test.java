@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -45,8 +46,8 @@ public class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertDoesNotContainKeys(someInfo(), null, "name", "color");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContainKeys(someInfo(), null, "name", "color"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

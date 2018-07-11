@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigDecimal;
@@ -39,8 +41,8 @@ public class BigDecimals_assertIsNotNegative_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_negative() {
-    thrown.expectAssertionError("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> ");
-    numbers.assertIsNotNegative(someInfo(), new BigDecimal(-6));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotNegative(someInfo(), new BigDecimal(-6)))
+                                                   .withMessage(format("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> "));
   }
 
   @Test

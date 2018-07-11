@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeMarked.shouldBeMarked;
 import static org.assertj.core.error.ShouldBeMarked.shouldNotBeMarked;
 import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
@@ -33,26 +34,23 @@ public class AtomicMarkableReferenceAssert_hasValue_Test {
 
   @Test
   public void should_fail_when_AtomicMarkableReference_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((AtomicMarkableReference<String>) null).hasReference(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicMarkableReference<String>) null).hasReference(expectedValue))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>("actual", true);
-    thrown.expectAssertionError(shouldHaveReference(actual, actual.getReference(), null).create());
-
-    assertThat(actual).hasReference(null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(null))
+                                                   .withMessage(shouldHaveReference(actual, actual.getReference(), null).create());
   }
 
   @Test
   public void should_fail_if_atomicMarkableReference_does_not_contain_expected_value() throws Exception {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>("actual", true);
 
-    thrown.expectAssertionError(shouldHaveReference(actual, actual.getReference(), expectedValue).create());
-
-    assertThat(actual).hasReference(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue))
+                                                   .withMessage(shouldHaveReference(actual, actual.getReference(), expectedValue).create());
   }
 
   @Test
@@ -74,14 +72,14 @@ public class AtomicMarkableReferenceAssert_hasValue_Test {
   @Test
   public void should_fail_if_atomicMarkableReference_contains_expected_value_and_is_not_marked() throws Exception {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>(expectedValue, false);
-    thrown.expectAssertionError(shouldBeMarked(actual).create());
-    assertThat(actual).hasReference(expectedValue).isMarked();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue).isMarked())
+                                                   .withMessage(shouldBeMarked(actual).create());
   }
 
   @Test
   public void should_fail_if_atomicMarkableReference_contains_expected_value_and_is_marked() throws Exception {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>(expectedValue, true);
-    thrown.expectAssertionError(shouldNotBeMarked(actual).create());
-    assertThat(actual).hasReference(expectedValue).isNotMarked().isMarked();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue).isNotMarked().isMarked())
+                                                   .withMessage(shouldNotBeMarked(actual).create());
   }
 }

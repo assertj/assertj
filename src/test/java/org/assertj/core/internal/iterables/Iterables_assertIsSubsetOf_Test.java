@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
@@ -89,8 +90,8 @@ public class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
   @Test
   public void should_throw_error_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertIsSubsetOf(someInfo(), actual, newArrayList()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

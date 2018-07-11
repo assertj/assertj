@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.floats;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -34,8 +35,8 @@ public class Floats_assertGreaterThanOrEqualTo_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    floats.assertGreaterThanOrEqualTo(someInfo(), null, 8f);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertGreaterThanOrEqualTo(someInfo(), null, 8f))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -62,8 +63,8 @@ public class Floats_assertGreaterThanOrEqualTo_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    floatsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 8f);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 8f))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

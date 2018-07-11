@@ -42,8 +42,8 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertStartsWith(info, null, other);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWith(info, null, other))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

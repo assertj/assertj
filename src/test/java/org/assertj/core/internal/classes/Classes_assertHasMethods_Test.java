@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.classes;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
@@ -44,19 +46,27 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_no_methods_are_expected_and_methods_are_available() {
-    thrown.expectAssertionError(shouldNotHaveMethods(actual, false,
-                                                     newTreeSet("publicMethod", "protectedMethod", "privateMethod",
-                                                                "finalize", "wait", "equals", "toString", "hashCode",
-                                                                "getClass", "clone", "registerNatives", "notify",
-                                                                "notifyAll")).create());
-    classes.assertHasMethods(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual))
+                                                   .withMessage(format(shouldNotHaveMethods(actual, false,
+                                                                                            newTreeSet("publicMethod",
+                                                                                                       "protectedMethod",
+                                                                                                       "privateMethod",
+                                                                                                       "finalize",
+                                                                                                       "wait", "equals",
+                                                                                                       "toString",
+                                                                                                       "hashCode",
+                                                                                                       "getClass",
+                                                                                                       "clone",
+                                                                                                       "registerNatives",
+                                                                                                       "notify",
+                                                                                                       "notifyAll")).create()));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertHasMethods(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -68,9 +78,10 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_expected_methods_are_missing() {
     String[] expected = array("missingMethod", "publicMethod");
-    thrown.expectAssertionError(shouldHaveMethods(actual, false,
-                                                  newTreeSet(expected),
-                                                  newTreeSet("missingMethod")).create());
-    classes.assertHasMethods(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual,
+                                                                                              expected))
+                                                   .withMessage(format(shouldHaveMethods(actual, false,
+                                                                                         newTreeSet(expected),
+                                                                                         newTreeSet("missingMethod")).create()));
   }
 }

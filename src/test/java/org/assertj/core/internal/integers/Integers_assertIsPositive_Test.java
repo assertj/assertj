@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.integers;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -34,8 +36,8 @@ public class Integers_assertIsPositive_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <-6>%nto be greater than:%n <0> ");
-    integers.assertIsPositive(someInfo(), -6);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsPositive(someInfo(), -6))
+                                                   .withMessage(format("%nExpecting:%n <-6>%nto be greater than:%n <0> "));
   }
 
   @Test

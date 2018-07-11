@@ -13,6 +13,7 @@
 package org.assertj.core.api.doublepredicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -32,18 +33,16 @@ public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBas
 
   @Test
   public void should_fail_when_predicate_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((DoublePredicate) null).accepts(1.0, 2.0, 3.0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((DoublePredicate) null).accepts(1.0, 2.0, 3.0))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_when_predicate_does_not_accept_all_values() {
     DoublePredicate predicate = val -> val <= 2;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
-    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3D, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).accepts(matchValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
+                                                   .withMessage(elementsShouldMatch(matchValues, 3D, PredicateDescription.GIVEN).create());
   }
 
   @Test

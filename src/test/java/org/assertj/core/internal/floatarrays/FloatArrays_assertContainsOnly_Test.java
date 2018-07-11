@@ -77,8 +77,8 @@ public class FloatArrays_assertContainsOnly_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, arrayOf(6f));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null, arrayOf(6f)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -130,8 +130,8 @@ public class FloatArrays_assertContainsOnly_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(6f));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(6f)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

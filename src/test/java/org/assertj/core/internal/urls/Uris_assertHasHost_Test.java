@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -29,8 +30,8 @@ public class Uris_assertHasHost_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    uris.assertHasHost(info, null, "www.helloworld.org");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasHost(info, null, "www.helloworld.org"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

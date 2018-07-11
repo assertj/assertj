@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.test.TestData.someInfo;
@@ -59,8 +60,8 @@ public class Objects_assertIsOfClassIn_Test extends ObjectsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     Class<?>[] types = new Class[] { File.class, Person.class, String.class };
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertIsOfAnyClassIn(someInfo(), null, types);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsOfAnyClassIn(someInfo(), null, types))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

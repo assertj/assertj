@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
@@ -48,9 +49,12 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
   public void should_fail_if_actual_contains_given_values_only_more_than_once() {
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8, 6);
     double[] expected = { 6, -8, 20 };
-    thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
-                                                       newLinkedHashSet((double) 6, (double) -8)).create());
-    arrays.assertContainsOnlyOnce(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual,
+                                                                                                   expected))
+                                                   .withMessage(format(shouldContainsOnlyOnce(actual, expected,
+                                                                                              newLinkedHashSet((double) 20),
+                                                                                              newLinkedHashSet((double) 6,
+                                                                                                               (double) -8)).create()));
   }
 
   @Test
@@ -77,15 +81,15 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     double[] expected = { 6, 8, 20 };
-    thrown.expectAssertionError( shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet()).create());
-    arrays.assertContainsOnlyOnce(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, expected))
+                                                   .withMessage( shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet()).create());
   }
 
   @Test
@@ -102,9 +106,14 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
   public void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
     double[] expected = { 6, -8, 20 };
-    thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20),
-                                                       newLinkedHashSet((double) 6, (double) -8), absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               expected))
+                                                   .withMessage(format(shouldContainsOnlyOnce(actual, expected,
+                                                                                              newLinkedHashSet((double) 20),
+                                                                                              newLinkedHashSet((double) 6,
+                                                                                                               (double) -8),
+                                                                                              absValueComparisonStrategy).create()));
   }
 
   @Test
@@ -127,15 +136,18 @@ public class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTe
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     double[] expected = { 6, -8, 20 };
-    thrown.expectAssertionError(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet(),
-                                                       absValueComparisonStrategy).create());
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
+    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected))
+                                                   .withMessage(format(shouldContainsOnlyOnce(actual, expected,
+                                                                                              newLinkedHashSet((double) 20),
+                                                                                              newLinkedHashSet(),
+                                                                                              absValueComparisonStrategy).create()));
   }
 }

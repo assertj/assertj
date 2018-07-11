@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
@@ -25,8 +26,8 @@ public class Paths_assertIsRegularFile_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertIsRegularFile(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRegularFile(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

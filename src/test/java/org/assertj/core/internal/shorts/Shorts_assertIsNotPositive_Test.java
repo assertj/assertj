@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.ShortsBaseTest;
@@ -37,20 +39,20 @@ public class Shorts_assertIsNotPositive_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <6>%nto be less than or equal to:%n <0> ");
-    shorts.assertIsNotPositive(someInfo(), (short) 6);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotPositive(someInfo(), (short) 6))
+                                                   .withMessage(format("%nExpecting:%n <6>%nto be less than or equal to:%n <0> "));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator");
-    shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) -1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) -1))
+                                                   .withMessage(format("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator");
-    shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) 1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) 1))
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
 }

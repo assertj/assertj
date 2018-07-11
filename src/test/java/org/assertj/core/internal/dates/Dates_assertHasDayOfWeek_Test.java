@@ -13,7 +13,7 @@
 package org.assertj.core.internal.dates;
 
 import static java.util.Calendar.*;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -52,8 +52,8 @@ public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertHasDayOfWeek(someInfo(), null, 1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasDayOfWeek(someInfo(), null, 1))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -76,8 +76,8 @@ public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(), null, 1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(), null, 1))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

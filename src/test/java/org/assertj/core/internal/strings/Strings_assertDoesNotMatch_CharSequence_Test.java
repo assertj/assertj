@@ -54,14 +54,14 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   @Test
   public void should_fail_if_actual_matches_regular_expression() {
     String regex = matchAnything().pattern();
-    thrown.expectAssertionError(shouldNotMatch(actual, regex).create());
-    strings.assertDoesNotMatch(someInfo(), actual, regex);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), actual, regex))
+                                                   .withMessage(shouldNotMatch(actual, regex).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotMatch(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -87,14 +87,14 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   @Test
   public void should_fail_if_actual_matches_regular_expression_whatever_custom_comparison_strategy_is() {
     String regex = matchAnything().pattern();
-    thrown.expectAssertionError(shouldNotMatch(actual, regex).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, regex);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, regex))
+                                                   .withMessage(shouldNotMatch(actual, regex).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

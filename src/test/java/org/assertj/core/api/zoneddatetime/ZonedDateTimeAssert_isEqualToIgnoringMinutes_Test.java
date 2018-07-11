@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,16 +37,16 @@ public class ZonedDateTimeAssert_isEqualToIgnoringMinutes_Test extends BaseTest 
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_datetime_with_minute_ignored() {
-    thrown.expectAssertionError(
-        "%nExpecting:%n  <2000-01-01T23:00Z>%nto have same year, month, day and hour as:%n  <2000-01-01T22:59Z>%nbut had not.");
-    assertThat(refDatetime).isEqualToIgnoringMinutes(refDatetime.minusMinutes(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringMinutes(refDatetime.minusMinutes(1)))
+                                                   .withMessage(format(
+                                                                       "%nExpecting:%n  <2000-01-01T23:00Z>%nto have same year, month, day and hour as:%n  <2000-01-01T22:59Z>%nbut had not."));
   }
 
   @Test
   public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
-    thrown.expectAssertionError(
-        "%nExpecting:%n  <2000-01-01T23:00Z>%nto have same year, month, day and hour as:%n  <2000-01-01T22:59:59.999999999Z>%nbut had not.");
-    assertThat(refDatetime).isEqualToIgnoringMinutes(refDatetime.minusNanos(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringMinutes(refDatetime.minusNanos(1)))
+                                                   .withMessage(format(
+                                                                       "%nExpecting:%n  <2000-01-01T23:00Z>%nto have same year, month, day and hour as:%n  <2000-01-01T22:59:59.999999999Z>%nbut had not."));
   }
 
   @Test

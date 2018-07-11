@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
 import static org.assertj.core.test.TestData.someInfo;
@@ -31,8 +32,8 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix() {
-    thrown.expectAssertionError(shouldNotStartWith("Yoda", "Yo").create());
-    strings.assertDoesNotStartWith(someInfo(), "Yoda", "Yo");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotStartWith(someInfo(), "Yoda", "Yo"))
+                                                   .withMessage(shouldNotStartWith("Yoda", "Yo").create());
   }
 
   @Test
@@ -43,8 +44,8 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotStartWith(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotStartWith(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -60,8 +61,8 @@ public class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldNotStartWith("Yoda", "yODA", comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(someInfo(), "Yoda", "yODA");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(someInfo(), "Yoda", "yODA"))
+                                                   .withMessage(shouldNotStartWith("Yoda", "yODA", comparisonStrategy).create());
   }
 
 }

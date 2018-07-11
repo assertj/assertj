@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdate;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -47,12 +48,14 @@ public class LocalDateAssert_isAfterOrEqualTo_Test extends LocalDateAssertBaseTe
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <2000-01-05>%n" +
-                                "to be after or equals to:%n" +
-                                "  <2012-01-01>");
-    assertThat(LocalDate.of(2000, 1, 5)).isAfterOrEqualTo(LocalDate.of(2012, 1, 1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
+    assertThat(LocalDate.of(2000, 1, 5)).isAfterOrEqualTo(LocalDate.of(2012, 1, 1))).withMessage(format("%n" +
+                                                                                                        "Expecting:%n" +
+                                                                                                        "  <2000-01-05>%n"
+                                                                                                        +
+                                                                                                        "to be after or equals to:%n"
+                                                                                                        +
+                                                                                                        "  <2012-01-01>"));
   }
 
   @Test

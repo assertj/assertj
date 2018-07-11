@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -45,8 +46,8 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertHasToString(someInfo(), null, "foo");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertHasToString(someInfo(), null, "foo"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

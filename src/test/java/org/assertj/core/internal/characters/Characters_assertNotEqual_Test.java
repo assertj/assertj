@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.characters;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Characters_assertNotEqual_Test extends CharactersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    characters.assertNotEqual(someInfo(), null, 'a');
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> characters.assertNotEqual(someInfo(), null, 'a'))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +60,8 @@ public class Characters_assertNotEqual_Test extends CharactersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    charactersWithCaseInsensitiveComparisonStrategy.assertNotEqual(someInfo(), null, 'a');
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertNotEqual(someInfo(), null, 'a'))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

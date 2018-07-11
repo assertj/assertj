@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -38,20 +39,20 @@ public class Strings_assertIsLowerCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_fully_lowercase() {
-    thrown.expectAssertionError(shouldBeLowerCase("Lego").create());
-    strings.assertLowerCase(someInfo(), "Lego");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertLowerCase(someInfo(), "Lego"))
+                                                   .withMessage(shouldBeLowerCase("Lego").create());
   }
 
   @Test
   public void should_fail_if_actual_is_uppercase() {
-    thrown.expectAssertionError(shouldBeLowerCase("LEGO").create());
-    strings.assertLowerCase(someInfo(), "LEGO");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertLowerCase(someInfo(), "LEGO"))
+                                                   .withMessage(shouldBeLowerCase("LEGO").create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertLowerCase(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertLowerCase(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
 }

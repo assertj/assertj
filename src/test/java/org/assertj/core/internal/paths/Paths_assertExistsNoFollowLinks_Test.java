@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,8 +27,8 @@ public class Paths_assertExistsNoFollowLinks_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertExistsNoFollowLinks(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertExistsNoFollowLinks(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

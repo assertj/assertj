@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.longs;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Longs_assertGreaterThan_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    longs.assertGreaterThan(someInfo(), null, 8L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertGreaterThan(someInfo(), null, 8L))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

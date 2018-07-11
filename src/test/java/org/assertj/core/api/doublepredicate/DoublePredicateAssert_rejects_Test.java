@@ -13,6 +13,7 @@
 package org.assertj.core.api.doublepredicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -37,9 +38,8 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
 
   @Test
   public void should_fail_when_predicate_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((DoublePredicate) null).rejects(1.0, 2.0, 3.0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((DoublePredicate) null).rejects(1.0, 2.0, 3.0))
+                                                   .withMessage(actualIsNull());
   }
   @Test
   public void should_pass_when_predicate_does_not_accept_value() {
@@ -53,9 +53,8 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2.0;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).rejects(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(expectedValue))
+                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -63,9 +62,8 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2.0;
-    thrown.expectAssertionError("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).as("test").rejects(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").rejects(expectedValue))
+                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -73,8 +71,8 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
     DoublePredicate predicate = num -> num <= 2;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
     List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1D, PredicateDescription.GIVEN).create());
-    assertThat(predicate).rejects(matchValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(matchValues))
+                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1D, PredicateDescription.GIVEN).create());
   }
 
   @Test

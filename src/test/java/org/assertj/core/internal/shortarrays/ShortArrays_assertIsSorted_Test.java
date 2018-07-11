@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.shortarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeSorted.*;
 import static org.assertj.core.test.ShortArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
@@ -56,8 +57,8 @@ public class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertIsSorted(someInfo(), (short[]) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (short[]) null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -91,8 +92,8 @@ public class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (short[]) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (short[]) null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

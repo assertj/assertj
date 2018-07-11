@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
 import static org.assertj.core.test.TestData.someInfo;
@@ -35,8 +36,8 @@ public class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysB
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasOnlyElementsOfType(someInfo(), null, Integer.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasOnlyElementsOfType(someInfo(), null, Integer.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -46,8 +47,8 @@ public class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysB
 
   @Test
   public void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_type() {
-    thrown.expectAssertionError(shouldHaveOnlyElementsOfType(array, Long.class, Integer.class).create());
-    arrays.assertHasOnlyElementsOfType(someInfo(), array, Long.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasOnlyElementsOfType(someInfo(), array, Long.class))
+                                                   .withMessage(shouldHaveOnlyElementsOfType(array, Long.class, Integer.class).create());
   }
 
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.Maps.mapOf;
@@ -42,8 +43,8 @@ public class Maps_assertHasSize_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasSize(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSize(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -51,8 +52,7 @@ public class Maps_assertHasSize_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     Map<?, ?> actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
 
-    thrown.expectAssertionError(shouldHaveSize(actual, actual.size(), 8).create());
-
-    maps.assertHasSize(info, actual, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSize(info, actual, 8))
+                                                   .withMessage(shouldHaveSize(actual, actual.size(), 8).create());
   }
 }

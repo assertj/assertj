@@ -53,8 +53,8 @@ public class ThrowableTypeAssert_description_Test {
 
   @Test
   public void should_contain_provided_description_if_nothing_is_thrown_by_lambda() {
-    thrown.expectAssertionError("[test description] %nExpecting code to raise a throwable.");
-    descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class)).isThrownBy(() -> {});
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class)).isThrownBy(() -> {}))
+                                                   .withMessage(format("[test description] %nExpecting code to raise a throwable."));
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.api.optionalint;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -25,9 +26,8 @@ public class OptionalIntAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_when_OptionalInt_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((OptionalInt) null).hasValue(10);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalInt) null).hasValue(10))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -40,17 +40,15 @@ public class OptionalIntAssert_hasValue_Test extends BaseTest {
     OptionalInt actual = OptionalInt.of(5);
     int expectedValue = 10;
 
-    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
-
-    assertThat(actual).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
+                                                   .withMessage(shouldContain(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_if_OptionalInt_is_empty() {
     int expectedValue = 10;
 
-    thrown.expectAssertionError(shouldContain(expectedValue).create());
-
-    assertThat(OptionalInt.empty()).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalInt.empty()).hasValue(expectedValue))
+                                                   .withMessage(shouldContain(expectedValue).create());
   }
 }

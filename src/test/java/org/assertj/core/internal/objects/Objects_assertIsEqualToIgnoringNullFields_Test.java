@@ -86,9 +86,10 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      Jedi other = new Jedi("Yoda", "Green");
+      objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators());
+    }).withMessage(actualIsNull());
   }
 
   @Test

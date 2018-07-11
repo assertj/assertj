@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -32,14 +33,14 @@ public class DoubleArrays_assertHasSize_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSize(someInfo(), null, 3);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), null, 3))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
-    thrown.expectAssertionError(shouldHaveSize(actual, actual.length, 2).create());
-    arrays.assertHasSize(someInfo(), actual, 2);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), actual, 2))
+                                                   .withMessage(shouldHaveSize(actual, actual.length, 2).create());
   }
 
   @Test

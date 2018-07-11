@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.integers;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,20 +37,20 @@ public class Integers_assertIsNegative_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("%nExpecting:%n <6>%nto be less than:%n <0> ");
-    integers.assertIsNegative(someInfo(), 6);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNegative(someInfo(), 6))
+                                                   .withMessage(format("%nExpecting:%n <6>%nto be less than:%n <0> "));
   }
 
   @Test
   public void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <-1>%nto be less than:%n <0> when comparing values using AbsValueComparator");
-    integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1))
+                                                   .withMessage(format("%nExpecting:%n <-1>%nto be less than:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using AbsValueComparator");
-    integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 1))
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using AbsValueComparator"));
   }
 
 }

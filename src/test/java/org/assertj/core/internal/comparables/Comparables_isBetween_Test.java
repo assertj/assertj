@@ -12,7 +12,9 @@
  */
 package org.assertj.core.internal.comparables;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
@@ -47,20 +49,20 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
 
   @Test
   public void fails_if_actual_is_less_than_start() {
-    thrown.expectAssertionError("%nExpecting:%n <6>%nto be between:%n [8, 10]");
-    comparables.assertIsBetween(someInfo(), 6, 8, 10, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, true, true))
+                                                   .withMessage(format("%nExpecting:%n <6>%nto be between:%n [8, 10]"));
   }
 
   @Test
   public void fails_if_actual_is_greater_than_end() {
-    thrown.expectAssertionError("%nExpecting:%n <12>%nto be between:%n [8, 10]");
-    comparables.assertIsBetween(someInfo(), 12, 8, 10, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, true, true))
+                                                   .withMessage(format("%nExpecting:%n <12>%nto be between:%n [8, 10]"));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    comparables.assertIsBetween(someInfo(), null, 8, 10, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), null, 8, 10, true, true))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

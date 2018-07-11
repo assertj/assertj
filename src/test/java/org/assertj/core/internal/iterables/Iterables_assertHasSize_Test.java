@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -40,8 +41,8 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertHasSize(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSize(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -49,9 +50,8 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 
-    thrown.expectAssertionError(shouldHaveSize(actual, actual.size(), 8).create());
-
-    iterables.assertHasSize(info, actual, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSize(info, actual, 8))
+                                                   .withMessage(shouldHaveSize(actual, actual.size(), 8).create());
   }
 
   @Test
@@ -61,8 +61,8 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -70,8 +70,7 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 
-    thrown.expectAssertionError(shouldHaveSize(actual, actual.size(), 8).create());
-
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8))
+                                                   .withMessage(shouldHaveSize(actual, actual.size(), 8).create());
   }
 }

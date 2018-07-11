@@ -60,8 +60,8 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertHasBinaryContent(someInfo(), null, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasBinaryContent(someInfo(), null, expected))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

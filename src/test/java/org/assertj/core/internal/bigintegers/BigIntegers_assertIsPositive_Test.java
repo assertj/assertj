@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bigintegers;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigInteger;
@@ -32,14 +34,14 @@ public class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
-    numbers.assertIsPositive(someInfo(), BigInteger.ZERO);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigInteger.ZERO))
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be greater than:%n <0> "));
   }
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError("%nExpecting:%n <0>%nto be greater than:%n <0> ");
-    numbers.assertIsPositive(someInfo(), BigInteger.ZERO);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigInteger.ZERO))
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be greater than:%n <0> "));
   }
 
   @Test

@@ -60,8 +60,8 @@ public class ByteArrays_assertStartsWith_with_Integer_Arguments_Test extends Byt
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertStartsWith(someInfo(), null, IntArrays.arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertStartsWith(someInfo(), null, IntArrays.arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -125,8 +125,8 @@ public class ByteArrays_assertStartsWith_with_Integer_Arguments_Test extends Byt
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, IntArrays.arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, IntArrays.arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

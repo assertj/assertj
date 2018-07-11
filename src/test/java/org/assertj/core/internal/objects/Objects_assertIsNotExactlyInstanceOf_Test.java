@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
 import static org.assertj.core.test.TestData.someInfo;
@@ -44,8 +45,8 @@ public class Objects_assertIsNotExactlyInstanceOf_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertIsNotExactlyInstanceOf(someInfo(), null, String.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsNotExactlyInstanceOf(someInfo(), null, String.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

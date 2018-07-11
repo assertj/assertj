@@ -13,6 +13,7 @@
 package org.assertj.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,9 +27,8 @@ public class OptionalAssert_contains_usingFieldByFieldValueComparator_Test exten
 
   @Test
   public void should_fail_when_optional_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((Optional<Foo>) null).usingFieldByFieldValueComparator().contains(new Foo("something"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<Foo>) null).usingFieldByFieldValueComparator().contains(new Foo("something")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -49,18 +49,16 @@ public class OptionalAssert_contains_usingFieldByFieldValueComparator_Test exten
     Optional<Foo> actual = Optional.of(new Foo("something"));
     Foo expectedValue = new Foo("something else");
 
-    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
-
-    assertThat(actual).usingFieldByFieldValueComparator().contains(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingFieldByFieldValueComparator().contains(expectedValue))
+                                                   .withMessage(shouldContain(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_if_optional_is_empty() {
     Foo expectedValue = new Foo("test");
 
-    thrown.expectAssertionError(shouldContain(expectedValue).create());
-
-    assertThat(Optional.empty()).usingFieldByFieldValueComparator().contains(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).usingFieldByFieldValueComparator().contains(expectedValue))
+                                                   .withMessage(shouldContain(expectedValue).create());
   }
 
   private static class Foo {

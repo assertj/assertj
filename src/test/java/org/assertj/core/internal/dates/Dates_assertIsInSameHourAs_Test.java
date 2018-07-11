@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
@@ -55,8 +56,8 @@ public class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertIsInSameHourAs(someInfo(), null, new Date());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameHourAs(someInfo(), null, new Date()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -85,8 +86,8 @@ public class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsInSameHourAs(someInfo(), null, new Date());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourAs(someInfo(), null, new Date()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

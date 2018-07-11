@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.long_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -38,15 +39,16 @@ public class AtomicLongAssert_hasValue_Test {
   public void should_fail_when_actual_does_not_have_the_expected_value() {
     AtomicLong actual = new AtomicLong(123L);
     long expectedValue = 1234L;
-    thrown.expectAssertionError(shouldHaveValue(actual, expectedValue).create());
-    assertThat(actual).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
+                                                   .withMessage(shouldHaveValue(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_when_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    AtomicLong actual = null;
-    assertThat(actual).hasValue(1234L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      AtomicLong actual = null;
+      assertThat(actual).hasValue(1234L);
+    }).withMessage(actualIsNull());
   }
   
 }

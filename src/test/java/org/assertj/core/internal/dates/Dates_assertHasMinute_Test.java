@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -55,8 +56,8 @@ public class Dates_assertHasMinute_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertHasMinute(someInfo(), null, 49);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasMinute(someInfo(), null, 49))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -79,8 +80,8 @@ public class Dates_assertHasMinute_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertHasMinute(someInfo(), null, 49);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasMinute(someInfo(), null, 49))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

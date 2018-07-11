@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -38,27 +39,24 @@ public class AtomicReferenceFieldUpdater_hasValue_Test {
 
   @Test
   public void should_fail_when_atomicReference_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((AtomicReferenceFieldUpdater<Person, String>) null).hasValue("Frodo", person);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicReferenceFieldUpdater<Person, String>) null).hasValue("Frodo", person))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
     AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
     fieldUpdater.set(person, "Frodo");
-    thrown.expectAssertionError(shouldHaveValue(fieldUpdater, person.name, null, person).create());
-
-    assertThat(fieldUpdater).hasValue(null, person);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person))
+                                                   .withMessage(shouldHaveValue(fieldUpdater, person.name, null, person).create());
   }
 
   @Test
   public void should_fail_if_atomicReferenceFieldUpdater_does_not_contain_expected_value() throws Exception {
     AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
 
-    thrown.expectAssertionError(shouldHaveValue(fieldUpdater, person.name, "Frodo", person).create());
-
-    assertThat(fieldUpdater).hasValue("Frodo", person);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue("Frodo", person))
+                                                   .withMessage(shouldHaveValue(fieldUpdater, person.name, "Frodo", person).create());
   }
 
   @Test

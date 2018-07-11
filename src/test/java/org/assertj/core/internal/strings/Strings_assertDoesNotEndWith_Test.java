@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.test.TestData.someInfo;
@@ -37,8 +38,8 @@ public class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_ends_with_suffix() {
-    thrown.expectAssertionError(shouldNotEndWith("Yoda", "oda").create());
-    strings.assertDoesNotEndWith(someInfo(), "Yoda", "oda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotEndWith(someInfo(), "Yoda", "oda"))
+                                                   .withMessage(shouldNotEndWith("Yoda", "oda").create());
   }
 
   @Test
@@ -49,8 +50,8 @@ public class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotEndWith(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotEndWith(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -60,8 +61,8 @@ public class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_ends_with_suffix_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldNotEndWith("Yoda", "A", comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(someInfo(), "Yoda", "A");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(someInfo(), "Yoda", "A"))
+                                                   .withMessage(shouldNotEndWith("Yoda", "A", comparisonStrategy).create());
   }
 
 }

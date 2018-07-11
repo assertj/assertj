@@ -15,6 +15,7 @@ package org.assertj.core.internal.iterables;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -57,8 +58,8 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertDoesNotHaveDuplicates(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotHaveDuplicates(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

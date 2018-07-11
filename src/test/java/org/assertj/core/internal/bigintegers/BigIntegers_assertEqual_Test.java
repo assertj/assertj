@@ -14,6 +14,7 @@ package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -35,8 +36,8 @@ public class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertEqual(someInfo(), null, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertEqual(someInfo(), null, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -58,8 +59,8 @@ public class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    numbersWithComparatorComparisonStrategy.assertEqual(someInfo(), null, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertEqual(someInfo(), null, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

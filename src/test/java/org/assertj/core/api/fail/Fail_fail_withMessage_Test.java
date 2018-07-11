@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.fail;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.Fail;
@@ -32,7 +33,7 @@ public class Fail_fail_withMessage_Test {
   @Test
   public void shouldIncludeMessageWhenFailing() {
     String message = "Failed :(";
-    thrown.expectAssertionError(message);
-    Fail.fail(message);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Fail.fail(message))
+                                                   .withMessage(message);
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.AbstractAssert;
@@ -33,8 +34,8 @@ public class AbstractAssert_get_writable_info_Test {
 
   @Test
   public void should_keep_specific_error_message_and_description_set_by_user() {
-    thrown.expectAssertionError("[user description] specific error message");
-    new ConcreteAssert(6L).as("user description").checkNull();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> new ConcreteAssert(6L).as("user description").checkNull())
+                                                   .withMessage("[user description] specific error message");
   }
 
 }

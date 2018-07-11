@@ -26,14 +26,14 @@ public class Assertions_fail_Test {
 
   @Test
   public void should_include_message_when_failing() {
-    thrown.expectAssertionError("Failed :(");
-    Assertions.fail("Failed :(");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Assertions.fail("Failed :("))
+                                                   .withMessage("Failed :(");
   }
   
   @Test
   public void should_include_message_with_parameters_when_failing() {
-    thrown.expectAssertionError("Failed :(");
-    Assertions.fail("Failed %s", ":(");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Assertions.fail("Failed %s", ":("))
+                                                   .withMessage("Failed :(");
   }
   
   @Test

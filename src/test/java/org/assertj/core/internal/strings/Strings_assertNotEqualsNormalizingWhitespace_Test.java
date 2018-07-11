@@ -14,6 +14,8 @@ package org.assertj.core.internal.strings;
 
 import static com.tngtech.java.junit.dataprovider.DataProviders.$;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
@@ -62,8 +64,12 @@ public class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBa
   @Test
   @UseDataProvider("equalNormalizingWhitespaceGenerator")
   public void should_fail_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
-    thrown.expectAssertionError(shouldNotBeEqualNormalizingWhitespace(actual, expected).create());
-    strings.assertNotEqualsNormalizingWhitespace(someInfo(), actual, expected);  }
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEqualsNormalizingWhitespace(someInfo(),
+                                                                                                                  actual,
+                                                                                                                  expected))
+                                                   .withMessage(format(shouldNotBeEqualNormalizingWhitespace(actual,
+                                                                                                             expected).create()));
+  }
 
   @DataProvider
   public static Object[][] equalNormalizingWhitespaceGenerator() {

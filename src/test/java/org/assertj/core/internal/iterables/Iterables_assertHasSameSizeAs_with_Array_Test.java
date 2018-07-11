@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
@@ -40,8 +41,8 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertHasSameSizeAs(someInfo(), null, newArrayList("Solo", "Leia"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSameSizeAs(someInfo(), null, newArrayList("Solo", "Leia")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -71,8 +72,8 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), null, array("Solo", "Leia"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), null, array("Solo", "Leia")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

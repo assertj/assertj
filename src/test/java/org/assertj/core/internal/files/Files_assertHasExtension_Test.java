@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
@@ -38,8 +39,8 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertHasExtension(someInfo(), null, expectedExtension);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasExtension(someInfo(), null, expectedExtension))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.floats;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -34,8 +35,8 @@ public class Floats_assertNotEqual_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    floats.assertNotEqual(someInfo(), null, 8f);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertNotEqual(someInfo(), null, 8f))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -57,8 +58,8 @@ public class Floats_assertNotEqual_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    floatsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8f);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8f))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

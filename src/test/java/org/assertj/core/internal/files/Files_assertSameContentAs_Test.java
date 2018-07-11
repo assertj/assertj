@@ -80,8 +80,8 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertSameContentAs(someInfo(), null, defaultCharset(), expected, defaultCharset());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), null, defaultCharset(), expected, defaultCharset()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
