@@ -30,10 +30,6 @@ public class BaseTest {
     thrown.expect(type);
     thrown.expectMessage(message);
   }
-  
-  protected void expectIllegalArgumentException(String message) {
-    expectException(IllegalArgumentException.class, message);
-  }
 
   public void failBecauseExpectedAssertionErrorWasNotThrown() {
     Assertions.fail("Assertion error expected");

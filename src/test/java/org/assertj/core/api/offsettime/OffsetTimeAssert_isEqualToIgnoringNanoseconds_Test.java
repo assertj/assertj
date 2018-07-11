@@ -14,6 +14,7 @@ package org.assertj.core.api.offsettime;
 
 import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetTime;
@@ -61,8 +62,8 @@ public class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest
 
   @Test
   public void should_throw_error_if_given_offsetTime_is_null() {
-    expectIllegalArgumentException(NULL_OFFSET_TIME_PARAMETER_MESSAGE);
-    assertThat(refOffsetTime).isEqualToIgnoringNanos(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringNanos(null))
+                                        .withMessage(NULL_OFFSET_TIME_PARAMETER_MESSAGE);
   }
 
 }

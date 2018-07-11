@@ -16,6 +16,7 @@ import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
@@ -62,8 +63,8 @@ public class OffsetDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
 
   @Test
   public void should_throw_error_if_given_offsetdatetime_is_null() {
-    expectIllegalArgumentException(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
-    assertThat(refOffsetDateTime).isEqualToIgnoringHours(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringHours(null))
+                                        .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }
 
 }

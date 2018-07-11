@@ -17,6 +17,7 @@ import static java.time.ZoneOffset.MAX;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
@@ -51,8 +52,8 @@ public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test extends BaseTes
 
   @Test
   public void should_throw_error_if_given_OffsetDateTimetime_is_null() {
-    expectIllegalArgumentException(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
-    assertThat(actual).isEqualToIgnoringTimezone(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).isEqualToIgnoringTimezone(null))
+                                        .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }
 
 }
