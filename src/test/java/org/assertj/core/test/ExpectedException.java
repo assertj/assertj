@@ -47,11 +47,11 @@ public class ExpectedException implements TestRule {
     expectMessage(message);
   }
 
-  public void expect(Class<? extends Throwable> type) {
+  private void expect(Class<? extends Throwable> type) {
     delegate.expect(type);
   }
 
-  public void expectMessage(String message) {
+  private void expectMessage(String message) {
     delegate.expectMessage(IsEqual.equalTo(format(message)));
   }
 }
