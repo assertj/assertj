@@ -212,18 +212,17 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first
-   * converted into an <code>{@link Iterable}</code>
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
+   * We don't return {@link IteratorAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param <T> the actual element's type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public <T> ProxyableIterableAssert<T> assertThat(Iterator<? extends T> actual) {
-    return proxy(ProxyableIterableAssert.class, Iterator.class, actual);
+  public <T> ProxyableIteratorAssert<T> assertThat(Iterator<? extends T> actual) {
+    return proxy(ProxyableIteratorAssert.class, Iterator.class, actual);
   }
 
   /**

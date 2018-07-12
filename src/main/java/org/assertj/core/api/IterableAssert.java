@@ -47,7 +47,7 @@ public class IterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public IterableAssert(Iterable<? extends ELEMENT> actual) {
-    super(actual, IterableAssert.class, new ObjectAssertFactory<ELEMENT>());
+    super(actual, IterableAssert.class, new ObjectAssertFactory<>());
   }
 
   public IterableAssert(Iterator<? extends ELEMENT> actual) {
@@ -217,7 +217,7 @@ public class IterableAssert<ELEMENT> extends
 
   }
 
-  private static <T> Iterable<T> toIterable(Iterator<T> iterator) {
+  static <T> Iterable<T> toIterable(Iterator<T> iterator) {
     return Streams.stream(iterator).collect(toList());
   }
 

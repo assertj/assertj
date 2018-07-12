@@ -28,7 +28,7 @@ import java.util.Iterator;
  * 
  * @author Stephan Windmüller
  */
-public abstract class IteratorAssertBaseTest extends BaseTestTemplate<IteratorAssert<Object>, Iterator<Object>>{
+public abstract class IteratorAssertBaseTest extends BaseTestTemplate<IteratorAssert<Object>, Iterator<?>> {
 
   @Rule
   public ExpectedException thrown = none();

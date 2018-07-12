@@ -2636,6 +2636,10 @@ public class Assertions {
 
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   *  The {@link IteratorAssert} has limited assertions because it does not consume elements.
+   *  In order to access assertions from {@link IterableAssert}, use {@link IteratorAssert#toIterable()}.
+   * </p>
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.

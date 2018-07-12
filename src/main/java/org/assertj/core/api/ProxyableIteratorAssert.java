@@ -16,30 +16,21 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Concrete assertions for {@link Iterable}s without any final methods to allow proxying.
+ * Concrete assertions for {@link Iterator}s without any final methods to allow proxying.
  * 
- * @author Gaël LHEZ
- * @since 2.5.1 / 3.5.1
+ * @author Stephan Windmüller
+ * @since 3.11.0
  */
-public class ProxyableIterableAssert<ELEMENT> extends
-    FactoryBasedNavigableIterableAssert<ProxyableIterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
+public class ProxyableIteratorAssert<ELEMENT>
+    extends AbstractIteratorAssert<ProxyableIteratorAssert<ELEMENT>, ELEMENT> {
 
-  public ProxyableIterableAssert(Iterable<? extends ELEMENT> actual) {
-    super(actual, ProxyableIterableAssert.class, new ObjectAssertFactory<>());
-  }
-
-  public ProxyableIterableAssert(Iterator<? extends ELEMENT> actual) {
-    this(toLazyIterable(actual));
+  public ProxyableIteratorAssert(Iterator<? extends ELEMENT> actual) {
+    super(actual, ProxyableIteratorAssert.class);
   }
 
   @Override
   protected <ELEMENT2> AbstractListAssert<?, List<? extends ELEMENT2>, ELEMENT2, ObjectAssert<ELEMENT2>> newListAssertInstance(List<? extends ELEMENT2> newActual) {
     return new ProxyableListAssert<>(newActual);
-  }
-
-  @Override
-  protected ProxyableIterableAssert<ELEMENT> newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
-    return new ProxyableIterableAssert<>(iterable);
   }
 
 }

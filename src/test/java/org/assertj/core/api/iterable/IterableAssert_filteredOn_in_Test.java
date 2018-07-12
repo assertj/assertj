@@ -63,7 +63,7 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
 
   @Test
   public void should_filter_iterator_under_test_on_property_values() {
-    //assertThat(employees.iterator()).filteredOn("age", in(800)).containsOnly(yoda, obiwan); TODO
+    assertThat(employees.iterator()).toIterable().filteredOn("age", in(800)).containsOnly(yoda, obiwan);
   }
 
   @Test

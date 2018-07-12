@@ -13,6 +13,7 @@
 package org.assertj.core.api.iterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -23,6 +24,7 @@ import java.util.Iterator;
 import org.assertj.core.api.AbstractIteratorAssert;
 import org.assertj.core.api.IteratorAssert;
 import org.assertj.core.api.IteratorAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,10 +57,13 @@ public class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
 
   @Test
   public void should_fail_if_actual_has_at_least_one_element() {
-    thrown.expectAssertionError("\nExpecting iterator to contain no more values.");
-
-    Iterator<Integer> iterator = newArrayList(1).iterator();
-    assertThat(iterator).isExhausted();
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(newArrayList(1).iterator()).isExhausted();
+    // WHEN
+    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
+    // THEN
+    assertThat(error).hasMessageContaining("\nExpecting iterator to be exhausted.");
   }
 
 }

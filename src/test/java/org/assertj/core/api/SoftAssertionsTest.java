@@ -244,7 +244,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
       softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-      softly.assertThat(Lists.newArrayList("28").iterator()).contains("29");
+      softly.assertThat(Lists.newArrayList("28")).contains("29");
       softly.assertThat(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
 
       softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
@@ -589,6 +589,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       softly.assertThat(names)
+            .toIterable()
             .as("using extracting()")
             .extracting("first")
             .contains("John")
@@ -600,7 +601,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   public void should_work_with_flat_extracting() {
     // GIVEN
     List<CartoonCharacter> characters = asList(homer, fred);
-    CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[characters.size()]);
+    CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[0]);
     // WHEN
     softly.assertThat(characters)
           .as("using flatExtracting on Iterable")

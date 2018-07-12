@@ -25,7 +25,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldBeExhausted extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String SHOULD_BE_EXHAUSTED = "%nExpecting iterator to contain no more values.";
+  public static final String SHOULD_BE_EXHAUSTED = "%nExpecting iterator to be exhausted.";
 
   /**
    * Creates a new <code>{@link ShouldBeExhausted}</code>.

@@ -96,7 +96,7 @@ public class AutoCloseableSoftAssertionsTest {
       softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
       softly.assertThat((Iterable<String>) list("26")).isEqualTo(list("27"));
-      softly.assertThat(list("28").iterator()).contains("29");
+      softly.assertThat(list("28")).contains("29");
       softly.assertThat(list("30")).isEqualTo(list("31"));
 
       softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));

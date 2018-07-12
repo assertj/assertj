@@ -67,7 +67,7 @@ public class Assertions_assertThat_with_Iterator_Test {
   @Test
   public void should_initialise_actual() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    Iterable<String> actual = (Iterable<String>) assertThat(names).actual;
+    Iterable<String> actual = (Iterable<String>) assertThat(names).toIterable().actual;
     assertThat(actual).containsOnly("Leia", "Luke");
   }
 
