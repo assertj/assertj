@@ -71,6 +71,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (result instanceof OptionalAssert) return Optional.class;
     if (result instanceof ObjectAssert || result instanceof ProxyableObjectAssert) return Object.class;
     if (result instanceof MapAssert) return Map.class;
+    if (result instanceof StringAssert) return String.class;
     // Trying to create a proxy will only match exact constructor argument types.
     // To initialize one for ListAssert for example we can't use an ArrayList, we have to use a List.
     // So we can't just return actual.getClass() as we could read a concrete class whereas

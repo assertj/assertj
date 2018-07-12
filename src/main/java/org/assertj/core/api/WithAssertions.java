@@ -364,7 +364,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default AbstractCharSequenceAssert<?, String> assertThat(final String actual) {
+  default AbstractStringAssert<?> assertThat(final String actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1226,7 +1226,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1241,7 +1241,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1256,7 +1256,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1286,7 +1286,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
-   * 
+   *
    * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1302,7 +1302,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1318,7 +1318,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat((byte) 10).isCloseTo((byte) 11, within((byte) 1));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1334,7 +1334,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1350,7 +1350,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1366,7 +1366,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1383,9 +1383,9 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
-   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * LocalTime _07_12 = LocalTime.of(7, 12);
    * assertThat(_07_10).isCloseTo(_07_12, within(5, ChronoUnit.MINUTES));</code></pre>
-   * 
+   *
    * @param value the allowed offset
    * @param unit the {@link TemporalUnit} of the offset
    * @return the created {@code Offset}.
@@ -1401,7 +1401,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
-   * 
+   *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1418,7 +1418,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
-   * 
+   *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1435,7 +1435,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
-   * 
+   *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1499,7 +1499,7 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), byLessThan(new BigInteger("2")));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1580,9 +1580,9 @@ public interface WithAssertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
-   * LocalTime _07_12 = LocalTime.of(7, 12); 
+   * LocalTime _07_12 = LocalTime.of(7, 12);
    * assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, ChronoUnit.MINUTES));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @param unit the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
@@ -2178,8 +2178,8 @@ public interface WithAssertions {
    * Throwable thrown = catchThrowable(() -&gt; {});
    * assertThat(thrown).as("display me")
    *                   .isInstanceOf(Exception.class);</code></pre>
-   * 
-   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
+   *
+   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -2190,7 +2190,7 @@ public interface WithAssertions {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method 
+   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
    * Example:
@@ -2203,7 +2203,7 @@ public interface WithAssertions {
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
-   * <p> 
+   * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
    * assertThatThrownBy(() -&gt; {}).as("display me")
@@ -2216,9 +2216,9 @@ public interface WithAssertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
-   * 
+   *
    * @return the created {@link ThrowableAssert}.
-   * 
+   *
    * @since 3.9.0
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
@@ -2236,22 +2236,22 @@ public interface WithAssertions {
    * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * 
+   *
    * // assertion succeeds
    * assertThatCode(callable).isInstanceOf(Exception.class)
    *                         .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
+   *
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
-   *   // do nothing 
-   * }; 
-   * 
+   *   // do nothing
+   * };
+   *
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")
    *                          .isInstanceOf(Exception.class);
@@ -2261,7 +2261,7 @@ public interface WithAssertions {
    * assertThatCode(thrown).as("display me")
    *                       .isInstanceOf(Exception.class); </code></pre>
    * <p>
-   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -2304,31 +2304,31 @@ public interface WithAssertions {
   /**
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null, 
-   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it, 
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
+   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
    * making it convenient to perform subtype-specific assertions on the result.
    * <p>
    * Example:
    * <pre><code class='java'> class CustomParseException extends Exception {
    *   int line;
    *   int column;
-   *   
+   *
    *   public CustomParseException(String msg, int l, int c) {
    *     super(msg);
    *     line = l;
    *     column = c;
    *   }
    * }
-   * 
+   *
    * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                                               CustomParseException.class);
    * // assertions pass
    * assertThat(e).hasMessageContaining("boom");
    * assertThat(e.line).isEqualTo(1);
    * assertThat(e.column).isEqualTo(5);
-   * 
+   *
    * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
+   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                      RuntimeException.class);</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
@@ -2710,8 +2710,8 @@ public interface WithAssertions {
    * <p>
    * {@link Representation} are used to format types in assertions error messages.
    * <p>
-   * An alternative way of using a different representation is to register one as a service, 
-   * this approach is described in {@link Representation}, it requires more work than this method 
+   * An alternative way of using a different representation is to register one as a service,
+   * this approach is described in {@link Representation}, it requires more work than this method
    * but has the advantage of not having to do anything in your tests and it would be applied to all the tests globally
    * <p>
    * Example :
@@ -2780,7 +2780,7 @@ public interface WithAssertions {
    * // now Long will be formatted between in $$ in error message.
    * assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
    *
-   * // fails with error : expected:&lt;$456$&gt; but was:&lt;$123$&gt; 
+   * // fails with error : expected:&lt;$456$&gt; but was:&lt;$123$&gt;
    * assertThat(123L).isEqualTo(456L);</code></pre>
    *
    * @param <T> the type of format.

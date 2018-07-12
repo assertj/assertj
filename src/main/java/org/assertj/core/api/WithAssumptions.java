@@ -167,7 +167,7 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
-  default AbstractCharSequenceAssert<?, String> assumeThat(final String actual) {
+  default AbstractStringAssert<?> assumeThat(final String actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -358,7 +358,7 @@ public interface WithAssumptions {
   default <VALUE> AtomicStampedReferenceAssert<VALUE> assumeThat(AtomicStampedReference<VALUE> actual) {
     return Assumptions.assumeThat(actual);
   }
-  
+
   /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
    *
@@ -784,7 +784,7 @@ public interface WithAssumptions {
   default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assumeThat(IntStream intStream) {
     return Assumptions.assumeThat(intStream);
   }
-  
+
   /**
    * Creates a new instance of <code>{@link DoubleArrayAssert}</code> assumption.
    *
@@ -821,7 +821,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Creates a new instance of {@link CompletableFutureAssert} assumption for a {@link java.util.concurrent.CompletionStage} 
+   * Creates a new instance of {@link CompletableFutureAssert} assumption for a {@link java.util.concurrent.CompletionStage}
    * by converting it to a {@link CompletableFuture} and returning a {@link CompletableFutureAssert}.
    * <p>
    * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
@@ -973,15 +973,15 @@ public interface WithAssumptions {
    * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * 
+   *
    * // assertion succeeds
    * assumeThatCode(callable).isInstanceOf(Exception.class)
    *                         .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * assumeThatCode(callable).doesNotThrowAnyException();</code></pre>
    * <p>
-   * This method was not named {@code assumeThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code assumeThat} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return the created assumption for assertion object.

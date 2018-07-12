@@ -12,20 +12,17 @@
  */
 package org.assertj.core.api;
 
-
 /**
  * Assertion methods for {@code String}s.
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(String)}</code>.
- * </p>
- * This class has been defined so that, when calling {@link #usingComparator(java.util.Comparator)}, one provide a
- * String comparator instead of a {@link CharSequence} comparator.
- * 
+ *
  * @author Mikhail Mazursky
  */
-public class StringAssert extends AbstractCharSequenceAssert<StringAssert, String> {
+public class StringAssert extends AbstractStringAssert<StringAssert> {
 
   public StringAssert(String actual) {
     super(actual, StringAssert.class);
   }
+
 }

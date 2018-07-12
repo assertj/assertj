@@ -448,7 +448,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public AbstractCharSequenceAssert<?, String> asString() {
+  public AbstractStringAssert<?> asString() {
     objects.assertIsInstanceOf(info, actual, String.class);
     return Assertions.assertThat((String) actual);
   }
@@ -466,7 +466,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Overrides AssertJ default error message by the given one.
    * <p>
-   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
    * The new error message is built using {@link String#format(String, Object...)} if you provide args parameter (if you
@@ -489,7 +489,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Alternative method for {@link AbstractAssert#overridingErrorMessage}
    * <p>
-   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
    * Example:
@@ -646,8 +646,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param requirements to assert on the actual object - must not be null.
    * @return this assertion object.
-   * 
-   * @throws NullPointerException if given Consumer is null 
+   *
+   * @throws NullPointerException if given Consumer is null
    */
   public SELF satisfies(Consumer<ACTUAL> requirements) {
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
@@ -675,7 +675,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Create a {@link AbstractListAssert}.
    * <p>
-   * Implementations need to redefine either to be proxy friendly (i.e. no final assertion methods like {@link ProxyableListAssert}) 
+   * Implementations need to redefine either to be proxy friendly (i.e. no final assertion methods like {@link ProxyableListAssert})
    * or generic vararg friendly (to use {@link SafeVarargs} annotation which requires final method)like {@link ListAssert}.
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.

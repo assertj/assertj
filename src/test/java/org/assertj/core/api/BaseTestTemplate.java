@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
@@ -23,7 +24,7 @@ import org.junit.Test;
 
 /**
  * Template to write tests for {@link AbstractAssert} implementations.
- * 
+ *
  * <p>
  * These classes are simple wrapper types, that delegate the real work to internal objects. For each method, we only need to test
  * that:
@@ -39,10 +40,10 @@ import org.junit.Test;
  * a subpackage ({@link org.assertj.core.api.bigdecimal}). The base class also serves as a proxy to the package-private fields
  * of the assertion that need to be verified in the tests.
  * </p>
- * 
+ *
  * @param <S> the "self" type of the assertion under test.
  * @param <A> the type of the "actual" value.
- * 
+ *
  * @author Olivier Michallat
  */
 public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extends BaseTest {
@@ -54,18 +55,19 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extend
   public final void setUp() {
     assertions = create_assertions();
     inject_internal_objects();
+    setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 
   /**
    * Builds an instance of the {@link Assert} implementation under test.
-   * 
+   *
    * This object will be accessible through the {@link #assertions} field.
    */
   protected abstract S create_assertions();
 
   /**
    * Injects any additional internal objects (typically mocks) into {@link #assertions}.
-   * 
+   *
    * Subclasses that override this method must call the superclass implementation.
    */
   protected void inject_internal_objects() {
@@ -94,7 +96,7 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extend
   protected AssertionInfo getInfo(S someAssertions) {
     return someAssertions.info;
   }
-  
+
   protected AssertionInfo info() {
     return getInfo(assertions);
   }
@@ -109,7 +111,7 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extend
 
   /**
    * Invokes the API method under test.
-   * 
+   *
    * @return the assertion object that is returned by the method. If the method is {@code void}, return {@code null} and override
    *         {@link #should_return_this()}.
    */

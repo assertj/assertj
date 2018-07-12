@@ -955,7 +955,7 @@ public class Java6Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
+  public static AbstractStringAssert<?> assertThat(String actual) {
     return new StringAssert(actual);
   }
 
@@ -1004,13 +1004,13 @@ public class Java6Assertions {
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
    *
-   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown, 
-   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br> 
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.  
-   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error 
+   * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
+   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
+   * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
    * assertThatThrownBy(() -&gt; {}).as("display me")
    *                             .isInstanceOf(Exception.class);
-   * 
+   *
    * // assertion will fail AND "display me" will appear in the error
    * Throwable thrown = catchThrowable(() -&gt; {});
    * assertThat(thrown).as("display me")
@@ -1024,7 +1024,7 @@ public class Java6Assertions {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method 
+   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
    * Example:
@@ -1037,7 +1037,7 @@ public class Java6Assertions {
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
-   * <p> 
+   * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
    * assertThatThrownBy(() -&gt; {}).as("display me")
@@ -1050,16 +1050,16 @@ public class Java6Assertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
-   * 
+   *
    * @return the created {@link ThrowableAssert}.
-   * 
+   *
    * @since 3.9.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                                    String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
-  
+
   /**
    * Allows to capture and then assert on a {@link Throwable}.
    *
@@ -1073,25 +1073,25 @@ public class Java6Assertions {
    *     throw new Exception("boom!");
    *   }
    * };
-   * 
+   *
    * // assertion succeeds
    * assertThatCode(callable).isInstanceOf(Exception.class)
    *                         .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
+   *
    * <pre><code class='java'> ThrowingCallable doNothing = new ThrowingCallable() {
    *   {@literal @}Override
    *   public void call() throws Throwable {
-   *     // do nothing 
+   *     // do nothing
    *   }
-   * }; 
-   * 
+   * };
+   *
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")
    *                          .isInstanceOf(Exception.class);
@@ -1101,7 +1101,7 @@ public class Java6Assertions {
    * assertThatCode(thrown).as("display me")
    *                       .isInstanceOf(Exception.class); </code></pre>
    * <p>
-   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1159,31 +1159,31 @@ public class Java6Assertions {
   /**
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null, 
-   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it, 
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
+   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
    * making it convenient to perform subtype-specific assertions on the result.
    * <p>
    * Example:
    * <pre><code class='java'> class CustomParseException extends Exception {
    *   int line;
    *   int column;
-   *   
+   *
    *   public CustomParseException(String msg, int l, int c) {
    *     super(msg);
    *     line = l;
    *     column = c;
    *   }
    * }
-   * 
+   *
    * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                                               CustomParseException.class);
    * // assertions pass
    * assertThat(e).hasMessageContaining("boom");
    * assertThat(e.line).isEqualTo(1);
    * assertThat(e.column).isEqualTo(5);
-   * 
+   *
    * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
+   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                      RuntimeException.class);</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
@@ -1196,14 +1196,14 @@ public class Java6Assertions {
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable, Class<THROWABLE> type) {
     return ThrowableAssert.catchThrowableOfType(shouldRaiseThrowable, type);
   }
-  
+
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------
 
   /**
    * Throws an {@link AssertionError} with the given message.
-   * 
+   *
    * @param failureMessage error message.
    * @throws AssertionError with the given message.
    */
@@ -1213,7 +1213,7 @@ public class Java6Assertions {
 
   /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
-   * 
+   *
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
    * @throws AssertionError with the given built message.
@@ -1335,7 +1335,7 @@ public class Java6Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;
    * Hobbit&quot;, &quot;Elf&quot;)
    *     .doesNotContain(&quot;Orc&quot;);</code></pre>
-   *     
+   *
    * @param <T> the type of value to extract.
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
@@ -1465,7 +1465,7 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1540,7 +1540,7 @@ public class Java6Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
-   * 
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -1625,7 +1625,7 @@ public class Java6Assertions {
   public static Offset<Double> byLessThan(Double value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p>
@@ -1640,7 +1640,7 @@ public class Java6Assertions {
   public static Offset<Float> byLessThan(Float value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1684,7 +1684,7 @@ public class Java6Assertions {
   public static Offset<Byte> byLessThan(Byte value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1699,7 +1699,7 @@ public class Java6Assertions {
   public static Offset<Integer> byLessThan(Integer value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1714,7 +1714,7 @@ public class Java6Assertions {
   public static Offset<Short> byLessThan(Short value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p>
@@ -1729,7 +1729,7 @@ public class Java6Assertions {
   public static Offset<Long> byLessThan(Long value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
    * percentages.
@@ -1815,7 +1815,7 @@ public class Java6Assertions {
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
-   * 
+   *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.

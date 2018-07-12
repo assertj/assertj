@@ -2588,13 +2588,13 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link CharSequenceAssert}from a {@link String}</code>.
+   * Creates a new instance of <code>{@link StringAssert}from a {@link String}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
+  public static AbstractStringAssert<?> assertThat(String actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 

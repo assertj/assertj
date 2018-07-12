@@ -10,23 +10,22 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.groups;
+package org.assertj.core.api.string_;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Test;
+import org.assertj.core.api.StringAssert;
+import org.assertj.core.api.StringAssertBaseTest;
 
-/**
- * Tests for <code>{@link Properties#ofType(Class)}</code>.
- *
- * @author Olivier Michallat
- */
-public class Properties_ofType_Test {
+public class StringAssert_isLessThan_Test extends StringAssertBaseTest {
 
-  @Test
-  public void should_create_a_new_Properties() {
-    Properties<String> properties = Properties.extractProperty("id").ofType(String.class);
-    assertThat(properties.propertyName).isEqualTo("id");
-    assertThat(properties.propertyType).isEqualTo(String.class);
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.isLessThan("bar");
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertLessThan(getInfo(assertions), getActual(assertions), "bar");
   }
 }

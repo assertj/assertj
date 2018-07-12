@@ -41,14 +41,14 @@ public class BDDAssertions_then_Test {
       return new StringAssert(string);
     }
   };
-  
+
   AssertFactory<Integer, IntegerAssert> integerAssertFactory = new AssertFactory<Integer, IntegerAssert>() {
     @Override
     public IntegerAssert createAssert(Integer string) {
       return new IntegerAssert(string);
     }
   };
-  
+
   @Test
   public void then_char() {
     then('z').isGreaterThan('a');
@@ -243,7 +243,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_String() {
-    then("Foo").isEqualTo("Foo");
+    then("Foo").isEqualTo("Foo").isGreaterThan("Bar");
   }
 
   @Test

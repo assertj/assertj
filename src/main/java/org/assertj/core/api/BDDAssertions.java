@@ -831,7 +831,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> then(String actual) {
+  public static AbstractStringAssert<?> then(String actual) {
     return assertThat(actual);
   }
 
@@ -1030,8 +1030,8 @@ public class BDDAssertions extends Assertions {
    * Throwable thrown = catchThrowable(() -&gt; {});
    * assertThat(thrown).as("display me")
    *                   .isInstanceOf(Exception.class);</code></pre>
-   * 
-   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
+   *
+   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -1042,7 +1042,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} like {@code thenThrownBy(ThrowingCallable)} but this method 
+   * Allows to capture and then assert on a {@link Throwable} like {@code thenThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
    * Example:
@@ -1055,7 +1055,7 @@ public class BDDAssertions extends Assertions {
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
-   * <p> 
+   * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
    * thenThrownBy(() -&gt; {}).as("display me")
@@ -1067,9 +1067,9 @@ public class BDDAssertions extends Assertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
-   * 
+   *
    * @return the created {@link ThrowableAssert}.
-   * 
+   *
    * @since 3.9.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
@@ -1087,22 +1087,22 @@ public class BDDAssertions extends Assertions {
    * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * 
+   *
    * // assertion succeeds
    * thenCode(callable).isInstanceOf(Exception.class)
    *                   .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * thenCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
+   *
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
-   *   // do nothing 
-   * }; 
-   * 
+   *   // do nothing
+   * };
+   *
    * // assertion fails and "display me" appears in the assertion error
    * thenCode(doNothing).as("display me")
    *                    .isInstanceOf(Exception.class);
@@ -1112,7 +1112,7 @@ public class BDDAssertions extends Assertions {
    * thenCode(thrown).as("display me")
    *                 .isInstanceOf(Exception.class); </code></pre>
    * <p>
-   * This method was not named {@code then} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code then} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.

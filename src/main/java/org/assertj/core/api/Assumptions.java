@@ -136,7 +136,7 @@ public class Assumptions {
    * @since 2.9.0 / 3.9.0
    */
   @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> assumeThat(String actual) {
+  public static AbstractStringAssert<?> assumeThat(String actual) {
     return asAssumption(StringAssert.class, String.class, actual);
   }
 

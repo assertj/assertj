@@ -61,7 +61,7 @@ import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
- * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded, 
+ * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded,
  * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve
  * the proper <code>assertThat</code> method (normally <code>assertThat(Throwable)</code> as foo might implement an interface like List,
  * if that occurred <code>assertThat(List)</code> would also be a possible choice - thus confusing java 8.
@@ -518,7 +518,7 @@ public class AssertionsForClassTypes {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
+  public static AbstractStringAssert<?> assertThat(String actual) {
     return new StringAssert(actual);
   }
 
@@ -643,8 +643,8 @@ public class AssertionsForClassTypes {
    * Throwable thrown = catchThrowable(() -&gt; {});
    * assertThat(thrown).as("display me")
    *                   .isInstanceOf(Exception.class);</code></pre>
-   * 
-   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided 
+   *
+   * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -655,7 +655,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method 
+   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
    * Example:
@@ -668,7 +668,7 @@ public class AssertionsForClassTypes {
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
-   * <p> 
+   * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
    * assertThatThrownBy(() -&gt; {}).as("display me")
@@ -681,9 +681,9 @@ public class AssertionsForClassTypes {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
-   * 
+   *
    * @return the created {@link ThrowableAssert}.
-   * 
+   *
    * @since 3.9.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
@@ -701,7 +701,7 @@ public class AssertionsForClassTypes {
    *              .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
-   * 
+   *
    * @param <T> the exception type.
    * @param exceptionType the class of exception type.
    * @return the created {@link ThrowableTypeAssert}.
@@ -721,22 +721,22 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * 
+   *
    * // assertion succeeds
    * assertThatCode(callable).isInstanceOf(Exception.class)
    *                         .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
+   *
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
-   *   // do nothing 
-   * }; 
-   * 
+   *   // do nothing
+   * };
+   *
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")
    *                          .isInstanceOf(Exception.class);
@@ -746,7 +746,7 @@ public class AssertionsForClassTypes {
    * assertThatCode(thrown).as("display me")
    *                       .isInstanceOf(Exception.class); </code></pre>
    * <p>
-   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -763,11 +763,11 @@ public class AssertionsForClassTypes {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * </p>
-   * 
+   *
    * <p>
    * Example:
    * </p>
-   * 
+   *
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
    *   // when
@@ -789,31 +789,31 @@ public class AssertionsForClassTypes {
   /**
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null, 
-   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it, 
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
+   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
    * making it convenient to perform subtype-specific assertions on the result.
    * <p>
    * Example:
    * <pre><code class='java'> class CustomParseException extends Exception {
    *   int line;
    *   int column;
-   *   
+   *
    *   public CustomParseException(String msg, int l, int c) {
    *     super(msg);
    *     line = l;
    *     column = c;
    *   }
    * }
-   * 
+   *
    * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                                               CustomParseException.class);
    * // assertions pass
    * assertThat(e).hasMessageContaining("boom");
    * assertThat(e.line).isEqualTo(1);
    * assertThat(e.column).isEqualTo(5);
-   * 
+   *
    * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); }, 
+   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
    *                      RuntimeException.class);</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
@@ -835,7 +835,7 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#setRemoveAssertJRelatedElementsFromStackTrace(boolean)} so that Assertions offers a
    * full feature entry point to all AssertJ Assert features (but you can use {@link Fail} if you prefer).
-   * 
+   *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
@@ -845,7 +845,7 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Assertj
    * Assert features (but you can use Fail if you prefer).
-   * 
+   *
    * @param failureMessage error message.
    * @throws AssertionError with the given message.
    */
@@ -856,7 +856,7 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use Fail if you prefer).
-   * 
+   *
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
@@ -870,7 +870,7 @@ public class AssertionsForClassTypes {
    * entry point to all AssertJ features (but you can use Fail if you prefer).
    *
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
-   * 
+   *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
@@ -882,7 +882,7 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#shouldHaveThrown(Class)} so that Assertions offers a full feature
    * entry point to all AssertJ features (but you can use Fail if you prefer).
-   * 
+   *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
@@ -896,23 +896,23 @@ public class AssertionsForClassTypes {
    * is less than this parameter) or it will be formatted with one element per line.
    * <p>
    * The following array will be formatted on one line as its length &lt; 80
-   * 
+   *
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
-   * 
+   *
    * // formatted as:
-   * 
+   *
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    * whereas this array is formatted on multiple lines (one element per line)
-   * 
+   *
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
-   * 
+   *
    * // formatted as:
-   * 
+   *
    * ["A Game of Thrones",
    *  "The Lord of the Rings",
    *  "Assassin's Apprentice",
    *  "Guards! Guards! (Discworld)"]</code></pre>
-   * 
+   *
    * @param maxLengthForSingleLineDescription the maximum length for an iterable/array to be displayed on one line
    */
   public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
@@ -942,7 +942,7 @@ public class AssertionsForClassTypes {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing))
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);</code></pre>
-   *           
+   *
    * @param <T> the type of value to extract.
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
@@ -973,7 +973,7 @@ public class AssertionsForClassTypes {
    *
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;, &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;); </code></pre>
-   * 
+   *
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @throws NullPointerException if the given property name is {@code null}.
@@ -1035,7 +1035,7 @@ public class AssertionsForClassTypes {
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = ... // init omitted
-   * 
+   *
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
    *
    * @param <K> the type of the key of this entry.
@@ -1284,7 +1284,7 @@ public class AssertionsForClassTypes {
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
-   * 
+   *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
@@ -1347,7 +1347,7 @@ public class AssertionsForClassTypes {
    * and with filter language based on java bean property :
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *           .containsOnly(james, rose);</code></pre>
-   *           
+   *
    * @param <E> the array elements type.
    * @param array the array to filter.
    * @throws NullPointerException if the given array is {@code null}.
@@ -1370,7 +1370,7 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
    *                           .and(&quot;assistsPerGame&quot;).greaterThan(7).get())
    *           .containsOnly(james, rose);</code></pre>
-   *           
+   *
    * @param <E> the iterable elements type.
    * @param iterableToFilter the iterable to filter.
    * @throws NullPointerException if the given array is {@code null}.
@@ -1386,17 +1386,17 @@ public class AssertionsForClassTypes {
    * value matches one of the given values.
    * <p>
    * As often, an example helps:
-   * 
+   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
-   * 
+   *
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
-   * 
+   *
    * assertThat(employees).filteredOn("age", in(800, 26))
    *                      .containsOnly(yoda, obiwan, luke);</code></pre>
-   * 
+   *
    * @param values values to match (one match is sufficient)
    * @return the created "in" filter
    */
@@ -1410,17 +1410,17 @@ public class AssertionsForClassTypes {
    * value matches does not match any of the given values.
    * <p>
    * As often, an example helps:
-   * 
+   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
-   * 
+   *
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
-   * 
+   *
    * assertThat(employees).filteredOn("age", notIn(800, 50))
    *                      .containsOnly(luke);</code></pre>
-   * 
+   *
    * @param valuesNotToMatch values not to match (none of the values must match)
    * @return the created "not in" filter
    */
@@ -1434,17 +1434,17 @@ public class AssertionsForClassTypes {
    * value matches does not match the given value.
    * <p>
    * As often, an example helps:
-   * 
+   *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
-   * 
+   *
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
-   * 
+   *
    * assertThat(employees).filteredOn("age", not(800))
    *                      .containsOnly(luke, noname);</code></pre>
-   * 
+   *
    * @param valueNotToMatch the value not to match
    * @return the created "not" filter
    */
@@ -1654,7 +1654,7 @@ public class AssertionsForClassTypes {
    * <p>
    * Example:
    * </p>
-   * 
+   *
    * <pre><code class='java'> final Date date = Dates.parse("2001-02-03");
    * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
    * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
@@ -1748,7 +1748,7 @@ public class AssertionsForClassTypes {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p>
    * Code examples:
-   * 
+   *
    * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *

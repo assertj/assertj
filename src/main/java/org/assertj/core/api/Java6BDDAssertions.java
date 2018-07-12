@@ -46,7 +46,7 @@ import org.assertj.core.util.CheckReturnValue;
  * Android-compatible BDD-style assertions duplicated from {@link BDDAssertions}.
  *
  * @see BDDAssertions
- * 
+ *
  * @since 2.5.0 / 3.5.0
  */
 public class Java6BDDAssertions {
@@ -448,7 +448,7 @@ public class Java6BDDAssertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    */
-  @CheckReturnValue      
+  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
                                                                              Class<ELEMENT_ASSERT> assertClass) {
@@ -491,7 +491,7 @@ public class Java6BDDAssertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
-  @CheckReturnValue      
+  @CheckReturnValue
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                            AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -526,7 +526,7 @@ public class Java6BDDAssertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    */
-  @CheckReturnValue      
+  @CheckReturnValue
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                          Class<ELEMENT_ASSERT> assertClass) {
@@ -826,7 +826,7 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static AbstractCharSequenceAssert<?, String> then(String actual) {
+  public static AbstractStringAssert<?> then(String actual) {
     return assertThat(actual);
   }
 
@@ -873,7 +873,7 @@ public class Java6BDDAssertions {
    *
    * }).isInstanceOf(Exception.class)
    *   .hasMessageContaining("boom");</code></pre>
-   *   
+   *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link Assertions#catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
@@ -885,8 +885,8 @@ public class Java6BDDAssertions {
    * Throwable thrown = catchThrowable(() -&gt; {});
    * then(thrown).as("display me")
    *             .isInstanceOf(Exception.class); </code></pre>
-   * 
-   * Alternatively you can also use {@code thenCode(ThrowingCallable)} for the test description provided 
+   *
+   * Alternatively you can also use {@code thenCode(ThrowingCallable)} for the test description provided
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -897,7 +897,7 @@ public class Java6BDDAssertions {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} like {@code thenThrownBy(ThrowingCallable)} but this method 
+   * Allows to capture and then assert on a {@link Throwable} like {@code thenThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
    * Example:
@@ -910,7 +910,7 @@ public class Java6BDDAssertions {
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
-   * <p> 
+   * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
    * thenThrownBy(() -&gt; {}).as("display me")
@@ -923,9 +923,9 @@ public class Java6BDDAssertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
-   * 
+   *
    * @return the created {@link ThrowableAssert}.
-   * 
+   *
    * @since 3.9.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
@@ -943,26 +943,26 @@ public class Java6BDDAssertions {
    * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * 
+   *
    * // assertion succeeds
    * thenCode(callable).isInstanceOf(Exception.class)
    *                   .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * thenCode(callable).doesNotThrowAnyException();</code></pre>
    *
-   * Contrary to {@code thenThrownBy(ThrowingCallable)} the test description provided with 
+   * Contrary to {@code thenThrownBy(ThrowingCallable)} the test description provided with
    * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
-   * 
+   *
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
-   *   // do nothing 
-   * }; 
-   * 
+   *   // do nothing
+   * };
+   *
    * // assertion fails and "display me" appears in the assertion error
    * thenCode(doNothing).as("display me")
    *                    .isInstanceOf(Exception.class);</code></pre>
    * <p>
-   * This method was not named {@code then} because the java compiler reported it ambiguous when used directly with a lambda :(  
+   * This method was not named {@code then} because the java compiler reported it ambiguous when used directly with a lambda :(
    *
    * @param shouldRaiseOrNotThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.

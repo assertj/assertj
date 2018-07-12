@@ -239,7 +239,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   public void withAssertions_assertThat_stream_Test() {
     assertThat(Stream.of("")).hasSize(1);
   }
-  
+
   /**
    * Test that the delegate method is called.
    */
@@ -263,7 +263,8 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_string_Test() {
-    assertThat("Hello world").startsWith("Hello");
+    assertThat("Hello world").startsWith("Hello")
+                             .isLessThanOrEqualTo("Hi World");
   }
 
   /**
@@ -598,7 +599,8 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_contentOf_with_charset_Test() {
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file", "UTF-8")).contains("a"));
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file",
+                                                                                              "UTF-8")).contains("a"));
   }
 
   /**
@@ -614,7 +616,8 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_linesOf_with_charsetTest() {
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(new File("/non-existent file", "UTF-8")).contains("a"));
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(new File("/non-existent file",
+                                                                                            "UTF-8")).contains("a"));
   }
 
   /**
@@ -798,4 +801,3 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     assertThat(new URI("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
   }
 }
-
