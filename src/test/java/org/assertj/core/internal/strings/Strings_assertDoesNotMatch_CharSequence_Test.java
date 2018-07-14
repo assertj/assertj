@@ -13,9 +13,11 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
-import static org.assertj.core.test.TestData.*;
+import static org.assertj.core.test.TestData.matchAnything;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.regex.PatternSyntaxException;
@@ -37,9 +39,10 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
 
   @Test
   public void should_throw_error_if_regular_expression_is_null() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    String pattern = null;
-    strings.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String pattern = null;
+      strings.assertDoesNotMatch(someInfo(), actual, pattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -51,14 +54,14 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   @Test
   public void should_fail_if_actual_matches_regular_expression() {
     String regex = matchAnything().pattern();
-    thrown.expectAssertionError(shouldNotMatch(actual, regex));
-    strings.assertDoesNotMatch(someInfo(), actual, regex);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), actual, regex))
+                                                   .withMessage(shouldNotMatch(actual, regex).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotMatch(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -68,9 +71,10 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
 
   @Test
   public void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    String pattern = null;
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String pattern = null;
+      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -83,14 +87,14 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   @Test
   public void should_fail_if_actual_matches_regular_expression_whatever_custom_comparison_strategy_is() {
     String regex = matchAnything().pattern();
-    thrown.expectAssertionError(shouldNotMatch(actual, regex));
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, regex);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, regex))
+                                                   .withMessage(shouldNotMatch(actual, regex).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

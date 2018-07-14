@@ -45,8 +45,8 @@ public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    floats.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

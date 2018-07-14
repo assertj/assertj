@@ -15,17 +15,14 @@ package org.assertj.core.api.date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.setLenientDateParsing;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.util.Date;
 
 import org.assertj.core.api.DateAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -34,8 +31,6 @@ import org.junit.Test;
  * @author Michal Kordas
  */
 public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
-  @Rule
-  public ExpectedException thrown = none();
 
   @Override
   @Before
@@ -81,9 +76,9 @@ public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
   public void should_fail_if_date_can_be_parsed_leniently_but_lenient_mode_is_disabled() {
     final Date date = parse("2001-02-03");
     setLenientDateParsing(false);
-    thrown.expectAssertionErrorWithMessageContaining("Failed to parse");
     try {
-      assertThat(date).isEqualTo("2001-01-34");
+      assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(date).isEqualTo("2001-01-34"))
+                                                     .withMessageContaining("Failed to parse");
     } finally {
       setLenientDateParsing(true);
     }

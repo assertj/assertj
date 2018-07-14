@@ -13,6 +13,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.matchAnything;
@@ -38,9 +39,10 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_throw_error_if_regular_expression_is_null() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    String regex = null;
-    strings.assertContainsPattern(someInfo(), actual, regex);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String regex = null;
+      strings.assertContainsPattern(someInfo(), actual, regex);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -52,14 +54,14 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsPattern(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsPattern(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_regular_expression() {
-    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
-    strings.assertContainsPattern(someInfo(), actual, "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsPattern(someInfo(), actual, "Luke"))
+                                                   .withMessage(shouldContainPattern(actual, "Luke").create());
   }
 
   @Test
@@ -69,9 +71,10 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    String regex = null;
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, regex);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String regex = null;
+      stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, regex);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -83,14 +86,14 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_regular_expression_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldContainPattern(actual, "Luke"));
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, "Luke"))
+                                                   .withMessage(shouldContainPattern(actual, "Luke").create());
   }
 
   @Test

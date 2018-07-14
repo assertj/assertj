@@ -13,6 +13,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.matchAnything;
@@ -37,9 +38,10 @@ public class Strings_assertDoesNotContainPattern_CharSequence_Test extends Strin
 
   @Test
   public void should_throw_error_if_regular_expression_is_null() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    final String nullRegex = null;
-    strings.assertDoesNotContainPattern(someInfo(), ACTUAL, nullRegex);
+    assertThatNullPointerException().isThrownBy(() -> {
+      final String nullRegex = null;
+      strings.assertDoesNotContainPattern(someInfo(), ACTUAL, nullRegex);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -51,14 +53,14 @@ public class Strings_assertDoesNotContainPattern_CharSequence_Test extends Strin
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotContainPattern(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainPattern(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_regular_expression() {
-    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN));
-    strings.assertDoesNotContainPattern(someInfo(), ACTUAL, CONTAINED_PATTERN);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainPattern(someInfo(), ACTUAL, CONTAINED_PATTERN))
+                                                   .withMessage(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
   }
 
   @Test
@@ -68,9 +70,10 @@ public class Strings_assertDoesNotContainPattern_CharSequence_Test extends Strin
 
   @Test
   public void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    String nullRegex = null;
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, nullRegex);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String nullRegex = null;
+      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, nullRegex);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -82,15 +85,16 @@ public class Strings_assertDoesNotContainPattern_CharSequence_Test extends Strin
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), null,
-                                                                             matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), null,
+                                                                               matchAnything().pattern());
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_regular_expression_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN));
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, CONTAINED_PATTERN);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, CONTAINED_PATTERN))
+                                                   .withMessage(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
   }
 
   @Test

@@ -87,16 +87,12 @@ public class ObjectArrayAssert_flatExtracting_Test {
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_property() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
-
-    assertThat(array(homer)).as("expected description").flatExtracting("children").isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description").flatExtracting("children").isEmpty()).withMessageContaining("[expected description]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
-
-    assertThat(array(homer)).as("expected description").flatExtracting(children).isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description").flatExtracting(children).isEmpty()).withMessageContaining("[expected description]");
   }
 
   @Test

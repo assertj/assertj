@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -61,20 +63,22 @@ public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test ex
 
   @Test
   public void should_fail_if_key_condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate for entries key should not be null");
-    maps.assertHasEntrySatisfyingConditions(someInfo(), actual, null, isGreen);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), actual, null,
+                                                                                              isGreen))
+                                    .withMessage("The condition to evaluate for entries key should not be null");
   }
 
   @Test
   public void should_fail_if_value_condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate for entries value should not be null");
-    maps.assertHasEntrySatisfyingConditions(someInfo(), actual, isColor, null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), actual,
+                                                                                              isColor, null))
+                                    .withMessage("The condition to evaluate for entries value should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasEntrySatisfyingConditions(someInfo(), null, isColor, isGreen);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), null, isColor, isGreen))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

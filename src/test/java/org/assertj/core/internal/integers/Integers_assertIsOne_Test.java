@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.integers;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -33,8 +34,8 @@ public class Integers_assertIsOne_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one() {
-    thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    integers.assertIsOne(someInfo(), 0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsOne(someInfo(), 0))
+                                                   .withMessage("expected:<[1]> but was:<[0]>");
   }
 
   @Test
@@ -44,8 +45,8 @@ public class Integers_assertIsOne_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    integersWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0))
+                                                   .withMessage("expected:<[1]> but was:<[0]>");
   }
 
 }

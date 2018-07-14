@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
@@ -43,48 +46,50 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_contains_sequence_with_values_between() {
     String[] sequenceValues = { "{ ", "'author':'George Martin'}" };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues));
-    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, sequenceValues))
+                                                   .withMessage(shouldContainSequence(actual, sequenceValues).create());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_all_given_strings() {
     String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "unexpectedString" };
-    thrown.expectAssertionError(shouldContain(actual, sequenceValues, newLinkedHashSet("unexpectedString")));
-    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, sequenceValues))
+                                                   .withMessage(shouldContain(actual, sequenceValues, newLinkedHashSet("unexpectedString")).create());
   }
 
   @Test
   public void should_fail_if_actual_contains_values_but_not_in_the_given_order() {
     String[] sequenceValues = { "'A Game of Thrones'", "'title':" };
-    thrown.expectAssertionError(shouldContainSequence(actual, sequenceValues));
-    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, sequenceValues))
+                                                   .withMessage(shouldContainSequence(actual, sequenceValues).create());
   }
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
-    strings.assertContainsSequence(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, null))
+                                    .withMessage(arrayOfValuesToLookForIsNull());
   }
 
   @Test
   public void should_throw_error_if_any_value_of_sequence_is_null() {
     String[] sequenceValues = { "author", null };
-    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
-    strings.assertContainsSequence(someInfo(), actual, sequenceValues);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual,
+                                                                                     sequenceValues))
+                                    .withMessage("Expecting CharSequence elements not to be null but found one at index 1");
   }
 
   @Test
   public void should_throw_error_if_sequence_values_are_empty() {
-    thrown.expectIllegalArgumentException(arrayOfValuesToLookForIsEmpty());
-    strings.assertContainsSequence(someInfo(), actual, new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual,
+                                                                                         new String[0]))
+                                        .withMessage(arrayOfValuesToLookForIsEmpty());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "," };
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsSequence(someInfo(), null, sequenceValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), null, sequenceValues))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -102,7 +107,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
-                                              comparisonStrategy));
+                                              comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy
                                                 .assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
   }
@@ -111,7 +116,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
     String[] sequenceValues = { ", 'author'", "'A Game of Thrones'" };
     thrown.expectAssertionError(
-                                shouldContainSequence(actual, sequenceValues, comparisonStrategy));
+                                shouldContainSequence(actual, sequenceValues, comparisonStrategy).create());
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 }

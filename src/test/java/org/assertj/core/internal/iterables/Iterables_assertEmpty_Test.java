@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -43,8 +44,8 @@ public class Iterables_assertEmpty_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -67,8 +68,8 @@ public class Iterables_assertEmpty_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    iterablesWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

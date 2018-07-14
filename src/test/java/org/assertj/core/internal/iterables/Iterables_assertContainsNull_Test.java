@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -56,8 +57,8 @@ public class Iterables_assertContainsNull_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsNull(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsNull(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -92,8 +93,8 @@ public class Iterables_assertContainsNull_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsNull(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsNull(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

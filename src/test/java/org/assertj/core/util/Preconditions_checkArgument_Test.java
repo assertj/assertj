@@ -12,21 +12,17 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Preconditions_checkArgument_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   @Test
   public void should_throw_illegalargumentexception_if_expression_is_false() {
-    thrown.expectIllegalArgumentException("Invalid parameter foo");
-    Preconditions.checkArgument(false, "Invalid parameter %s", "foo");
+    assertThatIllegalArgumentException().isThrownBy(() -> Preconditions.checkArgument(false, "Invalid parameter %s",
+                                                                                      "foo"))
+                                        .withMessage("Invalid parameter foo");
   }
 
   @Test

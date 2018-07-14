@@ -13,6 +13,7 @@
 package org.assertj.core.api.optionaldouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -25,9 +26,8 @@ public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optionalDouble_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((OptionalDouble) null).hasValue(10.0);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).hasValue(10.0))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -40,17 +40,15 @@ public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
     OptionalDouble actual = OptionalDouble.of(5.0);
     double expectedValue = 10.0;
 
-    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
-
-    assertThat(actual).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
+                                                   .withMessage(shouldContain(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_if_optionalDouble_is_empty() {
     double expectedValue = 10.0;
 
-    thrown.expectAssertionError(shouldContain(expectedValue).create());
-
-    assertThat(OptionalDouble.empty()).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalDouble.empty()).hasValue(expectedValue))
+                                                   .withMessage(shouldContain(expectedValue).create());
   }
 }

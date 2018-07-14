@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -71,14 +72,14 @@ public class Arrays_containsAnyOf_Test extends BaseArraysTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsAnyOf(someInfo(), failures, null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

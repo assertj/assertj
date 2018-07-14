@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.fail;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Fail.shouldHaveThrown;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -33,13 +34,13 @@ public class Fail_fail_because_exception_should_have_thrown_Test {
 
   @Test
   public void should_include_message_built_with_given_exception_name() {
-    thrown.expectAssertionError("NullPointerException should have been thrown");
-    shouldHaveThrown(NullPointerException.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shouldHaveThrown(NullPointerException.class))
+                                                   .withMessage("NullPointerException should have been thrown");
   }
 
   @Test
   public void should_include_message_built_with_given_throwable_name() {
-    thrown.expectAssertionError("OutOfMemoryError should have been thrown");
-    shouldHaveThrown(OutOfMemoryError.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shouldHaveThrown(OutOfMemoryError.class))
+                                                   .withMessage("OutOfMemoryError should have been thrown");
   }
 }

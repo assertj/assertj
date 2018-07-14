@@ -30,8 +30,8 @@ public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertIsCanonical(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsCanonical(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

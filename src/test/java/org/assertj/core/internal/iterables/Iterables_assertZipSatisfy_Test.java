@@ -13,6 +13,8 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
@@ -84,22 +86,24 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_consumer_is_null() {
-    thrown.expectNullPointerException("The BiConsumer expressing the assertions requirements must not be null");
-    assertThat(actual).zipSatisfy(other, null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).zipSatisfy(other, null))
+                                    .withMessage("The BiConsumer expressing the assertions requirements must not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    actual = null;
-    iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      actual = null;
+      iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("The iterable to zip actual with must not be null");
-    other = null;
-    iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
+    assertThatNullPointerException().isThrownBy(() -> {
+      other = null;
+      iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
+    }).withMessage("The iterable to zip actual with must not be null");
   }
 
   private static String firstChar(String s2) {

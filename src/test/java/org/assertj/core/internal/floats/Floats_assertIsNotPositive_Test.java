@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.floats;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.FloatsBaseTest;
@@ -37,20 +39,20 @@ public class Floats_assertIsNotPositive_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_positive() {
-	thrown.expectAssertionError("%nExpecting:%n <6.0f>%nto be less than or equal to:%n <0.0f> ");
-	floats.assertIsNotPositive(someInfo(), 6f);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotPositive(someInfo(), 6f))
+                                                   .withMessage(format("%nExpecting:%n <6.0f>%nto be less than or equal to:%n <0.0f> "));
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-	thrown.expectAssertionError("%nExpecting:%n <-1.0f>%nto be less than or equal to:%n <0.0f> when comparing values using AbsValueComparator");
-	floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1f);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1f))
+                                                   .withMessage(format("%nExpecting:%n <-1.0f>%nto be less than or equal to:%n <0.0f> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-	thrown.expectAssertionError("%nExpecting:%n <1.0f>%nto be less than or equal to:%n <0.0f> when comparing values using AbsValueComparator");
-	floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1f);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1f))
+                                                   .withMessage(format("%nExpecting:%n <1.0f>%nto be less than or equal to:%n <0.0f> when comparing values using AbsValueComparator"));
   }
 
 }

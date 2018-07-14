@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.Sets.newHashSet;
 
@@ -39,9 +40,10 @@ public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_fil
 
   @Test
   public void should_fail_if_given_predicate_is_null() {
-    thrown.expectIllegalArgumentException("The filter predicate should not be null");
-    Predicate<? super Employee> predicate = null;
-    assertThat(employees).filteredOn(predicate);
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      Predicate<? super Employee> predicate = null;
+      assertThat(employees).filteredOn(predicate);
+    }).withMessage("The filter predicate should not be null");
   }
 
   @Test

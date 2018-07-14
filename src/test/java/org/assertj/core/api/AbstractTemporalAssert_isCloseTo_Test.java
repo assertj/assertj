@@ -26,6 +26,8 @@ import static java.time.temporal.ChronoUnit.HOURS;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.WEEKS;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -201,34 +203,35 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    nullAssert.isCloseTo(closeTemporal, offset);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> nullAssert.isCloseTo(closeTemporal, offset))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_temporal_parameter_is_null() {
-    expectException(NullPointerException.class, "The temporal object to compare actual with should not be null");
-    temporalAssert.isCloseTo((Temporal) null, offset);
+    assertThatNullPointerException().isThrownBy(() -> temporalAssert.isCloseTo((Temporal) null, offset))
+                                    .withMessage("The temporal object to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_temporal_parameter_as_string_is_null() {
-    expectException(NullPointerException.class,
-                    "The String representing of the temporal object to compare actual with should not be null");
-    temporalAssert.isCloseTo((String) null, offset);
+    assertThatNullPointerException().isThrownBy(() -> temporalAssert.isCloseTo((String) null, offset))
+                                    .withMessage("The String representing of the temporal object to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_offset_parameter_is_null() {
-    expectException(NullPointerException.class, "The offset should not be null");
-    temporalAssert.isCloseTo(closeTemporal, null);
+    assertThatNullPointerException().isThrownBy(() -> temporalAssert.isCloseTo(closeTemporal, null))
+                                    .withMessage("The offset should not be null");
   }
 
   @Test
   public void should_fail_when_offset_is_inapplicable() {
     if (inapplicableOffset != null) {
-      expectException(UnsupportedTemporalTypeException.class, "Unsupported unit: " + inapplicableOffset.getUnit());
-      temporalAssert.isCloseTo(closeTemporal, inapplicableOffset);
+      assertThatExceptionOfType(UnsupportedTemporalTypeException.class).isThrownBy(() -> temporalAssert.isCloseTo(closeTemporal,
+                                                                                                                  inapplicableOffset))
+                                                                       .withMessage("Unsupported unit: "
+                                                                                    + inapplicableOffset.getUnit());
     }
   }
 
@@ -244,14 +247,14 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
 
   @Test
   public void should_fail_outside_offset() {
-    thrown.expectAssertionError(differenceMessage);
-    temporalAssert.isCloseTo(farTemporal, offset);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert.isCloseTo(farTemporal, offset))
+                                                   .withMessage(differenceMessage);
   }
 
   @Test
   public void should_fail_when_temporal_passed_as_string_is_outside_offset() {
-    thrown.expectAssertionError(differenceMessage);
-    temporalAssert.isCloseTo(farTemporalAsString, offset);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert.isCloseTo(farTemporalAsString, offset))
+                                                   .withMessage(differenceMessage);
   }
 
 }

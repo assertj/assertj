@@ -13,6 +13,7 @@
 package org.assertj.core.api.predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ShouldAccept.shouldAccept;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -37,9 +38,8 @@ public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((Predicate<String>) null).accepts("first", "second");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).accepts("first", "second"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -62,18 +62,16 @@ public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
   public void should_fail_when_predicate_does_not_accept_value() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
-    thrown.expectAssertionError(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).accepts(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(expectedValue))
+                                                   .withMessage(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test
   public void should_fail_when_predicate_does_not_accept_value_with_string_description() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
-    thrown.expectAssertionError("[test] " + shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).as("test").accepts(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").accepts(expectedValue))
+                                                   .withMessage("[test] " + shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test

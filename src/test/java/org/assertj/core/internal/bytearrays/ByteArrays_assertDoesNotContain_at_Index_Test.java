@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.test.ByteArrays.emptyArray;
-import static org.assertj.core.test.TestData.*;
+import static org.assertj.core.test.TestData.someIndex;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -39,8 +40,8 @@ public class ByteArrays_assertDoesNotContain_at_Index_Test extends ByteArraysBas
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, (byte) 8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, (byte) 8, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -55,8 +56,8 @@ public class ByteArrays_assertDoesNotContain_at_Index_Test extends ByteArraysBas
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    arrays.assertDoesNotContain(someInfo(), actual, (byte) 8, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, (byte) 8, null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -80,8 +81,8 @@ public class ByteArrays_assertDoesNotContain_at_Index_Test extends ByteArraysBas
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, (byte) -8, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, (byte) -8, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -96,8 +97,11 @@ public class ByteArrays_assertDoesNotContain_at_Index_Test extends ByteArraysBas
 
   @Test
   public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("Index should not be null");
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, (byte) -8, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                              actual,
+                                                                                                              (byte) -8,
+                                                                                                              null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test

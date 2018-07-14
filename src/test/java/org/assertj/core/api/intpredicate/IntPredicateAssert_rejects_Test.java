@@ -13,6 +13,7 @@
 package org.assertj.core.api.intpredicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -37,9 +38,8 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
 
   @Test
   public void should_fail_when_predicate_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((IntPredicate) null).rejects(3, 4, 5);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((IntPredicate) null).rejects(3, 4, 5))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -54,9 +54,8 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
-    thrown.expectAssertionError(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).rejects(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(expectedValue))
+                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -64,9 +63,8 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
-    thrown.expectAssertionError("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).as("test").rejects(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").rejects(expectedValue))
+                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -74,9 +72,8 @@ public class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = num -> num <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
     List<Integer> matchValuesList = IntStream.of(matchValues).boxed().collect(Collectors.toList());
-    thrown.expectAssertionError(noElementsShouldMatch(matchValuesList, 1, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).rejects(matchValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(matchValues))
+                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1, PredicateDescription.GIVEN).create());
   }
 
   @Test

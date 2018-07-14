@@ -13,6 +13,7 @@
 package org.assertj.core.api.atomic.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -36,15 +37,16 @@ public class AtomicBooleanAssert_isTrue_Test {
   @Test
   public void should_fail_when_actual_value_is_false() {
     AtomicBoolean actual = new AtomicBoolean(false);
-    thrown.expectAssertionError(shouldHaveValue(actual, true).create());
-    assertThat(actual).isTrue();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isTrue())
+                                                   .withMessage(shouldHaveValue(actual, true).create());
   }
 
   @Test
   public void should_fail_when_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    AtomicBoolean actual = null;
-    assertThat(actual).isTrue();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      AtomicBoolean actual = null;
+      assertThat(actual).isTrue();
+    }).withMessage(actualIsNull());
   }
   
 }

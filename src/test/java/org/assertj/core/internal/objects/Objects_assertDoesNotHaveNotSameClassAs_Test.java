@@ -12,12 +12,12 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -50,14 +50,14 @@ public class Objects_assertDoesNotHaveNotSameClassAs_Test extends ObjectsBaseTes
 
   @Test
   public void should_throw_error_if_type_is_null() {
-    thrown.expectNullPointerException("The given object should not be null");
-    objects.assertDoesNotHaveSameClassAs(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> objects.assertDoesNotHaveSameClassAs(someInfo(), actual, null))
+                                                     .withMessage("The given object should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertDoesNotHaveSameClassAs(someInfo(), null, Object.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertDoesNotHaveSameClassAs(someInfo(), null, Object.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

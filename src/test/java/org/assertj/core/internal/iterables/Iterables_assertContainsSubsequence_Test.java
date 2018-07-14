@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -47,9 +48,10 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
 
   @Test
   public void should_throw_error_if_subsequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    Object[] nullArray = null;
-    iterables.assertContainsSubsequence(someInfo(), actual, nullArray);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Object[] nullArray = null;
+      iterables.assertContainsSubsequence(someInfo(), actual, nullArray);
+    }).withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -65,8 +67,8 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsSubsequence(someInfo(), null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsSubsequence(someInfo(), null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

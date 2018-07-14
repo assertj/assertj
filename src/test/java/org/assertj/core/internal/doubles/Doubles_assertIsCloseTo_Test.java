@@ -76,14 +76,14 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    doubles.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_if_expected_value_is_null() {
-    thrown.expectNullPointerException("The given number should not be null");
-    doubles.assertIsCloseTo(someInfo(), 6d, null, offset(1d));
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), 6d, null, offset(1d)))
+                                    .withMessage("The given number should not be null");
   }
 
   @Test
@@ -170,8 +170,11 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
 
   @Test
   public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(offsetIsNull());
-    doublesWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), new Double(8d), new Double(8d), null);
+    assertThatNullPointerException().isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
+                                                                                                            new Double(8d),
+                                                                                                            new Double(8d),
+                                                                                                            null))
+                                    .withMessage(offsetIsNull());
   }
 
   @Test
@@ -200,8 +203,10 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
 
   @Test
   public void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("The given number should not be null");
-    doublesWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), 6d, null, offset(1d));
+    assertThatNullPointerException().isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
+                                                                                                            6d, null,
+                                                                                                            offset(1d)))
+                                    .withMessage("The given number should not be null");
   }
 
 }

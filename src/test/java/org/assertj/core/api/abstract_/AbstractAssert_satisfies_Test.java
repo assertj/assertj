@@ -13,6 +13,8 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.function.Consumer;
@@ -54,15 +56,13 @@ public class AbstractAssert_satisfies_Test {
 
   @Test
   public void should_fail_according_to_requirements() {
-    thrown.expectAssertionError("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
-    assertThat(new Jedi("Vader", "Red")).satisfies(jediRequirements);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).satisfies(jediRequirements))
+                                                   .withMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
   }
 
   @Test
   public void should_fail_if_consumer_is_null() {
-    // then
-    thrown.expectNullPointerException("The Consumer<T> expressing the assertions requirements must not be null");
-    // when
-    assertThat(yoda).satisfies(null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(null))
+                                    .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 }

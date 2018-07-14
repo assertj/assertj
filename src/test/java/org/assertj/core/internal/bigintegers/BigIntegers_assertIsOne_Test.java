@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bigintegers;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -39,8 +40,8 @@ public class BigIntegers_assertIsOne_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one() {
-    thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    numbers.assertIsOne(someInfo(), BigInteger.ZERO);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsOne(someInfo(), BigInteger.ZERO))
+                                                   .withMessage("expected:<[1]> but was:<[0]>");
   }
 
   @Test
@@ -50,8 +51,8 @@ public class BigIntegers_assertIsOne_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[1]> but was:<[0]>");
-    numbersWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigInteger.ZERO);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigInteger.ZERO))
+                                                   .withMessage("expected:<[1]> but was:<[0]>");
   }
 
 }

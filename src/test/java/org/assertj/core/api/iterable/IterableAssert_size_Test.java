@@ -14,6 +14,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.HashSet;
@@ -46,7 +47,7 @@ public class IterableAssert_size_Test {
   @Test
   public void should_have_an_helpful_error_message_when_size_is_used_on_a_null_iterable() {
     Iterable<Integer> nullList = null;
-    thrown.expectNullPointerException("Can not perform assertions on the size of a null iterable.");
-    assertThat(nullList).size().isGreaterThan(1);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(nullList).size().isGreaterThan(1))
+                                    .withMessage("Can not perform assertions on the size of a null iterable.");
   }
 }

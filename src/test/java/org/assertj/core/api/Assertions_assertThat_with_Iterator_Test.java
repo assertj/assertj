@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -177,8 +178,8 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    assertThat(stringIterator).startsWith((String[])null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(stringIterator).startsWith((String[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -199,9 +200,10 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    Iterator<Object> names = null;
-    assertThat(names).startsWith(emptyArray());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      Iterator<Object> names = null;
+      assertThat(names).startsWith(emptyArray());
+    }).withMessage(actualIsNull());
   }
 
   @Test

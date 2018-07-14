@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.floatarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeSorted.*;
 import static org.assertj.core.test.FloatArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
@@ -54,8 +55,8 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertIsSorted(someInfo(), (float[]) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (float[]) null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -89,8 +90,8 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (float[]) null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (float[]) null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

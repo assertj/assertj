@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.conditions;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.internal.Conditions;
@@ -34,14 +36,15 @@ public class Conditions_assertIsNotNull_Test extends ConditionsBaseTest {
 
   @Test
   public void should_throw_error_if_Condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate should not be null");
-    conditions.assertIsNotNull(null);
+    assertThatNullPointerException().isThrownBy(() -> conditions.assertIsNotNull(null))
+                                    .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
   public void should_throw_error_with_the_given_alternative_error_message_if_Condition_is_null() {
-    thrown.expectNullPointerException("alternative error message");
-    conditions.assertIsNotNull(null, "%s error message", "alternative");
+    assertThatNullPointerException().isThrownBy(() -> conditions.assertIsNotNull(null, "%s error message",
+                                                                                 "alternative"))
+                                    .withMessage("alternative error message");
   }
 
 }

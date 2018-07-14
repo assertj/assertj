@@ -13,6 +13,8 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.presentation.StandardRepresentation;
@@ -27,22 +29,22 @@ public class AbstractAssert_withRepresentation_Test {
 
   @Test
   public void should_throw_error_if_description_is_null() {
-    thrown.expectNullPointerException("The representation to use should not be null.");
-    assertThat(new Example()).withRepresentation(null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(new Example()).withRepresentation(null))
+                                    .withMessage("The representation to use should not be null.");
   }
 
   @Test
   public void should_be_able_to_use_a_custom_representation_for_error_messages() {
-    thrown.expectAssertionError("expected:<null> but was:<Example>");
-    assertThat(new Example()).withRepresentation(new CustomRepresentation())
-                             .isNull();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      assertThat(new Example()).withRepresentation(new CustomRepresentation()).isNull();
+    }).withMessage("expected:<null> but was:<Example>");
   }
 
   @Test
   public void should_be_able_to_override_an_existing_representation() {
-    thrown.expectAssertionErrorWithMessageContaining("$foo$", "$bar$");
-    assertThat("foo").withRepresentation(new CustomRepresentation())
-                       .startsWith("bar");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("foo").withRepresentation(new CustomRepresentation())
+                                                                                      .startsWith("bar"))
+                                                   .withMessageContaining("$foo$").withMessageContaining("$bar$");
   }
 
   private class Example {

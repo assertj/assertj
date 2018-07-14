@@ -13,6 +13,8 @@
 package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalTime;
@@ -35,15 +37,14 @@ public class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void test_isEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("expected:<03:0[3:03]> but was:<03:0[0:05]>");
-    assertThat(LocalTime.of(3, 0, 5)).isEqualTo("03:03:03");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0, 5)).isEqualTo("03:03:03"))
+                                                   .withMessage("expected:<03:0[3:03]> but was:<03:0[0:05]>");
   }
 
   @Test
   public void should_fail_if_timeTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-        "The String representing the LocalTime to compare actual with should not be null");
-    assertThat(LocalTime.now()).isEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isEqualTo((String) null))
+                                        .withMessage("The String representing the LocalTime to compare actual with should not be null");
   }
 
 }

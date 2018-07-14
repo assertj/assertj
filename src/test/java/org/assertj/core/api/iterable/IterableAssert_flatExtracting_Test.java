@@ -142,46 +142,44 @@ public class IterableAssert_flatExtracting_Test {
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
-
-    assertThat(newArrayList(homer)).as("expected description")
-                                   .flatExtracting(children)
-                                   .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newArrayList(homer)).as("expected description")
+                                                                                                    .flatExtracting(children)
+                                                                                                    .isEmpty())
+                                                   .withMessageContaining("[expected description]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_single_field_name() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
-
-    assertThat(newArrayList(homer)).as("expected description")
-                                   .flatExtracting("children")
-                                   .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newArrayList(homer)).as("expected description")
+                                                                                                    .flatExtracting("children")
+                                                                                                    .isEmpty())
+                                                   .withMessageContaining("[expected description]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_multiple_field_names() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
-
-    assertThat(newArrayList(homer)).as("expected description")
-                                   .flatExtracting("children", "name")
-                                   .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newArrayList(homer)).as("expected description")
+                                                                                                    .flatExtracting("children",
+                                                                                                                    "name")
+                                                                                                    .isEmpty())
+                                                   .withMessageContaining("[expected description]");
   }
 
   public void should_keep_existing_description_if_set_when_extracting_using_multiple_extractors_varargs() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
-
-    assertThat(newArrayList(homer)).as("expected description")
-                                   .flatExtracting(children, children)
-                                   .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newArrayList(homer)).as("expected description")
+                                                                                                    .flatExtracting(children,
+                                                                                                                    children)
+                                                                                                    .isEmpty())
+                                                   .withMessageContaining("[expected description]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_multiple_throwing_extractors_varargs() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected description]");
-
-    assertThat(newArrayList(homer)).as("expected description")
-                                   .flatExtracting(throwingExtractor, throwingExtractor)
-                                   .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newArrayList(homer)).as("expected description")
+                                                                                                    .flatExtracting(throwingExtractor,
+                                                                                                                    throwingExtractor)
+                                                                                                    .isEmpty())
+                                                   .withMessageContaining("[expected description]");
   }
 
   @Test

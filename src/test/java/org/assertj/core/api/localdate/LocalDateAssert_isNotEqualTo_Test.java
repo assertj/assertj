@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api.localdate;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
@@ -38,15 +41,14 @@ public class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("%nExpecting:%n <2000-01-05>%nnot to be equal to:%n <2000-01-05>%n");
-    assertThat(LocalDate.of(2000, 1, 5)).isNotEqualTo(LocalDate.of(2000, 1, 5).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDate.of(2000, 1, 5)).isNotEqualTo(LocalDate.of(2000, 1, 5).toString()))
+                                                   .withMessage(format("%nExpecting:%n <2000-01-05>%nnot to be equal to:%n <2000-01-05>%n"));
   }
 
   @Test
   public void should_fail_if_date_as_string_parameter_is_null() {
-	expectException(IllegalArgumentException.class,
-	                "The String representing the LocalDate to compare actual with should not be null");
-	assertThat(LocalDate.now()).isNotEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDate.now()).isNotEqualTo((String) null))
+                                        .withMessage("The String representing the LocalDate to compare actual with should not be null");
   }
 
 }

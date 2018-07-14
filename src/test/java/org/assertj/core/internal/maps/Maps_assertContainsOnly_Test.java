@@ -14,6 +14,9 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -45,22 +48,22 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertContainsOnly(someInfo(), null, entry("name", "Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsOnly(someInfo(), null, entry("name", "Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_given_entries_array_is_null() {
-    thrown.expectNullPointerException(entriesToLookForIsNull());
-    maps.assertContainsOnly(someInfo(), actual, (MapEntry[])null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsOnly(someInfo(), actual, (MapEntry[]) null))
+                                    .withMessage(entriesToLookForIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_given_entries_array_is_empty() {
-    thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
-    maps.assertContainsOnly(someInfo(), actual, emptyEntries());
+    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsOnly(someInfo(), actual, emptyEntries()))
+                                        .withMessage(entriesToLookForIsEmpty());
   }
 
   @SuppressWarnings("unchecked")

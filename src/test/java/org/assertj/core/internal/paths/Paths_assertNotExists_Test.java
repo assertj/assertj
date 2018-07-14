@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,8 +27,8 @@ public class Paths_assertNotExists_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertDoesNotExist(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertDoesNotExist(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

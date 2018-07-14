@@ -13,11 +13,9 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -26,14 +24,13 @@ import org.junit.Test;
  * @author Christian Rösch
  */
 public class Preconditions_checkNotNullOrEmpty_String_Test {
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_throw_IllegalArgumentException_if_string_is_empty() {
-    thrown.expectIllegalArgumentException(Preconditions.ARGUMENT_EMPTY);
-    String string = "";
-    Preconditions.checkNotNullOrEmpty(string);
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      String string = "";
+      Preconditions.checkNotNullOrEmpty(string);
+    }).withMessage(Preconditions.ARGUMENT_EMPTY);
   }
 
   @Test

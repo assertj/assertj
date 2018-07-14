@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -33,20 +35,20 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence() {
-    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke"));
-    strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertContainsIgnoringCase(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", null))
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsIgnoringCase(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -61,20 +63,22 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(shouldContainIgnoringCase("Yoda", "Luke"));
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"))
+                                                   .withMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
+                                                                                                                              "Yoda",
+                                                                                                                              null))
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

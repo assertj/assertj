@@ -13,6 +13,8 @@
 package org.assertj.core.api.atomic;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -38,26 +40,23 @@ public class AtomicLongFieldUpdater_hasValue_Test {
 
   @Test
   public void should_fail_when_atomicLongFieldUpdater_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((AtomicLongFieldUpdater<Person>) null).hasValue(25L, person);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicLongFieldUpdater<Person>) null).hasValue(25L, person))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
     AtomicLongFieldUpdater<Person> fieldUpdater = AtomicLongFieldUpdater.newUpdater(Person.class, "age");
-    thrown.expectIllegalArgumentException("The expected value should not be <null>.");
-
-    assertThat(fieldUpdater).hasValue(null, person);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person))
+                                        .withMessage("The expected value should not be <null>.");
   }
 
   @Test
   public void should_fail_if_atomicLongFieldUpdater_does_not_contain_expected_value() throws Exception {
     AtomicLongFieldUpdater<Person> fieldUpdater = AtomicLongFieldUpdater.newUpdater(Person.class, "age");
 
-    thrown.expectAssertionError(shouldHaveValue(fieldUpdater, person.age, 25L, person).create());
-
-    assertThat(fieldUpdater).hasValue(25L, person);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue(25L, person))
+                                                   .withMessage(shouldHaveValue(fieldUpdater, person.age, 25L, person).create());
   }
 
   @Test

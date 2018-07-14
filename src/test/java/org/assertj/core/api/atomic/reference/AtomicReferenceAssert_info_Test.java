@@ -13,24 +13,21 @@
 package org.assertj.core.api.atomic.reference;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicReferenceAssert_info_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_info_update() {
     String assertionDescription = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(assertionDescription);
-    AtomicReference<String> actual = new AtomicReference<>("foo");
-    assertThat(actual).as(assertionDescription).hasValue("bar");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      AtomicReference<String> actual = new AtomicReference<>("foo");
+      assertThat(actual).as(assertionDescription).hasValue("bar");
+    }).withMessageContaining(assertionDescription);
   }
 
 }

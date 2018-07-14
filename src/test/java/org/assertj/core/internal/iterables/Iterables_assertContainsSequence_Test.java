@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -49,9 +50,10 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    Object[] nullArray = null;
-    iterables.assertContainsSequence(someInfo(), actual, nullArray);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Object[] nullArray = null;
+      iterables.assertContainsSequence(someInfo(), actual, nullArray);
+    }).withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -67,8 +69,8 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsSequence(someInfo(), null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsSequence(someInfo(), null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

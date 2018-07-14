@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -48,32 +51,37 @@ public class OffsetTimeAssert_isAfterOrEqualTo_Test extends OffsetTimeAssertBase
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <03:00:05Z>%n" +
-                                "to be after or equals to:%n" +
-                                "  <03:03:03Z>");
-    assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isAfterOrEqualTo(OffsetTime.of(3, 3, 3, 0, ZoneOffset.UTC));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
+                                                                                              ZoneOffset.UTC)).isAfterOrEqualTo(OffsetTime.of(3,
+                                                                                                                                              3,
+                                                                                                                                              3,
+                                                                                                                                              0,
+                                                                                                                                              ZoneOffset.UTC)))
+                                                   .withMessage(format("%n" +
+                                                                      "Expecting:%n" +
+                                                                      "  <03:00:05Z>%n" +
+                                                                      "to be after or equals to:%n" +
+                                                                      "  <03:03:03Z>"));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    OffsetTime actual = null;
-    assertThat(actual).isAfterOrEqualTo(OffsetTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      OffsetTime actual = null;
+      assertThat(actual).isAfterOrEqualTo(OffsetTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_offsetTime_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The OffsetTime to compare actual with should not be null");
-    assertThat(OffsetTime.now()).isAfterOrEqualTo((OffsetTime) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfterOrEqualTo((OffsetTime) null))
+                                        .withMessage("The OffsetTime to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_offsetTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the OffsetTime to compare actual with should not be null");
-    assertThat(OffsetTime.now()).isAfterOrEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfterOrEqualTo((String) null))
+                                        .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }
 
   private static void verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(OffsetTime timeToCheck,

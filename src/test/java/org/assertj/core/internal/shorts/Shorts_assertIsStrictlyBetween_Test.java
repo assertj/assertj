@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
@@ -41,8 +43,8 @@ public class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
   
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    shorts.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -98,8 +100,7 @@ public class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_in_range_end() {
-    thrown.expectIllegalArgumentException("The end value <0> must not be less than or equal to the start value <0>!");
-    AssertionInfo info = someInfo();
-    shorts.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
+    assertThatIllegalArgumentException().isThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), ONE, ZERO, ZERO))
+                                        .withMessage("The end value <0> must not be less than or equal to the start value <0>!");
   }
 }

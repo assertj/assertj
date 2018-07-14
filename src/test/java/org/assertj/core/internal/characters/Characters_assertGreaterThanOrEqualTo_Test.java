@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.characters;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Characters_assertGreaterThanOrEqualTo_Test extends CharactersBaseTe
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    characters.assertGreaterThanOrEqualTo(someInfo(), null, 'a');
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> characters.assertGreaterThanOrEqualTo(someInfo(), null, 'a'))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -64,8 +65,8 @@ public class Characters_assertGreaterThanOrEqualTo_Test extends CharactersBaseTe
 
   @Test
   public void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(actualIsNull());
-    charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 'a');
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 'a'))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

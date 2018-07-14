@@ -13,6 +13,9 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
@@ -51,20 +54,23 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
 
   @Test
   public void should_throw_error_if_given_iterable_is_empty() {
-    thrown.expectIllegalArgumentException(iterableValuesToLookForIsEmpty());
-    iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, emptyList());
+    assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(),
+                                                                                                      actual,
+                                                                                                      emptyList()))
+                                        .withMessage(iterableValuesToLookForIsEmpty());
   }
 
   @Test
   public void should_throw_error_if_given_iterable_is_null() {
-    thrown.expectNullPointerException(iterableValuesToLookForIsNull());
-    iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual,
+                                                                                                  null))
+                                    .withMessage(iterableValuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

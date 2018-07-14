@@ -13,13 +13,11 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.internal.ErrorMessages.percentageValueIsInRange;
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -28,8 +26,6 @@ import org.junit.Test;
  * @author Alexander Bischof
  */
 public class Percentage_withPercentage_with_Double_Test {
-  @Rule
-  public ExpectedException thrown = none();
 
   @SuppressWarnings("null")
   @Test
@@ -43,10 +39,9 @@ public class Percentage_withPercentage_with_Double_Test {
   @Test
   public void should_throw_error_if_value_is_negative() {
     double negative = -1d;
-    thrown.expectIllegalArgumentException(percentageValueIsInRange(negative));
-    withPercentage(negative);
+    assertThatIllegalArgumentException().isThrownBy(() -> withPercentage(negative))
+                                        .withMessage(percentageValueIsInRange(negative));
   }
-
 
   @Test
   public void should_create_Percentage() {

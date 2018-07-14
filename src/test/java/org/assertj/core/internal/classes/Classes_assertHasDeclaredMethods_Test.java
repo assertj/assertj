@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.classes;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
@@ -60,23 +62,27 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertHasDeclaredMethods(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredMethods(someInfo(), actual))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_has_some_declared_methods_and_no_expected_methods_are_given() {
-    thrown.expectAssertionError(shouldNotHaveMethods(actual, true,
-                                                     newTreeSet("publicMethod", "privateMethod", "protectedMethod")));
-    classes.assertHasDeclaredMethods(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredMethods(someInfo(),
+                                                                                                      actual))
+                                                   .withMessage(format(shouldNotHaveMethods(actual, true,
+                                                                                            newTreeSet("publicMethod",
+                                                                                                       "privateMethod",
+                                                                                                       "protectedMethod")).create()));
   }
 
   @Test()
   public void should_fail_if_actual_does_not_have_the_expected_declared_methods() {
     String[] expected = new String[] { "missingMethod", "publicMethod" };
-    thrown.expectAssertionError(shouldHaveMethods(actual, true,
-                                                  newTreeSet(expected),
-                                                  newTreeSet("missingMethod")));
-    classes.assertHasDeclaredMethods(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredMethods(someInfo(),
+                                                                                                      actual, expected))
+                                                   .withMessage(format(shouldHaveMethods(actual, true,
+                                                                                         newTreeSet(expected),
+                                                                                         newTreeSet("missingMethod")).create()));
   }
 }

@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
@@ -56,8 +58,8 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_fail_if_no_throwable_was_thrown() {
-    thrown.expectAssertionError("%nExpecting code to raise a throwable.");
-    assertThatThrownBy(() -> {}).hasMessage("boom ?");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"))
+                                                   .withMessage(format("%nExpecting code to raise a throwable."));
   }
 
   @Test
@@ -111,11 +113,10 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_fail_with_good_message_when_assertion_is_failing() {
-    thrown.expectAssertionErrorWithMessageContaining("Expecting message:",
-                                                     "<\"bam\">",
-                                                     "but was:",
-                                                     "<\"boom\">");
-    assertThatThrownBy(raisingException("boom")).hasMessage("bam");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom")).hasMessage("bam"))
+                                                   .withMessageContaining("Expecting message:")
+                                                   .withMessageContaining("<\"bam\">").withMessageContaining("but was:")
+                                                   .withMessageContaining("<\"boom\">");
   }
 
   private ThrowingCallable raisingException(final String reason) {

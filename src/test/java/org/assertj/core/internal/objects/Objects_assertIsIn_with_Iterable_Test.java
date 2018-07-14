@@ -13,6 +13,8 @@
 package org.assertj.core.internal.objects;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.internal.ErrorMessages.iterableIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -47,15 +49,16 @@ public class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_Iterable_is_null() {
-    thrown.expectNullPointerException(iterableIsNull());
-    Iterable<String> c = null;
-    objects.assertIsIn(someInfo(), "Yoda", c);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Iterable<String> c = null;
+      objects.assertIsIn(someInfo(), "Yoda", c);
+    }).withMessage(iterableIsNull());
   }
 
   @Test
   public void should_throw_error_if_Iterable_is_empty() {
-    thrown.expectIllegalArgumentException(ErrorMessages.iterableIsEmpty());
-    objects.assertIsIn(someInfo(), "Yoda", emptyList());
+    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertIsIn(someInfo(), "Yoda", emptyList()))
+                                        .withMessage(ErrorMessages.iterableIsEmpty());
   }
 
   @Test

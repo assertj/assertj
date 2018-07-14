@@ -12,7 +12,9 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
@@ -69,21 +71,21 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsOnly(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, arrayOf(8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null, arrayOf(8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     double[] expected = { 6d, 8d, 20d };
-    thrown.expectAssertionError(shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d)));
-    arrays.assertContainsOnly(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, expected))
+                                                   .withMessage(shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d)).create());
   }
 
   @Test
@@ -114,21 +116,26 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                            actual,
+                                                                                                            null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
-    thrown.expectAssertionError(shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d),
-                                                  absValueComparisonStrategy));
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, expected))
+                                                   .withMessage(format(shouldContainOnly(actual, expected,
+                                                                                         newArrayList(20d),
+                                                                                         newArrayList(10d),
+                                                                                         absValueComparisonStrategy).create()));
   }
 }

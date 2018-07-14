@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -48,7 +49,7 @@ public class Strings_assertBlank_Test extends StringsBaseTest {
       "\u202F", // non-breaking space
   }, trimValues = false)
   public void should_fail_if_string_is_not_blank(String actual) {
-    thrown.expectAssertionError(shouldBeBlank(actual));
-    strings.assertBlank(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertBlank(someInfo(), actual))
+                                                   .withMessage(shouldBeBlank(actual).create());
   }
 }

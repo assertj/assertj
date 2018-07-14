@@ -13,32 +13,30 @@
 package org.assertj.core.api.atomic.reference;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicReferenceAssert_overridingErrorMessage_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_custom_error_message_set_with_withFailMessage() {
     String error = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(error);
-    AtomicReference<String> actual = new AtomicReference<>("foo");
-    assertThat(actual).withFailMessage(error).hasValue("bar");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      AtomicReference<String> actual = new AtomicReference<>("foo");
+      assertThat(actual).withFailMessage(error).hasValue("bar");
+    }).withMessageContaining(error);
   }
 
   @Test
   public void should_honor_custom_error_message_set_with_overridingErrorMessage() {
     String error = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(error);
-    AtomicReference<String> actual = new AtomicReference<>("foo");
-    assertThat(actual).withFailMessage(error).hasValue("bar");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      AtomicReference<String> actual = new AtomicReference<>("foo");
+      assertThat(actual).withFailMessage(error).hasValue("bar");
+    }).withMessageContaining(error);
   }
   
 }

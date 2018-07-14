@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.characters;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Characters_assertLowerCase_Test extends CharactersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    characters.assertLowerCase(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> characters.assertLowerCase(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +60,8 @@ public class Characters_assertLowerCase_Test extends CharactersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

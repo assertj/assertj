@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.floats;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,20 +37,20 @@ public class Floats_assertIsNegative_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> ");
-    floats.assertIsNegative(someInfo(), 6.0f);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNegative(someInfo(), 6.0f))
+                                                   .withMessage(format("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> "));
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <-6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator");
-    floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (float) -6);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (float) -6))
+                                                   .withMessage(format("%nExpecting:%n <-6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator"));
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
-    thrown.expectAssertionError("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator");
-    floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f))
+                                                   .withMessage(format("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator"));
   }
 
 }

@@ -13,6 +13,7 @@
 package org.assertj.core.internal.paths;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
@@ -76,14 +77,14 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-	thrown.expectNullPointerException("The text to compare to should not be null");
-	paths.assertHasContent(someInfo(), path, null, charset);
+    assertThatNullPointerException().isThrownBy(() -> paths.assertHasContent(someInfo(), path, null, charset))
+                                    .withMessage("The text to compare to should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertHasContent(someInfo(), null, expected, charset);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasContent(someInfo(), null, expected, charset))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

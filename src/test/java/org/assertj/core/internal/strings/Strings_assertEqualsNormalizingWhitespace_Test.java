@@ -14,6 +14,9 @@ package org.assertj.core.internal.strings;
 
 import static com.tngtech.java.junit.dataprovider.DataProviders.$;
 import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.CharArrays.arrayOf;
@@ -41,19 +44,28 @@ public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseT
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
-    thrown.expectAssertionError(shouldBeEqualNormalizingWhitespace(null, "Luke"));
-    strings.assertEqualsNormalizingWhitespace(someInfo(), null, "Luke");  }
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(),
+                                                                                                               null,
+                                                                                                               "Luke"))
+                                                   .withMessage(format(shouldBeEqualNormalizingWhitespace(null,
+                                                                                                          "Luke").create()));
+  }
 
   @Test
   public void should_fail_if_actual_is_not_null_and_expected_is_null() {
-    thrown.expectNullPointerException(charSequenceToLookForIsNull());
-    strings.assertEqualsNormalizingWhitespace(someInfo(), "Luke", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(), "Luke",
+                                                                                                null))
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_both_Strings_are_not_equal_after_whitespace_is_normalized() {
-    thrown.expectAssertionError(shouldBeEqualNormalizingWhitespace("Yoda", "Luke"));
-    strings.assertEqualsNormalizingWhitespace(someInfo(), "Yoda", "Luke");  }
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(),
+                                                                                                               "Yoda",
+                                                                                                               "Luke"))
+                                                   .withMessage(format(shouldBeEqualNormalizingWhitespace("Yoda",
+                                                                                                          "Luke").create()));
+  }
 
   @Test
   @UseDataProvider("equalNormalizingWhitespaceGenerator")

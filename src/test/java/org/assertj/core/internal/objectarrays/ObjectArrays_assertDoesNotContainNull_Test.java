@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -54,8 +55,8 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContainNull(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainNull(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -84,8 +85,8 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBase
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

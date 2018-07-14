@@ -76,14 +76,14 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    floats.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_if_expected_value_is_null() {
-    thrown.expectNullPointerException("The given number should not be null");
-    floats.assertIsCloseTo(someInfo(), 6f, null, offset(1f));
+    assertThatNullPointerException().isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 6f, null, offset(1f)))
+                                    .withMessage("The given number should not be null");
   }
 
   @Test
@@ -170,8 +170,11 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
 
   @Test
   public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(offsetIsNull());
-    floatsWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), new Float(8f), new Float(8f), null);
+    assertThatNullPointerException().isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
+                                                                                                           new Float(8f),
+                                                                                                           new Float(8f),
+                                                                                                           null))
+                                    .withMessage(offsetIsNull());
   }
 
   @Test
@@ -200,8 +203,10 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
 
   @Test
   public void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("The given number should not be null");
-    floatsWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), 6f, null, offset(1f));
+    assertThatNullPointerException().isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
+                                                                                                           6f, null,
+                                                                                                           offset(1f)))
+                                    .withMessage("The given number should not be null");
   }
 
 }

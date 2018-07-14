@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api.file;
 
-import static org.assertj.core.test.ExpectedException.none;
-
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -28,16 +25,13 @@ import org.junit.Test;
  */
 public class FileAssert_usingCharset_String_invalid_Test extends FileAssertBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   @Override
   @Test
   public void should_have_internal_effects() {
-    thrown.expectIllegalArgumentException("Charset:<'Klingon'> is not supported on this system");
-    assertions.usingCharset("Klingon");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertions.usingCharset("Klingon"))
+                                        .withMessage("Charset:<'Klingon'> is not supported on this system");
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

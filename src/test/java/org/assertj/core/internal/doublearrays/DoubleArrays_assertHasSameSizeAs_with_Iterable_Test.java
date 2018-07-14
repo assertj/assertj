@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -30,8 +31,8 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSameSizeAs(someInfo(), null, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(someInfo(), null, other))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -39,9 +40,8 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
     AssertionInfo info = someInfo();
     List<String> other = newArrayList("Solo", "Leia");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null, info.representation()));
-
-    arrays.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null, info.representation()));
   }
 
   @Test

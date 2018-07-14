@@ -13,6 +13,7 @@
 package org.assertj.core.api.optionallong;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -25,9 +26,8 @@ public class OptionalLongAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_when_OptionalLong_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((OptionalLong) null).hasValue(10L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalLong) null).hasValue(10L))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -40,17 +40,15 @@ public class OptionalLongAssert_hasValue_Test extends BaseTest {
     OptionalLong actual = OptionalLong.of(5L);
     long expectedValue = 10L;
 
-    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
-
-    assertThat(actual).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
+                                                   .withMessage(shouldContain(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_if_OptionalLong_is_empty() {
     long expectedValue = 10L;
 
-    thrown.expectAssertionError(shouldContain(expectedValue).create());
-
-    assertThat(OptionalLong.empty()).hasValue(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalLong.empty()).hasValue(expectedValue))
+                                                   .withMessage(shouldContain(expectedValue).create());
   }
 }

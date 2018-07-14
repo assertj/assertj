@@ -12,12 +12,11 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ElementsShouldBeExactly.elementsShouldBeExactly;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -45,9 +44,10 @@ public class ObjectArrays_assertAreExactly_Test extends ObjectArraysWithConditio
 
   @Test
   public void should_throw_error_if_condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate should not be null");
-    actual = array("Yoda", "Luke");
-    arrays.assertAreExactly(someInfo(), actual, 2, null);
+    assertThatNullPointerException().isThrownBy(() -> {
+      actual = array("Yoda", "Luke");
+      arrays.assertAreExactly(someInfo(), actual, 2, null);
+    }).withMessage("The condition to evaluate should not be null");
     verify(conditions).assertIsNotNull(null);
   }
 

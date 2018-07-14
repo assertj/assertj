@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -47,32 +50,32 @@ public class OffsetDateTimeAssert_isAfter_Test extends OffsetDateTimeAssertBaseT
 
   @Test
   public void test_isAfter_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <2000-01-01T03:00:05.123Z>%n" +
-                                "to be strictly after:%n" +
-                                "  <2000-01-01T03:00:05.123456789Z>");
-    assertThat(parse("2000-01-01T03:00:05.123Z")).isAfter(parse("2000-01-01T03:00:05.123456789Z"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("2000-01-01T03:00:05.123Z")).isAfter(parse("2000-01-01T03:00:05.123456789Z")))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <2000-01-01T03:00:05.123Z>%n" +
+                                                                       "to be strictly after:%n" +
+                                                                       "  <2000-01-01T03:00:05.123456789Z>"));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    OffsetDateTime actual = null;
-    assertThat(actual).isAfter(OffsetDateTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      OffsetDateTime actual = null;
+      assertThat(actual).isAfter(OffsetDateTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_dateTime_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The OffsetDateTime to compare actual with should not be null");
-    assertThat(OffsetDateTime.now()).isAfter((OffsetDateTime) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isAfter((OffsetDateTime) null))
+                                        .withMessage("The OffsetDateTime to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the OffsetDateTime to compare actual with should not be null");
-    assertThat(OffsetDateTime.now()).isAfter((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isAfter((String) null))
+                                        .withMessage("The String representing the OffsetDateTime to compare actual with should not be null");
   }
 
   private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(OffsetDateTime dateToCheck,

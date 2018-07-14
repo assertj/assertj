@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -32,14 +33,14 @@ public class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertContainsOnlyDigits(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyDigits(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_contains_any_non_digit_character() {
-    thrown.expectAssertionError(shouldContainOnlyDigits("10$", '$', 2));
-    strings.assertContainsOnlyDigits(someInfo(), "10$");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyDigits(someInfo(), "10$"))
+                                                   .withMessage(shouldContainOnlyDigits("10$", '$', 2).create());
   }
 
   /**
@@ -47,7 +48,7 @@ public class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
    */
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(shouldContainOnlyDigits(""));
-    strings.assertContainsOnlyDigits(someInfo(), "");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyDigits(someInfo(), ""))
+                                                   .withMessage(shouldContainOnlyDigits("").create());
   }
 }

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api.throwable;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -45,8 +47,8 @@ public class ThrowableAssert_built_from_lambda_Test {
 
   @Test
   public void should_fail_if_nothing_is_thrown_by_lambda() {
-    thrown.expectAssertionError("%nExpecting code to raise a throwable.");
-    assertThatThrownBy(() -> {});
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(() -> {}))
+                                                   .withMessage(format("%nExpecting code to raise a throwable."));
   }
 
 }

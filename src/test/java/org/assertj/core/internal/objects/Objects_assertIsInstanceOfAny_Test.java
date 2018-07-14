@@ -12,11 +12,13 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -52,28 +54,29 @@ public class Objects_assertIsInstanceOfAny_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_types_is_null() {
-    thrown.expectNullPointerException("The given array of types should not be null");
-    objects.assertIsInstanceOfAny(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> objects.assertIsInstanceOfAny(someInfo(), actual, null))
+                                    .withMessage("The given array of types should not be null");
   }
 
   @Test
   public void should_throw_error_if_array_of_types_is_empty() {
-    thrown.expectIllegalArgumentException("The given array of types should not be empty");
-    objects.assertIsInstanceOfAny(someInfo(), actual, new Class<?>[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertIsInstanceOfAny(someInfo(), actual,
+                                                                                        new Class<?>[0]))
+                                        .withMessage("The given array of types should not be empty");
   }
 
   @Test
   public void should_throw_error_if_array_of_types_has_null_elements() {
     Class<?>[] types = { null, String.class };
-    thrown.expectNullPointerException("The given array of types:<[null, java.lang.String]> should not have null elements");
-    objects.assertIsInstanceOfAny(someInfo(), actual, types);
+    assertThatNullPointerException().isThrownBy(() -> objects.assertIsInstanceOfAny(someInfo(), actual, types))
+                                    .withMessage("The given array of types:<[null, java.lang.String]> should not have null elements");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     Class<?>[] types = { Object.class };
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertIsInstanceOfAny(someInfo(), null, types);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsInstanceOfAny(someInfo(), null, types))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

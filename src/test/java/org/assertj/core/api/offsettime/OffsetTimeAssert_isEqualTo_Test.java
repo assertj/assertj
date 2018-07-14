@@ -13,6 +13,8 @@
 package org.assertj.core.api.offsettime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.OffsetTime;
@@ -39,15 +41,14 @@ public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
 
   @Test
   public void test_isEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("expected:<03:0[3:03]Z> but was:<03:0[0:05]Z>");
-    assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isEqualTo("03:03:03Z");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isEqualTo("03:03:03Z"))
+                                                   .withMessage("expected:<03:0[3:03]Z> but was:<03:0[0:05]Z>");
   }
 
   @Test
   public void should_fail_if_offsetTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the OffsetTime to compare actual with should not be null");
-    assertThat(OffsetTime.now()).isEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isEqualTo((String) null))
+                                        .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }
 
   private static void verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(OffsetTime reference) {

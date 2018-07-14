@@ -59,23 +59,17 @@ public class ByNameMultipleExtractorTest {
 
   @Test
   public void should_throw_exception_when_given_name_is_null() {
-	thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be null");
-
-	new ByNameMultipleExtractor<Employee>((String[]) null).extract(yoda);
+	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameMultipleExtractor<Employee>((String[]) null).extract(yoda)).withMessage("The names of the fields/properties to read should not be null");
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-	thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be empty");
-
-	new ByNameMultipleExtractor<Employee>(new String[0]).extract(yoda);
+	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameMultipleExtractor<Employee>(new String[0]).extract(yoda)).withMessage("The names of the fields/properties to read should not be empty");
   }
 
   @Test
   public void should_throw_exception_when_no_object_is_given() {
-	thrown.expectIllegalArgumentException("The object to extract fields/properties from should not be null");
-
-	new ByNameMultipleExtractor<Employee>("id", "name.first", "age").extract(null);
+	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameMultipleExtractor<Employee>("id", "name.first", "age").extract(null)).withMessage("The object to extract fields/properties from should not be null");
   }
 
   @Test

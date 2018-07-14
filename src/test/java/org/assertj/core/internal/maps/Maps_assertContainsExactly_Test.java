@@ -13,6 +13,9 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
@@ -58,22 +61,24 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertContainsExactly(someInfo(), null, entry("name", "Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsExactly(someInfo(), null, entry("name", "Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_given_entries_array_is_null() {
-    thrown.expectNullPointerException(entriesToLookForIsNull());
-    maps.assertContainsExactly(someInfo(), linkedActual, (MapEntry[]) null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual,
+                                                                                 (MapEntry[]) null))
+                                    .withMessage(entriesToLookForIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_given_entries_array_is_empty() {
-    thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
-    maps.assertContainsExactly(someInfo(), linkedActual, emptyEntries());
+    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual,
+                                                                                     emptyEntries()))
+                                        .withMessage(entriesToLookForIsEmpty());
   }
 
   @SuppressWarnings("unchecked")
@@ -106,9 +111,8 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
-
-    maps.assertContainsExactly(info, linkedActual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsExactly(info, linkedActual, expected))
+                                                   .withMessage(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
   }
 
   @Test

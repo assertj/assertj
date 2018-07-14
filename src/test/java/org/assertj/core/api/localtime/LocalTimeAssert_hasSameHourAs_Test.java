@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api.localtime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalTimeAssert.NULL_LOCAL_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalTime;
@@ -32,37 +35,38 @@ public class LocalTimeAssert_hasSameHourAs_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_minute_ignored() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <23:00>%n" +
-                                "to have same hour as:%n" +
-                                "  <22:59>%n" +
-                                "but had not.");
-    assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusMinutes(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusMinutes(1)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <23:00>%n" +
+                                                                       "to have same hour as:%n" +
+                                                                       "  <22:59>%n" +
+                                                                       "but had not."));
   }
 
   @Test
   public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                "  <23:00>%n" +
-                                "to have same hour as:%n" +
-                                "  <22:59:59.999999999>%n" +
-                                "but had not.");
-    assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusNanos(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusNanos(1)))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       "  <23:00>%n" +
+                                                                       "to have same hour as:%n" +
+                                                                       "  <22:59:59.999999999>%n" +
+                                                                       "but had not."));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	expectException(AssertionError.class, actualIsNull());
-	LocalTime actual = null;
-	assertThat(actual).hasSameHourAs(LocalTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalTime actual = null;
+      assertThat(actual).hasSameHourAs(LocalTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_if_given_localtimetime_is_null() {
-	expectIllegalArgumentException(NULL_LOCAL_TIME_PARAMETER_MESSAGE);
-	assertThat(refLocalTime).hasSameHourAs(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(null))
+                                        .withMessage(NULL_LOCAL_TIME_PARAMETER_MESSAGE);
   }
 
 }

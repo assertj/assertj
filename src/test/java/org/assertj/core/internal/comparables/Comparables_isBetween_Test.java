@@ -12,7 +12,11 @@
  */
 package org.assertj.core.internal.comparables;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -45,38 +49,38 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
 
   @Test
   public void fails_if_actual_is_less_than_start() {
-    thrown.expectAssertionError("%nExpecting:%n <6>%nto be between:%n [8, 10]");
-    comparables.assertIsBetween(someInfo(), 6, 8, 10, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, true, true))
+                                                   .withMessage(format("%nExpecting:%n <6>%nto be between:%n [8, 10]"));
   }
 
   @Test
   public void fails_if_actual_is_greater_than_end() {
-    thrown.expectAssertionError("%nExpecting:%n <12>%nto be between:%n [8, 10]");
-    comparables.assertIsBetween(someInfo(), 12, 8, 10, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, true, true))
+                                                   .withMessage(format("%nExpecting:%n <12>%nto be between:%n [8, 10]"));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    comparables.assertIsBetween(someInfo(), null, 8, 10, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), null, 8, 10, true, true))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_start_is_null() {
-    thrown.expectNullPointerException("The start range to compare actual with should not be null");
-    comparables.assertIsBetween(someInfo(), 8, null, 10, true, true);
+    assertThatNullPointerException().isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, null, 10, true, true))
+                                    .withMessage("The start range to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_end_is_null() {
-    thrown.expectNullPointerException("The end range to compare actual with should not be null");
-    comparables.assertIsBetween(someInfo(), 8, 10, null, true, true);
+    assertThatNullPointerException().isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 10, null, true, true))
+                                    .withMessage("The end range to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_end_is_less_than_start() {
-    thrown.expectIllegalArgumentException("The end value <8> must not be less than the start value <10>!");
-    comparables.assertIsBetween(someInfo(), 8, 10, 8, true, true);
+    assertThatIllegalArgumentException().isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 10, 8, true, true))
+                                        .withMessage("The end value <8> must not be less than the start value <10>!");
   }
 
   @Test
@@ -123,8 +127,13 @@ public class Comparables_isBetween_Test extends ComparablesBaseTest {
 
   @Test
   public void fails_if_end_is_less_than_start_according_to_custom_comparison_strategy() {
-    thrown.expectIllegalArgumentException("The end value <8> must not be less than the start value <-10> (using AbsValueComparator)!");
-    comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), 8, -10, 8, true, true);
+    assertThatIllegalArgumentException().isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(),
+                                                                                                                  8,
+                                                                                                                  -10,
+                                                                                                                  8,
+                                                                                                                  true,
+                                                                                                                  true))
+                                        .withMessage("The end value <8> must not be less than the start value <-10> (using AbsValueComparator)!");
   }
 
 }

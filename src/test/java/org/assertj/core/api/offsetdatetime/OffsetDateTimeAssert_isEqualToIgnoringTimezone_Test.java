@@ -12,11 +12,14 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.MAX;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
@@ -34,25 +37,34 @@ public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test extends BaseTes
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_OffsetDateTime_with_timezone_ignored() {
-    thrown.expectAssertionError("%nExpecting:%n  " +
-                                "<2000-01-05T12:00+18:00>%n" +
-                                "to have same time fields except timezone as:%n" +
-                                "  <2000-01-05T12:01Z>%n" +
-                                "but had not.");
-    assertThat(actual).isEqualToIgnoringTimezone(of(2000, 1, 5, 12, 1, 0, 0, UTC));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEqualToIgnoringTimezone(of(2000,
+                                                                                                                     1,
+                                                                                                                     5,
+                                                                                                                     12,
+                                                                                                                     1,
+                                                                                                                     0,
+                                                                                                                     0,
+                                                                                                                     UTC)))
+                                                   .withMessage(format("%nExpecting:%n  " +
+                                                                       "<2000-01-05T12:00+18:00>%n" +
+                                                                       "to have same time fields except timezone as:%n"
+                                                                       +
+                                                                       "  <2000-01-05T12:01Z>%n" +
+                                                                       "but had not."));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    OffsetDateTime actual = null;
-    assertThat(actual).isEqualToIgnoringTimezone(OffsetDateTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      OffsetDateTime actual = null;
+      assertThat(actual).isEqualToIgnoringTimezone(OffsetDateTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_if_given_OffsetDateTimetime_is_null() {
-    expectIllegalArgumentException(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
-    assertThat(actual).isEqualToIgnoringTimezone(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).isEqualToIgnoringTimezone(null))
+                                        .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }
 
 }

@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
@@ -43,20 +46,22 @@ public class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectA
 
   @Test
   public void should_throw_error_if_given_iterable_is_empty() {
-	thrown.expectIllegalArgumentException(iterableValuesToLookForIsEmpty());
-	arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, Collections.<String> emptyList());
+    assertThatIllegalArgumentException().isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual,
+                                                                                                   Collections.<String> emptyList()))
+                                        .withMessage(iterableValuesToLookForIsEmpty());
   }
 
   @Test
   public void should_throw_error_if_given_iterable_is_null() {
-	thrown.expectNullPointerException(iterableValuesToLookForIsNull());
-	arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual,
+                                                                                               null))
+                                    .withMessage(iterableValuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	arrays.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda"));
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.test.TestData.someInfo;
@@ -56,8 +57,8 @@ public class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest
 
   @Test
   public void should_fail_if_given_regex_is_null() {
-    thrown.expectNullPointerException("regex must not be null");
-    throwables.assertHasMessageMatching(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, null))
+                                    .withMessage("regex must not be null");
   }
 
   @Test

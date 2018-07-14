@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -47,14 +49,14 @@ public class Maps_assertHasValueSatisfying_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate should not be null");
-    maps.assertHasValueSatisfying(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertHasValueSatisfying(someInfo(), actual, null))
+                                    .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasValueSatisfying(someInfo(), null, isGreen);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasValueSatisfying(someInfo(), null, isGreen))
+                                                   .withMessage(actualIsNull());
   }
 
 

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -43,14 +44,14 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertHasParent(someInfo(), null, expectedParent);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasParent(someInfo(), null, expectedParent))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_npe_if_expected_is_null() throws Exception {
-    thrown.expectNullPointerException("The expected parent file should not be null.");
-    files.assertHasParent(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasParent(someInfo(), actual, null))
+                                    .withMessage("The expected parent file should not be null.");
   }
 
   @Test

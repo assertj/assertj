@@ -13,6 +13,7 @@
 package org.assertj.core.internal.shorts;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
@@ -105,8 +106,8 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    shorts.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

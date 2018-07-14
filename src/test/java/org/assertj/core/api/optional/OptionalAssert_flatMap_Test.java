@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalAssert_flatMap_Test extends BaseTest {
@@ -28,9 +29,8 @@ public class OptionalAssert_flatMap_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optional_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((Optional<String>) null).flatMap(UPPER_CASE_OPTIONAL_STRING);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).flatMap(UPPER_CASE_OPTIONAL_STRING))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

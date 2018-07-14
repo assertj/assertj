@@ -13,7 +13,7 @@
 package org.assertj.core.internal.booleans;
 
 import static java.lang.Boolean.TRUE;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -38,8 +38,8 @@ public class Booleans_assertNotEqual_Test extends BooleansBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    booleans.assertNotEqual(someInfo(), null, false);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> booleans.assertNotEqual(someInfo(), null, false))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

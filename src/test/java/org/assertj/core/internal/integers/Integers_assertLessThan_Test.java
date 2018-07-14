@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.integers;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -35,8 +36,8 @@ public class Integers_assertLessThan_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    integers.assertLessThan(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertLessThan(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -70,8 +71,8 @@ public class Integers_assertLessThan_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    integersWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

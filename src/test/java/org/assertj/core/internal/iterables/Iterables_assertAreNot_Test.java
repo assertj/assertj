@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -42,9 +43,10 @@ public class Iterables_assertAreNot_Test extends IterablesWithConditionsBaseTest
 
   @Test
   public void should_throw_error_if_condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate should not be null");
-    actual = newArrayList("Solo", "Leia");
-    iterables.assertAreNot(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> {
+      actual = newArrayList("Solo", "Leia");
+      iterables.assertAreNot(someInfo(), actual, null);
+    }).withMessage("The condition to evaluate should not be null");
     verify(conditions).assertIsNotNull(null);
   }
 

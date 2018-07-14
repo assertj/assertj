@@ -13,23 +13,20 @@
 package org.assertj.core.api.atomic.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicBooleanAssert_customRepresentation_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_customRepresentation() {
-    thrown.expectAssertionErrorWithMessageContaining("@true@");
-    assertThat(new AtomicBoolean(true)).withRepresentation(new CustomRepresentation()).isEqualTo(false);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).withRepresentation(new CustomRepresentation())
+                                                                                                        .isEqualTo(false))
+                                                   .withMessageContaining("@true@");
   }
 
   private class CustomRepresentation extends StandardRepresentation {

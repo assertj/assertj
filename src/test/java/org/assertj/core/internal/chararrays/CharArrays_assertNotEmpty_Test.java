@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.chararrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.test.CharArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
@@ -36,8 +37,8 @@ public class CharArrays_assertNotEmpty_Test extends CharArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertNotEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertNotEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

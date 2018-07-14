@@ -13,6 +13,7 @@
 package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
@@ -62,22 +63,22 @@ public class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_entries_to_look_for_is_null() {
-    thrown.expectNullPointerException(entriesToLookForIsNull());
-    maps.assertContainsAnyOf(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, null))
+                                    .withMessage(entriesToLookForIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void should_throw_error_if_entry_is_null() {
     MapEntry<String, String>[] entries = new MapEntry[] { null };
-    thrown.expectNullPointerException(entryToLookForIsNull());
-    maps.assertContainsAnyOf(someInfo(), actual, entries);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, entries))
+                                    .withMessage(entryToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertContainsAnyOf(someInfo(), null, array(entry("name", "Yoda")));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), null, array(entry("name", "Yoda"))))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

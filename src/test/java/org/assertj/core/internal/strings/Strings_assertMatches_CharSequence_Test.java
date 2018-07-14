@@ -13,13 +13,13 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
-import static org.assertj.core.test.TestData.*;
+import static org.assertj.core.test.TestData.matchAnything;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.regex.PatternSyntaxException;
@@ -42,9 +42,10 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_regular_expression_is_null() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    String regex = null;
-    strings.assertMatches(someInfo(), actual, regex);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String regex = null;
+      strings.assertMatches(someInfo(), actual, regex);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -55,14 +56,14 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertMatches(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_match_regular_expression() {
-    thrown.expectAssertionError(shouldMatch(actual, "Luke"));
-    strings.assertMatches(someInfo(), actual, "Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual, "Luke"))
+                                                   .withMessage(shouldMatch(actual, "Luke").create());
   }
 
   @Test
@@ -72,9 +73,10 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    String regex = null;
-    stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, regex);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String regex = null;
+      stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, regex);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
@@ -86,8 +88,8 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything().pattern());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

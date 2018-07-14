@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.OffsetDateTime;
@@ -45,23 +48,24 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
 
   @Test
   public void test_isIn_assertion_error_message() {
-    thrown.expectAssertionError("%nExpecting:%n" +
-                                " <2000-01-05T03:00:05Z>%n" +
-                                "to be in:%n" +
-                                " <[2012-01-01T03:03:03Z]>%n");
-    assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isIn(of(2012, 1, 1, 3, 3, 3, 0, UTC).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(of(2000, 1, 5, 3, 0, 5, 0,
+                                                                                   UTC)).isIn(of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
+                                                   .withMessage(format("%nExpecting:%n" +
+                                                                       " <2000-01-05T03:00:05Z>%n" +
+                                                                       "to be in:%n" +
+                                                                       " <[2012-01-01T03:03:03Z]>%n"));
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The given OffsetDateTime array should not be null");
-    assertThat(OffsetDateTime.now()).isIn((String[]) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isIn((String[]) null))
+                                        .withMessage("The given OffsetDateTime array should not be null");
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
-    expectException(IllegalArgumentException.class, "The given OffsetDateTime array should not be empty");
-    assertThat(OffsetDateTime.now()).isIn(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isIn(new String[0]))
+                                        .withMessage("The given OffsetDateTime array should not be empty");
   }
 
 }

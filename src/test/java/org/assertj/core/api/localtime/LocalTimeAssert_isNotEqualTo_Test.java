@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api.localtime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.LocalTime;
@@ -41,19 +44,19 @@ public class LocalTimeAssert_isNotEqualTo_Test extends LocalTimeAssertBaseTest {
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                " <03:00:05>%n" +
-                                "not to be equal to:%n" +
-                                " <03:00:05>%n");
-    assertThat(LocalTime.of(3, 0, 5)).isNotEqualTo("03:00:05");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0,
+                                                                                             5)).isNotEqualTo("03:00:05"))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       " <03:00:05>%n" +
+                                                                       "not to be equal to:%n" +
+                                                                       " <03:00:05>%n"));
   }
 
   @Test
   public void should_fail_if_timeTime_as_string_parameter_is_null() {
-	expectException(IllegalArgumentException.class,
-	                "The String representing the LocalTime to compare actual with should not be null");
-	assertThat(LocalTime.now()).isNotEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isNotEqualTo((String) null))
+                                        .withMessage("The String representing the LocalTime to compare actual with should not be null");
   }
 
   private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(LocalTime reference) {

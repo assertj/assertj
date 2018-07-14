@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
@@ -97,8 +98,8 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertIsCloseTo(someInfo(), null, ONE, offset(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), null, ONE, offset(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -116,14 +117,13 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_if_expected_value_is_null() {
-    thrown.expectNullPointerException("The given number should not be null");
-    numbers.assertIsCloseTo(someInfo(), SIX, null, offset(ONE));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), SIX, null, offset(ONE))).withMessage("The given number should not be null");
   }
 
   @Test
@@ -185,8 +185,7 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(offsetIsNull());
-    numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, null)).withMessage(offsetIsNull());
   }
 
   @Test
@@ -215,8 +214,7 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("The given number should not be null");
-    numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), TWO, null, offset(ONE));
+    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), TWO, null, offset(ONE))).withMessage("The given number should not be null");
   }
 
 }

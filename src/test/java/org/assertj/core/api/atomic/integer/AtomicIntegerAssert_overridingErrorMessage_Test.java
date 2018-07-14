@@ -13,30 +13,28 @@
 package org.assertj.core.api.atomic.integer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicIntegerAssert_overridingErrorMessage_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_custom_error_message_set_with_withFailMessage() {
     String error = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(error);
-    assertThat(new AtomicInteger(0)).withFailMessage(error).hasValueLessThan(-1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicInteger(0)).withFailMessage(error)
+                                                                                                     .hasValueLessThan(-1))
+                                                   .withMessageContaining(error);
   }
 
   @Test
   public void should_honor_custom_error_message_set_with_overridingErrorMessage() {
     String error = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(error);
-    assertThat(new AtomicInteger(0)).overridingErrorMessage(error).hasValueLessThan(-1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicInteger(0)).overridingErrorMessage(error)
+                                                                                                     .hasValueLessThan(-1))
+                                                   .withMessageContaining(error);
   }
-  
+
 }

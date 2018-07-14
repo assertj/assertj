@@ -13,6 +13,8 @@
 package org.assertj.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -25,16 +27,14 @@ public class OptionalAssert_contains_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optional_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-
-	assertThat((Optional<String>) null).contains("something");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).contains("something"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_expected_value_is_null() throws Exception {
-    thrown.expectIllegalArgumentException("The expected value should not be <null>.");
-
-	assertThat(Optional.of("something")).contains(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of("something")).contains(null))
+                                        .withMessage("The expected value should not be <null>.");
   }
 
   @Test
@@ -47,17 +47,15 @@ public class OptionalAssert_contains_Test extends BaseTest {
 	Optional<String> actual = Optional.of("not-expected");
 	String expectedValue = "something";
 
-    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
-
-	assertThat(actual).contains(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).contains(expectedValue))
+                                                   .withMessage(shouldContain(actual, expectedValue).create());
   }
 
   @Test
   public void should_fail_if_optional_is_empty() throws Exception {
 	String expectedValue = "something";
 
-    thrown.expectAssertionError(shouldContain(expectedValue).create());
-
-	assertThat(Optional.empty()).contains(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).contains(expectedValue))
+                                                   .withMessage(shouldContain(expectedValue).create());
   }
 }

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.floats;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,8 +37,8 @@ public class Floats_assertIsPositive_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("%nExpecting:%n <-6.0f>%nto be greater than:%n <0.0f> ");
-    floats.assertIsPositive(someInfo(), -6.0f);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsPositive(someInfo(), -6.0f))
+                                                   .withMessage(format("%nExpecting:%n <-6.0f>%nto be greater than:%n <0.0f> "));
   }
 
   @Test

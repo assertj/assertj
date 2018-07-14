@@ -15,8 +15,7 @@ package org.assertj.core.internal.throwables;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
 
@@ -40,8 +39,8 @@ public class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    throwables.assertHasMessage(someInfo(), null, "Throwable message");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessage(someInfo(), null, "Throwable message"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

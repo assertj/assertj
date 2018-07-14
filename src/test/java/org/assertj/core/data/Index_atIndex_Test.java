@@ -13,12 +13,9 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-
-import org.assertj.core.data.Index;
-import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Test;
 
 /**
  * Tests for {@link Index#atIndex(int)}.
@@ -26,13 +23,11 @@ import org.junit.*;
  * @author Alex Ruiz
  */
 public class Index_atIndex_Test {
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_throw_error_if_value_is_negative() {
-    thrown.expectIllegalArgumentException("The value of the index should not be negative");
-    Index.atIndex(-1);
+    assertThatIllegalArgumentException().isThrownBy(() -> Index.atIndex(-1))
+                                        .withMessage("The value of the index should not be negative");
   }
 
   @Test

@@ -12,10 +12,10 @@
  */
 package org.assertj.core.api.file;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.nio.charset.Charset;
-
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
@@ -36,10 +36,10 @@ public class FileAssert_usingCharset_null_Test extends FileAssertBaseTest {
   @Override
   @Test
   public void should_have_internal_effects() {
-    thrown.expectNullPointerException("The charset should not be null");
-    assertions.usingCharset((Charset) null);
+    assertThatNullPointerException().isThrownBy(() -> assertions.usingCharset((Charset) null))
+                                    .withMessage("The charset should not be null");
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

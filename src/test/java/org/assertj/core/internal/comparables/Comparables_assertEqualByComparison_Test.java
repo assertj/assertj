@@ -19,6 +19,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
@@ -46,8 +47,8 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    comparables.assertEqualByComparison(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertEqualByComparison(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -78,8 +79,8 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    comparablesWithCustomComparisonStrategy.assertEqualByComparison(someInfo(), null, BigDecimal.ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(someInfo(), null, BigDecimal.ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -13,6 +13,7 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.Maps.mapOf;
@@ -42,7 +43,7 @@ public class MapAssert_size_Test {
   @Test
   public void should_have_an_helpful_error_message_when_size_is_used_on_a_null_map() {
     Map<String, String> nullMap = null;
-    thrown.expectNullPointerException("Can not perform assertions on the size of a null map.");
-    assertThat(nullMap).size().isGreaterThan(1);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(nullMap).size().isGreaterThan(1))
+                                    .withMessage("Can not perform assertions on the size of a null map.");
   }
 }

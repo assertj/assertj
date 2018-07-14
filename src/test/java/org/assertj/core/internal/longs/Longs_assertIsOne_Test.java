@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.longs;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -33,8 +34,8 @@ public class Longs_assertIsOne_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one() {
-    thrown.expectAssertionError("expected:<[1]L> but was:<[0]L>");
-    longs.assertIsOne(someInfo(), 0L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsOne(someInfo(), 0L))
+                                                   .withMessage("expected:<[1]L> but was:<[0]L>");
   }
 
   @Test
@@ -44,8 +45,8 @@ public class Longs_assertIsOne_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[1]L> but was:<[0]L>");
-    longsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0L))
+                                                   .withMessage("expected:<[1]L> but was:<[0]L>");
   }
 
 }

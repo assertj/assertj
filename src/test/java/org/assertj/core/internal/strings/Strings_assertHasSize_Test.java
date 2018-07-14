@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -32,8 +33,8 @@ public class Strings_assertHasSize_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertHasSize(someInfo(), null, 3);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSize(someInfo(), null, 3))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -41,9 +42,8 @@ public class Strings_assertHasSize_Test extends StringsBaseTest {
     AssertionInfo info = someInfo();
     String actual = "Han";
 
-    thrown.expectAssertionError(shouldHaveSize(actual, actual.length(), 6).create());
-
-    strings.assertHasSize(info, actual, 6);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSize(info, actual, 6))
+                                                   .withMessage(shouldHaveSize(actual, actual.length(), 6).create());
   }
 
   @Test
@@ -53,8 +53,8 @@ public class Strings_assertHasSize_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 3);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 3))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -62,9 +62,8 @@ public class Strings_assertHasSize_Test extends StringsBaseTest {
     AssertionInfo info = someInfo();
     String actual = "Han";
 
-    thrown.expectAssertionError(shouldHaveSize(actual, actual.length(), 6).create());
-
-    stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 6);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 6))
+                                                   .withMessage(shouldHaveSize(actual, actual.length(), 6).create());
   }
 
   @Test

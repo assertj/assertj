@@ -13,6 +13,7 @@
 package org.assertj.core.internal.paths;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
@@ -68,14 +69,14 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-	thrown.expectNullPointerException("The binary content to compare to should not be null");
-	paths.assertHasBinaryContent(someInfo(), path, null);
+    assertThatNullPointerException().isThrownBy(() -> paths.assertHasBinaryContent(someInfo(), path, null))
+                                    .withMessage("The binary content to compare to should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertHasBinaryContent(someInfo(), null, expected);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(), null, expected))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

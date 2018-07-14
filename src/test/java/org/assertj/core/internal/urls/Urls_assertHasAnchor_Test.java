@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -40,8 +41,8 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    urls.assertHasAnchor(info, null, "http://www.helloworld.org/index.html#print");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasAnchor(info, null, "http://www.helloworld.org/index.html#print"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -88,7 +89,8 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
 
   @Test
   public void should_throw_error_if_actual_url_has_no_anchor() throws MalformedURLException {
-    thrown.expectNullPointerException(null);
-    urls.assertHasAnchor(info, new URL("http://www.helloworld.org/index.html"), "print");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasAnchor(info,
+                                                                                                new URL("http://www.helloworld.org/index.html"),
+                                                                                                "print"));
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -47,8 +48,8 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    uris.assertHasFragment(info, null, "http://www.helloworld.org/index.html#print");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasFragment(info, null, "http://www.helloworld.org/index.html#print"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -95,7 +96,8 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
 
   @Test
   public void should_throw_error_if_actual_uri_has_no_fragment() throws URISyntaxException {
-    thrown.expectNullPointerException(null);
-    uris.assertHasFragment(info, new URI("http://www.helloworld.org/index.html"), "print");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasFragment(info,
+                                                                                                  new URI("http://www.helloworld.org/index.html"),
+                                                                                                  "print"));
   }
 }

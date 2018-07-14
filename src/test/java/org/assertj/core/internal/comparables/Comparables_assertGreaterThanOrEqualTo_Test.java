@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.comparables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    comparables.assertGreaterThanOrEqualTo(someInfo(), null, 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertGreaterThanOrEqualTo(someInfo(), null, 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

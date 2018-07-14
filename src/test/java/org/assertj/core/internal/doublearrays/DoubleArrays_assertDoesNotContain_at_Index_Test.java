@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.test.DoubleArrays.emptyArray;
@@ -36,8 +38,8 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, 8d, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8d, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -52,8 +54,8 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    arrays.assertDoesNotContain(someInfo(), actual, 8d, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, 8d, null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -64,14 +66,14 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
   @Test
   public void should_fail_if_actual_contains_value_at_index() {
     Index index = atIndex(0);
-    thrown.expectAssertionError(shouldNotContainAtIndex(actual, 6d, index));
-    arrays.assertDoesNotContain(someInfo(), actual, 6d, index);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, 6d, index))
+                                                   .withMessage(shouldNotContainAtIndex(actual, 6d, index).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, -8d, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, -8d, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -86,8 +88,11 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
 
   @Test
   public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("Index should not be null");
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, -8d, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                              actual,
+                                                                                                              -8d,
+                                                                                                              null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -98,7 +103,7 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArray
   @Test
   public void should_fail_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     Index index = atIndex(0);
-    thrown.expectAssertionError(shouldNotContainAtIndex(actual, 6d, index, absValueComparisonStrategy));
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, 6d, index);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, 6d, index))
+                                                   .withMessage(shouldNotContainAtIndex(actual, 6d, index, absValueComparisonStrategy).create());
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Bytes_assertGreaterThanOrEqualTo_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    bytes.assertGreaterThanOrEqualTo(someInfo(), null, (byte) 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertGreaterThanOrEqualTo(someInfo(), null, (byte) 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -64,8 +65,8 @@ public class Bytes_assertGreaterThanOrEqualTo_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    bytesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, (byte) 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, (byte) 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

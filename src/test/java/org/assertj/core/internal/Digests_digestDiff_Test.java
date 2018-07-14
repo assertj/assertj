@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.Digests.digestDiff;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -44,20 +45,20 @@ public class Digests_digestDiff_Test extends DigestsBaseTest {
 
   @Test
   public void should_fail_if_stream_is_null() throws IOException {
-    thrown.expectNullPointerException("The stream should not be null");
-    digestDiff(null, null, null);
+    assertThatNullPointerException().isThrownBy(() -> digestDiff(null, null, null))
+                                    .withMessage("The stream should not be null");
   }
 
   @Test
   public void should_fail_if_digest_is_null() throws IOException {
-    thrown.expectNullPointerException("The digest should not be null");
-    digestDiff(stream, null, null);
+    assertThatNullPointerException().isThrownBy(() -> digestDiff(stream, null, null))
+                                    .withMessage("The digest should not be null");
   }
 
   @Test
   public void should_fail_if_expected_is_null() throws IOException {
-    thrown.expectNullPointerException("The expected should not be null");
-    digestDiff(stream, digest, null);
+    assertThatNullPointerException().isThrownBy(() -> digestDiff(stream, digest, null))
+                                    .withMessage("The expected should not be null");
   }
 
   // todo should_error_if_IO

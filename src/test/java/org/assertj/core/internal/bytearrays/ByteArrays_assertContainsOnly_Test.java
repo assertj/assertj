@@ -13,6 +13,7 @@
 package org.assertj.core.internal.bytearrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ByteArrays.arrayOf;
@@ -71,14 +72,14 @@ public class ByteArrays_assertContainsOnly_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsOnly(someInfo(), actual, (byte[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, (byte[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null, arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -123,14 +124,16 @@ public class ByteArrays_assertContainsOnly_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, (byte[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                                                 actual,
+                                                                                                                                 (byte[]) null))
+                                                         .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

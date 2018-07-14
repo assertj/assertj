@@ -13,6 +13,7 @@
 package org.assertj.core.api.intpredicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ShouldAccept.shouldAccept;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -34,9 +35,8 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
 
   @Test
   public void should_fail_when_predicate_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((IntPredicate) null).accepts(1, 2, 3);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((IntPredicate) null).accepts(1, 2, 3))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -44,9 +44,8 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 3;
-    thrown.expectAssertionError(shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).accepts(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(expectedValue))
+                                                   .withMessage(shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -54,9 +53,8 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 3;
-    thrown.expectAssertionError("[test] " + shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).as("test").accepts(expectedValue);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").accepts(expectedValue))
+                                                   .withMessage("[test] " + shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -70,9 +68,8 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
   public void should_fail_when_predicate_does_not_accept_values() {
     IntPredicate predicate = val -> val <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
-    thrown.expectAssertionError(elementsShouldMatch(matchValues, 3, PredicateDescription.GIVEN).create());
-
-    assertThat(predicate).accepts(matchValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
+                                                   .withMessage(elementsShouldMatch(matchValues, 3, PredicateDescription.GIVEN).create());
   }
 
   @Test

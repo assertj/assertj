@@ -13,23 +13,20 @@
 package org.assertj.core.api.atomic.long_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicLongAssert_info_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_info_update() {
     String assertionDescription = "ssss";
-    thrown.expectAssertionErrorWithMessageContaining(assertionDescription);
-    assertThat(new AtomicLong(0)).as(assertionDescription).hasValueLessThan(-1L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicLong(0)).as(assertionDescription)
+                                                                                                  .hasValueLessThan(-1L))
+                                                   .withMessageContaining(assertionDescription);
   }
 
 }

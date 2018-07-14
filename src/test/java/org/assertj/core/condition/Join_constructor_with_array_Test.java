@@ -13,6 +13,7 @@
 package org.assertj.core.condition;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -36,17 +37,19 @@ public class Join_constructor_with_array_Test {
   @SuppressWarnings("unused")
   @Test
   public void should_throw_error_if_array_is_null() {
-    thrown.expectNullPointerException("The given conditions should not be null");
-    Condition<Object>[] conditions = null;
-    new ConcreteJoin(conditions);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Condition<Object>[] conditions = null;
+      new ConcreteJoin(conditions);
+    }).withMessage("The given conditions should not be null");
   }
 
   @SuppressWarnings("unused")
   @Test
   public void should_throw_error_if_array_contains_nulls() {
-    thrown.expectNullPointerException("The given conditions should not have null entries");
-    Condition<Object>[] conditions = array(new TestCondition<>(), null);
-    new ConcreteJoin(conditions);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Condition<Object>[] conditions = array(new TestCondition<>(), null);
+      new ConcreteJoin(conditions);
+    }).withMessage("The given conditions should not have null entries");
   }
 
   @Test

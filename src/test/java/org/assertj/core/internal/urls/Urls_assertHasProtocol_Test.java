@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -34,8 +35,8 @@ public class Urls_assertHasProtocol_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    urls.assertHasProtocol(info, null, "http");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasProtocol(info, null, "http"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

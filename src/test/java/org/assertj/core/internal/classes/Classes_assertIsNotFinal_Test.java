@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.classes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -29,8 +30,8 @@ public class Classes_assertIsNotFinal_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertIsNotFinal(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotFinal(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -40,7 +41,7 @@ public class Classes_assertIsNotFinal_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_a_final_class() {
-    thrown.expectAssertionError(shouldNotBeFinal(String.class));
-    classes.assertIsNotFinal(someInfo(), String.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotFinal(someInfo(), String.class))
+                                                   .withMessage(shouldNotBeFinal(String.class).create());
   }
 }

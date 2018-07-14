@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.classes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -50,16 +52,18 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertContainsAnnotations(someInfo(), actual, Override.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual, Override.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_expected_has_null_value() {
     actual = AssertionInfo.class;
-    thrown.expectNullPointerException("The class to compare actual with should not be null");
-    classes.assertContainsAnnotations(someInfo(), actual, Override.class, null, Deprecated.class);
+    assertThatNullPointerException().isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual,
+                                                                                        Override.class, null,
+                                                                                        Deprecated.class))
+                                    .withMessage("The class to compare actual with should not be null");
   }
 
   @SuppressWarnings("unchecked")
@@ -84,7 +88,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
     thrown.expectAssertionError(shouldHaveAnnotations(actual,
                                                       Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
                                                       Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class,
-                                                                                                          Deprecated.class)));
+                                                                                                          Deprecated.class)).create());
     classes.assertContainsAnnotations(someInfo(), actual, expected);
   }
 }

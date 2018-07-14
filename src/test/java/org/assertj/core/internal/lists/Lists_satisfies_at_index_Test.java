@@ -15,6 +15,7 @@ package org.assertj.core.internal.lists;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -48,8 +49,8 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_element_at_index_does_not_match_the_requirements() {
-    thrown.expectAssertionError("expected:<\"[Luke]\"> but was:<\"[Yoda]\">");
-    lists.satisfies(info, jedis, shouldBeLuke, atIndex(2));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, atIndex(2)))
+                                                   .withMessage("expected:<\"[Luke]\"> but was:<\"[Yoda]\">");
   }
 
   @Test
@@ -62,19 +63,19 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(shouldNotBeNull());
-    lists.satisfies(info, null, shouldBeLuke, index);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, null, shouldBeLuke, index))
+                                                   .withMessage(shouldNotBeNull().create());
   }
 
   @Test
   public void should_fail_if_requirements_are_null() {
-    thrown.expectNullPointerException("The Consumer expressing the assertions requirements must not be null");
-    lists.satisfies(info, jedis, null, index);
+    assertThatNullPointerException().isThrownBy(() -> lists.satisfies(info, jedis, null, index))
+                                    .withMessage("The Consumer expressing the assertions requirements must not be null");
   }
 
   @Test
   public void should_fail_if_index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    lists.satisfies(info, jedis, shouldBeLuke, null);
+    assertThatNullPointerException().isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, null))
+                                    .withMessage("Index should not be null");
   }
 }

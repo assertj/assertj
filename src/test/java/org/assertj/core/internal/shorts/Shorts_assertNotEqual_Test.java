@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,8 +37,8 @@ public class Shorts_assertNotEqual_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    shorts.assertNotEqual(someInfo(), null, (short) 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertNotEqual(someInfo(), null, (short) 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +60,8 @@ public class Shorts_assertNotEqual_Test extends ShortsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    shortsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, (short) 8);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, (short) 8))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

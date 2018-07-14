@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldNotBeInstance.shouldNotBeInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -49,14 +50,14 @@ public class Objects_assertIsNotInstanceOf_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_type_is_null() {
-    thrown.expectNullPointerException("The given type should not be null");
-    objects.assertIsNotInstanceOf(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> objects.assertIsNotInstanceOf(someInfo(), actual, null))
+                                    .withMessage("The given type should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    objects.assertIsNotInstanceOf(someInfo(), null, Object.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsNotInstanceOf(someInfo(), null, Object.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

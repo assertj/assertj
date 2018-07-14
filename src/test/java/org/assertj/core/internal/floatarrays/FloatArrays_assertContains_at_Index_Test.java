@@ -14,6 +14,7 @@ package org.assertj.core.internal.floatarrays;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.FloatArrays.emptyArray;
@@ -39,20 +40,20 @@ public class FloatArrays_assertContains_at_Index_Test extends FloatArraysBaseTes
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, 8f, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, 8f, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arrays.assertContains(someInfo(), emptyArray(), 8f, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8f, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    arrays.assertContains(someInfo(), actual, 8f, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, 8f, null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -84,20 +85,22 @@ public class FloatArrays_assertContains_at_Index_Test extends FloatArraysBaseTes
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8f, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8f, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsEmpty());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8f, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8f, someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test
   public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("Index should not be null");
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, -8f, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                        actual, -8f,
+                                                                                                        null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test

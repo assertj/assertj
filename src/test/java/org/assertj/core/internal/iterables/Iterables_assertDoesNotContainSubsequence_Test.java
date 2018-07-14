@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
@@ -45,20 +48,22 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
 
   @Test
   public void should_throw_error_if_subsequence_is_null() {
-    thrown.expectNullPointerException(nullSubsequence());
-    iterables.assertDoesNotContainSubsequence(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), actual,
+                                                                                                null))
+                                    .withMessage(nullSubsequence());
   }
 
   @Test
   public void should_throw_error_if_subsequence_is_empty() {
-    thrown.expectIllegalArgumentException(emptySubsequence());
-    iterables.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray());
+    assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), actual,
+                                                                                                    emptyArray()))
+                                        .withMessage(emptySubsequence());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    iterables.assertDoesNotContainSubsequence(someInfo(), null, array("Yoda"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), null, array("Yoda")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

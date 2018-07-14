@@ -13,6 +13,8 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.test.TestData.someInfo;
@@ -71,15 +73,16 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_throw_error_if_consumer_restrictions_is_null() {
-    thrown.expectNullPointerException("The Consumer<T> expressing the restrictions must not be null");
-    iterables.assertNoneSatisfy(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertNoneSatisfy(someInfo(), actual, null))
+                                    .withMessage("The Consumer<T> expressing the restrictions must not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    List<String> nullActual = null;
-    iterables.assertNoneSatisfy(someInfo(), nullActual, name -> assertThat(name).startsWith("Y"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      List<String> nullActual = null;
+      iterables.assertNoneSatisfy(someInfo(), nullActual, name -> assertThat(name).startsWith("Y"));
+    }).withMessage(actualIsNull());
   }
 
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.integers;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,8 +36,8 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    thrown.expectAssertionError("expected:<[0]> but was:<[2]>");
-    integers.assertIsZero(someInfo(), 2);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsZero(someInfo(), 2))
+                                                   .withMessage("expected:<[0]> but was:<[2]>");
   }
 
   @Test
@@ -46,8 +47,8 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[0]> but was:<[1]>");
-    integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 1))
+                                                   .withMessage("expected:<[0]> but was:<[1]>");
   }
 
 }

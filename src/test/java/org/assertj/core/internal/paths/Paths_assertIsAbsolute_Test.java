@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -24,8 +25,8 @@ public class Paths_assertIsAbsolute_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	paths.assertIsAbsolute(info, null);
+	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsAbsolute(info, null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

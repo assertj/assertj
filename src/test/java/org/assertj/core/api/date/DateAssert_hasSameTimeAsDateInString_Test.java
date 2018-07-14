@@ -14,6 +14,7 @@ package org.assertj.core.api.date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.DateUtil.parseDatetime;
@@ -58,15 +59,13 @@ public class DateAssert_hasSameTimeAsDateInString_Test extends DateAssertBaseTes
 
   @Test
   public void should_fail_when_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((Date) null).hasSameTimeAs("2003-04-26T12:00:00");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Date) null).hasSameTimeAs("2003-04-26T12:00:00"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_exception_when_date_is_null() {
-    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-
-    assertThat(new Date()).hasSameTimeAs((String) null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(new Date()).hasSameTimeAs((String) null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 }

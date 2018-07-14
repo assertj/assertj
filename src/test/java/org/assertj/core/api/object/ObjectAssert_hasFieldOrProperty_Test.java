@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api.object;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
@@ -41,19 +44,17 @@ public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
 
   @Test
   public void should_fail_if_field_or_property_does_not_exists() {
-    thrown.expectAssertionError("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"not_exists_in_jedi_object\">");
-
-    Jedi jedi = new Jedi("Yoda", "Blue");
-
-    assertThat(jedi).hasFieldOrProperty("not_exists_in_jedi_object");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      Jedi jedi = new Jedi("Yoda", "Blue");
+      assertThat(jedi).hasFieldOrProperty("not_exists_in_jedi_object");
+    }).withMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"not_exists_in_jedi_object\">"));
   }
 
   @Test
   public void should_fail_if_given_field_or_property_name_is_null() {
-    thrown.expectIllegalArgumentException("The name of the property/field to read should not be null");
-
-    Jedi jedi = new Jedi("Yoda", "Blue");
-
-    assertThat(jedi).hasFieldOrProperty(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      Jedi jedi = new Jedi("Yoda", "Blue");
+      assertThat(jedi).hasFieldOrProperty(null);
+    }).withMessage("The name of the property/field to read should not be null");
   }
 }

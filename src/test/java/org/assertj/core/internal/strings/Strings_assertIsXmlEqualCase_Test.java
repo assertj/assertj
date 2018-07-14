@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -42,22 +44,28 @@ public class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertXmlEqualsTo(someInfo(), null, "<jedi>yoda</jedi>");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertXmlEqualsTo(someInfo(), null, "<jedi>yoda</jedi>"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_expected_is_null() {
-    thrown.expectNullPointerException("The char sequence to look for should not be null");
-    strings.assertXmlEqualsTo(someInfo(), "<jedi>yoda</jedi>", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertXmlEqualsTo(someInfo(), "<jedi>yoda</jedi>", null))
+                                    .withMessage("The char sequence to look for should not be null");
   }
 
   @Test
   public void should_fail_if_both_Strings_are_not_XML_equals() {
     String actual = "<rss version=\"2.0\"><channel><title>Java Tutorials</title></channel></rss>";
     String expected = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples</title></channel></rss>";
-    thrown.expectAssertionError(shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected), someInfo().representation()));
-    strings.assertXmlEqualsTo(someInfo(), actual, expected);
+    AssertionInfo info = someInfo();
+    try {
+      strings.assertXmlEqualsTo(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected), info.representation()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

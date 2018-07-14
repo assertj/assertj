@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -36,20 +38,20 @@ public class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_ends_with_suffix() {
-    thrown.expectAssertionError(shouldNotEndWith("Yoda", "oda"));
-    strings.assertDoesNotEndWith(someInfo(), "Yoda", "oda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotEndWith(someInfo(), "Yoda", "oda"))
+                                                   .withMessage(shouldNotEndWith("Yoda", "oda").create());
   }
 
   @Test
   public void should_throw_error_if_suffix_is_null() {
-    thrown.expectNullPointerException("The given suffix should not be null");
-    strings.assertDoesNotEndWith(someInfo(), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertDoesNotEndWith(someInfo(), "Yoda", null))
+                                    .withMessage("The given suffix should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotEndWith(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotEndWith(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +61,8 @@ public class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_ends_with_suffix_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldNotEndWith("Yoda", "A", comparisonStrategy));
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(someInfo(), "Yoda", "A");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(someInfo(), "Yoda", "A"))
+                                                   .withMessage(shouldNotEndWith("Yoda", "A", comparisonStrategy).create());
   }
 
 }

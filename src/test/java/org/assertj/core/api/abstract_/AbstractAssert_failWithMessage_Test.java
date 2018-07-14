@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.junit.Before;
@@ -39,26 +40,26 @@ public class AbstractAssert_failWithMessage_Test {
 
   @Test
   public void should_fail_with_simple_message() {
-    thrown.expectAssertionError("fail");
-    assertion.failWithMessage("fail");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.failWithMessage("fail"))
+                                                   .withMessage("fail");
   }
 
   @Test
   public void should_fail_with_message_having_args() {
-    thrown.expectAssertionError("fail 5 times");
-    assertion.failWithMessage("fail %d %s", 5, "times");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.failWithMessage("fail %d %s", 5, "times"))
+                                                   .withMessage("fail 5 times");
   }
 
   @Test
   public void should_keep_description_set_by_user() {
-    thrown.expectAssertionError("[user description] fail 5 times");
-    assertion.as("user description").failWithMessage("fail %d %s", 5, "times");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.as("user description").failWithMessage("fail %d %s", 5, "times"))
+                                                   .withMessage("[user description] fail 5 times");
   }
 
   @Test
   public void should_keep_specific_error_message_and_description_set_by_user() {
-    thrown.expectAssertionError("[test context] my 5 errors !");
-    assertion.as("test context").overridingErrorMessage("my %d errors %s", 5, "!").failWithMessage("%d %s", 5, "time");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.as("test context").overridingErrorMessage("my %d errors %s", 5, "!").failWithMessage("%d %s", 5, "time"))
+                                                   .withMessage("[test context] my 5 errors !");
   }
 
 }

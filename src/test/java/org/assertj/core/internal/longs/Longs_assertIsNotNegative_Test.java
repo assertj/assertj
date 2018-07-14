@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.longs;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.LongsBaseTest;
@@ -37,8 +39,8 @@ public class Longs_assertIsNotNegative_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_negative() {
-    thrown.expectAssertionError("%nExpecting:%n <-6L>%nto be greater than or equal to:%n <0L> ");
-    longs.assertIsNotNegative(someInfo(), -6L);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotNegative(someInfo(), -6L))
+                                                   .withMessage(format("%nExpecting:%n <-6L>%nto be greater than or equal to:%n <0L> "));
   }
 
   @Test

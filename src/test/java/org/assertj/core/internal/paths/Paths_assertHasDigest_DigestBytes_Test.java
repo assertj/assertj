@@ -13,6 +13,8 @@
 package org.assertj.core.internal.paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
@@ -45,8 +47,8 @@ public class Paths_assertHasDigest_DigestBytes_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    paths.assertHasDigest(info, null, digest, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasDigest(info, null, digest, expected))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -84,14 +86,14 @@ public class Paths_assertHasDigest_DigestBytes_Test extends MockPathsBaseTest {
 
   @Test
   public void should_throw_error_if_digest_is_null() {
-    thrown.expectNullPointerException("The message digest algorithm should not be null");
-    paths.assertHasDigest(INFO, null, (MessageDigest) null, expected);
+    assertThatNullPointerException().isThrownBy(() -> paths.assertHasDigest(INFO, null, (MessageDigest) null, expected))
+                                    .withMessage("The message digest algorithm should not be null");
   }
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The binary representation of digest to compare to should not be null");
-    paths.assertHasDigest(INFO, null, digest, (byte[]) null);
+    assertThatNullPointerException().isThrownBy(() -> paths.assertHasDigest(INFO, null, digest, (byte[]) null))
+                                    .withMessage("The binary representation of digest to compare to should not be null");
   }
 
   @Test

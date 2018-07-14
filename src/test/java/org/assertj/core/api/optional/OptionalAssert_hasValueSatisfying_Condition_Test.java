@@ -12,17 +12,19 @@
  */
 package org.assertj.core.api.optional;
 
-import org.assertj.core.api.BaseTest;
-import org.assertj.core.api.Condition;
-import org.assertj.core.api.TestCondition;
-import org.junit.Test;
-
-import java.util.Optional;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.util.Optional;
+
+import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.Condition;
+import org.assertj.core.api.TestCondition;
+import org.junit.Test;
 
 public class OptionalAssert_hasValueSatisfying_Condition_Test extends BaseTest {
 
@@ -31,20 +33,20 @@ public class OptionalAssert_hasValueSatisfying_Condition_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optional_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    assertThat((Optional<String>) null).hasValueSatisfying(passingCondition);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).hasValueSatisfying(passingCondition))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_when_optional_is_empty() {
-    thrown.expectAssertionError(shouldBePresent(Optional.empty()).create());
-    assertThat(Optional.<String>empty()).hasValueSatisfying(passingCondition);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.<String>empty()).hasValueSatisfying(passingCondition))
+                                                   .withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
   public void should_fail_when_condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate should not be null");
-    assertThat(Optional.of("something")).hasValueSatisfying((Condition<String>) null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(Optional.of("something")).hasValueSatisfying((Condition<String>) null))
+                                    .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
@@ -54,7 +56,7 @@ public class OptionalAssert_hasValueSatisfying_Condition_Test extends BaseTest {
 
   @Test
   public void should_fail_when_condition_is_not_met() {
-    thrown.expectAssertionError(shouldBe("something", notPassingCondition).create());
-    assertThat(Optional.of("something")).hasValueSatisfying(notPassingCondition);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.of("something")).hasValueSatisfying(notPassingCondition))
+                                                   .withMessage(shouldBe("something", notPassingCondition).create());
   }
 }

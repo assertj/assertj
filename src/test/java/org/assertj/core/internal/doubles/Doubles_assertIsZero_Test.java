@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.DoublesBaseTest;
@@ -27,14 +28,14 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
-    thrown.expectAssertionError("expected:<[0].0> but was:<[2].0>");
-    doubles.assertIsZero(someInfo(), 2.0d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), 2.0d))
+                                                   .withMessage("expected:<[0].0> but was:<[2].0>");
   }
 
   @Test
   public void should_fail_since_actual_is_negative_zero_and_not_primitive() {
-    thrown.expectAssertionError("expected:<[]0.0> but was:<[-]0.0>");
-    doubles.assertIsZero(someInfo(), new Double(-0.0d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), new Double(-0.0d)))
+                                                   .withMessage("expected:<[]0.0> but was:<[-]0.0>");
   }
 
   @Test
@@ -44,8 +45,8 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[0].0> but was:<[2].0>");
-    doublesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0d))
+                                                   .withMessage("expected:<[0].0> but was:<[2].0>");
   }
 
 }

@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.classes;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -38,15 +41,15 @@ public class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_given_classes_are_empty() {
     actual = Jedi.class;
-    thrown.expectIllegalArgumentException("Expecting at least one Class to be specified");
-    classes.assertIsAssignableFrom(someInfo(), actual);
+    assertThatIllegalArgumentException().isThrownBy(() -> classes.assertIsAssignableFrom(someInfo(), actual))
+                                        .withMessage("Expecting at least one Class to be specified");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertIsAssignableFrom(someInfo(), actual);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableFrom(someInfo(), actual))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -59,8 +62,10 @@ public class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
   public void should_fail_if_actual_is_not_assignable_from() {
     actual = HumanJedi.class;
     Class<?>[] expected = new Class[] { HumanJedi.class, Jedi.class };
-    thrown.expectAssertionError(shouldBeAssignableFrom(actual, Sets.<Class<?>> newLinkedHashSet(expected),
-                                                       Sets.<Class<?>> newLinkedHashSet(Jedi.class)));
-    classes.assertIsAssignableFrom(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableFrom(someInfo(), actual,
+                                                                                                    expected))
+                                                   .withMessage(format(shouldBeAssignableFrom(actual,
+                                                                                              Sets.<Class<?>> newLinkedHashSet(expected),
+                                                                                              Sets.<Class<?>> newLinkedHashSet(Jedi.class)).create()));
   }
 }

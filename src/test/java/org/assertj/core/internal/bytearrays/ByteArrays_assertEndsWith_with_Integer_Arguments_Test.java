@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
-import static org.assertj.core.internal.ErrorMessages.*;
-import static org.assertj.core.test.ByteArrays.*;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.ByteArrays.arrayOf;
+import static org.assertj.core.test.ByteArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -41,8 +42,8 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertEndsWith(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, (int[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -58,8 +59,8 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertEndsWith(someInfo(), null, IntArrays.arrayOf(8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, IntArrays.arrayOf(8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -110,8 +111,10 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, (int[]) null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                             actual,
+                                                                                                                             (int[]) null))
+                                                         .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -121,8 +124,8 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, IntArrays.arrayOf(-8));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, IntArrays.arrayOf(-8)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -12,8 +12,10 @@
  */
 package org.assertj.core.api.localdate;
 
+import static java.lang.String.format;
 import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -40,18 +42,19 @@ public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
 
   @Test
   public void test_isToday_assertion_error_message() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting:%n" +
-                                " <2000-01-01>%n" +
-                                "to be today but was not.");
-    assertThat(parse("2000-01-01")).isToday();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("2000-01-01")).isToday())
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting:%n" +
+                                                                       " <2000-01-01>%n" +
+                                                                       "to be today but was not."));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    LocalDate actual = null;
-    assertThat(actual).isToday();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalDate actual = null;
+      assertThat(actual).isToday();
+    }).withMessage(actualIsNull());
   }
 
   private static void verify_that_isToday_assertion_fails_and_throws_AssertionError(LocalDate dateToCheck) {

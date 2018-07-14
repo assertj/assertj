@@ -12,17 +12,18 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
+import static org.assertj.core.test.ExpectedException.none;
+
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
-
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
-import static org.assertj.core.test.ExpectedException.none;
 
 public class ShouldNotAccept_create_Test {
 
@@ -48,10 +49,8 @@ public class ShouldNotAccept_create_Test {
 
   @Test
   public void should_fail_if_predicate_description_is_null() {
-    // then
-    thrown.expectNullPointerException("The predicate description must not be null");
-    // when
-    shouldNotAccept(color -> color.equals("red"), "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> shouldNotAccept(color -> color.equals("red"), "Yoda", null))
+                                    .withMessage("The predicate description must not be null");
   }
 
 }

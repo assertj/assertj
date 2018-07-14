@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.ZonedDateTime;
@@ -42,16 +45,16 @@ public class ZonedDateTimeAssert_isNotEqualTo_errors_Test extends ZonedDateTimeA
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("%nExpecting:%n <2000-01-05T03:00:05Z>%nnot to be equal to:%n <2000-01-05T03:00:05Z>%n");
-    ZonedDateTime date = ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC);
-    assertThat(date).isNotEqualTo(date.toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      ZonedDateTime date = ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC);
+      assertThat(date).isNotEqualTo(date.toString());
+    }).withMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z>%nnot to be equal to:%n <2000-01-05T03:00:05Z>%n"));
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-                    "The String representing the ZonedDateTime to compare actual with should not be null");
-    assertThat(ZonedDateTime.now()).isNotEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isNotEqualTo((String) null))
+                                        .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
   }
 
   private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(ZonedDateTime reference) {

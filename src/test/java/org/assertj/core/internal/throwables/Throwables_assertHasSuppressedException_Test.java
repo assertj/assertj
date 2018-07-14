@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -47,14 +49,15 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    throwables.assertHasSuppressedException(someInfo(), null, new Throwable());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasSuppressedException(someInfo(), null, new Throwable()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_expected_suppressed_exception_is_null() {
-    thrown.expectNullPointerException("The expected suppressed exception should not be null");
-    throwables.assertHasSuppressedException(someInfo(), new Throwable(), null);
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasSuppressedException(someInfo(),
+                                                                                              new Throwable(), null))
+                                    .withMessage("The expected suppressed exception should not be null");
   }
 
   @Test

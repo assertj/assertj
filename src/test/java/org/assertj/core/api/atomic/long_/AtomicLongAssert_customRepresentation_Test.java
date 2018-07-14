@@ -13,23 +13,20 @@
 package org.assertj.core.api.atomic.long_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicLongAssert_customRepresentation_Test {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void should_honor_custom_representation() {
-    thrown.expectAssertionErrorWithMessageContaining("@0L@");
-    assertThat(new AtomicLong(0L)).withRepresentation(new CustomRepresentation()).isEqualTo(-1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicLong(0L)).withRepresentation(new CustomRepresentation())
+                                                                                                   .isEqualTo(-1))
+                                                   .withMessageContaining("@0L@");
   }
 
   private class CustomRepresentation extends StandardRepresentation {

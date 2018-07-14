@@ -40,8 +40,8 @@ public class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArrays
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasOnlyElementsOfTypes(someInfo(), null, Integer.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), null, Integer.class))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -69,8 +69,8 @@ public class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArrays
   @Test
   public void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_types() {
     String error = shouldOnlyHaveElementsOfTypes(ARRAY, array(Long.class, String.class), newArrayList(6, 7.0)).create();
-    thrown.expectAssertionError(error);
-    arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, Long.class, String.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, Long.class, String.class))
+                                                   .withMessage(error);
   }
 
 }

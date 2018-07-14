@@ -12,9 +12,13 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.internal.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
@@ -47,20 +51,21 @@ public class Maps_assertDoesNotContain_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
-    maps.assertDoesNotContain(someInfo(), actual, new MapEntry[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertDoesNotContain(someInfo(), actual,
+                                                                                    new MapEntry[0]))
+                                        .withMessage(entriesToLookForIsEmpty());
   }
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(entriesToLookForIsNull());
-    maps.assertDoesNotContain(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertDoesNotContain(someInfo(), actual, null))
+                                    .withMessage(entriesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertDoesNotContain(someInfo(), null, array(entry("job", "Jedi")));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContain(someInfo(), null, array(entry("job", "Jedi"))))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

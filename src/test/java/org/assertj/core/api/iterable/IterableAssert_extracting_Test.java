@@ -369,71 +369,64 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
-
-    assertThat(jedis).extracting("name.first").isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty()).withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first]");
-
-    assertThat(jedis).extracting("name.first", String.class).isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class).isEmpty()).withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[Extracted: name.first, name.last]");
-
-    assertThat(jedis).extracting("name.first", "name.last").isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", "name.last").isEmpty()).withMessageContaining("[Extracted: name.first, name.last]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
-
-    assertThat(jedis).as("check employees first name")
-                     .extracting("name.first", String.class)
-                     .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                                                      .extracting("name.first",
+                                                                                                  String.class)
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[check employees name]");
-
-    assertThat(jedis).as("check employees name")
-                     .extracting("name.first", "name.last")
-                     .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees name")
+                                                                                      .extracting("name.first",
+                                                                                                  "name.last")
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[check employees name]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
-    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
-
-    assertThat(jedis).as("check employees first name")
-                     .extracting("name.first")
-                     .isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                                                      .extracting("name.first")
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
-    thrown.expectAssertionErrorWithMessageContaining("[check employees first name]");
-
-    assertThat(jedis).as("check employees first name").extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        return input.getName().getFirst();
-      }
-    }).isEmpty();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                                                      .extracting(new Extractor<Employee, String>() {
+                                                                                        @Override
+                                                                                        public String extract(Employee input) {
+                                                                                          return input.getName()
+                                                                                                      .getFirst();
+                                                                                        }
+                                                                                      }).isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
-    thrown.expectAssertionErrorWithMessageContaining("[expected exception]");
-
-    assertThat(jedis).as("expected exception")
-                     .extracting(throwingExtractor)
-                     .containsOnly("Luke");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("expected exception")
+                                                                                      .extracting(throwingExtractor)
+                                                                                      .containsOnly("Luke"))
+                                                   .withMessageContaining("[expected exception]");
   }
 
   @Test

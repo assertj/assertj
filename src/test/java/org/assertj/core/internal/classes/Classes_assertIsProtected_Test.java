@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.classes;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -23,8 +24,8 @@ public class Classes_assertIsProtected_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    classes.assertIsProtected(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsProtected(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -34,7 +35,7 @@ public class Classes_assertIsProtected_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_a_protected_class() {
-    thrown.expectAssertionError(shouldBeProtected(Object.class));
-    classes.assertIsProtected(someInfo(), Object.class);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsProtected(someInfo(), Object.class))
+                                                   .withMessage(shouldBeProtected(Object.class).create());
   }
 }

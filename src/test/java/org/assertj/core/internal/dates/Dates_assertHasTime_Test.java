@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -43,8 +44,8 @@ public class Dates_assertHasTime_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    dates.assertHasTime(someInfo(), null, 1);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasTime(someInfo(), null, 1))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

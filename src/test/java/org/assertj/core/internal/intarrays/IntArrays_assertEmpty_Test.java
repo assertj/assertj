@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.intarrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.test.IntArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
@@ -37,8 +38,8 @@ public class IntArrays_assertEmpty_Test extends IntArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertEmpty(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEmpty(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

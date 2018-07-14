@@ -12,16 +12,18 @@
  */
 package org.assertj.core.internal.files;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FilesBaseTest;
-import org.junit.Test;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.FilesBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for
@@ -36,14 +38,14 @@ public class Files_assertHasName_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() throws Exception {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertHasName(someInfo(), null, expectedName);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasName(someInfo(), null, expectedName))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_npe_if_name_is_null() throws Exception {
-    thrown.expectNullPointerException("The expected name should not be null.");
-    files.assertHasName(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasName(someInfo(), actual, null))
+                                    .withMessage("The expected name should not be null.");
   }
 
   @Test

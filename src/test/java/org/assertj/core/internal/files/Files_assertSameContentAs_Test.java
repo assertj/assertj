@@ -16,6 +16,8 @@ import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -63,21 +65,23 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The file to compare to should not be null");
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), null, defaultCharset());
+    assertThatNullPointerException().isThrownBy(() -> files.assertSameContentAs(someInfo(), actual, defaultCharset(),
+                                                                                null, defaultCharset()))
+                                    .withMessage("The file to compare to should not be null");
   }
 
   @Test
   public void should_throw_error_if_expected_is_not_file() {
-    thrown.expectIllegalArgumentException("Expected file:<'xyz'> should be an existing file");
-    File notAFile = new File("xyz");
-    files.assertSameContentAs(someInfo(), actual, defaultCharset(), notAFile, defaultCharset());
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      File notAFile = new File("xyz");
+      files.assertSameContentAs(someInfo(), actual, defaultCharset(), notAFile, defaultCharset());
+    }).withMessage("Expected file:<'xyz'> should be an existing file");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    files.assertSameContentAs(someInfo(), null, defaultCharset(), expected, defaultCharset());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), null, defaultCharset(), expected, defaultCharset()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

@@ -15,6 +15,7 @@ package org.assertj.core.api.iterable;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.util.List;
@@ -46,9 +47,10 @@ public class IterableAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
   public void fails_if_iterable_has_only_one_element_and_that_element_does_not_statisfy_the_given_assertion() {
-    thrown.expectAssertionError("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n");
-    List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
-    assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
+      assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
+    }).withMessage(format("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n"));
   }
 
   @Test
@@ -80,8 +82,9 @@ public class IterableAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
   public void fails_if_iterable_has_more_than_one_element() {
-    thrown.expectAssertionErrorWithMessageContaining("Expected size:<1> but was:<2>");
-    List<Jedi> jedis = asList(new Jedi("Yoda", "red"), new Jedi("Luke", "green"));
-    assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      List<Jedi> jedis = asList(new Jedi("Yoda", "red"), new Jedi("Luke", "green"));
+      assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
+    }).withMessageContaining("Expected size:<1> but was:<2>");
   }
 }

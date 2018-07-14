@@ -13,8 +13,8 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import org.junit.Test;
 
@@ -27,8 +27,8 @@ public class Digests_toHex_Test extends DigestsBaseTest {
 
   @Test
   public void should_fail_if_digest_is_null() {
-    thrown.expectNullPointerException("The digest should not be null");
-    Digests.toHex(null);
+    assertThatNullPointerException().isThrownBy(() -> Digests.toHex(null))
+                                    .withMessage("The digest should not be null");
   }
 
   @Test
@@ -43,7 +43,6 @@ public class Digests_toHex_Test extends DigestsBaseTest {
 
   @Test
   public void should_fail_if_digest_conversion__incorrect() {
-    thrown.expectAssertionError(shouldBeEqual(DIGEST_TEST_1_STR, EXPECTED_MD5_DIGEST_STR, STANDARD_REPRESENTATION));
-    assertThat(Digests.toHex(DIGEST_TEST_1_BYTES)).isEqualTo(EXPECTED_MD5_DIGEST_STR);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Digests.toHex(DIGEST_TEST_1_BYTES)).isEqualTo(EXPECTED_MD5_DIGEST_STR));
   }
 }

@@ -13,6 +13,8 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
@@ -39,8 +41,8 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -120,8 +122,9 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
 
   @Test
   public void should_fail_if_actual_is_not_in_range_end() {
-    thrown.expectIllegalArgumentException("The end value <0> must not be less than or equal to the start value <0>!");
-    AssertionInfo info = someInfo();
-    numbers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
+    assertThatIllegalArgumentException().isThrownBy(() -> {
+      AssertionInfo info = someInfo();
+      numbers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
+    }).withMessage("The end value <0> must not be less than or equal to the start value <0>!");
   }
 }

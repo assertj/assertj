@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api.localdatetime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalDateTimeAssert.NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDateTime;
@@ -34,29 +37,28 @@ public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseT
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_localdatetime_with_nanoseconds_ignored() {
-    thrown.expectAssertionError(
-        "%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02>%nbut had not.");
-    assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.plusSeconds(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.plusSeconds(1)))
+                                                   .withMessage(format("%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02>%nbut had not."));
   }
 
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
-    thrown.expectAssertionError(
-        "%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999>%nbut had not.");
-    assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.minusNanos(1));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.minusNanos(1)))
+                                                   .withMessage(format("%nExpecting:%n  <2000-01-01T00:00:01>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999>%nbut had not."));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    LocalDateTime actual = null;
-    assertThat(actual).isEqualToIgnoringNanos(LocalDateTime.now());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      LocalDateTime actual = null;
+      assertThat(actual).isEqualToIgnoringNanos(LocalDateTime.now());
+    }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_if_given_localdatetime_is_null() {
-    expectIllegalArgumentException(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
-    assertThat(refLocalDateTime).isEqualToIgnoringNanos(null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalDateTime).isEqualToIgnoringNanos(null))
+                                        .withMessage(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
   }
 
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.DoubleArrays.emptyArray;
@@ -60,8 +61,8 @@ public class DoubleArrays_assertIsSortedAccordingToComparator_Test extends Doubl
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertIsSortedAccordingToComparator(someInfo(), null, doubleDescendingOrderComparator);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, doubleDescendingOrderComparator))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -72,8 +73,8 @@ public class DoubleArrays_assertIsSortedAccordingToComparator_Test extends Doubl
   @Test
   public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     actual = new double[] { 3.0, 2.0, 1.0, 9.0 };
-    thrown.expectAssertionError(shouldBeSortedAccordingToGivenComparator(2, actual, doubleDescendingOrderComparator));
-    arrays.assertIsSortedAccordingToComparator(someInfo(), actual, doubleDescendingOrderComparator);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), actual, doubleDescendingOrderComparator))
+                                                   .withMessage(shouldBeSortedAccordingToGivenComparator(2, actual, doubleDescendingOrderComparator).create());
   }
 
 }

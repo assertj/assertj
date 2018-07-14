@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.bigintegers;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigInteger;
@@ -33,14 +35,14 @@ public class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0> ");
-    numbers.assertIsNegative(someInfo(), BigInteger.ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigInteger.ONE))
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> "));
   }
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError("%nExpecting:%n <0>%nto be less than:%n <0> ");
-    numbers.assertIsNegative(someInfo(), BigInteger.ZERO);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigInteger.ZERO))
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be less than:%n <0> "));
   }
 
   @Test
@@ -50,8 +52,8 @@ public class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using BigIntegerComparator");
-    numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigInteger.ONE);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigInteger.ONE))
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using BigIntegerComparator"));
   }
 
 }

@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.ZonedDateTime;
@@ -42,21 +45,22 @@ public class ZonedDateTimeAssert_isIn_errors_Test extends ZonedDateTimeAssertBas
 
   @Test
   public void test_isIn_assertion_error_message() {
-    thrown.expectAssertionError("%nExpecting:%n <2000-01-05T03:00:05Z>%nto be in:%n <[2012-01-01T03:03:03Z]>%n");
-    assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC))
-        .isIn(ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isIn(ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC)
+                                                                                  .toString());
+    }).withMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z>%nto be in:%n <[2012-01-01T03:03:03Z]>%n"));
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The given ZonedDateTime array should not be null");
-    assertThat(ZonedDateTime.now()).isIn((String[]) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isIn((String[]) null))
+                                        .withMessage("The given ZonedDateTime array should not be null");
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
-    expectException(IllegalArgumentException.class, "The given ZonedDateTime array should not be empty");
-    assertThat(ZonedDateTime.now()).isIn(new String[0]);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isIn(new String[0]))
+                                        .withMessage("The given ZonedDateTime array should not be empty");
   }
 
   private static void verify_that_isIn_assertion_fails_and_throws_AssertionError(ZonedDateTime reference) {

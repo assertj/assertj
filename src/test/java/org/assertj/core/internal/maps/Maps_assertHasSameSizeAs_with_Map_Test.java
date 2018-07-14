@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.Maps.mapOf;
@@ -43,14 +45,14 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    maps.assertHasSameSizeAs(someInfo(), null, mapOf(entry("name", "Solo")));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSameSizeAs(someInfo(), null, mapOf(entry("name", "Solo"))))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("The Map to compare actual size with should not be null");
-    maps.assertHasSameSizeAs(someInfo(), actual, (Map<?, ?>) null);
+    assertThatNullPointerException().isThrownBy(() -> maps.assertHasSameSizeAs(someInfo(), actual, (Map<?, ?>) null))
+                                    .withMessage("The Map to compare actual size with should not be null");
   }
 
   @Test
@@ -58,9 +60,8 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     Map<?, ?> other = mapOf(entry("name", "Solo"));
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null, info.representation()));
-
-    maps.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null, info.representation()));
   }
 
   @Test

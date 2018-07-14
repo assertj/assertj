@@ -13,6 +13,8 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.verify;
 
@@ -72,23 +74,19 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
 
   @Test
   public void should_fail_according_to_requirements() {
-    thrown.expectAssertionError("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
-    assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements))
+                                                   .withMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
   }
 
   @Test
   public void should_fail_if_consumer_is_null() {
-    // then
-    thrown.expectNullPointerException("The Consumer<T> expressing the assertions requirements must not be null");
-    // when
-    assertThat(yoda).isInstanceOfSatisfying(Jedi.class, null);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).isInstanceOfSatisfying(Jedi.class, null))
+                                    .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
-  
+
   @Test
   public void should_fail_if_type_is_null() {
-    // then
-    thrown.expectNullPointerException("The given type should not be null");
-    // when
-    assertThat(yoda).isInstanceOfSatisfying(null, jediRequirements);
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).isInstanceOfSatisfying(null, jediRequirements))
+                                    .withMessage("The given type should not be null");
   }
 }

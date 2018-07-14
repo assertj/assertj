@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -38,20 +39,20 @@ public class Strings_assertIsUpperCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_only_uppercase() {
-    thrown.expectAssertionError(shouldBeUpperCase("Lego"));
-    strings.assertUpperCase(someInfo(), "Lego");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertUpperCase(someInfo(), "Lego"))
+                                                   .withMessage(shouldBeUpperCase("Lego").create());
   }
 
   @Test
   public void should_fail_if_actual_is_lowercase() {
-    thrown.expectAssertionError(shouldBeUpperCase("lego"));
-    strings.assertUpperCase(someInfo(), "lego");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertUpperCase(someInfo(), "lego"))
+                                                   .withMessage(shouldBeUpperCase("lego").create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertUpperCase(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertUpperCase(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
 }

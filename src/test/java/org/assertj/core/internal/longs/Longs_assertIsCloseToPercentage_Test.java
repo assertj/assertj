@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
@@ -39,9 +40,9 @@ public class Longs_assertIsCloseToPercentage_Test extends LongsBaseTest {
 
     @Test
     public void should_fail_if_actual_is_null() {
-        thrown.expectAssertionError(actualIsNull());
-        longs.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE));
-    }
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+                                                   .withMessage(actualIsNull());
+  }
 
     @Test
     public void should_fail_if_expected_value_is_null() {

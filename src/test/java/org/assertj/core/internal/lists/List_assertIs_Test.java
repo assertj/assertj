@@ -15,6 +15,7 @@ package org.assertj.core.internal.lists;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldBeAtIndex.shouldBeAtIndex;
 import static org.assertj.core.test.TestData.someIndex;
@@ -54,21 +55,22 @@ public class List_assertIs_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    lists.assertIs(someInfo(), null, condition, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertIs(someInfo(), null, condition, someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    List<String> empty = emptyList();
-    lists.assertIs(someInfo(), empty, condition, someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      List<String> empty = emptyList();
+      lists.assertIs(someInfo(), empty, condition, someIndex());
+    }).withMessage(actualIsEmpty());
   }
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    lists.assertIs(someInfo(), actual, condition, null);
+    assertThatNullPointerException().isThrownBy(() -> lists.assertIs(someInfo(), actual, condition, null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -80,8 +82,8 @@ public class List_assertIs_Test extends ListsBaseTest {
 
   @Test
   public void should_throw_error_if_Condition_is_null() {
-    thrown.expectNullPointerException("The condition to evaluate should not be null");
-    lists.assertIs(someInfo(), actual, null, someIndex());
+    assertThatNullPointerException().isThrownBy(() -> lists.assertIs(someInfo(), actual, null, someIndex()))
+                                    .withMessage("The condition to evaluate should not be null");
   }
 
   @Test

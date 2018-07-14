@@ -12,7 +12,9 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -51,8 +53,8 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
 
   @Test
   public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
-    thrown.expectAssertionError(elementsDifferAtIndex(8d, 10d, 1));
-    arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 10d, 8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 10d, 8d)))
+                                                   .withMessage(elementsDifferAtIndex(8d, 10d, 1).create());
   }
 
   @Test
@@ -67,28 +69,28 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsExactly(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsExactly(someInfo(), null, arrayOf(8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, arrayOf(8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
     double[] expected = { 6d, 8d, 20d };
-    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(20d), newArrayList(10d)));
-    arrays.assertContainsExactly(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, expected))
+                                                   .withMessage(shouldContainExactly(actual, asList(expected), newArrayList(20d), newArrayList(10d)).create());
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     double[] expected = { 6d, 8d, 10d, 10d };
-    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(10d), newArrayList()));
-    arrays.assertContainsExactly(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, expected))
+                                                   .withMessage(shouldContainExactly(actual, asList(expected), newArrayList(10d), newArrayList()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -104,8 +106,8 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     double[] expected = { -6d, 10d, 8d };
-    thrown.expectAssertionError(elementsDifferAtIndex(8d, 10d, 1, absValueComparisonStrategy));
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected))
+                                                   .withMessage(elementsDifferAtIndex(8d, 10d, 1, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -115,29 +117,39 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
 
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, null);
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                               actual,
+                                                                                                               null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8d));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8d)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
-    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(20d),
-                                                     newArrayList(10d), absValueComparisonStrategy));
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              actual,
+                                                                                                                              expected))
+                                                   .withMessage(format(shouldContainExactly(actual, asList(expected),
+                                                                                           newArrayList(20d),
+                                                                                           newArrayList(10d),
+                                                                                           absValueComparisonStrategy).create()));
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, 8d, 10d, 10d };
-    thrown.expectAssertionError(shouldContainExactly(actual, asList(expected), newArrayList(10d), newArrayList(),
-                                                     absValueComparisonStrategy));
-    arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              actual,
+                                                                                                                              expected))
+                                                   .withMessage(format(shouldContainExactly(actual, asList(expected),
+                                                                                           newArrayList(10d),
+                                                                                           newArrayList(),
+                                                                                           absValueComparisonStrategy).create()));
   }
 }

@@ -83,8 +83,8 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    floats.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

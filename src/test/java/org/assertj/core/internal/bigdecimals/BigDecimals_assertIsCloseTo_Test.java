@@ -15,6 +15,7 @@ package org.assertj.core.internal.bigdecimals;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static java.math.BigDecimal.ZERO;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
@@ -73,14 +74,16 @@ public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    numbers.assertIsCloseTo(someInfo(), null, ONE, within(ONE));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_if_expected_value_is_null() {
-    thrown.expectNullPointerException("The given number should not be null");
-    numbers.assertIsCloseTo(someInfo(), new BigDecimal(6.0), null, offset(ONE));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(),
+                                                                                                   new BigDecimal(6.0),
+                                                                                                   null, offset(ONE)))
+                                                         .withMessage("The given number should not be null");
   }
 
   @Test
@@ -142,8 +145,11 @@ public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(offsetIsNull());
-    numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, null);
+    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
+                                                                                                                                 ONE,
+                                                                                                                                 TWO,
+                                                                                                                                 null))
+                                                         .withMessage(offsetIsNull());
   }
 
   @Test
@@ -172,8 +178,11 @@ public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("The given number should not be null");
-    numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), TWO, null, offset(ONE));
+    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
+                                                                                                                                 TWO,
+                                                                                                                                 null,
+                                                                                                                                 offset(ONE)))
+                                                         .withMessage("The given number should not be null");
   }
 
 }

@@ -13,6 +13,8 @@
 package org.assertj.core.api.localdatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDateTime;
@@ -42,15 +44,14 @@ public class LocalDateTimeAssert_isEqualTo_Test extends LocalDateTimeAssertBaseT
 
   @Test
   public void test_isEqualTo_assertion_error_message() {
-    thrown.expectAssertionError("expected:<20[12-01-01T03:03:03]> but was:<20[00-01-05T03:00:05]>");
-    assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString()))
+                                                   .withMessage("expected:<20[12-01-01T03:03:03]> but was:<20[00-01-05T03:00:05]>");
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-        "The String representing the LocalDateTime to compare actual with should not be null");
-    assertThat(LocalDateTime.now()).isEqualTo((String) null);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isEqualTo((String) null))
+                                        .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
 }

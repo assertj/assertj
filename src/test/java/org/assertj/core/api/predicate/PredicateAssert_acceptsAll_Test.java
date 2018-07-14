@@ -13,6 +13,7 @@
 package org.assertj.core.api.predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -32,9 +33,8 @@ public class PredicateAssert_acceptsAll_Test extends PredicateAssertBaseTest {
 
   @Test
   public void should_fail_when_predicate_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-    assertThat((Predicate<String>) null).acceptsAll(newArrayList("first", "second"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).acceptsAll(newArrayList("first", "second")))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

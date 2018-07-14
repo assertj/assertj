@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.chararrays;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.CharArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
@@ -53,8 +54,8 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotHaveDuplicates(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -82,8 +83,8 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseT
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

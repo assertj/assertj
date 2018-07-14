@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.matchAnything;
@@ -37,16 +39,17 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_Pattern_is_null() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    Pattern pattern = null;
-    strings.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Pattern pattern = null;
+      strings.assertDoesNotMatch(someInfo(), actual, pattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
   public void should_fail_if_actual_matches_Pattern() {
     Pattern pattern = matchAnything();
-    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()));
-    strings.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), actual, pattern))
+                                                   .withMessage(shouldNotMatch(actual, pattern.pattern()).create());
   }
 
   @Test
@@ -61,16 +64,17 @@ public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_Pattern_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(regexPatternIsNull());
-    Pattern pattern = null;
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatNullPointerException().isThrownBy(() -> {
+      Pattern pattern = null;
+      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
+    }).withMessage(regexPatternIsNull());
   }
 
   @Test
   public void should_fail_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
     Pattern pattern = matchAnything();
-    thrown.expectAssertionError(shouldNotMatch(actual, pattern.pattern()));
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern))
+                                                   .withMessage(shouldNotMatch(actual, pattern.pattern()).create());
   }
 
   @Test

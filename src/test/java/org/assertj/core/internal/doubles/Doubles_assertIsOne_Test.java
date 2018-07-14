@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -33,8 +34,8 @@ public class Doubles_assertIsOne_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one() {
-    thrown.expectAssertionError("expected:<[1].0> but was:<[0].0>");
-    doubles.assertIsOne(someInfo(), 0.0d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsOne(someInfo(), 0.0d))
+                                                   .withMessage("expected:<[1].0> but was:<[0].0>");
   }
 
   @Test
@@ -44,8 +45,8 @@ public class Doubles_assertIsOne_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError("expected:<[1].0> but was:<[0].0>");
-    doublesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0.0d);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0.0d))
+                                                   .withMessage("expected:<[1].0> but was:<[0].0>");
   }
 
 }

@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.strings;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -33,35 +36,37 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_any_of_values() {
-    thrown.expectAssertionError(shouldNotContain("Yoda", "oda", StandardComparisonStrategy.instance()));
-    strings.assertDoesNotContain(someInfo(), "Yoda", "oda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(), "Yoda", "oda"))
+                                                   .withMessage(shouldNotContain("Yoda", "oda", StandardComparisonStrategy.instance()).create());
   }
 
   @Test
   public void should_throw_error_if_list_of_values_is_null() {
-    thrown.expectNullPointerException(arrayOfValuesToLookForIsNull());
-    String[] expected = null;
-    strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String[] expected = null;
+      strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    }).withMessage(arrayOfValuesToLookForIsNull());
   }
 
   @Test
   public void should_throw_error_if_given_value_is_null() {
-    thrown.expectNullPointerException("The char sequence to look for should not be null");
-    String expected = null;
-    strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    assertThatNullPointerException().isThrownBy(() -> {
+      String expected = null;
+      strings.assertDoesNotContain(someInfo(), "Yoda", expected);
+    }).withMessage("The char sequence to look for should not be null");
   }
 
   @Test
   public void should_throw_error_if_any_element_of_values_is_null() {
     String[] values = { "author", null };
-    thrown.expectNullPointerException("Expecting CharSequence elements not to be null but found one at index 1");
-    strings.assertDoesNotContain(someInfo(), "Yoda", values);
+    assertThatNullPointerException().isThrownBy(() -> strings.assertDoesNotContain(someInfo(), "Yoda", values))
+                                    .withMessage("Expecting CharSequence elements not to be null but found one at index 1");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    strings.assertDoesNotContain(someInfo(), null, "Yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(), null, "Yoda"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -76,8 +81,8 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldNotContain("Yoda", "yoda", comparisonStrategy));
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "yoda");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "yoda"))
+                                                   .withMessage(shouldNotContain("Yoda", "yoda", comparisonStrategy).create());
   }
 
   @Test
@@ -89,9 +94,12 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_contains_any_of_given_values() {
     String[] values = { "practice", "make", "good" };
-    thrown.expectAssertionError(shouldNotContain("Practice makes perfect", values, newSet("make"),
-                                                 StandardComparisonStrategy.instance()));
-    strings.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(),
+                                                                                                  "Practice makes perfect",
+                                                                                                  values))
+                                                   .withMessage(format(shouldNotContain("Practice makes perfect",
+                                                                                        values, newSet("make"),
+                                                                                        StandardComparisonStrategy.instance()).create()));
   }
 
   @Test
@@ -103,8 +111,11 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_contains_any_of_given_values_according_to_custom_comparison_strategy() {
     String[] values = { "practice", "made", "good" };
-    thrown.expectAssertionError(shouldNotContain("Practice makes perfect", values, newSet("practice"),
-                                                 comparisonStrategy));
-    stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                                       "Practice makes perfect",
+                                                                                                                                       values))
+                                                   .withMessage(format(shouldNotContain("Practice makes perfect",
+                                                                                        values, newSet("practice"),
+                                                                                        comparisonStrategy).create()));
   }
 }

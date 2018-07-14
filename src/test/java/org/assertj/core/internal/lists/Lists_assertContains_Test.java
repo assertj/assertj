@@ -15,6 +15,7 @@ package org.assertj.core.internal.lists;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.TestData.*;
@@ -46,20 +47,20 @@ public class Lists_assertContains_Test extends ListsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    lists.assertContains(someInfo(), null, "Yoda", someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), null, "Yoda", someIndex()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(actualIsEmpty());
-    lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex()))
+                                                   .withMessage(actualIsEmpty());
   }
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    thrown.expectNullPointerException("Index should not be null");
-    lists.assertContains(someInfo(), actual, "Yoda", null);
+    assertThatNullPointerException().isThrownBy(() -> lists.assertContains(someInfo(), actual, "Yoda", null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
