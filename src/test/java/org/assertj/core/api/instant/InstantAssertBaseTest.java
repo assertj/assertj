@@ -12,25 +12,13 @@
  */
 package org.assertj.core.api.instant;
 
-import org.assertj.core.api.BaseTest;
-import org.junit.experimental.theories.DataPoint;
-
 import java.time.Instant;
 
-import static org.junit.Assume.assumeTrue;
+import org.assertj.core.api.BaseTest;
 
 
 public class InstantAssertBaseTest extends BaseTest {
-  @DataPoint
-  public static Instant instant1 = Instant.now().minusSeconds(10);
-  @DataPoint
-  public static Instant instant2 = Instant.now();
-  @DataPoint
-  public static Instant instant3 = Instant.now().plusSeconds(10);
-
-  protected static void testAssumptions(Instant reference, Instant dateBefore, Instant dateAfter) {
-    assumeTrue(dateBefore.isBefore(reference));
-    assumeTrue(dateAfter.isAfter(reference));
-  }
-
+  public static final Instant BEFORE = Instant.now().minusSeconds(1);
+  public static final Instant REFERENCE = Instant.now();
+  public static final Instant AFTER = Instant.now().plusSeconds(1);
 }

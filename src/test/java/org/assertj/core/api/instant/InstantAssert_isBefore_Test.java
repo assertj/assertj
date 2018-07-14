@@ -20,22 +20,16 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.Instant;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class InstantAssert_isBefore_Test extends InstantAssertBaseTest {
 
-  @Theory
-  public void test_isBefore_assertion(Instant referenceDate, Instant dateBefore, Instant dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isBefore_assertion() {
     // WHEN
-    assertThat(dateBefore).isBefore(referenceDate);
+    assertThat(BEFORE).isBefore(REFERENCE);
     // THEN
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test

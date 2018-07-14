@@ -18,19 +18,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
 
-  @Theory
-  public void test_isEqualTo_assertion(LocalTime referenceTime) {
+  @Test
+  public void test_isEqualTo_assertion() {
     // WHEN
-    assertThat(referenceTime).isEqualTo(referenceTime.toString());
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(referenceTime).isEqualTo(referenceTime.plusHours(1).toString())).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusHours(1).toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test

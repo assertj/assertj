@@ -20,28 +20,22 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.LocalDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalDateTimeAssert_isAfter_Test extends LocalDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isAfter_assertion(LocalDateTime referenceDate, LocalDateTime dateBefore, LocalDateTime dateAfter) {
-	// GIVEN
-	testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isAfter_assertion() {
 	// WHEN
-	assertThat(dateAfter).isAfter(referenceDate);
-	assertThat(dateAfter).isAfter(referenceDate.toString());
+	assertThat(AFTER).isAfter(REFERENCE);
+	assertThat(AFTER).isAfter(REFERENCE.toString());
 	// THEN
-	verify_that_isAfter_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
-	verify_that_isAfter_assertion_fails_and_throws_AssertionError(dateBefore, referenceDate);
+	verify_that_isAfter_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+	verify_that_isAfter_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test

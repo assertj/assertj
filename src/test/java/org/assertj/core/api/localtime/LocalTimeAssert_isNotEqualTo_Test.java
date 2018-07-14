@@ -18,9 +18,6 @@ import static org.assertj.core.api.Assertions.fail;
 import java.time.LocalTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link LocalTime} are already defined in assertj-core)
@@ -28,15 +25,14 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalTimeAssert_isNotEqualTo_Test extends LocalTimeAssertBaseTest {
 
-  @Theory
-  public void test_isNotEqualTo_assertion(LocalTime referenceTime) {
+  @Test
+  public void test_isNotEqualTo_assertion() {
 	// WHEN
-	assertThat(referenceTime).isNotEqualTo(referenceTime.plusHours(1).toString());
+	assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusHours(1).toString());
 	// THEN
-	verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(referenceTime);
+	verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(REFERENCE);
   }
 
   @Test

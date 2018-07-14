@@ -21,28 +21,22 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class ZonedDateTimeAssert_isBefore_Test extends ZonedDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isBefore_assertion(ZonedDateTime referenceDate, ZonedDateTime dateBefore, ZonedDateTime dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isBefore_assertion() {
     // WHEN
-    assertThat(dateBefore).isBefore(referenceDate);
-    assertThat(dateBefore).isBefore(referenceDate.toString());
+    assertThat(BEFORE).isBefore(REFERENCE);
+    assertThat(BEFORE).isBefore(REFERENCE.toString());
     // THEN
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test

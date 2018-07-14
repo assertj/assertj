@@ -19,9 +19,6 @@ import static org.assertj.core.api.Assertions.fail;
 import java.time.ZonedDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link ZonedDateTime} are already defined in assertj-core)
@@ -29,15 +26,14 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class ZonedDateTimeAssert_isIn_errors_Test extends ZonedDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isIn_assertion(ZonedDateTime referenceDate) {
+  @Test
+  public void test_isIn_assertion() {
     // WHEN
-    assertThat(referenceDate).isIn(referenceDate.toString(), referenceDate.plusNanos(1).toString());
+    assertThat(REFERENCE).isIn(REFERENCE.toString(), REFERENCE.plusNanos(1).toString());
     // THEN
-    verify_that_isIn_assertion_fails_and_throws_AssertionError(referenceDate);
+    verify_that_isIn_assertion_fails_and_throws_AssertionError(REFERENCE);
   }
 
   @Test

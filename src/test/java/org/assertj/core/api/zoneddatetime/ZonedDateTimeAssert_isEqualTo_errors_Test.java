@@ -29,15 +29,14 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class ZonedDateTimeAssert_isEqualTo_errors_Test extends ZonedDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isEqualTo_assertion(ZonedDateTime referenceDate) {
+  @Test
+  public void test_isEqualTo_assertion() {
     // WHEN
-    assertThat(referenceDate).isEqualTo(referenceDate.toString());
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
     // THEN
-    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(referenceDate);
+    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(REFERENCE);
   }
 
   @Test

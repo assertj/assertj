@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static org.junit.Assume.assumeTrue;
-
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.experimental.theories.DataPoint;
 
 
 /**
@@ -30,22 +27,8 @@ import org.junit.experimental.theories.DataPoint;
  */
 public class ZonedDateTimeAssertBaseTest extends BaseTest {
 
-  @DataPoint
-  public static ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 0, ZoneOffset.UTC);
-  @DataPoint
-  public static ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 12, 13, 23, 59, 59, 999, ZoneOffset.UTC);
-  @DataPoint
-  public static ZonedDateTime dateTime3 = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 1, ZoneOffset.UTC);
-  @DataPoint
-  public static ZonedDateTime dateTime4 = ZonedDateTime.of(2000, 12, 14, 22, 15, 15, 875, ZoneOffset.UTC);
-  @DataPoint
-  public static ZonedDateTime dateTime5 = ZonedDateTime.of(2000, 12, 14, 22, 15, 15, 874, ZoneOffset.UTC);
-  @DataPoint
-  public static ZonedDateTime dateTime6 = ZonedDateTime.of(2000, 12, 14, 22, 15, 15, 876, ZoneOffset.UTC);
-
-  protected static void testAssumptions(ZonedDateTime reference, ZonedDateTime dateBefore, ZonedDateTime dateAfter) {
-    assumeTrue(dateBefore.isBefore(reference));
-    assumeTrue(dateAfter.isAfter(reference));
-  }
+  public static final ZonedDateTime REFERENCE = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 1, ZoneOffset.UTC);
+  public static final ZonedDateTime BEFORE = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 0, ZoneOffset.UTC);
+  public static final ZonedDateTime AFTER = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 2, ZoneOffset.UTC);
 
 }

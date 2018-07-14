@@ -20,22 +20,16 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.Instant;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class InstantAssert_isAfterOrEqual_Test extends InstantAssertBaseTest {
 
-  @Theory
-  public void test_isAfterOrEqual_assertion(Instant referenceDate, Instant dateBefore, Instant dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isAfterOrEqual_assertion() {
     // WHEN
-    assertThat(dateAfter).isAfterOrEqualTo(referenceDate);
-    assertThat(referenceDate).isAfterOrEqualTo(referenceDate);
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
     // THEN
-    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(dateBefore, referenceDate);
+    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test

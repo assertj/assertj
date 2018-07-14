@@ -12,29 +12,23 @@
  */
 package org.assertj.core.api.instant;
 
-import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
-
-import java.time.Instant;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-@RunWith(Theories.class)
+import java.time.Instant;
+
+import org.junit.Test;
+
 public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest {
 
-  @Theory
-  public void test_isBeforeOrEqual_assertion(Instant referenceDate, Instant dateBefore, Instant dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isBeforeOrEqual_assertion() {
     // WHEN
-    assertThat(dateBefore).isBeforeOrEqualTo(referenceDate);
-    assertThat(referenceDate).isBeforeOrEqualTo(referenceDate);
+    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
     // THEN
-    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);
+    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test

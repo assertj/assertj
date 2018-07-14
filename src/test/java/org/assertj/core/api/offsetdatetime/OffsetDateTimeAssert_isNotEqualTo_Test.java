@@ -19,9 +19,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.OffsetDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link java.time.OffsetDateTime} are already defined in assertj-core)
@@ -29,19 +26,15 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetDateTimeAssert_isNotEqualTo_Test extends OffsetDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isNotEqualTo_assertion(OffsetDateTime reference, OffsetDateTime before, OffsetDateTime equal,
-                                          OffsetDateTime after) {
-    // GIVEN
-    testAssumptions(reference, before, equal, after);
+  @Test
+  public void test_isNotEqualTo_assertion() {
     // WHEN
-    assertThat(equal).isNotEqualTo(reference.plusDays(1));
-    assertThat(equal).isNotEqualTo(reference.plusDays(1).toString());
+    assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusDays(1));
+    assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusDays(1).toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(reference).isNotEqualTo(reference.toString())).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test

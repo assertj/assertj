@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static org.junit.Assume.assumeTrue;
-
 import java.time.LocalDateTime;
 
 import org.assertj.core.api.AbstractLocalDateTimeAssert;
 import org.assertj.core.api.BaseTest;
-import org.junit.experimental.theories.DataPoint;
 
 
 /**
@@ -30,22 +27,8 @@ import org.junit.experimental.theories.DataPoint;
  */
 public class LocalDateTimeAssertBaseTest extends BaseTest {
 
-  @DataPoint
-  public static LocalDateTime localDateTime1 = LocalDateTime.of(2000, 12, 14, 0, 0);
-  @DataPoint
-  public static LocalDateTime localDateTime2 = LocalDateTime.of(2000, 12, 13, 23, 59, 59, 999);
-  @DataPoint
-  public static LocalDateTime localDateTime3 = LocalDateTime.of(2000, 12, 14, 0, 0, 0, 1);
-  @DataPoint
-  public static LocalDateTime localDateTime4 = LocalDateTime.of(2000, 12, 14, 22, 15, 15, 875);
-  @DataPoint
-  public static LocalDateTime localDateTime5 = LocalDateTime.of(2000, 12, 14, 22, 15, 15, 874);
-  @DataPoint
-  public static LocalDateTime localDateTime6 = LocalDateTime.of(2000, 12, 14, 22, 15, 15, 876);
-
-  protected static void testAssumptions(LocalDateTime reference, LocalDateTime dateBefore, LocalDateTime dateAfter) {
-    assumeTrue(dateBefore.isBefore(reference));
-    assumeTrue(dateAfter.isAfter(reference));
-  }
+  public static final LocalDateTime REFERENCE = LocalDateTime.of(2000, 12, 14, 0, 0);
+  public static final LocalDateTime BEFORE = LocalDateTime.of(2000, 12, 13, 23, 59, 59, 999);
+  public static final LocalDateTime AFTER = LocalDateTime.of(2000, 12, 14, 0, 0, 0, 1);
 
 }

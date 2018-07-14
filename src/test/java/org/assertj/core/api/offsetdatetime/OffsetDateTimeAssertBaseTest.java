@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static org.junit.Assume.assumeTrue;
-
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.experimental.theories.DataPoint;
 
 /**
  * Base test class for {@link org.assertj.core.api.AbstractOffsetDateTimeAssert} tests.
@@ -28,24 +25,8 @@ import org.junit.experimental.theories.DataPoint;
  */
 public class OffsetDateTimeAssertBaseTest extends BaseTest {
 
-  @DataPoint
-  public static OffsetDateTime offsetDateTime1 = OffsetDateTime.of(2000, 12, 14, 0, 0, 0, 0, ZoneOffset.UTC);
-  @DataPoint
-  public static OffsetDateTime offsetDateTime2 = OffsetDateTime.of(2000, 12, 13, 23, 59, 59, 999, ZoneOffset.UTC);
-  @DataPoint
-  public static OffsetDateTime offsetDateTime3 = OffsetDateTime.of(2000, 12, 14, 0, 0, 0, 1, ZoneOffset.UTC);
-  @DataPoint
-  public static OffsetDateTime offsetDateTime4 = OffsetDateTime.of(2000, 12, 14, 22, 15, 15, 875, ZoneOffset.UTC);
-  @DataPoint
-  public static OffsetDateTime offsetDateTime5 = OffsetDateTime.of(2000, 12, 14, 22, 15, 15, 874, ZoneOffset.UTC);
-  @DataPoint
-  public static OffsetDateTime offsetDateTime6 = OffsetDateTime.of(2000, 12, 14, 22, 15, 15, 876, ZoneOffset.UTC);
-
-  protected static void testAssumptions(OffsetDateTime reference, OffsetDateTime before, OffsetDateTime equal,
-                                        OffsetDateTime after) {
-    assumeTrue(before.isBefore(reference));
-    assumeTrue(equal.isEqual(reference));
-    assumeTrue(after.isAfter(reference));
-  }
+  public static final OffsetDateTime REFERENCE = OffsetDateTime.of(2000, 12, 14, 0, 0, 0, 0, ZoneOffset.UTC);
+  public static final OffsetDateTime BEFORE = OffsetDateTime.of(2000, 12, 13, 23, 59, 59, 999, ZoneOffset.UTC);
+  public static final OffsetDateTime AFTER = OffsetDateTime.of(2000, 12, 14, 0, 0, 0, 1, ZoneOffset.UTC);
 
 }

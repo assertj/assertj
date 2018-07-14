@@ -20,24 +20,17 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.OffsetTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
 
-  @Theory
-  public void test_isAfter_assertion(OffsetTime referenceTime, OffsetTime timeBefore, OffsetTime timeEqual,
-                                     OffsetTime timeAfter) {
-    // GIVEN
-    testAssumptions(referenceTime, timeBefore, timeEqual, timeAfter);
+  @Test
+  public void test_isAfter_assertion() {
     // WHEN
-    assertThat(timeAfter).isAfter(referenceTime);
-    assertThat(timeAfter).isAfter(referenceTime.toString());
+    assertThat(AFTER).isAfter(REFERENCE);
+    assertThat(AFTER).isAfter(REFERENCE.toString());
     // THEN
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(referenceTime, referenceTime);
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(timeBefore, referenceTime);
+    verify_that_isAfter_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+    verify_that_isAfter_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test

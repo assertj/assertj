@@ -19,9 +19,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.OffsetDateTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link java.time.OffsetDateTime} are already defined in assertj-core)
@@ -29,15 +26,14 @@ import org.junit.runner.RunWith;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseTest {
 
-  @Theory
-  public void test_isNotIn_assertion(OffsetDateTime referenceDate) {
+  @Test
+  public void test_isNotIn_assertion() {
     // WHEN
-    assertThat(referenceDate).isNotIn(referenceDate.plusDays(1).toString(), referenceDate.plusDays(2).toString());
+    assertThat(REFERENCE).isNotIn(REFERENCE.plusDays(1).toString(), REFERENCE.plusDays(2).toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(referenceDate).isNotIn(referenceDate.toString(), referenceDate.plusDays(1).toString())).isInstanceOf(AssertionError.class);
+    assertThatThrownBy(() -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), REFERENCE.plusDays(1).toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test

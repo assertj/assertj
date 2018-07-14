@@ -19,27 +19,21 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.LocalDate;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
 
-  @Theory
-  public void test_isBefore_assertion(LocalDate referenceDate, LocalDate dateBefore, LocalDate dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+  @Test
+  public void test_isBefore_assertion() {
     // WHEN
-    assertThat(dateBefore).isBefore(referenceDate);
+    assertThat(BEFORE).isBefore(REFERENCE);
     // THEN
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+    verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test

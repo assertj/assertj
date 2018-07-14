@@ -19,27 +19,21 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.LocalTime;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
 
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@RunWith(Theories.class)
 public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
 
-  @Theory
-  public void test_isBefore_assertion(LocalTime referenceTime, LocalTime timeBefore, LocalTime timeAfter) {
-	// GIVEN
-	testAssumptions(referenceTime, timeBefore, timeAfter);
+  @Test
+  public void test_isBefore_assertion() {
 	// WHEN
-	assertThat(timeBefore).isBefore(referenceTime);
+	assertThat(BEFORE).isBefore(REFERENCE);
 	// THEN
-	verify_that_isBefore_assertion_fails_and_throws_AssertionError(referenceTime, referenceTime);
-	verify_that_isBefore_assertion_fails_and_throws_AssertionError(timeAfter, referenceTime);
+	verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
+	verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test
