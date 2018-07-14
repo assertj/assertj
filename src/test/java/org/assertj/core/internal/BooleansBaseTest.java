@@ -12,15 +12,12 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.internal.Booleans;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -31,9 +28,6 @@ import org.junit.Rule;
  * @author Joel Costigliola
  */
 public class BooleansBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected Failures failures;
   protected Booleans booleans;

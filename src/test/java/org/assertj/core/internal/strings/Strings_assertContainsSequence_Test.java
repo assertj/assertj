@@ -106,17 +106,23 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
-                                              comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy
-                                                .assertContainsSequence(someInfo(), "Yoda", array("Yo", "da", "Han"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                                         "Yoda",
+                                                                                                                                         array("Yo",
+                                                                                                                                               "da",
+                                                                                                                                               "Han")))
+                                                   .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"),
+                                                                              newLinkedHashSet("Han"),
+                                                                              comparisonStrategy).create());
   }
 
   @Test
   public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
     String[] sequenceValues = { ", 'author'", "'A Game of Thrones'" };
-    thrown.expectAssertionError(
-                                shouldContainSequence(actual, sequenceValues, comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), actual, sequenceValues);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                                         actual,
+                                                                                                                                         sequenceValues))
+                                                   .withMessage(shouldContainSequence(actual, sequenceValues,
+                                                                                      comparisonStrategy).create());
   }
 }

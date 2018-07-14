@@ -12,15 +12,12 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.junit.Before;
-import org.junit.Rule;
 
 public class AtomicReferenceArrayAssert_filtered_baseTest {
 
@@ -29,9 +26,6 @@ public class AtomicReferenceArrayAssert_filtered_baseTest {
   protected Employee luke;
   protected Employee noname;
   protected AtomicReferenceArray<Employee> employees;
-  @Rule
-  public ExpectedException thrown = none();
-
   @Before
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);

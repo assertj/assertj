@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.assertj.core.internal.ErrorMessages.endDateToCompareActualWithIsNull;
@@ -109,10 +110,11 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    Date start = parseDate("2011-09-01");
-    Date end = parseDate("2011-09-30");
-    dates.assertIsNotBetween(someInfo(), null, start, end, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Date start = parseDate("2011-09-01");
+      Date end = parseDate("2011-09-30");
+      dates.assertIsNotBetween(someInfo(), null, start, end, true, true);
+    }).withMessage(actualIsNull());
   }
 
   @Test
@@ -212,10 +214,11 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    Date start = parseDate("2011-09-01");
-    Date end = parseDate("2011-09-30");
-    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), null, start, end, true, true);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      Date start = parseDate("2011-09-01");
+      Date end = parseDate("2011-09-30");
+      datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), null, start, end, true, true);
+    }).withMessage(actualIsNull());
   }
 
   @Test

@@ -14,19 +14,14 @@ package org.assertj.core.condition;
 
 import static java.lang.String.format;
 import static org.assertj.core.internal.ErrorMessages.predicateIsNull;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.WithAssertions;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class MatchPredicateTest implements WithAssertions {
 
-  @Rule
-  public ExpectedException thrown = none();
   private Jedi yoda;
 
   @Before

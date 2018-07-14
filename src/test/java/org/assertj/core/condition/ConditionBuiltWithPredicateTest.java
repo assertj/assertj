@@ -13,7 +13,6 @@
 package org.assertj.core.condition;
 
 import static java.lang.String.format;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Set;
@@ -21,15 +20,11 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.WithAssertions;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class ConditionBuiltWithPredicateTest implements WithAssertions {
 
-  @Rule
-  public ExpectedException thrown = none();
   private final Set<String> jedis = newLinkedHashSet("Luke", "Yoda", "Obiwan");
   private Condition<String> jedi;
   private Condition<String> jediPower;

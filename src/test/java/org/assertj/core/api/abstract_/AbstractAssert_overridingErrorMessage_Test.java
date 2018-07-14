@@ -15,13 +15,10 @@ package org.assertj.core.api.abstract_;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -31,9 +28,6 @@ import org.junit.Test;
  * @author Joel Costigliola
  */
 public class AbstractAssert_overridingErrorMessage_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private ConcreteAssert assertions;
 

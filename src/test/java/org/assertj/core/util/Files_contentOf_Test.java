@@ -16,16 +16,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.File;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for {@link Files#contentOf(File, Charset)} and {@link Files#contentOf(File, String)}.
@@ -33,9 +30,6 @@ import org.assertj.core.test.ExpectedException;
  * @author Olivier Michallat
  */
 public class Files_contentOf_Test {
-  @Rule
-  public ExpectedException thrown = none();
-
   private final File sampleFile = new File("src/test/resources/utf8.txt");
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 

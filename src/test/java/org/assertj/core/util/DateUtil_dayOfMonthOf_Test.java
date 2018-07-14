@@ -16,13 +16,11 @@ import static org.assertj.core.util.DateUtil.dayOfMonthOf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.text.*;
 import java.util.Date;
 
 import org.junit.*;
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>{@link DateUtil#dayOfMonthOf(Date)}</code>.
@@ -30,9 +28,6 @@ import org.assertj.core.test.ExpectedException;
  * @author Joel Costigliola
  */
 public class DateUtil_dayOfMonthOf_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_return_day_of_month_of_date() throws ParseException {

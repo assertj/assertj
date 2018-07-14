@@ -12,19 +12,14 @@
  */
 package org.assertj.core.api.throwable;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 // TODO build two throwable assert with then and assertThat and compare them.
 public class ThrowableAssert_built_with_then_method_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_callable_code() {
@@ -49,13 +44,14 @@ public class ThrowableAssert_built_with_then_method_Test {
 
   @Test
   public void should_fail_if_nothing_is_thrown_by_callable_code() {
-    thrown.expectAssertionError("%nExpecting code to raise a throwable.");
-    thenThrownBy(new ThrowingCallable() {
-      @Override
-      public void call() {
-        // no exception
-      }
-    });
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      thenThrownBy(new ThrowingCallable() {
+        @Override
+        public void call() {
+          // no exception
+        }
+      });
+    }).withMessage(String.format("%nExpecting code to raise a throwable."));
   }
 
 }

@@ -20,8 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -32,9 +30,6 @@ public class AtomicLongFieldUpdater_hasValue_Test {
     private String name;
     volatile long age;
   }
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private Person person = new Person();
 

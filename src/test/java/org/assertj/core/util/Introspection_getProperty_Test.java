@@ -14,21 +14,15 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
 import java.lang.reflect.Method;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Introspection_getProperty_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private Employee judy;
 

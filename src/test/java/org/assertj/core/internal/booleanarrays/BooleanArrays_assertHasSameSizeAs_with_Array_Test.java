@@ -43,10 +43,10 @@ public class BooleanArrays_assertHasSameSizeAs_with_Array_Test extends BooleanAr
     AssertionInfo info = someInfo();
     String[] other = array("Solo", "Leia", "Yoda");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.length)
-                                .create(null, info.representation()));
-
-    arrays.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                                                     other.length).create(null,
+                                                                                                          info.representation()));
   }
 
   @Test

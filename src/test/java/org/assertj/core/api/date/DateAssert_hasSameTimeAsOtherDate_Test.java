@@ -16,15 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -33,9 +30,6 @@ import org.junit.Test;
  * @author Alexander Bischof
  */
 public class DateAssert_hasSameTimeAsOtherDate_Test extends DateAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_verify_that_actual_has_time_equals_to_expected() {

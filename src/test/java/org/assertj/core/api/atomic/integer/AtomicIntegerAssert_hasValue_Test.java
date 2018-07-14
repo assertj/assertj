@@ -19,14 +19,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicIntegerAssert_hasValue_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void should_pass_when_actual_has_the_expected_value() {

@@ -54,10 +54,10 @@ public class Maps_assertHasSameSizeAs_with_Iterable_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     List<String> other = newArrayList("Solo", "Leia", "Yoda");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.size(), other.size())
-                                .create(null, info.representation()));
-
-    maps.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.size(),
+                                                                                     other.size()).create(null,
+                                                                                                          info.representation()));
   }
 
   @Test

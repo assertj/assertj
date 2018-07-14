@@ -23,15 +23,10 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.CartoonCharacter;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicReferenceArrayAssert_flatExtracting_Test {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   private CartoonCharacter bart;
   private CartoonCharacter lisa;
   private CartoonCharacter maggie;

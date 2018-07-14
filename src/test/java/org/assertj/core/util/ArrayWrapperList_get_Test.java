@@ -12,12 +12,10 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.test.ExpectedException.none;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.ArrayWrapperList;
 import org.junit.*;
 
@@ -27,9 +25,6 @@ import org.junit.*;
  * @author Yvonne Wang
  */
 public class ArrayWrapperList_get_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private ArrayWrapperList list;
 

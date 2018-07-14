@@ -13,12 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -28,9 +25,6 @@ import org.junit.Test;
  * @author Alex Ruiz
  */
 public class Condition_constructor_with_description_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_set_description() {

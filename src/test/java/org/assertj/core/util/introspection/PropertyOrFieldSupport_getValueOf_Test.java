@@ -22,10 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class PropertyOrFieldSupport_getValueOf_Test {
@@ -36,9 +34,6 @@ public class PropertyOrFieldSupport_getValueOf_Test {
   public void setup() {
     propertyOrFieldSupport = PropertyOrFieldSupport.EXTRACTION;
   }
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void should_extract_property_value() {

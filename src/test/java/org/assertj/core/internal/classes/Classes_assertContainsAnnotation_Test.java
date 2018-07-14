@@ -85,10 +85,12 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   public void should_fail_if_actual_does_not_contains_an_annotation() {
     actual = AnnotatedClass.class;
     Class<Annotation> expected[] = new Class[] { Override.class, Deprecated.class, MyAnnotation.class };
-    thrown.expectAssertionError(shouldHaveAnnotations(actual,
-                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
-                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class,
-                                                                                                          Deprecated.class)).create());
-    classes.assertContainsAnnotations(someInfo(), actual, expected);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(),
+                                                                                                       actual,
+                                                                                                       expected))
+                                                   .withMessage(shouldHaveAnnotations(actual,
+                                                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
+                                                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class,
+                                                                                                                                          Deprecated.class)).create());
   }
 }

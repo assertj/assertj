@@ -15,17 +15,11 @@ package org.assertj.core.api.throwable;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class ThrowableAssert_built_from_lambda_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_lambda() {

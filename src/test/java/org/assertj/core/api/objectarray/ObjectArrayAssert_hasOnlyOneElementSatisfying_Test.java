@@ -18,15 +18,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void succeeds_if_array_has_only_one_element_and_that_element_statisfies_the_given_assertion() {
@@ -52,12 +47,11 @@ public class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
   public void fails_if_iterable_has_only_one_element_and_that_element_does_not_statisfy_one_of_the_given_assertion() {
-    thrown.expectAssertionError("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n");
     Jedi[] jedis = { new Jedi("Yoda", "red") };
-    assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
       assertThat(yoda.getName()).startsWith("Y");
       assertThat(yoda.getName()).startsWith("L");
-    });
+    })).withMessage(String.format("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n"));
   }
 
   @Test

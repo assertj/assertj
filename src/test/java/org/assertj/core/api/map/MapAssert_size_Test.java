@@ -15,19 +15,13 @@ package org.assertj.core.api.map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.Maps.mapOf;
 
 import java.util.Map;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class MapAssert_size_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   @SuppressWarnings("unchecked")

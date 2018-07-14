@@ -102,10 +102,14 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringGivenFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators(),
-                                               "name");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsEqualToIgnoringGivenFields(someInfo(),
+                                                                                                                null,
+                                                                                                                other,
+                                                                                                                noFieldComparators(),
+                                                                                                                defaultTypeComparators(),
+                                                                                                                "name"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

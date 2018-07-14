@@ -15,20 +15,15 @@ package org.assertj.core.api.abstract_;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.function.Consumer;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AbstractAssert_satisfies_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
   private Jedi yoda;
   private Jedi luke;
   private Consumer<Jedi> jediRequirements;

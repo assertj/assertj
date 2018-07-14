@@ -14,18 +14,12 @@ package org.assertj.core.api.throwable;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.NoSuchElementException;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class ExpectThrowableAssert_isThrownBy_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_build_ExpectThrowableAssert_with_exception_thrown_by_lambda() {

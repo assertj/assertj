@@ -13,18 +13,12 @@
 package org.assertj.core.api;
 
 
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 
 /**
  * A simple base class for test.
  */
 public class BaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   public void failBecauseExpectedAssertionErrorWasNotThrown() {
     Assertions.fail("Assertion error expected");

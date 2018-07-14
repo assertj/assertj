@@ -12,16 +12,13 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 
 /**
  * Base class for {@link org.assertj.core.internal.Classes} unit tests
@@ -33,8 +30,6 @@ import org.junit.Rule;
  */
 public abstract class ClassesBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
   protected Failures failures;
   protected Classes classes;
   protected Class<?> actual;

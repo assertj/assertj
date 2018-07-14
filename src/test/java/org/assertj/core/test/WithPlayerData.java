@@ -12,19 +12,14 @@
  */
 package org.assertj.core.test;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
 import org.junit.BeforeClass;
-import org.junit.Rule;
 
 
 public class WithPlayerData {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected static Player jordan;
   protected static Player magic;

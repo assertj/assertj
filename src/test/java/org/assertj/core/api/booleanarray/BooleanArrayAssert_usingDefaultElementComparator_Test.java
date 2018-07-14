@@ -13,14 +13,11 @@
 package org.assertj.core.api.booleanarray;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.Comparator;
 
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -31,9 +28,6 @@ import org.junit.Test;
  * @author Mikhail Mazursky
  */
 public class BooleanArrayAssert_usingDefaultElementComparator_Test extends BooleanArrayAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Override
   @Test

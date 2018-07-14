@@ -15,7 +15,6 @@ package org.assertj.core.api.atomic.referencearray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -23,11 +22,9 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicReferenceArrayAssert_extracting_Test {
@@ -35,9 +32,6 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   private static Employee yoda;
   private static Employee luke;
   private static AtomicReferenceArray<Employee> employees;
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @BeforeClass
   public static void setUpOnce() {

@@ -12,8 +12,6 @@
  */
 package org.assertj.core.util;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.File;
@@ -26,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Files.linesOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -43,9 +40,6 @@ public class Files_linesOf_Test {
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
   public static final String UTF_8 = "UTF-8";
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_throw_exception_when_charset_is_null() {

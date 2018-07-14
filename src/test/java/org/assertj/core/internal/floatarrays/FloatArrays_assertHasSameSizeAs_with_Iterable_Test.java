@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.floatarrays;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
@@ -39,10 +40,11 @@ public class FloatArrays_assertHasSameSizeAs_with_Iterable_Test extends FloatArr
     AssertionInfo info = someInfo();
     List<String> other = newArrayList("Solo", "Leia", "Yoda", "Luke");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null,
-                                                                                                 info.representation()));
-
-    arrays.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(format(shouldHaveSameSizeAs(actual,
+                                                                                            actual.length,
+                                                                                            other.size()).create(null,
+                                                                                                                 info.representation())));
   }
 
   @Test

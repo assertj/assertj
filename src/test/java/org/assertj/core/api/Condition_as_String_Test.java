@@ -13,12 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someTextDescription;
 
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -28,9 +25,6 @@ import org.junit.Test;
  * @author Alex Ruiz
  */
 public class Condition_as_String_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private Condition<Object> condition;
 

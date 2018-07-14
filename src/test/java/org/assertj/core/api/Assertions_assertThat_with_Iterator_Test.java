@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
@@ -29,9 +28,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import java.util.Iterator;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -42,9 +39,6 @@ import org.junit.Test;
  * @author Mikhail Mazursky
  */
 public class Assertions_assertThat_with_Iterator_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private StringIterator stringIterator = new StringIterator();
 

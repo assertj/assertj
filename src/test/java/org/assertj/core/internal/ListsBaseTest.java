@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
@@ -20,10 +19,8 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -36,9 +33,6 @@ import org.junit.Rule;
  * 
  */
 public class ListsBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Lists listsWithCaseInsensitiveComparisonStrategy;

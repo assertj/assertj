@@ -16,13 +16,10 @@ import static java.io.File.separator;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.File;
 import java.util.List;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -32,9 +29,6 @@ import org.junit.Test;
  * @author Yvonne Wang
  */
 public class Files_fileNamesIn_Test extends Files_TestCase {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_throw_error_if_directory_does_not_exist() {

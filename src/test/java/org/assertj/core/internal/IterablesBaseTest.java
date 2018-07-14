@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -26,10 +25,8 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -42,9 +39,6 @@ import org.junit.Rule;
  * 
  */
 public class IterablesBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected List<String> actual;
   protected Failures failures;

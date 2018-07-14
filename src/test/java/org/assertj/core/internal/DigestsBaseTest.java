@@ -12,10 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 
 /**
  * Base class for {@link Digests} unit tests.
@@ -27,7 +24,4 @@ public abstract class DigestsBaseTest {
   static final String DIGEST_TEST_1_STR = "DA39A3EE5E6B4B0D3255BFEF95601890AFD80709";
   static final byte[] EXPECTED_MD5_DIGEST = {58, -63, -81, -94, -88, -101, 126, 79, 24, 102, 80, 40, 119, -65, 29, -59};
   static final String EXPECTED_MD5_DIGEST_STR = "3AC1AFA2A89B7E4F1866502877BF1DC5";
-
-  @Rule
-  public ExpectedException thrown = none();
 }

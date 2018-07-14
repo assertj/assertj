@@ -20,8 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -32,9 +30,6 @@ public class AtomicIntegerFieldUpdater_hasValue_Test {
     private String name;
     volatile int age;
   }
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private Person person = new Person();
 

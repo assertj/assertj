@@ -15,13 +15,10 @@ package org.assertj.core.util;
 import static org.assertj.core.util.DateUtil.*;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.rules.ExpectedException.none;
 
 import java.util.Date;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for <code>{@link DateUtil#parse(String)}</code>.
@@ -29,9 +26,6 @@ import org.junit.rules.ExpectedException;
  * @author Joel Costigliola
  */
 public class DateUtil_parse_date_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_parse_string_with_date_time_format() {
@@ -46,8 +40,7 @@ public class DateUtil_parse_date_Test {
 
   @Test
   public void should_fail_if_string_does_not_respect_date_format() {
-    thrown.expect(RuntimeException.class);
-    assertThat(parse("invalid date format")).isNull();
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(parse("invalid date format")).isNull());
   }
 
 }

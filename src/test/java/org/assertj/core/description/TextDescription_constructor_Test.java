@@ -14,11 +14,8 @@ package org.assertj.core.description;
 
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.rules.ExpectedException.none;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for <code>{@link TextDescription#TextDescription(String)}</code>.
@@ -27,9 +24,6 @@ import org.junit.rules.ExpectedException;
  * @author Alex Ruiz
  */
 public class TextDescription_constructor_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_set_value() {

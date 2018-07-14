@@ -12,16 +12,13 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.IntArrays.arrayOf;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -33,9 +30,6 @@ import org.junit.Rule;
  * @author Joel Costigliola
  */
 public class IntArraysBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   /**
    * is initialized with {@link #initActualArray()} with default value = {6, 8, 10}

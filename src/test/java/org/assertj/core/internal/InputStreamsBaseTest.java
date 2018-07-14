@@ -13,7 +13,6 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -23,10 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 
 
 /**
@@ -41,8 +38,6 @@ public class InputStreamsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
 
-  @Rule
-  public ExpectedException thrown = none();
   protected Diff diff;
   protected Failures failures;
   protected InputStreams inputStreams;

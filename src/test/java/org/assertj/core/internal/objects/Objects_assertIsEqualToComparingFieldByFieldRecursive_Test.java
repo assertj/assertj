@@ -15,6 +15,7 @@ package org.assertj.core.internal.objects;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
@@ -212,17 +213,17 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
 
-    thrown.expectAssertionError(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                                "when recursively comparing field by field, but found the following difference(s):%n%n"
-                                +
-                                "Path to difference: <home.address.number>%n" +
-                                "- actual  : <1>%n" +
-                                "- expected: <2>%n%n" +
-                                "Path to difference: <name>%n" +
-                                "- actual  : <\"Jack\">%n" +
-                                "- expected: <\"John\">");
-
-    assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(other))
+                                                   .withMessage(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n"
+                                                                       +
+                                                                       "when recursively comparing field by field, but found the following difference(s):%n%n"
+                                                                       +
+                                                                       "Path to difference: <home.address.number>%n" +
+                                                                       "- actual  : <1>%n" +
+                                                                       "- expected: <2>%n%n" +
+                                                                       "Path to difference: <name>%n" +
+                                                                       "- actual  : <\"Jack\">%n" +
+                                                                       "- expected: <\"John\">", actual, other));
   }
 
   @Test
@@ -237,14 +238,15 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     friendOfOther.home.address.number = 10;
     other.friends = Arrays.asList(friendOfOther);
 
-    thrown.expectAssertionError(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n", actual, other) +
-                                "when recursively comparing field by field, but found the following difference(s):%n%n"
-                                +
-                                "Path to difference: <friends.home.address.number>%n" +
-                                "- actual  : <99>%n" +
-                                "- expected: <10>");
-
-    assertThat(actual).isEqualToComparingFieldByFieldRecursively(other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(other))
+                                                   .withMessage(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n"
+                                                                       +
+                                                                       "when recursively comparing field by field, but found the following difference(s):%n%n"
+                                                                       +
+                                                                       "Path to difference: <friends.home.address.number>%n"
+                                                                       +
+                                                                       "- actual  : <99>%n" +
+                                                                       "- expected: <10>", actual, other));
   }
 
   @Test

@@ -13,7 +13,6 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigDecimal;
@@ -21,8 +20,6 @@ import java.math.BigDecimal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -33,9 +30,6 @@ import org.junit.Test;
  * @author Joel Costigliola
  */
 public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_succeed_since_actual_is_zero() {

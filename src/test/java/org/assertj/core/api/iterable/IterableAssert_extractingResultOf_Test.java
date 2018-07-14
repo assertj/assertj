@@ -21,19 +21,16 @@ import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.sql.Timestamp;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.FluentJedi;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -57,9 +54,6 @@ public class IterableAssert_extractingResultOf_Test {
     vader = new FluentJedi(new Name("Darth Vader"), 50, true);
     jedis = newArrayList(yoda, vader);
   }
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() {

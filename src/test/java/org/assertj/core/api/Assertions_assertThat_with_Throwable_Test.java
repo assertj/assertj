@@ -20,19 +20,13 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.Fail.fail;
 import static org.assertj.core.api.Fail.shouldHaveThrown;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.io.IOException;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Assertions_assertThat_with_Throwable_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_build_ThrowableAssert_with_runtime_exception_thrown() {

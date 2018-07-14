@@ -12,11 +12,9 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.api.Assertions.*;
 
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.ArrayWrapperList;
 import org.junit.*;
 
@@ -26,9 +24,6 @@ import org.junit.*;
  * @author Alex Ruiz
  */
 public class ArrayWrapperList_wrap_Test {
-  @Rule
-  public ExpectedException thrown = none();
-
   @Test
   public void should_create_ArrayWrapperList_if_array_is_not_null() {
     int[] array = { 6, 8 };

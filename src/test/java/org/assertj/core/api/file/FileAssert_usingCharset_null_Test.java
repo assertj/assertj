@@ -13,14 +13,11 @@
 package org.assertj.core.api.file;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.nio.charset.Charset;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -29,9 +26,6 @@ import org.junit.Test;
  * @author Olivier Michallat
  */
 public class FileAssert_usingCharset_null_Test extends FileAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Override
   @Test

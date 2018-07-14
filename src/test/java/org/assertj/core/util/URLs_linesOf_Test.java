@@ -12,9 +12,7 @@
  */
 package org.assertj.core.util;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -25,8 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.junit.rules.ExpectedException.none;
 
 /*
  * Tests for {@link URLs#linesOf(File, Charset)} and {@link URLs#linesOf(File, String)}.
@@ -40,16 +38,12 @@ public class URLs_linesOf_Test {
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
 
-  @Rule
-  public ExpectedException thrown = none();
-
   @Test
   public void should_throw_exception_if_url_not_found() throws MalformedURLException {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    thrown.expect(UncheckedIOException.class);
-    URLs.linesOf(missingFile.toURI().toURL(), Charset.defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> URLs.linesOf(missingFile.toURI().toURL(), Charset.defaultCharset()));
   }
 
   @Test

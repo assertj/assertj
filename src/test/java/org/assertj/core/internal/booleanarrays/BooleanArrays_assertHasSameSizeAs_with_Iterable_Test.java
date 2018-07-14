@@ -47,10 +47,10 @@ public class BooleanArrays_assertHasSameSizeAs_with_Iterable_Test extends Boolea
     AssertionInfo info = someInfo();
     List<String> other = newArrayList("Solo", "Leia", "Yoda");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.size())
-          .create(null, info.representation()));
-
-    arrays.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                                                     other.size()).create(null,
+                                                                                                          info.representation()));
   }
 
   @Test

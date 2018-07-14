@@ -13,13 +13,10 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.assertj.core.api.ConcreteAssert;
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>AbstractAssert#failWithMessage(String, Object...)</code>.
@@ -27,9 +24,6 @@ import org.assertj.core.test.ExpectedException;
  * @author Joel Costigliola
  */
 public class AbstractAssert_failWithMessage_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private ConcreteAssert assertion;
 

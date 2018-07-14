@@ -14,15 +14,12 @@ package org.assertj.core.condition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.Collection;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.Lists;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -31,9 +28,6 @@ import org.junit.Test;
  * @author Yvonne Wang
  */
 public class Join_constructor_with_Collection_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @SuppressWarnings("unused")
   @Test

@@ -14,7 +14,6 @@ package org.assertj.core.extractor;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.test.ExpectedException.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,16 +22,11 @@ import java.util.Map;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class ByNameMultipleExtractorTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private Employee yoda = new Employee(1L, new Name("Yoda"), 800);
 

@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
@@ -24,15 +23,10 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.StringStream;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Assertions_assertThat_with_Stream_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private StringStream stringStream = new StringStream();
 

@@ -16,14 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>{@link ShouldBeSorted#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -32,8 +29,6 @@ import org.assertj.core.test.ExpectedException;
  */
 public class ShouldBeSorted_create_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
   private ErrorMessageFactory factory;
 
   @Before

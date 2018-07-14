@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -23,14 +22,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Assertions_assertThat_with_IntStream_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private IntStream intStream = IntStream.empty();
 

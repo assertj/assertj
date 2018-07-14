@@ -32,7 +32,6 @@ import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRES
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.sql.Timestamp;
@@ -45,11 +44,9 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -102,9 +99,6 @@ public class IterableAssert_extracting_Test {
     fellowshipOfTheRing.add(TolkienCharacter.of("Aragorn", 87, MAN));
     fellowshipOfTheRing.add(TolkienCharacter.of("Boromir", 37, MAN));
   }
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {

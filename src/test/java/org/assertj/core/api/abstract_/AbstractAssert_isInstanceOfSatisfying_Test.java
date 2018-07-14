@@ -15,24 +15,18 @@ package org.assertj.core.api.abstract_;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-  
   // init here to make it available in create_assertions() 
   private Jedi yoda = new Jedi("Yoda", "Green");
   private Jedi luke = new Jedi("Luke Skywalker", "Green");

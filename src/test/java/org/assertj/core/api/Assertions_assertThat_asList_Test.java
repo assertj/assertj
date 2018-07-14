@@ -17,21 +17,15 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.List;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Tests for Assert.asList() methods
  */
 public class Assertions_assertThat_asList_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_pass_list_asserts_on_list_objects_with_asList() {

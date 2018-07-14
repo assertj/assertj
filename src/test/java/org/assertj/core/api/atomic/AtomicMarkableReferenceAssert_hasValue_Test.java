@@ -21,14 +21,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicMarkableReferenceAssert_hasValue_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private String expectedValue = "expectedValue";
 

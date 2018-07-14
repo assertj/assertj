@@ -12,17 +12,14 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveCharacterComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -34,9 +31,6 @@ import org.junit.Rule;
  * 
  */
 public class CharactersBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected Failures failures;
   protected Characters characters;

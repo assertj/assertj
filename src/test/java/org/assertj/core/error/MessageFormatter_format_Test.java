@@ -18,15 +18,12 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -41,9 +38,6 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
  */
 @RunWith(DataProviderRunner.class)
 public class MessageFormatter_format_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private DescriptionFormatter descriptionFormatter;
   private MessageFormatter messageFormatter;

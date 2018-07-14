@@ -16,18 +16,15 @@ import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.VehicleFactory;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,9 +47,6 @@ public class PropertySupport_propertyValues_Test {
     luke = new Employee(8000L, new Name("Luke", "Skywalker"), 26);
     employees = newArrayList(yoda, luke);
   }
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_null() {

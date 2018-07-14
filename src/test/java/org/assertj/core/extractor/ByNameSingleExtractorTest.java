@@ -23,17 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class ByNameSingleExtractorTest {
   private static final Employee yoda = new Employee(1L, new Name("Yoda"), 800);
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void should_extract_field_values_even_if_property_does_not_exist() {

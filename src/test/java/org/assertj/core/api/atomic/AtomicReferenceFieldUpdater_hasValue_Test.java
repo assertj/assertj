@@ -19,8 +19,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 
@@ -31,9 +29,6 @@ public class AtomicReferenceFieldUpdater_hasValue_Test {
     volatile String name;
     volatile long age;
   }
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private Person person = new Person();
 

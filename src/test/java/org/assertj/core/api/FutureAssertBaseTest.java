@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.mock;
 
 import java.util.concurrent.Callable;
@@ -20,13 +19,8 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.Future;
 
 import org.assertj.core.internal.Futures;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 
 public abstract class FutureAssertBaseTest extends BaseTestTemplate<FutureAssert<String>, Future<String>> {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected Futures futures;
 

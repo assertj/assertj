@@ -16,20 +16,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.filter.Filters.filter;
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Rule;
 import org.junit.Test;
 
 
 public class Filter_with_property_in_given_values_Test extends WithPlayerData {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_filter_iterable_elements_with_property_in_given_values() {

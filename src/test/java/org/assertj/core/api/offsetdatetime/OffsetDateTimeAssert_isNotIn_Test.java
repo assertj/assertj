@@ -12,8 +12,10 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -42,12 +44,14 @@ public class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseT
     String offsetDateTime1 = OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString();
     String offsetDateTime2 = OffsetDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString();
 
-    thrown.expectAssertionError("%nExpecting:%n " +
-                                "<2000-01-05T03:00:05Z>%n" +
-                                "not to be in:%n" +
-                                " <[2000-01-05T03:00:05Z, 2012-01-01T03:03:03Z]>%n");
-
-    assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotIn(offsetDateTime1, offsetDateTime2);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5,
+                                                                                                  0, UTC)).isNotIn(
+                                                                                                                   offsetDateTime1,
+                                                                                                                   offsetDateTime2))
+                                                   .withMessage(format("%nExpecting:%n " +
+                                                                       "<2000-01-05T03:00:05Z>%n" +
+                                                                       "not to be in:%n" +
+                                                                       " <[2000-01-05T03:00:05Z, 2012-01-01T03:03:03Z]>%n"));
   }
 
   @Test

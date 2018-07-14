@@ -15,17 +15,11 @@ package org.assertj.core.api.abstract_;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AbstractAssert_withRepresentation_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_throw_error_if_description_is_null() {

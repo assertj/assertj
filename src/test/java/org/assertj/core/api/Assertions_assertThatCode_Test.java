@@ -15,17 +15,11 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Assertions_assertThatCode_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void can_invoke_late_assertion_on_assertThatCode() {

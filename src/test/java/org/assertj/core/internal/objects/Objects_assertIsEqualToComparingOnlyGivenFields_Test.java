@@ -103,10 +103,15 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), null, other, noFieldComparators(),
-                                                    defaultTypeComparators(), "name", "lightSaberColor");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsEqualToComparingOnlyGivenFields(someInfo(),
+                                                                                                                     null,
+                                                                                                                     other,
+                                                                                                                     noFieldComparators(),
+                                                                                                                     defaultTypeComparators(),
+                                                                                                                     "name",
+                                                                                                                     "lightSaberColor"))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

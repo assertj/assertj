@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -23,10 +22,8 @@ import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.rules.ExternalResource;
 
 import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
@@ -59,8 +56,6 @@ import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
  */
 public abstract class PathsBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
   protected Failures failures;
   protected Paths paths;
   protected NioFilesWrapper nioFilesWrapper;

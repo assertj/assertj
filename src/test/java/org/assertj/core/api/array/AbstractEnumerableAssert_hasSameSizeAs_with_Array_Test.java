@@ -15,13 +15,10 @@ package org.assertj.core.api.array;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.junit.Rule;
 import org.junit.Test;
 
-import org.assertj.core.test.ExpectedException;
 
 
 /**
@@ -30,9 +27,6 @@ import org.assertj.core.test.ExpectedException;
  * @author Joel Costigliola
  */
 public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_pass_if_actual_primitive_array_has_same_size_as_other_object_array() {

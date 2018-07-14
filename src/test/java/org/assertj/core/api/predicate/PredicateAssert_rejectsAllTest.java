@@ -40,10 +40,13 @@ public class PredicateAssert_rejectsAllTest extends PredicateAssertBaseTest {
   @Test
   public void should_fail_when_predicate_accepts_some_value() {
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
-    thrown.expectAssertionError(noElementsShouldMatch(newArrayList("curling", "judo", "football"),
-                                                      "football", PredicateDescription.GIVEN).create());
-
-    assertThat(ballSportPredicate).rejectsAll(newArrayList("curling", "judo", "football"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ballSportPredicate).rejectsAll(newArrayList("curling",
+                                                                                                                            "judo",
+                                                                                                                            "football")))
+                                                   .withMessage(noElementsShouldMatch(newArrayList("curling", "judo",
+                                                                                                   "football"),
+                                                                                      "football",
+                                                                                      PredicateDescription.GIVEN).create());
   }
 
   @Test

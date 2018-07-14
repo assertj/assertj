@@ -31,9 +31,7 @@ import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.assertj.core.test.CartoonCharacter;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -42,9 +40,6 @@ import org.junit.Test;
  * @author Mateusz Haligowski
  */
 public class IterableAssert_flatExtracting_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private CartoonCharacter bart;
   private CartoonCharacter lisa;

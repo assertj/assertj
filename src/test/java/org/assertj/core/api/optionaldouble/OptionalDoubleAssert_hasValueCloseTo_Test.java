@@ -48,11 +48,11 @@ public class OptionalDoubleAssert_hasValueCloseTo_Test extends BaseTest {
     Offset<Double> offset = within(1.0);
     OptionalDouble actual = OptionalDouble.of(1.0);
 
-    thrown.expectAssertionError(
-          shouldHaveValueCloseTo(actual, expectedValue, offset, abs(expectedValue - actual.getAsDouble()
-                                 )).create());
-
-    assertThat(actual).hasValueCloseTo(expectedValue, offset);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValueCloseTo(expectedValue,
+                                                                                                        offset))
+                                                   .withMessage(shouldHaveValueCloseTo(actual, expectedValue, offset,
+                                                                                       abs(expectedValue
+                                                                                           - actual.getAsDouble())).create());
   }
 
   @Test

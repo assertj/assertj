@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
@@ -20,10 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 /**
  * Base class for testing <code>{@link Objects}</code>, set up an instance with {@link StandardComparisonStrategy} and another
@@ -38,9 +35,6 @@ public class ObjectsBaseTest {
   {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected Failures failures;
   protected Objects objects;

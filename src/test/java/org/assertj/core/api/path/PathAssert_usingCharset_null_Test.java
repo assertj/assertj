@@ -13,23 +13,17 @@
 package org.assertj.core.api.path;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.nio.charset.Charset;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Test for <code>{@link PathAssert#usingCharset(Charset)}</code> when the provided charset is null.
  */
 public class PathAssert_usingCharset_null_Test extends PathAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Override
   @Test

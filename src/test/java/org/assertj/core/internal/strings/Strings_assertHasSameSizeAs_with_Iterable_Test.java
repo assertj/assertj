@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
@@ -45,10 +46,10 @@ public class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseT
     AssertionInfo info = someInfo();
     List<String> other = newArrayList("Solo", "Leia");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length(), other.size())
-        .create(null, info.representation()));
-
-    strings.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(format(shouldHaveSameSizeAs(actual, actual.length(),
+                                                                                            other.size()).create(null,
+                                                                                                                 info.representation())));
   }
 
   @Test

@@ -13,9 +13,7 @@
 package org.assertj.core.util;
 
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -25,7 +23,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.rules.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /*
  * Tests for {@link URLs#contentOf(File, Charset)} and {@link URLs#contentOf(File, String)}.
@@ -35,9 +33,6 @@ import static org.junit.rules.ExpectedException.none;
  */
 public class URLs_contentOf_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   private final URL sampleResourceURL = ClassLoader.getSystemResource("utf8.txt");
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
@@ -46,8 +41,8 @@ public class URLs_contentOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
-    thrown.expect(UncheckedIOException.class);
-    URLs.contentOf(missingFile.toURI().toURL(), Charset.defaultCharset());
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> URLs.contentOf(missingFile.toURI().toURL(),
+                                                                                          Charset.defaultCharset()));
   }
 
   @Test

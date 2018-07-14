@@ -14,15 +14,12 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.IterableDiff.diff;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -31,9 +28,6 @@ import org.junit.Test;
  * @author Billy Yuan
  */
 public class IterableDiff_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private List<String> actual;
   private List<String> expected;

@@ -18,14 +18,9 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class AtomicReferenceAssert_customRepresentation_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void should_honor_customRepresentation() {

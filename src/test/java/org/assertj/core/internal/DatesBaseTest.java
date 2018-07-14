@@ -12,17 +12,14 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 import java.util.Date;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -34,8 +31,6 @@ import org.junit.Rule;
  */
 public abstract class DatesBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
   protected Failures failures;
   protected Dates dates;
   protected ComparatorBasedComparisonStrategy yearAndMonthComparisonStrategy;

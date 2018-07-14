@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.junit.Before;
-import org.junit.Rule;
 
 public class ObjectArrayAssert_filtered_baseTest {
 
@@ -27,9 +24,6 @@ public class ObjectArrayAssert_filtered_baseTest {
   protected Employee luke;
   protected Employee noname;
   protected Employee[] employees;
-  @Rule
-  public ExpectedException thrown = none();
-
   @Before
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);

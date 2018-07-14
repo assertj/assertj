@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
@@ -59,10 +60,10 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
     Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.size(), other.length)
-                                .create(null, info.representation()));
-
-    iterables.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(format(shouldHaveSameSizeAs(actual, actual.size(),
+                                                                                            other.length).create(null,
+                                                                                                                 info.representation())));
   }
 
   @Test
@@ -90,9 +91,12 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
     Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.size(), other.length)
-                                .create(null, info.representation()));
-
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info,
+                                                                                                                                        actual,
+                                                                                                                                        other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.size(),
+                                                                                     other.length)
+                                                                                                  .create(null,
+                                                                                                          info.representation()));
   }
 }

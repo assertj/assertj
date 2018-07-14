@@ -20,15 +20,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 
 public class AtomicStampedReferenceAssert_hasValue_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private String expectedValue = "expectedValue";
 

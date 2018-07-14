@@ -13,17 +13,14 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.mockito.Mockito.spy;
 
 import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.WithPlayerData;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -36,8 +33,6 @@ import org.junit.Rule;
  */
 public class MapsBaseTest extends WithPlayerData {
 
-  @Rule
-  public ExpectedException thrown = none();
   protected Map<String, String> actual;
   protected Failures failures;
   protected Maps maps;

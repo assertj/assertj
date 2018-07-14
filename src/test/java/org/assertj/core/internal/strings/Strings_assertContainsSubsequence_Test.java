@@ -99,10 +99,14 @@ public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_contain_subsequence_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
-                                              comparisonStrategy).create());
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(someInfo(), "Yoda",
-                                                                           array("Yo", "da", "Han"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(someInfo(),
+                                                                                                                                            "Yoda",
+                                                                                                                                            array("Yo",
+                                                                                                                                                  "da",
+                                                                                                                                                  "Han")))
+                                                   .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"),
+                                                                              newLinkedHashSet("Han"),
+                                                                              comparisonStrategy).create());
   }
 
   @Test

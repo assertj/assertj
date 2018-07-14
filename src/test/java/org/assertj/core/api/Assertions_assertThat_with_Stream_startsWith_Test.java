@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,16 +25,11 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class Assertions_assertThat_with_Stream_startsWith_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   Stream<String> infiniteStream = Stream.generate(() -> "");
 

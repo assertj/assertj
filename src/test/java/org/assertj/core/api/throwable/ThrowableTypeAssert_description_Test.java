@@ -15,15 +15,12 @@ package org.assertj.core.api.throwable;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 import org.assertj.core.api.ThrowableTypeAssert;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -31,9 +28,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
 public class ThrowableTypeAssert_description_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder;
 
@@ -72,14 +66,14 @@ public class ThrowableTypeAssert_description_Test {
 
   @Test
   public void should_contain_provided_description_when_exception_message_is_wrong() {
-    thrown.expectAssertionError("[test description] %n" +
-                                "Expecting message:%n" +
-                                " <\"other cause\">%n" +
-                                "but was:%n" +
-                                " <\"some cause\">");
-
-    descriptionAdder.apply(assertThatIllegalArgumentException()).isThrownBy(() -> {
-      throw new IllegalArgumentException("some cause");
-    }).withMessage("other cause");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      descriptionAdder.apply(assertThatIllegalArgumentException()).isThrownBy(() -> {
+        throw new IllegalArgumentException("some cause");
+      }).withMessage("other cause");
+    }).withMessage(String.format("[test description] %n" +
+                                 "Expecting message:%n" +
+                                 " <\"other cause\">%n" +
+                                 "but was:%n" +
+                                 " <\"some cause\">"));
   }
 }

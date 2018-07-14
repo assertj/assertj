@@ -12,19 +12,13 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 public class BaseArraysTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected Arrays arrays;
   protected Failures failures;

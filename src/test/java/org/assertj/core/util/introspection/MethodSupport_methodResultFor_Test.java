@@ -15,13 +15,10 @@ package org.assertj.core.util.introspection;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Person;
 import org.assertj.core.util.introspection.beans.SuperHero;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -31,8 +28,6 @@ import org.junit.Test;
  */
 public class MethodSupport_methodResultFor_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
   private Person bruceWayne;
   private Person joker;
   private SuperHero batman;

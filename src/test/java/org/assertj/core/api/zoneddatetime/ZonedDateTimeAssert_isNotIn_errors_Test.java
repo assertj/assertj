@@ -12,8 +12,10 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -39,11 +41,11 @@ public class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssert
 
   @Test
   public void test_isNotIn_assertion_error_message() {
-    thrown.expectAssertionError("%nExpecting:%n <2000-01-05T03:00:05Z>%nnot to be in:%n" +
-                                " <[2000-01-05T03:00:05Z, 2012-01-01T03:03:03Z]>%n");
-    assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotIn(
-        ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString(),
-        ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0,
+                                                                                                 UTC)).isNotIn(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString(), ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
+                                                   .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z>%nnot to be in:%n"
+                                                                       +
+                                                                       " <[2000-01-05T03:00:05Z, 2012-01-01T03:03:03Z]>%n"));
   }
 
   @Test

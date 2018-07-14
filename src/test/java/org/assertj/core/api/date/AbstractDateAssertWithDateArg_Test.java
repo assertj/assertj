@@ -15,7 +15,6 @@ package org.assertj.core.api.date;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,9 +22,7 @@ import java.util.Date;
 import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.internal.Dates;
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -46,8 +43,6 @@ import org.junit.Test;
  */
 public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
   protected Date otherDate;
   protected String dateAsStringWithDefaultFormat;
   protected String dateAsStringWithCustomFormat;

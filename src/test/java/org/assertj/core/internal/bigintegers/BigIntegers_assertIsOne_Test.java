@@ -13,7 +13,6 @@
 package org.assertj.core.internal.bigintegers;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigInteger;
@@ -21,17 +20,12 @@ import java.math.BigInteger;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.BigIntegersBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Tests for <code>{@link BigIntegers#assertIsOne(AssertionInfo, BigInteger)}</code>.
  */
 public class BigIntegers_assertIsOne_Test extends BigIntegersBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_succeed_since_actual_is_one() {

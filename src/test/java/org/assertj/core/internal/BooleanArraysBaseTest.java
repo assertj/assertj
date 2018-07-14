@@ -13,12 +13,9 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.BooleanArrays.arrayOf;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 
 
 /**
@@ -30,9 +27,6 @@ import org.junit.Rule;
  * @author Joel Costigliola
  */
 public class BooleanArraysBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected boolean[] actual;
   protected Failures failures;

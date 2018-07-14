@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api.localdatetime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -38,10 +40,9 @@ public class LocalDateTimeAssert_isNotIn_Test extends LocalDateTimeAssertBaseTes
 
   @Test
   public void test_isNotIn_assertion_error_message() {
-    thrown.expectAssertionError(
-        "%nExpecting:%n <2000-01-05T03:00:05>%nnot to be in:%n <[2000-01-05T03:00:05, 2012-01-01T03:03:03]>%n");
-    assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isNotIn(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString(),
-                                                              LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0,
+                                                                                                 5)).isNotIn(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString(), LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString()))
+                                                   .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05>%nnot to be in:%n <[2000-01-05T03:00:05, 2012-01-01T03:03:03]>%n"));
   }
 
   @Test

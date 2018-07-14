@@ -41,10 +41,10 @@ public class Strings_assertHasSameSizeAs_with_CharSequence_Test extends StringsB
     AssertionInfo info = someInfo();
     String other = "Han";
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length(), other.length())
-                                .create(null, info.representation()));
-
-    strings.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length(),
+                                                                                     other.length()).create(null,
+                                                                                                            info.representation()));
   }
 
   @Test

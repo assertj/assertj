@@ -13,19 +13,15 @@
 package org.assertj.core.internal;
 
 
-import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
-import org.junit.Rule;
 
 import java.util.Comparator;
 
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.spy;
 
 public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TYPE extends Number> {
-  @Rule
-  public ExpectedException thrown = none();
+
   protected Failures failures;
   protected NUMBERS_TYPE numbers;
 

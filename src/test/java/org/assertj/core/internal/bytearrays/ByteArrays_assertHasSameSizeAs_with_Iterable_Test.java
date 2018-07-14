@@ -38,10 +38,10 @@ public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArray
     AssertionInfo info = someInfo();
     List<String> other = newArrayList("Solo", "Leia");
 
-    thrown.expectAssertionError(shouldHaveSameSizeAs(actual, actual.length, other.size())
-                                .create(null, info.representation()));
-
-    arrays.assertHasSameSizeAs(info, actual, other);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                                                     other.size()).create(null,
+                                                                                                          info.representation()));
   }
 
   @Test

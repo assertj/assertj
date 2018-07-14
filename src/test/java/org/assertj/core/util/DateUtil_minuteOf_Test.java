@@ -16,13 +16,11 @@ import static org.assertj.core.util.DateUtil.minuteOf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ExpectedException.none;
 
 import java.text.*;
 import java.util.Date;
 
 import org.junit.*;
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>{@link DateUtil#minuteOf(Date)}</code>.
@@ -30,9 +28,6 @@ import org.assertj.core.test.ExpectedException;
  * @author Joel Costigliola
  */
 public class DateUtil_minuteOf_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Test
   public void should_return_minute_of_date() throws ParseException {

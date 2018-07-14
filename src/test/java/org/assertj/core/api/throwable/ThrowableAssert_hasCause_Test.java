@@ -12,20 +12,16 @@
  */
 package org.assertj.core.api.throwable;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private Throwable npe = new NullPointerException();
 
@@ -41,11 +37,11 @@ public class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
 
   @Test
   public void should_fail_if_actual_and_expected_cause_have_different_types() {
-    thrown.expectAssertionError("%n" +
-                                "Expecting a cause with type:%n" +
-                                "  <\"java.lang.NullPointerException\">%n" +
-                                "but type was:%n" +
-                                "  <\"java.lang.IllegalStateException\">.");
-    assertThat(new IllegalArgumentException(new IllegalStateException())).hasCause(new NullPointerException());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new IllegalArgumentException(new IllegalStateException())).hasCause(new NullPointerException()))
+                                                   .withMessage(format("%n" +
+                                                                       "Expecting a cause with type:%n" +
+                                                                       "  <\"java.lang.NullPointerException\">%n" +
+                                                                       "but type was:%n" +
+                                                                       "  <\"java.lang.IllegalStateException\">."));
   }
 }
