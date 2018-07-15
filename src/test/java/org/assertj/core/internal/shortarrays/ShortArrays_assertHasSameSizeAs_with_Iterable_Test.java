@@ -24,8 +24,8 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -38,7 +38,7 @@ public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArr
   private static short[] actual;
   private final List<String> other = newArrayList("Solo", "Leia");
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     actual = arrayOf(6, 8);
   }

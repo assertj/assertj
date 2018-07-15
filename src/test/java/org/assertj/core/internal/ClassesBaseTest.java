@@ -18,7 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for {@link org.assertj.core.internal.Classes} unit tests
@@ -65,7 +65,7 @@ public abstract class ClassesBaseTest {
 
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     classes = new Classes();
   }

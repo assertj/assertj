@@ -21,7 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link CharArrays#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, char[], Object[])}</code>.

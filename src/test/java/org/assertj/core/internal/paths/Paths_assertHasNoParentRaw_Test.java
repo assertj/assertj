@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 import java.nio.file.Path;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertHasNoParentRaw_Test extends MockPathsBaseTest {
 

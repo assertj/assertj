@@ -22,8 +22,8 @@ import java.util.Date;
 import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.internal.Dates;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Abstract class that factorize DateAssert tests with a date arg (either Date or String based).
@@ -50,7 +50,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   protected SimpleDateFormat customDateFormat;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     customDateFormat = new SimpleDateFormat("dd/MM/yyyy");

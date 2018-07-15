@@ -20,8 +20,8 @@ import org.assertj.core.test.VehicleAssert;
 import org.assertj.core.test.VehicleFactory;
 import org.assertj.core.test.VehicleFactory.Car;
 import org.assertj.core.util.Streams;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class GenericNavigableAssert_Test<T extends Iterable<Vehicle>, ASSERT extends AbstractIterableAssert<?, T, Vehicle, VehicleAssert>> {
 
@@ -30,7 +30,7 @@ public abstract class GenericNavigableAssert_Test<T extends Iterable<Vehicle>, A
   protected ASSERT vehiclesAssert;
 
   @SuppressWarnings("unchecked")
-  @Before
+  @BeforeEach
   public void init() {
     vehicleFactory = new VehicleFactory();
     expectedVehicles = (T) vehicleFactory.getVehicles();

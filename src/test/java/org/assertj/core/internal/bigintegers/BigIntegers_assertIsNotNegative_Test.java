@@ -19,7 +19,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import java.math.BigInteger;
 
 import org.assertj.core.internal.BigIntegersBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link BigIntegers#assertIsNotNegative(AssertionInfo, BigInteger))}</code>.

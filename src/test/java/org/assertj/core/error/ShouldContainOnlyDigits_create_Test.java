@@ -17,8 +17,8 @@ import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDi
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.error.ShouldContainOnlyDigits#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -27,7 +27,7 @@ public class ShouldContainOnlyDigits_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldContainOnlyDigits("10$", '$', 2);
   }

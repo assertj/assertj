@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.test.Person;
 import org.assertj.core.util.introspection.beans.SuperHero;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PropertySupport_publicGetterExistsFor_Test {
 
@@ -26,7 +26,7 @@ public class PropertySupport_publicGetterExistsFor_Test {
   private Person joker;
   private SuperHero batman;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     bruceWayne = new Person("Bruce Wayne");
     joker = new Person("Joker");

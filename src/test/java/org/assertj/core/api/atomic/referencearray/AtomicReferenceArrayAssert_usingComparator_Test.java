@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.internal.ObjectArrays;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 public class AtomicReferenceArrayAssert_usingComparator_Test extends AtomicReferenceArrayAssertBaseTest {
@@ -31,7 +31,7 @@ public class AtomicReferenceArrayAssert_usingComparator_Test extends AtomicRefer
 
   private ObjectArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);

@@ -13,7 +13,6 @@
 package org.assertj.core.api.assumptions;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
@@ -27,31 +26,14 @@ import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ProxyableMapAssert;
-import org.junit.AfterClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 /**
  * verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions 
  * (i.e. that they are proxied correctly in {@link ProxyableMapAssert}).
  */
-@RunWith(Parameterized.class)
 public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
-  private static int ranTests = 0;
-
-  public Map_special_assertion_methods_in_assumptions_Test(AssumptionRunner<?> assumptionRunner) {
-    super(assumptionRunner);
-  }
-
-  @Override
-  protected void incrementRunTests() {
-    ranTests++;
-  }
-
   @SuppressWarnings("unchecked")
-  @Parameters
   public static Object[][] provideAssumptionsRunners() {
 
     List<String> names = asList("Dave", "Jeff");
@@ -113,10 +95,5 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
             value -> assumeThat(value).size().isPositive().returnToMap().size().isNegative()),
     };
   };
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(provideAssumptionsRunners().length);
-  }
 
 }

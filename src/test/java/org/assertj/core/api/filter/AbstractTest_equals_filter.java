@@ -21,7 +21,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public abstract class AbstractTest_equals_filter extends WithPlayerData {

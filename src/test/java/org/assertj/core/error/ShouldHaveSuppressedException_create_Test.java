@@ -18,7 +18,7 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
 
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveSuppressedException_create_Test {
 

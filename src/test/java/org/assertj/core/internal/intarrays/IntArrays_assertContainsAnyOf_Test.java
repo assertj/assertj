@@ -18,12 +18,14 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.IntArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IntArrays_assertContainsAnyOf_Test extends IntArraysBaseTest {
 
   private Arrays internalArrays;
 
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

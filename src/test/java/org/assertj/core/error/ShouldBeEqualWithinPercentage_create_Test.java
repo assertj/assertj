@@ -18,7 +18,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for

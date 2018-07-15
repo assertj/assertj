@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link AbstractAssert#isNotIn(Object...)}</code>.
@@ -30,7 +30,7 @@ public class AbstractAssert_isNotIn_with_array_Test extends AbstractAssertBaseTe
 
   private static Object[] values;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     values = array("Yoda", "Luke");
   }

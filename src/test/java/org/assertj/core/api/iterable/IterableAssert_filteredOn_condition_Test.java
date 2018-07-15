@@ -26,8 +26,8 @@ import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.test.Employee;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_filteredOn_condition_Test extends IterableAssert_filtered_baseTest {
 
@@ -35,7 +35,7 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
   private Condition<TolkienCharacter> nameStartingWithFro;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     oldEmployees = new Condition<>(employee -> employee.getAge() > 100, "old employees");

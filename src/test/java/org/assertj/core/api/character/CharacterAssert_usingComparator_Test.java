@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.CharacterAssert;
 import org.assertj.core.api.CharacterAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class CharacterAssert_usingComparator_Test extends CharacterAssertBaseTes
   @Mock
   private Comparator<Character> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

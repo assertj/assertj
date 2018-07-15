@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 // at least one test for Java6Assertions
 public class Java6Assertions_assertThat_with_String_Test {

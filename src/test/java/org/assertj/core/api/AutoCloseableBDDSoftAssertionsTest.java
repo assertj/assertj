@@ -34,7 +34,7 @@ import java.util.OptionalLong;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
 public class AutoCloseableBDDSoftAssertionsTest {

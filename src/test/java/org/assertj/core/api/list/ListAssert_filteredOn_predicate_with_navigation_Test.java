@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ListAssert_filteredOn_predicate_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
 

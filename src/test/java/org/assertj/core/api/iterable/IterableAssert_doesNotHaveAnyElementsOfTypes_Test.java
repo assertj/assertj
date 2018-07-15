@@ -14,7 +14,7 @@ package org.assertj.core.api.iterable;
 
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -31,7 +31,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
 
   private ConcreteAssert assertions;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     assertions = new ConcreteAssert(6L);
   }

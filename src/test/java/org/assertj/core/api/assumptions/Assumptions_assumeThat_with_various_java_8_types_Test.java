@@ -13,8 +13,8 @@
 package org.assertj.core.api.assumptions;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatCode;
 
@@ -40,24 +40,12 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.AfterClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.AssumptionViolatedException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class Assumptions_assumeThat_with_various_java_8_types_Test {
 
-  private static int ranTests = 0;
-
-  private AssumptionRunner<?> assumptionRunner;
-
-  public Assumptions_assumeThat_with_various_java_8_types_Test(AssumptionRunner<?> assumptionRunner) {
-    this.assumptionRunner = assumptionRunner;
-  }
-
-  @Parameters
   public static Object[][] provideAssumptionsRunners() {
     return new AssumptionRunner[][] {
         { new AssumptionRunner<ThrowingCallable>(() -> {}) {
@@ -296,20 +284,15 @@ public class Assumptions_assumeThat_with_various_java_8_types_Test {
     };
   }
 
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(provideAssumptionsRunners().length);
+  @ParameterizedTest
+  @MethodSource("provideAssumptionsRunners")
+  public void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumptionRunner.runFailingAssumption());
   }
 
-  @Test
-  public void should_ignore_test_when_assumption_fails() {
-    assumptionRunner.runFailingAssumption();
-    fail("should not arrive here");
-  }
-
-  @Test
-  public void should_run_test_when_assumption_passes() {
-    assumptionRunner.runPassingAssumption();
-    ranTests++;
+  @ParameterizedTest
+  @MethodSource("provideAssumptionsRunners")
+  public void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
+    assertThatCode(() -> assumptionRunner.runPassingAssumption()).doesNotThrowAnyException();
   }
 }

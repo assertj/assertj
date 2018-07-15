@@ -19,7 +19,7 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runners.model.MultipleFailureException;
 
 public class Java6JUnitBDDSoftAssertionsFailureTest {

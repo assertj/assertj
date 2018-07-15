@@ -19,7 +19,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import java.math.BigDecimal;
 
 import org.assertj.core.internal.BigDecimalsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

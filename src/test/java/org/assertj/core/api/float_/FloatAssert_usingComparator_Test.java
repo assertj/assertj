@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class FloatAssert_usingComparator_Test extends FloatAssertBaseTest {
   @Mock
   private Comparator<Float> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

@@ -23,7 +23,7 @@ import java.util.Map;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldContainEntry#create(Description)}</code>.

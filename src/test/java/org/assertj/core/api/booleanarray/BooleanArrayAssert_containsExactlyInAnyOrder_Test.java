@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BooleanArrayAssert#containsExactlyInAnyOrder(boolean...)}</code>.

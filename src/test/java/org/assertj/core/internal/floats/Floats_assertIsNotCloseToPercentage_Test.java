@@ -29,13 +29,9 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
-@RunWith(DataProviderRunner.class)
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
 
   private static final Float ZERO = 0f;
@@ -64,8 +60,8 @@ public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
     assertThatIllegalArgumentException().isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0f)));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 2, 1",
       "1, 11, 90",
       "-1, -2, 1",
@@ -76,8 +72,8 @@ public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
     floats.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 1, 0",
       "2, 1, 100",
       "1, 2, 50",

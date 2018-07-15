@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MapAssert_contains_with_Java_Util_MapEntry_Test extends MapAssertBaseTest {
 

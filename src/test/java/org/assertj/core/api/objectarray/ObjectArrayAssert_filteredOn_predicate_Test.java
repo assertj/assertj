@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import java.util.function.Predicate;
 
 import org.assertj.core.test.Employee;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectArrayAssert_filteredOn_predicate_Test extends ObjectArrayAssert_filtered_baseTest {
 

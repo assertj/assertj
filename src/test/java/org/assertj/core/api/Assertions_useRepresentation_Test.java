@@ -18,14 +18,14 @@ import static org.assertj.core.api.Assertions.fail;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Introspection_getProperty_Test.Example;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_useRepresentation_Test {
 
   private CustomRepresentation customRepresentation = new CustomRepresentation();
 
-  @After
+  @AfterEach
   public void afterTest() {
     Assertions.useDefaultRepresentation();
   }

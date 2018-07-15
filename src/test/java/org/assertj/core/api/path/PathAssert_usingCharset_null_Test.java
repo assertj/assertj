@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for <code>{@link PathAssert#usingCharset(Charset)}</code> when the provided charset is null.

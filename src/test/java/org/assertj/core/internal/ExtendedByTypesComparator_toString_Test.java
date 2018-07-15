@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.assertj.core.util.BigDecimalComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ExtendedByTypesComparator_toString_Test {
 

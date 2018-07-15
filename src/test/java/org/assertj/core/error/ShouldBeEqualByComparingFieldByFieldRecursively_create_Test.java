@@ -34,7 +34,7 @@ import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldBy
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Name;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
 

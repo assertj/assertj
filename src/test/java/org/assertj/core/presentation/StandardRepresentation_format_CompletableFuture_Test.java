@@ -18,7 +18,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import java.util.concurrent.CompletableFuture;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StandardRepresentation_format_CompletableFuture_Test {
 

@@ -24,15 +24,15 @@ import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_usingElementComparatorIgnoringFields_Test
     extends AtomicReferenceArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     arraysBefore = getArrays(assertions);
   }

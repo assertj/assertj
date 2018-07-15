@@ -19,7 +19,7 @@ import java.util.Collection;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AnyOf#anyOf(Condition...)}</code>.

@@ -21,7 +21,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DoubleArrays#assertContains(AssertionInfo, double[], double[])}</code>.
@@ -33,6 +34,7 @@ public class DoubleArrays_assertContains_Test extends DoubleArraysBaseTest {
 
   private Arrays internalArrays;
 
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

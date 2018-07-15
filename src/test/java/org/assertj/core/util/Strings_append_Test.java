@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Strings#append(String)}</code>.

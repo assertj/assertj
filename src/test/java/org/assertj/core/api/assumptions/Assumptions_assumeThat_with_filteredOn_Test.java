@@ -13,45 +13,37 @@
 package org.assertj.core.api.assumptions;
 
 import static com.google.common.collect.Sets.newHashSet;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
 import java.util.Set;
 
 import org.assertj.core.test.Jedi;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.AssumptionViolatedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Assumptions_assumeThat_with_filteredOn_Test {
 
-  private static int ranTests = 0;
   private Set<Jedi> jedis;
   private Jedi yoda;
   private Jedi luke;
 
-  @Before
+  @BeforeEach
   public void setup() {
     yoda = new Jedi("Yoda", "green");
     luke = new Jedi("Luke", "green");
     jedis = newHashSet(yoda, luke);
   }
 
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(1);
-  }
-
   @Test
   public void should_run_test_when_assumption_with_filtered_elements_passes() {
-    assumeThat(jedis).filteredOn("name", "Luke").contains(luke);
-    ranTests++;
+    assertThatCode(() -> assumeThat(jedis).filteredOn("name", "Luke").contains(luke)).doesNotThrowAnyException();
   }
 
   @Test
   public void should_ignore_test_when_assumption_with_filtered_elements_fails() {
-    assumeThat(jedis).filteredOn("name", "Luke").contains(yoda);
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).filteredOn("name", "Luke").contains(yoda));
   }
 }

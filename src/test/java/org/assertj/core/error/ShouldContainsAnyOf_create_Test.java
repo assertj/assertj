@@ -21,14 +21,14 @@ import static org.assertj.core.util.Lists.newArrayList;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ShouldContainsAnyOf_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldContainAnyOf(newArrayList("Yoda", "Han", "Han"), newArrayList("Vador", "Leia"));
   }

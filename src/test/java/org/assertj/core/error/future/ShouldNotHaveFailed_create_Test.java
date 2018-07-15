@@ -20,7 +20,7 @@ import static org.assertj.core.error.future.Warning.WARNING;
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldNotHaveFailed_create_Test {
 

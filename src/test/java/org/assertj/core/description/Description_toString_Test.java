@@ -13,10 +13,11 @@
 package org.assertj.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import org.assertj.core.description.Description;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Description#toString()}</code>.
@@ -28,7 +29,7 @@ public class Description_toString_Test {
   private ValueSource valueSource;
   private Description description;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     valueSource = mock(ValueSource.class);
     description = new TestDescription(valueSource);

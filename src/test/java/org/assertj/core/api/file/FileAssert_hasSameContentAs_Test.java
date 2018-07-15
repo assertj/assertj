@@ -25,8 +25,8 @@ import java.nio.file.Path;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link FileAssert#hasSameContentAs(java.io.File)}</code>.
@@ -37,7 +37,7 @@ public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
 
   private static File expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeOnce() {
     expected = new File("xyz");
   }

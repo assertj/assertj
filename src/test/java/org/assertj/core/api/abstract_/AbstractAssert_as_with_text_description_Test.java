@@ -17,8 +17,8 @@ import static org.assertj.core.test.TestData.someTextDescription;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractAssert#as(String)}</code>.
@@ -30,7 +30,7 @@ public class AbstractAssert_as_with_text_description_Test {
   private ConcreteAssert assertions;
   private String description;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     assertions = new ConcreteAssert(6L);
     description = someTextDescription();

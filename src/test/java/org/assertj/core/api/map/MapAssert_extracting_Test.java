@@ -20,15 +20,15 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MapAssert_extracting_Test {
 
   private static final Object NAME = "name";
   private Map<Object, Object> map;
 
-  @Before
+  @BeforeEach
   public void setup() {
     map = new HashMap<>();
     map.put(NAME, "kawhi");

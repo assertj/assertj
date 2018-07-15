@@ -18,7 +18,7 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.internal.StringsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for

@@ -25,7 +25,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.assertj.core.internal.StringsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
 

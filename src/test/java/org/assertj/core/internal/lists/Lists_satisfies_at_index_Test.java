@@ -28,7 +28,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Lists#satisfies(AssertionInfo, List, Consumer, Index)}</code>.

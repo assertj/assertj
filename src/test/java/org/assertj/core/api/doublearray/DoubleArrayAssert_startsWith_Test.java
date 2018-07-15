@@ -18,7 +18,7 @@ import static org.assertj.core.test.DoubleArrays.arrayOf;
 
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.verify;
 

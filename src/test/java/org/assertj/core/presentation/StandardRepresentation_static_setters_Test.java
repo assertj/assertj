@@ -14,7 +14,7 @@ package org.assertj.core.presentation;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov

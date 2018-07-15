@@ -37,8 +37,8 @@ import java.util.Set;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -51,7 +51,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   private LinkedHashMap<String, String> linkedActual;
 
-  @Before
+  @BeforeEach
   public void initLinkedHashMap() {
     linkedActual = new LinkedHashMap<>(2);
     linkedActual.put("name", "Yoda");

@@ -18,8 +18,8 @@ import java.util.Date;
 
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * 
@@ -34,7 +34,7 @@ public abstract class DateAssertBaseTest {
   protected Dates dates;
   protected Objects objects;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     dates = mock(Dates.class);
     objects = mock(Objects.class);
@@ -43,7 +43,7 @@ public abstract class DateAssertBaseTest {
     assertions.objects = objects;
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     AbstractDateAssert.useDefaultDateFormatsOnly();
   }

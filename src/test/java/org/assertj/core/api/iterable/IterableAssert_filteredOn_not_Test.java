@@ -26,7 +26,7 @@ import static org.assertj.core.test.Name.name;
 import org.assertj.core.api.IterableAssert;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_baseTest {
 

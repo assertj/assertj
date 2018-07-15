@@ -19,7 +19,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.ObjectArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectArraysBaseTest {
 

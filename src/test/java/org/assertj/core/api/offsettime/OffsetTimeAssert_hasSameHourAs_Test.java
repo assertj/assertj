@@ -23,7 +23,7 @@ import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OffsetTimeAssert_hasSameHourAs_Test extends BaseTest {
 

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FloatArrayAssert_containsExactly_Test extends FloatArrayAssertBaseTest {
 

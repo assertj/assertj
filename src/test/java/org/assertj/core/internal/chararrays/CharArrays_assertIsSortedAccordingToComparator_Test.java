@@ -28,8 +28,8 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,7 +43,7 @@ public class CharArrays_assertIsSortedAccordingToComparator_Test extends CharArr
   private Comparator<Character> charAscendingOrderComparator;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = new char[] { 'd', 'c', 'b', 'b', 'a' };

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Tests for {@link DateAssert#isCloseTo(Date, long)} and {@link DateAssert#isCloseTo(String, long)}.
@@ -29,7 +29,7 @@ public class DateAssert_isCloseTo_Test extends AbstractDateAssertWithDateArg_Tes
   private long delta;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     delta = 100;

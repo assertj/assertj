@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import java.awt.Rectangle;
 
 import org.assertj.core.util.Employee;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link StandardComparisonStrategy#isGreaterThan(Object, Object)}.

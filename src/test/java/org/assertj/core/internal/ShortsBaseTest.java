@@ -19,7 +19,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -39,7 +39,7 @@ public class ShortsBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Shorts shortsWithAbsValueComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     shorts = new Shorts();

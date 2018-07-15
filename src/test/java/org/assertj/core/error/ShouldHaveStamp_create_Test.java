@@ -20,7 +20,7 @@ import static org.assertj.core.error.ShouldHaveStamp.shouldHaveStamp;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveStamp_create_Test {
 

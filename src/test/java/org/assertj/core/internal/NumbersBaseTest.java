@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Comparator;
 
@@ -34,7 +34,7 @@ public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TY
   protected NUMBERS_TYPE numbersWithAbsValueComparisonStrategy;
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     numbers = getNumbers();

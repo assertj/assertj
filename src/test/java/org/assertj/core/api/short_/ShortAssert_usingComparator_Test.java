@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class ShortAssert_usingComparator_Test extends ShortAssertBaseTest {
   @Mock
   private Comparator<Short> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

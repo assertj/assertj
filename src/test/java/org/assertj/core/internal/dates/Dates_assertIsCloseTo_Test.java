@@ -26,8 +26,8 @@ import java.util.Date;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -41,7 +41,7 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   private int delta;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = parseDatetime("2011-01-01T03:15:05");

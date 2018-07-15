@@ -30,13 +30,10 @@ import java.math.BigInteger;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigIntegersBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
-@RunWith(DataProviderRunner.class)
 public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBaseTest {
 
   @Test
@@ -60,24 +57,21 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
     assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
-  // @format:off
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1, 2, 1",
     "1, 11, 90",
     "-1, -2, 1",
     "-1, -11, 90",
     "0, -1, 99"
   })
-  // @format:on
   public void should_pass_if_difference_is_greater_than_given_percentage(BigInteger actual, BigInteger other,
                                                                          Integer percentage) {
     numbers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
-  // @format:off
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1, 1, 0",
     "2, 1, 100",
     "1, 2, 50",
@@ -85,7 +79,6 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
     "-2, -1, 100",
     "-1, -2, 50"
   })
-  // @format:on
   public void should_fail_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other,
                                                                      Integer percentage) {
     AssertionInfo info = someInfo();

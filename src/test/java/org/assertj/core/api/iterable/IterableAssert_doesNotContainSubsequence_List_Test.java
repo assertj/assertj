@@ -23,7 +23,7 @@ import java.util.List;
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#doesNotContainSubsequence(List)}</code>.

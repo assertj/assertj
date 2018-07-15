@@ -18,9 +18,9 @@ import static org.assertj.core.test.TestData.someTextDescription;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Condition#as(Description)}</code>.
@@ -31,14 +31,14 @@ public class Condition_as_Description_Test {
 
   private static Description description;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     description = new TestDescription(someTextDescription());
   }
 
   private Condition<Object> condition;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     condition = new TestCondition<>();
   }

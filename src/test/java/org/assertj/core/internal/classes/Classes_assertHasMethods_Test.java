@@ -23,12 +23,12 @@ import static org.assertj.core.util.Sets.newTreeSet;
 
 import org.assertj.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Strings;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Classes_assertHasMethods_Test extends ClassesBaseTest {
 
-  @Before
+  @BeforeEach
   public void setupActual() {
     AnotherMethodsClass m = new AnotherMethodsClass();
     Strings.isNullOrEmpty(m.string); // causes a synthetic method in AnotherMethodsClass

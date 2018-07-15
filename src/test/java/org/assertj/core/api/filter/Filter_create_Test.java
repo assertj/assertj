@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class Filter_create_Test extends WithPlayerData {

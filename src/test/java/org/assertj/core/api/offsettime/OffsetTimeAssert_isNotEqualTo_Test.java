@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.fail;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link java.time.OffsetTime} are already defined in assertj-core)

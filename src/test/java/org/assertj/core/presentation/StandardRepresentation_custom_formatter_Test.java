@@ -19,8 +19,8 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
 import org.assertj.core.api.Assertions;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link org.assertj.core.presentation.StandardRepresentation#toStringOf(Object)}.
@@ -29,7 +29,7 @@ import org.junit.Test;
  */
 public class StandardRepresentation_custom_formatter_Test {
 
-  @After
+  @AfterEach
   public void afterTest() {
     StandardRepresentation.removeAllRegisteredFormatters();
   }

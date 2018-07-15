@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link BasicErrorMessageFactory#toString()}</code>.
@@ -26,7 +26,7 @@ public class BasicErrorMessageFactory_toString_Test {
 
   private BasicErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = new BasicErrorMessageFactory("Hello %s", "Yoda");
   }

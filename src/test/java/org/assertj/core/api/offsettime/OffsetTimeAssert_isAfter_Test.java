@@ -22,7 +22,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetTime;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
 

@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class ToStringExtractorTest {

@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests specific to {@link org.assertj.core.api.ZonedDateTimeAssert#isEqualTo(ZonedDateTime)} that can't be

@@ -19,7 +19,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicBooleanAssert_isTrue_Test {
 

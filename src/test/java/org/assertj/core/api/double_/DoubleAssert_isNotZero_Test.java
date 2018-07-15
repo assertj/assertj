@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DoubleAssert_isNotZero_Test extends DoubleAssertBaseTest {
 

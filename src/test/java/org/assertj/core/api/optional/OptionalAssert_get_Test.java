@@ -22,7 +22,7 @@ import java.util.Optional;
 import org.assertj.core.api.BaseTest;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov

@@ -27,8 +27,8 @@ import java.util.Set;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FieldsOrPropertiesExtractor_extract_tuples_Test {
 
@@ -36,7 +36,7 @@ public class FieldsOrPropertiesExtractor_extract_tuples_Test {
   private Employee luke;
   private List<Employee> employees;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     yoda.surname = new Name("Master", "Jedi");

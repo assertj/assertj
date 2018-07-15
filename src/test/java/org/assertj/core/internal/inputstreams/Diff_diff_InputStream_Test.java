@@ -25,8 +25,8 @@ import java.util.List;
 
 import org.assertj.core.internal.Diff;
 import org.assertj.core.util.diff.Delta;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Diff#diff(InputStream, InputStream)}</code>.
@@ -37,7 +37,7 @@ public class Diff_diff_InputStream_Test {
 
   private static Diff diff;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     diff = new Diff();
   }

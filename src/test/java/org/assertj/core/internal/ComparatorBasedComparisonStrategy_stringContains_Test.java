@@ -15,7 +15,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ComparatorBasedComparisonStrategy#stringContains(String, String)}.

@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link MapAssert#hasEntrySatisfying(Condition)}</code>.

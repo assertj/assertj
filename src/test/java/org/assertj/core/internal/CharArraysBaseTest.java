@@ -18,7 +18,7 @@ import static org.mockito.Mockito.spy;
 import java.util.Comparator;
 
 import org.assertj.core.util.CaseInsensitiveCharacterComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -43,7 +43,7 @@ public class CharArraysBaseTest {
 
   private CaseInsensitiveCharacterComparator caseInsensitiveComparator = new CaseInsensitiveCharacterComparator();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     arrays = new CharArrays();

@@ -26,15 +26,15 @@ import java.util.Map;
 
 import org.assertj.core.internal.MapsBaseTest;
 import org.assertj.core.test.Player;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
 
   private Map<String, Player> greatPlayers;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     greatPlayers = mapOf(entry("Bulls", jordan), entry("Spurs", duncan), entry("Lakers", magic));

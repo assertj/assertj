@@ -29,7 +29,7 @@ import java.util.Iterator;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(Iterator)}</code>.

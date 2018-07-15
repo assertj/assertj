@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.verify;
 
@@ -25,7 +25,7 @@ public class IterableAssert_allMatch_with_description_Test extends IterableAsser
 
   private Predicate<Object> predicate;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     predicate = o -> o != null;
   }

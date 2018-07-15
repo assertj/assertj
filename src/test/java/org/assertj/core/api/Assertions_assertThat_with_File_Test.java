@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(File)}</code>.
@@ -28,7 +28,7 @@ public class Assertions_assertThat_with_File_Test {
 
   private static File actual;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     actual = new File("xyz");
   }

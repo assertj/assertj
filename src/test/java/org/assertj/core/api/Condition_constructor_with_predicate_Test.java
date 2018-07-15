@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import java.util.function.Predicate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Condition_constructor_with_predicate_Test {
 

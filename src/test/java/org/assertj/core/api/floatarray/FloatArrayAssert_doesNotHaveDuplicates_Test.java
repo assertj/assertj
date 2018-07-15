@@ -14,7 +14,7 @@ package org.assertj.core.api.floatarray;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.withPrecision;

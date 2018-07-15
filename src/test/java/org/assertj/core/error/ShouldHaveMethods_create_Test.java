@@ -25,7 +25,7 @@ import java.lang.reflect.Modifier;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.test.Person;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldHaveMethods}</code>

@@ -26,9 +26,9 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.ComparisonFailure;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 /**
@@ -43,7 +43,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   private Description description;
   private ShouldBeEqual shouldBeEqual;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     description = new TestDescription("my test");
   }

@@ -17,8 +17,8 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqu
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -33,7 +33,7 @@ public class ShouldBeEqualIgnoringWhitespace_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldBeEqualIgnoringWhitespace(" my\tfoo bar ", " myfoo bar ");
   }

@@ -26,7 +26,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -49,7 +49,7 @@ public class IterablesBaseTest {
 
   protected AssertionInfo info;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     actual = newArrayList("Luke", "Yoda", "Leia");
     failures = spy(new Failures());

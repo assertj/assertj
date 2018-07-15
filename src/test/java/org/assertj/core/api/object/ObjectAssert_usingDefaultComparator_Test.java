@@ -21,7 +21,7 @@ import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -35,7 +35,7 @@ public class ObjectAssert_usingDefaultComparator_Test extends ObjectAssertBaseTe
   @Mock
   private Comparator<Jedi> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

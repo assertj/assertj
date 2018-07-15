@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class CharArrayAssert_isSortedAccordingToComparator_Test extends CharArra
   @Mock
   private Comparator<Character> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

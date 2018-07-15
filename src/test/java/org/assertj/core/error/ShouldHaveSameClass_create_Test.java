@@ -18,8 +18,8 @@ import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldHaveSameClass#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -30,7 +30,7 @@ public class ShouldHaveSameClass_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldHaveSameClass("Yoda", 10L);
   }

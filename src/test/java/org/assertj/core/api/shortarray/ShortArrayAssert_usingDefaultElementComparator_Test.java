@@ -22,7 +22,7 @@ import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ShortArrays;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -38,7 +38,7 @@ public class ShortArrayAssert_usingDefaultElementComparator_Test extends ShortAr
 
   private Objects objectsBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     objectsBefore = getObjects(assertions);

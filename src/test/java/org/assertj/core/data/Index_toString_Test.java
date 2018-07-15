@@ -15,8 +15,8 @@ package org.assertj.core.data;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Index.atIndex;
 
-import org.assertj.core.data.Index;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Index#toString()}.
@@ -26,7 +26,7 @@ import org.junit.*;
 public class Index_toString_Test {
   private static Index index;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     index = atIndex(8);
   }

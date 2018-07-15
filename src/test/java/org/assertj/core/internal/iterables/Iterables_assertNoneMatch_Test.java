@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov

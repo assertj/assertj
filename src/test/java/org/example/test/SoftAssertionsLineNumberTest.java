@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test has to be in a package other than org.assertj because otherwise the

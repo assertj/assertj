@@ -27,8 +27,8 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link FloatArrays#assertIsSortedAccordingToComparator(AssertionInfo, float[], Comparator)}</code>
@@ -41,7 +41,7 @@ public class FloatArrays_assertIsSortedAccordingToComparator_Test extends FloatA
   private Comparator<Float> floatSquareComparator;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = new float[] { 4.0f, 3.0f, 2.0f, 2.0f, 1.0f };

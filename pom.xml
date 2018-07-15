@@ -74,6 +74,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.opentest4j</groupId>
       <artifactId>opentest4j</artifactId>
       <version>1.1.0</version>
@@ -104,12 +109,6 @@
       <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
       <version>1.2.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.tngtech.junit.dataprovider</groupId>
-      <artifactId>junit4-dataprovider</artifactId>
-      <version>2.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>

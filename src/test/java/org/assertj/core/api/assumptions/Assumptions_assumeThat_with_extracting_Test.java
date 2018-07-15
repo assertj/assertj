@@ -13,8 +13,8 @@
 package org.assertj.core.api.assumptions;
 
 import static com.google.common.collect.Sets.newHashSet;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -22,13 +22,12 @@ import java.util.Set;
 
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Jedi;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.AssumptionViolatedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Assumptions_assumeThat_with_extracting_Test {
 
-  private static int ranTests = 0;
   private Set<Jedi> jedis;
   private Jedi yoda;
   private Jedi luke;
@@ -40,7 +39,7 @@ public class Assumptions_assumeThat_with_extracting_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  @Before
+  @BeforeEach
   public void setup() {
     yoda = new Jedi("Yoda", "green");
     luke = new Jedi("Luke", "green");
@@ -57,33 +56,26 @@ public class Assumptions_assumeThat_with_extracting_Test {
     fred.addChildren(pebbles);
   }
 
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(3);
-  }
-
   @Test
   public void should_run_test_when_assumption_using_extracting_on_list_passes() {
-    assumeThat(jedis).extracting("name").contains("Luke");
-    ranTests++;
+    assertThatCode(() -> assumeThat(jedis).extracting("name").contains("Luke")).doesNotThrowAnyException();
   }
 
   @Test
   public void should_run_test_when_assumption_using_extracting_on_object_passes() {
-    assumeThat(yoda).extracting("name").containsExactly("Yoda");
-    ranTests++;
+    assertThatCode(() -> assumeThat(yoda).extracting("name").containsExactly("Yoda")).doesNotThrowAnyException();
   }
 
   @Test
   public void should_allow_assumptions_with_flatExtracting() {
-    assumeThat(newArrayList(homer, fred)).flatExtracting("children")
-                                         .containsOnly(bart, lisa, maggie, pebbles);
-    ranTests++;
+    assertThatCode(() -> assumeThat(newArrayList(homer, fred)).flatExtracting("children")
+                                                              .containsOnly(bart, lisa, maggie, pebbles))
+                                                                                                         .doesNotThrowAnyException();
   }
 
   @Test
   public void should_ignore_test_when_assumption_using_extracting_fails() {
-    assumeThat(jedis).extracting("name").contains("Vader");
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).extracting("name")
+                                                                                                   .contains("Vader"));
   }
 }

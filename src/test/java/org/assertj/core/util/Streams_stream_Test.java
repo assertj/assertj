@@ -18,7 +18,7 @@ import static org.assertj.core.util.Streams.stream;
 
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Streams_stream_Test {
 

@@ -14,14 +14,17 @@ package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-import org.assertj.core.groups.Properties;
-import org.assertj.core.test.*;
+import org.assertj.core.test.Employee;
+import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.PropertySupport;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Properties#from(Collection)}</code>.
@@ -31,21 +34,16 @@ import org.junit.*;
  */
 public class Properties_from_with_Collection_Test {
 
-  private static Employee yoda;
-  private static List<Employee> employees;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    yoda = new Employee(6000L, new Name("Yoda"), 800);
-    employees = newArrayList(yoda);
-  }
-
+  private Employee yoda;
+  private List<Employee> employees;
   private PropertySupport propertySupport;
   private String propertyName;
   private Properties<Integer> properties;
 
-  @Before
+  @BeforeEach
   public void setUp() {
+    yoda = new Employee(6000L, new Name("Yoda"), 800);
+    employees = newArrayList(yoda);
     propertySupport = mock(PropertySupport.class);
     propertyName = "age";
     properties = new Properties<>(propertyName, Integer.class);

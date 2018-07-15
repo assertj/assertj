@@ -18,7 +18,7 @@ import org.assertj.core.condition.JediCondition;
 import org.assertj.core.condition.JediPowerCondition;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.ObjectArrays;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -35,7 +35,7 @@ public class ObjectArraysWithConditionBaseTest extends ObjectArraysBaseTest {
   protected Condition<String> jedi;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     jediPower = new JediPowerCondition();

@@ -28,8 +28,8 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObjectAssert_extracting_with_function_Test {
 
@@ -37,7 +37,7 @@ public class ObjectAssert_extracting_with_function_Test {
 
   private static final Function<Employee, String> firstName = employee -> employee.getName().getFirst();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
   }

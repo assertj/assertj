@@ -15,8 +15,8 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestData.someTextDescription;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Condition#describedAs(String)}</code>.
@@ -27,7 +27,7 @@ public class Condition_describedAs_String_Test {
 
   private Condition<Object> condition;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     condition = new TestCondition<>();
   }

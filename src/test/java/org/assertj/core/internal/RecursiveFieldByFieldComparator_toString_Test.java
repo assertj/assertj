@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RecursiveFieldByFieldComparator_toString_Test {
 

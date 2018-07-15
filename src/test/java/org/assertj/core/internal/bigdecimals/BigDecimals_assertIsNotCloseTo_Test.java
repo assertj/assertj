@@ -31,18 +31,15 @@ import java.math.BigDecimal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.BigDecimalsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.BigDecimals#assertIsNotCloseTo(AssertionInfo, BigDecimal, BigDecimal, org.assertj.core.data.Offset)}</code>.
  *
  * @author Chris Arnott
  */
-@RunWith(DataProviderRunner.class)
 public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   private static final BigDecimal FIVE = new BigDecimal("5");
@@ -54,14 +51,13 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     numbers.assertIsNotCloseTo(someInfo(), TEN, ONE, offset(ONE));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1.0, 0.0, 1.0",
       "-1.0, 0.0, 1.0",
       "-1.0, 1.0, 2.0",
       "0.0, 0.000000000000000000000001, 0.000000000000000000000001"
   })
-  // @format:on
   public void should_pass_if_difference_is_equal_to_strict_offset(BigDecimal actual, BigDecimal expected,
                                                                   BigDecimal offsetValue) {
     numbers.assertIsNotCloseTo(someInfo(), actual, expected, byLessThan(offsetValue));
@@ -93,8 +89,8 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1.0, 1.0, 0.0",
       "1.0, 0.0, 1.0",
       "-1.0, 0.0, 1.0",
@@ -159,8 +155,8 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1.0, 0.0, 1.0",
       "-1.0, 0.0, 1.0",
       "-1.0, 1.0, 2.0",

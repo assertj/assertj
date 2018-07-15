@@ -21,7 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
 import org.assertj.core.internal.FloatArrays;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -37,7 +37,7 @@ public class FloatArrayAssert_usingComparator_Test extends FloatArrayAssertBaseT
 
   private FloatArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);

@@ -15,7 +15,7 @@ package org.assertj.core.groups;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FieldsOrPropertiesExtractor_assertNotNull_Test {
 

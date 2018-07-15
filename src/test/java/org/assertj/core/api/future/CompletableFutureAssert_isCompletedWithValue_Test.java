@@ -22,7 +22,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CompletableFutureAssert_isCompletedWithValue_Test extends BaseTest {
 

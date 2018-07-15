@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_assertThat_with_Stream_startsWith_Test {
 
@@ -36,7 +36,7 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
   // TODO it is not possible for startsWith to support both infinite streams and assertion chaining
   // assertion chaining has been chosen over infinite streams support
   @Test
-  @Ignore
+  @Disabled
   public void startsWith_should_work_with_infinite_streams() {
     assertThat(infiniteStream).startsWith("", "");
   }

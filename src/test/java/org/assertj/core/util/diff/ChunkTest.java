@@ -21,15 +21,15 @@ import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintains
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 public class ChunkTest {
 
   private Chunk<String> chunk;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     chunk = new Chunk<>(1, emptyList());
   }

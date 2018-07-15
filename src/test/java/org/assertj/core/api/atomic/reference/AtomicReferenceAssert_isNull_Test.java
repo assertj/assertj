@@ -17,7 +17,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceAssert_isNull_Test {
 

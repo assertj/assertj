@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class CharArrays_assertHasSameSizeAs_with_Iterable_Test extends CharArraysBaseTest {

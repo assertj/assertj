@@ -21,22 +21,12 @@ import java.util.function.Function;
 
 import org.assertj.core.api.ThrowableTypeAssert;
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class ThrowableTypeAssert_description_Test {
 
-  private Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder;
-
-  public ThrowableTypeAssert_description_Test(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
-    this.descriptionAdder = descriptionAdder;
-  }
-
-  @Parameters
-  public static Object[][] getParameters() {
+  public static Object[][] parameters() {
     return new Function[][] {
         { t -> ((ThrowableTypeAssert<?>) t).as("test description") },
         { t -> ((ThrowableTypeAssert<?>) t).describedAs("test description") },
@@ -45,14 +35,16 @@ public class ThrowableTypeAssert_description_Test {
     };
   }
 
-  @Test
-  public void should_contain_provided_description_if_nothing_is_thrown_by_lambda() {
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_contain_provided_description_if_nothing_is_thrown_by_lambda(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class)).isThrownBy(() -> {}))
                                                    .withMessage(format("[test description] %nExpecting code to raise a throwable."));
   }
 
-  @Test
-  public void should_contain_provided_description_when_exception_type_is_wrong() {
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_contain_provided_description_when_exception_type_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class))
                                                                                      .isThrownBy(() -> {
                                                                                        throw new IllegalArgumentException();
@@ -64,16 +56,17 @@ public class ThrowableTypeAssert_description_Test {
                                                                                  "  <java.util.NoSuchElementException>"));
   }
 
-  @Test
-  public void should_contain_provided_description_when_exception_message_is_wrong() {
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_contain_provided_description_when_exception_message_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       descriptionAdder.apply(assertThatIllegalArgumentException()).isThrownBy(() -> {
         throw new IllegalArgumentException("some cause");
       }).withMessage("other cause");
-    }).withMessage(String.format("[test description] %n" +
-                                 "Expecting message:%n" +
-                                 " <\"other cause\">%n" +
-                                 "but was:%n" +
-                                 " <\"some cause\">"));
+    }).withMessage(format("[test description] %n" +
+                          "Expecting message:%n" +
+                          " <\"other cause\">%n" +
+                          "but was:%n" +
+                          " <\"some cause\">"));
   }
 }

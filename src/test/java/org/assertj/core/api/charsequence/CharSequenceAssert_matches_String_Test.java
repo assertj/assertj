@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#matches(CharSequence)}</code>.
@@ -29,7 +29,7 @@ public class CharSequenceAssert_matches_String_Test extends CharSequenceAssertBa
 
   private static CharSequence regex;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     regex = matchAnything().pattern();
   }

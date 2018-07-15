@@ -15,7 +15,7 @@ package org.assertj.core.internal;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for {@link Bytes} unit tests
@@ -32,7 +32,7 @@ public class BytesBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Bytes bytesWithAbsValueComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     bytes = new Bytes();

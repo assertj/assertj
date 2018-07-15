@@ -22,7 +22,7 @@ import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStri
 
 import java.math.BigDecimal;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Offset_built_with_BigDecimal_Test {
 

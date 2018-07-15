@@ -19,47 +19,42 @@ import java.math.BigDecimal;
 
 import org.assertj.core.test.Jedi;
 import org.assertj.core.util.BigDecimalComparator;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class ExtendedByTypesComparator_compareTo_Test {
 
   private static final TypeComparators COMPARATORS_BY_TYPE = new TypeComparators();
-
   private static final ExtendedByTypesComparator EXTENDED_STANDARD_COMPARATOR = new ExtendedByTypesComparator(COMPARATORS_BY_TYPE);
   private static final ExtendedByTypesComparator EXTENDED_FIELD_BY_FIELD_COMPARATOR = new ExtendedByTypesComparator(new FieldByFieldComparator(),
                                                                                                                     COMPARATORS_BY_TYPE);
 
-  @Parameter
-  public ExtendedByTypesComparator extendedComparator;
-
-  @Parameters
   public static Iterable<ExtendedByTypesComparator> data() {
     return asList(EXTENDED_STANDARD_COMPARATOR, EXTENDED_FIELD_BY_FIELD_COMPARATOR);
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeClass() {
     COMPARATORS_BY_TYPE.put(BigDecimal.class, new BigDecimalComparator());
   }
 
-  @Test
-  public void should_return_equal_if_both_objects_are_null() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_return_equal_if_both_objects_are_null(ExtendedByTypesComparator extendedComparator) {
     assertThat(extendedComparator.compare(null, null)).isZero();
   }
 
-  @Test
-  public void should_return_are_not_equal_if_first_object_is_null_and_second_is_not() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_return_are_not_equal_if_first_object_is_null_and_second_is_not(ExtendedByTypesComparator extendedComparator) {
     assertThat(extendedComparator.compare(null, "some")).isNotZero();
   }
 
-  @Test
-  public void should_return_are_not_equal_if_second_object_is_null_and_first_is_not() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_return_are_not_equal_if_second_object_is_null_and_first_is_not(ExtendedByTypesComparator extendedComparator) {
     assertThat(extendedComparator.compare("some", null)).isNotZero();
   }
 
@@ -77,18 +72,21 @@ public class ExtendedByTypesComparator_compareTo_Test {
                                                           new Jedi("Yoda", "Any"))).isNotZero();
   }
 
-  @Test
-  public void should_return_equal_if_objects_are_equal_by_type_comparator() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_return_equal_if_objects_are_equal_by_type_comparator(ExtendedByTypesComparator extendedComparator) {
     assertThat(extendedComparator.compare(new BigDecimal("4.2"), new BigDecimal("4.20"))).isZero();
   }
 
-  @Test
-  public void should_return_are_not_equal_if_objects_are_not_equal_by_type_comparator() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_return_are_not_equal_if_objects_are_not_equal_by_type_comparator(ExtendedByTypesComparator extendedComparator) {
     assertThat(extendedComparator.compare(new BigDecimal(42), new BigDecimal("42.5"))).isNotZero();
   }
 
-  @Test
-  public void should_return_are_not_equal_if_objects_are_different_by_type_for_type_comparator() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_return_are_not_equal_if_objects_are_different_by_type_for_type_comparator(ExtendedByTypesComparator extendedComparator) {
     assertThat(extendedComparator.compare(new BigDecimal(42), "some")).isNotZero();
   }
 }

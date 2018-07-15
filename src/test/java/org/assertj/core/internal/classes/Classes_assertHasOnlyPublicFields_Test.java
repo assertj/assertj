@@ -24,8 +24,8 @@ import java.util.LinkedHashSet;
 
 import org.assertj.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Sets;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -39,7 +39,7 @@ public class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
 
   private static final LinkedHashSet<String> EMPTY_STRING_SET = Sets.<String> newLinkedHashSet();
 
-  @Before
+  @BeforeEach
   public void setupActual() {
     actual = AnnotatedClass.class;
   }

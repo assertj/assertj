@@ -24,8 +24,8 @@ import java.util.List;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.VehicleFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link PropertySupport#propertyValues(String, Collection)}</code>.
@@ -41,7 +41,7 @@ public class PropertySupport_propertyValues_Test {
   private Employee luke;
   private Iterable<Employee> employees;
 
-  @Before
+  @BeforeEach
   public void setUpOnce() {
     yoda = new Employee(6000L, new Name("Yoda"), 800);
     luke = new Employee(8000L, new Name("Luke", "Skywalker"), 26);

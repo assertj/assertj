@@ -15,7 +15,6 @@ package org.assertj.core.internal.files;
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
@@ -23,13 +22,12 @@ import java.io.IOException;
 import java.util.List;
 
 import org.assertj.core.internal.Diff;
+import org.assertj.core.util.Files;
 import org.assertj.core.util.TextFileWriter;
 import org.assertj.core.util.diff.Delta;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Diff#diff(File, File)}</code>.
@@ -38,13 +36,10 @@ import org.junit.rules.TemporaryFolder;
  */
 public class Diff_diff_File_Test {
 
-  @Rule
-  public TemporaryFolder folder = new TemporaryFolder();
-
   private static Diff diff;
   private static TextFileWriter writer;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     diff = new Diff();
     writer = TextFileWriter.instance();
@@ -53,10 +48,12 @@ public class Diff_diff_File_Test {
   private File actual;
   private File expected;
 
-  @Before
-  public void setUp() throws IOException {
-    actual = folder.newFile("actual.txt");
-    expected = folder.newFile("expected.txt");
+  @BeforeEach
+  public void setUp() {
+    actual = Files.newTemporaryFile();
+    actual.deleteOnExit();
+    expected = Files.newTemporaryFile();
+    expected.deleteOnExit();
   }
 
   @Test

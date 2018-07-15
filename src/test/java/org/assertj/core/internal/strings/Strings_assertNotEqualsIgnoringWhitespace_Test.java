@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.strings;
 
-import static com.tngtech.java.junit.dataprovider.DataProviders.$;
-import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
@@ -22,21 +20,20 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
+import java.util.stream.Stream;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Strings#assertNotEqualsIgnoringWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
  *
  * @author Dan Corder
  */
-@RunWith(DataProviderRunner.class)
 public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseTest {
 
   @Test
@@ -46,23 +43,20 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
-  @Test
-  @UseDataProvider("notEqualIgnoringWhitespaceGenerator")
+  @ParameterizedTest
+  @MethodSource("notEqualIgnoringWhitespaceGenerator")
   public void should_pass_if_both_Strings_are_not_equal_ignoring_whitespace(String actual, String expected) {
     strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
-  @DataProvider
-  public static Object[][] notEqualIgnoringWhitespaceGenerator() {
-    // @format:off
-    return $$($("foo", "bar"),
-              $("foo", new String(arrayOf('b', 'a', 'r'))),
-              $(null, "bar"));
-    // @format:on
+  public static Stream<Arguments> notEqualIgnoringWhitespaceGenerator() {
+    return Stream.of(Arguments.of("foo", "bar"),
+                     Arguments.of("foo", new String(arrayOf('b', 'a', 'r'))),
+                     Arguments.of(null, "bar"));
   }
 
-  @Test
-  @UseDataProvider("equalIgnoringWhitespaceGenerator")
+  @ParameterizedTest
+  @MethodSource("equalIgnoringWhitespaceGenerator")
   public void should_fail_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
     try {
       strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
@@ -73,23 +67,20 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @DataProvider
-  public static Object[][] equalIgnoringWhitespaceGenerator() {
-    // @format:off
-    return $$($("my foo", "myfoo"),
-              $("myfoo", "my foo"),
-              $("my   foo bar", "my foo bar"),
-              $("  my foo bar  ", "my foo bar"),
-              $(" my\tfoo bar ", " my foo bar"),
-              $(" my foo    bar ", "my foo bar"),
-              $(" my foo    bar ", "  my foo bar   "),
-              $("       ", " "),
-              $(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
-              $(" my\tfoo bar ", " my\tfoo bar "),   // same
-              $(null, null),   // null
-              $(" \t \t", " "),
-              $(" abc", "abc "));
-    // @format:on
+  public static Stream<Arguments> equalIgnoringWhitespaceGenerator() {
+    return Stream.of(Arguments.of("my foo", "myfoo"),
+                     Arguments.of("myfoo", "my foo"),
+                     Arguments.of("my   foo bar", "my foo bar"),
+                     Arguments.of("  my foo bar  ", "my foo bar"),
+                     Arguments.of(" my\tfoo bar ", " my foo bar"),
+                     Arguments.of(" my foo    bar ", "my foo bar"),
+                     Arguments.of(" my foo    bar ", "  my foo bar   "),
+                     Arguments.of("       ", " "),
+                     Arguments.of(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
+                     Arguments.of(" my\tfoo bar ", " my\tfoo bar "),   // same
+                     Arguments.of(null, null),   // null
+                     Arguments.of(" \t \t", " "),
+                     Arguments.of(" abc", "abc "));
   }
 
   private void verifyFailureThrownWhenStringsAreEqualIgnoringWhitespace(AssertionInfo info, String actual,

@@ -13,60 +13,52 @@
 package org.assertj.core.api.assumptions;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
-import org.junit.AfterClass;
-import org.junit.Test;
+import org.junit.AssumptionViolatedException;
+import org.junit.jupiter.api.Test;
 
 public class Assumptions_assumeThat_Object_Test {
 
   private static final Object STRING_OBJECT = "test";
-  private static int ranTests = 0;
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(3);
-  }
 
   @Test
   public void should_run_test_when_assumption_passes() {
-    assumeThat(STRING_OBJECT).isNotNull().isEqualTo("test");
-    ranTests++;
+    assertThatCode(() -> assumeThat(STRING_OBJECT).isNotNull().isEqualTo("test")).doesNotThrowAnyException();
   }
 
   @Test
   public void should_run_test_when_assumption_for_internally_created_string_passes() {
-    assumeThat(STRING_OBJECT).isNotNull().asString().startsWith("te");
-    ranTests++;
+    assertThatCode(() -> assumeThat(STRING_OBJECT).isNotNull().asString().startsWith("te")).doesNotThrowAnyException();
   }
 
   @Test
   public void should_run_test_when_assumption_for_internally_created_list_passes() {
     Object listObject = asList(1, 2, 3);
-    assumeThat(listObject).isNotNull().asList().hasSize(3);
-    ranTests++;
+    assertThatCode(() -> assumeThat(listObject).isNotNull().asList().hasSize(3)).doesNotThrowAnyException();
   }
 
   @Test
   public void should_ignore_test_when_assumption_fails() {
-    assumeThat(STRING_OBJECT).isNotNull().isEqualTo("other");
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(STRING_OBJECT).isNotNull()
+                                                                                                           .isEqualTo("other"));
   }
 
   @Test
   public void should_ignore_test_when_assumption_for_internally_created_string_assertion_fails() {
-    assumeThat(STRING_OBJECT).isNotNull().asString().isEqualTo("other");
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(STRING_OBJECT).isNotNull()
+                                                                                                           .asString()
+                                                                                                           .isEqualTo("other"));
   }
 
   @Test
   public void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
     Object listObject = asList(1, 2, 3);
-    assumeThat(listObject).isNotNull()
-                          .asList()
-                          .contains(4, 5);
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(listObject).isNotNull()
+                                                                                                        .asList()
+                                                                                                        .contains(4,
+                                                                                                                  5));
   }
 }

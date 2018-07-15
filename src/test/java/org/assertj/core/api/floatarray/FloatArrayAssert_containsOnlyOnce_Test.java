@@ -18,7 +18,7 @@ import static org.assertj.core.test.FloatArrays.arrayOf;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.verify;
 

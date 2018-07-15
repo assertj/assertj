@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#hasSameTimeAs(java.util.Date)} </code>.

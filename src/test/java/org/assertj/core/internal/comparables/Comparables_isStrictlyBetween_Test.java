@@ -27,7 +27,7 @@ import java.math.BigInteger;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparablesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
 

@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Comparator;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov
@@ -26,7 +26,7 @@ public class TypeComparators_Test {
 
   private TypeComparators typeComparators;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     typeComparators = new TypeComparators();
   }

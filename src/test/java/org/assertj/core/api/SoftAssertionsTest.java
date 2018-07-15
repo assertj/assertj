@@ -86,8 +86,8 @@ import org.assertj.core.test.Name;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
 /**
@@ -116,7 +116,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private static final Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor = CartoonCharacter::getChildren;
 
-  @Before
+  @BeforeEach
   public void setup() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     softly = new SoftAssertions();

@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.function.DoublePredicate;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(DoublePredicate)}</code>.
@@ -28,7 +28,7 @@ public class Assertions_assertThat_with_DoublePredicate_Test {
 
   private DoublePredicate actual;
 
-  @Before
+  @BeforeEach
   public void before() {
     actual = value -> value == 1;
   }

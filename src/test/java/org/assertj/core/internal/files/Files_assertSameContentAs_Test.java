@@ -37,12 +37,11 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.Files;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.diff.Delta;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.nio.charset.Charset, java.io.File,  java.nio.charset.Charset)}</code>.
@@ -52,12 +51,10 @@ import org.junit.rules.TemporaryFolder;
  */
 public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
-  @ClassRule
-  public static TemporaryFolder withTemporaryFolder = new TemporaryFolder();
   private static File actual;
   private static File expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     actual = new File("src/test/resources/actual_file.txt");
     expected = new File("src/test/resources/expected_file.txt");
@@ -157,7 +154,8 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   private File createFileWithNonUTF8Character() throws IOException {
     byte[] data = new BigInteger("FE", 16).toByteArray();
-    File file = withTemporaryFolder.newFile();
+    File file = Files.newTemporaryFile();
+    file.deleteOnExit();
     try (FileOutputStream fos = new FileOutputStream(file)) {
       fos.write(data, 0, data.length);
       return file;

@@ -20,8 +20,8 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.*;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 public class ShouldContainsStringOnlyOnce_create_Test {
@@ -29,7 +29,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
   private ErrorMessageFactory factoryWithSeveralOccurrences;
   private ErrorMessageFactory factoryWithNoOccurrence;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factoryWithSeveralOccurrences = shouldContainOnlyOnce("aaamotifmotifaabbbmotifaaa", "motif", 3);
     factoryWithNoOccurrence = shouldContainOnlyOnce("aaamodifmoifaabbbmotfaaa", "motif", 0);

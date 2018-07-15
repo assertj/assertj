@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#hasSameSizeAs(Iterable)}</code>.
@@ -31,7 +31,7 @@ public class CharSequenceAssert_hasSameSizeAs_with_Iterable_Test extends CharSeq
 
   private static List<String> other;
   
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     other = newArrayList("Luke");
   }

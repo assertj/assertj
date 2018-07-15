@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,7 +30,7 @@ public class Assertions_assertThat_with_OptionalInt_Test {
 
     private OptionalInt actual;
 
-    @Before
+    @BeforeEach
     public void before(){
         actual = OptionalInt.of(10);
     }

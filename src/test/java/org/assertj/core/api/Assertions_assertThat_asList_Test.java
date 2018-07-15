@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for Assert.asList() methods

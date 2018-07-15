@@ -23,13 +23,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.internal.Diff;
+import org.assertj.core.util.Files;
 import org.assertj.core.util.TextFileWriter;
 import org.assertj.core.util.diff.Delta;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Diff#diff(File, String, java.nio.charset.Charset)}</code>.
@@ -38,13 +37,10 @@ import org.junit.rules.TemporaryFolder;
  */
 public class Diff_diff_File_String_Test {
 
-  @Rule
-  public TemporaryFolder folder = new TemporaryFolder();
-
   private static Diff diff;
   private static TextFileWriter writer;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     diff = new Diff();
     writer = TextFileWriter.instance();
@@ -52,9 +48,10 @@ public class Diff_diff_File_String_Test {
 
   private File actual;
 
-  @Before
-  public void setUp() throws IOException {
-    actual = folder.newFile("actual.txt");
+  @BeforeEach
+  public void setUp() {
+    actual = Files.newTemporaryFile();
+    actual.deleteOnExit();
   }
 
   @Test

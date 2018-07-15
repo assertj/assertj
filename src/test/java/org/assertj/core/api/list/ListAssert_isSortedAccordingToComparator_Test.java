@@ -21,7 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -34,7 +34,7 @@ public class ListAssert_isSortedAccordingToComparator_Test extends ListAssertBas
   @Mock
   private Comparator<String> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

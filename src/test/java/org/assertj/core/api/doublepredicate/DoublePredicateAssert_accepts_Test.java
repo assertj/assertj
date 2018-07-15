@@ -24,7 +24,7 @@ import java.util.function.DoublePredicate;
 import org.assertj.core.api.DoublePredicateAssert;
 import org.assertj.core.api.DoublePredicateAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov

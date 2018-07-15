@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_avoid_ambiguous_reference_compilation_error_Test {
 

@@ -24,7 +24,7 @@ import java.util.OptionalDouble;
 
 import org.assertj.core.api.BaseTest;
 import org.assertj.core.data.Offset;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OptionalDoubleAssert_hasValueCloseTo_Test extends BaseTest {
 

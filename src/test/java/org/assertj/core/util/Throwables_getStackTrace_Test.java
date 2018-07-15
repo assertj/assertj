@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.PrintWriter;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Throwables#getStackTrace(Throwable)}.

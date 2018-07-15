@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
@@ -38,7 +38,8 @@ public class Iterable_generics_with_varargs_Test {
 	assertThat(strings).contains("a", "b");
   }
 
-  @Test @Ignore
+  @Test
+  @Disabled
   public void testListAssertWithGenerics() {
     // List<? extends String> strings = asList("a", "b", "c");
     // does not compile as Java 8 is stricter with generics ...

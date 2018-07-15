@@ -19,14 +19,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObjectAssert_flatExtracting_Test {
 
   private Map<String, List<String>> mapOfList;
 
-  @Before
+  @BeforeEach
   public void beforeEachTest() {
     mapOfList = new LinkedHashMap<>();
     mapOfList.put("name", asList("Dave", "Jeff"));

@@ -20,12 +20,11 @@ import java.io.IOException;
 
 import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
+import org.assertj.core.util.Files;
 import org.assertj.core.util.TextFileWriter;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -36,13 +35,10 @@ import org.junit.rules.TemporaryFolder;
  */
 public class BinaryDiff_diff_File_byteArray_Test {
 
-  @Rule
-  public TemporaryFolder folder = new TemporaryFolder();
-
   private static BinaryDiff binaryDiff;
   private static TextFileWriter writer;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     binaryDiff = new BinaryDiff();
     writer = TextFileWriter.instance();
@@ -51,9 +47,10 @@ public class BinaryDiff_diff_File_byteArray_Test {
   private File actual;
   private byte[] expected;
 
-  @Before
-  public void setUp() throws IOException {
-    actual = folder.newFile("actual.txt");
+  @BeforeEach
+  public void setUp() {
+    actual = Files.newTemporaryFile();
+    actual.deleteOnExit();
   }
 
   @Test

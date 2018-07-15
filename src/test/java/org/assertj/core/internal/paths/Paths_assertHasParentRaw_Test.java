@@ -23,15 +23,15 @@ import static org.mockito.Mockito.when;
 
 import java.nio.file.Path;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
 
   private Path expectedParent;
 
   @Override
-  @Before
+  @BeforeEach
   public void init() {
 	super.init();
 	expectedParent = mock(Path.class);

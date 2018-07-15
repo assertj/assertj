@@ -19,7 +19,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import org.assertj.core.test.Player;
 import org.assertj.core.test.PotentialMvpCondition;
 import org.assertj.core.test.WithPlayerData;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class Filter_having_condition_Test extends WithPlayerData {

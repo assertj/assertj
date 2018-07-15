@@ -34,8 +34,8 @@ import java.util.List;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
@@ -46,7 +46,7 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   private static final ThrowingExtractor<TolkienCharacter, String, Exception> nameThrowingExtractor = TolkienCharacter::getName;
   private static final ThrowingExtractor<TolkienCharacter, Integer, Exception> ageThrowingExtractor = TolkienCharacter::getAge;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fellowshipOfTheRing.add(TolkienCharacter.of("Frodo", 33, HOBBIT));
     fellowshipOfTheRing.add(TolkienCharacter.of("Sam", 38, HOBBIT));

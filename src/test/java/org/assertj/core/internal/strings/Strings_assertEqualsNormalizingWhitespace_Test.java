@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal.strings;
 
-import static com.tngtech.java.junit.dataprovider.DataProviders.$;
-import static com.tngtech.java.junit.dataprovider.DataProviders.$$;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -22,13 +20,13 @@ import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNul
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
 
-import org.assertj.core.internal.StringsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.stream.Stream;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import org.assertj.core.internal.StringsBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 
 /**
@@ -39,7 +37,6 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
  * @author Alexander Bischof
  * @author Dan Corder
  */
-@RunWith(DataProviderRunner.class)
 public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
 
   @Test
@@ -67,26 +64,23 @@ public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseT
                                                                                                           "Luke").create()));
   }
 
-  @Test
-  @UseDataProvider("equalNormalizingWhitespaceGenerator")
+  @ParameterizedTest
+  @MethodSource("equalNormalizingWhitespaceGenerator")
   public void should_pass_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
     strings.assertEqualsNormalizingWhitespace(someInfo(), actual, expected);
   }
 
-  @DataProvider
-  public static Object[][] equalNormalizingWhitespaceGenerator() {
-    // @format:off
-    return $$($("my   foo bar", "my foo bar"),
-              $("  my foo bar  ", "my foo bar"),
-              $(" my\tfoo bar ", " my foo bar"),
-              $(" my foo    bar ", "my foo bar"),
-              $(" my foo    bar ", "  my foo bar   "),
-              $("       ", " "),
-              $(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
-              $(" my\tfoo bar ", " my\tfoo bar "),   // same
-              $(null, null),   // null
-              $(" \t \t", " "),
-              $(" abc", "abc "));
-   // @format:on
+  public static Stream<Arguments> equalNormalizingWhitespaceGenerator() {
+    return Stream.of(Arguments.of("my   foo bar", "my foo bar"),
+                     Arguments.of("  my foo bar  ", "my foo bar"),
+                     Arguments.of(" my\tfoo bar ", " my foo bar"),
+                     Arguments.of(" my foo    bar ", "my foo bar"),
+                     Arguments.of(" my foo    bar ", "  my foo bar   "),
+                     Arguments.of("       ", " "),
+                     Arguments.of(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
+                     Arguments.of(" my\tfoo bar ", " my\tfoo bar "),   // same
+                     Arguments.of(null, null),   // null
+                     Arguments.of(" \t \t", " "),
+                     Arguments.of(" abc", "abc "));
   }
 }

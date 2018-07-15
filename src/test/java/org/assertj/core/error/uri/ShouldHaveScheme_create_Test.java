@@ -19,7 +19,7 @@ import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
 import java.net.URI;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveScheme_create_Test {
 

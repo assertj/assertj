@@ -25,8 +25,8 @@ import java.security.MessageDigest;
 
 import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.TestDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveDigest_create_Test {
 
@@ -34,7 +34,7 @@ public class ShouldHaveDigest_create_Test {
 
   private DigestDiff diff;
 
-  @Before
+  @BeforeEach
   public void setup() throws Exception {
     diff = new DigestDiff("actualHex", "actualHex", MessageDigest.getInstance("MD5"));
   }

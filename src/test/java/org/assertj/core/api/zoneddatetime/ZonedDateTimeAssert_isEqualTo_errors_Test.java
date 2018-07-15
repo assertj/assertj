@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.fail;
 
 import java.time.ZonedDateTime;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link ZonedDateTime} are already defined in assertj-core)

@@ -18,14 +18,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_assertThat_with_CompletionStage_Test {
 
   private CompletionStage<String> completionStage;
 
-  @Before
+  @BeforeEach
   public void setup() {
     completionStage = completedFuture("done");
   }

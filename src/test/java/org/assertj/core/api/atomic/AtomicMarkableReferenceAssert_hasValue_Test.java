@@ -21,7 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicMarkableReferenceAssert_hasValue_Test {
 

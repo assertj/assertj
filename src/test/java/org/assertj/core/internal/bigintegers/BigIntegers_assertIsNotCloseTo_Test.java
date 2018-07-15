@@ -31,16 +31,13 @@ import java.math.BigInteger;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.BigIntegersBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.BigIntegers#assertIsNotCloseTo(AssertionInfo, BigInteger, BigInteger, Offset)}</code>.
  */
-@RunWith(DataProviderRunner.class)
 public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
 
   private static final BigInteger FIVE = new BigInteger("5");
@@ -52,8 +49,8 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
     numbers.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 0, 1",
       "-1, 0, 1",
       "1, -1, 2",
@@ -88,8 +85,8 @@ public class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 1, 0",
       "1, 0, 1",
       "-1, 0, 1",

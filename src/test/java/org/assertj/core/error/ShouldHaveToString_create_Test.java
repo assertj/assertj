@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveToString_create_Test {
 

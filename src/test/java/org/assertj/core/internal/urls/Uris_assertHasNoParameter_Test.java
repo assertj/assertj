@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.assertj.core.internal.UrisBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
 

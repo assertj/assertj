@@ -16,38 +16,41 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.test.TestData.someInfo;
 
+import java.util.stream.Stream;
+
 import org.assertj.core.internal.StringsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
-@RunWith(DataProviderRunner.class)
 public class Strings_assertContainsOnlyWhitespaces_Test extends StringsBaseTest {
 
-  @Test
-  @DataProvider(value = {
-      " ",
-      "\u005Ct", // tab
-      "\u005Cn", // line feed
-      "\u005Cr", // carriage return
-      " \u005Cn\u005Cr  "
-  }, trimValues = false)
+  public static Stream<Arguments> containOnlyWhitespace() {
+    return Stream.of(Arguments.of(" "),
+                     Arguments.of("\u005Ct"), // tab
+                     Arguments.of("\u005Cn"), // line feed
+                     Arguments.of("\u005Cr"), // carriage return
+                     Arguments.of(" \u005Cn\u005Cr  "));
+  }
+
+  @ParameterizedTest
+  @MethodSource("containOnlyWhitespace")
   public void should_pass_if_string_contains_only_whitespaces(String actual) {
     strings.assertContainsOnlyWhitespaces(someInfo(), actual);
   }
 
-  @Test
-  @DataProvider(value = {
-      "null",
-      "",
-      "a",
-      " bc ",
-      "\u00A0", // non-breaking space
-      "\u2007", // non-breaking space
-      "\u202F", // non-breaking space
-  }, trimValues = false)
+  public static Stream<Arguments> containNotOnlyWhitespace() {
+    return Stream.of(Arguments.of((String) null),
+                     Arguments.of(""),
+                     Arguments.of("a"),
+                     Arguments.of(" bc "),
+                     Arguments.of("\u00A0"), // non-breaking space
+                     Arguments.of("\u2007"), // non-breaking space
+                     Arguments.of("\u202F")); // non-breaking space
+  }
+
+  @ParameterizedTest
+  @MethodSource("containNotOnlyWhitespace")
   public void should_fail_if_string_does_not_contain_only_whitespaces(String actual) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyWhitespaces(someInfo(), actual))
                                                    .withMessage(shouldContainOnlyWhitespaces(actual).create());

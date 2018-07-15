@@ -23,15 +23,15 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveValue_create_Test {
 
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("TEST");
   private Person joe;
 
-  @Before
+  @BeforeEach
   public void setup() {
     joe = new Person();
     joe.name = "Joe";

@@ -20,7 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class AtomicLongFieldUpdater_hasValue_Test {

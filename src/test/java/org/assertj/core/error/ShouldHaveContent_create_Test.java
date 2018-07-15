@@ -25,7 +25,7 @@ import java.util.List;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.diff.Delta;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveContent_create_Test {
 

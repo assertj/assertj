@@ -19,8 +19,8 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 
 import java.util.Locale;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -33,7 +33,7 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
   private final String javaVersion = System.getProperty("java.specification.version");
   private String expected_formatted_xml;
 
-  @Before
+  @BeforeEach
   public void before() {
     // Set locale to be able to check exception message in English.
     Locale.setDefault(ENGLISH);

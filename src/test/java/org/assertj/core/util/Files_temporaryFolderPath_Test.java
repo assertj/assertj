@@ -16,7 +16,7 @@ import static java.io.File.separator;
 import static org.assertj.core.util.Strings.append;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Files#temporaryFolderPath()}</code>.

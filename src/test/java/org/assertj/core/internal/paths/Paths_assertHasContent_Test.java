@@ -37,9 +37,9 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
 import org.assertj.core.util.diff.Delta;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Paths#assertHasContent(AssertionInfo, Path, String, Charset)}</code>.
@@ -54,7 +54,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   private static Charset charset;
   private Path mockPath;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
 	// Does not matter if the values differ, the actual comparison is mocked in this test
 	path = new File("src/test/resources/actual_file.txt").toPath();
@@ -62,7 +62,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 	charset = Charset.defaultCharset();
   }
 
-  @Before
+  @BeforeEach
   public void init() {
 	mockPath = mock(Path.class);
   }

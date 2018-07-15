@@ -16,7 +16,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base test class for {@link java.net.URI} tests.
@@ -30,7 +30,7 @@ public abstract class UrisBaseTest {
   protected AssertionInfo info;
 
 
-  @Before
+  @BeforeEach
   public void setUp() {
 	failures = spy(new Failures());
 	uris = new Uris();

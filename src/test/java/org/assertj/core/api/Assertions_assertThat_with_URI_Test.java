@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.Assertions#assertThat(java.net.URI)}</code>.
@@ -29,7 +29,7 @@ public class Assertions_assertThat_with_URI_Test {
 
   private static URI uri;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeClass() throws URISyntaxException {
     uri = new URI("http://www.helloworld.org:8080/pages");
   }

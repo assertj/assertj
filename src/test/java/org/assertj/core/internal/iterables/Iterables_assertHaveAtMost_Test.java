@@ -23,7 +23,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesWithConditionsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

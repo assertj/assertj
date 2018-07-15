@@ -24,7 +24,7 @@ import static org.assertj.core.api.Fail.shouldHaveThrown;
 import java.io.IOException;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_catchThrowableOfType_Test {
 

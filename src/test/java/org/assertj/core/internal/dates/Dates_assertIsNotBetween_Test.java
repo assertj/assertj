@@ -27,7 +27,7 @@ import java.util.Date;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

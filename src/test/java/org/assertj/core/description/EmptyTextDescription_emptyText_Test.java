@@ -15,7 +15,7 @@ package org.assertj.core.description;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link EmptyTextDescription#emptyDescription()}</code>.

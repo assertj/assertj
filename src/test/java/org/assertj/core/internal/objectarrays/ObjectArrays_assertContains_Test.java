@@ -21,7 +21,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertContains(AssertionInfo, Object[], Object[])}</code>.
@@ -33,6 +34,7 @@ public class ObjectArrays_assertContains_Test extends ObjectArraysBaseTest {
 
   private Arrays internalArrays;
 
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

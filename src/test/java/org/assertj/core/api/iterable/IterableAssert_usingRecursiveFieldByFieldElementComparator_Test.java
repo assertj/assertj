@@ -26,14 +26,14 @@ import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     iterablesBefore = getIterables(assertions);
   }

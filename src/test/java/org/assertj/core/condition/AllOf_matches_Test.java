@@ -17,8 +17,8 @@ import static org.assertj.core.condition.AllOf.allOf;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AllOf#matches(Object)}</code>.
@@ -31,7 +31,7 @@ public class AllOf_matches_Test {
   private TestCondition<Object> condition2;
   private Condition<Object> allOf;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     condition1 = new TestCondition<>();
     condition2 = new TestCondition<>();

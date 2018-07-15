@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link PathAssert#usingCharset(String)}</code> when the provided string is invalid.

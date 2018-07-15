@@ -27,8 +27,8 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = newArrayList("Yoda", "Luke", "Leia", "Obi-Wan");

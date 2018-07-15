@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Preconditions_checkArgument_Test {
 

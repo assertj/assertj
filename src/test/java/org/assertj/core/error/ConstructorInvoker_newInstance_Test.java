@@ -12,10 +12,10 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.error.ConstructorInvoker;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ConstructorInvoker#newInstance(String, Class[], Object[])}</code>.
@@ -26,7 +26,7 @@ public class ConstructorInvoker_newInstance_Test {
 
   private ConstructorInvoker invoker;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     invoker = new ConstructorInvoker();
   }

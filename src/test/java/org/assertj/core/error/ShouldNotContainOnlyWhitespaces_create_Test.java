@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotCo
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldNotContainOnlyWhitespaces_create_Test {
 

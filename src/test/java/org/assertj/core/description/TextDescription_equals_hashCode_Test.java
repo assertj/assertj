@@ -13,10 +13,13 @@
 package org.assertj.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
-import org.assertj.core.description.TextDescription;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link TextDescription#equals(Object)}</code> and <code>{@link TextDescription#hashCode()}</code>.
@@ -27,7 +30,7 @@ public class TextDescription_equals_hashCode_Test {
 
   private static TextDescription description;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     description = new TextDescription("Yoda");
   }

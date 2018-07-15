@@ -21,7 +21,7 @@ import static org.mockito.Mockito.mock;
 import java.nio.file.Path;
 
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldBeSymbolicLink_create_Test {
 

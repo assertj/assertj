@@ -12,8 +12,8 @@
  */
 package org.assertj.core.util;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base test case for <code>{@link Files}</code>.
@@ -25,14 +25,14 @@ public abstract class Files_TestCase {
 
   FolderFixture root;
 
-  @Before
+  @BeforeEach
   public final void setUp() throws Exception {
     root = new FolderFixture("root");
     root.addFolder("dir_1").addFiles("file_1_1", "file_1_2").addFolder("dir_1_1").addFiles("file_1_1_1");
     root.addFolder("dir_2").addFiles("file_2_1", "file_2_2", "file_2_3");
   }
 
-  @After
+  @AfterEach
   public final void tearDown() {
     root.delete();
   }

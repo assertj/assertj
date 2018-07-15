@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Tests for {@link DateAssert#isNotBetween(Date, Date, boolean, boolean)} and
@@ -31,7 +31,7 @@ public class DateAssert_isNotBetweenSpecifyingBoundariesInclusion_Test extends A
   private boolean inclusiveEnd;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     inclusiveStart = false;

@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.exception.PathsException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 

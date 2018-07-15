@@ -24,12 +24,12 @@ import static org.assertj.core.util.Sets.newTreeSet;
 import java.lang.reflect.Modifier;
 
 import org.assertj.core.internal.ClassesBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
 
-  @Before
+  @BeforeEach
   public void setupActual() {
     actual = MethodsClass.class;
   }

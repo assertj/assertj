@@ -23,8 +23,8 @@ import java.nio.file.Path;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeAbsolutePath#create(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -39,7 +39,7 @@ public class ShouldBeAbsolutePath_create_Test {
   private ErrorMessageFactory factory;
   private String actualMessage;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     description = new TestDescription("Test");
     representation = new StandardRepresentation();

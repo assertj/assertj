@@ -30,8 +30,8 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicReferenceArrayAssertBaseTest {
 
@@ -40,7 +40,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   private Jedi actual = new Jedi("Yoda", "green");
   private Jedi other = new Jedi("Luke", "blue");
 
-  @Before
+  @BeforeEach
   public void before() {
     arraysBefore = getArrays(assertions);
   }

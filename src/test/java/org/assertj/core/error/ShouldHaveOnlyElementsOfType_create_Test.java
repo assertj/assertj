@@ -20,7 +20,7 @@ import java.util.List;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldHaveAtLeastOneElementOfType#shouldHaveAtLeastOneElementOfType(Object, Class)}</code>.

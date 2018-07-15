@@ -22,8 +22,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link MapAssert#flatExtracting(String...)}</code>.
@@ -34,7 +34,7 @@ public class MapAssert_flatExtracting_Test {
 
   private Map<String, Object> map;
 
-  @Before
+  @BeforeEach
   public void beforeEachTest() {
     String[] names = array("Dave", "Jeff");
     LinkedHashSet<String> jobs = newLinkedHashSet("Plumber", "Builder");

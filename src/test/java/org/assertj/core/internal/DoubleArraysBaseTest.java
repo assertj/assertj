@@ -18,7 +18,7 @@ import static org.mockito.Mockito.spy;
 import java.util.Comparator;
 
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -43,7 +43,7 @@ public class DoubleArraysBaseTest {
 
   private AbsValueComparator<Double> absValueComparator = new AbsValueComparator<>();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     arrays = new DoubleArrays();

@@ -18,14 +18,14 @@ import static org.mockito.Mockito.spy;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 
 
 public class ConditionsBaseTest {
 
   protected static Object actual;
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     actual = "Yoda";
   }
@@ -34,7 +34,7 @@ public class ConditionsBaseTest {
   protected TestCondition<Object> condition;
   protected Conditions conditions;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     condition = new TestCondition<>();

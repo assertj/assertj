@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqual
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldBeEqualIgnoringNewlines_create_Test {
 

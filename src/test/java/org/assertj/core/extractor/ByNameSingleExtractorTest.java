@@ -25,7 +25,7 @@ import java.util.Map;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ByNameSingleExtractorTest {
   private static final Employee yoda = new Employee(1L, new Name("Yoda"), 800);

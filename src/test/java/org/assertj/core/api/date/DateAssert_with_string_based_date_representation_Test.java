@@ -29,8 +29,8 @@ import java.util.TimeZone;
 
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.util.DateUtil;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the default date format used when using date assertions with date represented as string.
@@ -40,7 +40,7 @@ import org.junit.Test;
 public class DateAssert_with_string_based_date_representation_Test extends DateAssertBaseTest {
 
   @Override
-  @After
+  @AfterEach
   public void tearDown() {
     useDefaultDateFormatsOnly();
   }

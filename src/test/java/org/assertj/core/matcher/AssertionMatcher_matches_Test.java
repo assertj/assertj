@@ -20,9 +20,9 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 import org.assertj.core.internal.Failures;
 import org.hamcrest.Description;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 
 public class AssertionMatcher_matches_Test {
@@ -43,13 +43,13 @@ public class AssertionMatcher_matches_Test {
    * {@link this#matcher_should_fill_description_when_assertion_fails()}.
    * I use setUp and tearDown methods to ensure that it is set to original value after a test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }

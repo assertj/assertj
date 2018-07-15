@@ -14,14 +14,14 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IgnoringFieldsComparator_compareTo_Test {
 
   private IgnoringFieldsComparator ignoringFieldsComparator;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     ignoringFieldsComparator = new IgnoringFieldsComparator("thinking");
   }

@@ -45,8 +45,8 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#extracting(String)}</code>.
@@ -61,7 +61,7 @@ public class ObjectArrayAssert_extracting_Test {
   private Employee[] jedis;
   private TolkienCharacter[] fellowshipOfTheRing;
 
-  @Before
+  @BeforeEach
   public void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);

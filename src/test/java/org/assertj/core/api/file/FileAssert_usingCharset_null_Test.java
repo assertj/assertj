@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for <code>{@link FileAssert#usingCharset(Charset)}</code> when the provided charset is null.

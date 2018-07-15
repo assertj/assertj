@@ -25,20 +25,17 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntegersBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
-@RunWith(DataProviderRunner.class)
 public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
 
   private static final Integer ZERO = 0;
   private static final Integer ONE = 1;
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 3, 1",
       "-1, -3, 1",
       "1, -2, 2",
@@ -49,8 +46,8 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
     integers.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 0, 1",
       "1, 2, 1",
       "-1, 0, 1",
@@ -61,8 +58,8 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
     integers.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 2, 10",
       "1, 2, 2",
       "1, 0, 2",
@@ -79,8 +76,8 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 2, 10",
       "1, 0, 2",
       "0, 1, 2"
@@ -97,8 +94,8 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 1, 0",
       "1, 0, 1",
       "1, 2, 1"

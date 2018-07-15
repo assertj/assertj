@@ -78,8 +78,8 @@ import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
 public class BDDSoftAssertionsTest extends BaseAssertionsTest {
@@ -103,7 +103,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   private Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
 
-  @Before
+  @BeforeEach
   public void setup() {
     softly = new BDDSoftAssertions();
 

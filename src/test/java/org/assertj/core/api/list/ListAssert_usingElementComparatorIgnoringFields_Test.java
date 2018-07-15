@@ -23,14 +23,14 @@ import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.Lists;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class ListAssert_usingElementComparatorIgnoringFields_Test extends ListAssertBaseTest {
 
   private Lists listsBefore;
   private Iterables iterablesBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
 	listsBefore = getLists(assertions);
 	iterablesBefore = getIterables(assertions);

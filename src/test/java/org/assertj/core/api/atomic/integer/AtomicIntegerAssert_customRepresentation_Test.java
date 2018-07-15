@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicIntegerAssert_customRepresentation_Test {
 

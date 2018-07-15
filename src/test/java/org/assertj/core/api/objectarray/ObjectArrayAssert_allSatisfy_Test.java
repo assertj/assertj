@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.function.Consumer;
 
@@ -26,7 +26,7 @@ public class ObjectArrayAssert_allSatisfy_Test extends ObjectArrayAssertBaseTest
 
   private Consumer<Object> restrictions;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     restrictions = o -> assertThat(o).isNotNull();
   }

@@ -19,7 +19,7 @@ import org.assertj.core.test.IllegalVehicleAssert;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
 import org.assertj.core.test.VehicleFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;

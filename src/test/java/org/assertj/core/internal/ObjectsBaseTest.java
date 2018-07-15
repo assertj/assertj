@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link Objects}</code>, set up an instance with {@link StandardComparisonStrategy} and another
@@ -42,7 +42,7 @@ public class ObjectsBaseTest {
   protected ComparatorBasedComparisonStrategy customComparisonStrategy;
   protected Objects objectsWithCustomComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     objects = new Objects();

@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ElementsShouldSatisfy_create_Test {
 

@@ -26,7 +26,7 @@ import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTest {
 

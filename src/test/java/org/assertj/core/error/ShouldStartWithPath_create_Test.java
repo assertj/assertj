@@ -21,7 +21,7 @@ import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public final class ShouldStartWithPath_create_Test {
 

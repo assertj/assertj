@@ -20,7 +20,7 @@ import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqu
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldNotBeEqualWithinOffset_create_Test {
 

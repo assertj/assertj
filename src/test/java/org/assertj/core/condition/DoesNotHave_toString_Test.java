@@ -17,8 +17,8 @@ import static org.assertj.core.condition.DoesNotHave.doesNotHave;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -31,7 +31,7 @@ public class DoesNotHave_toString_Test {
   private TestCondition<Object> condition;
   private Condition<Object> doesNotHave;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     condition = new TestCondition<>("JediPower");
     doesNotHave = doesNotHave(condition);

@@ -22,7 +22,7 @@ import java.util.List;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -37,7 +37,7 @@ public class ListAssert_usingDefaultComparator_Test extends ListAssertBaseTest {
   @Mock
   private Comparator<List<? extends String>> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

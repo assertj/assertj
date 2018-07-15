@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link PathAssert#hasContent(String)}</code>.
@@ -25,7 +25,7 @@ public class PathAssert_hasContent_Test extends PathAssertBaseTest {
 
   private static String expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeOnce() {
     expected = "xyz";
   }

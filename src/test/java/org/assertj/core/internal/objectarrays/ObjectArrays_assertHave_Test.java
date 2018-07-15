@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysWithConditionBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

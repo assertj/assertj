@@ -30,7 +30,7 @@ import org.assertj.core.api.LongPredicateAssert;
 import org.assertj.core.api.LongPredicateAssertBaseTest;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov

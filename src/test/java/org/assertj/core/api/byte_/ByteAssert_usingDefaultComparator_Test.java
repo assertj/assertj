@@ -22,7 +22,7 @@ import org.assertj.core.api.ByteAssert;
 import org.assertj.core.api.ByteAssertBaseTest;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -35,7 +35,7 @@ public class ByteAssert_usingDefaultComparator_Test extends ByteAssertBaseTest {
   @Mock
   private Comparator<Byte> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

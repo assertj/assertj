@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 
 import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 

@@ -22,7 +22,7 @@ import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 public class AtomicIntegerArrayAssert_usingDefaultComparator_Test extends AtomicIntegerArrayAssertBaseTest {
@@ -32,7 +32,7 @@ public class AtomicIntegerArrayAssert_usingDefaultComparator_Test extends Atomic
 
   private IntArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

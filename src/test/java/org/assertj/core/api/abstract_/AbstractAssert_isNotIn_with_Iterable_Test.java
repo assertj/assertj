@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link AbstractAssert#isNotIn(Iterable)}</code>.
@@ -32,7 +32,7 @@ public class AbstractAssert_isNotIn_with_Iterable_Test extends AbstractAssertBas
 
   private static Iterable<?> values;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     values = newArrayList("Yoda", "Luke");
   }

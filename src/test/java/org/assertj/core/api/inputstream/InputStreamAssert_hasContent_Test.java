@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.InputStreamAssert;
 import org.assertj.core.api.InputStreamAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 
 /**
@@ -28,7 +28,7 @@ public class InputStreamAssert_hasContent_Test extends InputStreamAssertBaseTest
 
   private static String expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     expected = "b";
   }

@@ -21,7 +21,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeEqualWithinOffset#create(Description, org.assertj.core.presentation.Representation)}</code>.

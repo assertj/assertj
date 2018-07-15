@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class TypeComparatorsPerfTest {
 
@@ -27,8 +27,8 @@ public class TypeComparatorsPerfTest {
   // with Comparator.comparing(Class::getName) : ~240ms
   // with anonymous class replacing Comparator.comparing(Class::getName) : ~160ms
 
-  // uncomment @Ignore to run the test
-  @Ignore
+  // comment @Disabled to run the test
+  @Disabled
   @Test
   public void run_100_000_object_assertions() {
     long start = System.currentTimeMillis();

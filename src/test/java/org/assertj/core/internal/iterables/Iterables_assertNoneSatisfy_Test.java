@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
 

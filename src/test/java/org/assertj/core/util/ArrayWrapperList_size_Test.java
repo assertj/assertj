@@ -14,11 +14,11 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.stream.Stream;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link ArrayWrapperList#size()}</code>.
@@ -26,18 +26,17 @@ import com.tngtech.java.junit.dataprovider.DataProviderRunner;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-@RunWith(DataProviderRunner.class)
 public class ArrayWrapperList_size_Test {
 
-  //@format:off
-  @Test
-  @DataProvider({ 
-    "0, 1, 2",
-    "0",
-    ""
-  })
-  // @format:on
-  public void should_return_size_of_array(int... array) {
+  public static Stream<Arguments> arrays() {
+    return Stream.of(Arguments.of(new int[] { 0, 1, 2 }),
+                     Arguments.of(new int[] { 0 }),
+                     Arguments.of(new int[] {}));
+  }
+
+  @ParameterizedTest
+  @MethodSource("arrays")
+  public void should_return_size_of_array(int[] array) {
     ArrayWrapperList list = new ArrayWrapperList(array);
     assertThat(list.size()).isEqualTo(array.length);
   }

@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#containsPattern(Pattern)}</code>.
@@ -30,7 +30,7 @@ public class CharSequenceAssert_containsPattern_Pattern_Test extends CharSequenc
 
   private static Pattern pattern;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     pattern = matchAnything();
   }

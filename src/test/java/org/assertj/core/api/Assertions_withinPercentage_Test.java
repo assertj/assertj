@@ -15,7 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.withinPercentage;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_withinPercentage_Test {
 

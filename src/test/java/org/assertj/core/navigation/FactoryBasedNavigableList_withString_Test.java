@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.StringAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FactoryBasedNavigableList_withString_Test {
 

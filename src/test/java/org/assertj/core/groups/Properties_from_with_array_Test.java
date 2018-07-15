@@ -16,14 +16,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.*;
+import java.util.List;
 
-import org.assertj.core.groups.Properties;
-import org.assertj.core.test.*;
+import org.assertj.core.test.Employee;
+import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.PropertySupport;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Properties#from(Object[])}</code>.
@@ -33,21 +35,16 @@ import org.junit.*;
  */
 public class Properties_from_with_array_Test {
 
-  private static Employee yoda;
-  private static Object[] employees;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    yoda = new Employee(6000L, new Name("Yoda"), 800);
-    employees = array(yoda);
-  }
-
+  private Employee yoda;
+  private Object[] employees;
   private PropertySupport propertySupport;
   private String propertyName;
   private Properties<Integer> properties;
 
-  @Before
+  @BeforeEach
   public void setUp() {
+    yoda = new Employee(6000L, new Name("Yoda"), 800);
+    employees = array(yoda);
     propertySupport = mock(PropertySupport.class);
     propertyName = "age";
     properties = new Properties<>(propertyName, Integer.class);

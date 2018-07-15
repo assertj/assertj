@@ -13,45 +13,38 @@
 package org.assertj.core.api.assumptions;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.AfterClass;
-import org.junit.Test;
+import org.junit.AssumptionViolatedException;
+import org.junit.jupiter.api.Test;
 
 public class Assumptions_assumeThat_Test {
-
-  private static int ranTests = 0;
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(1);
-  }
 
   @Test
   public void should_ignore_test_when_one_of_the_assumption_fails() {
     assumeThat("foo").isNotEmpty();
-    assumeThat("bar").isEmpty();
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat("bar").isEmpty());
   }
 
   @Test
   public void should_run_test_when_all_assumptions_are_met() {
-    assumeThat("foo").isNotNull()
-                     .isNotEmpty()
-                     .isEqualTo("foo");
-    assumeThat("bar").contains("ar")
-                     .isNotBlank();
-    assumeThat(asList("John", "Doe", "Jane", "Doe")).as("test description")
-                                                    .withFailMessage("error message")
-                                                    .withRepresentation(UNICODE_REPRESENTATION)
-                                                    .usingElementComparator(CaseInsensitiveStringComparator.instance)
-                                                    .filteredOn(string -> string.length() == 4)
-                                                    .containsExactly("JOHN", "JANE");
-    ranTests++;
+    assertThatCode(() -> {
+      assumeThat("foo").isNotNull()
+                       .isNotEmpty()
+                       .isEqualTo("foo");
+      assumeThat("bar").contains("ar")
+                       .isNotBlank();
+      assumeThat(asList("John", "Doe", "Jane", "Doe")).as("test description")
+                                                      .withFailMessage("error message")
+                                                      .withRepresentation(UNICODE_REPRESENTATION)
+                                                      .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                      .filteredOn(string -> string.length() == 4)
+                                                      .containsExactly("JOHN", "JANE");
+    }).doesNotThrowAnyException();
   }
 
 }

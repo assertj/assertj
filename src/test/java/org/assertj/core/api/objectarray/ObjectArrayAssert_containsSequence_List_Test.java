@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#containsSequence(List)}</code>.

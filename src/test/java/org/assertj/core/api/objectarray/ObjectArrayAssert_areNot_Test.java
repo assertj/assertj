@@ -19,7 +19,7 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.api.TestCondition;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#areNot(org.assertj.core.api.Condition)}</code>.
@@ -31,7 +31,7 @@ public class ObjectArrayAssert_areNot_Test extends ObjectArrayAssertBaseTest {
 
   private Condition<Object> condition;
 
-  @Before
+  @BeforeEach
   public void before() {
     condition = new TestCondition<>();
   }

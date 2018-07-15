@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 
 import org.assertj.core.api.FutureAssert;
 import org.assertj.core.api.FutureAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FutureAssert_isNotDone_Test extends FutureAssertBaseTest {
 

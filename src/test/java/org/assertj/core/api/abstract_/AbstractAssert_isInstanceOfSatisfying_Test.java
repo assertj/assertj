@@ -22,8 +22,8 @@ import java.util.function.Consumer;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest {
 
@@ -32,7 +32,7 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
   private Jedi luke = new Jedi("Luke Skywalker", "Green");
   private Consumer<Jedi> jediRequirements;
 
-  @Before
+  @BeforeEach
   public void setup() {
     jediRequirements = jedi -> {
       assertThat(jedi.lightSaberColor).as("check light saber").isEqualTo("Green");

@@ -18,7 +18,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.List;
 
 import org.assertj.core.internal.ObjectArrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Only make one test since assertion is delegated to {@link ObjectArrays} which has its own tests.

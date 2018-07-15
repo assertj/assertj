@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparablesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

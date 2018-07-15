@@ -24,14 +24,14 @@ import static org.mockito.Mockito.when;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Objects_assertHasToString_Test extends ObjectsBaseTest {
 
   private Person actual;
 
-  @Before
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

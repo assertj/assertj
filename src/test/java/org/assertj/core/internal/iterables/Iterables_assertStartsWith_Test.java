@@ -30,8 +30,8 @@ import java.util.Iterator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertStartsWith(AssertionInfo, Collection, Object[])}</code>.
@@ -42,7 +42,7 @@ import org.junit.Test;
 public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = newArrayList("Yoda", "Luke", "Leia", "Obi-Wan");

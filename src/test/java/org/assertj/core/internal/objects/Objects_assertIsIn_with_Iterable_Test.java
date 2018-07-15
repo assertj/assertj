@@ -26,8 +26,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ErrorMessages;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Objects#assertIsIn(AssertionInfo, Object, Iterable)}</code>.
@@ -42,7 +42,7 @@ public class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
 
   private static Iterable<String> values;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     values = newArrayList("Yoda", "Leia");
   }

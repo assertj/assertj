@@ -29,7 +29,7 @@ import java.util.HashMap;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
 

@@ -14,7 +14,7 @@ package org.assertj.core.api.biginteger;
 
 import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 import java.math.BigInteger;
@@ -29,7 +29,7 @@ public class BigIntegerAssert_usingComparator_Test extends BigIntegerAssertBaseT
   @Mock
   private Comparator<BigInteger> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

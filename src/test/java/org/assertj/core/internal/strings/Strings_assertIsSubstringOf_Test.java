@@ -20,7 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.internal.StringsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
 

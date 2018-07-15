@@ -22,7 +22,7 @@ import org.assertj.core.api.LongAssert;
 import org.assertj.core.api.LongAssertBaseTest;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -36,7 +36,7 @@ public class LongAssert_usingDefaultComparator_Test extends LongAssertBaseTest {
   @Mock
   private Comparator<Long> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

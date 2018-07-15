@@ -20,7 +20,7 @@ import static org.assertj.core.data.Offset.strictOffset;
 import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
 import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStrictlyPositive;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Offset#offset(Integer)}.

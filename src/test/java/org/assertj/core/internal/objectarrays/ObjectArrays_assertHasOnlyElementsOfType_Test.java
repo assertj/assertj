@@ -20,7 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.internal.ObjectArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ObjectArrayAssert#hasOnlyElementsOfType(Class)}.

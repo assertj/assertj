@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class DoubleArrayAssert_isSortedAccordingToComparator_Test extends Double
   @Mock
   private Comparator<Double> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

@@ -31,7 +31,7 @@ import java.util.List;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
 

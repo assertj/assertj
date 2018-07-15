@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.in;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ListAssert_filteredOn_using_filterOperator_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
 

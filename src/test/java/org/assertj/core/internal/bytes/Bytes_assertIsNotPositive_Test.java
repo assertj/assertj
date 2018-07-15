@@ -18,7 +18,7 @@ import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.BytesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

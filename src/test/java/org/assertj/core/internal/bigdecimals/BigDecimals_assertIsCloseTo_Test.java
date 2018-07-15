@@ -31,18 +31,15 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimalsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.BigDecimals#assertIsCloseTo(org.assertj.core.api.AssertionInfo, java.math.BigDecimal, java.math.BigDecimal, org.assertj.core.data.Offset)}</code>.
  *
  * @author Joel Costigliola
  */
-@RunWith(DataProviderRunner.class)
 public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
 
   private static final BigDecimal NINE = new BigDecimal(9.0);
@@ -55,8 +52,8 @@ public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
     numbers.assertIsCloseTo(someInfo(), ONE, TWO, byLessThan(TEN));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1.0, 1.0, 0.0",
       "1.0, 0.0, 1.0",
       "-1.0, 0.0, 1.0",

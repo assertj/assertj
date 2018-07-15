@@ -34,7 +34,7 @@ import java.security.MessageDigest;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.Paths;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Paths#assertHasDigest(AssertionInfo, Path, MessageDigest, byte[])}</code>

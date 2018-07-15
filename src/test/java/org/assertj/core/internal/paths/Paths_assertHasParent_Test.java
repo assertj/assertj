@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.exception.PathsException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
@@ -34,7 +34,7 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
   private Path expected;
   private Path canonicalExpected;
 
-  @Before
+  @BeforeEach
   public void init() {
 	super.init();
 	canonicalActual = mock(Path.class);

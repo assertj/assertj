@@ -20,7 +20,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.Person;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveFields_create_Test {
 

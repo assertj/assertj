@@ -20,13 +20,13 @@ import java.util.function.Predicate;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class ObjectArrayAssert_anyMatch_Test extends ObjectArrayAssertBaseTest {
 
   private Predicate<Object> predicate;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     predicate = o -> o != null;
   }

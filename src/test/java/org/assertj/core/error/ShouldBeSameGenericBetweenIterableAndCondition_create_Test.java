@@ -21,8 +21,8 @@ import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeSameGenericBetweenIterableAndCondition_create_Test#create(Description)}</code>.
@@ -33,7 +33,7 @@ public class ShouldBeSameGenericBetweenIterableAndCondition_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldBeSameGenericBetweenIterableAndCondition(newArrayList("Yoda", "Leia"), new TestCondition<String>("Not a Jedi"));
   }

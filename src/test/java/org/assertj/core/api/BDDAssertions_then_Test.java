@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.

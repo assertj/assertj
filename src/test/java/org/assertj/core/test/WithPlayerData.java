@@ -16,7 +16,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 
 public class WithPlayerData {
@@ -27,7 +27,7 @@ public class WithPlayerData {
   protected static Player duncan;
   protected static List<Player> players;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     jordan = new Player(new Name("Michael", "Jordan"), "Chicago Bulls");
     jordan.setAssistsPerGame(8);

@@ -22,8 +22,8 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ThrowablesBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
 
@@ -32,7 +32,7 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
 
   private Throwable throwableSuppressedException;
 
-  @Before
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

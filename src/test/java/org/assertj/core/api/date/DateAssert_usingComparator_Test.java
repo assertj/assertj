@@ -23,8 +23,8 @@ import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 /**
@@ -38,7 +38,7 @@ public class DateAssert_usingComparator_Test extends DateAssertBaseTest {
   @Mock
   private Comparator<Date> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

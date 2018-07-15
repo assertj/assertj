@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.notIn;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_filteredOn_notIn_Test extends IterableAssert_filtered_baseTest {
 

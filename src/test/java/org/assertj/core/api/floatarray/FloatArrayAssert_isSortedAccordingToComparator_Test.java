@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class FloatArrayAssert_isSortedAccordingToComparator_Test extends FloatAr
   @Mock
   private Comparator<Float> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

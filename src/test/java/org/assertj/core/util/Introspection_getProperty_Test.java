@@ -19,14 +19,14 @@ import static org.assertj.core.util.introspection.Introspection.getPropertyGette
 import java.lang.reflect.Method;
 
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Introspection_getProperty_Test {
 
   private Employee judy;
 
-  @Before
+  @BeforeEach
   public void initData() {
     judy = new Employee(100000.0, 31);
   }

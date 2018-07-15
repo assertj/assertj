@@ -17,8 +17,8 @@ import static org.mockito.Mockito.spy;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 
 
 /**
@@ -35,12 +35,12 @@ public class ThrowablesBaseTest {
   protected Throwables throwables;
   protected static Throwable actual;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     actual = new NullPointerException("Throwable message");
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     throwables = new Throwables();

@@ -24,7 +24,7 @@ import java.net.URL;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for

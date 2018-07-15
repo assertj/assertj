@@ -17,7 +17,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 
 import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.test.Player;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class Filter_with_property_equals_to_null_value_Test extends WithPlayerData {

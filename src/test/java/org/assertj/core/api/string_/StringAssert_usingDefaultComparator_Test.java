@@ -20,11 +20,11 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class StringAssert_usingDefaultComparator_Test extends StringAssertBaseTest {
 
-  @Before
+  @BeforeEach
   public void before() {
     assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance);
   }

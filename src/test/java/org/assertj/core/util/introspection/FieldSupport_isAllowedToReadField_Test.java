@@ -15,7 +15,7 @@ package org.assertj.core.util.introspection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.test.Jedi;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FieldSupport_isAllowedToReadField_Test {
 
@@ -23,23 +23,21 @@ public class FieldSupport_isAllowedToReadField_Test {
 
   @Test
   public void fieldSupport_should_be_allowed_to_read_public_field_only() throws Exception {
-	boolean allowedToUsePrivateFields = fieldSupport.isAllowedToUsePrivateFields();
 	fieldSupport.setAllowUsingPrivateFields(false);
 	assertThat(fieldSupport.isAllowedToRead(Jedi.class.getField("lightSaberColor"))).isTrue();
 	assertThat(fieldSupport.isAllowedToRead(Jedi.class.getDeclaredField("strangeNotReadablePrivateField"))).isFalse();
 	// reset
-	fieldSupport.setAllowUsingPrivateFields(allowedToUsePrivateFields);
+	fieldSupport.setAllowUsingPrivateFields(true);
   }
 
   @Test
   public void fieldSupport_should_be_allowed_to_read_whatever_field_when_allowedToUsePrivateFields_flag_is_true()
 	  throws Exception {
-	boolean allowedToUsePrivateFields = fieldSupport.isAllowedToUsePrivateFields();
 	fieldSupport.setAllowUsingPrivateFields(true);
 	assertThat(fieldSupport.isAllowedToRead(Jedi.class.getField("lightSaberColor"))).isTrue();
 	assertThat(fieldSupport.isAllowedToRead(Jedi.class.getDeclaredField("strangeNotReadablePrivateField"))).isTrue();
 	// reset
-	fieldSupport.setAllowUsingPrivateFields(allowedToUsePrivateFields);
+	fieldSupport.setAllowUsingPrivateFields(true);
   }
 
 }

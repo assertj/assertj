@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 
