@@ -34,20 +34,20 @@ public class AtomicLongFieldUpdater_hasValue_Test {
   private Person person = new Person();
 
   @Test
-  public void should_fail_when_atomicLongFieldUpdater_is_null() throws Exception {
+  public void should_fail_when_atomicLongFieldUpdater_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicLongFieldUpdater<Person>) null).hasValue(25L, person))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
+  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
     AtomicLongFieldUpdater<Person> fieldUpdater = AtomicLongFieldUpdater.newUpdater(Person.class, "age");
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person))
                                         .withMessage("The expected value should not be <null>.");
   }
 
   @Test
-  public void should_fail_if_atomicLongFieldUpdater_does_not_contain_expected_value() throws Exception {
+  public void should_fail_if_atomicLongFieldUpdater_does_not_contain_expected_value() {
     AtomicLongFieldUpdater<Person> fieldUpdater = AtomicLongFieldUpdater.newUpdater(Person.class, "age");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue(25L, person))
@@ -55,7 +55,7 @@ public class AtomicLongFieldUpdater_hasValue_Test {
   }
 
   @Test
-  public void should_pass_if_atomicLongFieldUpdater_contains_expected_value() throws Exception {
+  public void should_pass_if_atomicLongFieldUpdater_contains_expected_value() {
     AtomicLongFieldUpdater<Person> fieldUpdater = AtomicLongFieldUpdater.newUpdater(Person.class, "age");
     fieldUpdater.set(person, 25);
     assertThat(fieldUpdater).hasValue(25L, person);

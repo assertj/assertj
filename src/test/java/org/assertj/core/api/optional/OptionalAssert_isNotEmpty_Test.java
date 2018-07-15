@@ -25,18 +25,18 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 public class OptionalAssert_isNotEmpty_Test extends BaseTest {
 
   @Test
-  public void should_pass_when_optional_is_present() throws Exception {
+  public void should_pass_when_optional_is_present() {
     assertThat(Optional.of("present")).isNotEmpty();
   }
 
   @Test
-  public void should_fail_when_optional_is_empty() throws Exception {
+  public void should_fail_when_optional_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).isNotEmpty())
                                                    .withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
-  public void should_fail_when_optional_is_null() throws Exception {
+  public void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).isNotEmpty())
                                                    .withMessage(actualIsNull());
   }

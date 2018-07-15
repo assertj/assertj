@@ -37,19 +37,19 @@ public class Files_assertHasName_Test extends FilesBaseTest {
   private String expectedName = "expected.name";
 
   @Test
-  public void should_throw_error_if_actual_is_null() throws Exception {
+  public void should_throw_error_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasName(someInfo(), null, expectedName))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_npe_if_name_is_null() throws Exception {
+  public void should_throw_npe_if_name_is_null() {
     assertThatNullPointerException().isThrownBy(() -> files.assertHasName(someInfo(), actual, null))
                                     .withMessage("The expected name should not be null.");
   }
 
   @Test
-  public void should_throw_error_if_actual_does_not_have_the_expected_name() throws Exception {
+  public void should_throw_error_if_actual_does_not_have_the_expected_name() {
     AssertionInfo info = someInfo();
     when(actual.getName()).thenReturn("not.expected.name");
     try {
@@ -62,7 +62,7 @@ public class Files_assertHasName_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_extension() throws Exception {
+  public void should_pass_if_actual_has_expected_extension() {
     when(actual.getName()).thenReturn(expectedName);
     files.assertHasName(someInfo(), actual, expectedName);
   }

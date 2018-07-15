@@ -26,24 +26,24 @@ import org.junit.Test;
 public class OptionalAssert_contains_Test extends BaseTest {
 
   @Test
-  public void should_fail_when_optional_is_null() throws Exception {
+  public void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).contains("something"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() throws Exception {
+  public void should_fail_if_expected_value_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of("something")).contains(null))
                                         .withMessage("The expected value should not be <null>.");
   }
 
   @Test
-  public void should_pass_if_optional_contains_expected_value() throws Exception {
+  public void should_pass_if_optional_contains_expected_value() {
 	assertThat(Optional.of("something")).contains("something");
   }
 
   @Test
-  public void should_fail_if_optional_does_not_contain_expected_value() throws Exception {
+  public void should_fail_if_optional_does_not_contain_expected_value() {
 	Optional<String> actual = Optional.of("not-expected");
 	String expectedValue = "something";
 
@@ -52,7 +52,7 @@ public class OptionalAssert_contains_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_if_optional_is_empty() throws Exception {
+  public void should_fail_if_optional_is_empty() {
 	String expectedValue = "something";
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).contains(expectedValue))

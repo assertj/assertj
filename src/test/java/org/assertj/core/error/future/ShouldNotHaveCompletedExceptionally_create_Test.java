@@ -25,7 +25,7 @@ import org.junit.Test;
 public class ShouldNotHaveCompletedExceptionally_create_Test {
 
   @Test
-  public void should_create_error_message() throws Exception {
+  public void should_create_error_message() {
     String error = shouldNotHaveCompletedExceptionally(new CompletableFuture<>()).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +

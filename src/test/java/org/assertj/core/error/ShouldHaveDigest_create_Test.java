@@ -40,7 +40,7 @@ public class ShouldHaveDigest_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_File() throws Exception {
+  public void should_create_error_message_with_File() {
     // GIVEN
     File actual = new FakeFile("actual.png");
     // WHEN
@@ -54,7 +54,7 @@ public class ShouldHaveDigest_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_Path() throws Exception {
+  public void should_create_error_message_with_Path() {
     // GIVEN
     Path actual = mock(Path.class);
     // WHEN
@@ -68,7 +68,7 @@ public class ShouldHaveDigest_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_InputStream() throws Exception {
+  public void should_create_error_message_with_InputStream() {
     // GIVEN
     InputStream actual = mock(InputStream.class);
     // WHEN

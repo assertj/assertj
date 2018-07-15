@@ -33,13 +33,13 @@ public class AtomicReferenceFieldUpdater_hasValue_Test {
   private Person person = new Person();
 
   @Test
-  public void should_fail_when_atomicReference_is_null() throws Exception {
+  public void should_fail_when_atomicReference_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicReferenceFieldUpdater<Person, String>) null).hasValue("Frodo", person))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
+  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
     AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
     fieldUpdater.set(person, "Frodo");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person))
@@ -47,7 +47,7 @@ public class AtomicReferenceFieldUpdater_hasValue_Test {
   }
 
   @Test
-  public void should_fail_if_atomicReferenceFieldUpdater_does_not_contain_expected_value() throws Exception {
+  public void should_fail_if_atomicReferenceFieldUpdater_does_not_contain_expected_value() {
     AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue("Frodo", person))
@@ -55,7 +55,7 @@ public class AtomicReferenceFieldUpdater_hasValue_Test {
   }
 
   @Test
-  public void should_pass_if_atomicReferenceFieldUpdater_contains_expected_value() throws Exception {
+  public void should_pass_if_atomicReferenceFieldUpdater_contains_expected_value() {
     AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
     fieldUpdater.set(person, "Frodo");
     assertThat(fieldUpdater).hasValue("Frodo", person);

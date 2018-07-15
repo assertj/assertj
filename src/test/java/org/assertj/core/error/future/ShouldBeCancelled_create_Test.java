@@ -25,7 +25,7 @@ import org.junit.Test;
 public class ShouldBeCancelled_create_Test {
 
   @Test
-  public void should_create_error_message() throws Exception {
+  public void should_create_error_message() {
     String error = shouldBeCancelled(new CompletableFuture<>()).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +

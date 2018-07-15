@@ -34,19 +34,19 @@ public class AtomicIntegerFieldUpdater_hasValue_Test {
   private Person person = new Person();
 
   @Test
-  public void should_fail_when_atomicIntegerFieldUpdater_is_null() throws Exception {
+  public void should_fail_when_atomicIntegerFieldUpdater_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicIntegerFieldUpdater<Person>) null).hasValue(25, person))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() throws Exception {
+  public void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
     AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person)).withMessage("The expected value should not be <null>.");
   }
 
   @Test
-  public void should_fail_if_atomicIntegerFieldUpdater_does_not_contain_expected_value() throws Exception {
+  public void should_fail_if_atomicIntegerFieldUpdater_does_not_contain_expected_value() {
     AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue(25, person))
@@ -54,7 +54,7 @@ public class AtomicIntegerFieldUpdater_hasValue_Test {
   }
 
   @Test
-  public void should_pass_if_atomicIntegerFieldUpdater_contains_expected_value() throws Exception {
+  public void should_pass_if_atomicIntegerFieldUpdater_contains_expected_value() {
     AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
     fieldUpdater.set(person, 25);
     assertThat(fieldUpdater).hasValue(25, person);

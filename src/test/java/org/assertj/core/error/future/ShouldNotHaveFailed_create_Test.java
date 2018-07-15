@@ -25,7 +25,7 @@ import org.junit.Test;
 public class ShouldNotHaveFailed_create_Test {
 
   @Test
-  public void should_create_error_message() throws Exception {
+  public void should_create_error_message() {
     // GIVEN
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());

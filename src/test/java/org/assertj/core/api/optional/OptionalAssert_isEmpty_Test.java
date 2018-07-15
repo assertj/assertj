@@ -25,18 +25,18 @@ import org.junit.Test;
 public class OptionalAssert_isEmpty_Test extends BaseTest {
 
   @Test
-  public void should_pass_if_optional_is_empty() throws Exception {
+  public void should_pass_if_optional_is_empty() {
 	assertThat(Optional.empty()).isEmpty();
   }
 
   @Test
-  public void should_fail_when_optional_is_null() throws Exception {
+  public void should_fail_when_optional_is_null() {
 	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).isEmpty())
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_optional_is_present() throws Exception {
+  public void should_fail_if_optional_is_present() {
 	Optional<String> actual = Optional.of("not-empty");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEmpty())
