@@ -25,7 +25,7 @@ import org.junit.Test;
 public class ShouldHaveStamp_create_Test {
 
   @Test
-  public void should_create_error_message() throws Exception {
+  public void should_create_error_message() {
     // GIVEN
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("foo", 1234);
     // WHEN

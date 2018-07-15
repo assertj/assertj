@@ -262,14 +262,14 @@ public class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_allow_assertions_by_using_function_extracted_from_given_iterable() throws Exception {
+  public void should_allow_assertions_by_using_function_extracted_from_given_iterable() {
     assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
                                    .contains("Boromir", "Gandalf", "Frodo")
                                    .doesNotContain("Sauron", "Elrond");
   }
 
   @Test
-  public void should_throw_error_if_function_fails() throws Exception {
+  public void should_throw_error_if_function_fails() {
     RuntimeException thrown = new RuntimeException();
     assertThatThrownBy(() -> assertThat(fellowshipOfTheRing).extracting(e -> {
       throw thrown;

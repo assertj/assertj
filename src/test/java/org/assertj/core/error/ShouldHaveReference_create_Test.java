@@ -28,7 +28,7 @@ public class ShouldHaveReference_create_Test {
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("TEST");
 
   @Test
-  public void should_create_error_message_for_AtomicMarkableReference() throws Exception {
+  public void should_create_error_message_for_AtomicMarkableReference() {
     // GIVEN
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>("foo", true);
     // WHEN
@@ -45,7 +45,7 @@ public class ShouldHaveReference_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_AtomicStampedReference() throws Exception {
+  public void should_create_error_message_for_AtomicStampedReference() {
     // GIVEN
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("foo", 123);
     // WHEN

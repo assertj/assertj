@@ -141,7 +141,7 @@ public class Assertions_assertThat_with_Stream_Test {
   }
 
   @Test
-  public void test_issue_245() throws Exception {
+  public void test_issue_245() {
     Foo foo1 = new Foo("id", 1);
     foo1._f2 = "foo1";
     Foo foo2 = new Foo("id", 2);
@@ -153,7 +153,7 @@ public class Assertions_assertThat_with_Stream_Test {
   }
 
   @Test
-  public void test_issue_236() throws Exception {
+  public void test_issue_236() {
     List<Foo> stream2 = newArrayList(new Foo("id", 2));
     assertThat(Stream.of(new Foo("id", 1))).usingElementComparatorOnFields("id")
                                            .isEqualTo(stream2);
