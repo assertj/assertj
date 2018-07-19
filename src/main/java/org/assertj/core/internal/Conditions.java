@@ -17,6 +17,7 @@ import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.error.ShouldHave.shouldHave;
 import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
 import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import org.assertj.core.api.AssertionInfo;
@@ -25,7 +26,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Verifies that a value satisfies a <code>{@link Condition}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class Conditions {
@@ -57,8 +58,7 @@ public class Conditions {
    */
   public <T> void assertIs(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (condition.matches(actual)) return;
-    throw failures.failure(info, shouldBe(actual, condition));
+    if (!condition.matches(actual)) throw failures.failure(info, shouldBe(actual, condition));
   }
 
   /**
@@ -72,8 +72,7 @@ public class Conditions {
    */
   public <T> void assertIsNot(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (!condition.matches(actual)) return;
-    throw failures.failure(info, shouldNotBe(actual, condition));
+    if (condition.matches(actual)) throw failures.failure(info, shouldNotBe(actual, condition));
   }
 
   /**
@@ -87,8 +86,7 @@ public class Conditions {
    */
   public <T> void assertHas(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (condition.matches(actual)) return;
-    throw failures.failure(info, shouldHave(actual, condition));
+    if (!condition.matches(actual)) throw failures.failure(info, shouldHave(actual, condition));
   }
 
   /**
@@ -102,8 +100,12 @@ public class Conditions {
    */
   public <T> void assertDoesNotHave(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (!condition.matches(actual)) return;
-    throw failures.failure(info, shouldNotHave(actual, condition));
+    if (condition.matches(actual)) throw failures.failure(info, shouldNotHave(actual, condition));
+  }
+
+  public <T> void assertSatisfies(AssertionInfo info, T actual, Condition<? super T> condition) {
+    assertIsNotNull(condition);
+    if (!condition.matches(actual)) throw failures.failure(info, shouldSatisfy(actual, condition));
   }
 
   /**

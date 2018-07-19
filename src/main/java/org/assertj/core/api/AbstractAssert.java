@@ -351,6 +351,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  public SELF satisfies(Condition<? super ACTUAL> condition) {
+    conditions.assertSatisfies(info, actual, condition);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public SELF isInstanceOf(Class<?> type) {
     objects.assertIsInstanceOf(info, actual, type);
     return myself;

@@ -32,29 +32,34 @@ public class ConditionBuiltWithPredicateTest implements WithAssertions {
 
   @Before
   public void setup() {
-	Predicate<String> jediPredicate = s -> jedis.contains(s);
-	jedi = new Condition<String>(jediPredicate, "a %s", JEDI);
-	jediPower = new Condition<String>(jediPredicate, "%s power", JEDI);
+    Predicate<String> jediPredicate = s -> jedis.contains(s);
+    jedi = new Condition<>(jediPredicate, "a %s", JEDI);
+    jediPower = new Condition<>(jediPredicate, "%s power", JEDI);
   }
 
   @Test
   public void is_condition_should_be_met() {
-	assertThat("Luke").is(jedi);
+    assertThat("Luke").is(jedi);
   }
 
   @Test
   public void has_condition_should_be_met() {
-	assertThat("Luke").has(jediPower);
+    assertThat("Luke").has(jediPower);
   }
-  
+
+  @Test
+  public void satisfies_condition_should_be_met() {
+    assertThat("Luke").satisfies(jedi);
+  }
+
   @Test
   public void isNot_condition_should_be_met() {
-	assertThat("Vader").isNot(jedi).doesNotHave(jediPower);
+    assertThat("Vader").isNot(jedi).doesNotHave(jediPower);
   }
 
   @Test
   public void doesNotHave_condition_should_be_met() {
-	assertThat("Vader").doesNotHave(jediPower);
+    assertThat("Vader").doesNotHave(jediPower);
   }
 
   @Test

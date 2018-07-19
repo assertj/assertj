@@ -10,22 +10,17 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.core.StringContains.containsString;
+import org.assertj.core.api.Condition;
 
-import org.junit.Test;
+public class ShouldSatisfy extends BasicErrorMessageFactory {
 
-public class HamcrestConditionTest {
+  public static <T> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
+    return new ShouldSatisfy(actual, condition);
+  }
 
-  @Test
-  public void should_be_able_to_use_a_hamcrest_matcher_as_a_condition() {
-    Condition<String> aStringContainingA = new HamcrestCondition<>(containsString("a"));
-
-    assertThat("abc").is(aStringContainingA)
-                     .has(aStringContainingA)
-                     .satisfies(aStringContainingA);
-    assertThat("bc").isNot(aStringContainingA);
+  private ShouldSatisfy(Object actual, Condition<?> condition) {
+    super("%nExpecting:%n  <%s>%nto satisfy:%n  <%s>", actual, condition);
   }
 }

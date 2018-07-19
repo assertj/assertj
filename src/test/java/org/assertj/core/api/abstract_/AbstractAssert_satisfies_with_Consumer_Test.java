@@ -22,7 +22,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AbstractAssert_satisfies_Test {
+public class AbstractAssert_satisfies_with_Consumer_Test {
 
   private Jedi yoda;
   private Jedi luke;
@@ -30,17 +30,17 @@ public class AbstractAssert_satisfies_Test {
 
   @Before
   public void setup() {
-	yoda = new Jedi("Yoda", "Green");
-	luke = new Jedi("Luke Skywalker", "Green");
-	jediRequirements = jedi -> {
-	  assertThat(jedi.lightSaberColor).as("check light saber").isEqualTo("Green");
-	  assertThat(jedi.getName()).as("check name").doesNotContain("Dark");
-	};
+    yoda = new Jedi("Yoda", "Green");
+    luke = new Jedi("Luke Skywalker", "Green");
+    jediRequirements = jedi -> {
+      assertThat(jedi.lightSaberColor).as("check light saber").isEqualTo("Green");
+      assertThat(jedi.getName()).as("check name").doesNotContain("Dark");
+    };
   }
 
   @Test
   public void should_satisfy_single_requirement() {
-	assertThat(yoda).satisfies(jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
+    assertThat(yoda).satisfies(jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
   }
 
   @Test
@@ -51,13 +51,15 @@ public class AbstractAssert_satisfies_Test {
 
   @Test
   public void should_fail_according_to_requirements() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).satisfies(jediRequirements))
+    Jedi vader = new Jedi("Vader", "Red");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(vader).satisfies(jediRequirements))
                                                    .withMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
   }
 
   @Test
   public void should_fail_if_consumer_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(null))
+    Consumer<Jedi> nullRequirements = null;
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(nullRequirements))
                                     .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 }
