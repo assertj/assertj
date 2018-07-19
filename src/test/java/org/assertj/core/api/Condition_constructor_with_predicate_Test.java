@@ -23,14 +23,15 @@ public class Condition_constructor_with_predicate_Test {
 
   @Test
   public void should_create_condition_with_predicate() {
-	Condition<String> fairyTale = new Condition<String>(s -> s.startsWith("Once upon a time"), "a %s tale", "fairy");
-	String littleRedCap = "Once upon a time there was a dear little girl ...";
-	assertThat(littleRedCap).is(fairyTale);
+    // GIVEN
+    Condition<String> fairyTale = new Condition<>(s -> s.startsWith("Once upon a time"), "a %s tale", "fairy");
+    String littleRedCap = "Once upon a time there was a dear little girl ...";
+    // THEN
+    assertThat(littleRedCap).is(fairyTale);
   }
 
   @Test
   public void should_throw_error_if_predicate_is_null() {
-    assertThatNullPointerException().isThrownBy(() ->  new Condition<Object>((Predicate<Object>) null, ""));
+    assertThatNullPointerException().isThrownBy(() -> new Condition<>((Predicate<Object>) null, ""));
   }
 }
-
