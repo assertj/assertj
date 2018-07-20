@@ -30,7 +30,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * verify that assertions final methods or methods changing the object under test in {@link ObjectArrayAssert} work with assumptions 
+ * verify that assertions final methods or methods changing the object under test in {@link ObjectArrayAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableObjectArrayAssert}).
  */
 @RunWith(Parameterized.class)
@@ -147,6 +147,11 @@ public class ObjectArray_special_assertion_methods_in_assumptions_Test extends B
             value -> assumeThat(value).filteredOn(hero -> hero.getName().startsWith("Fro"))
                                       .extracting("name", "age")
                                       .contains(tuple("Sam", 35))),
+        run(array(frodo, sam),
+            value -> assumeThat(value).filteredOnAssertions(hero -> assertThat(hero.getName()).startsWith("Fro"))
+                                      .contains(frodo),
+            value -> assumeThat(value).filteredOnAssertions(hero -> assertThat(hero.getName()).startsWith("Fro"))
+                                      .contains(sam)),
         run(array(1, 2, 3),
             value -> assumeThat(value).contains(1, 2),
             value -> assumeThat(value).contains(4)),

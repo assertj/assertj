@@ -23,6 +23,7 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
+import static org.assertj.core.internal.Iterables.byPassingAssertions;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -2633,6 +2634,31 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     checkArgument(predicate != null, "The filter predicate should not be null");
     List<ELEMENT> filteredList = stream(actual).filter(predicate).collect(toList());
     return newObjectArrayAssert(filteredList);
+  }
+
+  /**
+   * Filter the array under test keeping only elements matching the given assertions specified with a {@link Consumer}.
+   * <p>
+   * Example : check old employees whose age &gt; 100:
+   *
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   *
+   * Employee[] employees = new Employee[] { yoda, luke, obiwan };
+   *
+   * assertThat(employees).filteredOnAssertions(employee -&gt; assertThat(employee.getAge()).isGreaterThan(100))
+   *                      .containsOnly(yoda, obiwan);</code></pre>
+   *
+   * @param elementAssertions containing AssertJ assertions to filter on
+   * @return a new assertion object with the filtered iterable under test
+   * @throws IllegalArgumentException if the given predicate is {@code null}.
+   * @since 3.11.0
+   */
+  public SELF filteredOnAssertions(Consumer<? super ELEMENT> elementAssertions) {
+    checkArgument(elementAssertions != null, "The element assertions should not be null");
+    List<ELEMENT> filteredIterable = stream(actual).filter(byPassingAssertions(elementAssertions)).collect(toList());
+    return newObjectArrayAssert(filteredIterable).withAssertionState(myself);
   }
 
   /**

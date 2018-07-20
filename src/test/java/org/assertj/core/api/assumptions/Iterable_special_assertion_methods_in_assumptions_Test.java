@@ -30,7 +30,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * verify that assertions final methods or methods changing the object under test in {@link IterableAssert} work with assumptions 
+ * verify that assertions final methods or methods changing the object under test in {@link IterableAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableIterableAssert}).
  */
 @RunWith(Parameterized.class)
@@ -139,6 +139,11 @@ public class Iterable_special_assertion_methods_in_assumptions_Test extends Base
             value -> assumeThat(value).filteredOn(new Condition<>(hero -> hero.getName().startsWith("Fro"), "startsWith Fro"))
                                       .contains(frodo),
             value -> assumeThat(value).filteredOn(new Condition<>(hero -> hero.getName().startsWith("Fro"), "startsWith Fro"))
+                                      .contains(sam)),
+        run(iterable(frodo, sam),
+            value -> assumeThat(value).filteredOnAssertions(hero -> assertThat(hero.getName()).startsWith("Fro"))
+                                      .contains(frodo),
+            value -> assumeThat(value).filteredOnAssertions(hero -> assertThat(hero.getName()).startsWith("Fro"))
                                       .contains(sam)),
         run(iterable(frodo, sam),
             value -> assumeThat(value).filteredOn("name", "Frodo")

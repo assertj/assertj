@@ -39,6 +39,7 @@ class SoftProxies {
 
   private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsNamed("extracting").or(named("filteredOn"))
                                                                                                                       .or(named("filteredOnNull"))
+                                                                                                                      .or(named("filteredOnAssertions"))
                                                                                                                       .or(named("map"))
                                                                                                                       .or(named("asString"))
                                                                                                                       .or(named("asList"))

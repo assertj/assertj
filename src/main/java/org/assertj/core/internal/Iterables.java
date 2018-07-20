@@ -1193,6 +1193,17 @@ public class Iterables {
     return stream(actual).filter(o -> condition.matches(o)).collect(toList());
   }
 
+  public static <T> Predicate<T> byPassingAssertions(Consumer<? super T> assertions) {
+    return objectToTest -> {
+      try {
+        assertions.accept(objectToTest);
+        return true;
+      } catch (AssertionError e) {
+        return false;
+      }
+    };
+  }
+
   private static void checkIsNotEmptySequence(Object[] sequence) {
     if (sequence.length == 0) throw new IllegalArgumentException(emptySequence());
   }

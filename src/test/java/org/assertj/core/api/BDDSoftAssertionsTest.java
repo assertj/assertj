@@ -1111,9 +1111,13 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .as("using flatExtracting(String fieldOrPropertyName)")
           .contains(bart, maggie)
           .contains("Sauron");
+    softly.then(names)
+          .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
+          .as("filteredOn with consumer")
+          .hasSize(5);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(32);
+    assertThat(errorsCollected).hasSize(33);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1147,6 +1151,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(29)).hasMessageContaining("filteredOn firstName = null");
     assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
     assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
+    assertThat(errorsCollected.get(32)).hasMessageContaining("filteredOn with consumer");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1260,9 +1265,13 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .as("using flatExtracting(String fieldOrPropertyName)")
           .contains(bart, maggie)
           .contains("Sauron");
+    softly.then(names)
+          .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
+          .as("filteredOn with consumer")
+          .hasSize(5);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(32);
+    assertThat(errorsCollected).hasSize(33);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1296,6 +1305,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(29)).hasMessageContaining("filteredOn firstName = null");
     assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
     assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
+    assertThat(errorsCollected.get(32)).hasMessageContaining("filteredOn with consumer");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1394,9 +1404,13 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .as("using flatExtracting(String fieldOrPropertyName)")
           .contains(bart, maggie)
           .contains("Sauron");
+    softly.then(names)
+          .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
+          .as("filteredOn with consumer")
+          .hasSize(5);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(29);
+    assertThat(errorsCollected).hasSize(30);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1427,6 +1441,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(26)).hasMessageContaining("filteredOn firstName = John");
     assertThat(errorsCollected.get(27)).hasMessageContaining("filteredOn firstName = null");
     assertThat(errorsCollected.get(28)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
+    assertThat(errorsCollected.get(29)).hasMessageContaining("filteredOn with consumer");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

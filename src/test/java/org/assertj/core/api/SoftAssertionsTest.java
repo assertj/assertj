@@ -347,11 +347,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(19)).contains("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
       assertThat(errors.get(20)).contains(format("%nInputStreams do not have same content:%n%n"
-                                                   + "Changed content at line 1:%n"
-                                                   + "expecting:%n"
-                                                   + "  [\"B\"]%n"
-                                                   + "but was:%n"
-                                                   + "  [\"A\"]%n"));
+                                                 + "Changed content at line 1:%n"
+                                                 + "expecting:%n"
+                                                 + "  [\"B\"]%n"
+                                                 + "but was:%n"
+                                                 + "  [\"A\"]%n"));
 
       assertThat(errors.get(21)).contains("expected:<2[1]> but was:<2[0]>");
       assertThat(errors.get(22)).contains("expected:<2[3]> but was:<2[2]>");
@@ -359,11 +359,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
       assertThat(errors.get(24)).contains("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
       assertThat(errors.get(25)).contains(format("%nExpecting:%n" +
-                                                   " <[\"28\"]>%n" +
-                                                   "to contain:%n" +
-                                                   " <[\"29\"]>%n" +
-                                                   "but could not find:%n" +
-                                                   " <[\"29\"]>%n"));
+                                                 " <[\"28\"]>%n" +
+                                                 "to contain:%n" +
+                                                 " <[\"29\"]>%n" +
+                                                 "but could not find:%n" +
+                                                 " <[\"29\"]>%n"));
       assertThat(errors.get(26)).contains("expected:<[\"3[1]\"]> but was:<[\"3[0]\"]>");
 
       assertThat(errors.get(27)).contains("expected:<3[3]L> but was:<3[2]L>");
@@ -381,19 +381,19 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(35)).contains("expected:<5[1]> but was:<5[0]>");
       assertThat(errors.get(36)).contains("expected:<[5[3]]> but was:<[5[2]]>");
       assertThat(errors.get(37)).contains(format("%nExpecting message:%n"
-                                                   + " <\"NullPointerException message\">%n"
-                                                   + "but was:%n"
-                                                   + " <\"IllegalArgumentException message\">"));
+                                                 + " <\"NullPointerException message\">%n"
+                                                 + "but was:%n"
+                                                 + " <\"IllegalArgumentException message\">"));
       assertThat(errors.get(38)).contains(format("%nExpecting message:%n"
-                                                   + " <\"something was good\">%n"
-                                                   + "but was:%n"
-                                                   + " <\"something was wrong\">"));
+                                                 + " <\"something was good\">%n"
+                                                 + "but was:%n"
+                                                 + " <\"something was wrong\">"));
       assertThat(errors.get(39)).contains(format("%nExpecting:%n"
-                                                   + " <{\"54\"=\"55\"}>%n"
-                                                   + "to contain:%n"
-                                                   + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
-                                                   + "but could not find:%n"
-                                                   + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
+                                                 + " <{\"54\"=\"55\"}>%n"
+                                                 + "to contain:%n"
+                                                 + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
+                                                 + "but could not find:%n"
+                                                 + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
 
       assertThat(errors.get(40)).contains("expected:<1[3]:00> but was:<1[2]:00>");
       assertThat(errors.get(41)).contains("expected:<1[3]:00Z> but was:<1[2]:00Z>");
@@ -405,15 +405,15 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(46)).contains("Expecting port of");
       assertThat(errors.get(47)).contains("to have failed");
       assertThat(errors.get(48)).contains(format("%nExpecting:%n  <given predicate>%n"
-                                                   + "to accept <\"something else\"> but it did not."));
+                                                 + "to accept <\"something else\"> but it did not."));
 
       assertThat(errors.get(49)).contains(format("%nExpecting:%n  <given predicate>%n"
-                                                   + "to accept <2> but it did not."));
+                                                 + "to accept <2> but it did not."));
 
       assertThat(errors.get(50)).contains(format("%nExpecting:%n  <given predicate>%n"
-                                                   + "to accept <2L> but it did not."));
+                                                 + "to accept <2L> but it did not."));
       assertThat(errors.get(51)).contains(format("%nExpecting:%n  <given predicate>%n"
-                                                   + "to accept <2.0> but it did not."));
+                                                 + "to accept <2.0> but it did not."));
     }
   }
 
@@ -1161,9 +1161,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .flatExtracting("children")
           .contains(bart, maggie)
           .contains("Sauron");
+    softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
+          .as("filteredOn with consumer")
+          .hasSize(5);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(32);
+    assertThat(errorsCollected).hasSize(33);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
@@ -1196,6 +1201,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(29)).hasMessage("[filteredOn firstName = null] error message");
     assertThat(errorsCollected.get(30)).hasMessage("[using flatExtracting(String... fieldOrPropertyNames)] error message");
     assertThat(errorsCollected.get(31)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
+    assertThat(errorsCollected.get(32)).hasMessage("[filteredOn with consumer] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1339,9 +1345,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .flatExtracting("children")
           .contains(bart, maggie)
           .contains("Sauron");
+    softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
+          .as("filteredOn with consumer")
+          .hasSize(5);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(32);
+    assertThat(errorsCollected).hasSize(33);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameExtractor)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
@@ -1374,6 +1385,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(29)).hasMessage("[filteredOn firstName = null] error message");
     assertThat(errorsCollected.get(30)).hasMessage("[using flatExtracting(String... fieldOrPropertyNames)] error message");
     assertThat(errorsCollected.get(31)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
+    assertThat(errorsCollected.get(32)).hasMessage("[filteredOn with consumer] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1499,9 +1511,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .flatExtracting("children")
           .contains(bart, maggie)
           .contains("Sauron");
+    softly.assertThat(names)
+          .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
+          .as("filteredOn with consumer")
+          .hasSize(5);
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(29);
+    assertThat(errorsCollected).hasSize(30);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(Name::getFirst)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(Name::getFirst)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message")
@@ -1532,6 +1548,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(26)).hasMessage("[filteredOn firstName = John] error message");
     assertThat(errorsCollected.get(27)).hasMessage("[filteredOn firstName = null] error message");
     assertThat(errorsCollected.get(28)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
+    assertThat(errorsCollected.get(29)).hasMessageContaining("filteredOn with consumer");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1793,6 +1810,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
+          .containsExactly("MANU", "MAGIC");
+    softly.assertThat(names)
           .usingElementComparator(lastNameComparator)
           .filteredOn("first", "Manu")
           .containsExactly(name("Whoever", "Ginobili"));
@@ -1825,6 +1847,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
+          .extracting(firstNameExtractor)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
+          .containsExactly("MANU", "MAGIC");
+    softly.assertThat(names)
           .usingElementComparator(lastNameComparator)
           .filteredOn("first", "Manu")
           .containsExactly(name("Whoever", "Ginobili"));
@@ -1855,6 +1882,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting(firstNameExtractor)
           .usingElementComparator(CaseInsensitiveStringComparator.instance)
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
+          .containsExactly("MANU", "MAGIC");
+    softly.assertThat(names)
+          .extracting(firstNameExtractor)
+          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
           .usingElementComparator(lastNameComparator)

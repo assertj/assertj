@@ -13,6 +13,10 @@
 package org.assertj.core.api.objectarray;
 
 
+import static java.util.Arrays.asList;
+import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+
+import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.junit.Before;
@@ -35,6 +39,12 @@ public class ObjectArrayAssert_filtered_baseTest {
 
   public ObjectArrayAssert_filtered_baseTest() {
     super();
+  }
+
+  protected static Iterable<TolkienCharacter> hobbits() {
+    TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+    TolkienCharacter sam = TolkienCharacter.of("Sam", 35, HOBBIT);
+    return asList(frodo, sam);
   }
 
 }

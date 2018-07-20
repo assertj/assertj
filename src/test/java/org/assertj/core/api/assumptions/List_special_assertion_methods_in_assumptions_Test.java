@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
+import static org.assertj.core.util.IterableUtil.iterable;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ListAssert;
@@ -30,7 +31,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * verify that assertions final methods or methods changing the object under test in {@link ListAssert} work with assumptions 
+ * verify that assertions final methods or methods changing the object under test in {@link ListAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableListAssert}).
  */
 @RunWith(Parameterized.class)
@@ -139,6 +140,11 @@ public class List_special_assertion_methods_in_assumptions_Test extends BaseAssu
             value -> assumeThat(value).filteredOn(new Condition<>(hero -> hero.getName().startsWith("Fro"), "startsWith Fro"))
                                       .contains(frodo),
             value -> assumeThat(value).filteredOn(new Condition<>(hero -> hero.getName().startsWith("Fro"), "startsWith Fro"))
+                                      .contains(sam)),
+        run(iterable(frodo, sam),
+            value -> assumeThat(value).filteredOnAssertions(hero -> assertThat(hero.getName()).startsWith("Fro"))
+                                      .contains(frodo),
+            value -> assumeThat(value).filteredOnAssertions(hero -> assertThat(hero.getName()).startsWith("Fro"))
                                       .contains(sam)),
         run(asList(frodo, sam),
             value -> assumeThat(value).filteredOn("name", "Frodo")
