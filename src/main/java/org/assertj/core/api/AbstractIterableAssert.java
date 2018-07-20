@@ -2187,6 +2187,40 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
+  /**
+   * Filter the iterable under test keeping only elements matching the given {@link Consumer}.
+   * <p>
+   * Example : check old employees whose age &gt; 100:
+   *
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   *
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan);
+   *
+   * assertThat(employees).filteredOn(employee -&gt; assertThat(employee.getAge()).isGreaterThan(100))
+   *                      .containsOnly(yoda, obiwan);</code></pre>
+   *
+   * @param elementAssertions containing AssertJ assertions to filter on
+   * @return a new assertion object with the filtered iterable under test
+   * @throws IllegalArgumentException if the given predicate is {@code null}.
+   * @since 3.11.0
+   */
+  public SELF filteredOnAssertions(Consumer<? super ELEMENT> elementAssertions) {
+    checkArgument(elementAssertions != null, "The element assertions should not be null");
+    List<? extends ELEMENT> filteredIterable =
+      stream(actual.spliterator(), true).filter(element -> {
+        try {
+          elementAssertions.accept(element);
+          return true;
+        } catch(AssertionError e) {
+          return false;
+        }
+      }).collect(toList());
+
+    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
+  }
+
   // navigable assertions
 
   /**
