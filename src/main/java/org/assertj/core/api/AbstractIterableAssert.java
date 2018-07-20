@@ -2201,7 +2201,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(employees).filteredOn(employee -&gt; assertThat(employee.getAge()).isGreaterThan(100))
    *                      .containsOnly(yoda, obiwan);</code></pre>
    *
-   * @param Consumer containing AssertJ assertions to filter on
+   * @param elementAssertions containing AssertJ assertions to filter on
    * @return a new assertion object with the filtered iterable under test
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    * @since 3.11.0
